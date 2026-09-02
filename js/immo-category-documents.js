@@ -136,10 +136,33 @@
     this.queue = [];
     this.uploaded = [];
     this.crmMode = !!(options && options.crmMode);
-    this.session = { email: null, phone: null, propertyId: null, leadId: null, contactId: null };
+    this.session = { email: null, phone: null, propertyId: null, leadId: null, contactId: null, docsSessionId: null };
     this._render();
     this._bind();
   }
+
+  ImmoCategoryDocuments.prototype.ensureDocsSession = function (create) {
+    if (this.session.docsSessionId) return this.session.docsSessionId;
+    try {
+      var id = localStorage.getItem("lo_docs_session_id");
+      if (id && /^[a-zA-Z0-9_-]{8,80}$/.test(id)) {
+        this.session.docsSessionId = id;
+        var contactId = localStorage.getItem("lo_draft_contact_id");
+        if (contactId && !this.session.contactId) this.session.contactId = contactId;
+        return id;
+      }
+      if (create === false) return null;
+      id = "ds_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 12);
+      localStorage.setItem("lo_docs_session_id", id);
+      this.session.docsSessionId = id;
+      var cid = localStorage.getItem("lo_draft_contact_id");
+      if (cid && !this.session.contactId) this.session.contactId = cid;
+    } catch (e) {
+      if (create === false) return this.session.docsSessionId || null;
+      this.session.docsSessionId = this.session.docsSessionId || "ds_mem_" + Date.now().toString(36);
+    }
+    return this.session.docsSessionId;
+  };
 
   ImmoCategoryDocuments.prototype.setSession = function (session) {
     Object.assign(this.session, session || {});
@@ -342,6 +365,7 @@
       alert("Fichier trop volumineux (max 12 Mo) : " + file.name);
       return;
     }
+    this.ensureDocsSession();
     var dup = this.queue.some(function (q) {
       return (
         q.documentType === (documentType || "autre_doc") &&
@@ -376,10 +400,16 @@
   ImmoCategoryDocuments.prototype.syncSessionFromPage = function () {
     var form = document.querySelector("[data-url-capture-form], form[data-quote-wizard], form[data-track-form]");
     if (form) {
-      var em = form.querySelector("[name='email']");
-      var ph = form.querySelector("[name='phone']");
-      if (em && String(em.value || "").trim()) this.session.email = String(em.value).trim().toLowerCase();
-      if (ph && String(ph.value || "").trim()) this.session.phone = String(ph.value).trim();
+      var em = form.querySelectorAll("[name='email'], input[type='email']");
+      var ph = form.querySelectorAll("[name='phone'], [name='telephone']");
+      Array.prototype.forEach.call(em, function (el) {
+        var v = String(el.value || "").trim();
+        if (v) this.session.email = v.toLowerCase();
+      }, this);
+      Array.prototype.forEach.call(ph, function (el) {
+        var v = String(el.value || "").trim();
+        if (v) this.session.phone = v;
+      }, this);
       var city = form.querySelector("[name='city'], [name='sellCity']");
       var postal = form.querySelector("[name='postal_code'], [name='sellPostalCode']");
       var ptype = form.querySelector("[name='property_type'], [name='sellPropertyType']");
@@ -396,7 +426,10 @@
       if (leadId) this.session.leadId = leadId;
       var propId = localStorage.getItem("lo_immo_deposit_property_id");
       if (propId && !this.session.propertyId) this.session.propertyId = propId;
+      var contactId = localStorage.getItem("lo_draft_contact_id");
+      if (contactId && !this.session.contactId) this.session.contactId = contactId;
     } catch (e) {}
+    this.ensureDocsSession(false);
     if (global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
       this.session.leadId = this.session.leadId || global.QuoteIntelligence.getDraftLeadId();
     }
@@ -468,7 +501,12 @@
             localStorage.setItem("lo_draft_lead_id", res.data.leadId);
           } catch (e) {}
         }
-        if (res.data.contactId) self.session.contactId = res.data.contactId;
+        if (res.data.contactId) {
+          self.session.contactId = res.data.contactId;
+          try {
+            localStorage.setItem("lo_draft_contact_id", res.data.contactId);
+          } catch (e) {}
+        }
         if (res.data.propertyId) {
           if (sentPropertyId && sentPropertyId !== res.data.propertyId) {
             try {
@@ -547,8 +585,6 @@
         .then(function () {
           if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
             if (!self.session.propertyId) return null;
-          } else if (!self.session.email && !self.session.contactId && !self.session.leadId) {
-            return null;
           }
           return self.uploadAll();
         })
@@ -591,9 +627,8 @@
           errors: [{ error: "Dossier bien en cours de création…" }],
         });
       }
-    } else if (!this.session.email && !this.session.contactId && !this.session.leadId && !this.session.phone) {
-      return Promise.resolve({ uploaded: [], errors: [{ error: "email, téléphone, contactId ou leadId requis" }] });
     }
+    this.ensureDocsSession();
 
     /* Marquer immédiatement pour empêcher un 2e upload parallèle du même item. */
     pending.forEach(function (item) {
@@ -635,8 +670,11 @@
                   body: JSON.stringify({
                     email: self.session.email,
                     phone: self.session.phone,
+                    firstName: self.session.firstName || null,
+                    lastName: self.session.lastName || null,
                     contactId: self.session.contactId,
                     leadId: self.session.leadId,
+                    docsSessionId: self.session.docsSessionId || null,
                     fileName: item.fileName,
                     documentType: item.documentType,
                     mimeType: item.mimeType,
@@ -660,6 +698,12 @@
                 if (res.data.driveWebViewLink) self.session.driveWebViewLink = res.data.driveWebViewLink;
                 if (res.data.drivePath) self.session.drivePath = res.data.drivePath;
                 if (res.data.driveFolderId) self.session.driveFolderId = res.data.driveFolderId;
+                if (res.data.contactId) {
+                  self.session.contactId = res.data.contactId;
+                  try {
+                    localStorage.setItem("lo_draft_contact_id", res.data.contactId);
+                  } catch (e) {}
+                }
                 updateDriveBanner(self.root, self.session);
                 var att = (res.data && res.data.attachment) || {};
                 var drive = (res.data && res.data.drive) || {};

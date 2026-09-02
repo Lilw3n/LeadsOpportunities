@@ -190,15 +190,38 @@ async function recordFunnelEvent(sql, input) {
   var progressPhone = input.phone || null;
   if (!progressEmail && merged && merged.email) progressEmail = String(merged.email).trim().toLowerCase();
   if (!progressPhone && merged && merged.phone) progressPhone = merged.phone;
-  if (progressEmail || progressPhone) {
+  var progressFirst =
+    input.firstName ||
+    input.first_name ||
+    input.prenom ||
+    (merged && (merged.firstName || merged.first_name || merged.prenom)) ||
+    null;
+  var progressLast =
+    input.lastName ||
+    input.last_name ||
+    input.nom ||
+    (merged && (merged.lastName || merged.last_name || merged.nom)) ||
+    null;
+  var progressContactId = input.contactId || input.contact_id || null;
+  var docsSessionId = input.docsSessionId || input.docs_session_id || null;
+  if (
+    progressEmail ||
+    progressPhone ||
+    progressContactId ||
+    docsSessionId ||
+    (progressFirst && progressLast)
+  ) {
     try {
       const { ensureContactLinked } = require("./crm-ingest-from-lead");
       contactId = await ensureContactLinked(sql, {
         leadId: leadId,
         email: progressEmail,
         phone: progressPhone,
-        firstName: merged && (merged.firstName || merged.first_name || merged.prenom),
-        lastName: merged && (merged.lastName || merged.last_name || merged.nom),
+        firstName: progressFirst,
+        lastName: progressLast,
+        contactId: progressContactId,
+        docsSessionId: docsSessionId,
+        allowProvisional: !!(progressContactId || docsSessionId),
         vertical: input.vertical || (merged && merged.vertical) || null,
         source: input.source || "wizard_progress",
         autoFrom: "lead_progress",

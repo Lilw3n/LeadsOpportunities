@@ -233,18 +233,80 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
   return contactId;
 }
 
+function isPlaceholderNamePart(s) {
+  var v = String(s || "").trim().toLowerCase();
+  if (!v) return true;
+  return (
+    v === "dossier" ||
+    v === "provisoire" ||
+    v === "prospect" ||
+    v === "client" ||
+    v === "admin" ||
+    v === "controle" ||
+    v === "contrôle"
+  );
+}
+
+function pickPersonName(incoming, current) {
+  var inc = String(incoming || "").trim();
+  var cur = String(current || "").trim();
+  if (inc && !isPlaceholderNamePart(inc)) return inc;
+  if (cur && !isPlaceholderNamePart(cur)) return cur;
+  if (inc) return inc;
+  return cur;
+}
+
 /**
- * Crée / lie un contact CRM dès qu'on a un lead + email/tél (ou lead seul = provisoire).
- * Léger : pas d'événement « nouveau lead » ni demande assurance — pour uploads / autosave.
+ * Crée / lie un contact CRM pour uploads et autosave.
+ * Sans e-mail / tél / nom : fiche « Dossier provisoire » (renommée à la MAJ).
  */
 async function ensureContactLinked(sql, opts) {
   opts = opts || {};
   var leadId = opts.leadId || null;
   var email = opts.email ? String(opts.email).trim().toLowerCase() : null;
+  if (!email) email = null;
   var phone = opts.phone || opts.telephone || null;
+  if (!phone) phone = null;
   var firstNameEarly = String(opts.firstName || opts.first_name || opts.prenom || "").trim();
   var lastNameEarly = String(opts.lastName || opts.last_name || opts.nom || "").trim();
-  if (!email && !phone && !leadId && !(firstNameEarly && lastNameEarly)) return null;
+  var docsSessionId = opts.docsSessionId
+    ? String(opts.docsSessionId)
+        .trim()
+        .replace(/[^a-zA-Z0-9_-]/g, "")
+        .slice(0, 80)
+    : "";
+  var forcedId = opts.contactId || opts.contact_id || null;
+  if (forcedId) forcedId = String(forcedId).trim().slice(0, 80);
+  var allowProvisional = opts.allowProvisional === true || !!docsSessionId || !!forcedId;
+  if (!email && !phone && !leadId && !(firstNameEarly && lastNameEarly) && !allowProvisional) return null;
+
+  var existingId = null;
+
+  if (forcedId) {
+    try {
+      var forced = await sql`SELECT id FROM crm_contacts WHERE id = ${forcedId} LIMIT 1`;
+      if (forced.length) existingId = forced[0].id;
+    } catch (e) {}
+  }
+
+  if (!existingId && docsSessionId) {
+    try {
+      var like = '%"docsSessionId":"' + docsSessionId + '"%';
+      var bySess = await sql`
+        SELECT id FROM crm_contacts
+        WHERE metadata IS NOT NULL
+          AND (
+            metadata->>'docsSessionId' = ${docsSessionId}
+            OR metadata::text LIKE ${like}
+          )
+        ORDER BY updated_at DESC NULLS LAST
+        LIMIT 1
+      `;
+      if (bySess.length) existingId = bySess[0].id;
+    } catch (e) {
+      console.warn("[ensureContactLinked] docsSession", e.message);
+    }
+  }
 
   if (leadId) {
     try {
@@ -254,20 +316,20 @@ async function ensureContactLinked(sql, opts) {
       `;
       if (leads.length) {
         var lead = leads[0];
-        if (lead.contact_id) {
+        if (!existingId && lead.contact_id) {
           var linked = await sql`
             SELECT id FROM crm_contacts WHERE id = ${lead.contact_id} LIMIT 1
           `;
-          if (linked.length) return linked[0].id;
+          if (linked.length) existingId = linked[0].id;
         }
         if (!email && lead.email) email = String(lead.email).trim().toLowerCase();
         if (!phone && lead.phone) phone = lead.phone;
-        if (!opts.firstName && !opts.lastName && lead.payload) {
+        if (!firstNameEarly && !lastNameEarly && lead.payload) {
           try {
             var p =
               typeof lead.payload === "string" ? JSON.parse(lead.payload || "{}") : lead.payload || {};
-            opts.firstName = opts.firstName || p.firstName || p.first_name || p.prenom || null;
-            opts.lastName = opts.lastName || p.lastName || p.last_name || p.nom || null;
+            firstNameEarly = String(p.firstName || p.first_name || p.prenom || "").trim();
+            lastNameEarly = String(p.lastName || p.last_name || p.nom || "").trim();
             opts.vertical = opts.vertical || lead.vertical || p.vertical || null;
             opts.source = opts.source || lead.source || null;
           } catch (e) {}
@@ -278,17 +340,27 @@ async function ensureContactLinked(sql, opts) {
     }
   }
 
-  var existingId = await findExistingContact(sql, email, phone);
+  if (!existingId) {
+    existingId = await findExistingContact(sql, email, phone);
+  }
+
   var contactId = existingId;
-  var firstName = opts.firstName || opts.first_name || opts.prenom || "Prospect";
-  var lastName = opts.lastName || opts.last_name || opts.nom || "";
+  var hasRealName =
+    firstNameEarly &&
+    lastNameEarly &&
+    !isPlaceholderNamePart(firstNameEarly) &&
+    !isPlaceholderNamePart(lastNameEarly);
+  var isProvisional = !email && !phone && !hasRealName;
+  var firstName = firstNameEarly || (isProvisional ? "Dossier" : "Prospect");
+  var lastName = lastNameEarly || (isProvisional ? "provisoire" : "");
 
   if (!contactId) {
     contactId = "ct_" + crypto.randomUUID();
     var meta = {
       interlocuteur: true,
-      provisional: !email && !phone,
+      provisional: isProvisional,
       leadId: leadId || null,
+      docsSessionId: docsSessionId || null,
       autoFrom: opts.autoFrom || "ensure_contact_linked",
     };
     await sql`
@@ -298,20 +370,36 @@ async function ensureContactLinked(sql, opts) {
       ) VALUES (
         ${contactId}, 'prospect', ${firstName}, ${lastName}, ${email}, ${phone},
         'active', ${opts.source || "site_progress"},
-        ${leadId ? "Dossier progressif #" + leadId : "Dossier progressif"},
+        ${leadId ? "Dossier progressif #" + leadId : "Dossier provisoire (pièces)"},
         ${JSON.stringify(meta)},
         NOW()
       )
     `;
   } else {
-    var nameUpdate = firstName && firstName !== "Prospect" ? firstName : null;
-    var lastUpdate = lastName || null;
+    var cur = await sql`
+      SELECT first_name, last_name, metadata FROM crm_contacts WHERE id = ${contactId} LIMIT 1
+    `;
+    var curFirst = cur.length ? cur[0].first_name : "";
+    var curLast = cur.length ? cur[0].last_name : "";
+    var nextFirst = pickPersonName(firstNameEarly, curFirst) || firstName;
+    var nextLast = pickPersonName(lastNameEarly, curLast) || lastName;
+    var metaObj = {};
+    try {
+      var raw = cur.length ? cur[0].metadata : null;
+      metaObj = typeof raw === "string" ? JSON.parse(raw || "{}") : Object.assign({}, raw || {});
+    } catch (e) {
+      metaObj = {};
+    }
+    if (docsSessionId) metaObj.docsSessionId = docsSessionId;
+    if (leadId) metaObj.leadId = metaObj.leadId || leadId;
+    if (email || phone || hasRealName) metaObj.provisional = false;
     await sql`
       UPDATE crm_contacts SET
-        first_name = COALESCE(${nameUpdate}, first_name),
-        last_name = COALESCE(${lastUpdate}, last_name),
+        first_name = ${nextFirst},
+        last_name = ${nextLast},
         email = COALESCE(${email}, email),
         phone = COALESCE(${phone}, phone),
+        metadata = ${JSON.stringify(metaObj)},
         last_activity_at = NOW(),
         updated_at = NOW()
       WHERE id = ${contactId}
@@ -330,8 +418,11 @@ async function ensureContactLinked(sql, opts) {
   }
 
   try {
-    const { ensureClientDriveFolders } = require("./drive-folders");
-    await ensureClientDriveFolders(contactId);
+    const drive = require("./drive-folders");
+    await drive.ensureClientDriveFolders(contactId);
+    if (typeof drive.maybeRenamePersonFolder === "function") {
+      await drive.maybeRenamePersonFolder(contactId);
+    }
   } catch (driveErr) {
     console.warn("[ensureContactLinked] drive folder", driveErr.message);
   }

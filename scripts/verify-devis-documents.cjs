@@ -55,11 +55,41 @@ if (!sante.extraFields || !sante.extraFields.some(function (f) { return f.name =
 }
 
 var uploadJs = fs.readFileSync(path.join(__dirname, "../js/devis-document-upload.js"), "utf8");
-if (uploadJs.indexOf("hasIdentity") === -1 || uploadJs.indexOf("firstName") === -1) {
-  console.error("[FAIL] devis-document-upload n’envoie pas dès nom+prénom");
+if (uploadJs.indexOf("_firstEmail") === -1) {
+  console.error("[FAIL] lecture e-mail multi-champs manquante");
   ok = false;
 } else {
-  console.log("[OK] envoi Drive dès nom+prénom");
+  console.log("[OK] e-mail : tous les champs + type=email");
+}
+if (uploadJs.indexOf("data-docs-retry") === -1) {
+  console.error("[FAIL] bouton Réessayer manquant");
+  ok = false;
+} else {
+  console.log("[OK] Réessayer après Erreur");
+}
+if (uploadJs.indexOf("ensureDocsSession") === -1 || uploadJs.indexOf("docsSessionId") === -1) {
+  console.error("[FAIL] session documents (dossier provisoire) manquante");
+  ok = false;
+} else {
+  console.log("[OK] session documents → dossier provisoire réutilisé");
+}
+if (uploadJs.indexOf("En attente d'e-mail") !== -1) {
+  console.error("[FAIL] pastille En attente d'e-mail encore présente (upload doit être immédiat)");
+  ok = false;
+} else {
+  console.log("[OK] plus de blocage « En attente d'e-mail »");
+}
+if (uploadJs.indexOf("Dossier provisoire") === -1) {
+  console.error("[FAIL] texte dossier provisoire manquant");
+  ok = false;
+} else {
+  console.log("[OK] copie : dossier provisoire puis renommage");
+}
+if (uploadJs.indexOf("data-docs-identity-email") === -1) {
+  console.error("[FAIL] bandeau e-mail sur l'étape pièces manquant");
+  ok = false;
+} else {
+  console.log("[OK] e-mail/téléphone sur l'étape pièces");
 }
 if (uploadJs.indexOf("devis-doc-error-msg") === -1) {
   console.error("[FAIL] message d’erreur upload non affiché");
@@ -79,11 +109,11 @@ if (uploadJs.indexOf("data-docs-drop") !== -1 || uploadJs.indexOf("Type de docum
 } else {
   console.log("[OK] plus de dropdown Type ni zone Glissez");
 }
-if (uploadJs.indexOf("s.leadId") !== -1 && /return !!\(s\.email \|\| s\.phone \|\| s\.contactId \|\| s\.leadId/.test(uploadJs)) {
-  console.error("[FAIL] hasIdentity accepte encore un leadId seul (Erreur si id périmé)");
+if (uploadJs.indexOf("nom+prénom, e-mail, téléphone ou contactId manquant") !== -1) {
+  console.error("[FAIL] uploadQueued bloque encore sans identité");
   ok = false;
 } else {
-  console.log("[OK] hasIdentity exige nom+prénom / e-mail / téléphone / contactId");
+  console.log("[OK] upload immédiat même sans e-mail / nom");
 }
 
 if (typeof DC.getGroups !== "function") {
@@ -118,6 +148,14 @@ if (typeof DC.getGroups !== "function") {
   });
 }
 
+var inject = fs.readFileSync(path.join(__dirname, "../js/devis-document-inject.js"), "utf8");
+if (inject.indexOf('data-step-name="coordonnees"') !== -1) {
+  console.error("[FAIL] pièces injectées avant les coordonnées (nom/prénom trop tard)");
+  ok = false;
+} else {
+  console.log("[OK] pièces après nom/prénom (avant étape contact)");
+}
+
 var tracking = fs.readFileSync(path.join(__dirname, "../landings/tracking.js"), "utf8");
 if (tracking.indexOf("data-docs-drop") !== -1 || tracking.indexOf("data-docs-type") !== -1) {
   console.error("[FAIL] panel merci tracking.js encore en dropdown");
@@ -128,13 +166,13 @@ if (tracking.indexOf("data-docs-drop") !== -1 || tracking.indexOf("data-docs-typ
 
 ["vtc.html", "devis.html", "questionnaire.html", "sante.html", "credit-immo.html", "sante-collective.html"].forEach(function (page) {
   var html = fs.readFileSync(path.join(__dirname, "../landings", page), "utf8");
-  if (html.indexOf("immo-documents.css?v=20260826docline") === -1) {
+  if (html.indexOf("immo-documents.css?v=20260826docnow") === -1) {
     console.error("[FAIL]", page, "sans CSS lignes Déposer");
     ok = false;
   } else {
     console.log("[OK]", page, "CSS immo-documents");
   }
-  if (html.indexOf("devis-document-upload.js?v=20260826docline") === -1) {
+  if (html.indexOf("devis-document-upload.js?v=20260826docnow") === -1) {
     console.error("[FAIL]", page, "cache-bust upload manquant");
     ok = false;
   }
@@ -157,19 +195,38 @@ if (driveFolders.indexOf("avis_insee: \"06_entreprise_collective\"") === -1) {
 }
 
 var api = fs.readFileSync(path.join(__dirname, "../api/_lib/routes/external-upload.js"), "utf8");
-if (api.indexOf("hasName") === -1 || api.indexOf("nom+prénom") === -1) {
-  console.error("[FAIL] API upload n’accepte pas nom+prénom");
+if (api.indexOf("allowProvisional") === -1 || api.indexOf("docsSessionId") === -1) {
+  console.error("[FAIL] API upload n’accepte pas un dossier provisoire");
   ok = false;
 } else {
-  console.log("[OK] API /external/upload accepte nom+prénom");
+  console.log("[OK] API /external/upload crée un dossier provisoire sans identité");
+}
+if (/e-mail, téléphone, nom\+prénom, contactId ou leadId requis/.test(api)) {
+  console.error("[FAIL] API upload refuse encore sans identité");
+  ok = false;
+} else {
+  console.log("[OK] API upload sans e-mail / tél / nom");
 }
 
 var ingest = fs.readFileSync(path.join(__dirname, "../api/_lib/crm-ingest-from-lead.js"), "utf8");
-if (ingest.indexOf("firstNameEarly") === -1) {
-  console.error("[FAIL] ensureContactLinked sans création par nom+prénom");
+if (ingest.indexOf("allowProvisional") === -1 || ingest.indexOf("Dossier") === -1) {
+  console.error("[FAIL] ensureContactLinked sans fiche provisoire");
   ok = false;
 } else {
-  console.log("[OK] ensureContactLinked crée un contact avec nom+prénom");
+  console.log("[OK] ensureContactLinked crée Dossier provisoire");
+}
+if (ingest.indexOf("maybeRenamePersonFolder") === -1) {
+  console.error("[FAIL] pas de renommage Drive à la MAJ du nom");
+  ok = false;
+} else {
+  console.log("[OK] renommage Drive quand les infos sont à jour");
+}
+
+if (driveFolders.indexOf("Dossier_provisoire") === -1 || driveFolders.indexOf("maybeRenamePersonFolder") === -1) {
+  console.error("[FAIL] Drive : dossier provisoire / rename manquant");
+  ok = false;
+} else {
+  console.log("[OK] Drive Dossier_provisoire puis rename Nom_Prenom");
 }
 
 process.exit(ok ? 0 : 1);

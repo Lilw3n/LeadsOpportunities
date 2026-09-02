@@ -85,6 +85,9 @@ async function resolveOrCreateContact(sql, body) {
       phone: body.phone || body.telephone || null,
       firstName: body.firstName || body.first_name || body.prenom || null,
       lastName: body.lastName || body.last_name || body.nom || null,
+      contactId: body.contactId || body.contact_id || null,
+      docsSessionId: body.docsSessionId || body.docs_session_id || null,
+      allowProvisional: true,
       vertical: body.vertical || body.need || null,
       source: body.source || "external_upload",
       autoFrom: "external_upload",
@@ -119,23 +122,6 @@ module.exports = async (req, res) => {
   if (!fileName) {
     return res.status(400).json({ error: "fileName requis" });
   }
-  var firstName = String(body.firstName || body.first_name || body.prenom || "").trim();
-  var lastName = String(body.lastName || body.last_name || body.nom || "").trim();
-  var hasName = !!(firstName && lastName);
-  if (
-    !body.email &&
-    !body.contactId &&
-    !body.contact_id &&
-    !body.phone &&
-    !body.telephone &&
-    !body.leadId &&
-    !body.lead_id &&
-    !hasName
-  ) {
-    return res.status(400).json({
-      error: "e-mail, téléphone, nom+prénom, contactId ou leadId requis",
-    });
-  }
   if (!body.fileBase64) {
     return res.status(400).json({ error: "fileBase64 requis (PDF ou image JPG/PNG)" });
   }
@@ -150,8 +136,7 @@ module.exports = async (req, res) => {
     const contact = await resolveOrCreateContact(sql, body);
     if (!contact) {
       return res.status(404).json({
-        error:
-          "Impossible de créer le dossier — renseignez nom et prénom (ou un e-mail / téléphone).",
+        error: "Impossible de créer le dossier provisoire — réessayez dans un instant.",
         code: "contact_missing",
         leadId: body.leadId || body.lead_id || null,
       });
