@@ -25,6 +25,8 @@ assert(hub.indexOf("pending_identity") !== -1, "option pending_identity UI");
 assert(hub.indexOf("einvMarkTiimeOk") !== -1, "bouton Tiime verifie");
 assert(hub.indexOf("einvMarkMakeOk") !== -1, "bouton Make cree");
 assert(hub.indexOf("einvIssueForm") !== -1, "formulaire emission Factur-X");
+assert(hub.indexOf("Plateforme principale") !== -1, "CRM annonce plateforme principale");
+assert(hub.indexOf("plateforme principale") !== -1, "label Tiime plateforme principale");
 
 var js = read("js/crm-e-invoicing.js");
 assert(js.indexOf("/api/crm/e-invoicing") !== -1, "appels API e-invoicing");
@@ -79,10 +81,6 @@ assert(cfg.pdpName === "Tiime", "pdpName Tiime");
 assert(cfg.pdpStatus === "pending_identity", "statut pending identity Tiime");
 assert(cfg.tiimeAccountCreated === true, "compte Tiime cree");
 assert(/plateforme principale/i.test(cfg.notes || ""), "notes plateforme principale");
-
-var hub = read("crm-e-invoicing.html");
-assert(/Plateforme principale\s*:\s*<strong>Tiime<\/strong>/i.test(hub) || hub.indexOf("Plateforme principale") !== -1 && hub.indexOf("Tiime") !== -1, "CRM annonce Tiime principale");
-assert(hub.indexOf("plateforme principale") !== -1, "select/label plateforme principale");
 assert(cfg.makeAccountPending === true, "Make en attente compte");
 assert(cfg.notionAccountPending === true, "Notion pending config");
 
