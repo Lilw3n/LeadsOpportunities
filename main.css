@@ -1354,14 +1354,23 @@ article.service-card p {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.16);
 }
-.home-about .btn {
-  background: #fff;
-  color: #0f172a;
-  border: 0;
+.home-about .btn,
+.home-about .btn:visited,
+.home-about .btn-primary,
+.home-about .btn-primary:visited {
+  background: #fff !important;
+  color: #0f172a !important;
+  border: 2px solid #fff !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   font-weight: 800;
 }
-.home-about .btn:hover {
-  background: #ccfbf1;
+.home-about .btn:hover,
+.home-about .btn:focus-visible,
+.home-about .btn-primary:hover,
+.home-about .btn-primary:focus-visible {
+  background: #ccfbf1 !important;
+  color: #0f172a !important;
+  border-color: #ccfbf1 !important;
 }
 @media (max-width: 720px) {
   .home-about-inner {
