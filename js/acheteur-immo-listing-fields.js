@@ -15,12 +15,47 @@
     el.innerHTML = html;
   }
 
+  function fillLabelSelect(el, labels, placeholder) {
+    if (!el) return;
+    var html = '<option value="">' + (placeholder || "Non renseigné") + "</option>";
+    (labels || []).forEach(function (label) {
+      html +=
+        "<option>" +
+        String(label)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;") +
+        "</option>";
+    });
+    el.innerHTML = html;
+  }
+
   function initSelects(root) {
     var tax = T();
     if (!tax) return;
     fillSelect(qs("#sellListingType", root), tax.optionsHtml(tax.LISTING_TYPES, "— Choisir —"));
     fillSelect(qs("#sellPropertyCategory", root), tax.optionsHtml(tax.PROPERTY_CATEGORIES, "— Choisir —"));
     fillSelect(qs("#sellCoproStatus", root), tax.optionsHtml(tax.COPRO_STATUS, null));
+    fillLabelSelect(qs("#sellRoofing", root), tax.ROOFING, "Non renseigné");
+    fillLabelSelect(qs("#sellNewOrOld", root), tax.NEW_OR_OLD, "Non renseigné");
+    fillLabelSelect(qs("#sellStanding", root), tax.STANDING, "Non renseigné");
+    fillLabelSelect(qs("#sellExteriorGeneralState", root), tax.EXTERIOR_GENERAL_STATE, "Non renseigné");
+    fillLabelSelect(qs("#sellExteriorState", root), tax.EXTERIOR_STATE, "Non renseigné");
+    fillLabelSelect(qs("#sellCommonState", root), tax.COMMON_AREA_STATE, "Non renseigné");
+    fillLabelSelect(qs("#sellConstructionType", root), tax.CONSTRUCTION, "Non renseigné");
+    fillLabelSelect(qs("#sellStyle", root), tax.ARCHITECTURAL_STYLE, "Non renseigné");
+    fillLabelSelect(qs("#sellWindows", root), tax.WINDOWS, "Non renseigné");
+    fillLabelSelect(qs("#sellShutters", root), tax.SHUTTERS, "Non renseigné");
+    fillLabelSelect(qs("#sellInsulation", root), tax.INSULATION, "Non renseigné");
+    fillLabelSelect(qs("#sellSanitation", root), tax.SANITATION, "Non renseigné");
+    fillSelect(qs("#sellMansardRoof", root), tax.optionsHtml(tax.YES_NO_UNKNOWN, "Non renseigné"));
+    fillSelect(qs("#sellSanitationCert", root), tax.optionsHtml(tax.YES_NO_UNKNOWN, "Non renseigné"));
+    fillSelect(qs("#sellGarden", root), tax.optionsHtml(tax.YES_NO_UNKNOWN, "Non renseigné"));
+    fillLabelSelect(qs("#sellFloorSlab", root), tax.FLOOR_SLAB, "Non renseigné");
+    fillLabelSelect(qs("#sellHeating", root), tax.HEATING_TYPE, "Non renseigné");
+    fillLabelSelect(qs("#sellHeatingEnergy", root), tax.HEATING_MECHANISM, "Non renseigné");
+    fillLabelSelect(qs("#sellHeatingMode", root), tax.HEATING_MODE, "Non renseigné");
+    fillLabelSelect(qs("#sellHotWater", root), tax.HOT_WATER, "Non renseigné");
+    fillSelect(qs("#sellSingleStorey", root), tax.optionsHtml(tax.YES_NO_UNKNOWN, "Non renseigné"));
     rebuildSubtype(root, "");
     rebuildCommercialActivity(root, "");
     rebuildEnvironment(root, "");

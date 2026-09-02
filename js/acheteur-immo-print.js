@@ -188,31 +188,32 @@
     if (!mount) return null;
     if (mode !== "empty" && mount.closest("[hidden]")) return null;
 
+    var ROOM_PRINT_FIELDS = ["level", "name", "surface", "dimensions", "exposure", "flooring", "comments"];
+    var ROOM_PRINT_HEADERS = ["Niveau", "Pièce", "Surf.", "Dim.", "Expo", "Sol", "Commentaires"];
+    var emptyRow = ROOM_PRINT_FIELDS.map(function () {
+      return "";
+    });
+
     var trs = qsa(".immo-room-row", mount);
     if (!trs.length && mode !== "partial") {
       return {
         title: "Pièces / balcons",
-        headers: ["Niv.", "Pièce", "Surf.", "Dimensions", "Revêtement", "Expo"],
-        tableRows:
-          mode === "empty"
-            ? [["", "", "", "", "", ""]]
-            : [],
+        headers: ROOM_PRINT_HEADERS,
+        tableRows: mode === "empty" ? [emptyRow] : [],
       };
     }
 
     var tableRows = trs
       .map(function (tr) {
         var cells = [];
-        var empty = false;
-        qsa("[data-room-field]", tr).forEach(function (el) {
-          var v = valueOf(el);
-          if (!v) empty = true;
+        var empty = true;
+        ROOM_PRINT_FIELDS.forEach(function (field) {
+          var el = tr.querySelector('[data-room-field="' + field + '"]');
+          var v = el ? valueOf(el) : "";
+          if (v) empty = false;
           cells.push(mode === "empty" ? "" : v || (mode === "full" ? "—" : ""));
         });
-        if (mode === "partial" && empty && cells.every(function (c) {
-          return !c;
-        }))
-          return null;
+        if (mode === "partial" && empty) return null;
         return cells;
       })
       .filter(Boolean);
@@ -221,8 +222,8 @@
 
     return {
       title: "Pièces / balcons",
-      headers: ["Niv.", "Pièce", "Surf.", "Dimensions", "Revêtement", "Expo"],
-      tableRows: tableRows.length ? tableRows : mode === "empty" ? [["", "", "", "", "", ""]] : [],
+      headers: ROOM_PRINT_HEADERS,
+      tableRows: tableRows.length ? tableRows : mode === "empty" ? [emptyRow] : [],
     };
   }
 

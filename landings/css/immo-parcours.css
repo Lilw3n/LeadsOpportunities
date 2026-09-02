@@ -312,6 +312,12 @@ a.immo-parcours-link:hover {
   font-weight: 400;
 }
 
+.immo-list-or-note .immo-field-note {
+  margin-top: 6px;
+  width: 100%;
+  font-size: 0.82rem;
+}
+
 .immo-crm-alert {
   position: relative;
   margin: 0 0 12px;
@@ -385,12 +391,19 @@ a.immo-parcours-link:hover {
   max-height: none;
 }
 
+.immo-rooms-hint {
+  margin: 0 0 8px;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
 .immo-rooms-wrap {
   overflow-x: auto;
 }
 
 .immo-rooms-table {
   width: 100%;
+  min-width: 760px;
   border-collapse: collapse;
   font-size: 0.82rem;
 }
@@ -409,7 +422,8 @@ a.immo-parcours-link:hover {
   vertical-align: middle;
 }
 
-.immo-rooms-table input {
+.immo-rooms-table input,
+.immo-rooms-table select {
   width: 100%;
   min-width: 52px;
   padding: 6px 8px;
@@ -417,6 +431,98 @@ a.immo-parcours-link:hover {
   border-radius: 6px;
   font: inherit;
   font-size: 0.82rem;
+  background: #fff;
+}
+
+.immo-rooms-table select {
+  min-width: 88px;
+}
+
+.immo-rooms-table td:nth-child(3) select {
+  min-width: 168px;
+}
+
+.immo-room-handle-col,
+.immo-room-handle-cell {
+  width: 28px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.immo-room-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 32px;
+  color: #64748b;
+  cursor: grab;
+  border-radius: 6px;
+  user-select: none;
+  touch-action: none;
+  -webkit-user-drag: none;
+}
+
+.immo-room-handle:hover,
+.immo-room-handle:focus-visible {
+  background: #e2e8f0;
+  color: #0f172a;
+  outline: none;
+}
+
+.immo-room-handle svg {
+  fill: currentColor;
+}
+
+.immo-room-row.is-dragging {
+  opacity: 0.6;
+  background: #eff6ff;
+  pointer-events: none;
+}
+
+.immo-room-row.is-dragging .immo-room-handle {
+  cursor: grabbing;
+}
+
+body.immo-rooms-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+body.immo-rooms-dragging * {
+  cursor: grabbing !important;
+}
+
+.immo-room-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.immo-room-actions-col {
+  width: 96px;
+}
+
+.immo-room-move {
+  border: 0;
+  background: #e2e8f0;
+  color: #0f172a;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.immo-room-move:hover:not(:disabled) {
+  background: #cbd5e1;
+}
+
+.immo-room-move:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .immo-room-remove {

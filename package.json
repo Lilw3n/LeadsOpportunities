@@ -96,6 +96,7 @@
     "verify:collective": "node scripts/verify-collective-niche.cjs",
     "verify:todoist": "node scripts/verify-todoist.cjs",
     "verify:immo-docs-ui": "node scripts/verify-immo-docs-ui.cjs",
+    "verify:immo-rooms": "node scripts/verify-immo-rooms.cjs",
     "verify:immo-network": "node scripts/verify-immo-network-mandats.cjs",
     "verify:retention": "node scripts/verify-retention-opportunity.cjs",
     "verify:anti-abandon": "node scripts/verify-anti-abandon.cjs",

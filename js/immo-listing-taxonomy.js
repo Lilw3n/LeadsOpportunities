@@ -32,6 +32,354 @@
     { v: "na", t: "Non applicable / non renseigné" },
   ];
 
+  var COPRO_PROCEDURES = [
+    "Absence de syndic",
+    "Copropriété en cours de constitution",
+    "Demande de désignation d'expert(s)",
+    "Demande de désignation d'un administrateur provisoire",
+    "Demande de désignation d'un mandataire ad hoc",
+    "Non soumis à un impayé",
+    "Pas de procédure en cours",
+    "Procédure en cours",
+  ];
+
+  /** Couverture / toiture — fiche EXTÉRIEUR (maison, immeuble). Pas pour un terrain nu. */
+  var ROOFING = [
+    "Ardoises",
+    "Ardoises & Fibrociment",
+    "Ardoises Mixtes",
+    "Ardoises Naturelles",
+    "Ardoises synthétiques",
+    "Autre",
+    "Bac acier",
+    "Chaumes",
+    "Colombages",
+    "Cuivre",
+    "Eternite",
+    "Fibrociment",
+    "Lauze",
+    "Shingle",
+    "Terrasse",
+    "Tôle",
+    "Tuile Alsacienne",
+    "Tuiles",
+    "Tuiles de bavent",
+    "Tuiles Mécaniques",
+    "Zinc",
+  ];
+
+  function uniqLabels(list, sortFr) {
+    var seen = Object.create(null);
+    var out = [];
+    (list || []).forEach(function (s) {
+      var k = String(s || "").trim();
+      if (!k || seen[k]) return;
+      seen[k] = 1;
+      out.push(k);
+    });
+    if (sortFr) {
+      out.sort(function (a, b) {
+        return a.localeCompare(b, "fr", { numeric: true, sensitivity: "base" });
+      });
+    }
+    return out;
+  }
+
+  /** EXTÉRIEUR — âge du bien (pas le style architectural). */
+  var NEW_OR_OLD = ["Ancien", "Neuf", "Récent"];
+
+  /** EXTÉRIEUR — standing (qualité perçue). */
+  var STANDING = ["Bon", "Grand standing", "Moyen", "Normal"];
+
+  /** EXTÉRIEUR — état général du bien (liste distincte de l'état extérieur). */
+  var EXTERIOR_GENERAL_STATE = [
+    "A Rafraîchir",
+    "Bon Etat",
+    "Excellent",
+    "Habitable",
+    "Mauvais",
+    "Moyen",
+    "Travaux à prévoir",
+    "Très bon état",
+  ];
+
+  /** EXTÉRIEUR — état des façades / enveloppe. */
+  var EXTERIOR_STATE = [
+    "A rafraîchir",
+    "A réhabiliter",
+    "A rénover",
+    "Bon",
+    "Excellent",
+    "Mauvais",
+    "Moyen",
+    "Somptueux",
+    "Travaux à prévoir",
+    "Très bon",
+  ];
+
+  /** EXTÉRIEUR / immeuble — parties communes (copro). */
+  var COMMON_AREA_STATE = ["Bon", "Excellent", "Mauvais", "Moyen", "Très bon"];
+
+  /** EXTÉRIEUR — matériau de construction (pas le style, pas la toiture). */
+  var CONSTRUCTION = uniqLabels(
+    [
+      "Bardage",
+      "Béton",
+      "Béton cellulaire",
+      "Bio-brique",
+      "Bois",
+      "Bois + Brique",
+      "Brique",
+      "Colombages",
+      "Crépis",
+      "Enduit",
+      "Granit",
+      "Mâchefer",
+      "Marbre",
+      "Meulière",
+      "Monobloc",
+      "Mosaïque",
+      "Ossature bois",
+      "Ossature métallique",
+      "Parpaing",
+      "Parpaing + Brique",
+      "Pierre",
+      "Pierre de Paris",
+      "Pierre de taille",
+      "Pierre et brique",
+      "Pierre et Parpaing",
+      "Pierre et terre",
+      "Préfabriqué",
+      "Terre",
+      "Torchis",
+      "Travertin",
+    ],
+    true
+  );
+
+  /** EXTÉRIEUR — style architectural (pas le matériau). */
+  var ARCHITECTURAL_STYLE = uniqLabels(
+    [
+      "Ancien",
+      "Ancienne ferme",
+      "Anglo-normand",
+      "Années 20",
+      "Années 2000",
+      "Années 30",
+      "Années 50",
+      "Années 60",
+      "Années 70",
+      "Années 80",
+      "Années 90",
+      "Arcachonnaise",
+      "Architecte",
+      "Baroque portugais",
+      "Bel-étage",
+      "Bourgeois",
+      "Briques",
+      "Cabanon",
+      "Charentaise",
+      "Château",
+      "Chaumière",
+      "Colombage",
+      "Colonial",
+      "Contemporain",
+      "Corps de ferme",
+      "Duplex",
+      "Echoppe",
+      "Fermette",
+      "Grange",
+      "Hacienda",
+      "Haussmannien",
+      "Landaise",
+      "Logis",
+      "Longère",
+      "Lotissement",
+      "Maison Basque",
+      "Maison Briarde",
+      "Maison de maître",
+      "Maison de pays",
+      "Maison de ville",
+      "Maison plain pied",
+      "Maison semi plain-pied",
+      "Manoir",
+      "Mas",
+      "Merjoyante",
+      "Moderne",
+      "Neo colonial",
+      "Néo-Breton",
+      "Néo-Provençal",
+      "Neuf",
+      "Normande",
+      "Palais",
+      "Pavillon",
+      "Presbytère",
+      "Propriété de campagne",
+      "Provençal",
+      "Résidentiel",
+      "Ruines",
+      "Traditionnel",
+      "Triplex",
+      "Troglodyte",
+      "Victorien",
+      "XIX",
+      "XVII",
+      "XVIII",
+    ],
+    true
+  );
+
+  /** EXTÉRIEUR — menuiseries (fenêtres). */
+  var WINDOWS = [
+    "Aluminium",
+    "Aluminium Double Vitrage",
+    "Aluminium Simple Vitrage",
+    "Bois double vitrage",
+    "Bois simple vitrage",
+    "Double vitrage",
+    "Mixte alu et pvc",
+    "Mixte Bois - PVC",
+    "Mixte Bois et Alu",
+    "P.V.C.",
+    "PVC Double Vitrage",
+    "PVC Simple Vitrage",
+    "Simple et double vitrage",
+    "Survitrage",
+    "Triple Vitrage",
+  ];
+
+  /** EXTÉRIEUR — volets. */
+  var SHUTTERS = [
+    "Aluminium",
+    "Bois",
+    "Electrique Métallique",
+    "Electrique PVC",
+    "Métallique",
+    "Mixte manuels - électriques",
+    "Mixte roulants - bois",
+    "Pliants",
+    "PVC",
+    "PVC Roulant",
+    "Roulants",
+    "Roulants électriques",
+    "Sans",
+    "Solaires",
+  ];
+
+  /** EXTÉRIEUR — isolation (pas la toiture). */
+  var INSULATION = [
+    "Aucune",
+    "Double peau",
+    "isolation par l'extérieur",
+    "Laine de roche",
+    "Laine de verre",
+    "Oui",
+    "Par le toit",
+    "Par le toit et les murs",
+    "Par les murs",
+    "Simple peau",
+  ];
+
+  /** EXTÉRIEUR — assainissement (réseau, pas le certificat). */
+  var SANITATION = [
+    "Fosse à refaire",
+    "Fosse morte",
+    "Fosse septique",
+    "Fosse toutes eaux",
+    "Micro-station",
+    "Sans",
+    "Séparation des eaux",
+    "Tout à l'égout",
+  ];
+
+  /** Oui / Non / non renseigné (mansardé, certificat assainissement). */
+  var YES_NO_UNKNOWN = [
+    { v: "oui", t: "Oui" },
+    { v: "non", t: "Non" },
+  ];
+
+  /** INTÉRIEUR — dalle (plancher), pas le sol des pièces. */
+  var FLOOR_SLAB = ["Béton", "Bois", "Mixte Bois Béton"];
+
+  /** INTÉRIEUR — type de chauffage (collectif / individuel), pas l'énergie. */
+  var HEATING_TYPE = [
+    "Collectif",
+    "Collectif avec comptage individuel",
+    "Individuel",
+    "Mixte",
+    "Sans",
+  ];
+
+  /** INTÉRIEUR — mécanisme / énergie (pas le type ni le mode de diffusion). Liste agence jusqu’à PAC air/eau. */
+  var HEATING_MECHANISM = uniqLabels(
+    [
+      "Aérothermie",
+      "Aucun",
+      "Autres",
+      "Bois",
+      "Bois + Electrique",
+      "Charbon",
+      "Chaudière à granulés",
+      "Chaudière électrique",
+      "Chauffage de ville",
+      "Chauffage urbain",
+      "Chauffe-eau thermodynamique",
+      "Climatisation réversible",
+      "Climatisation réversible + électrique",
+      "Electrique",
+      "Eolienne",
+      "Fuel",
+      "Fuel + électrique",
+      "Gaz",
+      "Gaz (turbine)",
+      "Gaz + chauffe-eau solaire",
+      "Gaz + chauffe-eau thermodynamique",
+      "Gaz + Pompe à chaleur",
+      "Gaz de ville",
+      "Géothermie",
+      "Mixte",
+      "Panneaux solaires",
+      "Poêle à granulés",
+      "Poêle hybride bois et granulés",
+      "Pompe à chaleur",
+      "Pompe à chaleur + chauffe-eau thermodynamique/solaire",
+      "Pompe à chaleur + fuel",
+      "Pompe à chaleur air/air",
+      "Pompe à chaleur air/eau",
+    ],
+    true
+  );
+
+  /** INTÉRIEUR — mode de diffusion (radiateur, sol…), pas l'énergie. */
+  var HEATING_MODE = [
+    "Accumulateurs",
+    "Air pulsé",
+    "Au Sol",
+    "Convecteurs",
+    "Mixte Sol / Convecteurs",
+    "Plafond",
+    "Radiants",
+    "Radiateur",
+    "Sol et plafond",
+  ];
+
+  /** INTÉRIEUR — production d'eau chaude (pas le chauffage). */
+  var HOT_WATER = [
+    "Ballon électrique",
+    "Chaudière",
+    "Chauffage central",
+    "Chauffe eau",
+    "Collective",
+    "Collective avec compteur",
+    "collective millièmes",
+    "Gaz",
+    "Géothermie",
+    "Individuelle",
+    "Panneaux solaires",
+    "Pompe à chaleur",
+    "Thermodynamique",
+  ];
+
   var ENVIRONMENTS = [
     { v: "", t: "— Choisir —" },
     { v: "bois", t: "bois" },
@@ -389,6 +737,25 @@
     PROPERTY_CATEGORIES: PROPERTY_CATEGORIES,
     PROPERTY_SUBTYPES: PROPERTY_SUBTYPES,
     COPRO_STATUS: COPRO_STATUS,
+    COPRO_PROCEDURES: COPRO_PROCEDURES,
+    ROOFING: ROOFING,
+    NEW_OR_OLD: NEW_OR_OLD,
+    STANDING: STANDING,
+    EXTERIOR_GENERAL_STATE: EXTERIOR_GENERAL_STATE,
+    EXTERIOR_STATE: EXTERIOR_STATE,
+    COMMON_AREA_STATE: COMMON_AREA_STATE,
+    CONSTRUCTION: CONSTRUCTION,
+    ARCHITECTURAL_STYLE: ARCHITECTURAL_STYLE,
+    WINDOWS: WINDOWS,
+    SHUTTERS: SHUTTERS,
+    INSULATION: INSULATION,
+    SANITATION: SANITATION,
+    YES_NO_UNKNOWN: YES_NO_UNKNOWN,
+    FLOOR_SLAB: FLOOR_SLAB,
+    HEATING_TYPE: HEATING_TYPE,
+    HEATING_MECHANISM: HEATING_MECHANISM,
+    HEATING_MODE: HEATING_MODE,
+    HOT_WATER: HOT_WATER,
     ENVIRONMENTS: ENVIRONMENTS,
     COMMERCIAL_ACTIVITIES: COMMERCIAL_ACTIVITIES,
     GENERAL_CONDITIONS: GENERAL_CONDITIONS,
