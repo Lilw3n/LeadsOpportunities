@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
 const { franceLocaleMeta, seoLogoBlock } = require("./france-brand.cjs");
+const { footerSocialLinksHtml } = require("./social-links-lib.cjs");
 const CLARITY_HEAD = clarityInlineHtml();
 const {
   GEO_PRODUCTS,
@@ -963,7 +964,7 @@ function renderPage(p) {
     <div class="seo-container seo-footer-grid">
       <small>ORIAS n&deg; 15005935 · Leads Opportunities</small>
       <div>
-        <a href="${prefix}mentions-legales.html">Mentions legales</a>
+        ${footerSocialLinksHtml() ? footerSocialLinksHtml({ separator: " · " }) + " · " : ""}<a href="${prefix}mentions-legales.html">Mentions legales</a>
         · <a href="${prefix}politique-confidentialite.html">Confidentialite</a>
         · <a href="${prefix}cgu.html">CGU</a>
       </div>

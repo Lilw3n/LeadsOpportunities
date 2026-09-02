@@ -41,6 +41,11 @@
         {
           "id": "page",
           "label": "Page Facebook Leads Opportunities",
+          "url": "https://www.facebook.com/profile.php?id=61591265349051"
+        },
+        {
+          "id": "page_legacy",
+          "label": "Page Facebook (legacy ID)",
           "url": "https://www.facebook.com/1183829618147455"
         },
         {

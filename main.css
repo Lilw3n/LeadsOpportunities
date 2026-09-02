@@ -1307,6 +1307,19 @@ article.service-card p {
   margin: 0 0 10px;
 }
 .footer-brand small { font-size: .8rem; color: #64748b; }
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 12px;
+}
+.footer-social a {
+  font-size: .85rem;
+  color: #2dd4bf;
+  text-decoration: none;
+  font-weight: 600;
+}
+.footer-social a:hover { text-decoration: underline; }
 .footer-col h4 {
   color: #fff;
   font-size: .82rem;

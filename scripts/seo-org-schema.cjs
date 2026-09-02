@@ -2,6 +2,7 @@
  * JSON-LD Organization / courtier ORIAS — accueil et pages SEO.
  */
 const { SITE_ORIGIN: SITE } = require("./site-url.cjs");
+const { sameAsUrls } = require("./social-links-lib.cjs");
 
 const ORG = {
   name: "Leads Opportunities",
@@ -60,7 +61,7 @@ function organizationJsonLd(options) {
       "Assurance habitation",
       "Assurance emprunteur",
     ],
-    sameAs: extra.sameAs || [],
+    sameAs: extra.sameAs || sameAsUrls(),
   };
 }
 
