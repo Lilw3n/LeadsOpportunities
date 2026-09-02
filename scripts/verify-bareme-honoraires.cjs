@@ -39,6 +39,11 @@ var html = read("bareme-honoraires/index.html");
 assert(html.indexOf("bhPrice") >= 0, "estimateur");
 assert(html.indexOf("bareme-honoraires-public.js") >= 0, "script public");
 assert(html.indexOf("canonical") >= 0, "canonical");
+assert(html.indexOf('id="estimation"') >= 0, "section estimation");
+assert(html.indexOf("Matterport") >= 0, "mention Matterport");
+assert(html.indexOf("deposer-bien") >= 0, "lien dépôt de bien");
+assert(/pas de projet de vente/i.test(html), "texte sans projet de vente");
+assert(/appareil photo/i.test(html), "mention appareil photo");
 
 var js = read("js/bareme-honoraires-public.js");
 assert(js.indexOf("bareme-honoraires-public.json") >= 0, "charge JSON publié");
