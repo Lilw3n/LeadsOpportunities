@@ -3252,6 +3252,11 @@ vendeurAcq.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const promoProduits = require("./blog-promo-produits-articles.cjs");
+promoProduits.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();
 var existingFiles = {};
