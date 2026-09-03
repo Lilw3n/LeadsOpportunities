@@ -6,7 +6,7 @@ const { getOverride } = require("./blog-content-deep.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 const { resolveBridge, renderBridgeHtml } = require("./blog-questionnaire-bridge.cjs");
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
-const { franceMetaBlock, blogLogoBlock, googleSiteVerificationMeta } = require("./france-brand.cjs");
+const { franceMetaBlock, blogLogoBlock, googleSiteVerificationMeta, brandIconsMeta, LOGO_BANNER_SRC } = require("./france-brand.cjs");
 const { robotsMetaForArticle } = require("./france-audience-lib.cjs");
 const { applyArticleImages } = require("./blog-article-images.cjs");
 const { clusterForBlogArticle, moneyLinksHtml } = require("./seo-keywords-lib.cjs");
@@ -33,7 +33,7 @@ function resolveOgImage(a) {
     if (src.indexOf("/") !== 0) src = "/blog/" + src;
     return base + src;
   }
-  return base + "/og-default.svg";
+  return base + "/og/og-brand.jpg";
 }
 
 function renderHero(hero) {
@@ -204,6 +204,8 @@ function renderArticle(a) {
   return (
     '<!doctype html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n  ' +
     franceMetaBlock() +
+    "\n  " +
+    brandIconsMeta() +
     '\n  <meta name="robots" content="' +
     robots +
     '" />\n  <title>' +

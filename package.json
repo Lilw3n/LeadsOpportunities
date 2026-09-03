@@ -96,6 +96,7 @@
     "verify:immo-drive": "node scripts/verify-immo-drive.cjs",
     "verify:vsp": "node scripts/verify-vsp-niche.cjs",
     "verify:blog-promo-produits": "node scripts/verify-blog-promo-produits.cjs",
+    "verify:brand-logo": "node scripts/verify-brand-logo.cjs",
     "verify:collective": "node scripts/verify-collective-niche.cjs",
     "verify:todoist": "node scripts/verify-todoist.cjs",
     "verify:immo-docs-ui": "node scripts/verify-immo-docs-ui.cjs",

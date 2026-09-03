@@ -19,10 +19,12 @@
   },
   "branding": {
     "logoPath": "/assets/logo.png",
-    "tagline": "Courtier en assurance",
-    "primaryColor": "#1e3a8a",
-    "accentColor": "#0d9488",
-    "accentDark": "#0f766e"
+    "logoIconPath": "/assets/brand/logo-mark.png",
+    "logoBannerPath": "/assets/brand/logo-banner.jpg",
+    "tagline": "Wendy Buchet · Courtier en assurance",
+    "primaryColor": "#0062FF",
+    "accentColor": "#00D7B0",
+    "accentDark": "#0A1931"
   },
   "modules": {
     "prets": true,

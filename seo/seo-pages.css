@@ -49,14 +49,27 @@
 }
 
 .seo-logo-icon {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--seo-accent), #6366f1);
+  background: transparent;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 98, 255, 0.16);
+  /* Fallback si ancien HTML (SVG shield) encore en cache */
+  background-image: url(/assets/brand/logo-mark.png);
+  background-size: cover;
+  background-position: center;
+}
+.seo-logo-icon svg { display: none; }
+.seo-logo-icon .logo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .seo-logo .logo-text {

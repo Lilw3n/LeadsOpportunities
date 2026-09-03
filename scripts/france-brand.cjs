@@ -3,8 +3,25 @@
  */
 const { GOOGLE_SITE_VERIFICATION } = require("./site-url.cjs");
 
-const SHIELD_SVG =
-  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
+/** Icône carrée LO (gradient) — chemin absolu site. */
+const LOGO_ICON_SRC = "/assets/brand/logo-mark.png";
+const LOGO_BANNER_SRC = "/assets/brand/logo-banner.jpg";
+const LOGO_ICON_ALT = "Leads Opportunities — Wendy Buchet";
+
+function logoImgHtml(size) {
+  var s = Number(size) || 28;
+  return (
+    '<img class="logo-img" src="' +
+    LOGO_ICON_SRC +
+    '" alt="' +
+    LOGO_ICON_ALT +
+    '" width="' +
+    s +
+    '" height="' +
+    s +
+    '" decoding="async" />'
+  );
+}
 
 function franceMetaBlock() {
   return [
@@ -24,12 +41,21 @@ function franceLocaleMeta() {
   ].join("\n  ");
 }
 
+function brandIconsMeta() {
+  return [
+    '<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />',
+    '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />',
+    '<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />',
+  ].join("\n  ");
+}
+
 function logoBlock(options) {
   var href = (options && options.href) || "./index.html";
   var iconClass = (options && options.iconClass) || "logo-icon";
   var wrapClass = (options && options.wrapClass) || "logo";
-  var iconSize = (options && options.iconSize) || 28;
-  var svg = SHIELD_SVG.replace('width="18"', 'width="' + iconSize + '"').replace('height="18"', 'height="' + iconSize + '"');
+  var iconSize = (options && options.iconSize) || 36;
+  var tagline =
+    (options && options.tagline) || "Assurance · Immo · Prêt · Banque · Finance";
 
   return (
     '<a class="' +
@@ -39,8 +65,10 @@ function logoBlock(options) {
     '">\n        <span class="' +
     iconClass +
     '">\n          ' +
-    svg +
-    "\n        </span>\n        <span class=\"logo-text\">\n          <span class=\"logo-name\">Leads Opportunities</span>\n          <span class=\"logo-tagline\">Assurance · Immo · Prêt · Banque · Finance</span>\n        </span>\n      </a>"
+    logoImgHtml(iconSize) +
+    "\n        </span>\n        <span class=\"logo-text\">\n          <span class=\"logo-name\">Leads Opportunities</span>\n          <span class=\"logo-tagline\">" +
+    tagline +
+    "</span>\n        </span>\n      </a>"
   );
 }
 
@@ -49,16 +77,18 @@ function seoLogoBlock(prefix) {
     href: prefix + "index.html",
     wrapClass: "seo-logo",
     iconClass: "seo-logo-icon",
-    iconSize: 16,
+    iconSize: 32,
   });
 }
 
 function blogLogoBlock() {
-  return (
-    '<a class="blog-logo" href="../index.html">\n        <span class="blog-logo-icon">' +
-    SHIELD_SVG +
-    '</span>\n        <span class="logo-text">\n          <span class="logo-name">Leads Opportunities</span>\n          <span class="logo-tagline">Courtier · France</span>\n        </span>\n      </a>'
-  );
+  return logoBlock({
+    href: "../index.html",
+    wrapClass: "blog-logo",
+    iconClass: "blog-logo-icon",
+    iconSize: 32,
+    tagline: "Wendy Buchet · Courtier · France",
+  });
 }
 
 function googleSiteVerificationMeta() {
@@ -73,9 +103,13 @@ module.exports = {
   franceMetaBlock: franceMetaBlock,
   franceLocaleMeta: franceLocaleMeta,
   googleSiteVerificationMeta: googleSiteVerificationMeta,
+  brandIconsMeta: brandIconsMeta,
   logoBlock: logoBlock,
   seoLogoBlock: seoLogoBlock,
   blogLogoBlock: blogLogoBlock,
+  logoImgHtml: logoImgHtml,
+  LOGO_ICON_SRC: LOGO_ICON_SRC,
+  LOGO_BANNER_SRC: LOGO_BANNER_SRC,
   HOME_TITLE: HOME_TITLE,
   HOME_DESCRIPTION: HOME_DESCRIPTION,
 };

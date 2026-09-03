@@ -12,7 +12,7 @@ const {
 } = require("./blog-themes.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
-const { franceMetaBlock, blogLogoBlock } = require("./france-brand.cjs");
+const { franceMetaBlock, blogLogoBlock, brandIconsMeta } = require("./france-brand.cjs");
 const CLARITY_HEAD = clarityInlineHtml();
 const BLOG_CSS = "/blog/blog.css";
 
@@ -147,6 +147,8 @@ var ctaBlocks = manifest.sections
 var html =
   '<!doctype html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n  ' +
   franceMetaBlock() +
+  "\n  " +
+  brandIconsMeta() +
   '\n  <meta name="robots" content="index,follow" />\n  <title>Blog assurance France | Mutuelle, habitation, emprunteur | Leads Opportunities</title>\n  <meta name="description" content="Guides assurance en France : mutuelle, auto, habitation, emprunteur, prevoyance, VTC. Filtrez par thème et trouvez l\'article qui vous concerne." />\n  <link rel="canonical" href="' +
   base +
   '/blog/" />\n  <link rel="alternate" type="application/rss+xml" title="Blog Leads Opportunities" href="/blog/feed.xml" />\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>\n  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'G-JX8E35693F\');</script>\n  <script src="/api/google-config-env"></script>\n  <script src="../google-config.js"></script>\n  ' +

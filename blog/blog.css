@@ -69,16 +69,27 @@ a { color: var(--primary); }
   color: var(--text);
 }
 .blog-logo-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: transparent;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 98, 255, 0.16);
+  background-image: url(/assets/brand/logo-mark.png);
+  background-size: cover;
+  background-position: center;
 }
-.blog-logo-icon svg { width: 18px; height: 18px; }
+.blog-logo-icon svg { display: none; }
+.blog-logo-icon .logo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .logo-text {
   display: flex;
   flex-direction: column;
