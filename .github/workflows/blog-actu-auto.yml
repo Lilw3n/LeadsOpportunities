@@ -29,7 +29,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
 
       - name: Install dependencies
@@ -45,6 +45,9 @@ jobs:
           else
             echo "IA disponible — même pipeline que Cursor."
           fi
+
+      - name: Vérifier garde-fous pipeline actu
+        run: npm run verify:blog-actu-pipeline
 
       - name: Auto publish actu (Cafeyn RSS + Edge + Firefox + Google News)
         env:

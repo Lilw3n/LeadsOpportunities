@@ -51,6 +51,20 @@ function existingFiles() {
   return files;
 }
 
+var PLACEHOLDER_RE =
+  /collez ici|placeholder|lorem ipsum|\bxxx+\b|\btodo\b|titre de la une|angle assurance a preciser/i;
+
+function isPlaceholderCandidate(candidate) {
+  if (!candidate) return true;
+  var title = String(candidate.title || "");
+  var id = String(candidate.id || "");
+  var note = String(candidate.note || candidate.summary || "");
+  if (!title.trim()) return true;
+  if (PLACEHOLDER_RE.test(title) || PLACEHOLDER_RE.test(note)) return true;
+  if (id.indexOf("pending-template") !== -1 || id.indexOf("-template") !== -1) return true;
+  return false;
+}
+
 function matchTopic(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
   var hay = String(text || "").toLowerCase();
@@ -61,7 +75,8 @@ function matchTopic(text) {
     (rule.keywords || []).forEach(function (kw) {
       if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
     });
-    if (score > bestScore) {
+    var minHits = Number(rule.minHits) || 1;
+    if (score >= minHits && score > bestScore) {
       bestScore = score;
       best = rule;
     }
@@ -74,6 +89,7 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matchScore: best ? bestScore : 0,
   };
 }
 
@@ -98,14 +114,18 @@ function monthLabel() {
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
-  var need = candidate.need || "";
+  var summary = String(candidate.summary || candidate.note || "");
+  var topic = matchTopic(title + " " + summary);
+  var need = candidate.need || topic.need || "";
+  var matched = (topic.matchScore || 0) > 0;
 
-  if (candidate.status === "queued") score += 25;
+  if (isPlaceholderCandidate(candidate)) return 0;
+  if (candidate.status === "queued" && matched) score += 25;
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  if (matched && (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto")) score += 20;
+  if (matched && (need === "vtc" || need === "animaux" || need === "prevoyance")) score += 15;
 
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
@@ -341,6 +361,7 @@ module.exports = {
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
   matchTopic: matchTopic,
+  isPlaceholderCandidate: isPlaceholderCandidate,
   scaffoldArticle: scaffoldArticle,
   stripForManifest: stripForManifest,
   loadPendingArticles: loadPendingArticles,
