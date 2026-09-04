@@ -1,0 +1,195 @@
+/* Fiche descriptive du bien — éditeur PDF */
+.fiche-page {
+  --fiche-ink: #0f2a3d;
+  --fiche-accent: #0d6e6e;
+  --fiche-wash: #e8f2f1;
+  --fiche-line: #c5d5d3;
+  --fiche-paper: #f7faf9;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 16px 64px;
+}
+
+.fiche-hero {
+  position: relative;
+  margin: 0 -16px 28px;
+  padding: 36px 20px 32px;
+  background:
+    linear-gradient(135deg, rgba(13, 110, 110, 0.12), transparent 55%),
+    linear-gradient(180deg, #0f2a3d 0%, #163d4a 100%);
+  color: #f4faf9;
+  overflow: hidden;
+}
+
+.fiche-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto -10% -40% 40%;
+  height: 180%;
+  background: radial-gradient(circle at center, rgba(45, 180, 160, 0.35), transparent 60%);
+  pointer-events: none;
+}
+
+.fiche-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.fiche-brand {
+  font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin: 0 0 10px;
+}
+
+.fiche-hero h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: clamp(1.6rem, 4vw, 2.35rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 10px;
+  max-width: 18ch;
+}
+
+.fiche-hero p {
+  margin: 0;
+  max-width: 42ch;
+  font-size: 1rem;
+  line-height: 1.45;
+  opacity: 0.92;
+}
+
+.fiche-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 18px;
+  padding: 12px;
+  background: var(--fiche-wash);
+  border: 1px solid var(--fiche-line);
+  border-radius: 10px;
+}
+
+.fiche-status {
+  flex: 1 1 200px;
+  font-size: 0.88rem;
+  color: #334155;
+  margin: 0;
+}
+
+.fiche-section {
+  margin: 0 0 22px;
+  padding: 18px 16px;
+  background: var(--fiche-paper);
+  border-left: 3px solid var(--fiche-accent);
+}
+
+.fiche-section h2 {
+  margin: 0 0 6px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.2rem;
+  color: var(--fiche-ink);
+}
+
+.fiche-section .hint {
+  margin: 0 0 14px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.fiche-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.fiche-grid .full {
+  grid-column: 1 / -1;
+}
+
+.fiche-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+.fiche-grid input,
+.fiche-grid select,
+.fiche-grid textarea {
+  font: inherit;
+  font-weight: 400;
+  padding: 8px 10px;
+  border: 1px solid var(--fiche-line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--fiche-ink);
+}
+
+.fiche-grid textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.fiche-check {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 8px !important;
+  font-weight: 600 !important;
+  margin-top: 18px;
+}
+
+.fiche-drafts {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--fiche-line);
+}
+
+.fiche-drafts h2 {
+  font-size: 1.05rem;
+  margin: 0 0 10px;
+  color: var(--fiche-ink);
+}
+
+.fiche-draft-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.fiche-muted {
+  color: #64748b;
+  font-size: 0.82rem;
+}
+
+.fiche-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0 0;
+  font-size: 0.9rem;
+}
+
+.fiche-links a {
+  color: var(--fiche-accent);
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .fiche-hero {
+    padding: 28px 16px 24px;
+  }
+  .fiche-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

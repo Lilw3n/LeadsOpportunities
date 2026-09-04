@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fiche descriptive du bien — éditer &amp; PDF | Leads Opportunities</title>
+  <meta name="description" content="Éditez la fiche descriptive d'un bien immobilier et exportez votre propre PDF (Imprimer → Enregistrer en PDF). Aligné questionnaire vendeur et CRM." />
+  <meta name="robots" content="noindex,follow" />
+  <meta name="geo.region" content="FR" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/landings/fiche-descriptive-bien.html" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./css/immo-parcours.css" />
+  <link rel="stylesheet" href="./css/fiche-descriptive-bien.css" />
+</head>
+<body data-market-intent="FR">
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="../index.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Accueil
+      </a>
+      <a class="landing-logo" href="../index.html">
+        <span class="landing-logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        Leads Opportunities
+      </a>
+    </div>
+  </header>
+
+  <div class="fiche-hero">
+    <div class="fiche-hero-inner">
+      <p class="fiche-brand">Leads Opportunities · Immobilier</p>
+      <h1>Fiche descriptive du bien</h1>
+      <p>Modèle éditable — prérempli depuis le questionnaire vendeur ou le CRM, puis export PDF depuis le navigateur.</p>
+    </div>
+  </div>
+
+  <main class="fiche-page">
+    <div class="fiche-toolbar" role="toolbar" aria-label="Actions fiche">
+      <button type="button" class="btn btn-soft btn-sm" data-fiche-new>Nouvelle</button>
+      <button type="button" class="btn btn-soft btn-sm" data-fiche-save>Enregistrer brouillon</button>
+      <button type="button" class="btn btn-primary btn-sm" data-fiche-print>Aperçu / PDF</button>
+      <p class="fiche-status" data-fiche-status></p>
+    </div>
+
+    <form data-fiche-form novalidate>
+      <input type="hidden" name="id" value="" />
+
+      <section class="fiche-section">
+        <h2>Identification</h2>
+        <p class="hint">Adresse, typologie, références mandat / cadastre.</p>
+        <div class="fiche-grid">
+          <label class="full">Titre / intitulé<input name="title" placeholder="Ex. Nancy — T3 85 m² avec terrasse" /></label>
+          <label>Transaction
+            <select name="listingType">
+              <option value="vente">Vente</option>
+              <option value="location">Location</option>
+            </select>
+          </label>
+          <label>Type de bien<input name="propertyType" placeholder="Appartement, maison…" /></label>
+          <label>Sous-type<input name="propertySubtype" /></label>
+          <label class="full">Adresse<input name="address" autocomplete="street-address" /></label>
+          <label class="full">Complément<input name="complement" /></label>
+          <label>Code postal<input name="postalCode" inputmode="numeric" maxlength="5" /></label>
+          <label>Ville<input name="city" /></label>
+          <label>Quartier<input name="quartier" /></label>
+          <label>Département<input name="department" /></label>
+          <label>Étage<input name="floor" /></label>
+          <label>Digicode<input name="digicode" /></label>
+          <label>Réf. cadastrale<input name="refCadastrale" /></label>
+          <label>Section<input name="sectionCadastrale" /></label>
+          <label>N° cadastre<input name="numeroCadastre" /></label>
+          <label>Réf. affaire<input name="refAffaire" /></label>
+          <label>N° mandat<input name="nMandat" /></label>
+          <label>Forme mandat<input name="formeMandat" placeholder="Simple, exclusif…" /></label>
+          <label class="full">URL annonce<input name="listingUrl" type="url" placeholder="https://…" /></label>
+        </div>
+      </section>
+
+      <section class="fiche-section">
+        <h2>Prix &amp; fiscalité</h2>
+        <p class="hint">Montants indicatifs — à aligner sur le mandat signé.</p>
+        <div class="fiche-grid">
+          <label>Prix net vendeur (€)<input name="prixNet" inputmode="numeric" /></label>
+          <label>Prix FAI (€)<input name="prixFai" inputmode="numeric" /></label>
+          <label>Honoraires (€)<input name="honoraires" inputmode="numeric" /></label>
+          <label>Honoraires à charge<input name="chargeHonoraires" placeholder="Vendeur / acquéreur…" /></label>
+          <label>Charges mensuelles (€)<input name="chargesMensuelles" inputmode="numeric" /></label>
+          <label>Taxe foncière (€/an)<input name="taxeFonciere" inputmode="numeric" /></label>
+          <label>Taxe d'habitation (€/an)<input name="taxeHabitation" inputmode="numeric" /></label>
+        </div>
+      </section>
+
+      <section class="fiche-section">
+        <h2>Surfaces &amp; composition</h2>
+        <div class="fiche-grid">
+          <label>Surf. habitable (m²)<input name="surfaceHab" inputmode="numeric" /></label>
+          <label>Surf. Carrez (m²)<input name="surfaceCarrez" inputmode="numeric" /></label>
+          <label>Surf. séjour (m²)<input name="surfaceSejour" inputmode="numeric" /></label>
+          <label>Surf. terrain (m²)<input name="surfaceTerrain" inputmode="numeric" /></label>
+          <label>Parcelle (m²)<input name="plotSurface" inputmode="numeric" /></label>
+          <label>Pièces<input name="rooms" inputmode="numeric" /></label>
+          <label>Chambres<input name="bedrooms" inputmode="numeric" /></label>
+          <label>Salles d'eau<input name="bathrooms" inputmode="numeric" /></label>
+          <label>Niveaux<input name="levels" inputmode="numeric" /></label>
+          <label>Orientation<input name="orientation" /></label>
+          <label>Vue<input name="view" /></label>
+          <label>Zone PLU<input name="pluZone" /></label>
+          <label>COS<input name="cos" /></label>
+        </div>
+      </section>
+
+      <section class="fiche-section">
+        <h2>Descriptif &amp; équipements</h2>
+        <div class="fiche-grid">
+          <label>Cuisine<input name="kitchen" /></label>
+          <label>Chauffage<input name="heating" /></label>
+          <label>Eau chaude<input name="hotWater" /></label>
+          <label>État intérieur<input name="interiorState" /></label>
+          <label>État général<input name="generalCondition" /></label>
+          <label>Standing<input name="standing" /></label>
+          <label>Année construction<input name="buildYear" inputmode="numeric" /></label>
+          <label>Type construction<input name="constructionType" /></label>
+          <label>Environnement<input name="environment" /></label>
+          <label>Disponibilité<input name="availability" /></label>
+          <label>Début disponibilité<input name="availabilityStart" type="date" /></label>
+          <label>Cave<input name="cave" /></label>
+          <label>Parking ext.<input name="parkingExt" /></label>
+          <label>Parking int.<input name="parkingInt" /></label>
+          <label>Garage<input name="garage" /></label>
+          <label>Box<input name="box" /></label>
+          <label class="full">Équipements (séparés par des virgules)<input name="equipements" placeholder="Ascenseur, fibre, piscine…" /></label>
+          <label class="full">Texte descriptif<textarea name="description" rows="5" placeholder="Descriptif commercial pour annonce / visite…"></textarea></label>
+          <label class="full">Points forts<textarea name="pointsForts" rows="2"></textarea></label>
+          <label class="full">Points faibles<textarea name="pointsFaibles" rows="2"></textarea></label>
+          <label class="full">Observations<textarea name="observations" rows="2"></textarea></label>
+          <label class="full">Notes internes (confidentiel)<textarea name="notesInternes" rows="2"></textarea></label>
+        </div>
+      </section>
+
+      <section class="fiche-section">
+        <h2>Copropriété</h2>
+        <div class="fiche-grid">
+          <label>Statut<input name="coproStatus" /></label>
+          <label>Nb lots<input name="coproLots" inputmode="numeric" /></label>
+          <label>Tantièmes<input name="coproTantiemes" /></label>
+          <label>Charges (€/mois)<input name="coproCharges" inputmode="numeric" /></label>
+          <label class="full">Syndic<input name="syndic" /></label>
+        </div>
+      </section>
+
+      <section class="fiche-section">
+        <h2>Diagnostics énergétiques</h2>
+        <div class="fiche-grid">
+          <label class="fiche-check"><input type="checkbox" name="dpeExempt" value="1" /> Non soumis au DPE</label>
+          <label>DPE (lettre)
+            <select name="dpe">
+              <option value="">—</option>
+              <option>A</option><option>B</option><option>C</option><option>D</option>
+              <option>E</option><option>F</option><option>G</option>
+            </select>
+          </label>
+          <label>DPE (kWh/m²/an)<input name="dpeKwh" inputmode="numeric" /></label>
+          <label>GES (lettre)
+            <select name="ges">
+              <option value="">—</option>
+              <option>A</option><option>B</option><option>C</option><option>D</option>
+              <option>E</option><option>F</option><option>G</option>
+            </select>
+          </label>
+          <label>GES (kg CO₂)<input name="gesKg" inputmode="numeric" /></label>
+          <label>Date DPE<input name="dpeDate" type="date" /></label>
+          <label>Surf. réf. DPE<input name="dpeRefSurface" inputmode="numeric" /></label>
+          <label>Dépenses énergie (€/an)<input name="energyCostAnnual" inputmode="numeric" /></label>
+        </div>
+      </section>
+    </form>
+
+    <div class="fiche-drafts">
+      <h2>Brouillons sur cet appareil</h2>
+      <div data-fiche-drafts></div>
+    </div>
+
+    <nav class="fiche-links" aria-label="Parcours liés">
+      <a href="./acheteur-immo.html?role=vendeur">Questionnaire vendeur</a>
+      <a href="./acheteur-immo.html">Questionnaire acquéreur</a>
+      <a href="../crm-immo-properties.html">CRM piges</a>
+      <a href="../vendeur-cherche-acquereur/">Hub vendeur</a>
+    </nav>
+  </main>
+
+  <script src="../js/print-document-lib.js"></script>
+  <script src="../js/crm-immo-store.js"></script>
+  <script src="../js/fiche-descriptive-bien-lib.js"></script>
+  <script src="../js/fiche-descriptive-bien-page.js"></script>
+</body>
+</html>

@@ -1195,8 +1195,26 @@
   var btnPrintProp = document.getElementById("btnPrintProperty");
   if (btnPrintProp) {
     btnPrintProp.onclick = function () {
-      if (window.PrintDocument) window.PrintDocument.fromProperty(prop);
+      if (window.FicheDescriptiveBien && window.FicheDescriptiveBien.print) {
+        window.FicheDescriptiveBien.print(window.FicheDescriptiveBien.fromCrmProperty(prop), {
+          subtitle: "Fiche CRM — Imprimer → Enregistrer en PDF",
+        });
+      } else if (window.PrintDocument) {
+        window.PrintDocument.fromProperty(prop);
+      }
     };
+  }
+
+  var btnEditFiche = document.getElementById("btnEditFichePdf");
+  if (btnEditFiche && prop && prop.id) {
+    btnEditFiche.href =
+      "./landings/fiche-descriptive-bien.html?prop=" + encodeURIComponent(prop.id) + "&from=crm";
+    btnEditFiche.addEventListener("click", function (e) {
+      if (!window.FicheDescriptiveBien) return;
+      e.preventDefault();
+      window.FicheDescriptiveBien.setTransfer(window.FicheDescriptiveBien.fromCrmProperty(prop));
+      window.location.href = btnEditFiche.href;
+    });
   }
 
   document.getElementById("btnSave").onclick = save;
