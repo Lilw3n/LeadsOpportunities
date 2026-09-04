@@ -306,7 +306,7 @@
         esc(urls[idx]) +
         '" alt="" draggable="false" />' +
         "</div>" +
-        '<p class="lbc-lightbox__hint">Molette ou boutons +/− pour zoomer · glisser pour déplacer · double-clic pour maxi zoom</p>';
+        '<p class="lbc-lightbox__hint">Cliquez sur la photo pour agrandir encore · glisser pour déplacer · Échap pour fermer</p>';
 
       document.body.appendChild(lb);
       document.body.classList.add("lbc-lightbox-open");
@@ -317,10 +317,14 @@
       var tx = 0;
       var ty = 0;
       var dragging = false;
+      var didDrag = false;
       var lastX = 0;
       var lastY = 0;
+      var startX = 0;
+      var startY = 0;
       var MAX = 6;
       var MIN = 1;
+      var ZOOM_STEPS = [1, 2.2, 3.5, 5, 6];
 
       function applyTransform() {
         img.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + scale + ")";
@@ -342,6 +346,19 @@
         }
         applyTransform();
         img.classList.toggle("is-zoomed", scale > 1.01);
+        img.style.cursor = scale > 1.01 ? "zoom-in" : "zoom-in";
+      }
+
+      function nextZoomStep(cx, cy) {
+        var next = ZOOM_STEPS[0];
+        for (var i = 0; i < ZOOM_STEPS.length; i++) {
+          if (scale < ZOOM_STEPS[i] - 0.05) {
+            next = ZOOM_STEPS[i];
+            break;
+          }
+          if (i === ZOOM_STEPS.length - 1) next = 1;
+        }
+        setScale(next, cx, cy);
       }
 
       function syncLb() {
@@ -400,21 +417,39 @@
         { passive: false }
       );
 
+      // Clic simple sur la photo = agrandir encore (ou revenir à 1:1 au max)
+      img.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (didDrag) {
+          didDrag = false;
+          return;
+        }
+        nextZoomStep(e.clientX, e.clientY);
+      });
+
       img.addEventListener("dblclick", function (e) {
         e.preventDefault();
+        e.stopPropagation();
         if (scale > 1.5) setScale(1);
-        else setScale(4, e.clientX, e.clientY);
+        else setScale(MAX, e.clientX, e.clientY);
       });
 
       viewport.addEventListener("pointerdown", function (e) {
-        if (scale <= 1.01) return;
-        dragging = true;
+        if (e.target !== img && e.target !== viewport) return;
+        dragging = scale > 1.01;
+        didDrag = false;
         lastX = e.clientX;
         lastY = e.clientY;
-        viewport.setPointerCapture(e.pointerId);
-        viewport.classList.add("is-dragging");
+        startX = e.clientX;
+        startY = e.clientY;
+        if (dragging) {
+          viewport.setPointerCapture(e.pointerId);
+          viewport.classList.add("is-dragging");
+        }
       });
       viewport.addEventListener("pointermove", function (e) {
+        if (Math.hypot(e.clientX - startX, e.clientY - startY) > 6) didDrag = true;
         if (!dragging) return;
         tx += e.clientX - lastX;
         ty += e.clientY - lastY;
@@ -462,9 +497,13 @@
       );
 
       lb.addEventListener("click", function (e) {
-        if (e.target === lb || e.target === viewport) {
+        if (e.target === lb) {
           if (scale > 1.05) setScale(1);
           else close();
+        } else if (e.target === viewport) {
+          // clic autour de la photo : agrandir aussi
+          if (!didDrag) nextZoomStep(e.clientX, e.clientY);
+          didDrag = false;
         }
       });
 
