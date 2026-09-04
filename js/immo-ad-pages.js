@@ -169,8 +169,10 @@
       });
   }
 
-  function fetchPrivateAd(token) {
-    return fetch("/api/immo-ads?token=" + encodeURIComponent(token))
+  function fetchPrivateAd(token, grant) {
+    var q = "/api/immo-ads?token=" + encodeURIComponent(token);
+    if (grant) q += "&grant=" + encodeURIComponent(grant);
+    return fetch(q)
       .then(function (r) {
         return r.json().then(function (data) {
           return { status: r.status, data: data };
@@ -179,6 +181,129 @@
       .catch(function () {
         return { status: 0, data: null };
       });
+  }
+
+  function grantStorageKey(token) {
+    return "lo_immo_demo_grant_" + token;
+  }
+
+  function renderGate(methods, token, onUnlocked) {
+    var gate = document.getElementById("adGate");
+    if (!gate) return;
+    methods = methods && methods.length ? methods : ["email", "phone"];
+    var mode = methods.indexOf("email") !== -1 ? "email" : "phone";
+    gate.hidden = false;
+
+    function paint() {
+      var tabs =
+        methods.length > 1
+          ? '<div class="gate-tabs">' +
+            (methods.indexOf("email") !== -1
+              ? '<button type="button" data-mode="email" class="' + (mode === "email" ? "is-active" : "") + '">E-mail</button>'
+              : "") +
+            (methods.indexOf("phone") !== -1
+              ? '<button type="button" data-mode="phone" class="' + (mode === "phone" ? "is-active" : "") + '">Téléphone</button>'
+              : "") +
+            "</div>"
+          : "";
+      var field =
+        mode === "phone"
+          ? '<label>Téléphone autorisé<input id="gateContact" type="tel" inputmode="tel" placeholder="06 12 34 56 78" autocomplete="tel" /></label>'
+          : '<label>E-mail autorisé<input id="gateContact" type="email" placeholder="vous@exemple.fr" autocomplete="email" /></label>';
+      gate.innerHTML =
+        "<h2>Accès à la démo</h2><p>Cette visualisation est réservée aux contacts liés par votre conseiller. Recevez un code à 6 chiffres pour continuer.</p>" +
+        tabs +
+        field +
+        '<label>Code à 6 chiffres<input id="gateCode" type="text" inputmode="numeric" maxlength="6" placeholder="••••••" autocomplete="one-time-code" /></label>' +
+        '<div class="gate-actions">' +
+        '<button type="button" class="btn btn-primary" id="gateRequest">Recevoir le code</button>' +
+        '<button type="button" class="btn btn-outline" id="gateVerify">Valider et voir</button>' +
+        '</div><p class="gate-msg" id="gateMsg"></p>';
+
+      gate.querySelectorAll("[data-mode]").forEach(function (btn) {
+        btn.onclick = function () {
+          mode = btn.getAttribute("data-mode");
+          paint();
+        };
+      });
+
+      function gateMsg(text, ok) {
+        var el = document.getElementById("gateMsg");
+        if (!el) return;
+        el.textContent = text || "";
+        el.style.color = ok ? "#166534" : "#9a3412";
+      }
+
+      document.getElementById("gateRequest").onclick = function () {
+        var contact = document.getElementById("gateContact").value.trim();
+        var payload = { action: "request_code", token: token };
+        if (mode === "email") payload.email = contact;
+        else payload.phone = contact;
+        gateMsg("Envoi du code…");
+        fetch("/api/immo-ad-demo-access", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+          .then(function (r) {
+            return r.json().then(function (d) {
+              return { status: r.status, d: d };
+            });
+          })
+          .then(function (res) {
+            if (res.d && res.d.ok) gateMsg(res.d.message || "Code envoyé.", true);
+            else gateMsg((res.d && res.d.error) || "Impossible d’envoyer le code.");
+          })
+          .catch(function () {
+            gateMsg("Erreur réseau.");
+          });
+      };
+
+      document.getElementById("gateVerify").onclick = function () {
+        var contact = document.getElementById("gateContact").value.trim();
+        var code = document.getElementById("gateCode").value.trim();
+        var payload = { action: "verify_code", token: token, code: code };
+        if (mode === "email") payload.email = contact;
+        else payload.phone = contact;
+        gateMsg("Vérification…");
+        fetch("/api/immo-ad-demo-access", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+          .then(function (r) {
+            return r.json().then(function (d) {
+              return { status: r.status, d: d };
+            });
+          })
+          .then(function (res) {
+            if (res.d && res.d.ok && res.d.grant) {
+              try {
+                sessionStorage.setItem(grantStorageKey(token), res.d.grant);
+              } catch (e) {}
+              gate.hidden = true;
+              onUnlocked(res.d.listing, res.d.grant);
+            } else {
+              gateMsg((res.d && res.d.error) || "Code incorrect.");
+            }
+          })
+          .catch(function () {
+            gateMsg("Erreur réseau.");
+          });
+      };
+    }
+
+    paint();
+  }
+
+  function showListing(listing, privateMode) {
+    var mount = document.getElementById("adDetail");
+    var err = document.getElementById("adError");
+    if (err) err.hidden = true;
+    if (mount) {
+      mount.innerHTML = detailHtml(listing, privateMode);
+      bindGallery(mount);
+    }
   }
 
   /** Fallback local (même navigateur CRM) si API vide / hors ligne */
@@ -193,13 +318,22 @@
     }
   }
 
-  function localPrivateAd(token) {
+  function localPrivateMeta(token) {
     try {
       var raw = localStorage.getItem("lo_crm_immo_v1");
       var db = raw ? JSON.parse(raw) : null;
       if (!db || !AdLib) return null;
       var found = AdLib.findByShareToken(db.properties || [], token);
-      return found ? AdLib.toAdListing(found) : null;
+      if (!found) return null;
+      var bag = AdLib.getAdMeta(found);
+      var Access = window.ImmoAdDemoAccess;
+      return {
+        property: found,
+        listing: AdLib.toAdListing(found),
+        requires_auth: Access ? Access.hasRestrictedAccess(bag.ad) : false,
+        methods: Access ? Access.accessMethods(bag.ad) : [],
+        ad: bag.ad,
+      };
     } catch (e) {
       return null;
     }
@@ -252,7 +386,6 @@
 
   function bootPrivate() {
     var root = document.getElementById("adProtectRoot") || document.body;
-    var mount = document.getElementById("adDetail");
     var err = document.getElementById("adError");
     var token = new URLSearchParams(location.search).get("token") || "";
     if (!token) {
@@ -264,20 +397,45 @@
     }
     if (Protect) Protect.attach(root, { watermark: true });
 
-    fetchPrivateAd(token).then(function (res) {
-      var listing = res.data && res.data.listing;
-      if (!listing) listing = localPrivateAd(token);
-      if (!listing) {
-        if (err) {
-          err.hidden = false;
-          err.textContent = "Cette démonstration est introuvable ou n’est plus active.";
-        }
+    var savedGrant = "";
+    try {
+      savedGrant = sessionStorage.getItem(grantStorageKey(token)) || "";
+    } catch (e) {}
+
+    function unlockWithListing(listing) {
+      showListing(listing, true);
+    }
+
+    fetchPrivateAd(token, savedGrant).then(function (res) {
+      if (res.data && res.data.ok && res.data.listing) {
+        unlockWithListing(res.data.listing);
         return;
       }
-      if (err) err.hidden = true;
-      if (mount) {
-        mount.innerHTML = detailHtml(listing, true);
-        bindGallery(mount);
+      if (res.data && res.data.requires_auth) {
+        renderGate(res.data.methods || ["email", "phone"], token, function (listing) {
+          unlockWithListing(listing);
+        });
+        return;
+      }
+      var local = localPrivateMeta(token);
+      if (local && local.listing) {
+        if (local.requires_auth) {
+          renderGate(local.methods, token, function (listing) {
+            unlockWithListing(listing || local.listing);
+          });
+          if (err) {
+            err.hidden = false;
+            err.textContent =
+              "Démo locale : après synchronisation Neon, le code e-mail/SMS fonctionne aussi hors de ce navigateur.";
+          }
+          return;
+        }
+        unlockWithListing(local.listing);
+        return;
+      }
+      if (err) {
+        err.hidden = false;
+        err.textContent = (res.data && res.data.error) || "Cette démonstration est introuvable ou n’est plus active.";
       }
     });
   }

@@ -219,6 +219,27 @@
   font-weight: 700;
 }
 
+.immo-ad-gate {
+  max-width: 420px;
+  margin: 24px auto 40px;
+  background: #fff;
+  border: 1px solid var(--immo-ad-line);
+  padding: 20px 18px;
+}
+.immo-ad-gate h2 { margin: 0 0 8px; font-size: 1.15rem; }
+.immo-ad-gate p { margin: 0 0 14px; color: #5b6b7c; font-size: 0.9rem; line-height: 1.45; }
+.immo-ad-gate label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 10px; }
+.immo-ad-gate input {
+  padding: 10px 12px; border: 1px solid var(--immo-ad-line); border-radius: 8px; font: inherit; background: #f8fafc;
+}
+.immo-ad-gate .gate-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.immo-ad-gate .gate-msg { font-size: 0.84rem; margin-top: 10px; color: #334155; }
+.immo-ad-gate .gate-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.immo-ad-gate .gate-tabs button {
+  flex: 1; border: 1px solid var(--immo-ad-line); background: #fff; padding: 8px; cursor: pointer; font-weight: 700;
+}
+.immo-ad-gate .gate-tabs button.is-active { background: var(--immo-ad-ink); color: #fff; border-color: var(--immo-ad-ink); }
+
 .immo-ad-fade-in {
   animation: immoAdFade 0.55s ease both;
 }

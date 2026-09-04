@@ -56,6 +56,35 @@
       background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-size:.8rem;
     }
     .pub-video-list a { color:#1e4f8a; word-break:break-all; }
+    .pub-create-box {
+      background:#0f2744; color:#fff; border-radius:12px; padding:14px 16px; margin:0 0 16px;
+      display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;
+    }
+    .pub-create-box strong { display:block; font-size:1rem; margin-bottom:4px; }
+    .pub-create-box code {
+      display:inline-block; margin-top:6px; background:rgba(255,255,255,.12); padding:6px 10px;
+      border-radius:8px; font-size:.78rem; word-break:break-all;
+    }
+    .pub-created-banner {
+      display:none; margin:0 0 14px; padding:14px 16px; border-radius:12px;
+      background:#ecfdf5; border:2px solid #34d399; color:#065f46;
+    }
+    .pub-created-banner.is-visible { display:block; animation: pubPulse 0.7s ease; }
+    .pub-created-banner h3 { margin:0 0 6px; font-size:1rem; }
+    .pub-created-banner .links { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    .pub-item.is-highlight {
+      border-color:#059669 !important; background:#ecfdf5 !important;
+      box-shadow:0 0 0 3px rgba(16,185,129,.25); animation: pubPulse 0.8s ease;
+    }
+    @keyframes pubPulse {
+      from { transform: scale(0.98); opacity: 0.7; }
+      to { transform: none; opacity: 1; }
+    }
+    .pub-code-box {
+      margin-top:8px; padding:10px; background:#fff7ed; border:1px solid #fdba74; border-radius:8px;
+      font-size:.85rem; color:#9a3412;
+    }
+    .pub-code-box strong { font-size:1.25rem; letter-spacing:.12em; }
   </style>
 </head>
 <body class="crm-subpage">
@@ -63,20 +92,34 @@
     <div>
       <p class="crm-eyebrow">Immobilier · Publicité</p>
       <h2>Pubs mandats &amp; démo vendeur</h2>
-      <p>Saisie type Leboncoin (texte, photos, vidéos, visite virtuelle). Canal public pour les mandats en cours, canal privé pour montrer votre capacité de diffusion à un vendeur prospect — avec anti-copie.</p>
+      <p>Saisie type Leboncoin. Démo privée : accès lié à des e-mails (code par mail) et/ou téléphones (code SMS ou code CRM).</p>
     </div>
     <div class="crm-action-row">
-      <a class="btn btn-primary" href="./immobilier/pubs-mandats.html" target="_blank" rel="noopener">Vitrine publique</a>
+      <a class="btn btn-primary" href="./crm-immo-pubs.html?new=1" id="btnCreateLinkTop">Créer une pub / démo</a>
+      <a class="btn btn-ghost" href="./immobilier/pubs-mandats.html" target="_blank" rel="noopener">Vitrine publique</a>
       <a class="btn btn-ghost" href="./crm-immo-properties.html">Piges &amp; biens</a>
       <a class="btn btn-ghost" href="./crm-pubs.html">Gestion pubs Ads</a>
-      <button type="button" class="btn btn-ghost" id="btnNewAd">Nouvelle annonce</button>
     </div>
   </section>
+
+  <div class="pub-create-box" id="createLinkBox">
+    <div>
+      <strong>Lien pour créer une pub / démo</strong>
+      <span style="opacity:.85;font-size:.85rem">Ouvrez ce lien (ou partagez-le en interne) pour démarrer une nouvelle annonce.</span>
+      <code id="createLinkUrl"></code>
+    </div>
+    <div class="crm-action-row">
+      <button type="button" class="btn btn-primary" id="btnNewAd">Créer maintenant</button>
+      <button type="button" class="btn btn-ghost" id="btnCopyCreateLink" style="background:rgba(255,255,255,.12);color:#fff;border-color:transparent">Copier le lien</button>
+    </div>
+  </div>
+
+  <div class="pub-created-banner" id="createdBanner" aria-live="polite"></div>
 
   <div class="pub-immo-grid">
     <section class="panel">
       <h3 id="formTitle">Nouvelle annonce</h3>
-      <p class="pub-hint">Renseignez le bien comme sur Leboncoin. Cochez « Vitrine publique » pour les mandats obtenus, et/ou « Démo privée » pour le lien à montrer au vendeur (sans clic droit ni copie).</p>
+      <p class="pub-hint">Renseignez le bien comme sur Leboncoin. Pour la démo privée, indiquez les e-mails / tél. autorisés à visualiser.</p>
       <form class="pub-immo-form" id="adForm">
         <input type="hidden" id="adId" value="" />
         <label>Titre
@@ -163,8 +206,21 @@
           <label><input type="checkbox" id="chPublic" /> Vitrine publique (mandats)</label>
           <label><input type="checkbox" id="chPrivate" checked /> Démo privée vendeur</label>
         </div>
+
+        <div class="pub-media-block" id="accessBlock">
+          <h4>Qui peut voir la démo privée ?</h4>
+          <p class="pub-hint" style="margin:0">Liez la visualisation à des e-mails (code reçu par mail) et/ou des téléphones (code SMS si Twilio, sinon code à transmettre depuis le CRM).</p>
+          <label>E-mails autorisés (un par ligne)
+            <textarea id="adAccessEmails" placeholder="vendeur@exemple.fr&#10;coproprio@exemple.fr"></textarea>
+          </label>
+          <label>Téléphones autorisés (un par ligne)
+            <textarea id="adAccessPhones" placeholder="06 12 34 56 78"></textarea>
+          </label>
+          <div id="phoneCodePanel" class="pub-code-box" hidden></div>
+        </div>
+
         <div class="crm-action-row">
-          <button type="submit" class="btn btn-primary" id="btnSaveAd">Enregistrer</button>
+          <button type="submit" class="btn btn-primary" id="btnSaveAd">Enregistrer la pub</button>
           <button type="button" class="btn btn-ghost" id="btnDeleteAd" hidden>Supprimer</button>
         </div>
         <p class="pub-hint" id="adStatusMsg"></p>
@@ -173,8 +229,8 @@
     </section>
 
     <section class="panel">
-      <h3>Annonces pub</h3>
-      <p class="pub-hint">Liste des biens avec canal public et/ou privé. Cliquez pour éditer.</p>
+      <h3>Pubs créées</h3>
+      <p class="pub-hint">Liste mise en évidence après chaque enregistrement. Cliquez pour éditer.</p>
       <div class="pub-list" id="adList"></div>
     </section>
   </div>
@@ -182,6 +238,7 @@
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/immo-public-listings-lib.js"></script>
   <script src="./js/immo-photo-compress-lib.js"></script>
+  <script src="./js/immo-ad-demo-access-lib.js"></script>
   <script src="./js/immo-ad-listings-lib.js"></script>
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/crm-immo-pubs.js"></script>

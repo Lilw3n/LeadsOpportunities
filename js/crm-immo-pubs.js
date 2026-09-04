@@ -10,8 +10,10 @@
 
   var MAX_PHOTOS = 12;
   var currentId = "";
+  var highlightId = "";
   var photoState = [];
   var videoState = [];
+  var Access = window.ImmoAdDemoAccess;
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -159,7 +161,135 @@
       demo_label: document.getElementById("adDemoLabel").value.trim(),
       channel_public: document.getElementById("chPublic").checked,
       channel_private: document.getElementById("chPrivate").checked,
+      access_emails: document.getElementById("adAccessEmails").value,
+      access_phones: document.getElementById("adAccessPhones").value,
     };
+  }
+
+  function createPageUrl() {
+    return location.origin + "/crm-immo-pubs.html?new=1";
+  }
+
+  function paintCreateLink() {
+    var el = document.getElementById("createLinkUrl");
+    if (el) el.textContent = createPageUrl();
+  }
+
+  function showCreatedBanner(property) {
+    var box = document.getElementById("createdBanner");
+    if (!box || !property) return;
+    var bag = AdLib.getAdMeta(property);
+    var channels = AdLib.channelsOf(bag.ad);
+    var acc = Access && Access.getAccess ? Access.getAccess(bag.ad) : { emails: [], phones: [] };
+    var links = "";
+    if (channels.indexOf("public") !== -1) {
+      links +=
+        '<a class="btn btn-primary btn-sm" href="./immobilier/pubs-mandats.html?id=' +
+        encodeURIComponent(property.id) +
+        '" target="_blank" rel="noopener">Voir la pub publique</a>';
+    }
+    if (channels.indexOf("private") !== -1 && bag.ad.share_token) {
+      links +=
+        '<a class="btn btn-primary btn-sm" href="./immobilier/demo-pub-vendeur.html?token=' +
+        encodeURIComponent(bag.ad.share_token) +
+        '" target="_blank" rel="noopener">Ouvrir la démo privée</a>';
+      links +=
+        '<button type="button" class="btn btn-ghost btn-sm" id="btnCopyDemoBanner" data-token="' +
+        esc(bag.ad.share_token) +
+        '">Copier le lien démo</button>';
+    }
+    var accessTxt = "";
+    if (acc.emails.length) accessTxt += "E-mails : " + acc.emails.join(", ") + ". ";
+    if (acc.phones.length) accessTxt += "Tél. : " + acc.phones.join(", ") + ".";
+    if (!accessTxt && channels.indexOf("private") !== -1) {
+      accessTxt = "Aucun e-mail/tél. lié : le lien token suffit (moins sécurisé).";
+    }
+    box.innerHTML =
+      "<h3>Pub créée / mise à jour</h3><p><strong>" +
+      esc(property.title || "Annonce") +
+      "</strong> — " +
+      esc(property.city || "") +
+      (property.price_fai ? " · " + Number(property.price_fai).toLocaleString("fr-FR") + " €" : "") +
+      "</p><p style=\"margin:6px 0 0;font-size:.86rem\">" +
+      esc(accessTxt) +
+      '</p><div class="links">' +
+      links +
+      "</div>";
+    box.classList.add("is-visible");
+    var copyBtn = document.getElementById("btnCopyDemoBanner");
+    if (copyBtn) {
+      copyBtn.onclick = function () {
+        var url =
+          location.origin +
+          "/immobilier/demo-pub-vendeur.html?token=" +
+          encodeURIComponent(copyBtn.getAttribute("data-token"));
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(function () {
+            msg("Lien démo copié.", true);
+          });
+        }
+      };
+    }
+    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function paintPhoneCodePanel(property) {
+    var panel = document.getElementById("phoneCodePanel");
+    if (!panel) return;
+    var bag = property ? AdLib.getAdMeta(property) : { ad: {} };
+    var acc = Access && Access.getAccess ? Access.getAccess(bag.ad) : { phones: [] };
+    if (!property || !bag.ad.share_token || !acc.phones.length) {
+      panel.hidden = true;
+      panel.innerHTML = "";
+      return;
+    }
+    panel.hidden = false;
+    panel.innerHTML =
+      "<p style=\"margin:0 0 8px\">Codes téléphone à transmettre au vendeur (valables ~10 min) :</p>" +
+      acc.phones
+        .map(function (ph) {
+          return (
+            '<div style="margin:6px 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center">' +
+            "<span>" +
+            esc(ph) +
+            '</span><button type="button" class="btn btn-ghost btn-sm" data-peek-phone="' +
+            esc(ph) +
+            '" data-token="' +
+            esc(bag.ad.share_token) +
+            '">Afficher le code</button><span data-code-for="' +
+            esc(ph) +
+            '"></span></div>'
+          );
+        })
+        .join("");
+    panel.querySelectorAll("[data-peek-phone]").forEach(function (btn) {
+      btn.onclick = function () {
+        var phone = btn.getAttribute("data-peek-phone");
+        var token = btn.getAttribute("data-token");
+        var out = panel.querySelector('[data-code-for="' + phone + '"]');
+        fetch("/api/immo-ad-demo-access", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + (localStorage.getItem("lo_token") || ""),
+          },
+          body: JSON.stringify({ action: "advisor_phone_code", token: token, phone: phone }),
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (data) {
+            if (data && data.ok && data.code) {
+              if (out) out.innerHTML = "Code : <strong>" + esc(data.code) + "</strong>";
+            } else {
+              if (out) out.textContent = (data && data.error) || "Impossible d’afficher le code";
+            }
+          })
+          .catch(function () {
+            if (out) out.textContent = "Erreur réseau";
+          });
+      };
+    });
   }
 
   function fillForm(property) {
@@ -167,6 +297,7 @@
     var bag = AdLib.getAdMeta(p);
     var ad = bag.ad || {};
     var channels = AdLib.channelsOf(ad);
+    var acc = Access && Access.getAccess ? Access.getAccess(ad) : { emails: [], phones: [] };
     document.getElementById("adId").value = p.id || "";
     document.getElementById("adTitle").value = p.title || ad.headline || "";
     document.getElementById("adHeadline").value = ad.headline || "";
@@ -182,6 +313,8 @@
     document.getElementById("adTour").value = ad.virtual_tour || "";
     document.getElementById("adPlatforms").value = (ad.platforms || ["Meta", "Google", "Leboncoin"]).join(", ");
     document.getElementById("adDemoLabel").value = ad.demo_label || "Capacité de diffusion";
+    document.getElementById("adAccessEmails").value = (acc.emails || []).join("\n");
+    document.getElementById("adAccessPhones").value = (acc.phones || []).join("\n");
     document.getElementById("chPublic").checked = channels.indexOf("public") !== -1;
     document.getElementById("chPrivate").checked = channels.indexOf("private") !== -1 || (!property && true);
     document.getElementById("formTitle").textContent = p.id ? "Éditer l'annonce" : "Nouvelle annonce";
@@ -194,6 +327,7 @@
     renderPhotoThumbs();
     renderVideoList();
     paintPreview(p);
+    paintPhoneCodePanel(p.id ? p : null);
   }
 
   function paintPreview(property) {
@@ -247,28 +381,34 @@
     });
     var box = document.getElementById("adList");
     if (!props.length) {
-      box.innerHTML = '<p class="pub-hint">Aucune annonce pub pour l’instant. Créez-en une à gauche.</p>';
+      box.innerHTML = '<p class="pub-hint">Aucune annonce pub pour l’instant. Utilisez le lien de création ci-dessus.</p>';
       return;
     }
     box.innerHTML = props
       .map(function (p) {
         var bag = AdLib.getAdMeta(p);
         var channels = AdLib.channelsOf(bag.ad);
+        var acc = Access && Access.getAccess ? Access.getAccess(bag.ad) : { emails: [], phones: [] };
         var mediaBits = [];
         var photos = (bag.ad.photos && bag.ad.photos.length) || (p.photos_json && p.photos_json.length) || 0;
         if (photos) mediaBits.push(photos + " photo" + (photos > 1 ? "s" : ""));
         if (bag.ad.videos && bag.ad.videos.length) mediaBits.push(bag.ad.videos.length + " vidéo" + (bag.ad.videos.length > 1 ? "s" : ""));
         if (bag.ad.virtual_tour) mediaBits.push("visite 3D");
+        if (acc.emails.length) mediaBits.push(acc.emails.length + " e-mail" + (acc.emails.length > 1 ? "s" : ""));
+        if (acc.phones.length) mediaBits.push(acc.phones.length + " tél.");
         var tags = "";
         if (channels.indexOf("public") !== -1) tags += '<span class="pub">Public mandat</span>';
         if (channels.indexOf("private") !== -1) tags += '<span class="priv">Démo privée</span>';
+        var hl = p.id === highlightId || p.id === currentId;
         return (
           '<article class="pub-item' +
           (p.id === currentId ? " is-active" : "") +
+          (p.id === highlightId ? " is-highlight" : "") +
           '" data-id="' +
           esc(p.id) +
           '"><h3>' +
           esc(p.title || "Sans titre") +
+          (p.id === highlightId ? " · créée" : "") +
           "</h3><p>" +
           esc(p.city || "") +
           (p.price_fai ? " · " + Number(p.price_fai).toLocaleString("fr-FR") + " €" : "") +
@@ -286,22 +426,49 @@
         listAds();
       };
     });
+    if (highlightId) {
+      var card = box.querySelector('[data-id="' + highlightId + '"]');
+      if (card) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
   }
 
   function resetForm() {
+    highlightId = "";
+    var banner = document.getElementById("createdBanner");
+    if (banner) {
+      banner.classList.remove("is-visible");
+      banner.innerHTML = "";
+    }
     fillForm(null);
     photoState = [];
     videoState = [];
     renderPhotoThumbs();
     renderVideoList();
+    document.getElementById("adAccessEmails").value = "";
+    document.getElementById("adAccessPhones").value = "";
     document.getElementById("chPrivate").checked = true;
     document.getElementById("chPublic").checked = false;
     document.getElementById("adStatus").value = "mandat";
     msg("");
     listAds();
+    document.getElementById("adTitle").focus();
   }
 
+  paintCreateLink();
   document.getElementById("btnNewAd").onclick = resetForm;
+  var copyCreate = document.getElementById("btnCopyCreateLink");
+  if (copyCreate) {
+    copyCreate.onclick = function () {
+      var url = createPageUrl();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function () {
+          msg("Lien de création copié.", true);
+        });
+      } else {
+        msg(url, true);
+      }
+    };
+  }
   document.getElementById("btnAddPhotoUrl").onclick = addPhotoUrl;
   document.getElementById("btnAddVideo").onclick = function () {
     addVideoUrl(document.getElementById("adVideoInput").value);
@@ -360,15 +527,20 @@
       msg("Cochez au moins un canal : public ou privé.");
       return;
     }
+    if (form.channel_private && !String(form.access_emails || "").trim() && !String(form.access_phones || "").trim()) {
+      if (!confirm("Aucun e-mail ni téléphone lié : la démo sera accessible avec le seul lien. Continuer ?")) return;
+    }
     var existing = currentId ? Store.getProperty(currentId) : null;
     var base = existing ? Object.assign({}, existing) : { id: currentId || undefined };
     var next = AdLib.applyAdToProperty(base, form);
     if (currentId) next.id = currentId;
     var saved = Store.upsertProperty(next);
     currentId = saved.id;
+    highlightId = saved.id;
     fillForm(saved);
     listAds();
-    msg("Annonce enregistrée (" + photoState.length + " photo(s), " + videoState.length + " vidéo(s)" + (form.virtual_tour ? ", visite 3D" : "") + ").", true);
+    showCreatedBanner(saved);
+    msg("Pub enregistrée et mise en évidence à droite.", true);
   };
 
   document.getElementById("btnDeleteAd").onclick = function () {
@@ -382,10 +554,16 @@
   Store.syncFromApi().then(function () {
     var params = new URLSearchParams(location.search);
     var id = params.get("id") || params.get("property");
-    if (id) {
+    var isNew = params.get("new") === "1" || params.get("create") === "1";
+    if (isNew) {
+      resetForm();
+    } else if (id) {
       var p = Store.getProperty(id);
-      if (p) fillForm(p);
-      else resetForm();
+      if (p) {
+        highlightId = p.id;
+        fillForm(p);
+        showCreatedBanner(p);
+      } else resetForm();
     } else {
       resetForm();
     }

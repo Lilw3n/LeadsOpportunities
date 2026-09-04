@@ -12,6 +12,7 @@ const ROUTES = {
   "geo-hint": () => require("./_lib/routes/public-geo-hint"),
   "immo-listings": () => require("./_lib/routes/public-immo-listings"),
   "immo-ads": () => require("./_lib/routes/public-immo-ads"),
+  "immo-ad-demo-access": () => require("./_lib/routes/public-immo-ad-demo-access"),
   "immo-listing-submit": () => require("./_lib/routes/public-immo-listing-submit"),
   "immo-listing-draft": () => require("./_lib/routes/public-immo-listing-draft"),
   "immo-listing-document": () => require("./_lib/routes/public-immo-listing-document"),

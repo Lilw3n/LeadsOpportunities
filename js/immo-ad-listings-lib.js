@@ -100,6 +100,54 @@
     return "ad_" + a + "_" + b + c;
   }
 
+  function parseAccessEmails(form) {
+    var Access =
+      (typeof require === "function"
+        ? (function () {
+            try {
+              return require("./immo-ad-demo-access-lib.js");
+            } catch (e) {
+              return null;
+            }
+          })()
+        : null) ||
+      (typeof globalThis !== "undefined" ? globalThis.ImmoAdDemoAccess : null);
+    if (Access && Access.parseContactList) {
+      return Access.parseContactList(form.access_emails != null ? form.access_emails : form.emails, "email");
+    }
+    var raw = form.access_emails != null ? form.access_emails : form.emails;
+    if (typeof raw === "string") raw = raw.split(/[\n,;]+/);
+    if (!Array.isArray(raw)) return [];
+    return raw
+      .map(function (e) {
+        return String(e || "")
+          .trim()
+          .toLowerCase();
+      })
+      .filter(function (e) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+      })
+      .slice(0, 12);
+  }
+
+  function parseAccessPhones(form) {
+    var Access =
+      (typeof require === "function"
+        ? (function () {
+            try {
+              return require("./immo-ad-demo-access-lib.js");
+            } catch (e) {
+              return null;
+            }
+          })()
+        : null) ||
+      (typeof globalThis !== "undefined" ? globalThis.ImmoAdDemoAccess : null);
+    if (Access && Access.parseContactList) {
+      return Access.parseContactList(form.access_phones != null ? form.access_phones : form.phones, "phone");
+    }
+    return [];
+  }
+
   function getAdMeta(property) {
     var p = property || {};
     var meta = parseJson(p.metadata_json != null ? p.metadata_json : p.metadata, {}) || {};
@@ -236,6 +284,10 @@
             .filter(Boolean)
             .slice(0, 8),
       demo_label: String(form.demo_label || "Capacité de diffusion").slice(0, 80),
+      access: {
+        emails: parseAccessEmails(form),
+        phones: parseAccessPhones(form),
+      },
       updated_at: new Date().toISOString(),
     };
 

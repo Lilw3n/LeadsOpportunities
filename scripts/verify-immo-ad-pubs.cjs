@@ -77,12 +77,14 @@ var files = [
   "crm-immo-pubs.html",
   "js/crm-immo-pubs.js",
   "js/immo-ad-listings-lib.js",
+  "js/immo-ad-demo-access-lib.js",
   "js/immo-ad-protect.js",
   "js/immo-ad-pages.js",
   "css/immo-ad-listings.css",
   "immobilier/pubs-mandats.html",
   "immobilier/demo-pub-vendeur.html",
   "api/_lib/routes/public-immo-ads.js",
+  "api/_lib/routes/public-immo-ad-demo-access.js",
 ];
 files.forEach(function (f) {
   assert(fs.existsSync(path.join(ROOT, f)), "fichier " + f);
@@ -95,11 +97,47 @@ assert(crm.indexOf("adPhotoFiles") !== -1, "CRM : upload fichiers photos");
 assert(crm.indexOf("immo-photo-compress") !== -1, "CRM : compression photos");
 assert(crm.indexOf("btnAddVideo") !== -1, "CRM : ajout vidéo");
 assert(crm.indexOf("Matterport") !== -1, "CRM : visite virtuelle Matterport");
+assert(crm.indexOf("adAccessEmails") !== -1 && crm.indexOf("adAccessPhones") !== -1, "CRM : e-mails / tél. autorisés");
+assert(crm.indexOf("createLinkUrl") !== -1 || crm.indexOf("Créer une pub") !== -1, "CRM : lien de création");
+assert(crm.indexOf("createdBanner") !== -1, "CRM : bandeau pub créée");
 
 var crmJs = read("js/crm-immo-pubs.js");
 assert(crmJs.indexOf("compressMany") !== -1 || crmJs.indexOf("ImmoPhotoCompress") !== -1, "JS : compression photos");
 assert(crmJs.indexOf("photoState") !== -1 && crmJs.indexOf("videoState") !== -1, "JS : état médias");
 assert(crmJs.indexOf("MAX_PHOTOS") !== -1, "JS : plafond photos");
+assert(crmJs.indexOf("showCreatedBanner") !== -1 && crmJs.indexOf("highlightId") !== -1, "JS : mise en évidence après création");
+assert(crmJs.indexOf("advisor_phone_code") !== -1, "JS : code téléphone CRM");
+
+var Access = require("../js/immo-ad-demo-access-lib.js");
+assert(Access.normalizeEmail(" Wendy@Exemple.FR ") === "wendy@exemple.fr", "normalize email");
+assert(Access.normalizePhone("06 12 34 56 78") === "0612345678", "normalize phone");
+var otp = Access.otpCode("ad_tok_test", "wendy@exemple.fr");
+assert(/^\d{6}$/.test(otp), "OTP 6 chiffres");
+assert(Access.verifyOtp("ad_tok_test", "wendy@exemple.fr", otp), "verify OTP");
+var grant = Access.makeGrant("ad_tok_test", "wendy@exemple.fr");
+assert(Access.verifyGrant(grant, "ad_tok_test"), "grant valide");
+
+var apiAccess = read("api/_lib/routes/public-immo-ad-demo-access.js");
+assert(apiAccess.indexOf("request_code") !== -1 && apiAccess.indexOf("verify_code") !== -1, "API accès démo");
+assert(read("api/[action].js").indexOf("immo-ad-demo-access") !== -1, "route immo-ad-demo-access");
+
+var demoPage = read("immobilier/demo-pub-vendeur.html");
+assert(demoPage.indexOf("adGate") !== -1, "page démo : portail d'accès");
+
+var pagesJs = read("js/immo-ad-pages.js");
+assert(pagesJs.indexOf("renderGate") !== -1 && pagesJs.indexOf("requires_auth") !== -1, "pages : gate auth");
+
+var withAccess = AdLib.applyAdToProperty(
+  { id: "p1", status: "estimation", city: "Nancy" },
+  {
+    title: "Demo",
+    channel_private: true,
+    access_emails: "vendeur@test.fr",
+    access_phones: "0611223344",
+  }
+);
+assert(withAccess.metadata.ad.access.emails[0] === "vendeur@test.fr", "access emails stockés");
+assert(withAccess.metadata.ad.access.phones[0] === "0611223344", "access phones stockés");
 
 var pubPage = read("immobilier/pubs-mandats.html");
 assert(pubPage.indexOf("index,follow") !== -1, "vitrine publique indexable");

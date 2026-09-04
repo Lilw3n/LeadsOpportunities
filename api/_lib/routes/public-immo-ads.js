@@ -1,10 +1,11 @@
 /**
  * GET /api/immo-ads — pubs publiques des mandats (sans PII).
- * GET /api/immo-ads?token=… — une démo privée vendeur (token share).
+ * GET /api/immo-ads?token=… — démo privée (grant requis si accès restreint).
  */
 const { applyApiGuards, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
 const AdLib = require("../../../js/immo-ad-listings-lib.js");
+const Access = require("../../../js/immo-ad-demo-access-lib.js");
 
 async function loadProperties() {
   var sql = getSql();
@@ -30,6 +31,7 @@ module.exports = async function publicImmoAds(req, res) {
   }
 
   var token = String((req.query && (req.query.token || req.query.share)) || "").trim();
+  var grant = String((req.query && req.query.grant) || "").trim();
   var properties = [];
   try {
     properties = await loadProperties();
@@ -44,6 +46,18 @@ module.exports = async function publicImmoAds(req, res) {
     var found = AdLib.findByShareToken(properties, token);
     if (!found) {
       return res.status(404).json({ ok: false, error: "Démo introuvable ou expirée" });
+    }
+    var bag = AdLib.getAdMeta(found);
+    if (Access.hasRestrictedAccess(bag.ad)) {
+      var okGrant = Access.verifyGrant(grant, token);
+      if (!okGrant) {
+        return res.status(401).json({
+          ok: false,
+          requires_auth: true,
+          methods: Access.accessMethods(bag.ad),
+          error: "Connexion requise (e-mail ou téléphone + code)",
+        });
+      }
     }
     return res.status(200).json({
       ok: true,
