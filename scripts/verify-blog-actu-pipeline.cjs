@@ -9,8 +9,9 @@ var {
   matchTopic,
   scoreLeadPotential,
   ctaWithUtm,
+  hasLeadAngle,
 } = require("./blog-actu-lib.cjs");
-var { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
+var { enrichFromCandidate, isSportActu } = require("./blog-actu-enrich.cjs");
 var { validateArticle } = require("./verify-actu-quality.cjs");
 
 var failed = 0;
@@ -55,6 +56,18 @@ var gossip = {
   status: "candidate",
 };
 assert(scoreLeadPotential(gossip) < 28, "people sans angle assurance sous le seuil");
+assert(!hasLeadAngle(gossip), "people sans angle lead");
+
+var openai = {
+  title:
+    "Nous ne sommes pas prêts à ce qui va suivre : les puissants modèles d’OpenAI, menace pour la cybersécurité mondiale",
+  summary: "IA et cybersécurité",
+  sourceType: "cafeyn",
+  status: "candidate",
+};
+assert(!isSportActu(openai.title), "OpenAI / mondiale ≠ sport");
+assert(matchTopic(openai.title).matchScore === 0, "cybersécurité ≠ sécu, mondiale ≠ mondial");
+assert(!hasLeadAngle(openai), "OpenAI sans angle questionnaire");
 
 var article = enrichFromCandidate({
   title: "Hausse des cotisations mutuelle 2026",

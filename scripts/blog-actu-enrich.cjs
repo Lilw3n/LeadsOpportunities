@@ -1,7 +1,7 @@
 /**
  * Enrichissement intelligent par niche assurance (sans IA).
  */
-const { matchTopic, ctaWithUtm, monthLabel, relatedForSection } = require("./blog-actu-lib.cjs");
+const { matchTopic, ctaWithUtm, monthLabel, relatedForSection, containsKeyword } = require("./blog-actu-lib.cjs");
 
 var ANGLES = {
   sante: {
@@ -234,7 +234,7 @@ function isSportActu(text) {
     "demi-finale",
     "quart de finale",
   ].some(function (kw) {
-    return hay.indexOf(kw) !== -1;
+    return containsKeyword(hay, kw);
   });
 }
 

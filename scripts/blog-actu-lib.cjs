@@ -54,6 +54,53 @@ function existingFiles() {
 var PLACEHOLDER_RE =
   /collez ici|placeholder|lorem ipsum|\bxxx+\b|\btodo\b|titre de la une|angle assurance a preciser/i;
 
+function escapeRegExp(s) {
+  return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/** Évite « sécu » dans cybersécurité, « prêt » dans prêts (ready), « mondial » dans mondiale. */
+function containsKeyword(hay, kw) {
+  var needle = String(kw || "").toLowerCase().trim();
+  if (!needle) return false;
+  var text = String(hay || "").toLowerCase();
+  var ambiguous = needle.length <= 5 || /^(s[eé]cu|pret|pr[eê]ts?|bleu|mondial|stade|budget|soins)$/i.test(needle);
+  if (ambiguous) {
+    var re = new RegExp(
+      "(?:^|[^a-z0-9àâäéèêëïîôùûüç])" + escapeRegExp(needle) + "(?:[^a-z0-9àâäéèêëïîôùûüç]|$)",
+      "i"
+    );
+    return re.test(text);
+  }
+  return text.indexOf(needle) !== -1;
+}
+
+function hasLeadAngle(candidate) {
+  if (isPlaceholderCandidate(candidate)) return false;
+  var hay =
+    String(candidate.title || "") +
+    " " +
+    String(candidate.summary || "") +
+    " " +
+    String(candidate.note || "");
+  if ((matchTopic(hay).matchScore || 0) > 0) return true;
+  return [
+    "assurance",
+    "mutuelle",
+    "emprunteur",
+    "sinistre",
+    "prêt immobilier",
+    "pret immobilier",
+    "crédit immo",
+    "credit immo",
+    "prévoyance",
+    "prevoyance",
+    "habitation",
+    "orias",
+  ].some(function (kw) {
+    return containsKeyword(hay, kw);
+  });
+}
+
 function isPlaceholderCandidate(candidate) {
   if (!candidate) return true;
   var title = String(candidate.title || "");
@@ -73,7 +120,7 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (containsKeyword(hay, kw)) score += 1;
     });
     var minHits = Number(rule.minHits) || 1;
     if (score >= minHits && score > bestScore) {
@@ -128,7 +175,7 @@ function scoreLeadPotential(candidate) {
   if (matched && (need === "vtc" || need === "animaux" || need === "prevoyance")) score += 15;
 
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
-    if (title.indexOf(kw) !== -1) score += 8;
+    if (containsKeyword(title, kw)) score += 8;
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
@@ -145,7 +192,7 @@ function scoreLeadPotential(candidate) {
       "match france",
       "les bleus",
     ].forEach(function (kw) {
-      if (title.indexOf(kw) !== -1) score += 14;
+      if (containsKeyword(title, kw)) score += 14;
     });
   }
 
@@ -362,6 +409,8 @@ module.exports = {
   uniqueFile: uniqueFile,
   matchTopic: matchTopic,
   isPlaceholderCandidate: isPlaceholderCandidate,
+  containsKeyword: containsKeyword,
+  hasLeadAngle: hasLeadAngle,
   scaffoldArticle: scaffoldArticle,
   stripForManifest: stripForManifest,
   loadPendingArticles: loadPendingArticles,
