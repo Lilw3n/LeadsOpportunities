@@ -56,16 +56,26 @@ function normalizeTitle(t) {
     .trim();
 }
 
+function titleDedupeKey(t) {
+  return normalizeTitle(t).replace(/[:«»"].*$/, "").slice(0, 56);
+}
+
 function loadPublishedTitleKeys() {
   var keys = new Set();
+  function add(title) {
+    var full = normalizeTitle(title);
+    if (full) keys.add(full);
+    var short = titleDedupeKey(title);
+    if (short) keys.add(short);
+  }
   var pub = readJson("blog-actu-published.json", { articles: [] });
   (pub.articles || []).forEach(function (a) {
-    keys.add(normalizeTitle(a.title));
+    add(a.title);
   });
   try {
     var manifest = require("./blog-articles-manifest.cjs");
     (manifest.articles || []).forEach(function (a) {
-      keys.add(normalizeTitle(a.title));
+      add(a.title);
     });
   } catch (e) {}
   return keys;
@@ -105,7 +115,7 @@ function pickCandidates(candidates, count, state) {
     if (isPlaceholderCandidate(c)) return false;
     if (!hasLeadAngle(c)) return false;
     if (c.url && processed.has(c.url)) return false;
-    if (titleKeys.has(normalizeTitle(c.title))) return false;
+    if (titleKeys.has(normalizeTitle(c.title)) || titleKeys.has(titleDedupeKey(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     if ((c.leadScore || 0) < MIN_LEAD_SCORE) return false;
