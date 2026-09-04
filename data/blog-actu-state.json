@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-04T18:49:13.465Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a9b122a5d7b4838a525355934b73384&url=https%3a%2f%2fwww.lemonde.fr%2fsport%2farticle%2f2026%2f09%2f04%2fcoupe-du-monde-feminine-de-basket-2026-l-equipe-de-france-ambitieuse-malgre-une-preparation-tronquee-par-la-wnba_6765811_3242.html&c=14463696604679389448&mkt=en-us",
+    "https://www.ouest-france.fr/faits-divers/incendie/incendie-une-centaine-de-personnes-evacuees-par-precaution-apres-un-important-depart-de-feu-dans-laude-d0183b10-a88f-11f1-a618-771a80631f2f?utm_source=fluxpublicactu&utm_medium=fluxrss&utm_campaign=banquedecontenu",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a9b12a985164a878db63bb06dbc9568&url=https%3a%2f%2fwww.lemonde.fr%2fsport%2farticle%2f2026%2f09%2f04%2fcoupe-du-monde-feminine-de-basket-2026-l-equipe-de-france-ambitieuse-malgre-une-preparation-tronquee-par-la-wnba_6765811_3242.html&c=14463696604679389448&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-04T18:49:15.183Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,33 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-04T18:47:08.457Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "coupe-du-monde-feminine-de-basket-2026-l-equipe-de-france-ambitieuse-mal.html",
+          "title": "Coupe du monde féminine de basket 2026 : l’équipe de France ambitieuse malgré une prépa… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-04T18:49:15.183Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "incendie-une-centaine-de-personnes-evacuees-par-precaution-apres-un-impo.html",
+          "title": "Incendie : une centaine de personnes évacuées « par précaution » après un important dép… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Ouest-France",
+          "sourceType": "cafeyn"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 2
 }

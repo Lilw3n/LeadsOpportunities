@@ -51,6 +51,67 @@ function existingFiles() {
   return files;
 }
 
+var PLACEHOLDER_RE =
+  /collez ici|placeholder|lorem ipsum|\bxxx+\b|\btodo\b|titre de la une|angle assurance a preciser/i;
+
+function escapeRegExp(s) {
+  return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/** Évite « sécu » dans cybersécurité, « prêt » dans prêts (ready), « mondial » dans mondiale. */
+function containsKeyword(hay, kw) {
+  var needle = String(kw || "").toLowerCase().trim();
+  if (!needle) return false;
+  var text = String(hay || "").toLowerCase();
+  var ambiguous = needle.length <= 5 || /^(s[eé]cu|pret|pr[eê]ts?|bleu|mondial|stade|budget|soins)$/i.test(needle);
+  if (ambiguous) {
+    var re = new RegExp(
+      "(?:^|[^a-z0-9àâäéèêëïîôùûüç])" + escapeRegExp(needle) + "(?:[^a-z0-9àâäéèêëïîôùûüç]|$)",
+      "i"
+    );
+    return re.test(text);
+  }
+  return text.indexOf(needle) !== -1;
+}
+
+function hasLeadAngle(candidate) {
+  if (isPlaceholderCandidate(candidate)) return false;
+  var hay =
+    String(candidate.title || "") +
+    " " +
+    String(candidate.summary || "") +
+    " " +
+    String(candidate.note || "");
+  if ((matchTopic(hay).matchScore || 0) > 0) return true;
+  return [
+    "assurance",
+    "mutuelle",
+    "emprunteur",
+    "sinistre",
+    "prêt immobilier",
+    "pret immobilier",
+    "crédit immo",
+    "credit immo",
+    "prévoyance",
+    "prevoyance",
+    "habitation",
+    "orias",
+  ].some(function (kw) {
+    return containsKeyword(hay, kw);
+  });
+}
+
+function isPlaceholderCandidate(candidate) {
+  if (!candidate) return true;
+  var title = String(candidate.title || "");
+  var id = String(candidate.id || "");
+  var note = String(candidate.note || candidate.summary || "");
+  if (!title.trim()) return true;
+  if (PLACEHOLDER_RE.test(title) || PLACEHOLDER_RE.test(note)) return true;
+  if (id.indexOf("pending-template") !== -1 || id.indexOf("-template") !== -1) return true;
+  return false;
+}
+
 function matchTopic(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
   var hay = String(text || "").toLowerCase();
@@ -59,9 +120,10 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (containsKeyword(hay, kw)) score += 1;
     });
-    if (score > bestScore) {
+    var minHits = Number(rule.minHits) || 1;
+    if (score >= minHits && score > bestScore) {
       bestScore = score;
       best = rule;
     }
@@ -74,6 +136,7 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matchScore: best ? bestScore : 0,
   };
 }
 
@@ -98,17 +161,21 @@ function monthLabel() {
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
-  var need = candidate.need || "";
+  var summary = String(candidate.summary || candidate.note || "");
+  var topic = matchTopic(title + " " + summary);
+  var need = candidate.need || topic.need || "";
+  var matched = (topic.matchScore || 0) > 0;
 
-  if (candidate.status === "queued") score += 25;
+  if (isPlaceholderCandidate(candidate)) return 0;
+  if (candidate.status === "queued" && matched) score += 25;
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  if (matched && (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto")) score += 20;
+  if (matched && (need === "vtc" || need === "animaux" || need === "prevoyance")) score += 15;
 
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
-    if (title.indexOf(kw) !== -1) score += 8;
+    if (containsKeyword(title, kw)) score += 8;
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
@@ -125,7 +192,7 @@ function scoreLeadPotential(candidate) {
       "match france",
       "les bleus",
     ].forEach(function (kw) {
-      if (title.indexOf(kw) !== -1) score += 14;
+      if (containsKeyword(title, kw)) score += 14;
     });
   }
 
@@ -341,6 +408,9 @@ module.exports = {
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
   matchTopic: matchTopic,
+  isPlaceholderCandidate: isPlaceholderCandidate,
+  containsKeyword: containsKeyword,
+  hasLeadAngle: hasLeadAngle,
   scaffoldArticle: scaffoldArticle,
   stripForManifest: stripForManifest,
   loadPendingArticles: loadPendingArticles,
