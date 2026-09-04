@@ -107,6 +107,8 @@ assert(crmJs.indexOf("photoState") !== -1 && crmJs.indexOf("videoState") !== -1,
 assert(crmJs.indexOf("MAX_PHOTOS") !== -1, "JS : plafond photos");
 assert(crmJs.indexOf("showCreatedBanner") !== -1 && crmJs.indexOf("highlightId") !== -1, "JS : mise en évidence après création");
 assert(crmJs.indexOf("advisor_phone_code") !== -1, "JS : code téléphone CRM");
+assert(crmJs.indexOf("openAdminPreview") !== -1 && crmJs.indexOf("Voir en admin") !== -1, "JS : lien admin sans e-mail/tél");
+assert(crmJs.indexOf("advisor_preview_grant") !== -1, "JS : grant prévisualisation admin");
 
 var Access = require("../js/immo-ad-demo-access-lib.js");
 assert(Access.normalizeEmail(" Wendy@Exemple.FR ") === "wendy@exemple.fr", "normalize email");
@@ -119,6 +121,7 @@ assert(Access.verifyGrant(grant, "ad_tok_test"), "grant valide");
 
 var apiAccess = read("api/_lib/routes/public-immo-ad-demo-access.js");
 assert(apiAccess.indexOf("request_code") !== -1 && apiAccess.indexOf("verify_code") !== -1, "API accès démo");
+assert(apiAccess.indexOf("advisor_preview_grant") !== -1, "API grant admin preview");
 assert(read("api/[action].js").indexOf("immo-ad-demo-access") !== -1, "route immo-ad-demo-access");
 
 var demoPage = read("immobilier/demo-pub-vendeur.html");
@@ -126,6 +129,10 @@ assert(demoPage.indexOf("adGate") !== -1, "page démo : portail d'accès");
 
 var pagesJs = read("js/immo-ad-pages.js");
 assert(pagesJs.indexOf("renderGate") !== -1 && pagesJs.indexOf("requires_auth") !== -1, "pages : gate auth");
+assert(pagesJs.indexOf("adminMode") !== -1 || pagesJs.indexOf("admin=1") !== -1, "pages : mode admin preview");
+
+var adsRoute = read("api/_lib/routes/public-immo-ads.js");
+assert(adsRoute.indexOf("getAuthUser") !== -1 && adsRoute.indexOf("admin_preview") !== -1, "API ads : bypass admin CRM");
 
 var withAccess = AdLib.applyAdToProperty(
   { id: "p1", status: "estimation", city: "Nancy" },

@@ -1,6 +1,7 @@
 /**
  * GET /api/immo-ads — pubs publiques des mandats (sans PII).
  * GET /api/immo-ads?token=… — démo privée (grant requis si accès restreint).
+ * Admin CRM (Bearer) : prévisualisation sans e-mail/tél.
  */
 const { applyApiGuards, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
@@ -13,6 +14,16 @@ async function loadProperties() {
   var store = require("../immo-properties-store");
   var db = await store.loadAll(sql);
   return db.properties || [];
+}
+
+async function tryAuthUser(req) {
+  try {
+    var auth = require("../auth");
+    if (auth && auth.getAuthUser) return await auth.getAuthUser(req);
+  } catch (e) {
+    /* env de test sans jwt */
+  }
+  return null;
 }
 
 module.exports = async function publicImmoAds(req, res) {
@@ -49,8 +60,9 @@ module.exports = async function publicImmoAds(req, res) {
     }
     var bag = AdLib.getAdMeta(found);
     if (Access.hasRestrictedAccess(bag.ad)) {
+      var adminUser = await tryAuthUser(req);
       var okGrant = Access.verifyGrant(grant, token);
-      if (!okGrant) {
+      if (!adminUser && !okGrant) {
         return res.status(401).json({
           ok: false,
           requires_auth: true,
@@ -58,6 +70,12 @@ module.exports = async function publicImmoAds(req, res) {
           error: "Connexion requise (e-mail ou téléphone + code)",
         });
       }
+      return res.status(200).json({
+        ok: true,
+        channel: "private",
+        admin_preview: !!adminUser && !okGrant,
+        listing: AdLib.toAdListing(found),
+      });
     }
     return res.status(200).json({
       ok: true,

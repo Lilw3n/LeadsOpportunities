@@ -169,10 +169,19 @@
       });
   }
 
-  function fetchPrivateAd(token, grant) {
+  function fetchPrivateAd(token, grant, opts) {
+    opts = opts || {};
     var q = "/api/immo-ads?token=" + encodeURIComponent(token);
     if (grant) q += "&grant=" + encodeURIComponent(grant);
-    return fetch(q)
+    var headers = {};
+    if (opts.admin) {
+      var crmTok = "";
+      try {
+        crmTok = localStorage.getItem("lo_token") || "";
+      } catch (e) {}
+      if (crmTok) headers.Authorization = "Bearer " + crmTok;
+    }
+    return fetch(q, { headers: headers, credentials: "same-origin" })
       .then(function (r) {
         return r.json().then(function (data) {
           return { status: r.status, data: data };
@@ -387,7 +396,10 @@
   function bootPrivate() {
     var root = document.getElementById("adProtectRoot") || document.body;
     var err = document.getElementById("adError");
-    var token = new URLSearchParams(location.search).get("token") || "";
+    var params = new URLSearchParams(location.search);
+    var token = params.get("token") || "";
+    var adminMode = params.get("admin") === "1" || params.get("preview") === "1";
+    var urlGrant = params.get("grant") || "";
     if (!token) {
       if (err) {
         err.hidden = false;
@@ -397,47 +409,74 @@
     }
     if (Protect) Protect.attach(root, { watermark: true });
 
-    var savedGrant = "";
+    var savedGrant = urlGrant;
     try {
-      savedGrant = sessionStorage.getItem(grantStorageKey(token)) || "";
+      if (!savedGrant) savedGrant = sessionStorage.getItem(grantStorageKey(token)) || "";
     } catch (e) {}
 
-    function unlockWithListing(listing) {
+    function unlockWithListing(listing, isAdmin) {
       showListing(listing, true);
+      if (isAdmin) {
+        var banner = document.querySelector(".immo-ad-private-banner");
+        if (banner) {
+          banner.textContent =
+            "Prévisualisation admin — sans e-mail/tél. (ne pas partager ce lien vendeur)";
+          banner.style.background = "#eff6ff";
+          banner.style.color = "#1e3a8a";
+          banner.style.borderBottomColor = "#93c5fd";
+        }
+      }
     }
 
-    fetchPrivateAd(token, savedGrant).then(function (res) {
-      if (res.data && res.data.ok && res.data.listing) {
-        unlockWithListing(res.data.listing);
-        return;
-      }
-      if (res.data && res.data.requires_auth) {
-        renderGate(res.data.methods || ["email", "phone"], token, function (listing) {
-          unlockWithListing(listing);
-        });
-        return;
-      }
-      var local = localPrivateMeta(token);
-      if (local && local.listing) {
-        if (local.requires_auth) {
-          renderGate(local.methods, token, function (listing) {
-            unlockWithListing(listing || local.listing);
-          });
-          if (err) {
-            err.hidden = false;
-            err.textContent =
-              "Démo locale : après synchronisation Neon, le code e-mail/SMS fonctionne aussi hors de ce navigateur.";
-          }
+    function tryAdminThenGate() {
+      fetchPrivateAd(token, savedGrant, { admin: adminMode }).then(function (res) {
+        if (res.data && res.data.ok && res.data.listing) {
+          unlockWithListing(res.data.listing, !!(adminMode || res.data.admin_preview));
           return;
         }
-        unlockWithListing(local.listing);
-        return;
-      }
-      if (err) {
-        err.hidden = false;
-        err.textContent = (res.data && res.data.error) || "Cette démonstration est introuvable ou n’est plus active.";
-      }
-    });
+        if (adminMode) {
+          var crmTok = "";
+          try {
+            crmTok = localStorage.getItem("lo_token") || "";
+          } catch (e2) {}
+          if (!crmTok) {
+            if (err) {
+              err.hidden = false;
+              err.textContent =
+                "Prévisualisation admin : connectez-vous d’abord au CRM, puis rouvrez ce lien (?admin=1).";
+            }
+            return;
+          }
+        }
+        if (res.data && res.data.requires_auth) {
+          renderGate(res.data.methods || ["email", "phone"], token, function (listing) {
+            unlockWithListing(listing, false);
+          });
+          return;
+        }
+        var local = localPrivateMeta(token);
+        if (local && local.listing) {
+          if (adminMode) {
+            unlockWithListing(local.listing, true);
+            return;
+          }
+          if (local.requires_auth) {
+            renderGate(local.methods, token, function (listing) {
+              unlockWithListing(listing || local.listing, false);
+            });
+            return;
+          }
+          unlockWithListing(local.listing, false);
+          return;
+        }
+        if (err) {
+          err.hidden = false;
+          err.textContent = (res.data && res.data.error) || "Cette démonstration est introuvable ou n’est plus active.";
+        }
+      });
+    }
+
+    tryAdminThenGate();
   }
 
   window.ImmoAdPages = { bootPublic: bootPublic, bootPrivate: bootPrivate };

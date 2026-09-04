@@ -190,13 +190,17 @@
     }
     if (channels.indexOf("private") !== -1 && bag.ad.share_token) {
       links +=
-        '<a class="btn btn-primary btn-sm" href="./immobilier/demo-pub-vendeur.html?token=' +
+        '<button type="button" class="btn btn-primary btn-sm" id="btnAdminPreviewBanner" data-token="' +
+        esc(bag.ad.share_token) +
+        '">Voir en admin (sans e-mail/tél)</button>';
+      links +=
+        '<a class="btn btn-ghost btn-sm" href="./immobilier/demo-pub-vendeur.html?token=' +
         encodeURIComponent(bag.ad.share_token) +
-        '" target="_blank" rel="noopener">Ouvrir la démo privée</a>';
+        '" target="_blank" rel="noopener">Lien vendeur (avec code)</a>';
       links +=
         '<button type="button" class="btn btn-ghost btn-sm" id="btnCopyDemoBanner" data-token="' +
         esc(bag.ad.share_token) +
-        '">Copier le lien démo</button>';
+        '">Copier le lien vendeur</button>';
     }
     var accessTxt = "";
     if (acc.emails.length) accessTxt += "E-mails : " + acc.emails.join(", ") + ". ";
@@ -216,6 +220,12 @@
       links +
       "</div>";
     box.classList.add("is-visible");
+    var adminBtn = document.getElementById("btnAdminPreviewBanner");
+    if (adminBtn) {
+      adminBtn.onclick = function () {
+        openAdminPreview(adminBtn.getAttribute("data-token"));
+      };
+    }
     var copyBtn = document.getElementById("btnCopyDemoBanner");
     if (copyBtn) {
       copyBtn.onclick = function () {
@@ -225,12 +235,46 @@
           encodeURIComponent(copyBtn.getAttribute("data-token"));
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(url).then(function () {
-            msg("Lien démo copié.", true);
+            msg("Lien vendeur copié.", true);
           });
         }
       };
     }
     box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function openAdminPreview(shareToken) {
+    if (!shareToken) return;
+    msg("Ouverture prévisualisation admin…");
+    fetch("/api/immo-ad-demo-access", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (localStorage.getItem("lo_token") || ""),
+      },
+      body: JSON.stringify({ action: "advisor_preview_grant", token: shareToken }),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (data) {
+        if (data && data.ok && data.preview_url) {
+          window.open(data.preview_url, "_blank", "noopener");
+          msg("Prévisualisation admin ouverte (sans e-mail/tél).", true);
+          return;
+        }
+        var fallback =
+          "./immobilier/demo-pub-vendeur.html?token=" + encodeURIComponent(shareToken) + "&admin=1";
+        window.open(fallback, "_blank", "noopener");
+        msg((data && data.error) || "Ouverture en mode admin local.", true);
+      })
+      .catch(function () {
+        window.open(
+          "./immobilier/demo-pub-vendeur.html?token=" + encodeURIComponent(shareToken) + "&admin=1",
+          "_blank",
+          "noopener"
+        );
+      });
   }
 
   function paintPhoneCodePanel(property) {
@@ -348,15 +392,25 @@
     }
     if (channels.indexOf("private") !== -1 && bag.ad.share_token) {
       html +=
-        '<a class="btn btn-primary btn-sm" href="./immobilier/demo-pub-vendeur.html?token=' +
+        '<button type="button" class="btn btn-primary btn-sm" id="btnAdminPreview" data-token="' +
+        esc(bag.ad.share_token) +
+        '">Voir en admin (sans e-mail/tél)</button>';
+      html +=
+        '<a class="btn btn-ghost btn-sm" href="./immobilier/demo-pub-vendeur.html?token=' +
         encodeURIComponent(bag.ad.share_token) +
-        '" target="_blank" rel="noopener">Lien démo vendeur</a>';
+        '" target="_blank" rel="noopener">Lien vendeur (avec code)</a>';
       html +=
         '<button type="button" class="btn btn-ghost btn-sm" id="btnCopyDemo" data-token="' +
         esc(bag.ad.share_token) +
-        '">Copier le lien démo</button>';
+        '">Copier le lien vendeur</button>';
     }
     box.innerHTML = html;
+    var adminBtn = document.getElementById("btnAdminPreview");
+    if (adminBtn) {
+      adminBtn.onclick = function () {
+        openAdminPreview(adminBtn.getAttribute("data-token"));
+      };
+    }
     var copyBtn = document.getElementById("btnCopyDemo");
     if (copyBtn) {
       copyBtn.onclick = function () {
@@ -366,7 +420,7 @@
           encodeURIComponent(copyBtn.getAttribute("data-token"));
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(url).then(function () {
-            msg("Lien démo copié.", true);
+            msg("Lien vendeur copié.", true);
           });
         } else {
           msg(url, true);

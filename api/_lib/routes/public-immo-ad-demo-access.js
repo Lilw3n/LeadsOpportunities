@@ -124,6 +124,24 @@ module.exports = async function immoAdDemoAccess(req, res) {
     });
   }
 
+  if (action === "advisor_preview_grant") {
+    var userPrev = await getAuthUser(req);
+    if (!userPrev) return res.status(401).json({ error: "Connexion CRM requise" });
+    var contactKey = "admin:" + String(userPrev.userId || userPrev.email || "crm");
+    var grantPrev = Access.makeGrant(token, contactKey);
+    return res.status(200).json({
+      ok: true,
+      grant: grantPrev,
+      preview_url:
+        "/immobilier/demo-pub-vendeur.html?token=" +
+        encodeURIComponent(token) +
+        "&grant=" +
+        encodeURIComponent(grantPrev) +
+        "&admin=1",
+      listing: AdLib.toAdListing(demo),
+    });
+  }
+
   if (action === "request_code") {
     var allowed = Access.contactAllowed(ad, body.email, body.phone);
     if (!allowed.ok) {
