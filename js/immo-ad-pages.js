@@ -148,6 +148,13 @@
         );
       })
       .join("");
+    var emptyCount = criteriaRows(p).filter(function (row) {
+      return row.value === EMPTY;
+    }).length;
+    var criteriaHint =
+      emptyCount > 0
+        ? '<p class="lbc-criteria-hint">Champs non renseignés : à compléter via le <strong>questionnaire fiche interlocuteur</strong> ou <a href="/crm-immo-pubs.html?new=1">crm-immo-pubs</a>.</p>'
+        : "";
 
     var mediaLinks = "";
     if (p.videos && p.videos.length) {
@@ -217,7 +224,9 @@
       "</p></header>" +
       '<section class="lbc-section"><h3>Critères</h3><dl class="lbc-criteria">' +
       criteriaHtml +
-      "</dl></section>" +
+      "</dl>" +
+      criteriaHint +
+      "</section>" +
       '<section class="lbc-section"><h3>Description</h3><div class="lbc-desc' +
       (desc ? "" : " is-empty") +
       '">' +

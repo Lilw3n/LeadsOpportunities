@@ -126,7 +126,11 @@
     };
     var html =
       '<div class="int-dossier-edit" data-int-dossier-edit>' +
-      '<p class="int-dossier-lead"><strong>Admin</strong> — modifiez les réponses du questionnaire. Les changements sont recopiés sur la <strong>fiche interlocuteur</strong>.</p>' +
+      '<p class="int-dossier-lead"><strong>Admin</strong> — modifiez les réponses du questionnaire. Les changements sont recopiés sur la <strong>fiche interlocuteur</strong>' +
+      (dossier && dossier.sellerDemoEditable
+        ? ' et alimentent les critères de la <strong>démo vendeur / pubs</strong> (sinon via <a href="/crm-immo-pubs.html?new=1" target="_blank" rel="noopener">crm-immo-pubs</a>)'
+        : "") +
+      ".</p>" +
       '<label class="int-edit-global-note">Commentaire général sur le questionnaire<textarea rows="2" data-int-admin-notes placeholder="Ex. corrections au téléphone, précisions conseiller…">' +
       esc(adminNotes) +
       "</textarea></label>";

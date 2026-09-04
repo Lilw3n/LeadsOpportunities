@@ -155,6 +155,105 @@
     return { meta: meta, ad: ad };
   }
 
+  /** Extrait critères annonce depuis un dossier vente (questionnaire / fiche interlocuteur). */
+  function sellDossierToCriteria(sellDossier) {
+    var sd = sellDossier && typeof sellDossier === "object" ? sellDossier : {};
+    var equip = sd.sellEquip || sd["sellEquip[]"] || [];
+    if (typeof equip === "string") {
+      equip = equip
+        .split(/[,;]+/)
+        .map(function (s) {
+          return s.trim();
+        })
+        .filter(Boolean);
+    }
+    if (!Array.isArray(equip)) equip = [];
+    var equipSet = {};
+    equip.forEach(function (e) {
+      equipSet[String(e).toLowerCase()] = true;
+    });
+
+    function countTruthy(v) {
+      if (v === true || v === "1" || v === "oui" || v === "Oui") return true;
+      var n = toNum(v);
+      return n != null && n > 0;
+    }
+
+    var out = {
+      rooms: toNum(sd.sellRooms != null ? sd.sellRooms : sd.rooms),
+      bedrooms: toNum(sd.sellBedrooms != null ? sd.sellBedrooms : sd.bedrooms),
+      surface_m2: toNum(sd.sellSurface != null ? sd.sellSurface : sd.surface_m2),
+      floor: String(sd.sellFloor != null ? sd.sellFloor : sd.floor || "").trim(),
+      dpe: String(sd.sellDpe != null ? sd.sellDpe : sd.dpe || "")
+        .trim()
+        .toUpperCase()
+        .slice(0, 1),
+      ges: String(sd.sellGes != null ? sd.sellGes : sd.ges || "")
+        .trim()
+        .toUpperCase()
+        .slice(0, 1),
+      heating: String(
+        sd.sellHeating ||
+          [sd.sellHeatingEnergy, sd.sellHeating].filter(Boolean).join(" ") ||
+          sd.heating ||
+          ""
+      ).trim(),
+      energy_cost: toNum(
+        sd.sellEnergyCostAnnual != null ? sd.sellEnergyCostAnnual : sd.energy_cost
+      ),
+      charges: toNum(sd.sellChargesAnnual != null ? sd.sellChargesAnnual : sd.charges),
+      year_built: toNum(sd.sellBuildYear != null ? sd.sellBuildYear : sd.year_built),
+      furnished:
+        sd.sellFurnished === true ||
+        sd.sellFurnished === "1" ||
+        sd.sellFurnished === "oui" ||
+        sd.furnished === true
+          ? true
+          : sd.sellFurnished === false || sd.sellFurnished === "0" || sd.furnished === false
+            ? false
+            : null,
+      has_elevator: equipSet.ascenseur ? true : null,
+      has_cave: countTruthy(sd.sellCaveCount) ? true : null,
+      has_garage: countTruthy(sd.sellGarageCount) || countTruthy(sd.sellBoxCount) ? true : null,
+      has_parking:
+        countTruthy(sd.sellParkingExt) || countTruthy(sd.sellParkingInt) ? true : null,
+      has_balcony: null,
+      has_terrace: null,
+      has_garden: null,
+      city: String(sd.sellCity || sd.city || "").trim(),
+      postal_code: String(sd.sellPostalCode || sd.postal_code || "")
+        .replace(/\D/g, "")
+        .slice(0, 5),
+      property_type: String(sd.sellPropertyType || sd.property_type || "").trim(),
+      videos: sanitizeUrlList(sd.sellVideos || sd.sellVideoUrl || sd.videos, isSafeVideoUrl, 6),
+      virtual_tour: String(sd.sellVirtualTour || sd.virtual_tour || "").trim(),
+    };
+    if (out.virtual_tour && !isSafeTourUrl(out.virtual_tour)) out.virtual_tour = "";
+    return out;
+  }
+
+  function getSellDossier(property) {
+    var bag = getAdMeta(property);
+    var meta = bag.meta || {};
+    if (meta.sellDossier && typeof meta.sellDossier === "object") return meta.sellDossier;
+    if (property && property.sellDossier && typeof property.sellDossier === "object") {
+      return property.sellDossier;
+    }
+    return {};
+  }
+
+  function coalesceEmpty(primary, fallback) {
+    if (primary != null && primary !== "") return primary;
+    if (fallback != null && fallback !== "") return fallback;
+    return primary != null ? primary : fallback;
+  }
+
+  function coalesceBool(primary, fallback) {
+    if (primary === true || primary === false) return primary;
+    if (fallback === true || fallback === false) return fallback;
+    return null;
+  }
+
   function channelsOf(ad) {
     var ch = ad && ad.channels;
     if (Array.isArray(ch)) {
@@ -221,28 +320,45 @@
 
     var channels = channelsOf(ad);
     var criteria = ad.criteria && typeof ad.criteria === "object" ? ad.criteria : {};
+    var fromSell = sellDossierToCriteria(getSellDossier(p));
     function pickCrit(key, fallback) {
       if (criteria[key] != null && criteria[key] !== "") return criteria[key];
+      if (fallback != null && fallback !== "") return fallback;
+      if (fromSell[key] != null && fromSell[key] !== "") return fromSell[key];
       return fallback;
     }
     function pickBool(key, raw) {
       if (Object.prototype.hasOwnProperty.call(criteria, key)) return !!criteria[key];
+      if (fromSell[key] === true || fromSell[key] === false) return fromSell[key];
       if (raw === true) return true;
       if (raw === false) return false;
       return null;
     }
+    var sellVideos = fromSell.videos || [];
+    if ((!videos || !videos.length) && sellVideos.length) videos = sellVideos;
+    if (!tour && fromSell.virtual_tour) tour = fromSell.virtual_tour;
+
     var listing = {
       id: base.id,
       title: headline || base.title,
       headline: headline || base.title,
-      property_type: base.property_type,
-      type_label: base.type_label || (PublicLib && PublicLib.typeLabel ? PublicLib.typeLabel(base.property_type) : ""),
-      city: base.city,
-      postal_code: base.postal_code,
-      department: base.department || String(base.postal_code || "").slice(0, 2),
-      rooms: base.rooms,
-      bedrooms: base.bedrooms != null ? base.bedrooms : toNum(p.bedrooms),
-      surface_m2: base.surface_m2,
+      property_type: coalesceEmpty(base.property_type, fromSell.property_type) || base.property_type,
+      type_label:
+        base.type_label ||
+        (PublicLib && PublicLib.typeLabel
+          ? PublicLib.typeLabel(coalesceEmpty(base.property_type, fromSell.property_type) || base.property_type)
+          : ""),
+      city: coalesceEmpty(base.city, fromSell.city) || "",
+      postal_code: coalesceEmpty(base.postal_code, fromSell.postal_code) || "",
+      department:
+        base.department ||
+        String(coalesceEmpty(base.postal_code, fromSell.postal_code) || "").slice(0, 2),
+      rooms: coalesceEmpty(base.rooms, fromSell.rooms),
+      bedrooms: coalesceEmpty(
+        base.bedrooms != null ? base.bedrooms : toNum(p.bedrooms),
+        fromSell.bedrooms
+      ),
+      surface_m2: coalesceEmpty(base.surface_m2, fromSell.surface_m2),
       floor: String(pickCrit("floor", base.floor != null ? base.floor : p.floor || "") || "").trim(),
       has_elevator: pickBool("has_elevator", base.has_elevator),
       has_garage: pickBool("has_garage", base.has_garage),
@@ -262,13 +378,16 @@
       energy_cost: pickCrit("energy_cost", p.energy_cost || ""),
       charges: pickCrit("charges", p.charges || ""),
       heating: String(pickCrit("heating", p.heating || "") || "").trim(),
-      furnished: Object.prototype.hasOwnProperty.call(criteria, "furnished")
-        ? !!criteria.furnished
-        : p.furnished === true
-          ? true
-          : p.furnished === false
-            ? false
-            : null,
+      furnished: coalesceBool(
+        Object.prototype.hasOwnProperty.call(criteria, "furnished")
+          ? !!criteria.furnished
+          : p.furnished === true
+            ? true
+            : p.furnished === false
+              ? false
+              : null,
+        fromSell.furnished
+      ),
       year_built: pickCrit("year_built", p.year_built || ""),
       price_fai: base.price_fai,
       description: body,
@@ -282,6 +401,7 @@
       platforms: Array.isArray(ad.platforms) ? ad.platforms.slice(0, 8).map(String) : ["Meta", "Google", "Leboncoin"],
       demo_label: String(ad.demo_label || "Capacité de diffusion").slice(0, 80),
       _criteria_saved: !!(ad.criteria && typeof ad.criteria === "object" && Object.keys(ad.criteria).length),
+      _from_sell_dossier: !!(fromSell.rooms != null || fromSell.floor || fromSell.dpe || fromSell.heating),
     };
 
     if (!opts.includeToken) delete listing.share_token;
@@ -412,6 +532,8 @@
     CHANNELS: CHANNELS,
     makeShareToken: makeShareToken,
     getAdMeta: getAdMeta,
+    getSellDossier: getSellDossier,
+    sellDossierToCriteria: sellDossierToCriteria,
     channelsOf: channelsOf,
     hasChannel: hasChannel,
     isPublicMandateAd: isPublicMandateAd,

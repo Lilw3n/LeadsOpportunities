@@ -159,6 +159,7 @@
       dpe: document.getElementById("adDpe").value,
       ges: document.getElementById("adGes").value,
       charges: document.getElementById("adCharges").value,
+      energy_cost: document.getElementById("adEnergyCost").value,
       year_built: document.getElementById("adYear").value,
       has_elevator: document.getElementById("adElevator").checked,
       has_parking: document.getElementById("adParking").checked,
@@ -374,7 +375,48 @@
     document.getElementById("adDpe").value = crit.dpe || p.dpe || "";
     document.getElementById("adGes").value = crit.ges || p.ges || "";
     document.getElementById("adCharges").value = crit.charges != null ? crit.charges : "";
+    document.getElementById("adEnergyCost").value =
+      crit.energy_cost != null && crit.energy_cost !== ""
+        ? crit.energy_cost
+        : "";
     document.getElementById("adYear").value = crit.year_built != null ? crit.year_built : "";
+    // Compléter depuis le questionnaire (sellDossier) si le formulaire pubs est encore vide
+    if (AdLib.sellDossierToCriteria) {
+      var sell = AdLib.sellDossierToCriteria(AdLib.getSellDossier(p));
+      if (!document.getElementById("adRooms").value && sell.rooms != null) {
+        document.getElementById("adRooms").value = sell.rooms;
+      }
+      if (!document.getElementById("adBedrooms").value && sell.bedrooms != null) {
+        document.getElementById("adBedrooms").value = sell.bedrooms;
+      }
+      if (!document.getElementById("adFloor").value && sell.floor) {
+        document.getElementById("adFloor").value = sell.floor;
+      }
+      if (!document.getElementById("adHeating").value && sell.heating) {
+        document.getElementById("adHeating").value = sell.heating;
+      }
+      if (!document.getElementById("adDpe").value && sell.dpe) {
+        document.getElementById("adDpe").value = sell.dpe;
+      }
+      if (!document.getElementById("adGes").value && sell.ges) {
+        document.getElementById("adGes").value = sell.ges;
+      }
+      if (!document.getElementById("adCharges").value && sell.charges != null) {
+        document.getElementById("adCharges").value = sell.charges;
+      }
+      if (!document.getElementById("adEnergyCost").value && sell.energy_cost != null) {
+        document.getElementById("adEnergyCost").value = sell.energy_cost;
+      }
+      if (!document.getElementById("adYear").value && sell.year_built != null) {
+        document.getElementById("adYear").value = sell.year_built;
+      }
+      if (!document.getElementById("adFurnished").checked && sell.furnished === true) {
+        document.getElementById("adFurnished").checked = true;
+      }
+      if (!document.getElementById("adTour").value && sell.virtual_tour) {
+        document.getElementById("adTour").value = sell.virtual_tour;
+      }
+    }
     document.getElementById("adElevator").checked = !!(crit.has_elevator || p.has_elevator);
     document.getElementById("adParking").checked = !!(crit.has_parking || p.has_parking);
     document.getElementById("adGarage").checked = !!(crit.has_garage || p.has_garage);

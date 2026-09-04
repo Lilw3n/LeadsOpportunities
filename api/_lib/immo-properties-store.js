@@ -507,4 +507,5 @@ module.exports = {
   upsertDocument,
   deleteEntity,
   Matcher,
+  rowToProperty,
 };

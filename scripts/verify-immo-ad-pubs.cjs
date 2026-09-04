@@ -92,6 +92,8 @@ files.forEach(function (f) {
 
 var crm = read("crm-immo-pubs.html");
 assert(crm.indexOf("adVideos") !== -1 && crm.indexOf("adTour") !== -1, "CRM : vidéos + visite virtuelle");
+assert(crm.indexOf("adEnergyCost") !== -1, "CRM : coût énergie estimé");
+assert(crm.indexOf("questionnaire fiche interlocuteur") !== -1, "CRM : hint sources critères");
 assert(crm.indexOf("chPublic") !== -1 && crm.indexOf("chPrivate") !== -1, "CRM : canaux public/privé");
 assert(crm.indexOf("adPhotoFiles") !== -1, "CRM : upload fichiers photos");
 assert(crm.indexOf("immo-photo-compress") !== -1, "CRM : compression photos");
@@ -136,11 +138,57 @@ assert(pagesJs.indexOf("lbc-criteria") !== -1, "pages : grille critères");
 assert(pagesJs.indexOf("openLightbox") !== -1 || pagesJs.indexOf("lbcLightbox") !== -1, "pages : lightbox zoom");
 assert(pagesJs.indexOf("setScale") !== -1, "pages : zoom scale");
 assert(pagesJs.indexOf("nextZoomStep") !== -1, "pages : clic photo = zoom progressif");
+assert(pagesJs.indexOf("lbc-criteria-hint") !== -1, "pages : hint sources champs vides");
+assert(pagesJs.indexOf("crm-immo-pubs.html") !== -1, "pages : lien crm pubs dans hint");
+
+var listingLibSrc = read("js/immo-ad-listings-lib.js");
+assert(listingLibSrc.indexOf("sellDossierToCriteria") !== -1, "lib : mapping sellDossier → critères");
+
+var fromSellListing = AdLib.toAdListing({
+  id: "p_sell",
+  status: "prospection",
+  city: "Varangéville",
+  postal_code: "54110",
+  property_type: "appartement",
+  surface_m2: 65,
+  metadata: {
+    sellDossier: {
+      sellRooms: 3,
+      sellBedrooms: 2,
+      sellFloor: "1",
+      sellDpe: "D",
+      sellGes: "C",
+      sellHeating: "Gaz",
+      sellEnergyCostAnnual: 980,
+      sellChargesAnnual: 1200,
+      sellBuildYear: 1985,
+      sellFurnished: "1",
+      sellEquip: ["ascenseur"],
+      sellCaveCount: 1,
+    },
+    ad: { channels: ["private"], share_token: "ad_test_sell_01" },
+  },
+});
+assert(fromSellListing.rooms === 3 && fromSellListing.bedrooms === 2, "sellDossier → pièces/chambres");
+assert(fromSellListing.floor === "1" && fromSellListing.dpe === "D", "sellDossier → étage/DPE");
+assert(fromSellListing.heating === "Gaz" && Number(fromSellListing.energy_cost) === 980, "sellDossier → chauffage/énergie");
+assert(fromSellListing.has_elevator === true && fromSellListing.has_cave === true, "sellDossier → équipements");
+
+var intLib = read("js/interlocuteur-dossier-lib.js");
+assert(intLib.indexOf("AD_DEMO_EDIT_KEYS") !== -1, "interlocuteur : clés critères démo");
+assert(intLib.indexOf("sellFloor") !== -1 && intLib.indexOf("sellHeating") !== -1, "interlocuteur : étage/chauffage éditables");
+assert(intLib.indexOf("sellDossier") !== -1 && intLib.indexOf("sellDossier[k]") !== -1, "interlocuteur : flatten sellDossier");
+
+var patchSrc = read("api/_lib/lead-questionnaire-patch.js");
+assert(patchSrc.indexOf("mirrorSellIntoDossier") !== -1, "patch : miroir sell → sellDossier");
+assert(patchSrc.indexOf("syncSellToLinkedProperties") !== -1, "patch : sync biens liés");
+assert(patchSrc.indexOf("sellDossierToCriteria") !== -1, "patch : critères depuis sell");
 
 var css = read("css/immo-ad-listings.css");
 assert(css.indexOf("lbc-gallery__stage") !== -1 && css.indexOf("72vh") !== -1, "CSS : grande galerie photo");
 assert(css.indexOf("lbc-lightbox") !== -1, "CSS : lightbox plein écran");
 assert(css.indexOf("scale") !== -1 || css.indexOf("zoom-in") !== -1, "CSS : curseur zoom");
+assert(css.indexOf("lbc-criteria-hint") !== -1, "CSS : hint critères vides");
 
 var adsRoute = read("api/_lib/routes/public-immo-ads.js");
 assert(adsRoute.indexOf("getAuthUser") !== -1 || adsRoute.indexOf("tryAuthUser") !== -1, "API ads : bypass admin CRM");
@@ -158,10 +206,12 @@ var listingRich = AdLib.toAdListing(
       dpe: "D",
       has_elevator: true,
       floor: "2",
+      energy_cost: 1100,
     }
   )
 );
 assert(listingRich.dpe === "D" && listingRich.floor === "2" && listingRich.has_elevator === true, "critères DPE/étage/ascenseur");
+assert(Number(listingRich.energy_cost) === 1100, "critères coût énergie via pubs");
 assert(listingRich.has_garden === null || listingRich.has_garden === false, "jardin non forcé à tort");
 
 var withAccess = AdLib.applyAdToProperty(

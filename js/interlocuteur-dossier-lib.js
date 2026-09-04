@@ -165,6 +165,23 @@
     sellTaxeHabitation: "Taxe d'habitation (€/an)",
     sellSurface: "Surface du bien (m²)",
     sellRooms: "Nombre de pièces",
+    sellBedrooms: "Nombre de chambres",
+    sellFloor: "Étage",
+    sellHeating: "Chauffage",
+    sellHeatingEnergy: "Énergie de chauffage",
+    sellBuildYear: "Année de construction",
+    sellFurnished: "Meublé",
+    sellChargesAnnual: "Charges annuelles (€)",
+    sellChargesMonthly: "Charges mensuelles (€)",
+    sellCaveCount: "Cave(s)",
+    sellGarageCount: "Garage(s)",
+    sellParkingExt: "Parking extérieur",
+    sellParkingInt: "Parking intérieur",
+    sellBoxCount: "Box",
+    sellEquip: "Équipements",
+    sellVirtualTour: "Visite virtuelle (URL)",
+    sellVideoUrl: "Vidéo (URL)",
+    sellVideos: "Vidéos (URLs)",
     sellPrice: "Prix souhaité",
     sellDossierSummary: "Résumé dossier vente",
     notes: "Notes",
@@ -405,9 +422,52 @@
     "sellTaxeHabitation",
     "sellSurface",
     "sellRooms",
+    "sellBedrooms",
+    "sellFloor",
+    "sellHeating",
+    "sellHeatingEnergy",
+    "sellBuildYear",
+    "sellFurnished",
+    "sellChargesAnnual",
+    "sellChargesMonthly",
+    "sellCaveCount",
+    "sellGarageCount",
+    "sellParkingExt",
+    "sellParkingInt",
+    "sellBoxCount",
+    "sellEquip",
+    "sellVirtualTour",
+    "sellVideoUrl",
+    "sellVideos",
     "sellPrice",
     "property_type",
     "price_fai",
+  ];
+
+  /** Critères démo / pubs — toujours éditables même vides (fiche interlocuteur). */
+  var AD_DEMO_EDIT_KEYS = [
+    "sellCity",
+    "sellPostalCode",
+    "sellPropertyType",
+    "sellSurface",
+    "sellRooms",
+    "sellBedrooms",
+    "sellFloor",
+    "sellHeating",
+    "sellDpe",
+    "sellGes",
+    "sellEnergyCostAnnual",
+    "sellChargesAnnual",
+    "sellBuildYear",
+    "sellFurnished",
+    "sellCaveCount",
+    "sellGarageCount",
+    "sellParkingExt",
+    "sellParkingInt",
+    "sellEquip",
+    "sellVideoUrl",
+    "sellVirtualTour",
+    "sellDescription",
   ];
 
   var PROJET_KEYS = [
@@ -708,6 +768,11 @@
       if (lead.phone && !p.phone) p.phone = lead.phone;
       if (lead.vertical && !p.vertical) p.vertical = lead.vertical;
     }
+    if (p.sellDossier && typeof p.sellDossier === "object" && !Array.isArray(p.sellDossier)) {
+      Object.keys(p.sellDossier).forEach(function (k) {
+        if (p[k] == null || p[k] === "") p[k] = p.sellDossier[k];
+      });
+    }
     if (p.questionnaireDraft && typeof p.questionnaireDraft === "object") {
       Object.keys(p.questionnaireDraft).forEach(function (k) {
         if (p[k] == null || p[k] === "") p[k] = p.questionnaireDraft[k];
@@ -721,6 +786,43 @@
     return p;
   }
 
+  function isSellerContext(p) {
+    var role = String(p.role || p.need || p.vertical || "").toLowerCase();
+    if (/vendeur|seller|vente|sell/.test(role)) return true;
+    if (p.sellDossier && typeof p.sellDossier === "object") return true;
+    if (p.sellCity || p.sellPostalCode || p.sellRooms || p.wantsSellDossier) return true;
+    if (Array.isArray(p.propertyIds) && p.propertyIds.length) return true;
+    return false;
+  }
+
+  function pickAlways(payload, keys) {
+    var out = [];
+    var seen = {};
+    (keys || []).forEach(function (k) {
+      if (seen[k]) return;
+      seen[k] = true;
+      var raw = payload[k];
+      var v = flatten(raw, k);
+      out.push({ key: k, label: labelOf(k), value: v || "" });
+    });
+    return out;
+  }
+
+  function mergeImmoRows(filled, always) {
+    var byKey = {};
+    var out = [];
+    (filled || []).forEach(function (r) {
+      byKey[r.key] = r;
+      out.push(r);
+    });
+    (always || []).forEach(function (r) {
+      if (byKey[r.key]) return;
+      byKey[r.key] = r;
+      out.push(r);
+    });
+    return out;
+  }
+
   function buildDossier(lead, extraPayload) {
     var p = mergePayloads(lead, extraPayload);
     if (!p.age) {
@@ -732,10 +834,13 @@
     var pro = pick(p, PRO_KEYS);
     var vehicules = pick(p, VEHICLE_KEYS);
     var immobilier = pick(p, IMMO_KEYS);
+    if (isSellerContext(p)) {
+      immobilier = mergeImmoRows(immobilier, pickAlways(p, AD_DEMO_EDIT_KEYS));
+    }
     var projet = pick(p, PROJET_KEYS);
 
     var known = {};
-    PERSO_KEYS.concat(PRO_KEYS, VEHICLE_KEYS, IMMO_KEYS, PROJET_KEYS).forEach(function (k) {
+    PERSO_KEYS.concat(PRO_KEYS, VEHICLE_KEYS, IMMO_KEYS, PROJET_KEYS, AD_DEMO_EDIT_KEYS).forEach(function (k) {
       known[k] = true;
     });
     var autres = [];
@@ -755,6 +860,7 @@
       biens: { vehicules: vehicules, immobilier: immobilier, autres: autres.slice(0, 24) },
       projet: projet,
       raw: p,
+      sellerDemoEditable: isSellerContext(p),
     };
   }
 
@@ -1014,6 +1120,7 @@
   var api = {
     LABELS: LABELS,
     SELLER_QUICK_EDIT_KEYS: SELLER_QUICK_EDIT_KEYS,
+    AD_DEMO_EDIT_KEYS: AD_DEMO_EDIT_KEYS,
     VALUE_LABELS: VALUE_LABELS,
     parsePayload: parsePayload,
     buildDossier: buildDossier,

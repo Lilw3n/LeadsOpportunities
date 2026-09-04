@@ -200,6 +200,14 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     }
   }
 
+  var AdLib = null;
+  try {
+    AdLib = require("../../../js/immo-ad-listings-lib.js");
+  } catch (e) {
+    AdLib = null;
+  }
+  var sellCriteria = AdLib && sellDossier ? AdLib.sellDossierToCriteria(sellDossier) : null;
+
   var detections = collectDetections(body);
   var hasManualBits = !!(city || postal || description || photos.length || price || addressHint);
   if (!detections.length) {
@@ -311,6 +319,27 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           wantsSellDossier: wantsSellDossier,
           sellDossier: sellDossier || null,
         };
+        if (sellCriteria) {
+          propMetadata.ad = {
+            criteria: {
+              floor: sellCriteria.floor || "",
+              dpe: sellCriteria.dpe || dpe || "",
+              ges: sellCriteria.ges || "",
+              heating: sellCriteria.heating || "",
+              energy_cost: sellCriteria.energy_cost != null ? sellCriteria.energy_cost : "",
+              charges: sellCriteria.charges != null ? sellCriteria.charges : "",
+              year_built: sellCriteria.year_built != null ? sellCriteria.year_built : "",
+              furnished: sellCriteria.furnished === true ? true : undefined,
+              has_elevator: sellCriteria.has_elevator === true ? true : undefined,
+              has_garage: sellCriteria.has_garage === true ? true : undefined,
+              has_parking: sellCriteria.has_parking === true ? true : undefined,
+              has_cave: sellCriteria.has_cave === true ? true : undefined,
+            },
+            videos: sellCriteria.videos || [],
+            virtual_tour: sellCriteria.virtual_tour || "",
+            channels: [],
+          };
+        }
 
         var propId = await store.upsertProperty(
           sql,
@@ -327,7 +356,13 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             rooms: rooms,
             bedrooms: bedrooms,
             surface_m2: surface,
-            dpe: dpe || null,
+            floor: (sellCriteria && sellCriteria.floor) || null,
+            dpe: dpe || (sellCriteria && sellCriteria.dpe) || null,
+            ges: (sellCriteria && sellCriteria.ges) || null,
+            has_elevator: !!(sellCriteria && sellCriteria.has_elevator),
+            has_garage: !!(sellCriteria && sellCriteria.has_garage),
+            has_parking: !!(sellCriteria && sellCriteria.has_parking),
+            has_cave: !!(sellCriteria && sellCriteria.has_cave),
             price_fai: price,
             description: description,
             photos: photos,
