@@ -91,6 +91,15 @@ files.forEach(function (f) {
 var crm = read("crm-immo-pubs.html");
 assert(crm.indexOf("adVideos") !== -1 && crm.indexOf("adTour") !== -1, "CRM : vidéos + visite virtuelle");
 assert(crm.indexOf("chPublic") !== -1 && crm.indexOf("chPrivate") !== -1, "CRM : canaux public/privé");
+assert(crm.indexOf("adPhotoFiles") !== -1, "CRM : upload fichiers photos");
+assert(crm.indexOf("immo-photo-compress") !== -1, "CRM : compression photos");
+assert(crm.indexOf("btnAddVideo") !== -1, "CRM : ajout vidéo");
+assert(crm.indexOf("Matterport") !== -1, "CRM : visite virtuelle Matterport");
+
+var crmJs = read("js/crm-immo-pubs.js");
+assert(crmJs.indexOf("compressMany") !== -1 || crmJs.indexOf("ImmoPhotoCompress") !== -1, "JS : compression photos");
+assert(crmJs.indexOf("photoState") !== -1 && crmJs.indexOf("videoState") !== -1, "JS : état médias");
+assert(crmJs.indexOf("MAX_PHOTOS") !== -1, "JS : plafond photos");
 
 var pubPage = read("immobilier/pubs-mandats.html");
 assert(pubPage.indexOf("index,follow") !== -1, "vitrine publique indexable");

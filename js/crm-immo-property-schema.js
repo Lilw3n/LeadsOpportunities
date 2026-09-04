@@ -348,7 +348,7 @@ window.CrmImmoSchema = (function () {
     {
       id: "annonce_pub",
       label: "Annonce & pubs",
-      hint: "Saisie type Leboncoin : texte, photos (URLs), vidéos, visite virtuelle. Publier en vitrine mandats et/ou démo privée vendeur.",
+      hint: "Saisie type Leboncoin : texte, upload photos, vidéos, visite virtuelle. Ou utilisez CRM → Pubs mandats / démo pour l’interface complète avec miniatures.",
       fields: [
         area("ad_headline", "Titre annonce pub", { important: true, hint: "Titre affiché sur Meta / Google / vitrine" }),
         area("ad_body", "Texte annonce", { important: true, hint: "Description commerciale (sans téléphone ni e-mail)" }),
