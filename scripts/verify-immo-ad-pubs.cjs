@@ -133,9 +133,13 @@ assert(pagesJs.indexOf("adminMode") !== -1 || pagesJs.indexOf("admin=1") !== -1,
 assert(pagesJs.indexOf("L'info n'a pas été renseignée") !== -1, "pages : libellé champ vide");
 assert(pagesJs.indexOf("lbc-listing") !== -1 && pagesJs.indexOf("lbc-gallery") !== -1, "pages : layout Leboncoin");
 assert(pagesJs.indexOf("lbc-criteria") !== -1, "pages : grille critères");
+assert(pagesJs.indexOf("openLightbox") !== -1 || pagesJs.indexOf("lbcLightbox") !== -1, "pages : lightbox zoom");
+assert(pagesJs.indexOf("setScale") !== -1, "pages : zoom scale");
 
 var css = read("css/immo-ad-listings.css");
 assert(css.indexOf("lbc-gallery__stage") !== -1 && css.indexOf("72vh") !== -1, "CSS : grande galerie photo");
+assert(css.indexOf("lbc-lightbox") !== -1, "CSS : lightbox plein écran");
+assert(css.indexOf("scale") !== -1 || css.indexOf("zoom-in") !== -1, "CSS : curseur zoom");
 
 var adsRoute = read("api/_lib/routes/public-immo-ads.js");
 assert(adsRoute.indexOf("getAuthUser") !== -1 || adsRoute.indexOf("tryAuthUser") !== -1, "API ads : bypass admin CRM");
