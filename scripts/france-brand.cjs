@@ -97,7 +97,7 @@ function googleSiteVerificationMeta() {
 
 const HOME_TITLE = "Courtier assurance, mutuelle & credit | Nancy — Leads Opportunities";
 const HOME_DESCRIPTION =
-  "Courtier ORIAS : mutuelle sante, assurance, credit immobilier et pret. Devis gratuit. Cabinet Varangeville pres de Nancy (54) — dossiers partout en France.";
+  "Courtier ORIAS : mutuelle sante, assurance, credit immobilier et pret. Devis gratuit. Nancy et ses alentours (metropole / bassin nanceien, 54) — dossiers partout en France.";
 
 module.exports = {
   franceMetaBlock: franceMetaBlock,

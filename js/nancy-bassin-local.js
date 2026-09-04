@@ -77,7 +77,9 @@
     el.innerHTML =
       '<p><strong>Pret immobilier ' +
       label +
-      '</strong> — courtier a Varangéville. Jarville, Dombasle, Houdemont, Ludres, Saint-Max et communes du 54 : <a href="/pret-immobilier/nancy-metropole/">toutes nos pages locales</a>.</p>';
+      '</strong> — courtier sur <strong>Nancy et ses alentours</strong> (metropole / bassin nanceien). ' +
+      'Jarville, Dombasle, Houdemont, Ludres, Saint-Max et communes du 54 : ' +
+      '<a href="/pret-immobilier/nancy-metropole/">toutes nos pages locales</a>.</p>';
     host.insertBefore(el, host.firstChild);
   }
 
