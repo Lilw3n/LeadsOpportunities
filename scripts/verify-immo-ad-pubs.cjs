@@ -130,9 +130,34 @@ assert(demoPage.indexOf("adGate") !== -1, "page démo : portail d'accès");
 var pagesJs = read("js/immo-ad-pages.js");
 assert(pagesJs.indexOf("renderGate") !== -1 && pagesJs.indexOf("requires_auth") !== -1, "pages : gate auth");
 assert(pagesJs.indexOf("adminMode") !== -1 || pagesJs.indexOf("admin=1") !== -1, "pages : mode admin preview");
+assert(pagesJs.indexOf("L'info n'a pas été renseignée") !== -1, "pages : libellé champ vide");
+assert(pagesJs.indexOf("lbc-listing") !== -1 && pagesJs.indexOf("lbc-gallery") !== -1, "pages : layout Leboncoin");
+assert(pagesJs.indexOf("lbc-criteria") !== -1, "pages : grille critères");
+
+var css = read("css/immo-ad-listings.css");
+assert(css.indexOf("lbc-gallery__stage") !== -1 && css.indexOf("72vh") !== -1, "CSS : grande galerie photo");
 
 var adsRoute = read("api/_lib/routes/public-immo-ads.js");
-assert(adsRoute.indexOf("getAuthUser") !== -1 && adsRoute.indexOf("admin_preview") !== -1, "API ads : bypass admin CRM");
+assert(adsRoute.indexOf("getAuthUser") !== -1 || adsRoute.indexOf("tryAuthUser") !== -1, "API ads : bypass admin CRM");
+assert(adsRoute.indexOf("admin_preview") !== -1, "API ads : flag admin_preview");
+
+var listingRich = AdLib.toAdListing(
+  AdLib.applyAdToProperty(
+    { id: "p2", status: "mandat", city: "Nancy" },
+    {
+      title: "T3",
+      channel_private: true,
+      channel_public: false,
+      rooms: 3,
+      surface_m2: 65,
+      dpe: "D",
+      has_elevator: true,
+      floor: "2",
+    }
+  )
+);
+assert(listingRich.dpe === "D" && listingRich.floor === "2" && listingRich.has_elevator === true, "critères DPE/étage/ascenseur");
+assert(listingRich.has_garden === null || listingRich.has_garden === false, "jardin non forcé à tort");
 
 var withAccess = AdLib.applyAdToProperty(
   { id: "p1", status: "estimation", city: "Nancy" },

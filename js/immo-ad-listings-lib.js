@@ -220,6 +220,17 @@
     if (tour && !isSafeTourUrl(tour)) tour = "";
 
     var channels = channelsOf(ad);
+    var criteria = ad.criteria && typeof ad.criteria === "object" ? ad.criteria : {};
+    function pickCrit(key, fallback) {
+      if (criteria[key] != null && criteria[key] !== "") return criteria[key];
+      return fallback;
+    }
+    function pickBool(key, raw) {
+      if (Object.prototype.hasOwnProperty.call(criteria, key)) return !!criteria[key];
+      if (raw === true) return true;
+      if (raw === false) return false;
+      return null;
+    }
     var listing = {
       id: base.id,
       title: headline || base.title,
@@ -232,6 +243,33 @@
       rooms: base.rooms,
       bedrooms: base.bedrooms != null ? base.bedrooms : toNum(p.bedrooms),
       surface_m2: base.surface_m2,
+      floor: String(pickCrit("floor", base.floor != null ? base.floor : p.floor || "") || "").trim(),
+      has_elevator: pickBool("has_elevator", base.has_elevator),
+      has_garage: pickBool("has_garage", base.has_garage),
+      has_parking: pickBool("has_parking", base.has_parking),
+      has_cave: pickBool("has_cave", base.has_cave),
+      has_garden: pickBool("has_garden", base.has_garden),
+      has_terrace: pickBool("has_terrace", base.has_terrace),
+      has_balcony: pickBool("has_balcony", base.has_balcony),
+      dpe: String(pickCrit("dpe", base.dpe || p.dpe || "") || "")
+        .trim()
+        .toUpperCase()
+        .slice(0, 1),
+      ges: String(pickCrit("ges", base.ges || p.ges || "") || "")
+        .trim()
+        .toUpperCase()
+        .slice(0, 1),
+      energy_cost: pickCrit("energy_cost", p.energy_cost || ""),
+      charges: pickCrit("charges", p.charges || ""),
+      heating: String(pickCrit("heating", p.heating || "") || "").trim(),
+      furnished: Object.prototype.hasOwnProperty.call(criteria, "furnished")
+        ? !!criteria.furnished
+        : p.furnished === true
+          ? true
+          : p.furnished === false
+            ? false
+            : null,
+      year_built: pickCrit("year_built", p.year_built || ""),
       price_fai: base.price_fai,
       description: body,
       photos: photos,
@@ -243,6 +281,7 @@
       share_token: opts.includeToken ? String(ad.share_token || "") : undefined,
       platforms: Array.isArray(ad.platforms) ? ad.platforms.slice(0, 8).map(String) : ["Meta", "Google", "Leboncoin"],
       demo_label: String(ad.demo_label || "Capacité de diffusion").slice(0, 80),
+      _criteria_saved: !!(ad.criteria && typeof ad.criteria === "object" && Object.keys(ad.criteria).length),
     };
 
     if (!opts.includeToken) delete listing.share_token;
@@ -288,6 +327,23 @@
         emails: parseAccessEmails(form),
         phones: parseAccessPhones(form),
       },
+      criteria: {
+        floor: String(form.floor || "").trim(),
+        dpe: String(form.dpe || "").trim().toUpperCase().slice(0, 1),
+        ges: String(form.ges || "").trim().toUpperCase().slice(0, 1),
+        heating: String(form.heating || "").trim().slice(0, 80),
+        energy_cost: form.energy_cost != null && form.energy_cost !== "" ? toNum(form.energy_cost) : "",
+        charges: form.charges != null && form.charges !== "" ? toNum(form.charges) : "",
+        year_built: form.year_built != null && form.year_built !== "" ? toNum(form.year_built) : "",
+        furnished: form.furnished === true || form.furnished === "yes" || form.furnished === "1" ? true : undefined,
+        has_elevator: form.has_elevator ? true : undefined,
+        has_garage: form.has_garage ? true : undefined,
+        has_parking: form.has_parking ? true : undefined,
+        has_cave: form.has_cave ? true : undefined,
+        has_garden: form.has_garden ? true : undefined,
+        has_terrace: form.has_terrace ? true : undefined,
+        has_balcony: form.has_balcony ? true : undefined,
+      },
       updated_at: new Date().toISOString(),
     };
 
@@ -301,6 +357,16 @@
     p.surface_m2 = toNum(form.surface_m2);
     p.price_fai = toNum(form.price_fai != null ? form.price_fai : form.price);
     p.price = p.price_fai;
+    p.floor = String(form.floor || p.floor || "").trim();
+    p.dpe = String(form.dpe || p.dpe || "").trim().toUpperCase().slice(0, 1);
+    p.ges = String(form.ges || p.ges || "").trim().toUpperCase().slice(0, 1);
+    p.has_elevator = !!form.has_elevator;
+    p.has_garage = !!form.has_garage;
+    p.has_parking = !!form.has_parking;
+    p.has_cave = !!form.has_cave;
+    p.has_garden = !!form.has_garden;
+    p.has_terrace = !!form.has_terrace;
+    p.has_balcony = !!form.has_balcony;
     if (photos.length) p.photos_json = photos;
     if (form.status) p.status = form.status;
     else if (channels.indexOf("public") !== -1 && (!p.status || p.status === "estimation" || p.status === "prospection")) {

@@ -161,6 +161,40 @@
           <label>Pièces<input id="adRooms" type="number" min="0" step="1" placeholder="3" /></label>
           <label>Chambres<input id="adBedrooms" type="number" min="0" step="1" placeholder="2" /></label>
         </div>
+        <div class="row2">
+          <label>Étage<input id="adFloor" placeholder="ex. 2" /></label>
+          <label>Chauffage<input id="adHeating" placeholder="Gaz / électrique…" /></label>
+        </div>
+        <div class="row2">
+          <label>DPE
+            <select id="adDpe">
+              <option value="">Non renseigné</option>
+              <option>A</option><option>B</option><option>C</option><option>D</option>
+              <option>E</option><option>F</option><option>G</option>
+            </select>
+          </label>
+          <label>GES
+            <select id="adGes">
+              <option value="">Non renseigné</option>
+              <option>A</option><option>B</option><option>C</option><option>D</option>
+              <option>E</option><option>F</option><option>G</option>
+            </select>
+          </label>
+        </div>
+        <div class="row2">
+          <label>Charges / an (€)<input id="adCharges" type="number" min="0" step="50" /></label>
+          <label>Année construction<input id="adYear" type="number" min="1800" max="2100" step="1" /></label>
+        </div>
+        <div class="pub-checks" style="margin-bottom:12px">
+          <label><input type="checkbox" id="adElevator" /> Ascenseur</label>
+          <label><input type="checkbox" id="adParking" /> Parking</label>
+          <label><input type="checkbox" id="adGarage" /> Garage</label>
+          <label><input type="checkbox" id="adCave" /> Cave</label>
+          <label><input type="checkbox" id="adBalcony" /> Balcon</label>
+          <label><input type="checkbox" id="adTerrace" /> Terrasse</label>
+          <label><input type="checkbox" id="adGarden" /> Jardin</label>
+          <label><input type="checkbox" id="adFurnished" /> Meublé</label>
+        </div>
         <label>Description
           <textarea id="adDescription" required placeholder="Points forts, quartier, prestations… (sans téléphone ni e-mail)"></textarea>
         </label>

@@ -61,9 +61,60 @@
     );
   }
 
+  var EMPTY = "L'info n'a pas été renseignée";
+
+  function valOrEmpty(v, suffix) {
+    if (v == null || v === "" || (typeof v === "number" && !isFinite(v))) return EMPTY;
+    return suffix ? v + suffix : String(v);
+  }
+
+  function yesNoOrEmpty(flag) {
+    if (flag === true) return "Oui";
+    if (flag === false) return "Non";
+    return EMPTY;
+  }
+
+  function criteriaRows(p) {
+    return [
+      { label: "Type de bien", value: valOrEmpty(p.type_label) },
+      { label: "Ville", value: valOrEmpty(p.city) },
+      { label: "Code postal", value: valOrEmpty(p.postal_code) },
+      { label: "Surface", value: p.surface_m2 != null ? p.surface_m2 + " m²" : EMPTY },
+      { label: "Nombre de pièces", value: p.rooms != null ? String(p.rooms) : EMPTY },
+      { label: "Chambres", value: p.bedrooms != null ? String(p.bedrooms) : EMPTY },
+      { label: "Étage", value: valOrEmpty(p.floor) },
+      { label: "Ascenseur", value: yesNoOrEmpty(p.has_elevator) },
+      { label: "Parking", value: yesNoOrEmpty(p.has_parking) },
+      { label: "Garage", value: yesNoOrEmpty(p.has_garage) },
+      { label: "Cave", value: yesNoOrEmpty(p.has_cave) },
+      { label: "Balcon", value: yesNoOrEmpty(p.has_balcony) },
+      { label: "Terrasse", value: yesNoOrEmpty(p.has_terrace) },
+      { label: "Jardin", value: yesNoOrEmpty(p.has_garden) },
+      { label: "Classe énergie (DPE)", value: valOrEmpty(p.dpe) },
+      { label: "GES", value: valOrEmpty(p.ges) },
+      { label: "Chauffage", value: valOrEmpty(p.heating) },
+      {
+        label: "Charges / an",
+        value: p.charges != null && p.charges !== "" ? Number(p.charges).toLocaleString("fr-FR") + " €" : EMPTY,
+      },
+      {
+        label: "Coût énergie estimé",
+        value:
+          p.energy_cost != null && p.energy_cost !== ""
+            ? Number(p.energy_cost).toLocaleString("fr-FR") + " €"
+            : EMPTY,
+      },
+      { label: "Année de construction", value: p.year_built != null && p.year_built !== "" ? String(p.year_built) : EMPTY },
+      { label: "Meublé", value: yesNoOrEmpty(p.furnished) },
+      { label: "Vidéo", value: p.videos && p.videos.length ? p.videos.length + " lien(s)" : EMPTY },
+      { label: "Visite virtuelle", value: p.virtual_tour ? "Oui" : EMPTY },
+    ];
+  }
+
   function detailHtml(p, privateMode) {
     var photos = p.photos || [];
     var main = coverUrl(p);
+    var count = photos.length;
     var thumbs = photos
       .map(function (ph, i) {
         var url = typeof ph === "string" ? ph : ph.url;
@@ -72,12 +123,32 @@
           (i === 0 ? "is-active" : "") +
           '" data-src="' +
           esc(url) +
+          '" data-idx="' +
+          i +
           '"><img src="' +
           esc(url) +
-          '" alt="" draggable="false" /></button>'
+          '" alt="Photo ' +
+          (i + 1) +
+          '" draggable="false" /></button>'
         );
       })
       .join("");
+
+    var criteriaHtml = criteriaRows(p)
+      .map(function (row) {
+        var empty = row.value === EMPTY;
+        return (
+          '<div class="lbc-crit' +
+          (empty ? " is-empty" : "") +
+          '"><dt>' +
+          esc(row.label) +
+          "</dt><dd>" +
+          esc(row.value) +
+          "</dd></div>"
+        );
+      })
+      .join("");
+
     var mediaLinks = "";
     if (p.videos && p.videos.length) {
       mediaLinks += p.videos
@@ -96,63 +167,106 @@
       mediaLinks +=
         '<a class="btn btn-primary" href="' +
         esc(p.virtual_tour) +
-        '" target="_blank" rel="noopener noreferrer">Visite virtuelle</a>';
+        '" target="_blank" rel="noopener noreferrer">Visite virtuelle 3D</a>';
     }
+
     var platforms =
       privateMode && p.platforms && p.platforms.length
         ? '<div class="immo-ad-platforms"><h3>' +
-          esc(p.demo_label || "Diffusion prévue") +
+          esc(p.demo_label || "Capacité de diffusion") +
           "</h3><ul>" +
           p.platforms
             .map(function (x) {
               return "<li>" + esc(x) + "</li>";
             })
             .join("") +
-          "</ul><p style=\"font-size:.85rem;color:#64748b;margin:8px 0 0\">Exemple de créa telle qu’elle pourrait paraître sur vos canaux — contenu protégé, non téléchargeable.</p></div>"
+          "</ul><p class=\"lbc-note\">Exemple de créa telle qu’elle pourrait paraître sur vos canaux — contenu protégé, non téléchargeable.</p></div>"
         : "";
 
+    var desc = String(p.description || "").trim();
+
     return (
-      '<div class="immo-ad-detail immo-ad-fade-in">' +
-      '<div class="immo-ad-gallery">' +
-      '<div class="immo-ad-gallery__main immo-ad-media">' +
+      '<article class="lbc-listing immo-ad-fade-in">' +
+      '<div class="lbc-gallery">' +
+      '<div class="lbc-gallery__stage immo-ad-media">' +
       (main
-        ? '<img id="adMainImg" src="' + esc(main) + '" alt="" draggable="false" />'
-        : "<div style='padding:40px;text-align:center;color:#64748b'>Sans photo</div>") +
+        ? '<img id="adMainImg" src="' + esc(main) + '" alt="' + esc(p.headline || p.title || "Annonce") + '" draggable="false" />'
+        : '<div class="lbc-gallery__empty">Aucune photo renseignée</div>') +
+      (count
+        ? '<button type="button" class="lbc-nav lbc-nav--prev" id="adPrev" aria-label="Photo précédente">‹</button>' +
+          '<button type="button" class="lbc-nav lbc-nav--next" id="adNext" aria-label="Photo suivante">›</button>' +
+          '<span class="lbc-counter" id="adCounter">1 / ' +
+          count +
+          "</span>"
+        : "") +
       "</div>" +
-      (thumbs ? '<div class="immo-ad-gallery__thumbs" id="adThumbs">' + thumbs + "</div>" : "") +
+      (thumbs ? '<div class="lbc-gallery__thumbs" id="adThumbs">' + thumbs + "</div>" : "") +
       "</div>" +
-      '<div class="immo-ad-info">' +
+      '<header class="lbc-head">' +
       "<h2>" +
-      esc(p.headline || p.title) +
-      '</h2><p class="price">' +
+      esc(p.headline || p.title || EMPTY) +
+      '</h2><p class="lbc-price">' +
       esc(priceOf(p)) +
-      '</p><div class="facts">' +
-      facts(p)
-        .map(function (f) {
-          return "<span>" + esc(f) + "</span>";
-        })
-        .join("") +
-      '</div><div class="body">' +
-      esc(p.description || "") +
-      "</div>" +
-      (mediaLinks ? '<div class="immo-ad-media-links">' + mediaLinks + "</div>" : "") +
+      '</p><p class="lbc-loc">' +
+      esc(
+        [p.type_label, p.city, p.postal_code ? "(" + p.postal_code + ")" : ""]
+          .filter(Boolean)
+          .join(" · ") || EMPTY
+      ) +
+      "</p></header>" +
+      '<section class="lbc-section"><h3>Critères</h3><dl class="lbc-criteria">' +
+      criteriaHtml +
+      "</dl></section>" +
+      '<section class="lbc-section"><h3>Description</h3><div class="lbc-desc' +
+      (desc ? "" : " is-empty") +
+      '">' +
+      esc(desc || EMPTY) +
+      "</div></section>" +
+      (mediaLinks
+        ? '<section class="lbc-section"><h3>Médias</h3><div class="immo-ad-media-links">' + mediaLinks + "</div></section>"
+        : '<section class="lbc-section"><h3>Médias</h3><p class="lbc-desc is-empty">' +
+          esc(EMPTY) +
+          "</p></section>") +
       platforms +
-      "</div></div>"
+      "</article>"
     );
   }
 
   function bindGallery(root) {
     var main = root.querySelector("#adMainImg");
     var thumbs = root.querySelector("#adThumbs");
-    if (!main || !thumbs) return;
-    thumbs.querySelectorAll("[data-src]").forEach(function (btn) {
+    var counter = root.querySelector("#adCounter");
+    var buttons = thumbs ? Array.prototype.slice.call(thumbs.querySelectorAll("[data-src]")) : [];
+    if (!main || !buttons.length) return;
+    var idx = 0;
+
+    function show(i) {
+      if (i < 0) i = buttons.length - 1;
+      if (i >= buttons.length) i = 0;
+      idx = i;
+      var btn = buttons[idx];
+      main.src = btn.getAttribute("data-src");
+      buttons.forEach(function (b, j) {
+        b.classList.toggle("is-active", j === idx);
+      });
+      if (counter) counter.textContent = idx + 1 + " / " + buttons.length;
+    }
+
+    buttons.forEach(function (btn, i) {
       btn.addEventListener("click", function () {
-        main.src = btn.getAttribute("data-src");
-        thumbs.querySelectorAll("button").forEach(function (b) {
-          b.classList.toggle("is-active", b === btn);
-        });
+        show(i);
       });
     });
+    var prev = root.querySelector("#adPrev");
+    var next = root.querySelector("#adNext");
+    if (prev)
+      prev.addEventListener("click", function () {
+        show(idx - 1);
+      });
+    if (next)
+      next.addEventListener("click", function () {
+        show(idx + 1);
+      });
   }
 
   function fetchPublicAds() {

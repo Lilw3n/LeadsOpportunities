@@ -154,6 +154,20 @@
       surface_m2: document.getElementById("adSurface").value,
       rooms: document.getElementById("adRooms").value,
       bedrooms: document.getElementById("adBedrooms").value,
+      floor: document.getElementById("adFloor").value.trim(),
+      heating: document.getElementById("adHeating").value.trim(),
+      dpe: document.getElementById("adDpe").value,
+      ges: document.getElementById("adGes").value,
+      charges: document.getElementById("adCharges").value,
+      year_built: document.getElementById("adYear").value,
+      has_elevator: document.getElementById("adElevator").checked,
+      has_parking: document.getElementById("adParking").checked,
+      has_garage: document.getElementById("adGarage").checked,
+      has_cave: document.getElementById("adCave").checked,
+      has_balcony: document.getElementById("adBalcony").checked,
+      has_terrace: document.getElementById("adTerrace").checked,
+      has_garden: document.getElementById("adGarden").checked,
+      furnished: document.getElementById("adFurnished").checked,
       photos: photoState.slice(),
       videos: videoState.slice(),
       virtual_tour: document.getElementById("adTour").value.trim(),
@@ -354,6 +368,21 @@
     document.getElementById("adSurface").value = p.surface_m2 || "";
     document.getElementById("adRooms").value = p.rooms || "";
     document.getElementById("adBedrooms").value = p.bedrooms || "";
+    var crit = ad.criteria || {};
+    document.getElementById("adFloor").value = crit.floor || p.floor || "";
+    document.getElementById("adHeating").value = crit.heating || "";
+    document.getElementById("adDpe").value = crit.dpe || p.dpe || "";
+    document.getElementById("adGes").value = crit.ges || p.ges || "";
+    document.getElementById("adCharges").value = crit.charges != null ? crit.charges : "";
+    document.getElementById("adYear").value = crit.year_built != null ? crit.year_built : "";
+    document.getElementById("adElevator").checked = !!(crit.has_elevator || p.has_elevator);
+    document.getElementById("adParking").checked = !!(crit.has_parking || p.has_parking);
+    document.getElementById("adGarage").checked = !!(crit.has_garage || p.has_garage);
+    document.getElementById("adCave").checked = !!(crit.has_cave || p.has_cave);
+    document.getElementById("adBalcony").checked = !!(crit.has_balcony || p.has_balcony);
+    document.getElementById("adTerrace").checked = !!(crit.has_terrace || p.has_terrace);
+    document.getElementById("adGarden").checked = !!(crit.has_garden || p.has_garden);
+    document.getElementById("adFurnished").checked = !!(crit.furnished);
     document.getElementById("adTour").value = ad.virtual_tour || "";
     document.getElementById("adPlatforms").value = (ad.platforms || ["Meta", "Google", "Leboncoin"]).join(", ");
     document.getElementById("adDemoLabel").value = ad.demo_label || "Capacité de diffusion";
