@@ -346,6 +346,22 @@ window.CrmImmoSchema = (function () {
       ],
     },
     {
+      id: "annonce_pub",
+      label: "Annonce & pubs",
+      hint: "Saisie type Leboncoin : texte, photos (URLs), vidéos, visite virtuelle. Publier en vitrine mandats et/ou démo privée vendeur.",
+      fields: [
+        area("ad_headline", "Titre annonce pub", { important: true, hint: "Titre affiché sur Meta / Google / vitrine" }),
+        area("ad_body", "Texte annonce", { important: true, hint: "Description commerciale (sans téléphone ni e-mail)" }),
+        area("ad_photo_urls", "Photos (URLs, une par ligne)", { hint: "https… ou data:image — max 12" }),
+        area("ad_video_urls", "Vidéos (URLs, une par ligne)", { hint: "YouTube, Vimeo, fichier https…" }),
+        f("ad_virtual_tour", "Lien visite virtuelle", "text", { hint: "Matterport, Nodalview, Kuula…" }),
+        area("ad_platforms", "Plateformes diffusées", { hint: "Meta, Google, Leboncoin…" }),
+        tri("ad_channel_public", "Vitrine publique (mandats)"),
+        tri("ad_channel_private", "Démo privée vendeur (anti-copie)"),
+        f("ad_demo_label", "Libellé démo privée"),
+      ],
+    },
+    {
       id: "visites",
       label: "Visites",
       fields: [

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Démonstration pub privée | Leads Opportunities</title>
+  <meta name="description" content="Aperçu privé de capacité de diffusion publicitaire — accès sur invitation." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="../main.css" />
+  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260904ads" />
+</head>
+<body class="immo-ad-page">
+  <div class="immo-ad-private-banner">
+    Démonstration privée destinée au vendeur — clic droit, copie et téléchargement désactivés
+  </div>
+
+  <header class="immo-ad-hero" style="padding:36px 0 28px">
+    <div class="container">
+      <span class="immo-ad-badge">Démo privée vendeur</span>
+      <h1>Leads Opportunities</h1>
+      <p class="lead">Voici comment votre bien peut être mis en avant sur nos canaux (Meta, Google, portails) — contenu confidentiel, non reproductible.</p>
+    </div>
+  </header>
+
+  <main class="container" id="adProtectRoot">
+    <p id="adError" class="immo-ad-empty" hidden></p>
+    <div id="adDetail"></div>
+  </main>
+
+  <footer style="padding:28px 0;text-align:center;color:#64748b;font-size:.82rem">
+    <div class="container">
+      Lien personnel · ne pas partager · Wendy Buchet — courtier ORIAS
+    </div>
+  </footer>
+
+  <script src="../js/immo-public-listings-lib.js"></script>
+  <script src="../js/immo-ad-listings-lib.js"></script>
+  <script src="../js/immo-ad-protect.js"></script>
+  <script src="../js/immo-ad-pages.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.ImmoAdPages) window.ImmoAdPages.bootPrivate();
+    });
+  </script>
+</body>
+</html>

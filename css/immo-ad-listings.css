@@ -1,0 +1,231 @@
+/* Vitrine pubs mandats + démo privée vendeur */
+:root {
+  --immo-ad-ink: #0f2744;
+  --immo-ad-accent: #1e5a8a;
+  --immo-ad-sand: #e8eef4;
+  --immo-ad-line: #c5d0dc;
+  --immo-ad-warn: #9a3412;
+}
+
+.immo-ad-page {
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(30, 90, 138, 0.12), transparent 55%),
+    linear-gradient(180deg, #f3f6fa 0%, #eef2f6 40%, #f7f9fb 100%);
+  color: var(--immo-ad-ink);
+  min-height: 100vh;
+}
+
+.immo-ad-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 48px 0 36px;
+  background:
+    linear-gradient(115deg, rgba(15, 39, 68, 0.88), rgba(30, 90, 138, 0.72)),
+    url("../assets/piliers/pilier-immobilier.jpg") center / cover no-repeat;
+  color: #fff;
+}
+
+.immo-ad-hero .container { position: relative; z-index: 1; }
+.immo-ad-hero h1 {
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 8px 0 10px;
+  max-width: 18ch;
+}
+.immo-ad-hero .lead {
+  max-width: 42rem;
+  opacity: 0.92;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0 0 18px;
+}
+.immo-ad-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.immo-ad-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.immo-ad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+  padding: 28px 0 48px;
+}
+
+.immo-ad-card {
+  background: #fff;
+  border: 1px solid var(--immo-ad-line);
+  border-radius: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.immo-ad-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(15, 39, 68, 0.1);
+}
+.immo-ad-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--immo-ad-sand);
+  overflow: hidden;
+}
+.immo-ad-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.immo-ad-card__price {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: rgba(15, 39, 68, 0.9);
+  color: #fff;
+  font-weight: 800;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+}
+.immo-ad-card__body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.immo-ad-card__body h2 { margin: 0; font-size: 1.05rem; line-height: 1.35; }
+.immo-ad-card__meta { color: #5b6b7c; font-size: 0.86rem; margin: 0; }
+.immo-ad-card__desc {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #334155;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.immo-ad-card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+.immo-ad-card__tags span {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--immo-ad-accent);
+  border-bottom: 1px solid var(--immo-ad-line);
+  padding-bottom: 2px;
+}
+
+.immo-ad-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #5b6b7c;
+  border: 1px dashed var(--immo-ad-line);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.immo-ad-detail {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  padding: 28px 0 56px;
+}
+@media (max-width: 860px) {
+  .immo-ad-detail { grid-template-columns: 1fr; }
+}
+
+.immo-ad-gallery {
+  display: grid;
+  gap: 10px;
+}
+.immo-ad-gallery__main {
+  aspect-ratio: 16 / 10;
+  background: var(--immo-ad-sand);
+  overflow: hidden;
+}
+.immo-ad-gallery__main img,
+.immo-ad-gallery__thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.immo-ad-gallery__thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 8px;
+}
+.immo-ad-gallery__thumbs button {
+  aspect-ratio: 1;
+  border: 1px solid var(--immo-ad-line);
+  padding: 0;
+  background: #fff;
+  cursor: pointer;
+  overflow: hidden;
+}
+.immo-ad-gallery__thumbs button.is-active { outline: 2px solid var(--immo-ad-accent); }
+
+.immo-ad-info h2 { margin: 0 0 8px; font-size: 1.45rem; }
+.immo-ad-info .price { font-size: 1.35rem; font-weight: 800; color: var(--immo-ad-accent); margin: 0 0 12px; }
+.immo-ad-info .facts { display: flex; flex-wrap: wrap; gap: 10px 16px; margin: 0 0 14px; color: #475569; font-size: 0.92rem; }
+.immo-ad-info .body { line-height: 1.55; color: #334155; }
+.immo-ad-media-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.immo-ad-platforms {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--immo-ad-line);
+}
+.immo-ad-platforms h3 { margin: 0 0 8px; font-size: 0.95rem; }
+.immo-ad-platforms ul { margin: 0; padding-left: 1.1rem; color: #475569; }
+
+/* Anti-copie */
+.immo-ad-protect,
+.immo-ad-protect * {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+.immo-ad-protect--watermark {
+  position: relative;
+}
+.immo-ad-protect--watermark::after {
+  content: "Démonstration privée · Leads Opportunities · copie interdite";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background-image: repeating-linear-gradient(
+    -28deg,
+    transparent,
+    transparent 120px,
+    rgba(15, 39, 68, 0.035) 120px,
+    rgba(15, 39, 68, 0.035) 160px
+  );
+  mix-blend-mode: multiply;
+}
+.immo-ad-private-banner {
+  background: #fff7ed;
+  color: var(--immo-ad-warn);
+  border-bottom: 1px solid #fdba74;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.immo-ad-fade-in {
+  animation: immoAdFade 0.55s ease both;
+}
+@keyframes immoAdFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.immo-ad-card:nth-child(2) { animation-delay: 0.06s; }
+.immo-ad-card:nth-child(3) { animation-delay: 0.12s; }
+.immo-ad-card:nth-child(4) { animation-delay: 0.18s; }

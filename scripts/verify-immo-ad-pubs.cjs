@@ -1,0 +1,157 @@
+#!/usr/bin/env node
+/**
+ * Vérifie pubs mandats (public) + démo privée vendeur (anti-copie).
+ */
+var fs = require("fs");
+var path = require("path");
+var AdLib = require("../js/immo-ad-listings-lib.js");
+var Protect = require("../js/immo-ad-protect.js");
+
+var ROOT = path.join(__dirname, "..");
+var failed = 0;
+
+function assert(cond, msg) {
+  if (!cond) {
+    failed++;
+    console.log("FAIL", msg);
+  } else {
+    console.log("OK  ", msg);
+  }
+}
+
+function read(rel) {
+  return fs.readFileSync(path.join(ROOT, rel), "utf8");
+}
+
+assert(AdLib.applyAdToProperty && AdLib.filterPublicAds, "lib ad listings exposée");
+assert(Protect.attach, "lib anti-copie exposée");
+
+var sample = AdLib.applyAdToProperty(
+  {
+    id: "prop_test_ad",
+    title: "T3 Nancy",
+    city: "Nancy",
+    postal_code: "54000",
+    property_type: "appartement",
+    status: "mandat",
+    rooms: 3,
+    surface_m2: 68,
+    price_fai: 265000,
+    description: "Bel appartement",
+  },
+  {
+    headline: "T3 lumineux Nancy",
+    body: "Proche tram, cave.",
+    photos: [{ url: "https://cdn.example.com/photo1.jpg", kind: "photo" }],
+    videos: ["https://www.youtube.com/watch?v=abc123"],
+    virtual_tour: "https://my.matterport.com/show/?m=xyz",
+    channel_public: true,
+    channel_private: true,
+    platforms: ["Meta", "Google"],
+  }
+);
+
+assert(AdLib.isPublicMandateAd(sample), "canal public + statut mandat");
+assert(AdLib.isPrivateDemoAd(sample), "canal privé");
+assert(sample.metadata && sample.metadata.ad && sample.metadata.ad.share_token, "share_token généré");
+assert(sample.seo_published === true, "seo_published si public");
+
+var listing = AdLib.toAdListing(sample);
+assert(listing.videos && listing.videos.length === 1, "vidéos dans listing");
+assert(listing.virtual_tour.indexOf("matterport") !== -1, "visite virtuelle");
+assert(listing.share_token == null, "token non exposé dans listing public");
+
+var priv = AdLib.toAdListing(sample, { includeToken: true });
+assert(priv.share_token && priv.share_token.indexOf("ad_") === 0, "token en mode privé");
+
+var found = AdLib.findByShareToken([sample], sample.metadata.ad.share_token);
+assert(found && found.id === "prop_test_ad", "findByShareToken");
+
+assert(!AdLib.isPublicMandateAd({ status: "estimation", metadata: { ad: { channels: ["public"] } } }), "estimation seule ≠ pub mandat");
+assert(
+  AdLib.applyAdToProperty({ status: "estimation" }, { channel_public: true, title: "X", city: "Nancy" }).status === "mandat",
+  "activer canal public passe en mandat"
+);
+
+var files = [
+  "crm-immo-pubs.html",
+  "js/crm-immo-pubs.js",
+  "js/immo-ad-listings-lib.js",
+  "js/immo-ad-protect.js",
+  "js/immo-ad-pages.js",
+  "css/immo-ad-listings.css",
+  "immobilier/pubs-mandats.html",
+  "immobilier/demo-pub-vendeur.html",
+  "api/_lib/routes/public-immo-ads.js",
+];
+files.forEach(function (f) {
+  assert(fs.existsSync(path.join(ROOT, f)), "fichier " + f);
+});
+
+var crm = read("crm-immo-pubs.html");
+assert(crm.indexOf("adVideos") !== -1 && crm.indexOf("adTour") !== -1, "CRM : vidéos + visite virtuelle");
+assert(crm.indexOf("chPublic") !== -1 && crm.indexOf("chPrivate") !== -1, "CRM : canaux public/privé");
+
+var pubPage = read("immobilier/pubs-mandats.html");
+assert(pubPage.indexOf("index,follow") !== -1, "vitrine publique indexable");
+assert(pubPage.indexOf("immo-ad-protect") !== -1, "vitrine : protect chargé");
+
+var privPage = read("immobilier/demo-pub-vendeur.html");
+assert(privPage.indexOf("noindex") !== -1, "démo privée noindex");
+assert(privPage.indexOf("bootPrivate") !== -1, "démo : bootPrivate");
+assert(privPage.indexOf("clic droit") !== -1 || privPage.indexOf("copie") !== -1, "bandeau anti-copie");
+
+var protectSrc = read("js/immo-ad-protect.js");
+assert(protectSrc.indexOf("contextmenu") !== -1, "bloque clic droit");
+assert(protectSrc.indexOf("\"copy\"") !== -1 || protectSrc.indexOf("'copy'") !== -1, "bloque copie");
+
+var apiIndex = read("api/[action].js");
+assert(apiIndex.indexOf("immo-ads") !== -1, "route API immo-ads enregistrée");
+
+var sidebar = read("js/crm-sidebar.js");
+assert(sidebar.indexOf("crm-immo-pubs.html") !== -1, "lien sidebar CRM");
+
+var hub = read("immobilier/index.html");
+assert(hub.indexOf("pubs-mandats.html") !== -1, "lien hub immobilier");
+
+var schema = read("js/crm-immo-property-schema.js");
+assert(schema.indexOf("annonce_pub") !== -1, "section fiche bien Annonce & pubs");
+
+var handler = require("../api/_lib/routes/public-immo-ads.js");
+var captured = { status: 0, body: null, headers: {} };
+var res = {
+  setHeader: function (k, v) {
+    captured.headers[k] = v;
+  },
+  status: function (c) {
+    captured.status = c;
+    return this;
+  },
+  json: function (b) {
+    captured.body = b;
+    return this;
+  },
+  end: function () {
+    return this;
+  },
+};
+
+return Promise.resolve(handler({ method: "GET", query: {}, headers: {} }, res)).then(function () {
+  assert(captured.status === 200 && captured.body && captured.body.ok, "GET /api/immo-ads 200");
+  assert(captured.body.channel === "public", "canal public par défaut");
+  assert(Array.isArray(captured.body.listings), "listings[]");
+
+  captured = { status: 0, body: null, headers: {} };
+  return handler({ method: "GET", query: { token: "ad_inexistant_xyz" }, headers: {} }, res);
+}).then(function () {
+  assert(captured.status === 404, "token inconnu → 404");
+
+  var pkg = JSON.parse(read("package.json"));
+  assert(pkg.scripts["verify:immo-ad-pubs"], "npm script verify:immo-ad-pubs");
+
+  if (failed) {
+    console.log("\n" + failed + " échec(s)");
+    process.exit(1);
+  }
+  console.log("\nTous les checks pubs mandats OK");
+});

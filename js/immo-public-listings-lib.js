@@ -158,6 +158,23 @@
     listing.photos = media;
     listing.cover = coverOf(media);
     listing.capture = captureOf(media);
+    var meta = p.metadata || p.metadata_json;
+    if (typeof meta === "string") {
+      try {
+        meta = JSON.parse(meta);
+      } catch (e) {
+        meta = {};
+      }
+    }
+    var ad = meta && meta.ad && typeof meta.ad === "object" ? meta.ad : null;
+    if (ad) {
+      if (Array.isArray(ad.videos)) {
+        listing.videos = ad.videos.filter(isSafeMediaUrl).slice(0, 6);
+      }
+      if (ad.virtual_tour && isSafeMediaUrl(ad.virtual_tour)) {
+        listing.virtual_tour = String(ad.virtual_tour).slice(0, 2000);
+      }
+    }
     SENSITIVE_KEYS.forEach(function (k) {
       if (Object.prototype.hasOwnProperty.call(listing, k)) delete listing[k];
     });

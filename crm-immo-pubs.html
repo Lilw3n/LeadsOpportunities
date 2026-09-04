@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pubs mandats &amp; démo vendeur | CRM Immobilier</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .pub-immo-grid { display:grid; grid-template-columns:1.1fr 0.9fr; gap:16px; align-items:start; }
+    @media (max-width:980px){ .pub-immo-grid { grid-template-columns:1fr; } }
+    .pub-immo-form label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:10px; }
+    .pub-immo-form input, .pub-immo-form select, .pub-immo-form textarea {
+      padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; background:#f8fafc;
+    }
+    .pub-immo-form textarea { min-height:88px; }
+    .pub-immo-form .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    @media (max-width:600px){ .pub-immo-form .row2 { grid-template-columns:1fr; } }
+    .pub-checks { display:flex; flex-wrap:wrap; gap:12px; margin:8px 0 14px; }
+    .pub-checks label { flex-direction:row; align-items:center; gap:8px; font-size:.88rem; color:#0f172a; font-weight:600; }
+    .pub-list { display:flex; flex-direction:column; gap:10px; max-height:640px; overflow:auto; }
+    .pub-item {
+      border:1px solid var(--line); border-radius:10px; padding:12px; background:#fff; cursor:pointer;
+    }
+    .pub-item:hover, .pub-item.is-active { border-color:#1e4f8a; background:#f0f7ff; }
+    .pub-item h3 { margin:0 0 4px; font-size:.95rem; }
+    .pub-item p { margin:0; font-size:.8rem; color:var(--muted); }
+    .pub-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+    .pub-tags span {
+      font-size:.68rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+      background:#e2e8f0; color:#334155; padding:3px 7px; border-radius:999px;
+    }
+    .pub-tags .pub { background:#dcfce7; color:#166534; }
+    .pub-tags .priv { background:#ffedd5; color:#9a3412; }
+    .pub-preview-links { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .pub-hint { font-size:.82rem; color:var(--muted); margin:0 0 12px; line-height:1.45; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier · Publicité</p>
+      <h2>Pubs mandats &amp; démo vendeur</h2>
+      <p>Saisie type Leboncoin (texte, photos, vidéos, visite virtuelle). Canal public pour les mandats en cours, canal privé pour montrer votre capacité de diffusion à un vendeur prospect — avec anti-copie.</p>
+    </div>
+    <div class="crm-action-row">
+      <a class="btn btn-primary" href="./immobilier/pubs-mandats.html" target="_blank" rel="noopener">Vitrine publique</a>
+      <a class="btn btn-ghost" href="./crm-immo-properties.html">Piges &amp; biens</a>
+      <a class="btn btn-ghost" href="./crm-pubs.html">Gestion pubs Ads</a>
+      <button type="button" class="btn btn-ghost" id="btnNewAd">Nouvelle annonce</button>
+    </div>
+  </section>
+
+  <div class="pub-immo-grid">
+    <section class="panel">
+      <h3 id="formTitle">Nouvelle annonce</h3>
+      <p class="pub-hint">Renseignez le bien comme sur Leboncoin. Cochez « Vitrine publique » pour les mandats obtenus, et/ou « Démo privée » pour le lien à montrer au vendeur (sans clic droit ni copie).</p>
+      <form class="pub-immo-form" id="adForm">
+        <input type="hidden" id="adId" value="" />
+        <label>Titre
+          <input id="adTitle" required maxlength="120" placeholder="T3 lumineux Nancy centre — 68 m²" />
+        </label>
+        <label>Titre pub (optionnel)
+          <input id="adHeadline" maxlength="120" placeholder="Si vide = titre" />
+        </label>
+        <div class="row2">
+          <label>Type
+            <select id="adType">
+              <option value="appartement">Appartement</option>
+              <option value="maison">Maison</option>
+              <option value="terrain">Terrain</option>
+              <option value="local">Local</option>
+              <option value="immeuble">Immeuble</option>
+              <option value="parking">Parking</option>
+              <option value="autre">Autre</option>
+            </select>
+          </label>
+          <label>Statut CRM
+            <select id="adStatus">
+              <option value="estimation">Estimation / prospect</option>
+              <option value="prospection">Prospection</option>
+              <option value="mandat" selected>Mandat en cours</option>
+              <option value="sous_offre">Sous offre</option>
+            </select>
+          </label>
+        </div>
+        <div class="row2">
+          <label>Ville<input id="adCity" required placeholder="Nancy" /></label>
+          <label>Code postal<input id="adPostal" maxlength="5" placeholder="54000" /></label>
+        </div>
+        <div class="row2">
+          <label>Prix FAI (€)<input id="adPrice" type="number" min="0" step="1000" placeholder="265000" /></label>
+          <label>Surface (m²)<input id="adSurface" type="number" min="0" step="1" placeholder="68" /></label>
+        </div>
+        <div class="row2">
+          <label>Pièces<input id="adRooms" type="number" min="0" step="1" placeholder="3" /></label>
+          <label>Chambres<input id="adBedrooms" type="number" min="0" step="1" placeholder="2" /></label>
+        </div>
+        <label>Description
+          <textarea id="adDescription" required placeholder="Points forts, quartier, prestations… (sans téléphone ni e-mail)"></textarea>
+        </label>
+        <label>Photos (URLs, une par ligne)
+          <textarea id="adPhotos" placeholder="https://…&#10;https://…"></textarea>
+        </label>
+        <label>Vidéos (URLs, une par ligne)
+          <textarea id="adVideos" placeholder="https://www.youtube.com/watch?v=…"></textarea>
+        </label>
+        <label>Visite virtuelle (Matterport, Nodalview…)
+          <input id="adTour" type="url" placeholder="https://my.matterport.com/show/?m=…" />
+        </label>
+        <label>Plateformes diffusées
+          <input id="adPlatforms" value="Meta, Google, Leboncoin, SeLoger" />
+        </label>
+        <label>Libellé démo privée
+          <input id="adDemoLabel" value="Capacité de diffusion" />
+        </label>
+        <div class="pub-checks">
+          <label><input type="checkbox" id="chPublic" /> Vitrine publique (mandats)</label>
+          <label><input type="checkbox" id="chPrivate" checked /> Démo privée vendeur</label>
+        </div>
+        <div class="crm-action-row">
+          <button type="submit" class="btn btn-primary" id="btnSaveAd">Enregistrer</button>
+          <button type="button" class="btn btn-ghost" id="btnDeleteAd" hidden>Supprimer</button>
+        </div>
+        <p class="pub-hint" id="adStatusMsg"></p>
+        <div class="pub-preview-links" id="previewLinks"></div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h3>Annonces pub</h3>
+      <p class="pub-hint">Liste des biens avec canal public et/ou privé. Cliquez pour éditer.</p>
+      <div class="pub-list" id="adList"></div>
+    </section>
+  </div>
+
+  <script src="./js/crm-immo-matcher.js"></script>
+  <script src="./js/immo-public-listings-lib.js"></script>
+  <script src="./js/immo-ad-listings-lib.js"></script>
+  <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-pubs.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+</body>
+</html>

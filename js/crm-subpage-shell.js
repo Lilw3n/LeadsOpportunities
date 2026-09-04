@@ -60,6 +60,7 @@
       "crm-patrimoine.html": { subtitle: "Patrimoine — retraite, mutuelle, invalidité, protection famille" },
       "crm-banque-epargne.html": { subtitle: "Banque & épargne — trésorerie pro, précaution, placements" },
       "crm-immo-properties.html": { subtitle: "Piges — filtres RECHERCHE / OÙ / QUI / QUOI / QUAND + actions listing" },
+      "crm-immo-pubs.html": { subtitle: "Pubs mandats (vitrine) + démo privée vendeur — saisie type Leboncoin, anti-copie" },
       "crm-immo-suivi.html": { subtitle: "Suivi ventes / locations / offres / sorties de stock" },
       "crm-immo-property.html": { subtitle: "Fiche intelligente — composition, sections conditionnelles, diagnostics, pièces" },
       "crm-immo-matching.html": { subtitle: "Matching intelligent critères acquéreur ↔ biens" },

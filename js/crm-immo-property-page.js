@@ -1121,6 +1121,41 @@
     if (diag.ges) prop.ges = diag.ges;
     var com = prop.details.commentaires || {};
     if (com.url_fiche) prop.listing_url = com.url_fiche;
+    var adSec = prop.details.annonce_pub || {};
+    if (adSec.ad_headline || adSec.ad_body || adSec.ad_channel_public === "yes" || adSec.ad_channel_private === "yes") {
+      var AdLib = window.ImmoAdListings;
+      if (AdLib && AdLib.applyAdToProperty) {
+        prop = AdLib.applyAdToProperty(prop, {
+          title: prop.title,
+          headline: adSec.ad_headline || prop.title,
+          description: prop.description,
+          body: adSec.ad_body || prop.description,
+          photos: String(adSec.ad_photo_urls || "")
+            .split(/\n+/)
+            .map(function (s) {
+              return s.trim();
+            })
+            .filter(Boolean)
+            .map(function (url) {
+              return { url: url, kind: "photo" };
+            }),
+          videos: adSec.ad_video_urls,
+          virtual_tour: adSec.ad_virtual_tour,
+          platforms: adSec.ad_platforms,
+          demo_label: adSec.ad_demo_label,
+          channel_public: adSec.ad_channel_public === "yes",
+          channel_private: adSec.ad_channel_private === "yes",
+          city: prop.city,
+          postal_code: prop.postal_code,
+          property_type: prop.property_type,
+          rooms: prop.rooms,
+          bedrooms: prop.bedrooms,
+          surface_m2: prop.surface_m2,
+          price_fai: prop.price_fai,
+          status: prop.status,
+        });
+      }
+    }
     prop.history = prop.history || [];
     prop.history.push({ at: new Date().toLocaleString("fr-FR"), text: "Fiche enregistrée (" + (state.sectionId || state.tab) + ")" });
     Store.upsertProperty(prop);
