@@ -135,6 +135,7 @@ assert(pagesJs.indexOf("lbc-listing") !== -1 && pagesJs.indexOf("lbc-gallery") !
 assert(pagesJs.indexOf("lbc-criteria") !== -1, "pages : grille critères");
 assert(pagesJs.indexOf("openLightbox") !== -1 || pagesJs.indexOf("lbcLightbox") !== -1, "pages : lightbox zoom");
 assert(pagesJs.indexOf("setScale") !== -1, "pages : zoom scale");
+assert(pagesJs.indexOf("nextZoomStep") !== -1, "pages : clic photo = zoom progressif");
 
 var css = read("css/immo-ad-listings.css");
 assert(css.indexOf("lbc-gallery__stage") !== -1 && css.indexOf("72vh") !== -1, "CSS : grande galerie photo");
