@@ -122,6 +122,21 @@
       <p class="pub-hint">Renseignez le bien comme sur Leboncoin. Pour la démo privée, indiquez les e-mails / tél. autorisés à visualiser.</p>
       <form class="pub-immo-form" id="adForm">
         <input type="hidden" id="adId" value="" />
+        <div class="pub-media-block" id="lbcImportBox" style="margin-bottom:16px">
+          <h4>Reprendre depuis Leboncoin</h4>
+          <p class="pub-hint" style="margin:0">Collez le <strong>lien</strong> de l’annonce et/ou le <strong>texte</strong> (titre, prix, critères, description). Leboncoin bloque la lecture auto : ouvrez l’annonce → sélectionnez → copiez → collez ici.</p>
+          <label style="margin:8px 0 0">Lien Leboncoin (ou autre portail)
+            <input id="adListingUrl" type="url" placeholder="https://www.leboncoin.fr/ad/ventes_immobilieres/…" />
+          </label>
+          <label style="margin:8px 0 0">Texte de l’annonce (copié depuis Leboncoin)
+            <textarea id="adListingPaste" rows="5" placeholder="Appartement T3…&#10;147 000 €&#10;65 m² · 3 pièces · Varangéville 54110&#10;Classe énergie D…"></textarea>
+          </label>
+          <div class="pub-media-actions" style="margin-top:8px">
+            <button type="button" class="btn btn-primary btn-sm" id="btnImportListing">Reprendre les infos</button>
+            <a class="btn btn-ghost btn-sm" id="btnOpenListingUrl" href="#" target="_blank" rel="noopener" hidden>Ouvrir l’annonce</a>
+          </div>
+          <p class="pub-hint" id="adImportStatus" style="margin:8px 0 0" role="status"></p>
+        </div>
         <label>Titre
           <input id="adTitle" required maxlength="120" placeholder="T3 lumineux Nancy centre — 68 m²" />
         </label>
@@ -276,6 +291,8 @@
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/immo-public-listings-lib.js"></script>
+  <script src="./js/immo-listing-portals-lib.js"></script>
+  <script src="./js/immo-listing-paste-lib.js"></script>
   <script src="./js/immo-photo-compress-lib.js"></script>
   <script src="./js/immo-ad-demo-access-lib.js"></script>
   <script src="./js/immo-ad-listings-lib.js"></script>

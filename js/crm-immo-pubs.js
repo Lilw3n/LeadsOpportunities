@@ -174,11 +174,145 @@
       virtual_tour: document.getElementById("adTour").value.trim(),
       platforms: document.getElementById("adPlatforms").value,
       demo_label: document.getElementById("adDemoLabel").value.trim(),
+      listing_url: document.getElementById("adListingUrl").value.trim(),
       channel_public: document.getElementById("chPublic").checked,
       channel_private: document.getElementById("chPrivate").checked,
       access_emails: document.getElementById("adAccessEmails").value,
       access_phones: document.getElementById("adAccessPhones").value,
     };
+  }
+
+  function setImportStatus(text, ok) {
+    var el = document.getElementById("adImportStatus");
+    if (!el) return;
+    el.textContent = text || "";
+    el.style.color = ok ? "#166534" : "var(--muted)";
+  }
+
+  function syncOpenListingBtn() {
+    var btn = document.getElementById("btnOpenListingUrl");
+    var url = document.getElementById("adListingUrl").value.trim();
+    if (!btn) return;
+    if (url && /^https?:\/\//i.test(url)) {
+      btn.hidden = false;
+      btn.href = url;
+    } else {
+      btn.hidden = true;
+      btn.removeAttribute("href");
+    }
+  }
+
+  function setIfEmpty(id, value) {
+    var el = document.getElementById(id);
+    if (!el || value == null || value === "") return false;
+    if (String(el.value || "").trim()) return false;
+    el.value = value;
+    return true;
+  }
+
+  function setCheckIfUnset(id, value) {
+    var el = document.getElementById(id);
+    if (!el || value == null) return false;
+    if (el.checked) return false;
+    if (value === true) {
+      el.checked = true;
+      return true;
+    }
+    return false;
+  }
+
+  function ensurePlatform(label) {
+    var el = document.getElementById("adPlatforms");
+    if (!el || !label) return;
+    var parts = String(el.value || "")
+      .split(/[,;\n]+/)
+      .map(function (s) {
+        return s.trim();
+      })
+      .filter(Boolean);
+    var found = parts.some(function (p) {
+      return p.toLowerCase() === String(label).toLowerCase();
+    });
+    if (!found) {
+      parts.push(label);
+      el.value = parts.join(", ");
+    }
+  }
+
+  function applyListingPaste(parsed) {
+    if (!parsed || !parsed.ok) {
+      setImportStatus((parsed && parsed.hint) || "Aucune info détectée.", false);
+      return;
+    }
+    var n = 0;
+    if (parsed.listing_url) {
+      document.getElementById("adListingUrl").value = parsed.listing_url;
+      syncOpenListingBtn();
+      n++;
+    }
+    if (parsed.title && setIfEmpty("adTitle", parsed.title)) n++;
+    if (parsed.headline && setIfEmpty("adHeadline", parsed.headline)) n++;
+    if (parsed.description && setIfEmpty("adDescription", parsed.description)) n++;
+    if (parsed.property_type) {
+      var typeEl = document.getElementById("adType");
+      if (typeEl && (!typeEl.value || typeEl.value === "appartement" || !document.getElementById("adTitle").value)) {
+        typeEl.value = parsed.property_type;
+        n++;
+      } else if (typeEl && !document.getElementById("adCity").value) {
+        typeEl.value = parsed.property_type;
+        n++;
+      }
+    }
+    if (parsed.city && setIfEmpty("adCity", parsed.city)) n++;
+    if (parsed.postal_code && setIfEmpty("adPostal", parsed.postal_code)) n++;
+    if (parsed.price_fai != null && setIfEmpty("adPrice", parsed.price_fai)) n++;
+    if (parsed.surface_m2 != null && setIfEmpty("adSurface", parsed.surface_m2)) n++;
+    if (parsed.rooms != null && setIfEmpty("adRooms", parsed.rooms)) n++;
+    if (parsed.bedrooms != null && setIfEmpty("adBedrooms", parsed.bedrooms)) n++;
+    if (parsed.floor && setIfEmpty("adFloor", parsed.floor)) n++;
+    if (parsed.heating && setIfEmpty("adHeating", parsed.heating)) n++;
+    if (parsed.dpe && setIfEmpty("adDpe", parsed.dpe)) n++;
+    if (parsed.ges && setIfEmpty("adGes", parsed.ges)) n++;
+    if (parsed.charges != null && setIfEmpty("adCharges", parsed.charges)) n++;
+    if (parsed.energy_cost != null && setIfEmpty("adEnergyCost", parsed.energy_cost)) n++;
+    if (parsed.year_built != null && setIfEmpty("adYear", parsed.year_built)) n++;
+    if (setCheckIfUnset("adElevator", parsed.has_elevator)) n++;
+    if (setCheckIfUnset("adParking", parsed.has_parking)) n++;
+    if (setCheckIfUnset("adGarage", parsed.has_garage)) n++;
+    if (setCheckIfUnset("adCave", parsed.has_cave)) n++;
+    if (setCheckIfUnset("adBalcony", parsed.has_balcony)) n++;
+    if (setCheckIfUnset("adTerrace", parsed.has_terrace)) n++;
+    if (setCheckIfUnset("adGarden", parsed.has_garden)) n++;
+    if (setCheckIfUnset("adFurnished", parsed.furnished)) n++;
+    if (parsed.portal_label) ensurePlatform(parsed.portal_label.indexOf("Leboncoin") === 0 ? "Leboncoin" : parsed.portal_label);
+    (parsed.photo_urls || []).forEach(function (url) {
+      if (photoState.length >= MAX_PHOTOS) return;
+      var exists = photoState.some(function (p) {
+        return p.url === url;
+      });
+      if (exists) return;
+      photoState.push({ url: url, kind: "photo" });
+      n++;
+    });
+    renderPhotoThumbs();
+    setImportStatus(parsed.hint || n + " champ(s) préremplis.", true);
+    msg(parsed.hint || "Infos reprises depuis l’annonce.", true);
+  }
+
+  function runListingImport() {
+    var Paste = window.ImmoListingPaste;
+    if (!Paste || !Paste.parseListingPaste) {
+      setImportStatus("Module de reprise indisponible.", false);
+      return;
+    }
+    var url = document.getElementById("adListingUrl").value.trim();
+    var paste = document.getElementById("adListingPaste").value.trim();
+    var blob = [url, paste].filter(Boolean).join("\n\n");
+    if (!blob) {
+      setImportStatus("Collez un lien Leboncoin et/ou le texte de l’annonce.", false);
+      return;
+    }
+    applyListingPaste(Paste.parseListingPaste(blob));
   }
 
   function createPageUrl() {
@@ -426,6 +560,8 @@
     document.getElementById("adGarden").checked = !!(crit.has_garden || p.has_garden);
     document.getElementById("adFurnished").checked = !!(crit.furnished);
     document.getElementById("adTour").value = ad.virtual_tour || "";
+    document.getElementById("adListingUrl").value = ad.listing_url || p.listing_url || "";
+    syncOpenListingBtn();
     document.getElementById("adPlatforms").value = (ad.platforms || ["Meta", "Google", "Leboncoin"]).join(", ");
     document.getElementById("adDemoLabel").value = ad.demo_label || "Capacité de diffusion";
     document.getElementById("adAccessEmails").value = (acc.emails || []).join("\n");
@@ -571,6 +707,10 @@
     renderVideoList();
     document.getElementById("adAccessEmails").value = "";
     document.getElementById("adAccessPhones").value = "";
+    document.getElementById("adListingUrl").value = "";
+    document.getElementById("adListingPaste").value = "";
+    setImportStatus("");
+    syncOpenListingBtn();
     document.getElementById("chPrivate").checked = true;
     document.getElementById("chPublic").checked = false;
     document.getElementById("adStatus").value = "mandat";
@@ -581,6 +721,29 @@
 
   paintCreateLink();
   document.getElementById("btnNewAd").onclick = resetForm;
+  var btnImport = document.getElementById("btnImportListing");
+  if (btnImport) btnImport.onclick = runListingImport;
+  var listingUrlEl = document.getElementById("adListingUrl");
+  if (listingUrlEl) {
+    listingUrlEl.addEventListener("change", syncOpenListingBtn);
+    listingUrlEl.addEventListener("input", syncOpenListingBtn);
+    listingUrlEl.addEventListener("paste", function () {
+      setTimeout(function () {
+        syncOpenListingBtn();
+        var Paste = window.ImmoListingPaste;
+        var v = listingUrlEl.value.trim();
+        if (Paste && v && !document.getElementById("adListingPaste").value.trim()) {
+          var parsed = Paste.parseListingPaste(v);
+          if (parsed.listing_url) {
+            listingUrlEl.value = parsed.listing_url;
+            syncOpenListingBtn();
+            if (parsed.portal_label) ensurePlatform(parsed.portal_label.indexOf("Leboncoin") === 0 ? "Leboncoin" : parsed.portal_label);
+            setImportStatus(parsed.hint, parsed.fields_filled.length > 1);
+          }
+        }
+      }, 0);
+    });
+  }
   var copyCreate = document.getElementById("btnCopyCreateLink");
   if (copyCreate) {
     copyCreate.onclick = function () {

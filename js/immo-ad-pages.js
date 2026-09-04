@@ -157,6 +157,12 @@
         : "";
 
     var mediaLinks = "";
+    if (p.listing_url) {
+      mediaLinks +=
+        '<a class="btn btn-outline" href="' +
+        esc(p.listing_url) +
+        '" target="_blank" rel="noopener noreferrer">Annonce Leboncoin / portail</a>';
+    }
     if (p.videos && p.videos.length) {
       mediaLinks += p.videos
         .map(function (v, i) {

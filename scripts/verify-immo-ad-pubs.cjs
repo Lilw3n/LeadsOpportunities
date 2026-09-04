@@ -94,6 +94,8 @@ var crm = read("crm-immo-pubs.html");
 assert(crm.indexOf("adVideos") !== -1 && crm.indexOf("adTour") !== -1, "CRM : vidéos + visite virtuelle");
 assert(crm.indexOf("adEnergyCost") !== -1, "CRM : coût énergie estimé");
 assert(crm.indexOf("questionnaire fiche interlocuteur") !== -1, "CRM : hint sources critères");
+assert(crm.indexOf("adListingUrl") !== -1 && crm.indexOf("btnImportListing") !== -1, "CRM : reprise lien Leboncoin");
+assert(crm.indexOf("immo-listing-paste-lib") !== -1, "CRM : lib paste chargée");
 assert(crm.indexOf("chPublic") !== -1 && crm.indexOf("chPrivate") !== -1, "CRM : canaux public/privé");
 assert(crm.indexOf("adPhotoFiles") !== -1, "CRM : upload fichiers photos");
 assert(crm.indexOf("immo-photo-compress") !== -1, "CRM : compression photos");
@@ -111,6 +113,8 @@ assert(crmJs.indexOf("showCreatedBanner") !== -1 && crmJs.indexOf("highlightId")
 assert(crmJs.indexOf("advisor_phone_code") !== -1, "JS : code téléphone CRM");
 assert(crmJs.indexOf("openAdminPreview") !== -1 && crmJs.indexOf("Voir en admin") !== -1, "JS : lien admin sans e-mail/tél");
 assert(crmJs.indexOf("advisor_preview_grant") !== -1, "JS : grant prévisualisation admin");
+assert(crmJs.indexOf("runListingImport") !== -1 || crmJs.indexOf("applyListingPaste") !== -1, "JS : reprise infos LBC");
+assert(crmJs.indexOf("listing_url") !== -1, "JS : listing_url enregistré");
 
 var Access = require("../js/immo-ad-demo-access-lib.js");
 assert(Access.normalizeEmail(" Wendy@Exemple.FR ") === "wendy@exemple.fr", "normalize email");

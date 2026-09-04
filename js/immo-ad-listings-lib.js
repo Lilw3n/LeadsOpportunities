@@ -400,6 +400,7 @@
       share_token: opts.includeToken ? String(ad.share_token || "") : undefined,
       platforms: Array.isArray(ad.platforms) ? ad.platforms.slice(0, 8).map(String) : ["Meta", "Google", "Leboncoin"],
       demo_label: String(ad.demo_label || "Capacité de diffusion").slice(0, 80),
+      listing_url: String(ad.listing_url || p.listing_url || "").trim(),
       _criteria_saved: !!(ad.criteria && typeof ad.criteria === "object" && Object.keys(ad.criteria).length),
       _from_sell_dossier: !!(fromSell.rooms != null || fromSell.floor || fromSell.dpe || fromSell.heating),
     };
@@ -443,6 +444,7 @@
             .filter(Boolean)
             .slice(0, 8),
       demo_label: String(form.demo_label || "Capacité de diffusion").slice(0, 80),
+      listing_url: String(form.listing_url || prev.listing_url || "").trim().slice(0, 500),
       access: {
         emails: parseAccessEmails(form),
         phones: parseAccessPhones(form),
@@ -487,6 +489,9 @@
     p.has_garden = !!form.has_garden;
     p.has_terrace = !!form.has_terrace;
     p.has_balcony = !!form.has_balcony;
+    if (form.listing_url || prev.listing_url) {
+      p.listing_url = String(form.listing_url || prev.listing_url || "").trim().slice(0, 500);
+    }
     if (photos.length) p.photos_json = photos;
     if (form.status) p.status = form.status;
     else if (channels.indexOf("public") !== -1 && (!p.status || p.status === "estimation" || p.status === "prospection")) {

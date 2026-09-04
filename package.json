@@ -68,6 +68,7 @@
     "verify:immo-ad-pubs": "node scripts/verify-immo-ad-pubs.cjs",
     "verify:devis-docs": "node scripts/verify-devis-documents.cjs",
     "verify:listing-urls": "node scripts/verify-immo-listing-urls.cjs",
+    "verify:listing-paste": "node scripts/verify-immo-listing-paste.cjs",
     "verify:projection": "node scripts/verify-achat-projection.cjs",
     "verify:questionnaires": "node scripts/verify-questionnaires-fields.cjs",
     "verify:leads-hub": "node scripts/verify-leads-hub.cjs",
