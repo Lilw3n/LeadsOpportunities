@@ -64,6 +64,10 @@
       "destination": "/api/auth/google-config-env"
     },
     {
+      "source": "/api/reviews-official-env",
+      "destination": "/api/auth/reviews-official-env"
+    },
+    {
       "source": "/api/leads-recent",
       "destination": "/api/dashboard/leads-recent"
     },

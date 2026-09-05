@@ -72,6 +72,8 @@
       "crm-vehicles.html": { subtitle: "Véhicules assurés, documents et historiques" },
       "crm-drivers.html": { subtitle: "Conducteurs et informations de risque" },
       "crm-partners.html": { subtitle: "Partenaires assureurs, grossistes et apporteurs" },
+      "crm-reviews-official.html": { subtitle: "Trustpilot TrustBox + Google — config notes officielles (vérifiées uniquement)" },
+      "crm-partner-sites.html": { subtitle: "Sites partenaires — aperçus par catégorie + photo override" },
       "crm-wholesalers.html": { subtitle: "Grossistes, critères et contacts utiles" },
       "crm-financial.html": { subtitle: "Paiements, créances, débits et vision comptable" },
       "crm-financial-payments.html": { subtitle: "Encaissements et paiements clients" },

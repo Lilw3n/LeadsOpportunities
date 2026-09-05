@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avis officiels | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .ro-admin .crm-label { display:block; margin-top:12px; font-weight:600; font-size:.9rem; }
+    .ro-admin .crm-input, .ro-admin textarea { width:100%; margin-top:6px; }
+    .ro-admin .row2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    @media (max-width:800px){ .ro-admin .row2 { grid-template-columns:1fr; } }
+    .ro-admin .hint { font-size:.85rem; color:#64748b; margin:6px 0 0; line-height:1.45; }
+    .ro-invite-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px; margin-top:16px; white-space:pre-wrap; font-size:.9rem; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Réputation</p>
+      <h2>Avis officiels — Trustpilot &amp; Google</h2>
+      <p>Branchez le Business Unit Trustpilot (et optionnellement Google). Les notes publiques n’apparaissent que si elles sont marquées <strong>vérifiées</strong>.</p>
+    </div>
+    <div class="crm-action-row">
+      <a class="btn btn-ghost" href="./#avis-officiels" target="_blank" rel="noopener">Voir l’accueil ↗</a>
+      <button type="button" class="btn btn-primary" id="btnSave">Enregistrer</button>
+    </div>
+  </section>
+
+  <section class="crm-page-panel ro-admin">
+    <form id="roForm" class="panel">
+      <label class="crm-label"><input type="checkbox" id="enabled" checked /> Activer le bloc avis officiels</label>
+
+      <h3 style="margin-top:20px">Trustpilot</h3>
+      <p class="hint">Trustpilot Business → Intégrations → TrustBox → copiez le <strong>Business Unit ID</strong>.</p>
+      <div class="row2">
+        <label class="crm-label">Business Unit ID
+          <input class="crm-input" id="tpBusinessUnitId" placeholder="xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off" />
+        </label>
+        <label class="crm-label">Template TrustBox (carousel)
+          <input class="crm-input" id="tpTemplateId" value="54ad5defc6454f11c34ba34d" />
+        </label>
+      </div>
+      <div class="row2">
+        <label class="crm-label">URL profil public
+          <input class="crm-input" id="tpProfileUrl" type="url" placeholder="https://fr.trustpilot.com/review/…" />
+        </label>
+        <label class="crm-label">URL invitation avis
+          <input class="crm-input" id="tpInviteUrl" type="url" placeholder="Lien invitation client" />
+        </label>
+      </div>
+      <div class="row2">
+        <label class="crm-label">Note Trustpilot
+          <input class="crm-input" id="tpScore" type="number" min="0" max="5" step="0.1" placeholder="4.8" />
+        </label>
+        <label class="crm-label">Nombre d’avis
+          <input class="crm-input" id="tpCount" type="number" min="0" step="1" placeholder="42" />
+        </label>
+      </div>
+      <label class="crm-label"><input type="checkbox" id="tpVerified" /> Note Trustpilot vérifiée (affiche le score + AggregateRating SEO)</label>
+
+      <h3 style="margin-top:24px">Google (optionnel)</h3>
+      <div class="row2">
+        <label class="crm-label">URL avis Google
+          <input class="crm-input" id="gReviewUrl" type="url" placeholder="https://g.page/r/…/review" />
+        </label>
+        <label class="crm-label">Place ID
+          <input class="crm-input" id="gPlaceId" placeholder="ChIJ…" />
+        </label>
+      </div>
+      <div class="row2">
+        <label class="crm-label">Note Google
+          <input class="crm-input" id="gScore" type="number" min="0" max="5" step="0.1" />
+        </label>
+        <label class="crm-label">Nombre d’avis Google
+          <input class="crm-input" id="gCount" type="number" min="0" step="1" />
+        </label>
+      </div>
+      <label class="crm-label"><input type="checkbox" id="gVerified" /> Note Google vérifiée</label>
+      <label class="crm-label"><input type="checkbox" id="gEnabled" checked /> Afficher le badge Google si vérifié</label>
+
+      <h3 style="margin-top:24px">Demande d’avis (après signature)</h3>
+      <label class="crm-label">SMS<textarea class="crm-input" id="smsTemplate" rows="3"></textarea></label>
+      <label class="crm-label">E-mail (objet)<input class="crm-input" id="emailSubject" /></label>
+      <label class="crm-label">E-mail (corps)<textarea class="crm-input" id="emailBody" rows="5"></textarea></label>
+      <div class="ro-invite-box" id="invitePreview" aria-live="polite"></div>
+      <div class="crm-action-row" style="margin-top:10px">
+        <button type="button" class="btn btn-ghost btn-sm" id="btnCopySms">Copier SMS</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnCopyEmail">Copier e-mail</button>
+      </div>
+
+      <div class="crm-action-row" style="margin-top:20px">
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <button type="button" class="btn btn-ghost" id="btnExport">Exporter JSON</button>
+        <button type="button" class="btn btn-ghost" id="btnReload">Recharger fichier</button>
+        <button type="button" class="btn btn-ghost" id="btnReset">Reset local</button>
+      </div>
+      <p class="hint" id="formMsg" role="status"></p>
+      <p class="hint">Prod : export → <code>data/reviews-official.json</code>. Env Vercel optionnel : <code>TRUSTPILOT_BUSINESS_UNIT_ID</code>, <code>TRUSTPILOT_PROFILE_URL</code>, <code>GOOGLE_REVIEW_URL</code>.</p>
+    </form>
+  </section>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-admin-guard.js"></script>
+  <script src="/api/reviews-official-env"></script>
+  <script src="./js/reviews-official-lib.js"></script>
+  <script src="./js/crm-reviews-official.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

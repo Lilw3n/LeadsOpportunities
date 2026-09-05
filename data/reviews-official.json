@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-05",
+  "enabled": true,
+  "primaryProvider": "trustpilot",
+  "trustpilot": {
+    "businessUnitId": "",
+    "templateId": "54ad5defc6454f11c34ba34d",
+    "microTemplateId": "5419b6ffb0d04a09e42d81af",
+    "locale": "fr-FR",
+    "profileUrl": "",
+    "inviteUrl": "",
+    "stars": "4,5",
+    "theme": "light",
+    "score": null,
+    "reviewCount": null,
+    "verified": false
+  },
+  "google": {
+    "enabled": true,
+    "placeId": "",
+    "mapsUrl": "https://www.google.com/maps",
+    "reviewUrl": "",
+    "score": null,
+    "reviewCount": null,
+    "verified": false
+  },
+  "display": {
+    "showTrustBox": true,
+    "showScoreStrip": true,
+    "showGoogleBadge": true,
+    "keepHumanQuotes": true
+  },
+  "invite": {
+    "smsTemplate": "Merci pour votre confiance. Votre avis nous aide beaucoup — 2 min ici : {{trustpilot}} (ou Google : {{google}})",
+    "emailSubject": "Votre avis compte — Leads Opportunities",
+    "emailBody": "Bonjour,\n\nMerci pour votre confiance. Si l'accompagnement vous a satisfait, un avis officiel nous aide énormément :\n\n• Trustpilot : {{trustpilot}}\n• Google : {{google}}\n\nÀ très bientôt,\nWendy Buchet — Leads Opportunities"
+  }
+}

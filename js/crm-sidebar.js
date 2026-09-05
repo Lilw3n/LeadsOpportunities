@@ -62,6 +62,7 @@ window.CrmSidebar = {
         { type: "link", href: "./dashboard.html?section=leads", label: "Tous les leads (liste)", icon: "leads", highlight: true, badge: "liste", desc: "Liste complète Dashboard — tous les leads reçus" },
         { type: "link", href: "./crm-leads.html", label: "Leads (qualification)", icon: "leads", highlight: true, badge: "propre", desc: "Lead → prospect / interlocuteur, fusion, spam IP" },
         { type: "link", href: "./crm-pubs.html", label: "Gestion pubs", icon: "social", badge: "Meta·Google·TikTok", highlight: true, desc: "Ads Manager, formulaires, textes campagne" },
+        { type: "link", href: "./crm-reviews-official.html", label: "Avis officiels", icon: "stats", highlight: true, badge: "Trustpilot", desc: "Trustpilot TrustBox + Google — notes vérifiées uniquement" },
         { type: "link", href: "./crm-sources.html", label: "Origine des leads", icon: "stats", badge: "UTM", desc: "Plateforme, campagne, gclid, ttclid" },
         { type: "link", href: "./crm-trafic.html", label: "Trafic & visites", icon: "stats", badge: "WoW", desc: "Comparaison semaine vs semaine précédente" },
         { type: "link", href: "./crm-acquisition.html", label: "Pipeline acquisition", icon: "acquisition", highlight: true, badge: "priorité", desc: "Google, Meta, TikTok, Allo" },
