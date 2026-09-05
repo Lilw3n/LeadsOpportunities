@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-05T09:09:01.818Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sports/football/ligue-1/psg-monaco-le-coup-parfait-de-l-asm-une-aubaine-pour-la-ligue-1-paris-sans-defense-coups-de-coeur-et-coups-de-griffe-20260905",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a9bdc2da9004739b75174070f8eb29a&url=https%3a%2f%2fwww.lemonde.fr%2fsport%2farticle%2f2026%2f09%2f04%2fcoupe-du-monde-feminine-de-basket-2026-l-equipe-de-france-ambitieuse-malgre-une-preparation-tronquee-par-la-wnba_6765811_3242.html&c=14463696604679389448&mkt=en-us",
+    "https://www.france24.com/fr/vid%C3%A9o/20260905-france-24-au-n%C3%A9pal-%C3%A0-la-rencontre-des-survivants-des-zones-sinistr%C3%A9es"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-05T09:09:03.797Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-05T09:09:03.797Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "psg-monaco-le-coup-parfait-de-l-asm-une-aubaine-pour-la-ligue-1-paris-sa.html",
+          "title": "PSG-Monaco : le coup parfait de l’ASM, une aubaine pour la Ligue 1, Paris sans défense.… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro flash",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "coupe-du-monde-feminine-de-basket-2026-l-equipe-de-france-ambitieuse-mal.html",
+          "title": "Coupe du monde féminine de basket 2026 : l’équipe de France ambitieuse malgré une prépa… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "france-24-au-nepal-a-la-rencontre-des-survivants-des-zones-sinistrees.html",
+          "title": "France 24 au Népal : à la rencontre des survivants des zones sinistrées : assurance auto — que faire ?",
+          "source": "Firefox — France 24",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
