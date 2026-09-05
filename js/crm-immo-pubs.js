@@ -11,9 +11,62 @@
   var MAX_PHOTOS = 12;
   var currentId = "";
   var highlightId = "";
+  var listFilter = "all";
   var photoState = [];
   var videoState = [];
   var Access = window.ImmoAdDemoAccess;
+
+  function publicAdUrl(id) {
+    return location.origin + "/immobilier/pubs-mandats.html?id=" + encodeURIComponent(id);
+  }
+
+  function privateAdUrl(token) {
+    return location.origin + "/immobilier/demo-pub-vendeur.html?token=" + encodeURIComponent(token);
+  }
+
+  function copyUrl(url) {
+    if (!url) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () {
+        msg("Lien copié.", true);
+      });
+    } else {
+      msg(url, true);
+    }
+  }
+
+  function openLinksHtml(p, channels, shareToken) {
+    var bits = [];
+    if (channels.indexOf("public") !== -1) {
+      var pubUrl = publicAdUrl(p.id);
+      bits.push(
+        '<a class="pub-link-public" href="' +
+          esc(pubUrl) +
+          '" target="_blank" rel="noopener" data-stop="1">Ouvrir publique</a>'
+      );
+      bits.push(
+        '<button type="button" data-copy="' + esc(pubUrl) + '" data-stop="1">Copier publique</button>'
+      );
+    }
+    if (channels.indexOf("private") !== -1 && shareToken) {
+      var privUrl = privateAdUrl(shareToken);
+      bits.push(
+        '<a class="pub-link-private" href="' +
+          esc(privUrl) +
+          '" target="_blank" rel="noopener" data-stop="1">Ouvrir privée</a>'
+      );
+      bits.push(
+        '<button type="button" data-copy="' + esc(privUrl) + '" data-stop="1">Copier privée</button>'
+      );
+      bits.push(
+        '<button type="button" class="pub-link-admin" data-admin-token="' +
+          esc(shareToken) +
+          '" data-stop="1">Admin (sans code)</button>'
+      );
+    }
+    if (!bits.length) return "";
+    return '<div class="pub-open-links">' + bits.join("") + "</div>";
+  }
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -640,9 +693,22 @@
     var props = Store.listProperties({}).filter(function (p) {
       return AdLib.isPublicMandateAd(p) || AdLib.isPrivateDemoAd(p);
     });
+    if (listFilter === "public") {
+      props = props.filter(function (p) {
+        return AdLib.isPublicMandateAd(p);
+      });
+    } else if (listFilter === "private") {
+      props = props.filter(function (p) {
+        return AdLib.isPrivateDemoAd(p);
+      });
+    }
     var box = document.getElementById("adList");
+    if (!box) return;
     if (!props.length) {
-      box.innerHTML = '<p class="pub-hint">Aucune annonce pub pour l’instant. Utilisez le lien de création ci-dessus.</p>';
+      box.innerHTML =
+        '<p class="pub-hint">Aucune pub ' +
+        (listFilter === "public" ? "publique" : listFilter === "private" ? "privée" : "") +
+        " pour l’instant. Utilisez le lien de création ci-dessus.</p>";
       return;
     }
     box.innerHTML = props
@@ -653,14 +719,15 @@
         var mediaBits = [];
         var photos = (bag.ad.photos && bag.ad.photos.length) || (p.photos_json && p.photos_json.length) || 0;
         if (photos) mediaBits.push(photos + " photo" + (photos > 1 ? "s" : ""));
-        if (bag.ad.videos && bag.ad.videos.length) mediaBits.push(bag.ad.videos.length + " vidéo" + (bag.ad.videos.length > 1 ? "s" : ""));
+        if (bag.ad.videos && bag.ad.videos.length)
+          mediaBits.push(bag.ad.videos.length + " vidéo" + (bag.ad.videos.length > 1 ? "s" : ""));
         if (bag.ad.virtual_tour) mediaBits.push("visite 3D");
         if (acc.emails.length) mediaBits.push(acc.emails.length + " e-mail" + (acc.emails.length > 1 ? "s" : ""));
         if (acc.phones.length) mediaBits.push(acc.phones.length + " tél.");
         var tags = "";
         if (channels.indexOf("public") !== -1) tags += '<span class="pub">Public mandat</span>';
         if (channels.indexOf("private") !== -1) tags += '<span class="priv">Démo privée</span>';
-        var hl = p.id === highlightId || p.id === currentId;
+        var token = bag.ad.share_token || "";
         return (
           '<article class="pub-item' +
           (p.id === currentId ? " is-active" : "") +
@@ -676,21 +743,58 @@
           (mediaBits.length ? " · " + mediaBits.join(", ") : "") +
           '</p><div class="pub-tags">' +
           tags +
-          "</div></article>"
+          "</div>" +
+          openLinksHtml(p, channels, token) +
+          "</article>"
         );
       })
       .join("");
     box.querySelectorAll("[data-id]").forEach(function (el) {
-      el.onclick = function () {
+      el.onclick = function (ev) {
+        var t = ev.target;
+        if (t && t.closest && t.closest("[data-stop]")) return;
         var p = Store.getProperty(el.getAttribute("data-id"));
         if (p) fillForm(p);
         listAds();
+      };
+    });
+    box.querySelectorAll("[data-copy]").forEach(function (btn) {
+      btn.onclick = function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        copyUrl(btn.getAttribute("data-copy"));
+      };
+    });
+    box.querySelectorAll("[data-admin-token]").forEach(function (btn) {
+      btn.onclick = function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        openAdminPreview(btn.getAttribute("data-admin-token"));
+      };
+    });
+    box.querySelectorAll("a[data-stop]").forEach(function (a) {
+      a.onclick = function (ev) {
+        ev.stopPropagation();
       };
     });
     if (highlightId) {
       var card = box.querySelector('[data-id="' + highlightId + '"]');
       if (card) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
+  }
+
+  function bindListFilter() {
+    var bar = document.getElementById("adListFilter");
+    if (!bar) return;
+    bar.querySelectorAll("[data-filter]").forEach(function (btn) {
+      btn.onclick = function () {
+        listFilter = btn.getAttribute("data-filter") || "all";
+        bar.querySelectorAll("[data-filter]").forEach(function (b) {
+          b.classList.toggle("is-on", b === btn);
+        });
+        listAds();
+      };
+    });
   }
 
   function resetForm() {
@@ -720,6 +824,7 @@
   }
 
   paintCreateLink();
+  bindListFilter();
   document.getElementById("btnNewAd").onclick = resetForm;
   var btnImport = document.getElementById("btnImportListing");
   if (btnImport) btnImport.onclick = runListingImport;

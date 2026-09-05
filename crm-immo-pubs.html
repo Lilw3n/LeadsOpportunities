@@ -85,6 +85,28 @@
       font-size:.85rem; color:#9a3412;
     }
     .pub-code-box strong { font-size:1.25rem; letter-spacing:.12em; }
+    .pub-filter {
+      display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px;
+    }
+    .pub-filter button {
+      border:1px solid var(--line); background:#fff; color:#334155; border-radius:999px;
+      padding:6px 12px; font:inherit; font-size:.8rem; font-weight:700; cursor:pointer;
+    }
+    .pub-filter button.is-on {
+      background:#0f2744; color:#fff; border-color:#0f2744;
+    }
+    .pub-open-links {
+      display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;
+    }
+    .pub-open-links a, .pub-open-links button {
+      font-size:.72rem; font-weight:700; text-decoration:none;
+      border:1px solid var(--line); border-radius:8px; padding:5px 8px;
+      background:#f8fafc; color:#1e4f8a; cursor:pointer; font:inherit;
+    }
+    .pub-open-links a.pub-link-public { background:#dcfce7; border-color:#86efac; color:#166534; }
+    .pub-open-links a.pub-link-private { background:#ffedd5; border-color:#fdba74; color:#9a3412; }
+    .pub-open-links button:hover, .pub-open-links a:hover { filter:brightness(0.97); }
+    .pub-item .pub-open-links { cursor:default; }
   </style>
 </head>
 <body class="crm-subpage">
@@ -282,9 +304,14 @@
       </form>
     </section>
 
-    <section class="panel">
-      <h3>Pubs créées</h3>
-      <p class="pub-hint">Liste mise en évidence après chaque enregistrement. Cliquez pour éditer.</p>
+    <section class="panel" id="pubsDirectory">
+      <h3>Retrouver mes pubs</h3>
+      <p class="pub-hint">Toutes les pubs <strong>publiques</strong> et <strong>privées</strong> avec lien direct pour les rouvrir. Cliquez la carte pour éditer.</p>
+      <div class="pub-filter" id="adListFilter" role="tablist" aria-label="Filtrer les pubs">
+        <button type="button" data-filter="all" class="is-on">Toutes</button>
+        <button type="button" data-filter="public">Publiques</button>
+        <button type="button" data-filter="private">Privées</button>
+      </div>
       <div class="pub-list" id="adList"></div>
     </section>
   </div>
