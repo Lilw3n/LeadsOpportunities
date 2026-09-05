@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-05T06:20:29.509Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.franceinfo.fr/environnement/meteo/sept-departements-du-sud-de-la-france-sont-en-vigilance-orange-canicule-des-temperatures-inedites-pour-un-mois-de-septembre_8178356.html#xtor=RSS-3-[lestitres]",
+    "https://www.leprogres.fr/societe/2026/09/05/25-hectares-de-vegetation-brules-et-une-maison-detruite-les-degats-de-l-incendie-a-vaugneray",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a9bb4a906104106b0f44b0c9f3a9e43&url=https%3a%2f%2fwww.moneyvox.fr%2fassurance-vie%2factualites%2f110223%2fce-qui-va-changer-pour-les-taux-2026&c=13092834507740041933&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-05T06:20:31.118Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-05T06:20:31.118Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "sept-departements-du-sud-de-la-france-sont-en-vigilance-orange-canicule-.html",
+          "title": "Sept départements du sud de la France sont en vigilance orange \"canicule\", des températ… : assurance habitation — que faire ?",
+          "source": "Firefox — France Info titres",
+          "sourceType": "firefox"
+        },
+        {
+          "file": "en-images-25-hectares-de-vegetation-brules-et-une-maison-detruite-les-de.html",
+          "title": "En images. 25 hectares de végétation brûlés et une maison détruite : les dégâts de l'in… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Progrès",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "assurance-vie-ce-qui-va-changer-pour-les-taux-2026.html",
+          "title": "Assurance vie : ce qui va changer pour les taux 2026 : prevoyance et revenus — que faire ?",
+          "source": "Edge — Bing assurance",
+          "sourceType": "edge"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
