@@ -117,7 +117,8 @@
       "section": "actu",
       "need": "sante",
       "tag": "Coupe du monde 2026",
-      "tagClass": "tag-actu"
+      "tagClass": "tag-actu",
+      "minHits": 2
     },
     {
       "keywords": ["voyage", "vacances", "avion", "déplacement", "ligue des champions", "formule 1", "deplacement supporters", "billet avion", "resa hotel"],
