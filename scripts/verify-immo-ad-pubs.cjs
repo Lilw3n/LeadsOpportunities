@@ -104,8 +104,15 @@ assert(crm.indexOf("Matterport") !== -1, "CRM : visite virtuelle Matterport");
 assert(crm.indexOf("adAccessEmails") !== -1 && crm.indexOf("adAccessPhones") !== -1, "CRM : e-mails / tél. autorisés");
 assert(crm.indexOf("createLinkUrl") !== -1 || crm.indexOf("Créer une pub") !== -1, "CRM : lien de création");
 assert(crm.indexOf("createdBanner") !== -1, "CRM : bandeau pub créée");
+assert(crm.indexOf('id="pubsDirectory"') !== -1, "CRM : répertoire pubs");
+assert(crm.indexOf('id="adListFilter"') !== -1, "CRM : filtre toutes/publiques/privées");
+assert(crm.indexOf("pub-open-links") !== -1, "CRM : styles liens ouverts");
+assert(crm.indexOf("Retrouver mes pubs") !== -1, "CRM : titre répertoire");
 
 var crmJs = read("js/crm-immo-pubs.js");
+assert(crmJs.indexOf("openLinksHtml") !== -1, "JS : liens public/privé par carte");
+assert(crmJs.indexOf("bindListFilter") !== -1, "JS : filtre liste pubs");
+assert(crmJs.indexOf("publicAdUrl") !== -1 && crmJs.indexOf("privateAdUrl") !== -1, "JS : URLs publique/privée");
 assert(crmJs.indexOf("compressMany") !== -1 || crmJs.indexOf("ImmoPhotoCompress") !== -1, "JS : compression photos");
 assert(crmJs.indexOf("photoState") !== -1 && crmJs.indexOf("videoState") !== -1, "JS : état médias");
 assert(crmJs.indexOf("MAX_PHOTOS") !== -1, "JS : plafond photos");
