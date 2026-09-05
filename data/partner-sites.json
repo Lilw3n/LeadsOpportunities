@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-05",
+  "title": "Sites partenaires",
+  "lead": "Des entreprises locales que nous accompagnons — aperçu de leur vitrine, par métier.",
+  "categories": [
+    { "id": "batiment", "label": "Bâtiment & construction", "order": 10, "icon": "🏗️" },
+    { "id": "immobilier", "label": "Immobilier", "order": 20, "icon": "🏠" },
+    { "id": "services", "label": "Services aux pros", "order": 30, "icon": "🛠️" },
+    { "id": "commerce", "label": "Commerce & local", "order": 40, "icon": "🏪" }
+  ],
+  "sites": [
+    {
+      "id": "exemple-batiment-54",
+      "category": "batiment",
+      "name": "Entreprise bâtiment (exemple)",
+      "url": "https://www.leadsopportunities.fr/",
+      "preview_image_url": "",
+      "tagline": "Maçonnerie · rénovation · Nancy / 54",
+      "city": "Nancy",
+      "active": true,
+      "order": 10,
+      "notes": "Remplacez par le vrai client : URL du site + photo d’aperçu si la capture auto ne convient pas."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sites partenaires | Leads Opportunities</title>
+  <meta name="description" content="Aperçu des sites de nos partenaires locaux, classés par métier : bâtiment, immobilier, services, commerce." />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/sites-partenaires/" />
+  <link rel="stylesheet" href="../main.css" />
+  <link rel="stylesheet" href="../css/partner-sites.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../">Leads Opportunities</a>
+      <nav class="nav-links" aria-label="Navigation">
+        <a href="../nos-services.html">Services</a>
+        <a href="../immobilier/">Immobilier</a>
+        <a href="./">Sites partenaires</a>
+        <a class="btn btn-primary btn-sm" href="../devis.html">Devis</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" style="padding-bottom:0">
+      <div class="container" style="max-width:760px;text-align:center">
+        <p class="section-badge">Partenaires locaux</p>
+        <h1>Les sites de nos partenaires</h1>
+        <p style="color:var(--muted,#64748b);line-height:1.55">
+          Filtrez par métier (bâtiment, immobilier…). Si la capture automatique ne convient pas,
+          une photo d’aperçu peut être définie dans le CRM.
+        </p>
+      </div>
+    </section>
+    <section data-partner-sites data-layout="hub" data-src="../data/partner-sites.json"></section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container" style="padding:28px 20px;text-align:center;color:#64748b;font-size:.9rem">
+      <a href="../">Accueil</a> · Wendy Buchet — courtier ORIAS
+    </div>
+  </footer>
+
+  <script src="../js/partner-sites-lib.js"></script>
+  <script src="../js/public-partner-sites.js"></script>
+</body>
+</html>

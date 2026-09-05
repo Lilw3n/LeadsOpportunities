@@ -66,6 +66,7 @@
     "pret:fiches:sync": "node scripts/sync-pret-fiches-download-list.cjs && node scripts/build-pret-fiches-catalog.cjs",
     "verify:listings": "node scripts/verify-immo-listings.cjs",
     "verify:immo-ad-pubs": "node scripts/verify-immo-ad-pubs.cjs",
+    "verify:partner-sites": "node scripts/verify-partner-sites.cjs",
     "verify:devis-docs": "node scripts/verify-devis-documents.cjs",
     "verify:listing-urls": "node scripts/verify-immo-listing-urls.cjs",
     "verify:listing-paste": "node scripts/verify-immo-listing-paste.cjs",

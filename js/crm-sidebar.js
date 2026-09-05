@@ -152,6 +152,7 @@ window.CrmSidebar = {
         { type: "link", href: "./crm-drivers.html", label: "Conducteurs", icon: "contacts" },
         { type: "link", href: "./crm-driver-new.html", label: "Nouveau conducteur", icon: "contacts" },
         { type: "link", href: "./crm-partners.html", label: "Partenaires", icon: "partner" },
+        { type: "link", href: "./crm-partner-sites.html", label: "Sites partenaires", icon: "partner", highlight: true, desc: "Aperçus par catégorie + photo override" },
         { type: "link", href: "./crm-wholesalers.html", label: "Memo grossistes", icon: "partner" },
         { type: "link", href: "./crm-partner-detail.html", label: "Détail partenaire", icon: "partner", muted: true },
       ],

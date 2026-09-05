@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sites partenaires | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/partner-sites.css" />
+  <style>
+    .ps-admin-grid { display:grid; grid-template-columns:minmax(260px,360px) 1fr; gap:20px; }
+    @media (max-width:960px){ .ps-admin-grid { grid-template-columns:1fr; } }
+    .ps-list { display:flex; flex-direction:column; gap:10px; max-height:70vh; overflow:auto; }
+    .ps-item { border:1px solid #e2e8f0; border-radius:12px; padding:12px 14px; background:#fff; cursor:pointer; text-align:left; width:100%; }
+    .ps-item.is-active { border-color:#0d9488; box-shadow:0 0 0 2px rgba(13,148,136,.15); }
+    .ps-item strong { display:block; }
+    .ps-item span { color:#64748b; font-size:.85rem; }
+    .ps-form .crm-label { display:block; margin-top:12px; font-weight:600; font-size:.9rem; }
+    .ps-form .crm-input { width:100%; margin-top:6px; }
+    .ps-form .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .ps-preview-mini { margin-top:12px; border-radius:12px; overflow:hidden; border:1px solid #e2e8f0; aspect-ratio:16/10; background:#f1f5f9; }
+    .ps-preview-mini img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
+    .ps-hint { font-size:.85rem; color:#64748b; margin:8px 0 0; line-height:1.45; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Partenaires</p>
+      <h2>Sites partenaires — aperçus</h2>
+      <p>Ajoutez les sites de vos clients (ex. bâtiment) par catégorie. Collez une URL de photo si l’aperçu auto du site ne convient pas.</p>
+    </div>
+    <div class="crm-action-row">
+      <a class="btn btn-ghost" href="./sites-partenaires/?preview=1" target="_blank" rel="noopener">Prévisualiser ↗</a>
+      <a class="btn btn-ghost" href="./sites-partenaires/" target="_blank" rel="noopener">Page publique</a>
+      <button type="button" class="btn btn-primary" id="btnNewSite">+ Nouveau site</button>
+    </div>
+  </section>
+
+  <section class="crm-page-panel">
+    <div class="crm-action-row" style="margin-bottom:12px">
+      <button type="button" class="btn btn-ghost btn-sm" id="btnReloadJson">Recharger JSON</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnExportJson">Exporter JSON</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnResetLocal">Reset local</button>
+    </div>
+    <div class="ps-admin-grid">
+      <div class="ps-list" id="siteList" aria-label="Liste des sites"></div>
+      <form class="panel ps-form" id="siteForm">
+        <input type="hidden" id="siteId" />
+        <label class="crm-label">Nom
+          <input class="crm-input" id="siteName" required placeholder="Entreprise Martin Bâtiment" />
+        </label>
+        <div class="row2">
+          <label class="crm-label">Catégorie
+            <select class="crm-input" id="siteCategory"></select>
+          </label>
+          <label class="crm-label">Ordre
+            <input class="crm-input" id="siteOrder" type="number" step="1" value="10" />
+          </label>
+        </div>
+        <label class="crm-label">URL du site
+          <input class="crm-input" id="siteUrl" type="url" placeholder="https://www.exemple-batiment.fr" />
+        </label>
+        <label class="crm-label">Photo d’aperçu (optionnel)
+          <input class="crm-input" id="sitePreview" type="url" placeholder="https://…/facade.jpg" />
+        </label>
+        <p class="ps-hint">Si vide : capture automatique du site. Si elle est moche ou bloquée, collez l’URL d’une belle photo (façade, chantier…).</p>
+        <label class="crm-label">Accroche
+          <input class="crm-input" id="siteTagline" placeholder="Maçonnerie · rénovation · 54" />
+        </label>
+        <div class="row2">
+          <label class="crm-label">Ville
+            <input class="crm-input" id="siteCity" placeholder="Nancy" />
+          </label>
+          <label class="crm-label" style="display:flex;align-items:flex-end;gap:8px;padding-bottom:8px">
+            <input type="checkbox" id="siteActive" checked /> Actif
+          </label>
+        </div>
+        <label class="crm-label">Notes internes
+          <textarea class="crm-input" id="siteNotes" rows="2" placeholder="Client décennale, contact…"></textarea>
+        </label>
+        <div class="ps-preview-mini" id="previewBox" aria-live="polite"></div>
+        <div class="crm-action-row" style="margin-top:16px">
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="button" class="btn btn-ghost" id="btnDeleteSite">Supprimer</button>
+        </div>
+        <p class="ps-hint" id="formMsg" role="status"></p>
+        <p class="ps-hint">Prod : <strong>Exporter JSON</strong> → remplacer <code>data/partner-sites.json</code> → déployer.</p>
+      </form>
+    </div>
+  </section>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-admin-guard.js"></script>
+  <script src="./js/partner-sites-lib.js"></script>
+  <script src="./js/crm-partner-sites.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
