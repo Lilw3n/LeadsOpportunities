@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-07T13:43:42.075Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/finances-perso/a-cause-des-piratages-du-fisc-ou-de-l-assurance-maladie-les-fraudes-au-faux-conseiller-bancaire-explosent-20260907",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a9ebf898e4847f4b4ec3cdc9d0099d2&url=https%3a%2f%2fwww.ouest-france.fr%2feconomie%2fbudget%2fassurances-pourquoi-le-prix-des-assurances-emprunteurs-est-il-le-seul-a-baisser-6c6a8ef6-a52a-11f0-a483-88b21a3890bd&c=16937014068484670787&mkt=en-us",
+    "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20260907-sommet-lumi%C3%A8re-le-cin%C3%A9ma-mondial-r%C3%A9unit-%C3%A0-saint-paul-de-vence-pour-un-davos-du-7%C3%A8me-art"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-07T13:43:43.811Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-07T13:43:43.811Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "a-cause-des-piratages-du-fisc-ou-de-l-assurance-maladie-les-fraudes-au-f.html",
+          "title": "À cause des piratages du fisc ou de l’Assurance-maladie, les fraudes au faux conseiller… : mutuelle et remboursements — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "assurances-pourquoi-le-prix-des-assurances-emprunteurs-est-il-le-seul-a-.html",
+          "title": "Assurances : pourquoi le prix des assurances emprunteurs est-il le seul à baisser ? : pret et assurance emprunteur — que faire ?",
+          "source": "Edge — Bing assurance",
+          "sourceType": "edge"
+        },
+        {
+          "file": "sommet-lumiere-le-cinema-mondial-reuni-a-saint-paul-de-vence-pour-un-dav.html",
+          "title": "Sommet Lumière : le cinéma mondial réuni à Saint-Paul-de-Vence pour un \"Davos du 7ème art\" : assurance habitation — que faire ?",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
