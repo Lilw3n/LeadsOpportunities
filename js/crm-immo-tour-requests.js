@@ -121,6 +121,12 @@
             encodeURIComponent(r.property_id) +
             '">Bien</a>';
         }
+        if (r.contact_id) {
+          actions +=
+            '<a class="btn btn-ghost btn-sm" href="./crm-contact.html?id=' +
+            encodeURIComponent(r.contact_id) +
+            '#visite">Prospect</a>';
+        }
         return (
           '<article class="tour-req-card tour-req-' +
           esc(r.status) +

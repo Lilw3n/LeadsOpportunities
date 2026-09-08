@@ -72,6 +72,8 @@ async function ensureTourRequestSchema(sql) {
     `;
     await sql`CREATE UNIQUE INDEX IF NOT EXISTS idx_immo_tour_req_unique ON crm_immo_tour_requests (tour_token, email)`;
     await sql`CREATE INDEX IF NOT EXISTS idx_immo_tour_req_status ON crm_immo_tour_requests (status, created_at DESC)`;
+    await sql`ALTER TABLE crm_immo_tour_requests ADD COLUMN IF NOT EXISTS contact_id TEXT`;
+    await sql`ALTER TABLE crm_immo_tour_requests ADD COLUMN IF NOT EXISTS lead_id TEXT`;
   } catch (e) {
     console.warn("[immo-tour-access] request schema", e && e.message);
   }
@@ -95,6 +97,8 @@ function publicRequestRow(row) {
     decided_at: row.decided_at,
     decided_by: row.decided_by || "",
     code_sent_at: row.code_sent_at,
+    contact_id: row.contact_id || "",
+    lead_id: row.lead_id || "",
   };
 }
 
@@ -422,37 +426,132 @@ async function bumpLinkViews(sql, property, access) {
 }
 
 async function recordLead(sql, payload) {
-  if (!sql) return;
+  if (!sql) return null;
   try {
     await require("../ensure-schema").ensureSiteLeadsSchema(sql);
-    var id = "lead_tour_" + String(payload.token || "").slice(0, 18) + "_" + String(payload.email || "").replace(/[^a-z0-9]/g, "").slice(0, 24);
+    var emailKey = String(payload.email || "").replace(/[^a-z0-9]/g, "").slice(0, 24);
+    var phoneKey = String(payload.phone || "").replace(/\D/g, "").slice(-10);
+    var id =
+      "lead_tour_" +
+      String(payload.token || "").slice(0, 18) +
+      "_" +
+      (emailKey || phoneKey || "x");
     if (id.length < 16) id = "lead_tour_" + randomUUID();
+    var bag = {
+      first_name: payload.first_name,
+      firstName: payload.first_name,
+      need: "visite_virtuelle",
+      property_id: payload.property_id,
+      propertyIds: payload.property_id ? [payload.property_id] : [],
+      tour_token: payload.token,
+      city: payload.city,
+      title: payload.title,
+      utm_source: payload.utm_source || "leboncoin",
+    };
     await sql`
-      INSERT INTO site_leads (id, source, vertical, email, phone, payload, status)
+      INSERT INTO site_leads (id, source, vertical, email, phone, city, payload, status)
       VALUES (
         ${id},
         ${"visite-virtuelle"},
         ${"acheteur_immo"},
-        ${payload.email},
-        ${payload.phone},
-        ${JSON.stringify({
-          first_name: payload.first_name,
-          need: "visite_virtuelle",
-          property_id: payload.property_id,
-          tour_token: payload.token,
-          city: payload.city,
-          title: payload.title,
-          utm_source: payload.utm_source || "leboncoin",
-        })},
+        ${payload.email || null},
+        ${payload.phone || null},
+        ${payload.city || null},
+        ${JSON.stringify(bag)},
         ${"new"}
       )
       ON CONFLICT (id) DO UPDATE SET
         phone = COALESCE(EXCLUDED.phone, site_leads.phone),
+        city = COALESCE(EXCLUDED.city, site_leads.city),
+        payload = EXCLUDED.payload,
         updated_at = NOW()
     `;
+    return id;
   } catch (e) {
     console.warn("[immo-tour-access] lead", e && e.message);
+    return null;
   }
+}
+
+async function registerTourProspect(sql, ctx) {
+  if (!sql) return { leadId: null, contactId: null };
+  var email = Tour.normalizeEmail(ctx.email);
+  var phone = Tour.normalizePhone(ctx.phone);
+  var leadId = await recordLead(sql, {
+    token: ctx.token,
+    email: email || ctx.store_email || "",
+    phone: phone || "",
+    first_name: ctx.first_name,
+    property_id: ctx.property_id,
+    city: ctx.city,
+    title: ctx.title,
+    utm_source: ctx.utm_source,
+  });
+  var contactId = null;
+  if (email || phone) {
+    try {
+      var ingest = require("../crm-ingest-from-lead");
+      contactId = await ingest.ensureContactLinked(sql, {
+        leadId: leadId,
+        email: email,
+        phone: phone,
+        firstName: ctx.first_name,
+        source: "visite-virtuelle",
+        vertical: "acheteur_immo",
+        autoFrom: "tour_request_access",
+      });
+    } catch (e) {
+      console.warn("[immo-tour-access] contact", e && e.message);
+    }
+  }
+  if (contactId && ctx.property_id) {
+    try {
+      var store = require("../immo-properties-store");
+      await store.ensureImmoSchema(sql);
+      var existingParty = await sql`
+        SELECT id FROM crm_immo_parties
+        WHERE property_id = ${ctx.property_id} AND contact_id = ${contactId}
+        LIMIT 1
+      `;
+      if (existingParty[0]) {
+        await sql`
+          UPDATE crm_immo_parties
+          SET
+            notes = COALESCE(notes, ${"Demande visite virtuelle"}),
+            email = COALESCE(${email || null}, email),
+            phone = COALESCE(${phone || null}, phone),
+            updated_at = NOW()
+          WHERE id = ${existingParty[0].id}
+        `;
+      } else {
+        await store.upsertParty(sql, {
+          property_id: ctx.property_id,
+          contact_id: contactId,
+          role: "prospect",
+          name: ctx.first_name || email || "Prospect visite",
+          email: email || null,
+          phone: phone || null,
+          notes: "Demande code visite · " + String(ctx.token || "").slice(0, 14),
+        });
+      }
+    } catch (e2) {
+      console.warn("[immo-tour-access] party", e2 && e2.message);
+    }
+  }
+  if (ctx.request_id && (contactId || leadId)) {
+    try {
+      await sql`
+        UPDATE crm_immo_tour_requests
+        SET
+          contact_id = COALESCE(${contactId || null}, contact_id),
+          lead_id = COALESCE(${leadId || null}, lead_id)
+        WHERE id = ${ctx.request_id}
+      `;
+    } catch (e3) {
+      console.warn("[immo-tour-access] request link", e3 && e3.message);
+    }
+  }
+  return { leadId: leadId, contactId: contactId };
 }
 
 module.exports = async function immoTourAccess(req, res) {
@@ -590,7 +689,21 @@ module.exports = async function immoTourAccess(req, res) {
     } catch (eUp) {
       return res.status(500).json({ ok: false, error: "Enregistrement impossible." });
     }
+    var linked = await registerTourProspect(sql, {
+      token: rowDec.tour_token,
+      email: rowDec.email,
+      phone: rowDec.phone,
+      store_email: rowDec.email,
+      first_name: rowDec.first_name,
+      property_id: rowDec.property_id,
+      city: "",
+      title: rowDec.property_title,
+      utm_source: rowDec.utm_source || "leboncoin",
+      request_id: rowDec.id,
+    });
     var fresh = await findTourRequestById(sql, rowDec.id);
+    if (fresh && linked && linked.contactId) fresh.contact_id = linked.contactId;
+    if (fresh && linked && linked.leadId) fresh.lead_id = linked.leadId;
     return res.status(200).json({
       ok: true,
       request: publicRequestRow(fresh || rowDec),
@@ -661,6 +774,19 @@ module.exports = async function immoTourAccess(req, res) {
       } catch (eCode) {
         console.warn("[immo-tour-access] advisor_code request", eCode && eCode.message);
       }
+      var reqC = await findTourRequest(sql, token, storeC);
+      await registerTourProspect(sql, {
+        token: token,
+        email: emailC,
+        phone: phoneC,
+        store_email: storeC,
+        first_name: Tour.normalizeName(body.first_name),
+        property_id: found.id,
+        city: found.city,
+        title: (info.ad && info.ad.headline) || found.title,
+        utm_source: "crm",
+        request_id: reqC && reqC.id,
+      });
     }
     return res.status(200).json({
       ok: true,
@@ -759,6 +885,19 @@ module.exports = async function immoTourAccess(req, res) {
         })
       ).catch(function () {});
     }
+
+    await registerTourProspect(sql, {
+      token: token,
+      email: email,
+      phone: phone,
+      store_email: storeEmail,
+      first_name: firstName,
+      property_id: found.id,
+      city: found.city,
+      title: (info.ad && info.ad.headline) || found.title,
+      utm_source: body.utm_source || "leboncoin",
+      request_id: existingReq && existingReq.id,
+    });
 
     if (ask.resend) {
       var resendCodes = visitorCodes(token, email, phone);
@@ -889,10 +1028,11 @@ module.exports = async function immoTourAccess(req, res) {
     }
 
     if (emailV || phoneV) {
-      await recordLead(sql, {
+      await registerTourProspect(sql, {
         token: token,
-        email: emailV || storeEmail,
+        email: emailV,
         phone: phoneV,
+        store_email: storeEmail,
         first_name: firstV,
         property_id: found.id,
         city: found.city,
