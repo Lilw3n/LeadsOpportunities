@@ -12,8 +12,9 @@
     { id: "travaux", label: "Travaux dans le logement" },
     { id: "visites", label: "Visites / mise à disposition des locaux" },
     { id: "conges", label: "Congés : locataire, bailleur, commercial" },
-    { id: "conge_bailleur", label: "Congé donné par le bailleur" },
     { id: "conge_locataire", label: "Congé donné par le locataire" },
+    { id: "conge_bailleur", label: "Congé donné par le bailleur" },
+    { id: "conge_commercial", label: "Congé / bail commercial" },
     { id: "depot_garantie", label: "Dépôt de garantie, vétusté, provision, clés" },
     { id: "mise_en_demeure", label: "Impayé : mise en demeure, intérêts de retard" },
     { id: "annexes", label: "Pièces à annexer au bail" },
@@ -35,6 +36,15 @@
     conges: "conges",
     "conge-bailleur": "conge_bailleur",
     "conge-locataire": "conge_locataire",
+    "par-le-locataire": "conge_locataire",
+    "par-locataire": "conge_locataire",
+    "donne-par-locataire": "conge_locataire",
+    "par-le-bailleur": "conge_bailleur",
+    "par-bailleur": "conge_bailleur",
+    "donne-par-bailleur": "conge_bailleur",
+    "conge-commercial": "conge_commercial",
+    "bail-commercial-conge": "conge_commercial",
+    preneur: "conge_commercial",
     depot: "depot_garantie",
     dg: "depot_garantie",
     garantie: "depot_garantie",
@@ -114,22 +124,91 @@
       ],
     },
     conges: {
-      delay: "Toujours un écrit (LRAR, remise contre récépissé ou acte). Le délai court à réception, pas à l’envoi.",
+      delay: "Toujours un écrit (LRAR, remise contre récépissé ou acte). Le délai court à réception, pas à l’envoi. Habitation ≠ commercial.",
       tenant: [
-        "Habitation : préavis 3 mois (nu) ou 1 mois (meublé / souvent zone tendue — Nancy métropole à vérifier, Lunéville souvent hors liste).",
-        "Motifs de préavis réduit (mutation, perte d’emploi, RSA, santé…) à justifier dans la lettre.",
-        "Un SMS ne rompt pas le bail. Les clés se rendent à la date d’effet, avec EDL de sortie.",
+        "Recevoir (ou donner) un congé écrit, avec un délai qui part de la réception.",
+        "Rester dans les lieux jusqu’à la date d’effet : on ne « met pas dehors » soi-même.",
+        "Un SMS, un WhatsApp ou un coup de fil ne rompt pas le bail.",
       ],
       landlord: [
-        "Habitation nue : 6 mois avant l’échéance, motif légal (reprise, vente, motif légitime et sérieux) + mentions obligatoires.",
-        "Meublé : 3 mois avant l’échéance, mêmes exigences de motif et de forme.",
-        "Bail commercial : congé pour l’échéance triennale, 6 mois d’avance, motifs du code de commerce — ce n’est pas la loi 1989.",
+        "Identifier qui donne le congé (locataire, bailleur, preneur commercial) avant d’écrire.",
+        "Caler le délai sur le bail réel : nu, meublé, zone tendue, commercial, mobilité.",
+        "On rédige le courrier avec vous (LRAR / commissaire de justice) — pas un modèle générique.",
+      ],
+      groups: [
+        {
+          title: "Congé donné par le locataire (habitation)",
+          items: [
+            { req: "obligatoire", t: "Écrit : LRAR, remise contre récépissé, ou acte — un SMS ne rompt pas le bail" },
+            { req: "obligatoire", t: "Nu : préavis 3 mois à compter de la réception" },
+            { req: "selon cas", t: "Préavis 1 mois : meublé, ou nu en zone tendue (Nancy métropole souvent ; Lunéville : vérifier l’arrêté)" },
+            { req: "selon cas", t: "Préavis réduit (nu hors zone tendue) : mutation, perte d’emploi, nouvel emploi après perte, RSA, AAH, santé, violences… à justifier dans la lettre" },
+            { req: "obligatoire", t: "Clés + EDL de sortie à la date d’effet" },
+          ],
+        },
+        {
+          title: "Congé donné par le bailleur (habitation)",
+          items: [
+            { req: "obligatoire", t: "Seulement pour l’échéance du bail (y compris tacite reconduction) — pas en cours de période sauf cas très limités" },
+            { req: "obligatoire", t: "Nu : 6 mois avant l’échéance. Meublé : 3 mois. Forme : LRAR ou acte de commissaire de justice" },
+            { req: "obligatoire", t: "Motif légal : reprise (habiter / conjoint / ascendant / descendant), vente, ou motif légitime et sérieux" },
+            { req: "obligatoire", t: "Mentions obligatoires (bénéficiaire de la reprise ; priorité d’achat si vente) — sinon nullité" },
+            { req: "selon cas", t: "SCI / personne morale : reprise pour habiter souvent impossible" },
+          ],
+        },
+        {
+          title: "Congé / bail commercial (code de commerce)",
+          items: [
+            { req: "obligatoire", t: "Ce n’est pas la loi 1989 : congé pour l’échéance triennale, 6 mois d’avance" },
+            { req: "selon cas", t: "Preneur (locataire commercial) : peut partir à chaque triennale, 6 mois d’écrit" },
+            { req: "selon cas", t: "Bailleur : refus de renouvellement / éviction → indemnité d’éviction sauf motif grave" },
+          ],
+        },
+        {
+          title: "Colocation, mobilité, saisonnier",
+          items: [
+            { req: "selon cas", t: "Bail unique : le congé d’un colocataire n’éteint pas le bail des autres (solidarité souvent 6 mois après le départ)" },
+            { req: "selon cas", t: "Baux par chambre : chaque chambre a son propre préavis" },
+            { req: "selon cas", t: "Bail mobilité : locataire 1 mois ; le bailleur ne donne pas un congé « classique » avant le terme" },
+          ],
+        },
       ],
       watch: [
         "Personne morale (SCI) : reprise pour habiter souvent impossible.",
-        "Colocation : le congé d’un seul colocataire n’éteint pas toujours le bail des autres (bail unique vs chambres).",
         "On rédige le congé sur le bail réel (nu / meublé / commercial / mobilité).",
       ],
+    },
+    conge_locataire: {
+      delay: "Nu : 3 mois. Meublé : 1 mois. Zone tendue : 1 mois aussi (nu). LRAR, remise contre récépissé ou acte. Délai à réception.",
+      tenant: [
+        "Le préavis court à réception. Motifs de préavis réduit (mutation, perte d’emploi, RSA, santé, violences…) à justifier.",
+        "Nancy métropole : souvent zone tendue (1 mois) — Lunéville : vérifier l’arrêté en vigueur.",
+        "Restituer les clés, laisser le logement propre, assister à l’état des lieux de sortie.",
+      ],
+      landlord: [
+        "Accuser réception, proposer un EDL de sortie contradictoire, noter l’adresse de restitution du dépôt.",
+        "Ne pas retenir un mois de loyer « d’office » au-delà du préavis dû.",
+        "Colocation : selon bail unique ou chambres, le congé d’un seul n’éteint pas toujours le bail des autres.",
+      ],
+      groups: [
+        {
+          title: "Qui écrit — le locataire",
+          items: [
+            { req: "obligatoire", t: "Lettre de congé datée, signée, adresse du logement, date d’effet visée" },
+            { req: "obligatoire", t: "Envoyer en LRAR (ou acte / remise contre récépissé) et garder la preuve" },
+            { req: "selon cas", t: "Joindre le justificatif si préavis réduit (employeur, France Travail, CAF, certificat médical…)" },
+          ],
+        },
+        {
+          title: "Délais",
+          items: [
+            { req: "obligatoire", t: "Nu hors zone tendue : 3 mois" },
+            { req: "selon cas", t: "Meublé ou zone tendue : 1 mois" },
+            { req: "selon cas", t: "Bail mobilité : 1 mois" },
+          ],
+        },
+      ],
+      watch: ["Un SMS de départ n’interrompt pas le bail."],
     },
     conge_bailleur: {
       delay: "Habitation nue : 6 mois avant l’échéance. Meublé : 3 mois. Forme : LRAR ou acte de commissaire de justice.",
@@ -143,24 +222,60 @@
         "Mentionner le motif, les pièces exigées (reprise : bénéficiaire ; vente : conditions de priorité d’achat le cas échéant).",
         "Congé pour vente ou reprise : mentions obligatoires, sous peine de nullité.",
       ],
+      groups: [
+        {
+          title: "Qui écrit — le bailleur",
+          items: [
+            { req: "obligatoire", t: "Écrit 6 mois (nu) ou 3 mois (meublé) avant l’échéance — pas au milieu du bail" },
+            { req: "obligatoire", t: "Motif + mentions légales (reprise : qui habitera ; vente : offre / priorité)" },
+            { req: "selon cas", t: "SCI : reprise personnelle souvent impossible — choisir un autre motif ou attendre" },
+          ],
+        },
+        {
+          title: "Motifs possibles (habitation)",
+          items: [
+            { req: "selon cas", t: "Reprise pour habiter (bailleur, conjoint, ascendant, descendant)" },
+            { req: "selon cas", t: "Vente du logement (règles de priorité du locataire)" },
+            { req: "selon cas", t: "Motif légitime et sérieux (impayés caractérisés, manquements graves…)" },
+          ],
+        },
+      ],
       watch: [
         "Personne morale (SCI) : reprise personnelle souvent impossible.",
         "On ne rédige pas le congé « à la va-vite » : on le calibre sur le bail réel.",
       ],
     },
-    conge_locataire: {
-      delay: "Nu : 3 mois. Meublé : 1 mois. Zone tendue : 1 mois aussi (nu). LRAR, remise en main propre ou acte.",
+    conge_commercial: {
+      delay: "Code de commerce (statut des baux commerciaux). Congé pour l’échéance triennale : 6 mois d’avance, LRAR ou acte. Pas la loi 1989.",
       tenant: [
-        "Le préavis court à réception. Motifs de préavis réduit (mutation, perte d’emploi, etc.) à justifier.",
-        "Nancy métropole : souvent zone tendue (1 mois) — Lunéville : vérifier l’arrêté en vigueur.",
-        "Restituer les clés, laisser le logement propre, assister à l’état des lieux de sortie.",
+        "Preneur : droit de partir à chaque période de 3 ans, avec 6 mois d’écrit (sauf clause contraire limitée).",
+        "Refus de renouvellement par le bailleur : en principe indemnité d’éviction, sauf motif grave et légitime.",
       ],
       landlord: [
-        "Accuser réception, proposer un EDL de sortie contradictoire, noter l’adresse de restitution du dépôt.",
-        "Ne pas retenir un mois de loyer « d’office » au-delà du préavis dû.",
-        "Colocation : selon bail unique ou chambres, le congé d’un seul n’éteint pas toujours le bail des autres.",
+        "Ne pas copier un congé d’habitation (IRL, 6 mois « nu », reprise pour habiter) : ça ne s’applique pas.",
+        "Échéance, clause d’indexation ILC/ILAT, destination, dépôt de garantie commercial : à relire avant d’écrire.",
       ],
-      watch: ["Un SMS de départ n’interrompt pas le bail."],
+      groups: [
+        {
+          title: "Congé donné par le preneur (locataire commercial)",
+          items: [
+            { req: "obligatoire", t: "6 mois avant l’échéance triennale, écrit (LRAR ou acte)" },
+            { req: "selon cas", t: "Dérogations / clauses du bail : on les vérifie avant d’envoyer" },
+          ],
+        },
+        {
+          title: "Congé / refus de renouvellement par le bailleur",
+          items: [
+            { req: "obligatoire", t: "Forme et délai du code de commerce (souvent 6 mois avant le terme)" },
+            { req: "selon cas", t: "Indemnité d’éviction si refus de renouvellement sans motif grave" },
+            { req: "selon cas", t: "Motif grave (impayés, manquement à la destination…) : à documenter" },
+          ],
+        },
+      ],
+      watch: [
+        "Bail professionnel (hors 1989 et hors statut commercial) : encore d’autres délais — on calibre sur le contrat.",
+        "Local mixte habitation + commerce : deux régimes possibles, ne pas mélanger.",
+      ],
     },
     depot_garantie: {
       delay: "Restitution du dépôt : 1 mois si EDL sortie = EDL entrée, sinon 2 mois — hors provision sur charges à régulariser.",

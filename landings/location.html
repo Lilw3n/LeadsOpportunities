@@ -158,7 +158,10 @@
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=travaux#demande">Travaux / accès</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=depot#demande">Dépôt de garantie</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=annexes#demande">Pièces du bail</a>
-            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=conges#demande">Congés</a>
+            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=conges#demande">Tous les congés</a>
+            <a class="btn btn-soft" href="./location.html?role=locataire&amp;sujet=conge-locataire#droits">Par le locataire</a>
+            <a class="btn btn-soft" href="./location.html?role=bailleur&amp;sujet=conge-bailleur#droits">Par le bailleur</a>
+            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=conge-commercial#droits">Bail commercial</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=meuble#demande">Meublé / fiscalité</a>
           </div>
         </div>
@@ -257,21 +260,35 @@
                   <label><input type="checkbox" name="locationGestionNeed" value="pno_gli" /> PNO / garantie loyers impayés</label>
                 </div>
               </div>
-              <div class="field full" data-role-panel="gestion,bailleur">
+              <div class="field full" data-role-panel="gestion,bailleur,locataire">
                 <label for="locNoticeKind">Type d’avis à préparer</label>
                 <select id="locNoticeKind" name="locationNoticeKind">
                   <option value="">À préciser</option>
                   <option value="irl">Révision IRL</option>
                   <option value="travaux">Travaux dans le logement</option>
                   <option value="visites">Visites / mise à disposition</option>
-                  <option value="conges">Congés (locataire / bailleur / commercial)</option>
-                  <option value="conge_bailleur">Congé bailleur</option>
-                  <option value="conge_locataire">Congé locataire</option>
+                  <option value="conges">Congés (vue d’ensemble)</option>
+                  <option value="conge_locataire">Congé donné par le locataire</option>
+                  <option value="conge_bailleur">Congé donné par le bailleur</option>
+                  <option value="conge_commercial">Congé / bail commercial</option>
                   <option value="depot_garantie">Dépôt de garantie / vétusté / provision / clés</option>
                   <option value="mise_en_demeure">Mise en demeure / intérêts de retard</option>
                   <option value="annexes">Pièces à annexer au bail</option>
                   <option value="fiscalite">Meublé, fiscalité, TVA, taxes</option>
                 </select>
+              </div>
+              <div class="field" data-role-panel="gestion,bailleur,locataire" data-notice-panel="conges,conge_locataire,conge_bailleur,conge_commercial" hidden>
+                <label for="locCongeAuteur">Qui donne le congé ?</label>
+                <select id="locCongeAuteur" name="locationCongeAuteur">
+                  <option value="">À préciser</option>
+                  <option value="locataire">Le locataire</option>
+                  <option value="bailleur">Le bailleur</option>
+                  <option value="commercial">Le preneur / bailleur (bail commercial)</option>
+                </select>
+              </div>
+              <div class="field" data-role-panel="gestion,bailleur,locataire" data-notice-panel="conges,conge_locataire,conge_bailleur,conge_commercial" hidden>
+                <label for="locCongeEcheance">Échéance du bail / date d’effet visée</label>
+                <input id="locCongeEcheance" name="locationCongeEcheance" placeholder="Ex. fin de bail 31/03/2027" />
               </div>
               <div class="field" data-role-panel="bailleur,gestion" data-notice-panel="depot_garantie" hidden>
                 <label for="locDepotMontant">Dépôt de garantie (€)</label>
@@ -299,7 +316,7 @@
               </div>
               <div class="field full" data-role-panel="locataire">
                 <p class="immo-ls-note" style="margin:0">
-                  Locataire : préavis, travaux, accès au logement, dépôt de garantie —
+                  Locataire : préavis / congé, travaux, accès au logement, dépôt de garantie —
                   <a href="#droits">voir vos droits</a>. On vous dit ce qui est opposable, sans jargon.
                 </p>
               </div>

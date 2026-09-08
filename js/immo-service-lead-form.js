@@ -28,6 +28,16 @@
     conge: "conge",
     conges: "conge",
     preavis: "conge",
+    "conge-locataire": "conge",
+    "conge-bailleur": "conge",
+    "conge-commercial": "conge",
+    "par-locataire": "conge",
+    "par-le-locataire": "conge",
+    "par-bailleur": "conge",
+    "par-le-bailleur": "conge",
+    "donne-par-locataire": "conge",
+    "donne-par-bailleur": "conge",
+    preneur: "conge",
     travaux: "travaux",
     visites: "visites",
     acces: "visites",
@@ -195,7 +205,18 @@
     });
   }
 
-  function applySujetFromUrl(root) {
+    var KIND_TO_AUTEUR = {
+      conge_locataire: "locataire",
+      conge_bailleur: "bailleur",
+      conge_commercial: "commercial",
+    };
+    var AUTEUR_TO_KIND = {
+      locataire: "conge_locataire",
+      bailleur: "conge_bailleur",
+      commercial: "conge_commercial",
+    };
+
+    function applySujetFromUrl(root) {
     var sujet = String(new URLSearchParams(global.location.search).get("sujet") || "").toLowerCase();
     if (!sujet) return;
     var need = SUJET_TO_NEED[sujet];
@@ -218,6 +239,8 @@
         el.value = notice;
         el.dispatchEvent(new Event("change", { bubbles: true }));
       });
+      var auteurEl = root.querySelector('[name="locationCongeAuteur"]');
+      if (auteurEl && KIND_TO_AUTEUR[notice]) auteurEl.value = KIND_TO_AUTEUR[notice];
     }
     syncColocPanels(root);
     syncNoticePanels(root);
@@ -287,12 +310,27 @@
     form.querySelectorAll('[name="locationNoticeKind"]').forEach(function (el) {
       el.addEventListener("change", function () {
         syncNoticePanels(root);
+        var auteurEl = root.querySelector('[name="locationCongeAuteur"]');
+        if (auteurEl && KIND_TO_AUTEUR[el.value]) auteurEl.value = KIND_TO_AUTEUR[el.value];
         document.querySelectorAll("[data-droits-kind]").forEach(function (wsel) {
           if (wsel !== el) {
             wsel.value = el.value;
             wsel.dispatchEvent(new Event("change", { bubbles: true }));
           }
         });
+      });
+    });
+    form.querySelectorAll('[name="locationCongeAuteur"]').forEach(function (el) {
+      el.addEventListener("change", function () {
+        var kind = AUTEUR_TO_KIND[el.value];
+        if (!kind) return;
+        var noticeEl = root.querySelector('[name="locationNoticeKind"]');
+        if (noticeEl) noticeEl.value = kind;
+        document.querySelectorAll("[data-droits-kind]").forEach(function (wsel) {
+          wsel.value = kind;
+          wsel.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+        syncNoticePanels(root);
       });
     });
     var typeEl = form.querySelector('[name="locationType"]');
@@ -343,6 +381,8 @@
       if (fields.locationColocCaution) bits.push("Caution : " + fields.locationColocCaution);
       if (fields.locationGestionNeed) bits.push("Gestion : " + asList(fields.locationGestionNeed));
       if (fields.locationNoticeKind) bits.push("Avis : " + fields.locationNoticeKind);
+      if (fields.locationCongeAuteur) bits.push("Congé donné par : " + fields.locationCongeAuteur);
+      if (fields.locationCongeEcheance) bits.push("Échéance / effet : " + fields.locationCongeEcheance);
       if (fields.locationTravauxJours) bits.push("Durée travaux : " + fields.locationTravauxJours + " j");
       if (fields.locationTravauxNature) bits.push("Travaux : " + fields.locationTravauxNature);
       if (fields.locationDepotMontant) bits.push("Dépôt garantie : " + fields.locationDepotMontant + " €");
