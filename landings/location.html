@@ -163,6 +163,7 @@
             <a class="btn btn-soft" href="./location.html?role=bailleur&amp;sujet=conge-bailleur#droits">Par le bailleur</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=commercial#droits">Bail commercial</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=conge-commercial#droits">Congé commercial</a>
+            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=tva#droits">TVA / taxes</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=meuble#droits">Meublé / exonérations</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=exoneration#droits">Chambre / RP</a>
           </div>
@@ -289,7 +290,7 @@
                   <option value="annexes">Pièces à annexer au bail</option>
                   <option value="meuble">Location meublée et exonérations</option>
                   <option value="commercial">Bail commercial et fiscalité</option>
-                  <option value="fiscalite">TVA, taxes, local commercial</option>
+                  <option value="fiscalite">TVA, taxe foncière, CFE</option>
                 </select>
               </div>
               <div class="field" data-role-panel="gestion,bailleur,locataire" data-notice-panel="conges,conge_locataire,conge_bailleur,conge_commercial" hidden>
@@ -304,6 +305,17 @@
               <div class="field" data-role-panel="gestion,bailleur,locataire" data-notice-panel="conges,conge_locataire,conge_bailleur,conge_commercial" hidden>
                 <label for="locCongeEcheance">Échéance du bail / date d’effet visée</label>
                 <input id="locCongeEcheance" name="locationCongeEcheance" placeholder="Ex. fin de bail 31/03/2027" />
+              </div>
+              <div class="field" data-role-panel="gestion,bailleur" data-notice-panel="fiscalite" hidden>
+                <label for="locTvaCas">Situation TVA</label>
+                <select id="locTvaCas" name="locationTvaCas">
+                  <option value="">À préciser</option>
+                  <option value="habitation_exoneree">Habitation — exonérée (en principe)</option>
+                  <option value="para_hotelier">Para-hôtelier / saisonnier — à qualifier</option>
+                  <option value="option_commercial">Local — option TVA</option>
+                  <option value="commercial_exonere">Local — sans option</option>
+                  <option value="a_etudier">À étudier</option>
+                </select>
               </div>
               <div class="field" data-role-panel="gestion,bailleur" data-notice-panel="meuble,fiscalite" hidden>
                 <label for="locMeubleRegime">Régime / exonération visée</label>

@@ -1446,7 +1446,7 @@
               { v: "annexes", t: "Pièces à annexer au bail" },
               { v: "meuble", t: "Location meublée et exonérations" },
               { v: "commercial", t: "Bail commercial et fiscalité" },
-              { v: "fiscalite", t: "TVA, taxes, local commercial" },
+              { v: "fiscalite", t: "TVA, taxe foncière, CFE" },
             ]) +
               select("locationMeubleRegime", "Régime meublé / exonération", [
                 { v: "lmnp_micro", t: "LMNP micro-BIC" },

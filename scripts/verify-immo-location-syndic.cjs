@@ -60,6 +60,7 @@ assert(locLanding.indexOf("locationNoticeKind") >= 0, "type d’avis");
 assert(locLanding.indexOf('value="travaux"') >= 0 && locLanding.indexOf("depot_garantie") >= 0, "travaux + dépôt de garantie");
 assert(locLanding.indexOf('value="annexes"') >= 0 && locLanding.indexOf("sujet=annexes") >= 0, "landing pièces / annexes");
 assert(locLanding.indexOf("locationFurnished") >= 0 && locLanding.indexOf("locationMeubleRegime") >= 0, "landing meublé + régime");
+assert(locLanding.indexOf("sujet=tva") >= 0 && locLanding.indexOf("locationTvaCas") >= 0, "landing TVA / taxes");
 assert(locLanding.indexOf("sujet=commercial") >= 0 && locLanding.indexOf("locationCommercialIndex") >= 0, "landing bail commercial");
 assert(locLanding.indexOf("bail_commercial") >= 0, "checkbox bail commercial");
 assert(locLanding.indexOf('value="conges"') >= 0, "landing congés");
@@ -113,6 +114,7 @@ assert(cat.getRapideUrl("conge-locataire").indexOf("conge-locataire") >= 0, "rap
 assert(cat.getRapideUrl("conge-bailleur").indexOf("conge-bailleur") >= 0, "rapide congé bailleur");
 assert(cat.getRapideUrl("meuble").indexOf("sujet=meuble") >= 0, "rapide meublé");
 assert(cat.getRapideUrl("commercial").indexOf("sujet=commercial") >= 0, "rapide bail commercial");
+assert(cat.getRapideUrl("tva").indexOf("sujet=tva") >= 0, "rapide TVA");
 assert(cat.getService("droits") && cat.getService("droits").need === "location", "alias droits");
 assert(cat.getCompletUrl("syndic").indexOf("syndic.html") >= 0, "complet syndic");
 
@@ -161,8 +163,13 @@ assert(meuble.checklist.some(function (c) { return /2015/i.test(c); }), "meublé
 assert(meuble.checklist.some(function (c) { return /habitant/i.test(c); }), "meublé: chambre chez l’habitant");
 assert(meuble.checklist.some(function (c) { return /LMNP/i.test(c); }), "meublé: LMNP");
 var fiscalite = Droits.explain("fiscalite");
-assert(fiscalite.groups && fiscalite.groups.some(function (g) { return /TVA/i.test(g.title); }), "fiscalité: groupe TVA");
-assert(/TVA/.test(fiscalite.landlord.join(" ")), "fiscalité: TVA bailleur");
+assert(fiscalite.groups && fiscalite.groups.length >= 4, "fiscalité: groupes TVA / taxes");
+assert(fiscalite.groups.some(function (g) { return /TVA/.test(g.title) && /habitation/i.test(g.title); }), "fiscalité: TVA habitation");
+assert(fiscalite.checklist.some(function (c) { return /TEOM/i.test(c); }), "fiscalité: TEOM");
+assert(fiscalite.checklist.some(function (c) { return /CFE/i.test(c); }), "fiscalité: CFE");
+assert(fiscalite.checklist.some(function (c) { return /foncière/i.test(c); }), "fiscalité: taxe foncière");
+assert(Droits.kindFromSujet("tva") === "fiscalite", "sujet tva");
+assert(Droits.kindFromSujet("teom") === "fiscalite", "sujet teom");
 var conges = Droits.explain("conges");
 assert(conges.groups && conges.groups.length >= 3, "congés: groupes locataire / bailleur / commercial");
 assert(conges.groups.some(function (g) { return /locataire/i.test(g.title); }), "congés: groupe locataire");

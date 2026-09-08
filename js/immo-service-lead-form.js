@@ -74,6 +74,10 @@
     tva: "fiscalite",
     taxes: "fiscalite",
     impot: "fiscalite",
+    fonciere: "fiscalite",
+    "taxe-fonciere": "fiscalite",
+    teom: "fiscalite",
+    cfe: "fiscalite",
     demeure: "mise_en_demeure",
     "mise-en-demeure": "mise_en_demeure",
     retard: "mise_en_demeure",
@@ -405,6 +409,7 @@
       if (fields.locationMeubleRegime) bits.push("Régime meublé : " + fields.locationMeubleRegime);
       if (fields.locationCommercialIndex) bits.push("Indexation : " + fields.locationCommercialIndex);
       if (fields.locationCommercialTva) bits.push("TVA loyer : " + fields.locationCommercialTva);
+      if (fields.locationTvaCas) bits.push("TVA : " + fields.locationTvaCas);
       if (fields.locationCongeAuteur) bits.push("Congé donné par : " + fields.locationCongeAuteur);
       if (fields.locationCongeEcheance) bits.push("Échéance / effet : " + fields.locationCongeEcheance);
       if (fields.locationTravauxJours) bits.push("Durée travaux : " + fields.locationTravauxJours + " j");

@@ -20,7 +20,7 @@
     { id: "annexes", label: "Pièces à annexer au bail" },
     { id: "meuble", label: "Location meublée et exonérations" },
     { id: "commercial", label: "Bail commercial et fiscalité" },
-    { id: "fiscalite", label: "TVA, taxes, local commercial" },
+    { id: "fiscalite", label: "TVA, taxe foncière, CFE" },
   ];
 
   var SUJET_TO_KIND = {
@@ -77,6 +77,12 @@
     tva: "fiscalite",
     taxes: "fiscalite",
     impot: "fiscalite",
+    fonciere: "fiscalite",
+    "taxe-fonciere": "fiscalite",
+    teom: "fiscalite",
+    cfe: "fiscalite",
+    "ordures-menageres": "fiscalite",
+    "para-hotelier": "fiscalite",
     commercial: "commercial",
     "bail-commercial": "commercial",
     "local-commercial": "commercial",
@@ -527,43 +533,64 @@
       ],
     },
     fiscalite: {
-      delay: "Cadre fiscal 2026, à caler sur le régime réel du bailleur (IR, société, LMNP). Pas un conseil fiscal signé. Meublé / exonérations : fiche dédiée.",
+      delay: "Cadre 2026, à caler sur le bien et le régime du bailleur. Pas un conseil fiscal signé. Taux de TVA : barème de l’année, on le calcule au dossier (pas de taux figé ici).",
       tenant: [
-        "Charges locatives récupérables ≠ impôts du bailleur : la taxe foncière n’est pas un loyer.",
-        "Meublé : le statut du bailleur (BIC) ne change pas vos droits au bail (durée, préavis, dépôt).",
+        "La taxe foncière n’est pas un loyer. Seules certaines taxes / TEOM peuvent figurer dans les charges récupérables, selon le bail et la liste légale.",
+        "Un loyer « TTC » en habitation nue est en principe incohérent : la location est exonérée de TVA.",
       ],
       landlord: [
-        "Nu : revenus fonciers (micro-foncier ou réel). Meublé : voir « Location meublée et exonérations ».",
-        "TVA : location nue d’habitation en principe exonérée. Meublé para-hôtelier ou local commercial : option / taux à vérifier.",
-        "Taxes : taxe foncière (bailleur), CFE souvent due en meublé, TH abolie pour la RP — pas de « taxe loyer » à inventer.",
+        "Lister : TVA (oui/non/option), taxe foncière, TEOM, CFE — qui paie, ce qui est récupérable.",
+        "Habitation nue ≠ meublé para-hôtelier ≠ local commercial : trois régimes TVA différents.",
+        "Meublé / LMNP : fiche dédiée. Bail commercial : fiche dédiée pour ILC/ILAT + option TVA détaillée.",
       ],
       groups: [
         {
-          title: "Location nue",
+          title: "TVA — habitation",
           items: [
-            { req: "obligatoire", t: "Déclarer les loyers en revenus fonciers (micro-foncier ou frais réels)" },
-            { req: "selon cas", t: "Charges récupérables sur le locataire : liste légale, pas la TF au réel sauf exception" },
+            { req: "obligatoire", t: "Location nue d’habitation : exonération de TVA (en principe). Loyer HC, pas de TVA collectée, pas de TVA déductible sur les travaux « logement »" },
+            { req: "selon cas", t: "Meublé classique (résidence du locataire, sans services hôteliers) : en principe aussi hors TVA — voir fiche meublé" },
+            { req: "selon cas", t: "Copropriété : TVA sur certains travaux d’immeuble ≠ TVA sur le loyer" },
           ],
         },
         {
-          title: "Meublé — renvoi",
+          title: "TVA — para-hôtelier / saisonnier",
           items: [
-            { req: "obligatoire", t: "Bail, inventaire, LMNP et exonérations (chambre chez l’habitant) : fiche « Location meublée et exonérations »" },
+            { req: "selon cas", t: "Prestations de type hôtelier (accueil, linge, petit-déj, nettoyage) : si le seuil de services est atteint, TVA sur la prestation — taux selon nature (barème année en cours)" },
+            { req: "selon cas", t: "Meublé de tourisme / Airbnb : ne pas confondre abattement BIC et TVA ; ce n’est pas le même sujet" },
+            { req: "recommande", t: "Avant d’afficher un loyer TTC, vérifier si on est vraiment assujetti" },
           ],
         },
         {
-          title: "TVA & taxes",
+          title: "TVA — local commercial / professionnel",
           items: [
-            { req: "selon cas", t: "Habitation nue : exonération de TVA (en principe)" },
-            { req: "selon cas", t: "Para-hôtelier (petit-déj, linge, accueil…) : TVA possible (taux réduit selon prestation)" },
-            { req: "selon cas", t: "Local commercial / professionnel : option TVA — détail dans « Bail commercial et fiscalité »" },
-            { req: "obligatoire", t: "Taxe foncière : à la charge du propriétaire ; ne pas la « refacturer » hors charges récupérables autorisées" },
+            { req: "selon cas", t: "Sans option : location souvent exonérée → pas de TVA déductible sur acquisition / gros travaux" },
+            { req: "selon cas", t: "Option TVA (CGI) : loyer HT, TVA collectée, TVA déductible — irrévocable pendant une période, à étudier avant de signer" },
+            { req: "obligatoire", t: "Mentionner HT ou TTC dans le bail et les quittances, de façon cohérente" },
+            { req: "recommande", t: "Détail 3-6-9 / ILC : fiche « Bail commercial et fiscalité »" },
+          ],
+        },
+        {
+          title: "Taxes locales — qui paie",
+          items: [
+            { req: "obligatoire", t: "Taxe foncière : propriétaire. En habitation, pas une charge locative récupérable (sauf cas très limités / local commercial avec clause)" },
+            { req: "selon cas", t: "TEOM (ordures ménagères) : souvent récupérable sur le locataire, si le bail le prévoit et selon la liste légale des charges" },
+            { req: "selon cas", t: "CFE : meublé (LMNP) souvent due par le bailleur ; local commercial : en principe l’exploitant (preneur)" },
+            { req: "selon cas", t: "Taxe d’habitation / THRS : RP exonérée ; résidence secondaire / logement vacant : selon occupation — pas une « taxe loyer »" },
+            { req: "selon cas", t: "Taxe sur les logements vacants / taxe annuelle sur les bureaux (Île-de-France, etc.) : selon commune et usage" },
+          ],
+        },
+        {
+          title: "Refacturation au locataire — ce qui passe / ce qui ne passe pas",
+          items: [
+            { req: "obligatoire", t: "Ne pas inventer une « taxe loyer » ni refacturer la TF habitation au réel" },
+            { req: "selon cas", t: "Charges récupérables habitation : décret (eau, TEOM, parties communes…) — liste close, pas tout ce que le bailleur paie" },
+            { req: "selon cas", t: "Bail commercial : clause de refacturation (TF, charges) plus large, mais elle doit être écrite" },
           ],
         },
       ],
       watch: [
-        "Un bail meublé mal qualifié (inventaire incomplet) peut être requalifié en nu — fiscalité et préavis changent.",
-        "SCI à l’IR vs à l’IS, location meublée en société : on ne mélange pas les régimes.",
+        "Option TVA mal calée = TVA collectée sans droit à déduction, ou l’inverse.",
+        "On ne fige pas un taux 5,5 / 10 / 20 % ici : il dépend de la prestation et de l’année.",
       ],
     },
   };
