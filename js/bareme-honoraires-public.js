@@ -262,7 +262,10 @@
       "bhLocHint",
       r.zone.label +
         " · " +
-        r.zone.dossierTtcPerM2.toLocaleString("fr-FR") +
+        r.zone.dossierTtcPerM2.toLocaleString("fr-FR", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }) +
         " € TTC/m² (dossier) · décret 2014-890 : part locataire ≤ part bailleur."
     );
   }
