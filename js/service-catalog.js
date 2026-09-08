@@ -85,6 +85,20 @@
       vertical: "credit_immo",
       landing: "./landings/projection-achat.html",
     },
+    location: {
+      need: "location",
+      label: "Location immobilière",
+      category: "finance",
+      vertical: "location_immo",
+      landing: "./landings/location.html",
+    },
+    syndic: {
+      need: "syndic",
+      label: "Syndic de copropriété",
+      category: "finance",
+      vertical: "syndic_copro",
+      landing: "./landings/syndic.html",
+    },
     "apporteur-affaires": {
       need: "apporteur-affaires",
       label: "Apporteur d'affaires",
@@ -197,6 +211,14 @@
       "voiture-sans-permis": "vsp",
       "sans-permis": "vsp",
       voiturette: "vsp",
+      "location-locataire": "location",
+      "location-bailleur": "location",
+      "gestion-locative": "location",
+      "gestion_locative": "location",
+      "syndic-copro": "syndic",
+      syndic_copro: "syndic",
+      copropriete: "syndic",
+      copro: "syndic",
     };
     if (ALIASES[key]) key = ALIASES[key];
     return SERVICES[key] || null;
@@ -213,6 +235,10 @@
     "signalement-bien": "./landings/chasseur-bien.html",
     "chasseur-bien": "./landings/chasseur-bien.html",
     "projection-achat": "./landings/projection-achat.html",
+    location: "./landings/location.html",
+    "location-locataire": "./landings/location.html?role=locataire",
+    "location-bailleur": "./landings/location.html?role=bailleur",
+    syndic: "./landings/syndic.html",
   };
 
   /** Parcours complet dedie (sinon questionnaire universel). */
@@ -230,6 +256,10 @@
     "signalement-bien": "./landings/chasseur-bien.html",
     "chasseur-bien": "./landings/chasseur-bien.html",
     "projection-achat": "./landings/projection-achat.html",
+    location: "./landings/location.html",
+    "location-locataire": "./landings/location.html?role=locataire",
+    "location-bailleur": "./landings/location.html?role=bailleur",
+    syndic: "./landings/syndic.html",
   };
 
   function normalizeLandingPath(path, opts) {

@@ -5,7 +5,7 @@
 | Pilier | URL | Contenu |
 |--------|-----|---------|
 | Assurance | `/assurances/` | Catalogue existant (recentré assurances) |
-| Immobilier | `/immobilier/` | Acquéreur, négociateur, habitation |
+| Immobilier | `/immobilier/` | Achat, location, syndic, négociateur, habitation |
 | Prêt immo | `/credit-immo/` | Hub SEO prêt existant |
 | Banque & TRC | `/banque/` | Offres bancaires, trésorerie, épargne |
 | Finance | `/finance/` | Rachat, conso, crédit pro, patrimoine |

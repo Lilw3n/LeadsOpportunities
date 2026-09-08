@@ -1,0 +1,152 @@
+/* Parcours location & syndic — landings + sous-hubs immobilier */
+.immo-ls-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+.immo-ls-tabs label,
+.immo-ls-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+.immo-ls-tabs input {
+  accent-color: #0369a1;
+}
+.immo-ls-tabs label:has(input:checked),
+.immo-ls-tab.is-on {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+  color: #075985;
+}
+.immo-ls-grid {
+  display: grid;
+  gap: 16px;
+  margin: 22px 0;
+}
+@media (min-width: 700px) {
+  .immo-ls-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.immo-ls-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 18px;
+}
+.immo-ls-card strong {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0369a1;
+  margin-bottom: 6px;
+}
+.immo-ls-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+.immo-ls-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.immo-ls-note {
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  color: #9a3412;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 16px 0;
+}
+.immo-ls-form {
+  margin-top: 8px;
+  padding-top: 8px;
+}
+.immo-ls-form .grid {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .immo-ls-form .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .immo-ls-form .field.full,
+  .immo-ls-form .grid .full {
+    grid-column: 1 / -1;
+  }
+}
+.immo-ls-form label,
+.immo-ls-form .field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.immo-ls-form input,
+.immo-ls-form select,
+.immo-ls-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font: inherit;
+  box-sizing: border-box;
+}
+.immo-ls-form .hp-field {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.immo-ls-cities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0;
+}
+.immo-ls-cities a {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #075985;
+  text-decoration: none;
+  font-weight: 600;
+}
+.immo-ls-cities a:hover {
+  background: #bae6fd;
+}
+.immo-ls-success {
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+.immo-ls-error {
+  color: #b91c1c;
+  font-size: 0.9rem;
+  margin: 8px 0 0;
+}
+.immo-ls-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}

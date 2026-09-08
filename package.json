@@ -87,6 +87,7 @@
     "verify:collaborateurs-crm": "node scripts/verify-collaborateurs-crm.cjs",
     "verify:apporteur-public": "node scripts/verify-apporteur-public.cjs",
     "verify:chasseur-bien": "node scripts/verify-chasseur-bien.cjs",
+    "verify:immo-location-syndic": "node scripts/verify-immo-location-syndic.cjs",
     "verify:client-value": "node scripts/verify-client-value.cjs",
     "verify:pret-risks": "node scripts/verify-pret-risks.cjs",
     "verify:achat-perennite": "node scripts/verify-achat-perennite.cjs",

@@ -92,6 +92,22 @@
       "destination": "/bareme-honoraires/index.html"
     },
     {
+      "source": "/immobilier/location",
+      "destination": "/immobilier/location/index.html"
+    },
+    {
+      "source": "/immobilier/location/",
+      "destination": "/immobilier/location/index.html"
+    },
+    {
+      "source": "/immobilier/syndic",
+      "destination": "/immobilier/syndic/index.html"
+    },
+    {
+      "source": "/immobilier/syndic/",
+      "destination": "/immobilier/syndic/index.html"
+    },
+    {
       "source": "/agence-varangeville",
       "destination": "/agence-varangeville.html"
     },

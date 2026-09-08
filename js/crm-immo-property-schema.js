@@ -258,7 +258,7 @@ window.CrmImmoSchema = (function () {
         f("n_mandat", "N° mandat"),
         f("n_archive", "N° archive"),
         sel("forme_mandat", "Forme mandat", ["", "Simple", "Exclusif", "Semi-exclusif"]),
-        sel("type_mandat", "Type mandat", ["", "Vente", "Location", "Recherche", "Estimation"]),
+        sel("type_mandat", "Type mandat", ["", "Vente", "Location", "Syndic", "Recherche", "Estimation"]),
         sel("garantie_loyer", "Garantie loyer", OUI_NON),
         f("origine_info", "Origine de l'information"),
         date("date_mandat", "Date mandat"),

@@ -86,6 +86,24 @@
       primary: "Continuer ma recherche",
       secondary: "Rappel immo",
     },
+    location: {
+      eyebrow: "Le logement se loue vite",
+      title: "Sans critères, on ne peut pas matcher",
+      body:
+        "Locataire ou bailleur : ville, loyer, dates. 2 minutes pour qu'un conseiller vous rappelle — sinon le bien passe.",
+      loss: "Opportunité manquée : mandat location non démarré.",
+      primary: "Continuer la demande",
+      secondary: "Rappel location",
+    },
+    syndic: {
+      eyebrow: "Les AG n'attendent pas",
+      title: "Partir sans devis, c'est rester avec le syndic actuel",
+      body:
+        "Mise en concurrence, charges, travaux : un cadrage rapide pour le conseil syndical. Gratuit, sans engagement de mandat.",
+      loss: "Opportunité manquée : devis syndic non demandé.",
+      primary: "Continuer le devis syndic",
+      secondary: "Rappel copro",
+    },
     rachat: {
       eyebrow: "Vos mensualités peuvent baisser",
       title: "Partir sans étude = garder des crédits trop lourds",
@@ -145,6 +163,8 @@
     if (/acheteur-immo/i.test(path)) {
       return /vendeur|role=vendeur/i.test(location.search) ? "vendeur" : "acheteur";
     }
+    if (/location/i.test(path)) return "location";
+    if (/syndic/i.test(path)) return "syndic";
     if (/rachat/i.test(path)) return "rachat";
     if (/vtc/i.test(path)) return "vtc";
     if (/habitation/i.test(path)) return "habitation";

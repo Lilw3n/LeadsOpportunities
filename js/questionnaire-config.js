@@ -1354,6 +1354,88 @@
       );
     },
 
+    location: function () {
+      return wizardSection(
+        "location",
+        "Votre projet de location",
+        fieldRow(
+          select("locationRole", "Vous etes", [
+            { v: "locataire", t: "Locataire — je cherche un logement" },
+            { v: "bailleur", t: "Bailleur — je mets un bien en location" },
+          ]) +
+            select("locationType", "Type de bien", [
+              { v: "appartement", t: "Appartement" },
+              { v: "maison", t: "Maison" },
+              { v: "studio", t: "Studio / T1" },
+              { v: "local", t: "Local / commerce" },
+            ])
+        ) +
+          fieldRow(
+            input("locationCity", "Ville du bien", "text", "Ex. Nancy, Lunéville", true) +
+              input("locationPostal", "Code postal", "text", "Ex. 54000", false)
+          ) +
+          fieldRow(
+            input("locationBudget", "Loyer ou budget max (€ / mois)", "text", "Ex. 650", false) +
+              input("locationSurface", "Surface (m²)", "text", "Ex. 58", false)
+          ) +
+          fieldRow(
+            select("locationFurnished", "Meublé ?", [
+              { v: "indetermine", t: "Indifférent / à préciser" },
+              { v: "nu", t: "Location nue" },
+              { v: "meuble", t: "Meublé" },
+              { v: "saisonnier", t: "Saisonnier" },
+            ]) +
+              select("locationNeedInsurance", "Assurances à étudier", [
+                { v: "oui_locataire", t: "MRH locataire" },
+                { v: "oui_pno", t: "PNO / GLI bailleur" },
+                { v: "les_deux", t: "Les deux" },
+                { v: "non", t: "Plus tard" },
+              ])
+          ) +
+          textarea(
+            "locationDetails",
+            "Précisions (disponibilité, animaux, DPE…)",
+            "Ex. disponible septembre, centre-ville, 2 pièces…",
+            false
+          )
+      );
+    },
+
+    syndic: function () {
+      return wizardSection(
+        "syndic",
+        "Votre copropriété",
+        fieldRow(
+          select("syndicRequest", "Votre besoin", [
+            { v: "changer", t: "Changer de syndic (mise en concurrence)" },
+            { v: "nouveau", t: "Nouveau syndic / copro récente" },
+            { v: "conseil", t: "Conseil syndical — devis / questions" },
+            { v: "charges", t: "Lire charges, travaux, AG" },
+          ]) +
+            input("syndicLots", "Nombre de lots (approx.)", "number", "Ex. 12", false)
+        ) +
+          fieldRow(
+            input("syndicCity", "Ville de la copropriété", "text", "Ex. Nancy, Lunéville", true) +
+              input("syndicPostal", "Code postal", "text", "Ex. 54300", false)
+          ) +
+          fieldRow(
+            input("syndicName", "Nom de la copropriété (si connu)", "text", "Ex. Résidence du Château", false) +
+              select("syndicCurrent", "Syndic actuel", [
+                { v: "professionnel", t: "Syndic professionnel" },
+                { v: "benevole", t: "Syndic bénévole" },
+                { v: "aucun", t: "Pas encore de syndic" },
+                { v: "inconnu", t: "Je ne sais pas" },
+              ])
+          ) +
+          textarea(
+            "syndicDetails",
+            "Contexte (charges, travaux votés, AG…)",
+            "Ex. ravalement voté, charges élevées, fin de mandat…",
+            false
+          )
+      );
+    },
+
     decennale: function () {
       return wizardSection(
         "decennale",

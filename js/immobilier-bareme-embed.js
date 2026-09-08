@@ -113,7 +113,44 @@
     render();
   }
 
-  if (!el("immoBhPrice")) return;
+  var LOC_RATES = {
+    negotiation: 6,
+    edl: 3,
+    dossier: { tres_tendue: 12, tendue: 10, hors_zone: 8 },
+  };
+
+  function bootLocation() {
+    var surfaceEl = el("immoLocSurface");
+    var zoneEl = el("immoLocZone");
+    if (!surfaceEl || !el("immoLocTotal")) return;
+
+    function renderLoc() {
+      var m2 = Number(surfaceEl.value) || 0;
+      var zone = zoneEl ? zoneEl.value : "hors_zone";
+      var dossier = LOC_RATES.dossier[zone] || LOC_RATES.dossier.hors_zone;
+      var bailleur = (LOC_RATES.negotiation + dossier + LOC_RATES.edl) * m2;
+      var locataire = (dossier + LOC_RATES.edl) * m2;
+      var total = (LOC_RATES.negotiation + dossier * 2 + LOC_RATES.edl * 2) * m2;
+      var bEl = el("immoLocBailleur");
+      var lEl = el("immoLocLocataire");
+      var tEl = el("immoLocTotal");
+      if (bEl) bEl.textContent = formatEuro(bailleur);
+      if (lEl) lEl.textContent = formatEuro(locataire);
+      if (tEl) tEl.textContent = formatEuro(total);
+    }
+
+    surfaceEl.oninput = renderLoc;
+    if (zoneEl) zoneEl.onchange = renderLoc;
+    renderLoc();
+  }
+
+  var hasVente = !!el("immoBhPrice");
+  var hasLoc = !!el("immoLocSurface");
+  if (!hasVente && !hasLoc) return;
+
+  if (hasLoc) bootLocation();
+
+  if (!hasVente) return;
 
   fetch(DATA_URL, { cache: "no-store" })
     .then(function (res) {
