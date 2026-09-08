@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../../main.css" />
   <link rel="stylesheet" href="../../css/piliers-hub.css?v=20260825real" />
   <link rel="stylesheet" href="../../css/immo-location-syndic.css" />
+  <link rel="stylesheet" href="../../css/bareme-honoraires.css?v=20260908loc" />
   <link rel="stylesheet" href="../../css/clickable-affordance.css" />
 </head>
 <body class="pilier-page pilier-page--immobilier">
@@ -89,10 +90,10 @@
           <span class="go">Aide-mémoire &amp; avis →</span>
         </span>
       </a>
-      <a class="pilier-card" href="../../bareme-honoraires/">
+      <a class="pilier-card" href="../../bareme-honoraires/#location">
         <span class="pilier-card-body">
           <strong>Honoraires location</strong>
-          <p>Forfaits TTC / m² (négociation, dossier, EDL) selon zone tendue. Location pro : 18 % TTC du loyer annuel.</p>
+          <p>Forfaits TTC / m² : 10 € négociation, 12,10 / 10,09 / 8,07 € dossier, 3,03 € EDL. Location pro 18 %, bail commercial 30 % HT.</p>
           <span class="go">Voir le barème →</span>
         </span>
       </a>
@@ -103,6 +104,83 @@
           <span class="go">Devis PNO →</span>
         </span>
       </a>
+    </section>
+
+    </section>
+
+    <section class="immo-bareme-block bh-section" id="location-bareme" aria-labelledby="locBaremeTitle">
+      <h2 class="pilier-section-title" id="locBaremeTitle">Simuler les honoraires</h2>
+      <p>Même barème TG0422 que la vente : taux PDF, pas d’arrondi. Zone tendue par défaut (Nancy métropole) — Lunéville souvent hors liste TLV.</p>
+      <div class="bh-calc">
+        <h3 style="margin:0 0 10px;font-size:1.05rem">Location habitation</h3>
+        <div class="bh-calc-grid">
+          <div>
+            <label for="immoLocSurface">Surface habitable (m²)</label>
+            <input id="immoLocSurface" type="number" min="1" step="1" value="50" />
+          </div>
+          <div>
+            <label for="immoLocZone">Zone</label>
+            <select id="immoLocZone">
+              <option value="tendue" selected>Zone tendue (souvent Nancy métropole)</option>
+              <option value="hors">Hors zone tendue (ex. Lunéville)</option>
+              <option value="tres-tendue">Zone très tendue</option>
+            </select>
+          </div>
+        </div>
+        <div class="bh-result" aria-live="polite">
+          <div class="bh-kpi">
+            <span>Charge bailleur</span>
+            <strong id="immoLocBailleur">—</strong>
+          </div>
+          <div class="bh-kpi">
+            <span>Charge locataire</span>
+            <strong id="immoLocLocataire">—</strong>
+          </div>
+          <div class="bh-kpi is-best">
+            <span>Total agence</span>
+            <strong id="immoLocTotal">—</strong>
+          </div>
+        </div>
+      </div>
+      <div class="bh-calc" style="margin-top:16px">
+        <h3 style="margin:0 0 10px;font-size:1.05rem">Location pro · 18 % TTC du loyer annuel</h3>
+        <div class="bh-calc-grid">
+          <div>
+            <label for="immoLocProRent">Loyer annuel TTC (€)</label>
+            <input id="immoLocProRent" type="number" min="0" step="100" value="12000" />
+          </div>
+        </div>
+        <div class="bh-result" aria-live="polite">
+          <div class="bh-kpi is-best">
+            <span>Honoraires (preneur)</span>
+            <strong id="immoLocProFee">—</strong>
+          </div>
+        </div>
+      </div>
+      <div class="bh-calc" style="margin-top:16px">
+        <h3 style="margin:0 0 10px;font-size:1.05rem">Bail commercial · 30 % HT, mini 7 000 € HT</h3>
+        <div class="bh-calc-grid">
+          <div>
+            <label for="immoBailRent">Loyer annuel HT (€, principal)</label>
+            <input id="immoBailRent" type="number" min="0" step="100" value="24000" />
+          </div>
+        </div>
+        <div class="bh-result" aria-live="polite">
+          <div class="bh-kpi">
+            <span>Honoraires HT</span>
+            <strong id="immoBailHt">—</strong>
+          </div>
+          <div class="bh-kpi is-best">
+            <span>Honoraires TTC</span>
+            <strong id="immoBailTtc">—</strong>
+          </div>
+        </div>
+        <div class="immo-ls-actions" style="margin-top:14px">
+          <a class="btn btn-primary" href="../../landings/location.html?role=bailleur">Mandat location</a>
+          <a class="btn btn-outline" href="../../bareme-honoraires/#location">Page barème complète</a>
+          <a class="btn btn-outline" href="../../landings/location.html?role=gestion&amp;sujet=commercial">Bail commercial</a>
+        </div>
+      </div>
     </section>
 
     <section class="pilier-about" style="display:block;padding:8px 0 8px" aria-labelledby="irlTitle">
@@ -186,6 +264,8 @@
       </small>
     </div>
   </footer>
+  <script src="../../js/bareme-honoraires-lib.js"></script>
+  <script src="../../js/immobilier-bareme-embed.js" data-bareme-json="../../data/bareme-honoraires-public.json"></script>
   <script src="../../js/irl-revision-lib.js"></script>
   <script src="../../js/irl-revision-widget.js"></script>
   <script src="../../js/location-droits-lib.js"></script>

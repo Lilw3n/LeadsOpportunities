@@ -395,6 +395,7 @@
             (sched.percentTax === "ht" ? "HT" : "TTC") +
             " du loyer annuel" +
             (sched.percentTax === "ht" ? " (affiché en TTC = × 1,20)" : "") +
+            (sched.minFeeHt ? " · minimum " + Lib.formatEuro(sched.minFeeHt) + " HT" : "") +
             ".";
         } else if (model === "per_sqm_rental") {
           var ps = sched.perSqm || {};
@@ -567,9 +568,18 @@
   }
 
   function kindMeta(kind) {
-    if (kind === "bail_commercial" || kind === "location_pro") {
+    if (kind === "bail_commercial") {
       return {
-        priceLabel: "Loyer annuel (€)",
+        priceLabel: "Loyer annuel HT (€)",
+        showSurface: false,
+        showZone: false,
+        showParty: false,
+        showPriceMode: false,
+      };
+    }
+    if (kind === "location_pro") {
+      return {
+        priceLabel: "Loyer annuel TTC (€)",
         showSurface: false,
         showZone: false,
         showParty: false,

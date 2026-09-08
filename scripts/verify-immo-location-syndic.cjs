@@ -224,7 +224,10 @@ assert(vercel.indexOf("/immobilier/location") >= 0 && vercel.indexOf("/immobilie
 
 var embed = read("js/immobilier-bareme-embed.js");
 assert(embed.indexOf("immoLocSurface") >= 0, "JS estimateur location");
-assert(embed.indexOf("dossier * 2") >= 0, "formule total agence TG0422");
+assert(embed.indexOf("computeLocationHabitation") >= 0, "embed utilise lib location");
+assert(embed.indexOf("computeBailCommercial") >= 0, "embed utilise lib bail com");
+assert(read("js/bareme-honoraires-lib.js").indexOf("negotiationTtcPerM2: 10") >= 0, "taux PDF négociation 10");
+assert(read("immobilier/location/index.html").indexOf("id=\"location-bareme\"") >= 0, "simulateur sur sous-hub location");
 
 var css = read("css/immo-location-syndic.css");
 assert(css.indexOf("[data-role-panel][hidden]") >= 0, "CSS hidden panels rôle");

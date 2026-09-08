@@ -1,8 +1,10 @@
 /**
  * Page publique — barème des honoraires (grille publiée Portes Clés TG0422).
+ * Vente habitation + location + bail commercial + avis de valeur.
  */
 (function () {
   var DATA_URL = "../data/bareme-honoraires-public.json";
+  var Lib = window.BaremeHonorairesLib;
   var state = {
     data: null,
     priceMode: "net_vendeur",
@@ -130,19 +132,11 @@
     var brackets = sched.brackets || [];
     wrap.innerHTML = brackets
       .map(function (b) {
-        var mid =
-          b.max == null
-            ? Number(b.min) || 0
-            : ((Number(b.min) || 0) + Number(b.max)) / 2;
-        var fee =
-          b.type === "fixed"
-            ? Number(b.value) || 0
-            : (mid * (Number(b.value) || 0)) / 100;
         var exampleNet = b.max == null ? Number(b.min) || 0 : Number(b.max);
         var exampleFee =
           b.type === "fixed"
             ? Number(b.value) || 0
-            : ((exampleNet * (Number(b.value) || 0)) / 100);
+            : (exampleNet * (Number(b.value) || 0)) / 100;
         var fai = exampleNet + exampleFee;
         var isActive =
           activeMin != null && Number(b.min) === Number(activeMin);
@@ -165,6 +159,14 @@
       .join("");
   }
 
+  var OTHER_HREF = {
+    vente_pro: "#vente-autres",
+    location_habitation: "#location",
+    location_pro: "#location-pro",
+    bail_commercial: "#bail-commercial",
+    avis_valeur: "#avis-valeur",
+  };
+
   function renderOther() {
     var root = el("bhOther");
     if (!root || !state.data) return;
@@ -177,12 +179,15 @@
         if (!summary && s.brackets && s.brackets[0]) {
           summary = feeLabel(s.brackets[0]);
         }
+        var href = OTHER_HREF[s.kind] || "#location";
         return (
-          "<article><strong>" +
+          '<a class="bh-other-card" href="' +
+          href +
+          '"><strong>' +
           escapeHtml(s.name) +
           "</strong><p>" +
           escapeHtml(summary || "Voir le détail au mandat.") +
-          "</p></article>"
+          "</p><span>Simuler →</span></a>"
         );
       })
       .join("");
@@ -211,10 +216,10 @@
     }
 
     var fai = Math.round((net + fee) * 100) / 100;
-    el("bhKpiNet").textContent = formatEuro(net);
-    el("bhKpiFee").textContent = formatEuro(fee);
-    el("bhKpiFai").textContent = formatEuro(fai);
-    el("bhKpiSched").textContent = sched.name || "Vente habitation";
+    if (el("bhKpiNet")) el("bhKpiNet").textContent = formatEuro(net);
+    if (el("bhKpiFee")) el("bhKpiFee").textContent = formatEuro(fee);
+    if (el("bhKpiFai")) el("bhKpiFai").textContent = formatEuro(fai);
+    if (el("bhKpiSched")) el("bhKpiSched").textContent = sched.name || "Vente habitation";
     var hint = el("bhCalcHint");
     if (hint) {
       hint.textContent = approx
@@ -226,7 +231,151 @@
     renderTable(bracket ? bracket.min : null);
   }
 
-  function bind() {
+  function setText(id, text) {
+    var node = el(id);
+    if (node) node.textContent = text;
+  }
+
+  function renderLocationHab() {
+    if (!Lib || !el("bhLocSurface")) return;
+    var r = Lib.computeLocationHabitation(
+      el("bhLocSurface").value,
+      el("bhLocZone") ? el("bhLocZone").value : "tendue"
+    );
+    if (!r.ok) {
+      setText("bhLocBailleur", "—");
+      setText("bhLocLocataire", "—");
+      setText("bhLocTotal", "—");
+      setText("bhLocHint", "Indiquez une surface habitable.");
+      return;
+    }
+    setText("bhLocBailleur", formatEuro(r.bailleurTtc));
+    setText("bhLocLocataire", formatEuro(r.locataireTtc));
+    setText("bhLocTotal", formatEuro(r.totalAgenceTtc));
+    setText(
+      "bhLocNego",
+      formatEuro(r.lines.negotiationBailleur)
+    );
+    setText("bhLocDossier", formatEuro(r.lines.dossierBailleur) + " / partie");
+    setText("bhLocEdl", formatEuro(r.lines.edlBailleur) + " / partie");
+    setText(
+      "bhLocHint",
+      r.zone.label +
+        " · " +
+        r.zone.dossierTtcPerM2.toLocaleString("fr-FR") +
+        " € TTC/m² (dossier) · décret 2014-890 : part locataire ≤ part bailleur."
+    );
+  }
+
+  function renderLocationPro() {
+    if (!Lib || !el("bhLocProRent")) return;
+    var r = Lib.computeLocationPro(el("bhLocProRent").value);
+    if (!r.ok) {
+      setText("bhLocProFee", "—");
+      setText("bhLocProHint", "Indiquez le loyer TTC annuel.");
+      return;
+    }
+    setText("bhLocProFee", formatEuro(r.honorairesTtc));
+    setText(
+      "bhLocProHint",
+      "18 % TTC de " +
+        formatEuro(r.annualRentTtc) +
+        " — à la charge du preneur sauf convention."
+    );
+  }
+
+  function renderBailCom() {
+    if (!Lib || !el("bhBailRent")) return;
+    var r = Lib.computeBailCommercial(el("bhBailRent").value);
+    if (!r.ok) {
+      setText("bhBailHt", "—");
+      setText("bhBailTtc", "—");
+      setText("bhBailHint", "Indiquez le loyer annuel HT (principal).");
+      return;
+    }
+    setText("bhBailHt", formatEuro(r.honorairesHt));
+    setText("bhBailTtc", formatEuro(r.honorairesTtc));
+    setText(
+      "bhBailRaw",
+      formatEuro(r.rawHt)
+    );
+    setText(
+      "bhBailHint",
+      r.appliedMinimum
+        ? "30 % de " +
+            formatEuro(r.annualRentHt) +
+            " = " +
+            formatEuro(r.rawHt) +
+            " HT, inférieur au minimum : application de 7 000 € HT."
+        : "30 % HT de " +
+            formatEuro(r.annualRentHt) +
+            " — à la charge du preneur. TTC = HT × 1,20."
+    );
+  }
+
+  function renderVenteAutres() {
+    if (!Lib || !el("bhProPrice")) return;
+    var r = Lib.computeVenteAutres(el("bhProPrice").value);
+    if (!r.ok) {
+      setText("bhProFee", "—");
+      setText("bhProFai", "—");
+      setText("bhProHint", "Indiquez le prix (hors honoraires).");
+      return;
+    }
+    setText("bhProFee", formatEuro(r.honorairesTtc));
+    setText("bhProFai", formatEuro(r.fai));
+    setText(
+      "bhProHint",
+      "10 % TTC de " +
+        formatEuro(r.price) +
+        " — charge vendeur sauf convention contraire."
+    );
+  }
+
+  function renderAvis() {
+    if (!Lib || !el("bhAvisSurface")) return;
+    var kind = el("bhAvisKind") ? el("bhAvisKind").value : "appartement";
+    var r = Lib.computeAvisValeur(kind, el("bhAvisSurface").value);
+    if (!r.ok) {
+      setText("bhAvisFee", "—");
+      setText("bhAvisHint", "Indiquez la surface.");
+      return;
+    }
+    if (r.eligibleForfait) {
+      setText("bhAvisFee", formatEuro(r.honorairesTtc));
+      setText(
+        "bhAvisHint",
+        "Forfait 360 € TTC — " +
+          (r.kind === "maison" ? "maison < 100 m²" : "appartement < 50 m²") +
+          ". Charge propriétaire."
+      );
+    } else {
+      setText("bhAvisFee", "Sur devis");
+      setText(
+        "bhAvisHint",
+        r.kind === "maison"
+          ? "Maison ≥ 100 m² : tarif sur devis (hors forfait 360 €)."
+          : "Appartement ≥ 50 m² : tarif sur devis (hors forfait 360 €)."
+      );
+    }
+  }
+
+  function bindSims() {
+    [
+      ["bhLocSurface", "input", renderLocationHab],
+      ["bhLocZone", "change", renderLocationHab],
+      ["bhLocProRent", "input", renderLocationPro],
+      ["bhBailRent", "input", renderBailCom],
+      ["bhProPrice", "input", renderVenteAutres],
+      ["bhAvisSurface", "input", renderAvis],
+      ["bhAvisKind", "change", renderAvis],
+    ].forEach(function (row) {
+      var node = el(row[0]);
+      if (node) node.addEventListener(row[1], row[2]);
+    });
+  }
+
+  function bindVente() {
     var mode = el("bhPriceMode");
     var price = el("bhPrice");
     var label = el("bhPriceLabel");
@@ -254,10 +403,16 @@
     state.data = data;
     renderMeta();
     renderOther();
-    bind();
+    bindVente();
+    bindSims();
     var price = el("bhPrice");
     if (price) state.price = Number(price.value) || 200000;
     renderCalc();
+    renderLocationHab();
+    renderLocationPro();
+    renderBailCom();
+    renderVenteAutres();
+    renderAvis();
   }
 
   fetch(DATA_URL, { cache: "no-store" })

@@ -14,7 +14,7 @@
   <meta property="og:image" content="https://www.leadsopportunities.fr/assets/piliers/pilier-immobilier.jpg" />
   <link rel="stylesheet" href="../main.css" />
   <link rel="stylesheet" href="../css/piliers-hub.css?v=20260825real" />
-  <link rel="stylesheet" href="../css/bareme-honoraires.css?v=20260902immo" />
+  <link rel="stylesheet" href="../css/bareme-honoraires.css?v=20260908loc" />
   <link rel="stylesheet" href="../css/immo-location-syndic.css" />
   <link rel="stylesheet" href="../css/clickable-affordance.css" />
   <style>
@@ -209,8 +209,9 @@
     <section class="immo-bareme-block bh-section" id="location-bareme" aria-labelledby="immoLocBaremeTitle">
       <h2 class="pilier-section-title" id="immoLocBaremeTitle">Honoraires location (habitation)</h2>
       <p class="bh-sub" style="margin-top:-4px">
-        Barème TG0422 — € TTC / m² habitable (négociation, dossier, état des lieux).
-        Location pro : 18 % TTC du loyer annuel · bail commercial : 30 % HT.
+        Barème TG0422 — € TTC / m² habitable : négociation 10 € (bailleur),
+        dossier 12,10 / 10,09 / 8,07 € selon zone, état des lieux 3,03 € (chaque partie).
+        Location pro : 18 % TTC du loyer annuel · bail commercial : 30 % HT, mini 7 000 € HT.
       </p>
       <div class="bh-calc">
         <div class="bh-calc-grid">
@@ -221,9 +222,9 @@
           <div>
             <label for="immoLocZone">Zone</label>
             <select id="immoLocZone">
-              <option value="hors_zone">Hors zone tendue</option>
-              <option value="tendue">Zone tendue</option>
-              <option value="tres_tendue">Zone très tendue</option>
+              <option value="tendue" selected>Zone tendue (souvent Nancy métropole)</option>
+              <option value="hors">Hors zone tendue (ex. Lunéville)</option>
+              <option value="tres-tendue">Zone très tendue</option>
             </select>
           </div>
         </div>
@@ -244,7 +245,46 @@
         <div class="immo-bareme-actions">
           <a class="btn btn-primary" href="../landings/location.html?role=bailleur">Mettre en location</a>
           <a class="btn btn-outline" href="../landings/location.html?role=locataire">Chercher une location</a>
+          <a class="btn btn-outline" href="../bareme-honoraires/#location">Simulateur détaillé</a>
           <a class="btn btn-outline" href="./location/#irl">Réviser un loyer (IRL)</a>
+        </div>
+      </div>
+      <div class="bh-calc" style="margin-top:16px">
+        <h3 style="margin:0 0 10px;font-size:1.05rem">Location pro · 18 % TTC</h3>
+        <div class="bh-calc-grid">
+          <div>
+            <label for="immoLocProRent">Loyer annuel TTC (€)</label>
+            <input id="immoLocProRent" type="number" min="0" step="100" value="12000" />
+          </div>
+        </div>
+        <div class="bh-result" aria-live="polite">
+          <div class="bh-kpi is-best">
+            <span>Honoraires (preneur)</span>
+            <strong id="immoLocProFee">—</strong>
+          </div>
+        </div>
+      </div>
+      <div class="bh-calc" style="margin-top:16px">
+        <h3 style="margin:0 0 10px;font-size:1.05rem">Bail commercial · 30 % HT, mini 7 000 € HT</h3>
+        <div class="bh-calc-grid">
+          <div>
+            <label for="immoBailRent">Loyer annuel HT (€)</label>
+            <input id="immoBailRent" type="number" min="0" step="100" value="24000" />
+          </div>
+        </div>
+        <div class="bh-result" aria-live="polite">
+          <div class="bh-kpi">
+            <span>Honoraires HT</span>
+            <strong id="immoBailHt">—</strong>
+          </div>
+          <div class="bh-kpi is-best">
+            <span>Honoraires TTC</span>
+            <strong id="immoBailTtc">—</strong>
+          </div>
+        </div>
+        <div class="immo-bareme-actions">
+          <a class="btn btn-outline" href="../bareme-honoraires/#bail-commercial">Détail bail commercial</a>
+          <a class="btn btn-outline" href="../bareme-honoraires/#location-pro">Détail location pro</a>
         </div>
       </div>
     </section>
@@ -344,7 +384,8 @@
       </small>
     </div>
   </footer>
-  <script src="../js/immobilier-bareme-embed.js"></script>
+  <script src="../js/bareme-honoraires-lib.js"></script>
+  <script src="../js/immobilier-bareme-embed.js" data-bareme-json="../data/bareme-honoraires-public.json"></script>
   <script src="../js/estimation-request.js"></script>
 </body>
 </html>

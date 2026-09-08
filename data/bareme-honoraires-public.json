@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "publishedAt": "2026-09-02",
+  "publishedAt": "2026-09-08",
   "agencyId": "agency_portes_cles",
   "agencyName": "Les Portes Clés de l'Immobilier",
   "source": "Barème TG0422 — Immobilier Email SAS (PDF data/bareme-portecles-TG0422.pdf)",
-  "disclaimer": "Honoraires TTC maximums calculés sur le prix hors honoraires (net vendeur). Négociables au mandat. Document d'information — hors TVA affichée séparément si applicable.",
+  "disclaimer": "Honoraires TTC maximums (TVA 20 % métropole). Vente : calculés sur le prix hors honoraires (net vendeur). Location : € TTC / m² habitable selon zone. Négociables au mandat. Document d'information.",
   "schedules": [
     {
       "id": "sched_pc_habitation",
@@ -44,32 +44,63 @@
       "kind": "vente_pro",
       "feeModel": "brackets",
       "priceBasis": "net_vendeur",
-      "summary": "10 % TTC sur toutes les tranches",
+      "summary": "10 % TTC sur toutes les tranches — charge vendeur sauf convention",
+      "rateTtc": 0.1,
+      "charge": "vendeur",
       "brackets": [{ "min": 0, "max": null, "type": "percent", "value": 10 }]
     },
     {
       "id": "sched_pc_bail_com",
       "name": "Bail commercial",
       "kind": "bail_commercial",
-      "summary": "30 % HT du loyer annuel"
+      "feeModel": "annual_rent_percent",
+      "priceBasis": "loyer_annuel_ht",
+      "percentValue": 30,
+      "percentTax": "ht",
+      "minimumHt": 7000,
+      "charge": "preneur",
+      "summary": "30 % HT du loyer annuel en principal, mini 7 000 € HT, à la charge du preneur (TTC = HT × 1,20)."
     },
     {
       "id": "sched_pc_loc_hab",
       "name": "Location habitation",
       "kind": "location_habitation",
-      "summary": "Forfaits € TTC / m² (négociation, dossier, état des lieux) selon zone"
+      "feeModel": "per_sqm_rental",
+      "priceBasis": "surface_habitable",
+      "summary": "Négociation 10 € TTC/m² (bailleur) · dossier + visite + bail 12,10 / 10,09 / 8,07 € TTC/m² selon zone (chaque partie) · état des lieux 3,03 € TTC/m² (chaque partie).",
+      "perSqm": {
+        "negotiationTtcPerM2": 10,
+        "etatDesLieuxTtcPerM2": 3.03,
+        "dossierTtcPerM2": {
+          "tres-tendue": 12.1,
+          "tendue": 10.09,
+          "hors": 8.07
+        }
+      },
+      "decree": "2014-890"
     },
     {
       "id": "sched_pc_loc_pro",
       "name": "Location pro / commercial",
       "kind": "location_pro",
-      "summary": "18 % TTC du loyer annuel"
+      "feeModel": "annual_rent_percent",
+      "priceBasis": "loyer_annuel_ttc",
+      "percentValue": 18,
+      "percentTax": "ttc",
+      "charge": "preneur",
+      "summary": "18 % TTC du loyer TTC annuel, à la charge du preneur sauf convention."
     },
     {
       "id": "sched_pc_avis",
       "name": "Avis de valeur",
       "kind": "avis_valeur",
-      "summary": "360 € TTC (maison < 100 m² ou appart < 50 m²) — autres biens sur devis"
+      "feeModel": "fixed_fee",
+      "priceBasis": "forfait",
+      "fixedFee": 360,
+      "charge": "proprietaire",
+      "maisonMaxM2": 100,
+      "appartMaxM2": 50,
+      "summary": "360 € TTC (maison < 100 m² ou appart < 50 m²) — autres biens sur devis. Charge propriétaire."
     }
   ]
 }
