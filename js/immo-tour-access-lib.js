@@ -37,7 +37,7 @@
     AUTHOR.role +
     " (ORIAS n° " +
     AUTHOR.orias +
-    "). Toute utilisation de cette visite virtuelle et de ce lien est autorisée de façon unique et personnelle, sauf dans le cadre d’une visibilité publique prévue par un mandat exclusif en cours. L’aboutissement direct ou indirect d’une vente grâce à l’utilisation de ce lien, ou la consultation de ce lien sans autorisation, est passible de poursuites. Toute reprise du lien par un autre professionnel ou le propriétaire est interdite.";
+    "). Toute utilisation de cette visite virtuelle et de ce lien est autorisée de façon unique et personnelle, sauf dans le cadre d’une visibilité publique prévue par un mandat exclusif en cours. L’aboutissement direct ou indirect d’une vente grâce à l’utilisation de ce lien, ou la consultation de ce lien sans autorisation, est passible de poursuites. Toute republication ou réutilisation de ce lien hors du cadre prévu par le mandat est interdite.";
 
   function normalizeEmail(email) {
     var e = String(email || "")

@@ -195,6 +195,8 @@ var html = read("immobilier/visite.html");
 assert(html.indexOf("noindex") !== -1, "visite noindex");
 assert(html.indexOf("tourEmail") !== -1 && html.indexOf("tourPhone") !== -1, "champs e-mail + tél");
 assert(html.indexOf("tourTerms") !== -1 && html.indexOf("Wendy BUCHET") !== -1, "droits d’auteur + mandataire");
+assert(html.indexOf("usage unique et personnel") !== -1, "bandeau visite respectueux");
+assert(html.indexOf("outil de pub") === -1 && html.indexOf("ou le propriétaire") === -1, "bandeau sans viser le propriétaire");
 assert(html.indexOf("tourRedirect") !== -1, "redirection Wendy si lien usé");
 assert(html.indexOf("immo-tour-access-page.js") !== -1, "script page");
 
@@ -241,6 +243,7 @@ assert(Tour.tourLinkStatus(taNone, 0, noneMode).ok === true, "mandat exclusif en
 var ended = Object.assign({}, noneMode, { mandate_started_at: "2019-01-01", mandate_ends_at: "2020-01-01" });
 assert(Tour.tourLinkStatus(taNone, 0, ended).reason === "mandate_ended", "mandat échu coupe le lien");
 assert(Tour.COPYRIGHT.indexOf("Wendy BUCHET") !== -1, "droits d’auteur Wendy");
+assert(Tour.COPYRIGHT.indexOf("ou le propriétaire") === -1, "mentions légales sans viser le propriétaire");
 assert(Tour.AUTHOR.role.indexOf("Mandataire") !== -1, "mandataire");
 assert(Tour.channelLinks(taNone.token, "https://www.leadsopportunities.fr").leboncoin.indexOf("utm_source=leboncoin") !== -1, "lien LBC");
 
