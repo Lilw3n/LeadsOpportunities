@@ -210,6 +210,7 @@ assert(html.indexOf("noindex") !== -1, "visite noindex");
 assert(html.indexOf("tourEmail") !== -1 && html.indexOf("tourPhone") !== -1, "champs e-mail + tél");
 assert(html.indexOf("Demander l") !== -1 && html.indexOf("Valider le code") !== -1, "demande d’accès + validation de code");
 assert(html.indexOf("validera ou déclinera") !== -1, "page : Wendy valide ou décline");
+assert(html.indexOf("même si ce lien était réservé") !== -1, "page : demande hors liste autorisée");
 assert(html.indexOf("id=\"tourCodes\"") !== -1 && html.indexOf("id=\"tourVerify\"") !== -1, "bloc valider toujours présent");
 assert(html.indexOf("tourTerms") !== -1 && html.indexOf("Wendy BUCHET") !== -1, "droits d’auteur + mandataire");
 assert(html.indexOf("usage unique et personnel") !== -1, "bandeau visite respectueux");
@@ -278,6 +279,8 @@ assert(api.indexOf("crm_immo_tour_requests") !== -1, "API : table file d’atten
 assert(api.indexOf("en attente de validation") !== -1 || api.indexOf("va la valider ou la décliner") !== -1, "API : pas de code auto");
 assert(api.indexOf("sendVisitorOtpEmail") !== -1, "API : code seulement après validation Wendy");
 assert(api.indexOf("accepted_terms") !== -1 && api.indexOf("isAllowlisted") !== -1, "API : droits + allowlist");
+assert(api.indexOf("Cette visite est réservée à une liste") === -1, "API : liste ne bloque plus la demande");
+assert(api.indexOf("onAllowlist") !== -1 && api.indexOf("Hors liste prévue") !== -1, "API : demande hors liste quand même");
 assert(api.indexOf("acheteur_immo") !== -1, "lead vertical acquéreur");
 assert(api.indexOf("startDurationOnFirstView") !== -1, "API : durée au 1er clic");
 assert(api.indexOf("TWILIO_SMS_ENABLED") !== -1, "API : SMS Twilio coupé par défaut");
@@ -302,6 +305,7 @@ assert(tourUi.indexOf("tu valides ou tu déclines") !== -1, "contact : aucun cod
 var reqUi = read("js/crm-immo-tour-requests.js");
 assert(reqUi.indexOf("decide_request") !== -1 && reqUi.indexOf("data-tour-approve") !== -1, "CRM : bouton Valider");
 assert(reqUi.indexOf("data-tour-decline") !== -1 && reqUi.indexOf("Décliner") !== -1, "CRM : bouton Décliner");
+assert(reqUi.indexOf("hors liste prévue") !== -1, "CRM : badge hors liste");
 var reqHtml = read("crm-immo-tour-requests.html");
 assert(reqHtml.indexOf("tourRequestMount") !== -1, "page CRM demandes de visite");
 assert(crm.indexOf("tourRequestInbox") !== -1 && crm.indexOf("crm-immo-tour-requests.html") !== -1, "pubs : file + lien demandes");

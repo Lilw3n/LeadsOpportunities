@@ -211,12 +211,14 @@ async function notifyAdvisorNewRequest(row) {
   var to = (Tour.AUTHOR && Tour.AUTHOR.email) || "contact@leadsopportunities.fr";
   var title = row.property_title || "Visite virtuelle";
   var who = [row.first_name, row.email, row.phone].filter(Boolean).join(" · ");
+  var off = row.allowlisted === false ? "\nHors liste prévue — à valider ou décliner quand même.\n" : "";
   return sendViaResend({
     to: to,
     subject: "Demande de visite à valider — " + (row.first_name || row.email || "visiteur"),
     text:
       "Nouvelle demande de visite virtuelle (à valider ou décliner).\n\n" +
       who +
+      off +
       "\nBien : " +
       title +
       (row.link_name ? "\nLien : " + row.link_name : "") +
@@ -225,7 +227,11 @@ async function notifyAdvisorNewRequest(row) {
       "<p>Nouvelle demande de visite virtuelle — <strong>à valider ou décliner</strong>.</p>" +
       "<p>" +
       String(who).replace(/</g, "") +
-      "</p><p>Bien : " +
+      "</p>" +
+      (row.allowlisted === false
+        ? "<p><strong>Hors liste prévue</strong> — tu peux quand même valider ou décliner.</p>"
+        : "") +
+      "<p>Bien : " +
       String(title).replace(/</g, "") +
       (row.link_name ? " · " + String(row.link_name).replace(/</g, "") : "") +
       "</p><p><a href=\"https://www.leadsopportunities.fr/crm-immo-tour-requests.html\">Ouvrir les demandes de visite</a></p>",
@@ -299,8 +305,30 @@ function visitorCodes(token, email, phone) {
   };
 }
 
-function inboxPayload(rows) {
-  var list = (rows || []).map(publicRequestRow).filter(Boolean);
+function requestAllowlisted(row, properties) {
+  if (!row || !properties || !AdLib.findByTourToken) return true;
+  var found = AdLib.findByTourToken(properties, row.tour_token);
+  if (!found) return true;
+  var ad = (AdLib.getAdMeta(found).ad || {});
+  var access =
+    (Tour.getTourAccessForToken && Tour.getTourAccessForToken(ad, row.tour_token)) ||
+    Tour.normalizeTourAccess(ad.tour_access || {}, null);
+  var hasList =
+    (access.allow_emails && access.allow_emails.length) ||
+    (access.allow_phones && access.allow_phones.length);
+  if (!hasList) return true;
+  return Tour.isAllowlisted(access, row.email, row.phone);
+}
+
+function inboxPayload(rows, properties) {
+  var list = (rows || [])
+    .map(function (row) {
+      var pub = publicRequestRow(row);
+      if (!pub) return null;
+      pub.allowlisted = requestAllowlisted(pub, properties);
+      return pub;
+    })
+    .filter(Boolean);
   var pending = list.filter(function (r) {
     return r.status === "pending";
   }).length;
@@ -452,7 +480,13 @@ module.exports = async function immoTourAccess(req, res) {
         token: req.query && (req.query.token || req.query.t),
         property_id: req.query && req.query.property_id,
       });
-      return res.status(200).json(inboxPayload(listed));
+      var propsInbox = [];
+      try {
+        propsInbox = await loadProperties();
+      } catch (eIn) {
+        propsInbox = [];
+      }
+      return res.status(200).json(inboxPayload(listed, propsInbox));
     }
     var tokenGet = String((req.query && (req.query.token || req.query.t)) || "").trim();
     if (!Tour.isTourToken(tokenGet)) return res.status(400).json({ error: "Lien invalide" });
@@ -500,7 +534,13 @@ module.exports = async function immoTourAccess(req, res) {
       token: token,
       property_id: body.property_id,
     });
-    return res.status(200).json(inboxPayload(listedPost));
+    var propsList = [];
+    try {
+      propsList = await loadProperties();
+    } catch (eList) {
+      propsList = [];
+    }
+    return res.status(200).json(inboxPayload(listedPost, propsList));
   }
 
   if (action === "decide_request") {
@@ -649,13 +689,7 @@ module.exports = async function immoTourAccess(req, res) {
     var email = Tour.normalizeEmail(body.email);
     var phone = Tour.normalizePhone(body.phone);
     var firstName = Tour.normalizeName(body.first_name);
-    if (!Tour.isAllowlisted(info.access, email, phone)) {
-      return res.status(403).json({
-        ok: false,
-        error: "Cette visite est réservée à une liste de personnes. Contactez Wendy BUCHET.",
-        contact: { name: Tour.AUTHOR.name, href: Tour.AUTHOR.contact_path, email: Tour.AUTHOR.email },
-      });
-    }
+    var onAllowlist = Tour.isAllowlisted(info.access, email, phone);
     if (Tour.needsEmail(info.access) && !email) {
       return res.status(400).json({ ok: false, error: "E-mail réel obligatoire." });
     }
@@ -714,13 +748,16 @@ module.exports = async function immoTourAccess(req, res) {
         console.warn("[immo-tour-access] request upsert", eAsk && eAsk.message);
         return res.status(500).json({ ok: false, error: "Impossible d’enregistrer la demande." });
       }
-      notifyAdvisorNewRequest(existingReq || {
-        first_name: firstName,
-        email: email,
-        phone: phone,
-        property_title: (info.ad && info.ad.headline) || found.title || "",
-        link_name: info.access && info.access.name,
-      }).catch(function () {});
+      notifyAdvisorNewRequest(
+        Object.assign({}, existingReq || {}, {
+          first_name: firstName,
+          email: email,
+          phone: phone,
+          property_title: (info.ad && info.ad.headline) || found.title || "",
+          link_name: info.access && info.access.name,
+          allowlisted: onAllowlist,
+        })
+      ).catch(function () {});
     }
 
     if (ask.resend) {

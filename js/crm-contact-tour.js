@@ -84,7 +84,7 @@
         '<a class="btn btn-ghost btn-sm" href="./crm-immo-pubs.html">Pubs mandats</a></div>' +
         "<p class=\"pub-hint\">Tu peux créer <strong>plusieurs liens indépendants</strong> (Leboncoin, site, test…). " +
         "Chacun a sa durée, sa dispo et sa liste. Le lien 3D Matterport reste <strong>privé</strong> : un visiteur ne le voit jamais. " +
-        "Le visiteur demande l’accès : <strong>tu valides ou tu déclines</strong> — aucun code ne part tout seul.</p>" +
+        "Le visiteur demande l’accès : <strong>tu valides ou tu déclines</strong> — même hors liste prévue. Aucun code ne part tout seul.</p>" +
         '<label>Bien lié<select id="ctTourProp">' +
         options +
         "</select></label>" +
