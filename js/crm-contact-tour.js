@@ -94,10 +94,17 @@
         '<option value="none">Aucune</option>' +
         "</select></label>" +
         '<label>Période<select id="ctTourPeriod">' +
-        '<option value="limited" selected>30 jours</option>' +
+        '<option value="limited" selected>Durée ci-dessous</option>' +
         '<option value="unlimited">Illimitée</option>' +
         '<option value="mandate">Mandat exclusif</option>' +
         "</select></label></div>" +
+        '<div class="row2">' +
+        '<label>Durée<input id="ctTourDuration" type="number" min="0" step="1" value="30" /></label>' +
+        '<label>Unité<select id="ctTourDurationUnit">' +
+        '<option value="hours">Heures</option>' +
+        '<option value="days" selected>Jours</option>' +
+        "</select></label></div>" +
+        '<label>Utilisations max (0 = illimité)<input id="ctTourMaxViews" type="number" min="0" step="1" value="1" /></label>' +
         '<label class="pub-checks"><input type="checkbox" id="ctTourAllow" checked /> Autoriser uniquement ce contact (et ceux déjà listés)</label>' +
         '<div class="pub-media-actions">' +
         '<button type="button" class="btn btn-primary btn-sm" id="ctTourSave">Enregistrer et créer le lien</button>' +
@@ -115,6 +122,15 @@
         }
         if (ad0.tour_access && ad0.tour_access.period_mode) {
           root.querySelector("#ctTourPeriod").value = ad0.tour_access.period_mode;
+        }
+        if (ad0.tour_access && ad0.tour_access.duration_value) {
+          root.querySelector("#ctTourDuration").value = String(ad0.tour_access.duration_value);
+        }
+        if (ad0.tour_access && ad0.tour_access.duration_unit) {
+          root.querySelector("#ctTourDurationUnit").value = ad0.tour_access.duration_unit;
+        }
+        if (ad0.tour_access && ad0.tour_access.max_views != null) {
+          root.querySelector("#ctTourMaxViews").value = String(ad0.tour_access.max_views);
         }
       }
 
@@ -180,6 +196,9 @@
       var url = root.querySelector("#ctTourUrl").value.trim();
       var verify = root.querySelector("#ctTourVerify").value;
       var period = root.querySelector("#ctTourPeriod").value;
+      var durationVal = root.querySelector("#ctTourDuration").value;
+      var durationUnit = root.querySelector("#ctTourDurationUnit").value;
+      var maxViews = root.querySelector("#ctTourMaxViews").value;
       var allow = root.querySelector("#ctTourAllow").checked;
       var msg = root.querySelector("#ctTourMsg");
       if (!url || !/^https:\/\//i.test(url)) {
@@ -220,8 +239,10 @@
         tour_gate: true,
         tour_verify_mode: verify,
         tour_period_mode: period,
-        tour_days: period === "limited" ? 30 : period === "unlimited" ? 0 : "",
-        tour_max_views: 50,
+        tour_days: period === "limited" && durationUnit === "days" ? durationVal : period === "unlimited" ? 0 : "",
+        tour_duration_value: period === "limited" ? durationVal : "",
+        tour_duration_unit: durationUnit,
+        tour_max_views: maxViews,
         tour_max_per_contact: 8,
         tour_allow_emails: allow ? emails : "",
         tour_allow_phones: allow ? phones : "",

@@ -272,38 +272,30 @@
             </label>
             <label style="margin:0 0 8px">Période de validité
               <select id="adTourPeriod">
-                <option value="limited" selected>Limitée (jours ci-dessous)</option>
+                <option value="limited" selected>Limitée (durée ci-dessous)</option>
                 <option value="unlimited">Illimitée (quotas possibles)</option>
                 <option value="mandate">Liée au mandat exclusif (invalide dès la fin du mandat)</option>
               </select>
             </label>
             <div class="pub-media-actions" style="align-items:flex-end">
-              <label style="margin:0;flex:1">Durée si limitée
-                <select id="adTourDays">
-                  <option value="">Conserver la date actuelle</option>
-                  <option value="7">7 jours à partir d’aujourd’hui</option>
-                  <option value="14">14 jours</option>
-                  <option value="30" selected>30 jours</option>
-                  <option value="60">60 jours</option>
-                  <option value="0">Sans date de fin</option>
+              <label style="margin:0;flex:1">Durée (vide = conserver)
+                <input id="adTourDuration" type="number" min="0" step="1" value="30" placeholder="ex. 2, 12, 30" />
+              </label>
+              <label style="margin:0;flex:1">Unité
+                <select id="adTourDurationUnit">
+                  <option value="hours">Heures</option>
+                  <option value="days" selected>Jours</option>
                 </select>
               </label>
-              <label style="margin:0;flex:1">Consultations max (lien)
-                <select id="adTourMaxViews">
-                  <option value="20">20</option>
-                  <option value="50" selected>50</option>
-                  <option value="100">100</option>
-                  <option value="0">Illimité</option>
-                </select>
+              <input type="hidden" id="adTourDays" value="30" />
+              <label style="margin:0;flex:1">Utilisations max (lien, 0 = illimité)
+                <input id="adTourMaxViews" type="number" min="0" step="1" value="50" />
               </label>
-              <label style="margin:0;flex:1">Max / personne
-                <select id="adTourMaxPer">
-                  <option value="3">3</option>
-                  <option value="8" selected>8</option>
-                  <option value="20">20</option>
-                </select>
+              <label style="margin:0;flex:1">Max / personne (0 = illimité)
+                <input id="adTourMaxPer" type="number" min="0" step="1" value="8" />
               </label>
             </div>
+            <p class="pub-hint" style="margin:0 0 8px">Exemples : 6 heures · 2 jours · 1 seule utilisation · 12 vues. Tu peux combiner durée + nombre d’utilisations.</p>
             <p class="pub-hint" style="margin:8px 0 4px">Lier ce lien à :</p>
             <div class="pub-checks">
               <label><input type="checkbox" id="chTourBindSite" checked /> Bien du site</label>

@@ -60,6 +60,24 @@ assert(ta && ta.enabled && Tour.isTourToken(ta.token), "tour_access généré");
 assert(ta.max_views === 50, "max 50 vues");
 assert(ta.expires_at && Date.parse(ta.expires_at) > Date.now(), "date de fin dans le futur");
 
+var hourly = AdLib.applyAdToProperty(
+  { id: "prop_h", status: "mandat", title: "H", city: "Nancy" },
+  {
+    virtual_tour: "https://my.matterport.com/show/?m=h1",
+    tour_gate: true,
+    tour_duration_value: 6,
+    tour_duration_unit: "hours",
+    tour_max_views: 1,
+    tour_max_per_contact: 1,
+  }
+);
+var tah = hourly.metadata.ad.tour_access;
+var deltaH = Date.parse(tah.expires_at) - Date.now();
+assert(tah.duration_unit === "hours" && tah.duration_value === 6, "durée 6 heures");
+assert(deltaH > 5 * 3600000 && deltaH < 7 * 3600000, "expiration dans ~6 h");
+assert(tah.max_views === 1, "1 utilisation");
+assert(Tour.tourLinkStatus(Object.assign({}, tah, { view_count: 1 })).reason === "quota", "1/1 coupe le lien");
+
 var listing = AdLib.toAdListing(gated);
 assert(listing.tour_gate === true, "listing public : porte activée");
 assert(!listing.virtual_tour, "Matterport non exposé en public");
@@ -101,7 +119,8 @@ assert(html.indexOf("tourRedirect") !== -1, "redirection Wendy si lien usé");
 assert(html.indexOf("immo-tour-access-page.js") !== -1, "script page");
 
 var crm = read("crm-immo-pubs.html");
-assert(crm.indexOf("chTourGate") !== -1 && crm.indexOf("adTourDays") !== -1, "CRM : durée + gate");
+assert(crm.indexOf("chTourGate") !== -1 && crm.indexOf("adTourDuration") !== -1, "CRM : durée libre");
+assert(crm.indexOf("adTourDurationUnit") !== -1 && crm.indexOf("Heures") !== -1, "CRM : heures ou jours");
 assert(crm.indexOf("btnCopyTourLink") !== -1 && crm.indexOf("btnRotateTourLink") !== -1, "CRM : copier / renouveler");
 assert(crm.indexOf("adTourVerify") !== -1 && crm.indexOf("adTourPeriod") !== -1, "CRM : vérif + période");
 assert(crm.indexOf("adTourAllowEmails") !== -1 && crm.indexOf("chTourBindLbc") !== -1, "CRM : personnes + canaux");
