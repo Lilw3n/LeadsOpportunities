@@ -176,7 +176,13 @@
       demo_label: document.getElementById("adDemoLabel").value.trim(),
       listing_url: document.getElementById("adListingUrl").value.trim(),
       tour_gate: document.getElementById("chTourGate") ? document.getElementById("chTourGate").checked : false,
-      tour_days: document.getElementById("adTourDays") ? document.getElementById("adTourDays").value : "",
+      tour_days: "",
+      tour_duration_value: document.getElementById("adTourDuration")
+        ? document.getElementById("adTourDuration").value
+        : "",
+      tour_duration_unit: document.getElementById("adTourDurationUnit")
+        ? document.getElementById("adTourDurationUnit").value
+        : "days",
       tour_max_views: document.getElementById("adTourMaxViews") ? document.getElementById("adTourMaxViews").value : "",
       tour_max_per_contact: document.getElementById("adTourMaxPer") ? document.getElementById("adTourMaxPer").value : "",
       tour_verify_mode: document.getElementById("adTourVerify") ? document.getElementById("adTourVerify").value : "both",
@@ -222,11 +228,20 @@
     var gate = document.getElementById("chTourGate");
     if (gate) gate.checked = ta.enabled !== false;
     var daysEl = document.getElementById("adTourDays");
-    if (daysEl) daysEl.value = ta.token ? "" : "30";
+    var durEl = document.getElementById("adTourDuration");
+    var unitEl = document.getElementById("adTourDurationUnit");
+    if (ta.token) {
+      if (daysEl) daysEl.value = "";
+      if (durEl) durEl.value = ta.duration_value != null && ta.duration_value !== "" ? String(ta.duration_value) : "";
+    } else {
+      if (daysEl) daysEl.value = "30";
+      if (durEl && !durEl.value) durEl.value = "30";
+    }
+    if (unitEl) unitEl.value = ta.duration_unit === "hours" ? "hours" : "days";
     var maxEl = document.getElementById("adTourMaxViews");
     if (maxEl && ta.max_views != null) maxEl.value = String(ta.max_views);
     var perEl = document.getElementById("adTourMaxPer");
-    if (perEl && ta.max_views_per_contact) perEl.value = String(ta.max_views_per_contact);
+    if (perEl && ta.max_views_per_contact != null) perEl.value = String(ta.max_views_per_contact);
     var ver = document.getElementById("adTourVerify");
     if (ver) ver.value = ta.verify_mode || "both";
     var perMode = document.getElementById("adTourPeriod");

@@ -219,10 +219,12 @@
 
     var maxViews = toInt(f && f.tour_max_views != null ? f.tour_max_views : prev.max_views, 0);
     var maxPer = toInt(
-      f && f.tour_max_per_contact != null ? f.tour_max_per_contact : prev.max_views_per_contact,
+      f && f.tour_max_per_contact != null && f.tour_max_per_contact !== ""
+        ? f.tour_max_per_contact
+        : prev.max_views_per_contact,
       DEFAULT_MAX_PER_CONTACT
     );
-    if (maxPer < 1) maxPer = DEFAULT_MAX_PER_CONTACT;
+    if (maxPer < 0) maxPer = DEFAULT_MAX_PER_CONTACT;
 
     var verifyMode = normalizeVerifyMode(
       f && f.tour_verify_mode != null ? f.tour_verify_mode : prev.verify_mode,
@@ -233,6 +235,17 @@
       prev.period_mode || (prev.expires_at ? "limited" : "limited")
     );
 
+    var durationValue = toInt(
+      f && f.tour_duration_value != null && f.tour_duration_value !== ""
+        ? f.tour_duration_value
+        : prev.duration_value,
+      0
+    );
+    var durationUnit = String(
+      (f && f.tour_duration_unit) || prev.duration_unit || "days"
+    ).toLowerCase();
+    if (durationUnit !== "hours" && durationUnit !== "days") durationUnit = "days";
+
     var expiresAt = parseExpiresAt(prev.expires_at);
     if (periodMode === "unlimited") {
       expiresAt = null;
@@ -241,12 +254,30 @@
     } else if (f) {
       if (f.tour_expires_at) {
         expiresAt = parseExpiresAt(f.tour_expires_at);
-      } else if (f.tour_days != null && f.tour_days !== "") {
-        var days = toInt(f.tour_days, -1);
-        expiresAt = days > 0 ? new Date(Date.now() + days * 86400000).toISOString() : null;
-        if (days === 0) {
-          periodMode = "unlimited";
-          expiresAt = null;
+      } else {
+        var amount = null;
+        var unit = durationUnit;
+        if (f.tour_duration_value != null && f.tour_duration_value !== "") {
+          amount = toInt(f.tour_duration_value, -1);
+          unit = String(f.tour_duration_unit || "days").toLowerCase();
+        } else if (f.tour_hours != null && f.tour_hours !== "") {
+          amount = toInt(f.tour_hours, -1);
+          unit = "hours";
+        } else if (f.tour_days != null && f.tour_days !== "") {
+          amount = toInt(f.tour_days, -1);
+          unit = "days";
+        }
+        if (amount != null) {
+          if (amount <= 0) {
+            periodMode = "unlimited";
+            expiresAt = null;
+            durationValue = 0;
+          } else {
+            var ms = unit === "hours" ? amount * 3600000 : amount * 86400000;
+            expiresAt = new Date(Date.now() + ms).toISOString();
+            durationValue = amount;
+            durationUnit = unit === "hours" ? "hours" : "days";
+          }
         }
       }
     }
@@ -266,6 +297,8 @@
       max_views: maxViews,
       max_views_per_contact: maxPer,
       expires_at: expiresAt,
+      duration_value: durationValue || null,
+      duration_unit: durationUnit,
       verify_mode: verifyMode,
       period_mode: periodMode,
       require_email: verifyMode === "email" || verifyMode === "both",
@@ -284,6 +317,8 @@
     return {
       tour_gate: true,
       tour_days: DEFAULT_DAYS,
+      tour_duration_value: DEFAULT_DAYS,
+      tour_duration_unit: "days",
       tour_max_views: DEFAULT_MAX_VIEWS,
       tour_max_per_contact: DEFAULT_MAX_PER_CONTACT,
       tour_verify_mode: "both",
@@ -328,6 +363,7 @@
 
   function contactQuotaOk(used, access) {
     var max = toInt(access && access.max_views_per_contact, DEFAULT_MAX_PER_CONTACT);
+    if (max <= 0) return true;
     return toInt(used, 0) < max;
   }
 
