@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-08T19:50:24.757Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sports/football/ligue-des-champions/lille-betis-en-video-le-service-parfait-d-ethan-mbappe-pour-le-but-d-ayase-ueda-20260908",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa0670043d94d19b8909f0a3913985b&url=https%3a%2f%2fwww.beinsports.com%2ffr-fr%2fbasketball%2ffiba%2farticles%2fbasket-coupe-du-monde-2026-f-l-%25C3%25A9quipe-de-france-lance-son-mondial-avec-d-immenses-ambitions-2026-09-04&c=13153066156936006588&mkt=en-us",
+    "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20260907-sommet-lumi%C3%A8re-le-cin%C3%A9ma-mondial-r%C3%A9unit-%C3%A0-saint-paul-de-vence-pour-un-davos-du-7%C3%A8me-art"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-08T19:50:26.762Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-08T19:50:26.762Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "lille-betis-en-video-le-service-parfait-d-ethan-mbappe-pour-le-but-d-aya.html",
+          "title": "Lille-Betis : en vidéo, le service parfait d’Ethan Mbappé pour le but d’Ayase Ueda : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Le Figaro flash",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "basket-coupe-du-monde-2026-f-l-equipe-de-france-lance-son-mondial-avec-d.html",
+          "title": "Basket – Coupe du Monde 2026 (F) : L'équipe de France lance son Mondial avec d'immenses… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "sommet-lumiere-le-cinema-mondial-reuni-a-saint-paul-de-vence-pour-un-dav.html",
+          "title": "Sommet Lumière : le cinéma mondial réuni à Saint-Paul-de-Vence pour un \"Davos du 7ème art\" : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
