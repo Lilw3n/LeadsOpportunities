@@ -454,6 +454,9 @@ body.lbc-lightbox-open { overflow: hidden; }
 .immo-ad-protect--watermark {
   position: relative;
 }
+.immo-tour-page .immo-ad-protect--watermark::after {
+  content: "Visite acquéreur · Leads Opportunities · ne pas transférer";
+}
 .immo-ad-protect--watermark::after {
   content: "Démonstration privée · Leads Opportunities · copie interdite";
   position: fixed;
@@ -488,6 +491,7 @@ body.lbc-lightbox-open { overflow: hidden; }
 }
 .immo-ad-gate h2 { margin: 0 0 8px; font-size: 1.15rem; }
 .immo-ad-gate p { margin: 0 0 14px; color: #5b6b7c; font-size: 0.9rem; line-height: 1.45; }
+.immo-ad-gate [hidden] { display: none !important; }
 .immo-ad-gate label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 10px; }
 .immo-ad-gate input {
   padding: 10px 12px; border: 1px solid var(--immo-ad-line); border-radius: 8px; font: inherit; background: #f8fafc;

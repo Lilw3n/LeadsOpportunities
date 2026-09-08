@@ -105,6 +105,9 @@ var api = read("api/_lib/routes/public-immo-tour-access.js");
 assert(api.indexOf("request_access") !== -1 && api.indexOf("view_tour") !== -1, "API actions");
 assert(api.indexOf("acheteur_immo") !== -1, "lead vertical acquéreur");
 
+var css = read("css/immo-ad-listings.css");
+assert(css.indexOf(".immo-ad-gate [hidden]") !== -1, "hidden n’est pas écrasé par display:flex");
+
 var pages = read("js/immo-ad-pages.js");
 assert(pages.indexOf("tour_href") !== -1, "vitrine pointe vers la porte");
 
