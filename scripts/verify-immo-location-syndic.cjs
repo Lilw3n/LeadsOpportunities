@@ -32,6 +32,8 @@ function exists(rel) {
   "js/immo-service-lead-form.js",
   "js/irl-revision-lib.js",
   "js/irl-revision-widget.js",
+  "js/location-droits-lib.js",
+  "js/location-droits-widget.js",
   "css/immo-location-syndic.css",
 ].forEach(function (f) {
   assert(exists(f), f + " existe");
@@ -53,6 +55,10 @@ assert(locLanding.indexOf("revision_irl") >= 0, "checkbox révision IRL");
 assert(locLanding.indexOf("locationColoc") >= 0, "champ colocation");
 assert(locLanding.indexOf('value="colocation"') >= 0, "type bien colocation");
 assert(locLanding.indexOf("data-irl-widget") >= 0, "widget IRL landing");
+assert(locLanding.indexOf("data-droits-widget") >= 0 && locLanding.indexOf('id="droits"') >= 0, "aide-mémoire droits locataire");
+assert(locLanding.indexOf("locationNoticeKind") >= 0, "type d’avis");
+assert(locLanding.indexOf('value="travaux"') >= 0 && locLanding.indexOf("depot_garantie") >= 0, "travaux + dépôt de garantie");
+assert(locLanding.indexOf("location-droits-lib.js") >= 0, "script droits landing");
 assert(locLanding.indexOf("irl-revision-lib.js") >= 0, "script IRL landing");
 assert(locLanding.indexOf("immo-service-lead-form.js") >= 0, "script lead location");
 assert(/Lunéville|Luneville/.test(locLanding), "mention Lunéville");
@@ -68,6 +74,8 @@ assert(locHub.indexOf("role=gestion") >= 0, "hub location rôle gestion");
 assert(locHub.indexOf("sujet=coloc") >= 0, "hub location colocation");
 assert(locHub.indexOf("data-irl-widget") >= 0 && locHub.indexOf('id="irl"') >= 0, "hub location calculateur IRL");
 assert(locHub.indexOf("irl-revision-lib.js") >= 0, "script IRL hub");
+assert(locHub.indexOf("data-droits-widget") >= 0 && locHub.indexOf("sujet=travaux") >= 0, "hub droits / travaux");
+assert(locHub.indexOf("location-droits-lib.js") >= 0, "script droits hub");
 var synHub = read("immobilier/syndic/index.html");
 assert(/Loi Hoguet/.test(synHub), "disclaimer Loi Hoguet hub syndic");
 
@@ -91,6 +99,8 @@ assert(cat.getService("copro") && cat.getService("copro").need === "syndic", "al
 assert(cat.getRapideUrl("location").indexOf("location.html") >= 0, "rapide location");
 assert(cat.getRapideUrl("irl").indexOf("sujet=irl") >= 0, "rapide IRL");
 assert(cat.getRapideUrl("coloc").indexOf("sujet=coloc") >= 0, "rapide coloc");
+assert(cat.getRapideUrl("travaux").indexOf("sujet=travaux") >= 0, "rapide travaux");
+assert(cat.getService("droits") && cat.getService("droits").need === "location", "alias droits");
 assert(cat.getCompletUrl("syndic").indexOf("syndic.html") >= 0, "complet syndic");
 
 vm.runInNewContext(read("js/questionnaire-config.js"), sandbox, { filename: "js/questionnaire-config.js" });
@@ -103,6 +113,7 @@ assert(locHtml.indexOf('name="locationRole"') >= 0, "champ locationRole");
 assert(locHtml.indexOf('value="gestion"') >= 0, "questionnaire rôle gestion");
 assert(locHtml.indexOf("locationGestionNeed") >= 0, "questionnaire besoins gestion");
 assert(locHtml.indexOf("locationColoc") >= 0, "questionnaire colocation");
+assert(locHtml.indexOf("locationNoticeKind") >= 0 && locHtml.indexOf("depot_garantie") >= 0, "questionnaire avis + DG");
 assert(synHtml.indexOf('name="syndicRequest"') >= 0, "champ syndicRequest");
 
 var schema = read("js/crm-immo-property-schema.js");
@@ -110,6 +121,16 @@ assert(schema.indexOf('"Syndic"') >= 0, "type_mandat Syndic");
 assert(schema.indexOf('"Gestion locative"') >= 0, "type_mandat Gestion locative");
 assert(schema.indexOf("clause_revision") >= 0 && schema.indexOf("irl_trimestre_ref") >= 0, "CRM bail IRL");
 assert(schema.indexOf("caution_solidaire") >= 0 && schema.indexOf("nb_colocataires") >= 0, "CRM bail colocation");
+assert(schema.indexOf("grille_vetuste") >= 0 && schema.indexOf("duree_travaux_jours") >= 0, "CRM bail travaux / vétusté");
+
+vm.runInNewContext(read("js/location-droits-lib.js"), sandbox, { filename: "js/location-droits-lib.js" });
+var Droits = sandbox.LocationDroits;
+assert(Droits && Droits.explain("travaux").delay.indexOf("8 jours") >= 0, "droits travaux préavis");
+var trav = Droits.explain("travaux").tenant.join(" ");
+assert(trav.indexOf("21 jours") >= 0, "droits travaux baisse 21 j");
+assert(Droits.explain("depot_garantie").tenant.join(" ").indexOf("vétusté") >= 0 || Droits.explain("depot_garantie").tenant.join(" ").indexOf("Vétusté") >= 0, "droits DG vétusté");
+assert(Droits.kindFromSujet("depot") === "depot_garantie", "sujet depot → DG");
+assert(Droits.explain("visites").landlord.join(" ").indexOf("décent") >= 0, "mise à disposition logement décent");
 
 vm.runInNewContext(read("js/irl-revision-lib.js"), sandbox, { filename: "js/irl-revision-lib.js" });
 var Irl = sandbox.IrlRevision;

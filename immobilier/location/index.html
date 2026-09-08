@@ -71,7 +71,7 @@
         <span class="pilier-card-media" style="background-image:url('../../assets/piliers/pilier-immobilier.jpg');background-position:center 70%" aria-hidden="true"></span>
         <span class="pilier-card-body">
           <strong>Propriétaire / gestion</strong>
-          <p>Bail déjà en place : IRL, quittances, congé, impayés, encadrement. Pour un client ou pour vous.</p>
+          <p>Bail déjà en place : IRL, travaux, congé, dépôt de garantie — avis au locataire dans les règles. Pour un client ou pour vous.</p>
           <span class="go">Gérer un bail →</span>
         </span>
       </a>
@@ -80,6 +80,13 @@
           <strong>Colocation</strong>
           <p>Bail unique ou chambres, caution solidaire, assurances de chaque colocataire. Locataire ou bailleur.</p>
           <span class="go">Dossier colocation →</span>
+        </span>
+      </a>
+      <a class="pilier-card" href="../../landings/location.html?role=gestion&amp;sujet=travaux">
+        <span class="pilier-card-body">
+          <strong>Droits du locataire</strong>
+          <p>Travaux, durée, accès aux locaux, préavis, dépôt de garantie, mise en demeure. On n’écrit pas un avis au hasard.</p>
+          <span class="go">Aide-mémoire &amp; avis →</span>
         </span>
       </a>
       <a class="pilier-card" href="../../bareme-honoraires/">
@@ -124,10 +131,28 @@
           <div><span>Variation</span><strong data-irl-out-pct>—</strong></div>
         </div>
         <p class="irl-widget-source" data-irl-source></p>
-        <p class="immo-ls-note">Corse et DOM : indices distincts. Prochain IRL (T3 2026) vers mi-octobre 2026. Outil indicatif — on calcule et on notifie le locataire avec vous.</p>
+        <p class="immo-ls-note">Corse et DOM : indices distincts. Prochain IRL (T3 2026) vers mi-octobre 2026. Annoncer la révision par écrit (indices + calcul) — pas de rétroactivité si l’avis est tardif.</p>
         <div class="immo-ls-actions">
           <a class="btn btn-primary" href="../../landings/location.html?role=gestion&amp;sujet=irl">Faire gérer cette révision</a>
           <a class="btn btn-outline" href="../../landings/location.html?role=gestion">Tout le suivi de bail</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="pilier-about" style="display:block;padding:8px 0 8px" aria-labelledby="droitsTitle">
+      <h2 class="pilier-section-title" id="droitsTitle">Avertir le locataire</h2>
+      <p>Travaux, mise à disposition des locaux, congé, dépôt de garantie : le locataire a des droits précis (délais, durée, baisse de loyer au-delà de 21 jours de travaux). On prépare l’avis avec vous — pas un modèle générique.</p>
+      <div class="immo-droits-widget" data-droits-widget id="droits">
+        <h3>Aide-mémoire (loi 1989 — habitation)</h3>
+        <div class="field" style="max-width:420px;margin-bottom:12px">
+          <label for="droitsKindHub">De quoi s’agit-il ?</label>
+          <select id="droitsKindHub" data-droits-kind></select>
+        </div>
+        <div data-droits-out></div>
+        <p class="irl-widget-source" data-droits-source></p>
+        <div class="immo-ls-actions">
+          <a class="btn btn-primary" href="../../landings/location.html?role=gestion&amp;sujet=travaux">Faire rédiger l’avis</a>
+          <a class="btn btn-outline" href="../../landings/location.html?role=locataire">Je suis locataire</a>
         </div>
       </div>
     </section>
@@ -156,5 +181,7 @@
   </footer>
   <script src="../../js/irl-revision-lib.js"></script>
   <script src="../../js/irl-revision-widget.js"></script>
+  <script src="../../js/location-droits-lib.js"></script>
+  <script src="../../js/location-droits-widget.js"></script>
 </body>
 </html>

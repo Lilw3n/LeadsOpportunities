@@ -26,6 +26,22 @@
     quittance: "quittances",
     quittances: "quittances",
     conge: "conge",
+    travaux: "travaux",
+    visites: "visites",
+    acces: "visites",
+    locaux: "visites",
+    "mise-a-disposition": "visites",
+    droits: "visites",
+    depot: "depot_garantie",
+    dg: "depot_garantie",
+    garantie: "depot_garantie",
+    vetuste: "depot_garantie",
+    cles: "depot_garantie",
+    restitution: "depot_garantie",
+    demeure: "mise_en_demeure",
+    "mise-en-demeure": "mise_en_demeure",
+    retard: "mise_en_demeure",
+    interets: "mise_en_demeure",
     impaye: "impayes",
     impayes: "impayes",
     edl: "etat_des_lieux",
@@ -151,6 +167,20 @@
     if (syndic && !syndic.value && role) syndic.value = role;
   }
 
+  function syncNoticePanels(root) {
+    var kindEl = root.querySelector('[name="locationNoticeKind"]');
+    var kind = kindEl ? kindEl.value : "";
+    var roleEl = root.querySelector('input[name="locationRole"]:checked');
+    var role = roleEl ? roleEl.value : "";
+    root.querySelectorAll("[data-notice-panel]").forEach(function (panel) {
+      var want = panel.getAttribute("data-notice-panel");
+      var roleWant = panel.getAttribute("data-role-panel");
+      var kindOk = panelMatches(want, kind);
+      var roleOk = !roleWant || panelMatches(roleWant, role);
+      panel.hidden = !(kindOk && roleOk);
+    });
+  }
+
   function applySujetFromUrl(root) {
     var sujet = String(new URLSearchParams(global.location.search).get("sujet") || "").toLowerCase();
     if (!sujet) return;
@@ -165,12 +195,26 @@
       var typeEl = root.querySelector('[name="locationType"]');
       if (typeEl && (!typeEl.value || typeEl.value === "appartement")) typeEl.value = "colocation";
     }
+    var Droits = global.LocationDroits;
+    var notice = Droits && Droits.kindFromSujet ? Droits.kindFromSujet(sujet) : "";
+    if (notice) {
+      var noticeEl = root.querySelector('[name="locationNoticeKind"]');
+      if (noticeEl) noticeEl.value = notice;
+      document.querySelectorAll("[data-droits-kind]").forEach(function (el) {
+        el.value = notice;
+        el.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+    }
     syncColocPanels(root);
-    if (need === "revision_irl" && !global.location.hash) {
-      var irl = document.getElementById("irl");
-      if (irl && typeof irl.scrollIntoView === "function") {
+    syncNoticePanels(root);
+    var scrollId = "";
+    if (need === "revision_irl") scrollId = "irl";
+    else if (notice || sujet === "droits" || sujet === "travaux") scrollId = "droits";
+    if (scrollId && !global.location.hash) {
+      var target = document.getElementById(scrollId);
+      if (target && typeof target.scrollIntoView === "function") {
         setTimeout(function () {
-          irl.scrollIntoView({ behavior: "smooth", block: "start" });
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
         }, 50);
       }
     }
@@ -218,11 +262,23 @@
     form.querySelectorAll('input[name="locationRole"]').forEach(function (r) {
       r.addEventListener("change", function () {
         syncRolePanels(root);
+        syncNoticePanels(root);
       });
     });
     form.querySelectorAll('[name="locationColoc"]').forEach(function (el) {
       el.addEventListener("change", function () {
         syncColocPanels(root);
+      });
+    });
+    form.querySelectorAll('[name="locationNoticeKind"]').forEach(function (el) {
+      el.addEventListener("change", function () {
+        syncNoticePanels(root);
+        document.querySelectorAll("[data-droits-kind]").forEach(function (wsel) {
+          if (wsel !== el) {
+            wsel.value = el.value;
+            wsel.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        });
       });
     });
     var typeEl = form.querySelector('[name="locationType"]');
@@ -239,6 +295,7 @@
     applySujetFromUrl(root);
     syncRolePanels(root);
     syncColocPanels(root);
+    syncNoticePanels(root);
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -271,6 +328,9 @@
       if (fields.locationColocBail) bits.push("Bail coloc : " + fields.locationColocBail);
       if (fields.locationColocCaution) bits.push("Caution : " + fields.locationColocCaution);
       if (fields.locationGestionNeed) bits.push("Gestion : " + asList(fields.locationGestionNeed));
+      if (fields.locationNoticeKind) bits.push("Avis : " + fields.locationNoticeKind);
+      if (fields.locationTravauxJours) bits.push("Durée travaux : " + fields.locationTravauxJours + " j");
+      if (fields.locationTravauxNature) bits.push("Travaux : " + fields.locationTravauxNature);
       if (fields.syndicRequest) bits.push("Demande syndic : " + fields.syndicRequest);
       if (fields.locationDetails || fields.syndicDetails) {
         bits.push(fields.locationDetails || fields.syndicDetails);

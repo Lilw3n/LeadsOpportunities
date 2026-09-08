@@ -1420,10 +1420,26 @@
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="quittances" /> <span>Quittances</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="etat_des_lieux" /> <span>État des lieux</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="conge" /> <span>Congé / fin de bail</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="travaux" /> <span>Travaux / accès au logement</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="visites" /> <span>Visites / mise à disposition</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="depot_garantie" /> <span>Dépôt de garantie / vétusté / clés</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="mise_en_demeure" /> <span>Mise en demeure / intérêts</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="impayes" /> <span>Impayés</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="encadrement" /> <span>Encadrement des loyers</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="pno_gli" /> <span>PNO / GLI</span></label>' +
           "</div>" +
+          fieldRow(
+            select("locationNoticeKind", "Type d’avis à préparer", [
+              { v: "irl", t: "Révision IRL" },
+              { v: "travaux", t: "Travaux dans le logement" },
+              { v: "visites", t: "Visites / mise à disposition" },
+              { v: "conge_bailleur", t: "Congé bailleur" },
+              { v: "conge_locataire", t: "Congé locataire" },
+              { v: "depot_garantie", t: "Dépôt de garantie / vétusté / clés" },
+              { v: "mise_en_demeure", t: "Mise en demeure / intérêts" },
+            ]) +
+              input("locationTravauxJours", "Durée travaux (jours)", "number", "Ex. 25", false)
+          ) +
           fieldRow(
             input("irlOld", "Trimestre IRL de référence (bail)", "text", "Ex. 2025-T2", false) +
               input("irlRent", "Loyer actuel HC (€)", "text", "Ex. 650", false)

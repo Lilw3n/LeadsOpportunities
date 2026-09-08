@@ -263,3 +263,64 @@
   font-size: 0.8rem !important;
   color: #64748b;
 }
+.immo-droits-widget {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 22px 0;
+}
+.immo-droits-widget h2,
+.immo-droits-widget h3 {
+  margin: 0 0 8px;
+  font-size: 1.12rem;
+}
+.immo-droits-widget > p {
+  margin: 0 0 14px;
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.immo-droits-delay {
+  margin: 0 0 14px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.immo-droits-cols {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+@media (min-width: 700px) {
+  .immo-droits-cols {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.immo-droits-col {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.immo-droits-col h3 {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0369a1;
+  margin: 0 0 8px;
+}
+.immo-droits-col ul,
+.immo-droits-widget .immo-ls-note ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #334155;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.immo-droits-col li + li,
+.immo-droits-widget .immo-ls-note li + li {
+  margin-top: 6px;
+}
+.immo-ls-form [data-notice-panel][hidden] {
+  display: none !important;
+}

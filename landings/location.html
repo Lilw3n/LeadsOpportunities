@@ -61,7 +61,8 @@
         <p class="sub">
           Locataire, bailleur ou propriétaire (y compris pour votre propre parc) : matching logement,
           mandat location, <strong>révision IRL</strong>, <strong>colocation</strong>, quittances, état des lieux,
-          congé, impayés, encadrement des loyers, PNO / GLI. Un seul interlocuteur — bassin Nancy, Lunéville, 54.
+          congé, travaux, dépôt de garantie — en informant le locataire de ses droits (durée, accès, préavis).
+          Un seul interlocuteur — bassin Nancy, Lunéville, 54.
         </p>
 
         <div class="immo-ls-grid immo-ls-grid--3">
@@ -78,7 +79,7 @@
           <article class="immo-ls-card">
             <strong>Propriétaire</strong>
             <h3>Je gère un bail en cours</h3>
-            <p>Révision IRL, quittances, EDL, congé, impayés — pour un client ou pour vous-même.</p>
+            <p>Révision IRL, travaux, congé, dépôt de garantie — avis au locataire dans les règles. Pour un client ou pour vous.</p>
           </article>
         </div>
 
@@ -94,6 +95,7 @@
           <a class="btn btn-soft" href="../immobilier/location/">Hub location</a>
           <a class="btn btn-soft" href="../immobilier/location/#irl">Calculateur IRL</a>
           <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=coloc">Colocation</a>
+          <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=travaux">Droits / travaux</a>
           <a class="btn btn-soft" href="../bareme-honoraires/">Barème honoraires</a>
           <a class="btn btn-soft" href="./questionnaire.html?need=pno&amp;journey=standard">Devis PNO</a>
         </div>
@@ -127,11 +129,33 @@
           <p class="irl-widget-source" data-irl-source></p>
           <p class="immo-ls-note">
             Outil indicatif. Sans clause de révision dans le bail, le loyer n’est pas indexé.
+            L’annoncer <strong>par écrit</strong> (indices + calcul) : une notification tardive ne reprend pas les mois déjà écoulés.
             Prochain IRL (T3 2026) attendu vers mi-octobre 2026.
           </p>
           <div class="immo-ls-actions">
             <a class="btn btn-primary" href="#demande">Faire gérer cette révision</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=irl#demande">Demande propriétaire</a>
+          </div>
+        </div>
+
+        <div class="immo-droits-widget" data-droits-widget id="droits">
+          <h2>Avertir le locataire — ses droits</h2>
+          <p>
+            Travaux, durée, mise à disposition des locaux, congé, dépôt de garantie, mise en demeure :
+            le locataire doit savoir <strong>quoi, quand, combien de temps</strong>, et ce qu’il peut refuser.
+            Cadre habitation (loi du 6 juillet 1989). Ce n’est <strong>pas un modèle de courrier</strong> à copier-coller :
+            on rédige l’avis avec vous (LRAR / commissaire de justice si besoin).
+          </p>
+          <div class="field" style="max-width:420px;margin-bottom:12px">
+            <label for="droitsKindLanding">De quoi s’agit-il ?</label>
+            <select id="droitsKindLanding" data-droits-kind></select>
+          </div>
+          <div data-droits-out></div>
+          <p class="irl-widget-source" data-droits-source></p>
+          <div class="immo-ls-actions">
+            <a class="btn btn-primary" href="#demande">Faire rédiger l’avis</a>
+            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=travaux#demande">Travaux / accès</a>
+            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=depot#demande">Dépôt de garantie</a>
           </div>
         </div>
 
@@ -218,10 +242,41 @@
                   <label><input type="checkbox" name="locationGestionNeed" value="quittances" /> Quittances / appels de loyer</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="etat_des_lieux" /> État des lieux (entrée / sortie)</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="conge" /> Congé / fin de bail</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="travaux" /> Travaux / accès au logement</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="visites" /> Visites / mise à disposition des locaux</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="depot_garantie" /> Dépôt de garantie, vétusté, clés</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="mise_en_demeure" /> Mise en demeure / intérêts de retard</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="impayes" /> Impayés / recouvrement</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="encadrement" /> Encadrement des loyers</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="pno_gli" /> PNO / garantie loyers impayés</label>
                 </div>
+              </div>
+              <div class="field full" data-role-panel="gestion,bailleur">
+                <label for="locNoticeKind">Type d’avis à préparer</label>
+                <select id="locNoticeKind" name="locationNoticeKind">
+                  <option value="">À préciser</option>
+                  <option value="irl">Révision IRL</option>
+                  <option value="travaux">Travaux dans le logement</option>
+                  <option value="visites">Visites / mise à disposition</option>
+                  <option value="conge_bailleur">Congé bailleur</option>
+                  <option value="conge_locataire">Congé locataire</option>
+                  <option value="depot_garantie">Dépôt de garantie / vétusté / clés</option>
+                  <option value="mise_en_demeure">Mise en demeure / intérêts</option>
+                </select>
+              </div>
+              <div class="field" data-role-panel="bailleur,gestion" data-notice-panel="travaux" hidden>
+                <label for="locTravauxJours">Durée prévue des travaux (jours)</label>
+                <input id="locTravauxJours" name="locationTravauxJours" inputmode="numeric" placeholder="Ex. 25 — au-delà de 21 j : baisse de loyer" />
+              </div>
+              <div class="field full" data-role-panel="bailleur,gestion" data-notice-panel="travaux" hidden>
+                <label for="locTravauxNature">Nature, pièces, horaires</label>
+                <input id="locTravauxNature" name="locationTravauxNature" placeholder="Ex. ravalement palier, 8h–17h, cuisine inutilisable 10 j" />
+              </div>
+              <div class="field full" data-role-panel="locataire">
+                <p class="immo-ls-note" style="margin:0">
+                  Locataire : préavis, travaux, accès au logement, dépôt de garantie —
+                  <a href="#droits">voir vos droits</a>. On vous dit ce qui est opposable, sans jargon.
+                </p>
               </div>
               <div class="field full">
                 <label for="locDetails">Précisions</label>
@@ -259,6 +314,8 @@
   <script src="../js/geo-france-guard.js"></script>
   <script src="../js/irl-revision-lib.js"></script>
   <script src="../js/irl-revision-widget.js"></script>
+  <script src="../js/location-droits-lib.js"></script>
+  <script src="../js/location-droits-widget.js"></script>
   <script src="../js/immo-service-lead-form.js"></script>
   <script src="../js/france-seo-meta.js"></script>
 </body>
