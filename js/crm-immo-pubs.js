@@ -13,7 +13,22 @@
   var highlightId = "";
   var photoState = [];
   var videoState = [];
+  var hiddenTourUrl = "";
   var Access = window.ImmoAdDemoAccess;
+
+  function paintHiddenTourUrl(url) {
+    hiddenTourUrl = String(url || "").trim();
+    var mask = document.getElementById("adTourMasked");
+    var lab = document.getElementById("adTourLabel");
+    var inp = document.getElementById("adTour");
+    if (mask) {
+      mask.textContent = hiddenTourUrl
+        ? "Lien 3D enregistré et masqué — jamais collé sur Leboncoin ni visible pour un visiteur."
+        : "Aucun lien 3D enregistré.";
+    }
+    if (lab) lab.hidden = true;
+    if (inp) inp.value = "";
+  }
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -171,7 +186,7 @@
       furnished: document.getElementById("adFurnished").checked,
       photos: photoState.slice(),
       videos: videoState.slice(),
-      virtual_tour: document.getElementById("adTour").value.trim(),
+      virtual_tour: (document.getElementById("adTour") && document.getElementById("adTour").value.trim()) || hiddenTourUrl,
       platforms: document.getElementById("adPlatforms").value,
       demo_label: document.getElementById("adDemoLabel").value.trim(),
       listing_url: document.getElementById("adListingUrl").value.trim(),
@@ -731,8 +746,8 @@
       if (!document.getElementById("adFurnished").checked && sell.furnished === true) {
         document.getElementById("adFurnished").checked = true;
       }
-      if (!document.getElementById("adTour").value && sell.virtual_tour) {
-        document.getElementById("adTour").value = sell.virtual_tour;
+      if (!hiddenTourUrl && sell.virtual_tour) {
+        paintHiddenTourUrl(sell.virtual_tour);
       }
     }
     document.getElementById("adElevator").checked = !!(crit.has_elevator || p.has_elevator);
@@ -743,7 +758,7 @@
     document.getElementById("adTerrace").checked = !!(crit.has_terrace || p.has_terrace);
     document.getElementById("adGarden").checked = !!(crit.has_garden || p.has_garden);
     document.getElementById("adFurnished").checked = !!(crit.furnished);
-    document.getElementById("adTour").value = ad.virtual_tour || "";
+    paintHiddenTourUrl(ad.virtual_tour || "");
     document.getElementById("adListingUrl").value = ad.listing_url || p.listing_url || "";
     syncOpenListingBtn();
     document.getElementById("adPlatforms").value = (ad.platforms || ["Meta", "Google", "Leboncoin"]).join(", ");
@@ -889,6 +904,7 @@
     fillForm(null);
     photoState = [];
     videoState = [];
+    paintHiddenTourUrl("");
     renderPhotoThumbs();
     renderVideoList();
     document.getElementById("adAccessEmails").value = "";
@@ -941,6 +957,18 @@
       if (!confirm("Seul CE lien nommé change d’URL. Les autres liens (ex. déjà sur Leboncoin) restent valables. Continuer ?")) return;
       window.__rotateTourOnce = true;
       document.getElementById("adForm").requestSubmit();
+    };
+  }
+  var editTourUrlBtn = document.getElementById("btnEditTourUrl");
+  if (editTourUrlBtn) {
+    editTourUrlBtn.onclick = function () {
+      var lab = document.getElementById("adTourLabel");
+      var inp = document.getElementById("adTour");
+      if (lab) lab.hidden = false;
+      if (inp) {
+        inp.value = "";
+        inp.focus();
+      }
     };
   }
   var newNamedBtn = document.getElementById("btnNewNamedTourLink");

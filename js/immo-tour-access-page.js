@@ -132,7 +132,7 @@
       '<div class="tour-frame-wrap">' +
       '<iframe title="Visite virtuelle" src="' +
       esc(embedUrl) +
-      '" allow="xr-spatial-tracking; fullscreen; web-share" allowfullscreen></iframe>' +
+      '" referrerpolicy="same-origin" allow="xr-spatial-tracking; fullscreen" allowfullscreen></iframe>' +
       "</div>";
   }
 
@@ -222,8 +222,12 @@
     setMsg("Ouverture de la visite…", true);
     post({ action: "view_tour", token: token, grant: grant })
       .then(function (res) {
-        if (res.d && res.d.ok && res.d.embed_url) {
-          showPlayer(res.d.embed_url, res.d.listing || listing);
+        if (res.d && res.d.ok && (res.d.player_url || res.d.embed_url)) {
+          var src = res.d.player_url || "";
+          if (!src || src.indexOf("/api/immo-tour-player") !== 0) {
+            src = "/api/immo-tour-player?t=" + encodeURIComponent(token);
+          }
+          showPlayer(src, res.d.listing || listing);
         } else {
           showError((res.d && res.d.error) || "Impossible d’ouvrir la visite.", (res.d && res.d.contact) || (lastMeta && lastMeta.contact));
         }

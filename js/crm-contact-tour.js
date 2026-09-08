@@ -49,6 +49,7 @@
 
     extra = extra || {};
     var selectedLinkId = "";
+    var storedTourUrl = "";
     var driveProps = ((extra.driveInfo && extra.driveInfo.propertyFolders) || []).map(function (f) {
       return f.propertyId;
     });
@@ -81,15 +82,19 @@
       root.innerHTML =
         '<div class="panel-head"><h2>Visite virtuelle (test avec ce contact)</h2>' +
         '<a class="btn btn-ghost btn-sm" href="./crm-immo-pubs.html">Pubs mandats</a></div>' +
-        "<p class=\"pub-hint\">Colle ton lien Matterport / 3D. Pour autoriser quelqu’un : " +
-        "<strong>ajoute son e-mail ou son 06</strong> (un par ligne), coche «&nbsp;Restreindre&nbsp;», puis Enregistrer. " +
-        "Durée, disponibilité et visibilité se changent <strong>sans modifier l’URL</strong> déjà collée sur Leboncoin.</p>" +
+        "<p class=\"pub-hint\">Tu peux créer <strong>plusieurs liens indépendants</strong> (Leboncoin, site, test…). " +
+        "Chacun a sa durée, sa dispo et sa liste. Le lien 3D Matterport reste <strong>privé</strong> : un visiteur ne le voit jamais. " +
+        "Pour autoriser quelqu’un : ajoute e-mail / 06, coche Restreindre, Enregistrer.</p>" +
         '<label>Bien lié<select id="ctTourProp">' +
         options +
         "</select></label>" +
         '<label>Lien à régler<select id="ctTourLinkSelect"><option value="">— Nouveau lien —</option></select></label>' +
         '<label>Nom du lien<input id="ctTourName" type="text" maxlength="80" placeholder="ex. Leboncoin Dombasle, Test Michèle" /></label>' +
-        '<label>Lien visite 3D (Matterport, Nodalview…)<input id="ctTourUrl" type="url" placeholder="https://my.matterport.com/show/?m=…" /></label>' +
+        '<div id="ctTourUrlBox">' +
+        '<p class="pub-hint" id="ctTourUrlStatus">Lien 3D masqué — jamais publié sur Leboncoin / le site.</p>' +
+        '<button type="button" class="btn btn-ghost btn-sm" id="ctTourUrlEdit">Coller / remplacer le lien 3D (reste privé)</button>' +
+        '<label id="ctTourUrlLabel" hidden>Nouveau lien 3D (privé)<input id="ctTourUrl" type="url" autocomplete="off" placeholder="https://…" /></label>' +
+        "</div>" +
         '<div class="row2">' +
         '<label>Disponibilité<select id="ctTourAvailability">' +
         '<option value="active" selected>Actif</option>' +
@@ -136,7 +141,13 @@
         var sel = root.querySelector("#ctTourProp");
         if (sel) sel.value = list[0].id;
         var ad0 = AdLib.getAdMeta(list[0]).ad;
-        if (ad0.virtual_tour) root.querySelector("#ctTourUrl").value = ad0.virtual_tour;
+        storedTourUrl = ad0.virtual_tour || storedTourUrl || "";
+        var urlStatus = root.querySelector("#ctTourUrlStatus");
+        if (urlStatus) {
+          urlStatus.textContent = storedTourUrl
+            ? "Lien 3D enregistré et masqué — un visiteur intelligent ne peut pas le récupérer ici."
+            : "Aucun lien 3D : clique « Coller / remplacer » une seule fois (il restera privé).";
+        }
         var links0 = Tour.listTourLinks ? Tour.listTourLinks(ad0) : ad0.tour_access ? [ad0.tour_access] : [];
         var selLink = links0[0] || ad0.tour_access || {};
         if (selectedLinkId) {
@@ -147,7 +158,7 @@
         var linkSel = root.querySelector("#ctTourLinkSelect");
         if (linkSel) {
           linkSel.innerHTML =
-            (links0.length ? "" : '<option value="">— Nouveau lien —</option>') +
+            '<option value="">＋ Créer un lien indépendant</option>' +
             links0
               .map(function (l) {
                 return (
@@ -208,7 +219,20 @@
       if (linkSelEl) {
         linkSelEl.onchange = function () {
           selectedLinkId = linkSelEl.value || "";
-          paint();
+          if (selectedLinkId) paint();
+        };
+      }
+      var editUrl = root.querySelector("#ctTourUrlEdit");
+      if (editUrl) {
+        editUrl.onclick = function () {
+          var lab = root.querySelector("#ctTourUrlLabel");
+          var inp = root.querySelector("#ctTourUrl");
+          if (lab) lab.hidden = false;
+          if (inp) {
+            inp.hidden = false;
+            inp.value = "";
+            inp.focus();
+          }
         };
       }
     }
@@ -272,13 +296,15 @@
 
     function save(list, createNew) {
       var propId = root.querySelector("#ctTourProp").value;
-      var url = root.querySelector("#ctTourUrl").value.trim();
+      var typedUrl = root.querySelector("#ctTourUrl") ? root.querySelector("#ctTourUrl").value.trim() : "";
+      var url = typedUrl || storedTourUrl;
       var linkName = root.querySelector("#ctTourName").value;
       var availability = root.querySelector("#ctTourAvailability").value;
       var visibility = root.querySelector("#ctTourVisibility").value;
       var linkId = root.querySelector("#ctTourLinkSelect")
         ? root.querySelector("#ctTourLinkSelect").value
         : "";
+      if (!createNew && !linkId) createNew = true;
       var verify = root.querySelector("#ctTourVerify").value;
       var period = root.querySelector("#ctTourPeriod").value;
       var durationVal = root.querySelector("#ctTourDuration").value;
@@ -290,10 +316,11 @@
       var allow = root.querySelector("#ctTourAllow").checked;
       var msg = root.querySelector("#ctTourMsg");
       if (!url || !/^https:\/\//i.test(url)) {
-        msg.textContent = "Colle un lien https de visite 3D.";
+        msg.textContent = "Colle d’abord le lien 3D (bouton « Coller / remplacer », il restera privé).";
         msg.style.color = "#9a3412";
         return;
       }
+      storedTourUrl = url;
       var prop = propId && propId !== "__new__" ? Store.getProperty(propId) : null;
       if (!prop) {
         prop = {
@@ -378,8 +405,7 @@
           ? "Réglages de « " + (current.name || "Visite") + " » enregistrés. L’URL Leboncoin est inchangée."
           : "Lien enregistré pour " + contactName(contact) + ".";
       paint(doneMsg, true);
-      root.querySelector("#ctTourProp").value = updated.id;
-      root.querySelector("#ctTourUrl").value = url;
+      if (root.querySelector("#ctTourProp")) root.querySelector("#ctTourProp").value = updated.id;
       showLinks(current, updated, savedAd);
     }
 

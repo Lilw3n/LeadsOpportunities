@@ -82,6 +82,15 @@ function bagOf(property, token) {
   return { bag: bag, ad: ad, access: access };
 }
 
+function isHttps(req) {
+  return String((req.headers && req.headers["x-forwarded-proto"]) || "") === "https";
+}
+
+function attachGrantCookie(req, res, grant) {
+  if (!grant || !Tour.grantSetCookie) return;
+  res.setHeader("Set-Cookie", Tour.grantSetCookie(grant, isHttps(req)));
+}
+
 function publicHint(property, ad) {
   return {
     title: (ad && ad.headline) || property.title || "Visite virtuelle",
@@ -229,13 +238,14 @@ module.exports = async function immoTourAccess(req, res) {
     var user = await getAuthUser(req);
     if (!user) return res.status(401).json({ error: "Connexion CRM requise" });
     var grantPrev = Tour.makeGrant(token, "admin:" + String(user.userId || user.email || "crm"));
+    attachGrantCookie(req, res, grantPrev);
     return res.status(200).json({
       ok: true,
       grant: grantPrev,
       preview_url:
         "/immobilier/visite.html?t=" + encodeURIComponent(token) + "&grant=" + encodeURIComponent(grantPrev) + "&admin=1",
+      player_url: Tour.playerPath ? Tour.playerPath(token) : "/api/immo-tour-player?t=" + encodeURIComponent(token),
       listing: AdLib.toAdListing(found, { includeTourUrl: false }),
-      embed_url: Tour.embedUrl(info.ad.virtual_tour),
     });
   }
 
@@ -419,10 +429,12 @@ module.exports = async function immoTourAccess(req, res) {
     }
 
     var grant = Tour.makeGrant(token, storeEmail + "|" + (phoneV || ""));
+    attachGrantCookie(req, res, grant);
     var listing = AdLib.toAdListing(found, { includeTourUrl: false });
     return res.status(200).json({
       ok: true,
       grant: grant,
+      player_url: Tour.playerPath ? Tour.playerPath(token) : "/api/immo-tour-player?t=" + encodeURIComponent(token),
       listing: listing,
       phone_verified: phoneVerified,
       contact_email: Tour.maskEmail(emailV),
@@ -432,15 +444,19 @@ module.exports = async function immoTourAccess(req, res) {
   if (action === "view_tour") {
     var granted = Tour.verifyGrant(body.grant, token);
     if (!granted) return res.status(401).json({ ok: false, error: "Session expirée. Recueillez un nouveau code." });
-    var embed = Tour.embedUrl(info.ad.virtual_tour);
+    var embed = Tour.resolveTourUrl
+      ? Tour.resolveTourUrl(info.ad, info.access)
+      : Tour.embedUrl(info.ad.virtual_tour);
     if (!embed) return res.status(404).json({ ok: false, error: "Visite 3D non configurée." });
+    attachGrantCookie(req, res, body.grant);
 
+    var playerUrl = Tour.playerPath ? Tour.playerPath(token) : "/api/immo-tour-player?t=" + encodeURIComponent(token);
     var isAdvisor = String(granted.contact || "").indexOf("admin:") === 0;
     if (isAdvisor) {
       return res.status(200).json({
         ok: true,
         preview: true,
-        embed_url: embed,
+        player_url: playerUrl,
         listing: AdLib.toAdListing(found, { includeTourUrl: false }),
       });
     }
@@ -482,7 +498,7 @@ module.exports = async function immoTourAccess(req, res) {
 
     return res.status(200).json({
       ok: true,
-      embed_url: embed,
+      player_url: playerUrl,
       listing: AdLib.toAdListing(found, { includeTourUrl: false }),
     });
   }

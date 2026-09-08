@@ -254,9 +254,11 @@
 
         <div class="pub-media-block">
           <h4>Visite virtuelle</h4>
-          <p class="pub-hint" style="margin:0">Matterport, Nodalview, Kuula, Giraffe360… À coller ici. Le lien public Leboncoin / Meta doit pointer vers <strong>votre site</strong>, pas vers Matterport.</p>
-          <label style="margin:0">Lien visite 3D / 360° (privé, jamais publié brut)
-            <input id="adTour" type="url" placeholder="https://my.matterport.com/show/?m=…" />
+          <p class="pub-hint" style="margin:0">Le lien Matterport / Nodalview reste <strong>privé</strong>. Sur Leboncoin tu colles uniquement le lien de <strong>ton site</strong>. Tu peux créer plusieurs liens publics indépendants.</p>
+          <p class="pub-hint" id="adTourMasked" style="margin:0 0 8px">Aucun lien 3D enregistré.</p>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnEditTourUrl">Coller / remplacer le lien 3D (reste privé)</button>
+          <label id="adTourLabel" style="margin:8px 0 0" hidden>Nouveau lien 3D (privé, jamais publié)
+            <input id="adTour" type="url" autocomplete="off" placeholder="https://…" />
           </label>
           <div class="pub-tour-box">
             <label class="pub-checks" style="margin:0 0 8px"><input type="checkbox" id="chTourGate" checked /> Activer le lien visite (site + portails, droits d’auteur Wendy BUCHET)</label>

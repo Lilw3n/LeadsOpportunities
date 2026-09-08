@@ -26,6 +26,7 @@ function read(rel) {
   "js/immo-tour-access-lib.js",
   "js/immo-tour-access-page.js",
   "api/_lib/routes/public-immo-tour-access.js",
+  "api/_lib/routes/public-immo-tour-player.js",
   "crm-immo-pubs.html",
   "js/crm-contact-tour.js",
 ].forEach(function (f) {
@@ -242,6 +243,10 @@ assert(Tour.isAllowlisted(taNone, "x@y.fr", "") === false, "allowlist refus");
 assert(Tour.tourLinkStatus(taNone, 0, noneMode).ok === true, "mandat exclusif en cours : lien OK");
 var ended = Object.assign({}, noneMode, { mandate_started_at: "2019-01-01", mandate_ends_at: "2020-01-01" });
 assert(Tour.tourLinkStatus(taNone, 0, ended).reason === "mandate_ended", "mandat échu coupe le lien");
+assert(Tour.playerPath(taNone.token).indexOf("/api/immo-tour-player?t=") === 0, "chemin lecteur interne");
+assert(Tour.playerRequestOk({ "sec-fetch-dest": "iframe" }) === true, "lecteur iframe OK");
+assert(Tour.playerRequestOk({ referer: "https://www.leadsopportunities.fr/immobilier/visite.html?t=x" }) === true, "lecteur referer OK");
+assert(Tour.playerRequestOk({ referer: "https://evil.example/x" }) === false, "lecteur refus hors page");
 assert(Tour.COPYRIGHT.indexOf("Wendy BUCHET") !== -1, "droits d’auteur Wendy");
 assert(Tour.COPYRIGHT.indexOf("ou le propriétaire") === -1, "mentions légales sans viser le propriétaire");
 assert(Tour.AUTHOR.role.indexOf("Mandataire") !== -1, "mandataire");
@@ -252,6 +257,19 @@ assert(api.indexOf("request_access") !== -1 && api.indexOf("view_tour") !== -1, 
 assert(api.indexOf("accepted_terms") !== -1 && api.indexOf("isAllowlisted") !== -1, "API : droits + allowlist");
 assert(api.indexOf("acheteur_immo") !== -1, "lead vertical acquéreur");
 assert(api.indexOf("startDurationOnFirstView") !== -1, "API : durée au 1er clic");
+assert(api.indexOf("player_url") !== -1, "API : lecteur same-origin");
+assert(api.indexOf("embed_url") === -1, "API : pas d’URL Matterport en JSON");
+var player = read("api/_lib/routes/public-immo-tour-player.js");
+assert(player.indexOf("playerRequestOk") !== -1, "lecteur : iframe / referer");
+assert(player.indexOf("lo_immo_tour_grant") !== -1 || player.indexOf("parseGrantCookie") !== -1, "lecteur : cookie grant");
+var routes = read("api/[action].js");
+assert(routes.indexOf("immo-tour-player") !== -1, "route lecteur enregistrée");
+var pageJs = read("js/immo-tour-access-page.js");
+assert(pageJs.indexOf("immo-tour-player") !== -1, "page : iframe interne");
+assert(pageJs.indexOf("my.matterport.com") === -1, "page : pas d’URL Matterport");
+assert(tourUi.indexOf("ctTourUrlEdit") !== -1 && tourUi.indexOf("masqué") !== -1, "contact : lien 3D masqué");
+assert(tourUi.indexOf("lien indépendant") !== -1, "contact : liens indépendants");
+assert(crm.indexOf("btnEditTourUrl") !== -1 && crm.indexOf("adTourMasked") !== -1, "CRM : lien 3D masqué");
 
 var css = read("css/immo-ad-listings.css");
 assert(css.indexOf(".immo-ad-gate [hidden]") !== -1, "hidden n’est pas écrasé par display:flex");

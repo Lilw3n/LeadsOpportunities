@@ -599,6 +599,39 @@
     return u;
   }
 
+  function resolveTourUrl(ad, access) {
+    return embedUrl((access && access.virtual_tour) || (ad && ad.virtual_tour) || "");
+  }
+
+  function playerPath(token) {
+    return "/api/immo-tour-player?t=" + encodeURIComponent(String(token || "").trim());
+  }
+
+  function playerRequestOk(headers) {
+    var h = headers || {};
+    var dest = String(h["sec-fetch-dest"] || "").toLowerCase();
+    if (dest === "iframe" || dest === "embed") return true;
+    var ref = String(h.referer || h.referrer || "");
+    return /\/immobilier\/visite\.html/i.test(ref);
+  }
+
+  function parseGrantCookie(cookieHeader) {
+    var raw = String(cookieHeader || "");
+    var m = raw.match(/(?:^|;\s*)lo_immo_tour_grant=([^;]+)/);
+    return m ? decodeURIComponent(m[1]) : "";
+  }
+
+  function grantSetCookie(grant, secure) {
+    return (
+      "lo_immo_tour_grant=" +
+      encodeURIComponent(String(grant || "")) +
+      "; HttpOnly; Path=/api/immo-tour-player; Max-Age=" +
+      Math.floor(GRANT_TTL_MS / 1000) +
+      "; SameSite=Lax" +
+      (secure ? "; Secure" : "")
+    );
+  }
+
   function publicMeta(access, listingHint, property) {
     var st = tourLinkStatus(access, 0, property);
     var hint = listingHint || {};
@@ -798,6 +831,11 @@
     maskEmail: maskEmail,
     maskPhone: maskPhone,
     embedUrl: embedUrl,
+    resolveTourUrl: resolveTourUrl,
+    playerPath: playerPath,
+    playerRequestOk: playerRequestOk,
+    parseGrantCookie: parseGrantCookie,
+    grantSetCookie: grantSetCookie,
     publicMeta: publicMeta,
     listedHref: listedHref,
     listTourLinks: listTourLinks,

@@ -171,15 +171,17 @@
       if (Array.isArray(ad.videos)) {
         listing.videos = ad.videos.filter(isSafeMediaUrl).slice(0, 6);
       }
-      if (ad.virtual_tour && isSafeMediaUrl(ad.virtual_tour)) {
-        var gated = ad.tour_access && ad.tour_access.enabled && ad.tour_access.token;
-        if (gated) {
-          listing.has_virtual_tour = true;
-          listing.tour_gate = true;
-          listing.tour_href = "/immobilier/visite.html?t=" + encodeURIComponent(ad.tour_access.token);
-        } else {
-          listing.virtual_tour = String(ad.virtual_tour).slice(0, 2000);
-        }
+      var tourLinks = Array.isArray(ad.tour_links) ? ad.tour_links : [];
+      var gatedToken =
+        (ad.tour_access && ad.tour_access.enabled !== false && ad.tour_access.token) ||
+        (tourLinks[0] && tourLinks[0].token);
+      if (gatedToken) {
+        listing.has_virtual_tour = true;
+        listing.tour_gate = true;
+        listing.tour_href = "/immobilier/visite.html?t=" + encodeURIComponent(gatedToken);
+        listing.virtual_tour = "";
+      } else if (ad.virtual_tour && isSafeMediaUrl(ad.virtual_tour)) {
+        listing.virtual_tour = String(ad.virtual_tour).slice(0, 2000);
       }
     }
     SENSITIVE_KEYS.forEach(function (k) {
