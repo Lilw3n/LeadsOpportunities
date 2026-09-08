@@ -56,6 +56,15 @@
     bail: "annexes",
     "bail-commercial": "annexes",
     meuble: "fiscalite",
+    meublee: "fiscalite",
+    lmnp: "fiscalite",
+    lmp: "fiscalite",
+    exoneration: "fiscalite",
+    exonération: "fiscalite",
+    exonerations: "fiscalite",
+    chambre: "fiscalite",
+    habitant: "fiscalite",
+    "chambre-habitant": "fiscalite",
     fiscalite: "fiscalite",
     tva: "fiscalite",
     taxes: "fiscalite",
@@ -232,6 +241,10 @@
     }
     var Droits = global.LocationDroits;
     var notice = Droits && Droits.kindFromSujet ? Droits.kindFromSujet(sujet) : "";
+    if (notice === "meuble" || /meuble|lmnp|chambre|exoner|exonér/.test(sujet)) {
+      var furn = root.querySelector('[name="locationFurnished"]');
+      if (furn) furn.value = "meuble";
+    }
     if (notice) {
       var noticeEl = root.querySelector('[name="locationNoticeKind"]');
       if (noticeEl) noticeEl.value = notice;
@@ -381,6 +394,8 @@
       if (fields.locationColocCaution) bits.push("Caution : " + fields.locationColocCaution);
       if (fields.locationGestionNeed) bits.push("Gestion : " + asList(fields.locationGestionNeed));
       if (fields.locationNoticeKind) bits.push("Avis : " + fields.locationNoticeKind);
+      if (fields.locationFurnished) bits.push("Meublé : " + fields.locationFurnished);
+      if (fields.locationMeubleRegime) bits.push("Régime meublé : " + fields.locationMeubleRegime);
       if (fields.locationCongeAuteur) bits.push("Congé donné par : " + fields.locationCongeAuteur);
       if (fields.locationCongeEcheance) bits.push("Échéance / effet : " + fields.locationCongeEcheance);
       if (fields.locationTravauxJours) bits.push("Durée travaux : " + fields.locationTravauxJours + " j");

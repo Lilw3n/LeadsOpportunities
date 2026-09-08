@@ -1384,7 +1384,8 @@
             select("locationFurnished", "Meublé ?", [
               { v: "indetermine", t: "Indifférent / à préciser" },
               { v: "nu", t: "Location nue" },
-              { v: "meuble", t: "Meublé" },
+              { v: "meuble", t: "Meublé (résidence)" },
+              { v: "chambre", t: "Chambre chez l’habitant / pièce RP" },
               { v: "saisonnier", t: "Saisonnier" },
             ]) +
               select("locationColoc", "Colocation ?", [
@@ -1442,8 +1443,18 @@
               { v: "depot_garantie", t: "Dépôt de garantie / vétusté / provision / clés" },
               { v: "mise_en_demeure", t: "Mise en demeure / intérêts de retard" },
               { v: "annexes", t: "Pièces à annexer au bail" },
-              { v: "fiscalite", t: "Meublé, fiscalité, TVA, taxes" },
+              { v: "meuble", t: "Location meublée et exonérations" },
+              { v: "fiscalite", t: "TVA, taxes, local commercial" },
             ]) +
+              select("locationMeubleRegime", "Régime meublé / exonération", [
+                { v: "lmnp_micro", t: "LMNP micro-BIC" },
+                { v: "lmnp_reel", t: "LMNP réel" },
+                { v: "lmp", t: "LMP" },
+                { v: "chambre_habitant", t: "Chambre chez l’habitant" },
+                { v: "partie_rp", t: "Partie de la RP" },
+                { v: "tourisme_classe", t: "Meublé de tourisme classé" },
+                { v: "saisonnier", t: "Saisonnier / Airbnb" },
+              ])
               input("locationTravauxJours", "Durée travaux (jours)", "number", "Ex. 25", false)
           ) +
           fieldRow(

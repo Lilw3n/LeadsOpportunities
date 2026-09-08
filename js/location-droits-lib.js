@@ -18,7 +18,8 @@
     { id: "depot_garantie", label: "Dépôt de garantie, vétusté, provision, clés" },
     { id: "mise_en_demeure", label: "Impayé : mise en demeure, intérêts de retard" },
     { id: "annexes", label: "Pièces à annexer au bail" },
-    { id: "fiscalite", label: "Meublé, fiscalité, TVA, taxes" },
+    { id: "meuble", label: "Location meublée et exonérations" },
+    { id: "fiscalite", label: "TVA, taxes, local commercial" },
   ];
 
   var SUJET_TO_KIND = {
@@ -59,12 +60,22 @@
     annexes: "annexes",
     pieces: "annexes",
     bail: "annexes",
-    meuble: "fiscalite",
+    meuble: "meuble",
+    meublee: "meuble",
+    meublé: "meuble",
+    lmnp: "meuble",
+    lmp: "meuble",
+    exoneration: "meuble",
+    exonération: "meuble",
+    exonerations: "meuble",
+    exonérations: "meuble",
+    chambre: "meuble",
+    habitant: "meuble",
+    "chambre-habitant": "meuble",
     fiscalite: "fiscalite",
     tva: "fiscalite",
     taxes: "fiscalite",
     impot: "fiscalite",
-    lmnp: "fiscalite",
     commercial: "fiscalite",
     "bail-commercial": "annexes",
   };
@@ -391,15 +402,75 @@
         "Saisonnier / mobilité / civil : listes encore différentes — on calibre sur le contrat réel.",
       ],
     },
+    meuble: {
+      delay: "Deux sujets distincts : 1) le bail meublé (loi 1989) 2) l’impôt du bailleur (BIC / exonérations limitées). Les loyers ne sont pas « exonérés » du seul fait d’être meublés. Pas un conseil fiscal signé.",
+      tenant: [
+        "Meublé : bail d’1 an (9 mois étudiant), préavis locataire 1 mois, dépôt plafonné à 2 mois de loyer HC.",
+        "Le régime fiscal du bailleur (LMNP, micro-BIC…) ne réduit pas vos droits au bail.",
+        "Inventaire du mobilier signé des deux côtés : sans ça, le bail peut être requalifié en nu.",
+      ],
+      landlord: [
+        "Qualifier le meublé : liste minimale du décret du 31 juillet 2015, logement décent, inventaire à l’entrée.",
+        "Fiscalité : BIC (LMNP ou LMP), pas des revenus fonciers — ce n’est pas une exonération des loyers.",
+        "Les vraies exonérations (chambre chez l’habitant, pièce de la RP) sont étroites : plafond, pièce principale conservée, usage d’habitation.",
+      ],
+      groups: [
+        {
+          title: "Bail meublé (loi 1989) — qualification",
+          items: [
+            { req: "obligatoire", t: "Mobilier suffisant pour vivre : literie, volets/rideaux, plaques, four ou micro-ondes, frigo, vaisselle, table, sièges, rangements, luminaire, matériel ménage (décret 31/07/2015)" },
+            { req: "obligatoire", t: "Inventaire et état détaillé du mobilier, signés, annexés au bail + EDL" },
+            { req: "selon cas", t: "Sans inventaire complet : requalification en location nue → préavis 3 mois, dépôt 1 mois, revenus fonciers" },
+          ],
+        },
+        {
+          title: "Durée, dépôt, préavis (meublé résidence)",
+          items: [
+            { req: "obligatoire", t: "Durée 1 an, reconduction tacite (9 mois si locataire étudiant)" },
+            { req: "obligatoire", t: "Dépôt de garantie : 2 mois de loyer HC max" },
+            { req: "obligatoire", t: "Préavis locataire : 1 mois. Congé bailleur : 3 mois avant l’échéance, motif légal" },
+            { req: "selon cas", t: "Saisonnier / tourisme : ce n’est pas un bail meublé « résidence principale » — autre contrat, autres règles" },
+          ],
+        },
+        {
+          title: "Impôt meublé (LMNP / LMP) — ce n’est pas une exonération",
+          items: [
+            { req: "obligatoire", t: "Loyers meublés = BIC. Micro-BIC ou réel (amortissements LMNP). Plafonds et abattements selon classement (classique vs meublé de tourisme) — barème de l’année, on le calcule au dossier" },
+            { req: "selon cas", t: "LMP si seuils d’activité pro dépassés (recettes + inscription) : régime et cotisations différentes" },
+            { req: "selon cas", t: "CFE souvent due en meublé (seuils / 1re année) — à ne pas oublier" },
+            { req: "selon cas", t: "SCI à l’IR : la meublée « casse » souvent le régime transparent — on ne mélange pas" },
+          ],
+        },
+        {
+          title: "Exonérations réellement prévues (étroites)",
+          items: [
+            { req: "selon cas", t: "Chambre chez l’habitant (CGI) : pièce de la résidence principale, loyer raisonnable sous plafond annuel révisé, pièce principale conservée par le bailleur" },
+            { req: "selon cas", t: "Location d’une partie de la RP à un locataire qui en fait sa résidence principale : même logique de plafond / conditions — pas automatique" },
+            { req: "selon cas", t: "Plus-value sur la vente de la résidence principale : exonération à la cession, ça n’exonère pas les loyers déjà encaissés" },
+          ],
+        },
+        {
+          title: "Ce qui n’est PAS une exonération",
+          items: [
+            { req: "obligatoire", t: "« Je loue en meublé donc je ne déclare pas » : faux — déclaration BIC (ou régime d’exonération s’il est vraiment ouvert)" },
+            { req: "obligatoire", t: "Airbnb / saisonnier non classé : pas le même abattement que le meublé classique ; zones et classements changent le barème" },
+            { req: "selon cas", t: "Para-hôtelier (petit-déj, linge, accueil) : TVA possible — voir fiche TVA / taxes" },
+          ],
+        },
+      ],
+      watch: [
+        "Un inventaire incomplet = risque de requalification (bail + impôt).",
+        "On ne fige pas un taux d’abattement 2026 ici : il dépend du classement et de l’année fiscale.",
+      ],
+    },
     fiscalite: {
-      delay: "Cadre fiscal 2026, à caler sur le régime réel du bailleur (IR, société, LMNP). Pas un conseil fiscal signé.",
+      delay: "Cadre fiscal 2026, à caler sur le régime réel du bailleur (IR, société, LMNP). Pas un conseil fiscal signé. Meublé / exonérations : fiche dédiée.",
       tenant: [
         "Charges locatives récupérables ≠ impôts du bailleur : la taxe foncière n’est pas un loyer.",
         "Meublé : le statut du bailleur (BIC) ne change pas vos droits au bail (durée, préavis, dépôt).",
       ],
       landlord: [
-        "Nu : revenus fonciers (micro-foncier ou réel). Meublé : BIC (micro-BIC ou réel / LMNP) — ce n’est pas le même impôt.",
-        "Exonérations : ne pas confondre plus-value sur résidence principale et loyers encaissés (toujours imposables selon le régime).",
+        "Nu : revenus fonciers (micro-foncier ou réel). Meublé : voir « Location meublée et exonérations ».",
         "TVA : location nue d’habitation en principe exonérée. Meublé para-hôtelier ou local commercial : option / taux à vérifier.",
         "Taxes : taxe foncière (bailleur), CFE souvent due en meublé, TH abolie pour la RP — pas de « taxe loyer » à inventer.",
       ],
@@ -412,11 +483,9 @@
           ],
         },
         {
-          title: "Location meublée & « exonérations »",
+          title: "Meublé — renvoi",
           items: [
-            { req: "obligatoire", t: "BIC : micro-BIC ou réel (LMNP). Plafonds et abattements selon classement (meuble tourisme vs classique) — on les vérifie au dossier" },
-            { req: "selon cas", t: "CFE (cotisation foncière des entreprises) : souvent due en meublé, avec seuils / exonérations temporaires" },
-            { req: "selon cas", t: "Chambre chez l’habitant / pièce de la RP : régimes d’exonération limités, conditions strictes (plafond, pièce principale conservée)" },
+            { req: "obligatoire", t: "Bail, inventaire, LMNP et exonérations (chambre chez l’habitant) : fiche « Location meublée et exonérations »" },
           ],
         },
         {

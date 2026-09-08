@@ -162,7 +162,8 @@
             <a class="btn btn-soft" href="./location.html?role=locataire&amp;sujet=conge-locataire#droits">Par le locataire</a>
             <a class="btn btn-soft" href="./location.html?role=bailleur&amp;sujet=conge-bailleur#droits">Par le bailleur</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=conge-commercial#droits">Bail commercial</a>
-            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=meuble#demande">Meublé / fiscalité</a>
+            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=meuble#droits">Meublé / exonérations</a>
+            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=exoneration#droits">Chambre / RP</a>
           </div>
         </div>
 
@@ -211,6 +212,16 @@
               <div class="field">
                 <label for="locSurface">Surface (m²)</label>
                 <input id="locSurface" name="locationSurface" inputmode="numeric" placeholder="Ex. 58" />
+              </div>
+              <div class="field">
+                <label for="locFurnished">Meublé ?</label>
+                <select id="locFurnished" name="locationFurnished">
+                  <option value="">À préciser</option>
+                  <option value="nu">Location nue</option>
+                  <option value="meuble">Meublé (résidence)</option>
+                  <option value="chambre">Chambre chez l’habitant / pièce RP</option>
+                  <option value="saisonnier">Saisonnier / tourisme</option>
+                </select>
               </div>
               <div class="field">
                 <label for="locColoc">Colocation ?</label>
@@ -274,7 +285,8 @@
                   <option value="depot_garantie">Dépôt de garantie / vétusté / provision / clés</option>
                   <option value="mise_en_demeure">Mise en demeure / intérêts de retard</option>
                   <option value="annexes">Pièces à annexer au bail</option>
-                  <option value="fiscalite">Meublé, fiscalité, TVA, taxes</option>
+                  <option value="meuble">Location meublée et exonérations</option>
+                  <option value="fiscalite">TVA, taxes, local commercial</option>
                 </select>
               </div>
               <div class="field" data-role-panel="gestion,bailleur,locataire" data-notice-panel="conges,conge_locataire,conge_bailleur,conge_commercial" hidden>
@@ -289,6 +301,19 @@
               <div class="field" data-role-panel="gestion,bailleur,locataire" data-notice-panel="conges,conge_locataire,conge_bailleur,conge_commercial" hidden>
                 <label for="locCongeEcheance">Échéance du bail / date d’effet visée</label>
                 <input id="locCongeEcheance" name="locationCongeEcheance" placeholder="Ex. fin de bail 31/03/2027" />
+              </div>
+              <div class="field" data-role-panel="gestion,bailleur" data-notice-panel="meuble,fiscalite" hidden>
+                <label for="locMeubleRegime">Régime / exonération visée</label>
+                <select id="locMeubleRegime" name="locationMeubleRegime">
+                  <option value="">À préciser</option>
+                  <option value="lmnp_micro">LMNP micro-BIC</option>
+                  <option value="lmnp_reel">LMNP réel (amortissements)</option>
+                  <option value="lmp">LMP (professionnel)</option>
+                  <option value="chambre_habitant">Chambre chez l’habitant (exonération)</option>
+                  <option value="partie_rp">Partie de la résidence principale</option>
+                  <option value="tourisme_classe">Meublé de tourisme classé</option>
+                  <option value="saisonnier">Saisonnier / Airbnb</option>
+                </select>
               </div>
               <div class="field" data-role-panel="bailleur,gestion" data-notice-panel="depot_garantie" hidden>
                 <label for="locDepotMontant">Dépôt de garantie (€)</label>

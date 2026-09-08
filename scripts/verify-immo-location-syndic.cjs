@@ -59,7 +59,8 @@ assert(locLanding.indexOf("data-droits-widget") >= 0 && locLanding.indexOf('id="
 assert(locLanding.indexOf("locationNoticeKind") >= 0, "type d’avis");
 assert(locLanding.indexOf('value="travaux"') >= 0 && locLanding.indexOf("depot_garantie") >= 0, "travaux + dépôt de garantie");
 assert(locLanding.indexOf('value="annexes"') >= 0 && locLanding.indexOf("sujet=annexes") >= 0, "landing pièces / annexes");
-assert(locLanding.indexOf('value="fiscalite"') >= 0 && locLanding.indexOf("sujet=meuble") >= 0, "landing meublé / fiscalité");
+assert(locLanding.indexOf("locationFurnished") >= 0 && locLanding.indexOf("locationMeubleRegime") >= 0, "landing meublé + régime");
+assert(locLanding.indexOf("sujet=exoneration") >= 0, "landing lien exonération");
 assert(locLanding.indexOf('value="conges"') >= 0, "landing congés");
 assert(locLanding.indexOf("sujet=conge-locataire") >= 0 && locLanding.indexOf("sujet=conge-bailleur") >= 0, "landing congé locataire + bailleur");
 assert(locLanding.indexOf("locationCongeAuteur") >= 0, "landing qui donne le congé");
@@ -110,6 +111,7 @@ assert(cat.getRapideUrl("conges").indexOf("sujet=conges") >= 0, "rapide congés"
 assert(cat.getRapideUrl("conge-locataire").indexOf("conge-locataire") >= 0, "rapide congé locataire");
 assert(cat.getRapideUrl("conge-bailleur").indexOf("conge-bailleur") >= 0, "rapide congé bailleur");
 assert(cat.getRapideUrl("meuble").indexOf("sujet=meuble") >= 0, "rapide meublé");
+assert(cat.getRapideUrl("exoneration").indexOf("exoneration") >= 0, "rapide exonération");
 assert(cat.getService("droits") && cat.getService("droits").need === "location", "alias droits");
 assert(cat.getCompletUrl("syndic").indexOf("syndic.html") >= 0, "complet syndic");
 
@@ -131,7 +133,7 @@ assert(schema.indexOf('"Syndic"') >= 0, "type_mandat Syndic");
 assert(schema.indexOf('"Gestion locative"') >= 0, "type_mandat Gestion locative");
 assert(schema.indexOf("clause_revision") >= 0 && schema.indexOf("irl_trimestre_ref") >= 0, "CRM bail IRL");
 assert(schema.indexOf("caution_solidaire") >= 0 && schema.indexOf("nb_colocataires") >= 0, "CRM bail colocation");
-assert(schema.indexOf("grille_vetuste") >= 0 && schema.indexOf("duree_travaux_jours") >= 0, "CRM bail travaux / vétusté");
+assert(schema.indexOf("regime_meuble") >= 0, "CRM régime meublé");
 
 vm.runInNewContext(read("js/location-droits-lib.js"), sandbox, { filename: "js/location-droits-lib.js" });
 var Droits = sandbox.LocationDroits;
@@ -149,10 +151,16 @@ assert(Droits.explain("annexes").checklist.some(function (c) { return /Boutin/i.
 assert(Droits.explain("annexes").checklist.some(function (c) { return /bail commercial/i.test(c); }), "annexes: bail commercial");
 assert(Droits.kindFromSujet("provision") === "depot_garantie", "sujet provision → DG");
 assert(Droits.kindFromSujet("annexes") === "annexes", "sujet annexes");
-assert(Droits.kindFromSujet("meuble") === "fiscalite", "sujet meuble → fiscalité");
-assert(Droits.kindFromSujet("conges") === "conges", "sujet conges");
+assert(Droits.kindFromSujet("meuble") === "meuble", "sujet meuble → meublé");
+assert(Droits.kindFromSujet("exoneration") === "meuble", "sujet exonération → meublé");
+assert(Droits.kindFromSujet("lmnp") === "meuble", "sujet LMNP → meublé");
+var meuble = Droits.explain("meuble");
+assert(meuble.groups && meuble.groups.length >= 4, "meublé: groupes bail / fiscal / exonérations");
+assert(meuble.checklist.some(function (c) { return /2015/i.test(c); }), "meublé: décret inventaire 2015");
+assert(meuble.checklist.some(function (c) { return /habitant/i.test(c); }), "meublé: chambre chez l’habitant");
+assert(meuble.checklist.some(function (c) { return /LMNP/i.test(c); }), "meublé: LMNP");
 var fiscalite = Droits.explain("fiscalite");
-assert(fiscalite.groups && fiscalite.groups.some(function (g) { return /meubl/i.test(g.title); }), "fiscalité: groupe meublé");
+assert(fiscalite.groups && fiscalite.groups.some(function (g) { return /TVA/i.test(g.title); }), "fiscalité: groupe TVA");
 assert(/TVA/.test(fiscalite.landlord.join(" ")), "fiscalité: TVA bailleur");
 var conges = Droits.explain("conges");
 assert(conges.groups && conges.groups.length >= 3, "congés: groupes locataire / bailleur / commercial");
