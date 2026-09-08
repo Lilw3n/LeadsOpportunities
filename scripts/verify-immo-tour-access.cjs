@@ -95,14 +95,44 @@ assert(AdLib.toAdListing(ungated).virtual_tour.indexOf("matterport") !== -1, "sa
 var html = read("immobilier/visite.html");
 assert(html.indexOf("noindex") !== -1, "visite noindex");
 assert(html.indexOf("tourEmail") !== -1 && html.indexOf("tourPhone") !== -1, "champs e-mail + tél");
+assert(html.indexOf("tourTerms") !== -1 && html.indexOf("Wendy BUCHET") !== -1, "droits d’auteur + mandataire");
+assert(html.indexOf("tourRedirect") !== -1, "redirection Wendy si lien usé");
 assert(html.indexOf("immo-tour-access-page.js") !== -1, "script page");
 
 var crm = read("crm-immo-pubs.html");
 assert(crm.indexOf("chTourGate") !== -1 && crm.indexOf("adTourDays") !== -1, "CRM : durée + gate");
 assert(crm.indexOf("btnCopyTourLink") !== -1 && crm.indexOf("btnRotateTourLink") !== -1, "CRM : copier / renouveler");
+assert(crm.indexOf("adTourVerify") !== -1 && crm.indexOf("adTourPeriod") !== -1, "CRM : vérif + période");
+assert(crm.indexOf("adTourAllowEmails") !== -1 && crm.indexOf("chTourBindLbc") !== -1, "CRM : personnes + canaux");
+
+var noneMode = AdLib.applyAdToProperty(
+  { id: "prop_none", status: "mandat", title: "Y", city: "Nancy", forme_mandat: "Exclusif", mandate_started_at: "2026-01-01", mandate_ends_at: "2099-12-31" },
+  {
+    virtual_tour: "https://my.matterport.com/show/?m=n1",
+    tour_gate: true,
+    tour_verify_mode: "none",
+    tour_period_mode: "mandate",
+    tour_allow_emails: "a@b.fr",
+    tour_bind_leboncoin: true,
+    tour_bind_site: true,
+  }
+);
+var taNone = noneMode.metadata.ad.tour_access;
+assert(taNone.verify_mode === "none", "vérif nulle");
+assert(taNone.period_mode === "mandate", "période mandat");
+assert(taNone.allow_emails[0] === "a@b.fr", "allowlist e-mail");
+assert(Tour.isAllowlisted(taNone, "a@b.fr", "") === true, "allowlist ok");
+assert(Tour.isAllowlisted(taNone, "x@y.fr", "") === false, "allowlist refus");
+assert(Tour.tourLinkStatus(taNone, 0, noneMode).ok === true, "mandat exclusif en cours : lien OK");
+var ended = Object.assign({}, noneMode, { mandate_started_at: "2019-01-01", mandate_ends_at: "2020-01-01" });
+assert(Tour.tourLinkStatus(taNone, 0, ended).reason === "mandate_ended", "mandat échu coupe le lien");
+assert(Tour.COPYRIGHT.indexOf("Wendy BUCHET") !== -1, "droits d’auteur Wendy");
+assert(Tour.AUTHOR.role.indexOf("Mandataire") !== -1, "mandataire");
+assert(Tour.channelLinks(taNone.token, "https://www.leadsopportunities.fr").leboncoin.indexOf("utm_source=leboncoin") !== -1, "lien LBC");
 
 var api = read("api/_lib/routes/public-immo-tour-access.js");
 assert(api.indexOf("request_access") !== -1 && api.indexOf("view_tour") !== -1, "API actions");
+assert(api.indexOf("accepted_terms") !== -1 && api.indexOf("isAllowlisted") !== -1, "API : droits + allowlist");
 assert(api.indexOf("acheteur_immo") !== -1, "lead vertical acquéreur");
 
 var css = read("css/immo-ad-listings.css");

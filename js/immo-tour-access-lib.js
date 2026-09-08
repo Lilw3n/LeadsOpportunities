@@ -1,5 +1,6 @@
 /**
- * Visite virtuelle acquéreur — token public (Leboncoin / Meta), OTP, grant, quotas.
+ * Visite virtuelle acquéreur — token public (site / Leboncoin / portails),
+ * vérif au choix, allowlist, période (dont mandat exclusif), droits d’auteur.
  * Node + navigateur (OTP / grant = API uniquement).
  */
 (function (root, factory) {
@@ -14,6 +15,27 @@
   var DEFAULT_DAYS = 30;
   var DEFAULT_MAX_VIEWS = 50;
   var DEFAULT_MAX_PER_CONTACT = 8;
+  var VERIFY_MODES = ["none", "email", "sms", "both"];
+  var PERIOD_MODES = ["limited", "unlimited", "mandate"];
+  var BIND_KEYS = ["site", "leboncoin", "seloger", "meta", "other"];
+
+  var AUTHOR = {
+    name: "Wendy BUCHET",
+    role: "Mandataire immobilier",
+    brand: "Leads Opportunities",
+    orias: "15005935",
+    email: "contact@leadsopportunities.fr",
+    contact_path: "/landings/acheteur-immo.html?utm_source=visite-virtuelle&utm_medium=droits-auteur",
+  };
+
+  var COPYRIGHT =
+    "© " +
+    AUTHOR.name +
+    " — " +
+    AUTHOR.role +
+    " (ORIAS n° " +
+    AUTHOR.orias +
+    "). Toute utilisation de cette visite virtuelle et de ce lien est autorisée de façon unique et personnelle, sauf dans le cadre d’une visibilité publique prévue par un mandat exclusif en cours. L’aboutissement direct ou indirect d’une vente grâce à l’utilisation de ce lien, ou la consultation de ce lien sans autorisation, est passible de poursuites. Toute reprise du lien par un autre professionnel ou le propriétaire est interdite.";
 
   function normalizeEmail(email) {
     var e = String(email || "")
@@ -40,6 +62,35 @@
       .slice(0, 80);
   }
 
+  function parseList(raw, kind) {
+    var arr = raw;
+    if (typeof raw === "string") arr = raw.split(/[\n,;]+/);
+    if (!Array.isArray(arr)) arr = [];
+    var out = [];
+    var seen = {};
+    arr.forEach(function (item) {
+      var v = kind === "phone" ? normalizePhone(item) : normalizeEmail(item);
+      if (!v || seen[v]) return;
+      seen[v] = true;
+      out.push(v);
+    });
+    return out.slice(0, 40);
+  }
+
+  function parseUrlList(raw) {
+    var arr = raw;
+    if (typeof raw === "string") arr = raw.split(/[\n,;]+/);
+    if (!Array.isArray(arr)) arr = [];
+    return arr
+      .map(function (u) {
+        return String(u || "").trim();
+      })
+      .filter(function (u) {
+        return /^https:\/\//i.test(u) && !/@/.test(u) && u.length < 500;
+      })
+      .slice(0, 12);
+  }
+
   function makeTourToken() {
     var a = Date.now().toString(36);
     var b = Math.random().toString(36).slice(2, 10);
@@ -51,8 +102,10 @@
     return /^vt_[a-z0-9]+_[a-z0-9]+$/i.test(String(token || "").trim());
   }
 
-  function publicTourPath(token) {
-    return "/immobilier/visite.html?t=" + encodeURIComponent(String(token || "").trim());
+  function publicTourPath(token, utm) {
+    var q = "/immobilier/visite.html?t=" + encodeURIComponent(String(token || "").trim());
+    if (utm) q += "&utm_source=" + encodeURIComponent(utm);
+    return q;
   }
 
   function parseExpiresAt(value) {
@@ -66,6 +119,85 @@
     var n = Number(value);
     if (!Number.isFinite(n) || n < 0) return fallback;
     return Math.floor(n);
+  }
+
+  function normalizeVerifyMode(value, fallback) {
+    var v = String(value || "").toLowerCase().trim();
+    if (VERIFY_MODES.indexOf(v) !== -1) return v;
+    return fallback || "both";
+  }
+
+  function normalizePeriodMode(value, fallback) {
+    var v = String(value || "").toLowerCase().trim();
+    if (PERIOD_MODES.indexOf(v) !== -1) return v;
+    return fallback || "limited";
+  }
+
+  function boolFrom(v, fallback) {
+    if (v === true || v === "1" || v === "on" || v === "true") return true;
+    if (v === false || v === "0" || v === "off" || v === "false") return false;
+    return fallback;
+  }
+
+  function parseBind(prev, form) {
+    var p = (prev && prev.bind) || {};
+    var out = {};
+    BIND_KEYS.forEach(function (k) {
+      var key = "tour_bind_" + k;
+      if (form && Object.prototype.hasOwnProperty.call(form, key)) {
+        out[k] = boolFrom(form[key], true);
+      } else if (typeof p[k] === "boolean") {
+        out[k] = p[k];
+      } else {
+        out[k] = true;
+      }
+    });
+    return out;
+  }
+
+  function isExclusiveForm(forme) {
+    var f = String(forme || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+    return f.indexOf("exclusif") !== -1;
+  }
+
+  function mandateInfo(property) {
+    var p = property && typeof property === "object" ? property : {};
+    var meta = p.metadata && typeof p.metadata === "object" ? p.metadata : {};
+    var Mandate = null;
+    try {
+      if (typeof require === "function") Mandate = require("./immo-mandate-acl-lib.js");
+    } catch (e) {
+      Mandate = null;
+    }
+    if (!Mandate && typeof globalThis !== "undefined") Mandate = globalThis.ImmoMandateAcl;
+    if (Mandate && Mandate.computeDuration) {
+      var dur = Mandate.computeDuration(p, meta);
+      return {
+        ok: !!dur.ok,
+        expired: !!dur.expired,
+        endIso: dur.endIso || null,
+        forme: dur.forme || "",
+        exclusive: isExclusiveForm(dur.forme),
+        remainingDays: dur.remainingDays,
+        label: dur.label || "",
+      };
+    }
+    var endRaw = p.mandate_ends_at || meta.date_echeance || meta.mandate_ends_at;
+    var end = parseExpiresAt(endRaw);
+    var forme = p.forme_mandat || p.mandate_form || meta.forme_mandat || "";
+    var expired = !!(end && Date.now() > Date.parse(end));
+    return {
+      ok: true,
+      expired: expired,
+      endIso: end,
+      forme: forme,
+      exclusive: isExclusiveForm(forme),
+      remainingDays: end ? Math.round((Date.parse(end) - Date.now()) / 86400000) : null,
+      label: "",
+    };
   }
 
   function normalizeTourAccess(raw, form) {
@@ -92,24 +224,56 @@
     );
     if (maxPer < 1) maxPer = DEFAULT_MAX_PER_CONTACT;
 
+    var verifyMode = normalizeVerifyMode(
+      f && f.tour_verify_mode != null ? f.tour_verify_mode : prev.verify_mode,
+      prev.verify_mode || "both"
+    );
+    var periodMode = normalizePeriodMode(
+      f && f.tour_period_mode != null ? f.tour_period_mode : prev.period_mode,
+      prev.period_mode || (prev.expires_at ? "limited" : "limited")
+    );
+
     var expiresAt = parseExpiresAt(prev.expires_at);
-    if (f) {
+    if (periodMode === "unlimited") {
+      expiresAt = null;
+    } else if (periodMode === "mandate") {
+      expiresAt = parseExpiresAt(prev.expires_at);
+    } else if (f) {
       if (f.tour_expires_at) {
         expiresAt = parseExpiresAt(f.tour_expires_at);
       } else if (f.tour_days != null && f.tour_days !== "") {
         var days = toInt(f.tour_days, -1);
         expiresAt = days > 0 ? new Date(Date.now() + days * 86400000).toISOString() : null;
+        if (days === 0) {
+          periodMode = "unlimited";
+          expiresAt = null;
+        }
       }
     }
 
+    var allowEmails = parseList(
+      f && f.tour_allow_emails != null ? f.tour_allow_emails : prev.allow_emails,
+      "email"
+    );
+    var allowPhones = parseList(
+      f && f.tour_allow_phones != null ? f.tour_allow_phones : prev.allow_phones,
+      "phone"
+    );
+
     return {
       enabled: !!enabled,
-      token: enabled ? token : token,
+      token: token,
       max_views: maxViews,
       max_views_per_contact: maxPer,
       expires_at: expiresAt,
-      require_email: true,
-      require_phone: true,
+      verify_mode: verifyMode,
+      period_mode: periodMode,
+      require_email: verifyMode === "email" || verifyMode === "both",
+      require_phone: verifyMode === "sms" || verifyMode === "both",
+      allow_emails: allowEmails,
+      allow_phones: allowPhones,
+      bind: parseBind(prev, f),
+      portal_urls: parseUrlList(f && f.tour_portal_urls != null ? f.tour_portal_urls : prev.portal_urls),
       view_count: toInt(prev.view_count, 0),
       created_at: prev.created_at || new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -122,15 +286,29 @@
       tour_days: DEFAULT_DAYS,
       tour_max_views: DEFAULT_MAX_VIEWS,
       tour_max_per_contact: DEFAULT_MAX_PER_CONTACT,
+      tour_verify_mode: "both",
+      tour_period_mode: "limited",
     };
   }
 
-  function tourLinkStatus(access, extraViews) {
+  function tourLinkStatus(access, extraViews, property) {
     var a = access && typeof access === "object" ? access : {};
     if (!a.enabled || !isTourToken(a.token)) {
       return { ok: false, reason: "disabled", remaining: 0 };
     }
-    if (a.expires_at && Date.now() > Date.parse(a.expires_at)) {
+    var period = a.period_mode || "limited";
+    if (period === "mandate") {
+      var man = mandateInfo(property);
+      if (!man.exclusive) {
+        return { ok: false, reason: "mandate_not_exclusive", remaining: 0 };
+      }
+      if (man.expired) {
+        return { ok: false, reason: "mandate_ended", remaining: 0, expires_at: man.endIso };
+      }
+      if (man.endIso) {
+        a = Object.assign({}, a, { expires_at: man.endIso });
+      }
+    } else if (period !== "unlimited" && a.expires_at && Date.now() > Date.parse(a.expires_at)) {
       return { ok: false, reason: "expired", remaining: 0, expires_at: a.expires_at };
     }
     var used = toInt(a.view_count, 0) + toInt(extraViews, 0);
@@ -143,13 +321,52 @@
       remaining: max > 0 ? Math.max(0, max - used) : null,
       max_views: max || null,
       view_count: used,
-      expires_at: a.expires_at || null,
+      expires_at: period === "unlimited" ? null : a.expires_at || null,
+      period_mode: period,
     };
   }
 
   function contactQuotaOk(used, access) {
     var max = toInt(access && access.max_views_per_contact, DEFAULT_MAX_PER_CONTACT);
     return toInt(used, 0) < max;
+  }
+
+  function isAllowlisted(access, email, phone) {
+    var emails = (access && access.allow_emails) || [];
+    var phones = (access && access.allow_phones) || [];
+    if (!emails.length && !phones.length) return true;
+    var e = normalizeEmail(email);
+    var p = normalizePhone(phone);
+    if (e && emails.indexOf(e) !== -1) return true;
+    if (p && phones.indexOf(p) !== -1) return true;
+    return false;
+  }
+
+  function needsEmail(access) {
+    var m = (access && access.verify_mode) || "both";
+    return m === "email" || m === "both";
+  }
+
+  function needsPhone(access) {
+    var m = (access && access.verify_mode) || "both";
+    return m === "sms" || m === "both";
+  }
+
+  function needsOtp(access) {
+    return ((access && access.verify_mode) || "both") !== "none";
+  }
+
+  function statusMessage(reason) {
+    if (reason === "expired") return "Ce lien de visite a expiré.";
+    if (reason === "quota") return "Le nombre de consultations de ce lien est atteint.";
+    if (reason === "mandate_ended") {
+      return "Le mandat exclusif est terminé : ce lien n’est plus public.";
+    }
+    if (reason === "mandate_not_exclusive") {
+      return "Ce lien n’est actif que pendant un mandat exclusif.";
+    }
+    if (reason === "disabled") return "Cette visite n’est plus accessible.";
+    return "Ce lien n’est plus valable (expiré, quota, mandat ou renouvelé).";
   }
 
   function secretKey() {
@@ -245,19 +462,46 @@
     return u;
   }
 
-  function publicMeta(access, listingHint) {
-    var st = tourLinkStatus(access);
+  function publicMeta(access, listingHint, property) {
+    var st = tourLinkStatus(access, 0, property);
     var hint = listingHint || {};
+    var a = access || {};
+    var mode = a.verify_mode || "both";
     return {
       ok: st.ok,
       reason: st.ok ? null : st.reason,
+      error: st.ok ? null : statusMessage(st.reason),
       title: String(hint.title || hint.headline || "Visite virtuelle").slice(0, 80),
       city: String(hint.city || "").slice(0, 60),
       remaining: st.remaining,
       max_views: st.max_views || null,
       expires_at: st.expires_at || null,
-      require_email: true,
-      require_phone: true,
+      period_mode: a.period_mode || "limited",
+      verify_mode: mode,
+      require_email: needsEmail(a),
+      require_phone: needsPhone(a),
+      require_otp: needsOtp(a),
+      allowlist: !!(a.allow_emails && a.allow_emails.length) || !!(a.allow_phones && a.allow_phones.length),
+      bind: a.bind || {},
+      copyright: COPYRIGHT,
+      author: AUTHOR,
+      contact: {
+        name: AUTHOR.name,
+        role: AUTHOR.role,
+        email: AUTHOR.email,
+        href: AUTHOR.contact_path,
+      },
+    };
+  }
+
+  function channelLinks(token, origin) {
+    var base = String(origin || "").replace(/\/$/, "");
+    return {
+      site: base + publicTourPath(token, "site"),
+      leboncoin: base + publicTourPath(token, "leboncoin"),
+      seloger: base + publicTourPath(token, "seloger"),
+      meta: base + publicTourPath(token, "meta"),
+      other: base + publicTourPath(token, "portail"),
     };
   }
 
@@ -267,16 +511,29 @@
     DEFAULT_DAYS: DEFAULT_DAYS,
     DEFAULT_MAX_VIEWS: DEFAULT_MAX_VIEWS,
     DEFAULT_MAX_PER_CONTACT: DEFAULT_MAX_PER_CONTACT,
+    VERIFY_MODES: VERIFY_MODES,
+    PERIOD_MODES: PERIOD_MODES,
+    AUTHOR: AUTHOR,
+    COPYRIGHT: COPYRIGHT,
     normalizeEmail: normalizeEmail,
     normalizePhone: normalizePhone,
     normalizeName: normalizeName,
+    parseList: parseList,
     makeTourToken: makeTourToken,
     isTourToken: isTourToken,
     publicTourPath: publicTourPath,
+    channelLinks: channelLinks,
     normalizeTourAccess: normalizeTourAccess,
     defaultsForNewLink: defaultsForNewLink,
     tourLinkStatus: tourLinkStatus,
+    mandateInfo: mandateInfo,
+    isExclusiveForm: isExclusiveForm,
     contactQuotaOk: contactQuotaOk,
+    isAllowlisted: isAllowlisted,
+    needsEmail: needsEmail,
+    needsPhone: needsPhone,
+    needsOtp: needsOtp,
+    statusMessage: statusMessage,
     otpCode: otpCode,
     verifyOtp: verifyOtp,
     makeGrant: makeGrant,

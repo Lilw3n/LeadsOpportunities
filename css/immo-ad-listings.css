@@ -539,6 +539,37 @@ body.lbc-lightbox-open { overflow: hidden; }
   padding: 8px 10px;
   margin: 8px 0;
 }
+.tour-copyright-check {
+  flex-direction: row !important;
+  align-items: flex-start;
+  gap: 10px !important;
+  font-weight: 500 !important;
+  color: #334155 !important;
+}
+.tour-copyright-check input { width: auto; margin-top: 3px; }
+.tour-legal {
+  margin: 28px auto 40px;
+  max-width: 720px;
+  padding: 16px 18px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.5;
+}
+.tour-legal h3 { margin: 0 0 8px; font-size: 0.95rem; color: #0f2744; }
+.tour-wendy-card {
+  max-width: 520px;
+  margin: 16px auto 28px;
+  padding: 18px 16px;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 12px;
+}
+.tour-wendy-card h2 { margin: 0 0 8px; font-size: 1.1rem; }
+.tour-channel-list { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+.tour-channel-list button { font-size: 0.78rem; }
 
 .immo-ad-fade-in {
   animation: immoAdFade 0.55s ease both;

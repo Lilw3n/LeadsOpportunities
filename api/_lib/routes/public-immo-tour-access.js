@@ -161,9 +161,17 @@ module.exports = async function immoTourAccess(req, res) {
       propsGet = [];
     }
     var foundGet = AdLib.findByTourToken(propsGet, tokenGet);
-    if (!foundGet) return res.status(404).json({ ok: false, error: "Lien introuvable ou renouvelé" });
+    if (!foundGet) {
+      return res.status(404).json({
+        ok: false,
+        error: "Lien introuvable ou renouvelé",
+        contact: Tour.AUTHOR
+          ? { name: Tour.AUTHOR.name, role: Tour.AUTHOR.role, email: Tour.AUTHOR.email, href: Tour.AUTHOR.contact_path }
+          : null,
+      });
+    }
     var infoGet = bagOf(foundGet);
-    var meta = Tour.publicMeta(infoGet.access, publicHint(foundGet, infoGet.ad));
+    var meta = Tour.publicMeta(infoGet.access, publicHint(foundGet, infoGet.ad), foundGet);
     return res.status(200).json(Object.assign({ token: tokenGet }, meta));
   }
 
@@ -191,15 +199,19 @@ module.exports = async function immoTourAccess(req, res) {
   var found = AdLib.findByTourToken(properties, token);
   if (!found) return res.status(404).json({ ok: false, error: "Lien introuvable ou renouvelé" });
   var info = bagOf(found);
-  var status = Tour.tourLinkStatus(info.access);
+  var status = Tour.tourLinkStatus(info.access, 0, found);
   if (!status.ok) {
-    var msg =
-      status.reason === "expired"
-        ? "Ce lien de visite a expiré. Demandez un nouveau lien à votre conseiller."
-        : status.reason === "quota"
-          ? "Le nombre de consultations de ce lien est atteint."
-          : "Cette visite n’est plus accessible.";
-    return res.status(410).json({ ok: false, error: msg, reason: status.reason });
+    return res.status(410).json({
+      ok: false,
+      error: Tour.statusMessage(status.reason),
+      reason: status.reason,
+      contact: {
+        name: Tour.AUTHOR.name,
+        role: Tour.AUTHOR.role,
+        email: Tour.AUTHOR.email,
+        href: Tour.AUTHOR.contact_path,
+      },
+    });
   }
 
   if (action === "advisor_preview") {
@@ -220,45 +232,85 @@ module.exports = async function immoTourAccess(req, res) {
     var email = Tour.normalizeEmail(body.email);
     var phone = Tour.normalizePhone(body.phone);
     var firstName = Tour.normalizeName(body.first_name);
-    if (!email) return res.status(400).json({ ok: false, error: "E-mail réel obligatoire." });
-    if (!phone) return res.status(400).json({ ok: false, error: "Téléphone français obligatoire." });
-    if (!firstName) return res.status(400).json({ ok: false, error: "Indiquez votre prénom." });
-
-    var emailCode = Tour.otpCode(token, "email|" + email);
-    var phoneCode = Tour.otpCode(token, "phone|" + phone);
-    var sent = await sendViaResend({
-      to: email,
-      subject: "Code visite virtuelle — Leads Opportunities",
-      text:
-        "Bonjour " +
-        firstName +
-        ",\n\nVotre code pour la visite virtuelle : " +
-        emailCode +
-        "\nValable 10 minutes.\nCe lien est réservé aux acquéreurs — ne le partagez pas.\n\nWendy Buchet — Leads Opportunities",
-      html:
-        "<p>Bonjour " +
-        firstName +
-        ",</p><p>Votre code pour la visite virtuelle :</p>" +
-        "<p style=\"font-size:28px;font-weight:800;letter-spacing:4px\">" +
-        emailCode +
-        "</p><p>Valable 10 minutes. Ce lien est réservé aux acquéreurs.</p><p>Wendy Buchet — Leads Opportunities</p>",
-    });
-    if (!sent.ok) {
-      return res.status(502).json({
+    if (!Tour.isAllowlisted(info.access, email, phone)) {
+      return res.status(403).json({
         ok: false,
-        error: sent.error || "Envoi e-mail impossible. Réessayez dans un instant.",
+        error: "Cette visite est réservée à une liste de personnes. Contactez Wendy BUCHET.",
+        contact: { name: Tour.AUTHOR.name, href: Tour.AUTHOR.contact_path, email: Tour.AUTHOR.email },
       });
     }
-    var sms = await maybeSendSms(phone, phoneCode);
+    if (Tour.needsEmail(info.access) && !email) {
+      return res.status(400).json({ ok: false, error: "E-mail réel obligatoire." });
+    }
+    if (Tour.needsPhone(info.access) && !phone) {
+      return res.status(400).json({ ok: false, error: "Téléphone français obligatoire." });
+    }
+    if (!firstName && Tour.needsOtp(info.access)) {
+      return res.status(400).json({ ok: false, error: "Indiquez votre prénom." });
+    }
+
+    if (!Tour.needsOtp(info.access)) {
+      return res.status(200).json({
+        ok: true,
+        skip_otp: true,
+        delivery_email: false,
+        delivery_sms: false,
+        message: "Cochez l’acceptation des droits d’auteur, puis ouvrez la visite.",
+      });
+    }
+
+    var emailCode = email ? Tour.otpCode(token, "email|" + email) : null;
+    var phoneCode = phone ? Tour.otpCode(token, "phone|" + phone) : null;
+    var sent = { ok: true };
+    if (Tour.needsEmail(info.access)) {
+      sent = await sendViaResend({
+        to: email,
+        subject: "Code visite virtuelle — Wendy BUCHET",
+        text:
+          "Bonjour " +
+          firstName +
+          ",\n\nVotre code pour la visite virtuelle : " +
+          emailCode +
+          "\nValable 10 minutes.\nUsage unique et personnel — Wendy BUCHET, mandataire immobilier, ORIAS n° 15005935.\n\nLeads Opportunities",
+        html:
+          "<p>Bonjour " +
+          firstName +
+          ",</p><p>Votre code pour la visite virtuelle :</p>" +
+          "<p style=\"font-size:28px;font-weight:800;letter-spacing:4px\">" +
+          emailCode +
+          "</p><p>Valable 10 minutes. Usage unique et personnel.</p><p>Wendy BUCHET — Mandataire immobilier — ORIAS n° 15005935</p>",
+      });
+      if (!sent.ok) {
+        return res.status(502).json({
+          ok: false,
+          error: sent.error || "Envoi e-mail impossible. Réessayez dans un instant.",
+        });
+      }
+    }
+    var sms = { ok: false };
+    if (Tour.needsPhone(info.access) && phoneCode) {
+      sms = await maybeSendSms(phone, phoneCode);
+      if (!sms.ok && info.access.verify_mode === "sms") {
+        return res.status(502).json({
+          ok: false,
+          error: "SMS non actif. Passez la vérif en e-mail, ou configurez Twilio.",
+        });
+      }
+    }
     return res.status(200).json({
       ok: true,
-      delivery_email: true,
+      skip_otp: false,
+      delivery_email: Tour.needsEmail(info.access),
       delivery_sms: !!sms.ok,
-      contact_email: Tour.maskEmail(email),
-      contact_phone: Tour.maskPhone(phone),
-      message: sms.ok
+      contact_email: email ? Tour.maskEmail(email) : "",
+      contact_phone: phone ? Tour.maskPhone(phone) : "",
+      message: sms.ok && Tour.needsEmail(info.access)
         ? "Codes envoyés par e-mail et SMS."
-        : "Code envoyé par e-mail. Le SMS n’est pas actif : le téléphone est quand même enregistré.",
+        : Tour.needsEmail(info.access)
+          ? sms.ok
+            ? "Codes envoyés."
+            : "Code envoyé par e-mail. Le SMS n’est pas actif : le téléphone est quand même enregistré."
+          : "Code envoyé par SMS.",
     });
   }
 
@@ -266,23 +318,45 @@ module.exports = async function immoTourAccess(req, res) {
     var emailV = Tour.normalizeEmail(body.email);
     var phoneV = Tour.normalizePhone(body.phone);
     var firstV = Tour.normalizeName(body.first_name);
-    if (!emailV || !phoneV) {
-      return res.status(400).json({ ok: false, error: "E-mail et téléphone requis." });
+    if (!body.accepted_terms) {
+      return res.status(400).json({
+        ok: false,
+        error: "Cochez l’acceptation des droits d’auteur (usage unique et personnel).",
+      });
     }
-    if (!Tour.verifyOtp(token, "email|" + emailV, body.email_code)) {
+    if (!Tour.isAllowlisted(info.access, emailV, phoneV)) {
+      return res.status(403).json({
+        ok: false,
+        error: "Vous n’êtes pas sur la liste autorisée. Contactez Wendy BUCHET.",
+        contact: { name: Tour.AUTHOR.name, href: Tour.AUTHOR.contact_path, email: Tour.AUTHOR.email },
+      });
+    }
+    if (Tour.needsEmail(info.access) && !emailV) {
+      return res.status(400).json({ ok: false, error: "E-mail requis." });
+    }
+    if (Tour.needsPhone(info.access) && !phoneV) {
+      return res.status(400).json({ ok: false, error: "Téléphone requis." });
+    }
+    if (Tour.needsEmail(info.access) && !Tour.verifyOtp(token, "email|" + emailV, body.email_code)) {
       return res.status(401).json({ ok: false, error: "Code e-mail incorrect ou expiré." });
     }
-    var phoneVerified = Tour.verifyOtp(token, "phone|" + phoneV, body.phone_code);
+    var phoneVerified = phoneV && Tour.verifyOtp(token, "phone|" + phoneV, body.phone_code);
+    if (info.access.verify_mode === "sms" && !phoneVerified) {
+      return res.status(401).json({ ok: false, error: "Code SMS incorrect ou expiré." });
+    }
     if (body.phone_code && !phoneVerified) {
       return res.status(401).json({ ok: false, error: "Code SMS incorrect ou expiré." });
     }
+
+    var storeEmail =
+      emailV || (phoneV ? "sms+" + phoneV + "@visite.local" : "anon+" + token.slice(-12) + "@visite.local");
 
     if (sql) {
       var existing = [];
       try {
         existing = await sql`
           SELECT view_count FROM crm_immo_tour_views
-          WHERE tour_token = ${token} AND email = ${emailV}
+          WHERE tour_token = ${token} AND email = ${storeEmail}
           LIMIT 1
         `;
       } catch (e) {
@@ -292,7 +366,7 @@ module.exports = async function immoTourAccess(req, res) {
       if (!Tour.contactQuotaOk(used, info.access)) {
         return res.status(429).json({
           ok: false,
-          error: "Vous avez déjà consulté cette visite trop de fois avec cet e-mail.",
+          error: "Vous avez déjà consulté cette visite trop de fois.",
         });
       }
       try {
@@ -303,10 +377,10 @@ module.exports = async function immoTourAccess(req, res) {
             ${"tv_" + randomUUID()},
             ${token},
             ${found.id},
-            ${emailV},
+            ${storeEmail},
             ${phoneV},
             ${firstV},
-            NOW(),
+            ${emailV ? new Date().toISOString() : null},
             ${phoneVerified ? new Date().toISOString() : null},
             0
           )
@@ -320,18 +394,20 @@ module.exports = async function immoTourAccess(req, res) {
       }
     }
 
-    await recordLead(sql, {
-      token: token,
-      email: emailV,
-      phone: phoneV,
-      first_name: firstV,
-      property_id: found.id,
-      city: found.city,
-      title: (info.ad && info.ad.headline) || found.title,
-      utm_source: body.utm_source,
-    });
+    if (emailV || phoneV) {
+      await recordLead(sql, {
+        token: token,
+        email: emailV || storeEmail,
+        phone: phoneV,
+        first_name: firstV,
+        property_id: found.id,
+        city: found.city,
+        title: (info.ad && info.ad.headline) || found.title,
+        utm_source: body.utm_source,
+      });
+    }
 
-    var grant = Tour.makeGrant(token, emailV + "|" + phoneV);
+    var grant = Tour.makeGrant(token, storeEmail + "|" + (phoneV || ""));
     var listing = AdLib.toAdListing(found, { includeTourUrl: false });
     return res.status(200).json({
       ok: true,
@@ -383,7 +459,7 @@ module.exports = async function immoTourAccess(req, res) {
       } catch (e3) {}
     }
 
-    var live = Tour.tourLinkStatus(info.access);
+    var live = Tour.tourLinkStatus(info.access, 0, found);
     if (!live.ok) {
       return res.status(410).json({
         ok: false,
