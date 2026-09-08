@@ -92,9 +92,39 @@
   </url>
   <url>
     <loc>https://www.leadsopportunities.fr/landings/acheteur-immo.html</loc>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.leadsopportunities.fr/landings/location.html</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.leadsopportunities.fr/landings/syndic.html</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.leadsopportunities.fr/immobilier/</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.94</priority>
+  </url>
+  <url>
+    <loc>https://www.leadsopportunities.fr/immobilier/location/</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.91</priority>
+  </url>
+  <url>
+    <loc>https://www.leadsopportunities.fr/immobilier/syndic/</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.91</priority>
   </url>
   <url>
     <loc>https://www.leadsopportunities.fr/landings/devis.html</loc>

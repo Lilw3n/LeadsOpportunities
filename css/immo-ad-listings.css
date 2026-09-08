@@ -454,6 +454,9 @@ body.lbc-lightbox-open { overflow: hidden; }
 .immo-ad-protect--watermark {
   position: relative;
 }
+.immo-tour-page .immo-ad-protect--watermark::after {
+  content: "Visite acquéreur · Leads Opportunities · ne pas transférer";
+}
 .immo-ad-protect--watermark::after {
   content: "Démonstration privée · Leads Opportunities · copie interdite";
   position: fixed;
@@ -488,6 +491,7 @@ body.lbc-lightbox-open { overflow: hidden; }
 }
 .immo-ad-gate h2 { margin: 0 0 8px; font-size: 1.15rem; }
 .immo-ad-gate p { margin: 0 0 14px; color: #5b6b7c; font-size: 0.9rem; line-height: 1.45; }
+.immo-ad-gate [hidden] { display: none !important; }
 .immo-ad-gate label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 10px; }
 .immo-ad-gate input {
   padding: 10px 12px; border: 1px solid var(--immo-ad-line); border-radius: 8px; font: inherit; background: #f8fafc;
@@ -499,6 +503,73 @@ body.lbc-lightbox-open { overflow: hidden; }
   flex: 1; border: 1px solid var(--immo-ad-line); background: #fff; padding: 8px; cursor: pointer; font-weight: 700;
 }
 .immo-ad-gate .gate-tabs button.is-active { background: var(--immo-ad-ink); color: #fff; border-color: var(--immo-ad-ink); }
+
+.tour-player { margin: 8px 0 40px; }
+.tour-player-copy h2 { margin: 0 0 6px; font-size: 1.25rem; }
+.tour-player-copy p { margin: 0 0 12px; color: #5b6b7c; font-size: 0.92rem; }
+.tour-frame-wrap {
+  position: relative;
+  background: #0f172a;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 420px;
+  box-shadow: 0 12px 32px rgba(15, 39, 68, 0.16);
+}
+.tour-frame-wrap iframe {
+  display: block;
+  width: 100%;
+  height: min(70vh, 640px);
+  border: 0;
+}
+.pub-tour-box {
+  background: #ecfdf5;
+  border: 1px solid #99f6e4;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-top: 10px;
+}
+.pub-tour-box label { margin-bottom: 8px; }
+.pub-tour-url {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  word-break: break-all;
+  background: #fff;
+  border: 1px dashed #99f6e4;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 8px 0;
+}
+.tour-copyright-check {
+  flex-direction: row !important;
+  align-items: flex-start;
+  gap: 10px !important;
+  font-weight: 500 !important;
+  color: #334155 !important;
+}
+.tour-copyright-check input { width: auto; margin-top: 3px; }
+.tour-legal {
+  margin: 28px auto 40px;
+  max-width: 720px;
+  padding: 16px 18px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.5;
+}
+.tour-legal h3 { margin: 0 0 8px; font-size: 0.95rem; color: #0f2744; }
+.tour-wendy-card {
+  max-width: 520px;
+  margin: 16px auto 28px;
+  padding: 18px 16px;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 12px;
+}
+.tour-wendy-card h2 { margin: 0 0 8px; font-size: 1.1rem; }
+.tour-channel-list { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+.tour-channel-list button { font-size: 0.78rem; }
 
 .immo-ad-fade-in {
   animation: immoAdFade 0.55s ease both;

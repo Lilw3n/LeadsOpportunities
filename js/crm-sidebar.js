@@ -116,7 +116,7 @@ window.CrmSidebar = {
       defaultOpen: true,
       items: [
         { type: "link", href: "./crm-immo-properties.html", label: "Piges & biens", icon: "immo", highlight: true, desc: "Filtres type Piges + actions listing (SMS, suivi, export…)", keywords: "piges bien annonce leboncoin seloger paruvendu inventaire prospection" },
-        { type: "link", href: "./crm-immo-pubs.html", label: "Pubs mandats / démo", icon: "social", badge: "pub", highlight: true, desc: "Vitrine publique mandats + démo privée vendeur (photos, vidéos, visite virtuelle, anti-copie)", keywords: "pub mandat demo vendeur leboncoin video matterport anti copie" },
+        { type: "link", href: "./crm-immo-pubs.html", label: "Pubs mandats / démo", icon: "social", badge: "pub", highlight: true, desc: "Vitrine mandats, démo vendeur, lien visite acquéreur (e-mail + tél., quota, anti-copie)", keywords: "pub mandat demo vendeur leboncoin video matterport visite virtuelle anti copie" },
         { type: "link", href: "./crm-immo-suivi.html", label: "Suivi", icon: "immo", badge: "pipeline", desc: "Ventes, locations, offres, sorties de stock", keywords: "suivi ventes locations offres stock sorties" },
         { type: "link", href: "./crm-immo-matching.html", label: "Matching acquéreurs", icon: "ai", badge: "smart", desc: "Critères géo, surface, pièces, dépendances vs biens", keywords: "matching acheteur recherche criteria" },
         { type: "link", href: "./crm-immo-documents.html", label: "Documents immo", icon: "document", desc: "Mandats, bons de visite, offres, compromis (édition)", keywords: "mandat compromis offre visite document" },

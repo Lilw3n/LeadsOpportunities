@@ -458,12 +458,13 @@ window.CrmAgencyFees = (function () {
         },
         {
           id: "sched_pc_bail_com",
-          name: "Bail commercial (30 % HT loyer annuel)",
+          name: "Bail commercial (30 % HT loyer annuel, mini 7 000 € HT)",
           kind: "bail_commercial",
           feeModel: "annual_rent_percent",
           priceBasis: "loyer_annuel",
           percentValue: 30,
           percentTax: "ht",
+          minFeeHt: 7000,
           brackets: [],
         },
         {
@@ -473,9 +474,9 @@ window.CrmAgencyFees = (function () {
           feeModel: "per_sqm_rental",
           priceBasis: "surface_habitable",
           perSqm: {
-            negotiation: 6,
-            edl: 3,
-            dossier: { tres_tendue: 12, tendue: 10, hors_zone: 8 },
+            negotiation: 10,
+            edl: 3.03,
+            dossier: { tres_tendue: 12.1, tendue: 10.09, hors_zone: 8.07 },
           },
           brackets: [],
         },
@@ -563,9 +564,9 @@ window.CrmAgencyFees = (function () {
   function normalizePerSqm(ps) {
     if (!ps || typeof ps !== "object") {
       return {
-        negotiation: 6,
-        edl: 3,
-        dossier: { tres_tendue: 12, tendue: 10, hors_zone: 8 },
+        negotiation: 10,
+        edl: 3.03,
+        dossier: { tres_tendue: 12.1, tendue: 10.09, hors_zone: 8.07 },
       };
     }
     var d = ps.dossier || {};
@@ -985,10 +986,10 @@ window.CrmAgencyFees = (function () {
     var edl = Number(perSqm.edl) || 0;
     var dossier = dossierRateForZone(perSqm, zone || "hors_zone");
     var p = party || "total";
-    if (p === "bailleur") return (neg + dossier + edl) * m2;
-    if (p === "locataire") return (dossier + edl) * m2;
+    if (p === "bailleur") return round2((neg + dossier + edl) * m2);
+    if (p === "locataire") return round2((dossier + edl) * m2);
     // total agence = négociation (bailleur) + dossier×2 + EDL×2
-    return (neg + dossier * 2 + edl * 2) * m2;
+    return round2((neg + dossier * 2 + edl * 2) * m2);
   }
 
   /**
@@ -1028,8 +1029,15 @@ window.CrmAgencyFees = (function () {
       var pct = Number(schedule.percentValue) || 0;
       var feeHtOrTtc = (price * pct) / 100;
       if (schedule.percentTax === "ht") {
+        var minHt = schedule.minFeeHt != null ? Number(schedule.minFeeHt) : 0;
+        if (minHt && feeHtOrTtc < minHt) feeHtOrTtc = minHt;
         agencyFee = feeHtOrTtc * (1 + VAT_RATE);
-        feeDetail = { feeHt: round2(feeHtOrTtc), feeTtc: round2(agencyFee), percent: pct };
+        feeDetail = {
+          feeHt: round2(feeHtOrTtc),
+          feeTtc: round2(agencyFee),
+          percent: pct,
+          minFeeHt: minHt || null,
+        };
       } else {
         agencyFee = feeHtOrTtc;
         feeDetail = { feeTtc: round2(agencyFee), percent: pct };

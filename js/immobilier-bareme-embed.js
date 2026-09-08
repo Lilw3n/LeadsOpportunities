@@ -1,8 +1,13 @@
 /**
- * Hub /immobilier/ — aperçu barème public (grille choisie) + mini estimateur.
+ * Hub /immobilier/ et /immobilier/location/ — aperçu barème + simulateurs.
  */
 (function () {
-  var DATA_URL = "../data/bareme-honoraires-public.json";
+  function jsonUrl() {
+    var nodes = document.querySelectorAll("script[src*='immobilier-bareme-embed']");
+    var last = nodes[nodes.length - 1];
+    var attr = last && last.getAttribute("data-bareme-json");
+    return attr || "../data/bareme-honoraires-public.json";
+  }
 
   function el(id) {
     return document.getElementById(id);
@@ -66,7 +71,6 @@
 
     var tbody = el("immoBhTableBody");
     if (tbody) {
-      // Aperçu : paliers représentatifs + extrémités
       var preview = (hab.brackets || []).filter(function (b, idx, arr) {
         return (
           idx === 0 ||
@@ -113,9 +117,96 @@
     render();
   }
 
-  if (!el("immoBhPrice")) return;
+  function bootLocation() {
+    var Lib = window.BaremeHonorairesLib;
+    var surfaceEl = el("immoLocSurface");
+    if (!surfaceEl || !el("immoLocTotal")) return;
 
-  fetch(DATA_URL, { cache: "no-store" })
+    function renderLoc() {
+      var zoneEl = el("immoLocZone");
+      if (Lib) {
+        var r = Lib.computeLocationHabitation(
+          surfaceEl.value,
+          zoneEl ? zoneEl.value : "tendue"
+        );
+        var bEl = el("immoLocBailleur");
+        var lEl = el("immoLocLocataire");
+        var tEl = el("immoLocTotal");
+        if (!r.ok) {
+          if (bEl) bEl.textContent = "—";
+          if (lEl) lEl.textContent = "—";
+          if (tEl) tEl.textContent = "—";
+          return;
+        }
+        if (bEl) bEl.textContent = formatEuro(r.bailleurTtc);
+        if (lEl) lEl.textContent = formatEuro(r.locataireTtc);
+        if (tEl) tEl.textContent = formatEuro(r.totalAgenceTtc);
+        return;
+      }
+      /* Fallback si la lib n’est pas chargée : taux PDF TG0422. */
+      var m2 = Number(surfaceEl.value) || 0;
+      var zone = zoneEl ? zoneEl.value : "tendue";
+      var dossier =
+        zone === "tres-tendue" || zone === "tres_tendue"
+          ? 12.1
+          : zone === "hors" || zone === "hors_zone"
+            ? 8.07
+            : 10.09;
+      var bailleur = (10 + dossier + 3.03) * m2;
+      var locataire = (dossier + 3.03) * m2;
+      var total = bailleur + locataire;
+      if (el("immoLocBailleur")) el("immoLocBailleur").textContent = formatEuro(bailleur);
+      if (el("immoLocLocataire")) el("immoLocLocataire").textContent = formatEuro(locataire);
+      if (el("immoLocTotal")) el("immoLocTotal").textContent = formatEuro(total);
+    }
+
+    surfaceEl.oninput = renderLoc;
+    var zoneEl = el("immoLocZone");
+    if (zoneEl) zoneEl.onchange = renderLoc;
+    renderLoc();
+  }
+
+  function bootLocationPro() {
+    var Lib = window.BaremeHonorairesLib;
+    var rentEl = el("immoLocProRent");
+    if (!rentEl || !el("immoLocProFee")) return;
+    function render() {
+      var out = el("immoLocProFee");
+      if (!Lib) return;
+      var r = Lib.computeLocationPro(rentEl.value);
+      out.textContent = r.ok ? formatEuro(r.honorairesTtc) : "—";
+    }
+    rentEl.oninput = render;
+    render();
+  }
+
+  function bootBailCom() {
+    var Lib = window.BaremeHonorairesLib;
+    var rentEl = el("immoBailRent");
+    if (!rentEl || !el("immoBailTtc")) return;
+    function render() {
+      if (!Lib) return;
+      var r = Lib.computeBailCommercial(rentEl.value);
+      if (el("immoBailHt")) el("immoBailHt").textContent = r.ok ? formatEuro(r.honorairesHt) : "—";
+      if (el("immoBailTtc")) el("immoBailTtc").textContent = r.ok ? formatEuro(r.honorairesTtc) : "—";
+    }
+    rentEl.oninput = render;
+    render();
+  }
+
+  var hasVente = !!el("immoBhPrice");
+  var hasLoc = !!el("immoLocSurface");
+  var hasLocPro = !!el("immoLocProRent");
+  var hasBail = !!el("immoBailRent");
+  if (!hasVente && !hasLoc && !hasLocPro && !hasBail) return;
+
+  if (hasLoc) bootLocation();
+  if (hasLocPro) bootLocationPro();
+  if (hasBail) bootBailCom();
+
+  if (!hasVente) return;
+
+  fetch(jsonUrl(), { cache: "no-store" })
     .then(function (res) {
       if (!res.ok) throw new Error("HTTP " + res.status);
       return res.json();

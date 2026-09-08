@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Immobilier : acquéreurs, négociateurs & habitat | Leads Opportunities</title>
-  <meta name="description" content="Recherchez un bien, déposez pour estimation (photos, Matterport), consultez le barème des honoraires Portes Clés — Leads Opportunities." />
+  <title>Immobilier : achat, location, syndic | Leads Opportunities</title>
+  <meta name="description" content="Achat, vente, location et syndic de copropriété. Recherche de bien, mandat location, devis syndic — Nancy, Lunéville, bassin 54. Barème des honoraires public." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/immobilier/" />
-  <meta property="og:title" content="Immobilier : recherche de bien, négociateurs & habitat | Leads Opportunities" />
-  <meta property="og:description" content="Recherche de bien type annonce, outils négociateur, habitation et PNO." />
+  <meta property="og:title" content="Immobilier : achat, location, syndic | Leads Opportunities" />
+  <meta property="og:description" content="Recherche de bien, location locataire/bailleur, syndic de copropriété, habitation et PNO." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.leadsopportunities.fr/immobilier/" />
   <meta property="og:image" content="https://www.leadsopportunities.fr/assets/piliers/pilier-immobilier.jpg" />
   <link rel="stylesheet" href="../main.css" />
   <link rel="stylesheet" href="../css/piliers-hub.css?v=20260825real" />
-  <link rel="stylesheet" href="../css/bareme-honoraires.css?v=20260902immo" />
+  <link rel="stylesheet" href="../css/bareme-honoraires.css?v=20260908loc" />
+  <link rel="stylesheet" href="../css/immo-location-syndic.css" />
   <link rel="stylesheet" href="../css/clickable-affordance.css" />
   <style>
     .immo-bareme-block { margin: 36px 0 8px; }
@@ -48,12 +49,13 @@
   <header class="pilier-hero-media" aria-label="Immobilier">
     <div class="pilier-hero-inner">
       <span class="section-badge">Immobilier</span>
-      <h1>Acquéreurs, négociateurs &amp; habitat</h1>
-      <p class="lead">Recherchez d’abord le bien (maison, appart, pro ou particulier) — puis on calage le prêt et les assurances.</p>
+      <h1>Achat, location &amp; syndic</h1>
+      <p class="lead">Recherchez un bien, louez, gérez un bail (IRL, colocation) ou pilotez une copropriété — puis on cale prêt et assurances si besoin.</p>
       <div class="pilier-actions">
         <a class="btn btn-primary btn-lg" href="../landings/acheteur-immo.html">Rechercher un bien</a>
+        <a class="btn btn-outline btn-lg" href="../landings/location.html">Location</a>
+        <a class="btn btn-outline btn-lg" href="../landings/syndic.html">Syndic</a>
         <a class="btn btn-outline btn-lg" href="#bareme">Barème des honoraires</a>
-        <a class="btn btn-outline btn-lg" href="#estimation">Demander une estimation</a>
       </div>
     </div>
   </header>
@@ -66,6 +68,22 @@
           <strong>Recherche de bien</strong>
           <p>Maison ou appart, chez un pro ou un particulier — secteur, budget, puis matching. Comme une vraie recherche d’annonce.</p>
           <span class="go">Lancer ma recherche →</span>
+        </span>
+      </a>
+      <a class="pilier-card pilier-card--featured" href="./location/">
+        <span class="pilier-card-media" style="background-image:url('../assets/piliers/pilier-immobilier.jpg');background-position:center 45%" aria-hidden="true"></span>
+        <span class="pilier-card-body">
+          <strong>Location</strong>
+          <p>Locataire, bailleur ou gestion : matching, mandat, révision IRL, colocation, quittances, PNO / GLI.</p>
+          <span class="go">Louer, gérer un bail →</span>
+        </span>
+      </a>
+      <a class="pilier-card pilier-card--featured" href="./syndic/">
+        <span class="pilier-card-media" style="background-image:url('../assets/piliers/pilier-immobilier.jpg');background-position:center 60%" aria-hidden="true"></span>
+        <span class="pilier-card-body">
+          <strong>Syndic de copropriété</strong>
+          <p>Devis, mise en concurrence, charges et travaux AG — Nancy, Lunéville, bassin 54.</p>
+          <span class="go">Demander un devis syndic →</span>
         </span>
       </a>
       <a class="pilier-card" href="./pubs-mandats.html">
@@ -188,6 +206,89 @@
       </div>
     </section>
 
+    <section class="immo-bareme-block bh-section" id="location-bareme" aria-labelledby="immoLocBaremeTitle">
+      <h2 class="pilier-section-title" id="immoLocBaremeTitle">Honoraires location (habitation)</h2>
+      <p class="bh-sub" style="margin-top:-4px">
+        Barème TG0422 — € TTC / m² habitable : négociation 10 € (bailleur),
+        dossier 12,10 / 10,09 / 8,07 € selon zone, état des lieux 3,03 € (chaque partie).
+        Location pro : 18 % TTC du loyer annuel · bail commercial : 30 % HT, mini 7 000 € HT.
+      </p>
+      <div class="bh-calc">
+        <div class="bh-calc-grid">
+          <div>
+            <label for="immoLocSurface">Surface habitable (m²)</label>
+            <input id="immoLocSurface" type="number" min="1" step="1" value="50" />
+          </div>
+          <div>
+            <label for="immoLocZone">Zone</label>
+            <select id="immoLocZone">
+              <option value="tendue" selected>Zone tendue (souvent Nancy métropole)</option>
+              <option value="hors">Hors zone tendue (ex. Lunéville)</option>
+              <option value="tres-tendue">Zone très tendue</option>
+            </select>
+          </div>
+        </div>
+        <div class="bh-result" aria-live="polite">
+          <div class="bh-kpi">
+            <span>Charge bailleur</span>
+            <strong id="immoLocBailleur">—</strong>
+          </div>
+          <div class="bh-kpi">
+            <span>Charge locataire</span>
+            <strong id="immoLocLocataire">—</strong>
+          </div>
+          <div class="bh-kpi is-best">
+            <span>Total agence</span>
+            <strong id="immoLocTotal">—</strong>
+          </div>
+        </div>
+        <div class="immo-bareme-actions">
+          <a class="btn btn-primary" href="../landings/location.html?role=bailleur">Mettre en location</a>
+          <a class="btn btn-outline" href="../landings/location.html?role=locataire">Chercher une location</a>
+          <a class="btn btn-outline" href="../bareme-honoraires/#location">Simulateur détaillé</a>
+          <a class="btn btn-outline" href="./location/#irl">Réviser un loyer (IRL)</a>
+        </div>
+      </div>
+      <div class="bh-calc" style="margin-top:16px">
+        <h3 style="margin:0 0 10px;font-size:1.05rem">Location pro · 18 % TTC</h3>
+        <div class="bh-calc-grid">
+          <div>
+            <label for="immoLocProRent">Loyer annuel TTC (€)</label>
+            <input id="immoLocProRent" type="number" min="0" step="100" value="12000" />
+          </div>
+        </div>
+        <div class="bh-result" aria-live="polite">
+          <div class="bh-kpi is-best">
+            <span>Honoraires (preneur)</span>
+            <strong id="immoLocProFee">—</strong>
+          </div>
+        </div>
+      </div>
+      <div class="bh-calc" style="margin-top:16px">
+        <h3 style="margin:0 0 10px;font-size:1.05rem">Bail commercial · 30 % HT, mini 7 000 € HT</h3>
+        <div class="bh-calc-grid">
+          <div>
+            <label for="immoBailRent">Loyer annuel HT (€)</label>
+            <input id="immoBailRent" type="number" min="0" step="100" value="24000" />
+          </div>
+        </div>
+        <div class="bh-result" aria-live="polite">
+          <div class="bh-kpi">
+            <span>Honoraires HT</span>
+            <strong id="immoBailHt">—</strong>
+          </div>
+          <div class="bh-kpi is-best">
+            <span>Honoraires TTC</span>
+            <strong id="immoBailTtc">—</strong>
+          </div>
+        </div>
+        <div class="immo-bareme-actions">
+          <a class="btn btn-outline" href="../bareme-honoraires/#bail-commercial">Détail bail commercial</a>
+          <a class="btn btn-outline" href="../bareme-honoraires/#location-pro">Détail location pro</a>
+        </div>
+      </div>
+    </section>
+
     <section class="immo-bareme-block bh-section" id="estimation" aria-labelledby="immoEstimTitle">
       <h2 class="pilier-section-title" id="immoEstimTitle">Besoin d’une estimation&nbsp;?</h2>
       <p class="bh-sub" style="margin-top:-4px">
@@ -275,13 +376,16 @@
       <small>&copy; 2026 Leads Opportunities — ORIAS n° 15005935</small>
       <small>
         <a href="../index.html">Accueil</a> ·
+        <a href="./location/">Location</a> ·
+        <a href="./syndic/">Syndic</a> ·
         <a href="../bareme-honoraires/">Barème</a> ·
         <a href="#estimation">Estimation</a> ·
         <a href="../mentions-legales.html">Mentions légales</a>
       </small>
     </div>
   </footer>
-  <script src="../js/immobilier-bareme-embed.js"></script>
+  <script src="../js/bareme-honoraires-lib.js"></script>
+  <script src="../js/immobilier-bareme-embed.js" data-bareme-json="../data/bareme-honoraires-public.json"></script>
   <script src="../js/estimation-request.js"></script>
 </body>
 </html>

@@ -1354,6 +1354,159 @@
       );
     },
 
+    location: function () {
+      return wizardSection(
+        "location",
+        "Votre projet de location",
+        fieldRow(
+          select("locationRole", "Vous etes", [
+            { v: "locataire", t: "Locataire — je cherche un logement" },
+            { v: "bailleur", t: "Bailleur — je mets un bien en location" },
+            { v: "gestion", t: "Propriétaire — gestion de bail / IRL / coloc" },
+          ]) +
+            select("locationType", "Type de bien", [
+              { v: "appartement", t: "Appartement" },
+              { v: "maison", t: "Maison" },
+              { v: "studio", t: "Studio / T1" },
+              { v: "colocation", t: "Colocation" },
+              { v: "local", t: "Local / commerce" },
+            ])
+        ) +
+          fieldRow(
+            input("locationCity", "Ville du bien", "text", "Ex. Nancy, Lunéville", true) +
+              input("locationPostal", "Code postal", "text", "Ex. 54000", false)
+          ) +
+          fieldRow(
+            input("locationBudget", "Loyer ou budget max (€ / mois)", "text", "Ex. 650", false) +
+              input("locationSurface", "Surface (m²)", "text", "Ex. 58", false)
+          ) +
+          fieldRow(
+            select("locationFurnished", "Meublé ?", [
+              { v: "indetermine", t: "Indifférent / à préciser" },
+              { v: "nu", t: "Location nue" },
+              { v: "meuble", t: "Meublé (résidence)" },
+              { v: "chambre", t: "Chambre chez l’habitant / pièce RP" },
+              { v: "saisonnier", t: "Saisonnier" },
+            ]) +
+              select("locationColoc", "Colocation ?", [
+                { v: "non", t: "Non" },
+                { v: "oui", t: "Oui" },
+                { v: "a_preciser", t: "À préciser" },
+              ])
+          ) +
+          fieldRow(
+            input("locationColocCount", "Nombre de colocataires", "number", "Ex. 3", false) +
+              select("locationColocBail", "Bail coloc", [
+                { v: "unique", t: "Bail unique (tous sur le même bail)" },
+                { v: "chambres", t: "Baux individuels / chambres" },
+                { v: "mixte", t: "Mixte" },
+              ])
+          ) +
+          fieldRow(
+            select("locationColocCaution", "Caution coloc", [
+              { v: "solidaire", t: "Solidaire" },
+              { v: "individuelle", t: "Individuelle" },
+            ]) +
+              select("locationNeedInsurance", "Assurances à étudier", [
+                { v: "oui_locataire", t: "MRH locataire" },
+                { v: "oui_pno", t: "PNO / GLI bailleur" },
+                { v: "les_deux", t: "Les deux" },
+                { v: "non", t: "Plus tard" },
+              ])
+          ) +
+          '<p class="search-section-label">Si vous gérez un bail (propriétaire ou client)</p>' +
+          '<div class="field-checks">' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="revision_irl" /> <span>Révision IRL / loyer indexé</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="colocation" /> <span>Colocation</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="quittances" /> <span>Quittances</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="etat_des_lieux" /> <span>État des lieux</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="conge" /> <span>Congé / fin de bail</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="travaux" /> <span>Travaux / accès au logement</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="visites" /> <span>Visites / mise à disposition</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="depot_garantie" /> <span>Dépôt de garantie / vétusté / provision / clés</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="mise_en_demeure" /> <span>Mise en demeure / intérêts de retard</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="annexes" /> <span>Pièces à annexer au bail</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="fiscalite" /> <span>Meublé / TVA / fiscalité bailleur</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="bail_commercial" /> <span>Bail commercial / ILC-ILAT / TVA local</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="impayes" /> <span>Impayés</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="encadrement" /> <span>Encadrement des loyers</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="pno_gli" /> <span>PNO / GLI</span></label>' +
+          "</div>" +
+          fieldRow(
+            select("locationNoticeKind", "Type d’avis à préparer", [
+              { v: "irl", t: "Révision IRL" },
+              { v: "travaux", t: "Travaux dans le logement" },
+              { v: "visites", t: "Visites / mise à disposition" },
+              { v: "conges", t: "Congés (vue d’ensemble)" },
+              { v: "conge_locataire", t: "Congé donné par le locataire" },
+              { v: "conge_bailleur", t: "Congé donné par le bailleur" },
+              { v: "conge_commercial", t: "Congé / bail commercial" },
+              { v: "depot_garantie", t: "Dépôt de garantie / vétusté / provision / clés" },
+              { v: "mise_en_demeure", t: "Mise en demeure / intérêts de retard" },
+              { v: "annexes", t: "Pièces à annexer au bail" },
+              { v: "meuble", t: "Location meublée et exonérations" },
+              { v: "commercial", t: "Bail commercial et fiscalité" },
+              { v: "fiscalite", t: "TVA, taxe foncière, CFE" },
+            ]) +
+              select("locationMeubleRegime", "Régime meublé / exonération", [
+                { v: "lmnp_micro", t: "LMNP micro-BIC" },
+                { v: "lmnp_reel", t: "LMNP réel" },
+                { v: "lmp", t: "LMP" },
+                { v: "chambre_habitant", t: "Chambre chez l’habitant" },
+                { v: "partie_rp", t: "Partie de la RP" },
+                { v: "tourisme_classe", t: "Meublé de tourisme classé" },
+                { v: "saisonnier", t: "Saisonnier / Airbnb" },
+              ]) +
+              input("locationTravauxJours", "Durée travaux (jours)", "number", "Ex. 25", false)
+          ) +
+          fieldRow(
+            input("irlOld", "Trimestre IRL de référence (bail)", "text", "Ex. 2025-T2", false) +
+              input("irlRent", "Loyer actuel HC (€)", "text", "Ex. 650", false)
+          ) +
+          textarea(
+            "locationDetails",
+            "Précisions (disponibilité, animaux, DPE, clause de solidarité…)",
+            "Ex. disponible septembre, centre-ville, 2 pièces…",
+            false
+          )
+      );
+    },
+
+    syndic: function () {
+      return wizardSection(
+        "syndic",
+        "Votre copropriété",
+        fieldRow(
+          select("syndicRequest", "Votre besoin", [
+            { v: "changer", t: "Changer de syndic (mise en concurrence)" },
+            { v: "nouveau", t: "Nouveau syndic / copro récente" },
+            { v: "conseil", t: "Conseil syndical — devis / questions" },
+            { v: "charges", t: "Lire charges, travaux, AG" },
+          ]) +
+            input("syndicLots", "Nombre de lots (approx.)", "number", "Ex. 12", false)
+        ) +
+          fieldRow(
+            input("syndicCity", "Ville de la copropriété", "text", "Ex. Nancy, Lunéville", true) +
+              input("syndicPostal", "Code postal", "text", "Ex. 54300", false)
+          ) +
+          fieldRow(
+            input("syndicName", "Nom de la copropriété (si connu)", "text", "Ex. Résidence du Château", false) +
+              select("syndicCurrent", "Syndic actuel", [
+                { v: "professionnel", t: "Syndic professionnel" },
+                { v: "benevole", t: "Syndic bénévole" },
+                { v: "aucun", t: "Pas encore de syndic" },
+                { v: "inconnu", t: "Je ne sais pas" },
+              ])
+          ) +
+          textarea(
+            "syndicDetails",
+            "Contexte (charges, travaux votés, AG…)",
+            "Ex. ravalement voté, charges élevées, fin de mandat…",
+            false
+          )
+      );
+    },
+
     decennale: function () {
       return wizardSection(
         "decennale",
