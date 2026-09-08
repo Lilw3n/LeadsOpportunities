@@ -13,8 +13,9 @@
     { id: "visites", label: "Visites / mise à disposition des locaux" },
     { id: "conge_bailleur", label: "Congé donné par le bailleur" },
     { id: "conge_locataire", label: "Congé donné par le locataire" },
-    { id: "depot_garantie", label: "Dépôt de garantie, vétusté, clés" },
-    { id: "mise_en_demeure", label: "Impayé : mise en demeure, intérêts" },
+    { id: "depot_garantie", label: "Dépôt de garantie, vétusté, provision, clés" },
+    { id: "mise_en_demeure", label: "Impayé : mise en demeure, intérêts de retard" },
+    { id: "annexes", label: "Pièces à annexer au bail" },
   ];
 
   var SUJET_TO_KIND = {
@@ -35,10 +36,14 @@
     vetuste: "depot_garantie",
     cles: "depot_garantie",
     restitution: "depot_garantie",
+    provision: "depot_garantie",
     demeure: "mise_en_demeure",
     "mise-en-demeure": "mise_en_demeure",
     retard: "mise_en_demeure",
     interets: "mise_en_demeure",
+    annexes: "annexes",
+    pieces: "annexes",
+    bail: "annexes",
   };
 
   var DETAILS = {
@@ -127,38 +132,76 @@
       watch: ["Un SMS de départ n’interrompt pas le bail."],
     },
     depot_garantie: {
-      delay: "Restitution : 1 mois si EDL sortie = EDL entrée, sinon 2 mois, hors charges restant à régulariser.",
+      delay: "Restitution du dépôt : 1 mois si EDL sortie = EDL entrée, sinon 2 mois — hors provision sur charges à régulariser.",
       tenant: [
-        "Plafond : 1 mois de loyer HC (nu) ou 2 mois (meublé) — pas de « double caution » déguisée.",
-        "Vétusté (usure normale) : pas à sa charge. Seuls les dégradations au-delà d’une grille de vétusté / EDL.",
-        "Retard de restitution : intérêts au taux légal sur les sommes indûment conservées.",
+        "Plafond du dépôt : 1 mois de loyer HC (nu) ou 2 mois (meublé). Pas de « double caution » ni de retenue d’un mois de loyer en plus.",
+        "Vétusté (usure normale peinture, sols, joints) : pas à sa charge. Seules les dégradations au-delà de la grille / de l’EDL d’entrée.",
+        "Provision sur charges : le bailleur peut retenir une provision jusqu’à la régularisation annuelle, puis rend le trop-perçu avec le décompte.",
+        "Restitution des clés (et badges) = fin de jouissance : plus de loyer après cette date, hors préavis non respecté.",
+        "Dépôt rendu hors délai : intérêts au taux légal sur les sommes indûment conservées.",
       ],
       landlord: [
-        "État des lieux d’entrée ET de sortie contradictoires, photos datées, relevés de clés et compteurs.",
-        "Toute retenue : justificatifs (devis/factures), pas un forfait inventé.",
-        "Provision sur charges : régularisation annuelle ; le solde du dépôt suit cette régul.",
-        "Restitution des clés = fin de jouissance : noter date, nombre de clés, badges, boîte aux lettres.",
+        "EDL d’entrée ET de sortie contradictoires, photos datées, relevés de compteurs le jour des clés.",
+        "Annexer une grille de vétusté au bail : on ne l’improvise pas à la sortie.",
+        "Toute retenue sur le dépôt : devis ou factures, poste par poste — pas un forfait « remise en état ».",
+        "Provision charges : montant cohérent avec le bail, régul dans l’année, décompte envoyé au locataire avant de clôturer le dépôt.",
+        "PV de restitution des clés : date, heure, nombre de clés / badges / boîte aux lettres, adresse pour virer le dépôt.",
       ],
       watch: [
         "Sans EDL d’entrée, la preuve de l’état initial pèse sur le bailleur.",
-        "Grille de vétusté : utile si annexée au bail, pas improvisée à la sortie.",
+        "Ne pas « garder le dépôt au cas où » après les 1 ou 2 mois légaux.",
       ],
     },
     mise_en_demeure: {
-      delay: "Relance puis mise en demeure LRAR. Expulsion : commandement de payer par commissaire de justice — jamais « soi-même ».",
+      delay: "Relance amiable, puis mise en demeure LRAR avec décompte. Expulsion : commandement de payer par commissaire de justice — jamais soi-même.",
       tenant: [
-        "Être informé clairement des sommes (loyer, charges, période) et d’un délai pour régler.",
-        "Droit d’expliquer (APL, accident de vie) et, le cas échéant, de saisir le fonds de solidarité (FSL 54).",
-        "Le bailleur n’a pas le droit de couper l’eau/l’énergie, changer les serrures ou jeter les affaires.",
+        "Être informé des sommes (loyer, charges, période) et d’un délai pour régler.",
+        "Droit d’expliquer (APL, accident de vie) et de saisir le FSL 54 le cas échéant.",
+        "Le bailleur n’a pas le droit de couper l’eau / l’énergie, changer les serrures, jeter les affaires ou « garder les clés » du locataire encore en place.",
       ],
       landlord: [
-        "Détailler le décompte (échéances, paiements, solde) : une mise en demeure floue est fragile.",
-        "Intérêts de retard : taux légal, ou clause du bail si elle n’est pas disproportionnée.",
-        "Garder la preuve d’envoi et de réception avant toute suite (commission de coordination, commissaire de justice).",
+        "Décompte clair : échéances, paiements reçus, solde, clause d’intérêts si le bail en prévoit une.",
+        "Intérêts de retard : taux légal, ou clause du bail si elle n’est pas disproportionnée — les indiquer dans la mise en demeure.",
+        "Garder preuve d’envoi et de réception avant toute suite (GLI / PNO, commission de coordination, commissaire de justice).",
+        "Ne pas imputer le dépôt de garantie sur l’impayé tant que le bail n’est pas clos (le dépôt garantit la fin de location, pas la trésorerie du mois).",
       ],
       watch: [
         "Menacer d’une expulsion « la semaine prochaine » sans titre = illégal.",
-        "PNO / GLI : déclarer le sinistre selon les délais du contrat, en parallèle de la mise en demeure.",
+        "PNO / GLI : déclarer selon les délais du contrat, en parallèle de la mise en demeure.",
+      ],
+    },
+    annexes: {
+      delay: "Remises à la signature du bail. L’état des lieux peut être établi à l’entrée, au plus tard lors de la remise des clés.",
+      tenant: [
+        "Recevoir les annexes obligatoires (diagnostics, notice d’information, règlement de copro si lot).",
+        "Meublé : inventaire du mobilier conforme à la liste légale, signé.",
+        "Remettre une attestation d’assurance habitation (risques locatifs) au bailleur.",
+      ],
+      landlord: [
+        "Ne pas signer un bail « nu » sans le dossier de diagnostic et la notice d’information.",
+        "Copropriété : extraits du règlement (destination, jouissance, charges).",
+        "Si caution : acte de cautionnement daté, mentions manuscrites exigées.",
+        "Grille de vétusté et inventaire des clés : pas obligatoires mais évitent le contentieux à la sortie.",
+      ],
+      checklist: [
+        "Bail (nu, meublé, mobilité ou coloc) + clauses IRL / solidarité",
+        "Notice d’information locataire (décret 2015)",
+        "DPE",
+        "ERP / état des risques",
+        "CREP plomb (permis de construire avant 1949)",
+        "Amiante (permis avant juillet 1997)",
+        "Gaz et électricité si installation de plus de 15 ans",
+        "Extraits règlement de copropriété / charges (si copro)",
+        "État des lieux d’entrée (et sortie plus tard)",
+        "Inventaire mobilier (meublé) + grille de vétusté",
+        "Acte de cautionnement (si caution)",
+        "Inventaire des clés / badges + relevés compteurs",
+        "Attestation d’assurance locataire (remise par le locataire)",
+        "Encadrement des loyers : références si la commune est concernée",
+      ],
+      watch: [
+        "Un bail sans annexes obligatoires est fragile (sanctions / inopposabilité selon les pièces).",
+        "Bail commercial ou saisonnier : autre liste.",
       ],
     },
   };
@@ -180,6 +223,7 @@
       tenant: d.tenant,
       landlord: d.landlord,
       watch: d.watch,
+      checklist: d.checklist || [],
       source: SOURCE,
     };
   }

@@ -29,6 +29,19 @@
       if (fromUrl) sel.value = fromUrl;
     }
 
+    function checklist(items) {
+      if (!items || !items.length) return "";
+      return (
+        '<div class="immo-droits-col immo-droits-col--full"><h3>Pièces à annexer</h3><ul>' +
+        items
+          .map(function (t) {
+            return "<li>" + t + "</li>";
+          })
+          .join("") +
+        "</ul></div>"
+      );
+    }
+
     function render() {
       var id = sel ? sel.value : "travaux";
       var d = Lib.explain(id);
@@ -37,6 +50,7 @@
         '<p class="immo-droits-delay"><strong>Délai / forme</strong> — ' +
         d.delay +
         "</p>" +
+        checklist(d.checklist) +
         '<div class="immo-droits-cols">' +
         '<div class="immo-droits-col"><h3>Le locataire a droit à</h3>' +
         list(d.tenant) +

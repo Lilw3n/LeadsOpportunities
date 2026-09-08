@@ -156,6 +156,7 @@
             <a class="btn btn-primary" href="#demande">Faire rédiger l’avis</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=travaux#demande">Travaux / accès</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=depot#demande">Dépôt de garantie</a>
+            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=annexes#demande">Pièces du bail</a>
           </div>
         </div>
 
@@ -244,8 +245,9 @@
                   <label><input type="checkbox" name="locationGestionNeed" value="conge" /> Congé / fin de bail</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="travaux" /> Travaux / accès au logement</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="visites" /> Visites / mise à disposition des locaux</label>
-                  <label><input type="checkbox" name="locationGestionNeed" value="depot_garantie" /> Dépôt de garantie, vétusté, clés</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="depot_garantie" /> Dépôt de garantie, vétusté, provision, clés</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="mise_en_demeure" /> Mise en demeure / intérêts de retard</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="annexes" /> Pièces / annexes du bail</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="impayes" /> Impayés / recouvrement</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="encadrement" /> Encadrement des loyers</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="pno_gli" /> PNO / garantie loyers impayés</label>
@@ -260,9 +262,26 @@
                   <option value="visites">Visites / mise à disposition</option>
                   <option value="conge_bailleur">Congé bailleur</option>
                   <option value="conge_locataire">Congé locataire</option>
-                  <option value="depot_garantie">Dépôt de garantie / vétusté / clés</option>
-                  <option value="mise_en_demeure">Mise en demeure / intérêts</option>
+                  <option value="depot_garantie">Dépôt de garantie / vétusté / provision / clés</option>
+                  <option value="mise_en_demeure">Mise en demeure / intérêts de retard</option>
+                  <option value="annexes">Pièces à annexer au bail</option>
                 </select>
+              </div>
+              <div class="field" data-role-panel="bailleur,gestion" data-notice-panel="depot_garantie" hidden>
+                <label for="locDepotMontant">Dépôt de garantie (€)</label>
+                <input id="locDepotMontant" name="locationDepotMontant" inputmode="numeric" placeholder="Ex. 620" />
+              </div>
+              <div class="field" data-role-panel="bailleur,gestion" data-notice-panel="depot_garantie" hidden>
+                <label for="locProvision">Provision sur charges à retenir (€)</label>
+                <input id="locProvision" name="locationProvisionCharges" inputmode="numeric" placeholder="Ex. 180 — en attente de régul" />
+              </div>
+              <div class="field" data-role-panel="bailleur,gestion" data-notice-panel="depot_garantie" hidden>
+                <label for="locClesNb">Clés / badges restitués</label>
+                <input id="locClesNb" name="locationClesNb" placeholder="Ex. 3 clés + 1 badge" />
+              </div>
+              <div class="field" data-role-panel="bailleur,gestion" data-notice-panel="mise_en_demeure" hidden>
+                <label for="locImpayeMontant">Solde impayé (€)</label>
+                <input id="locImpayeMontant" name="locationImpayeMontant" inputmode="numeric" placeholder="Ex. 1240" />
               </div>
               <div class="field" data-role-panel="bailleur,gestion" data-notice-panel="travaux" hidden>
                 <label for="locTravauxJours">Durée prévue des travaux (jours)</label>

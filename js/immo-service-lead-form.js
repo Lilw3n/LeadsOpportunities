@@ -38,6 +38,10 @@
     vetuste: "depot_garantie",
     cles: "depot_garantie",
     restitution: "depot_garantie",
+    provision: "depot_garantie",
+    annexes: "annexes",
+    pieces: "annexes",
+    bail: "annexes",
     demeure: "mise_en_demeure",
     "mise-en-demeure": "mise_en_demeure",
     retard: "mise_en_demeure",
@@ -331,6 +335,10 @@
       if (fields.locationNoticeKind) bits.push("Avis : " + fields.locationNoticeKind);
       if (fields.locationTravauxJours) bits.push("Durée travaux : " + fields.locationTravauxJours + " j");
       if (fields.locationTravauxNature) bits.push("Travaux : " + fields.locationTravauxNature);
+      if (fields.locationDepotMontant) bits.push("Dépôt garantie : " + fields.locationDepotMontant + " €");
+      if (fields.locationProvisionCharges) bits.push("Provision charges : " + fields.locationProvisionCharges + " €");
+      if (fields.locationClesNb) bits.push("Clés : " + fields.locationClesNb);
+      if (fields.locationImpayeMontant) bits.push("Impayé : " + fields.locationImpayeMontant + " €");
       if (fields.syndicRequest) bits.push("Demande syndic : " + fields.syndicRequest);
       if (fields.locationDetails || fields.syndicDetails) {
         bits.push(fields.locationDetails || fields.syndicDetails);

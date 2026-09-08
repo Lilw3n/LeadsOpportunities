@@ -296,11 +296,15 @@
     grid-template-columns: 1fr 1fr;
   }
 }
-.immo-droits-col {
+.immo-droits-col,
+.immo-droits-col--full {
   background: #fff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 14px 16px;
+}
+.immo-droits-col--full {
+  margin-bottom: 12px;
 }
 .immo-droits-col h3 {
   font-size: 0.82rem;

@@ -55,10 +55,13 @@
       label: "Location (si bien occupé / loué)",
       driveFolder: "04_documents_confidentiels",
       items: [
-        { type: "bail", label: "Bail en cours + annexes" },
+        { type: "bail", label: "Bail en cours + annexes (notice, diagnostics, copro)" },
         { type: "edl", label: "État des lieux entrée / sortie" },
         { type: "quittances", label: "Quittances de loyer (3 dernières)" },
-        { type: "depot_garantie", label: "Dépôt de garantie / inventaire meublé" },
+        { type: "depot_garantie", label: "Dépôt de garantie / décompte / provision charges" },
+        { type: "grille_vetuste", label: "Grille de vétusté" },
+        { type: "inventaire_cles", label: "Inventaire des clés / badges" },
+        { type: "mise_en_demeure", label: "Mise en demeure / décompte impayé" },
       ],
     },
     {
@@ -273,10 +276,13 @@
       legend: "Location (si bien occupé / loué)",
       driveFolder: "04_documents_confidentiels",
       items: [
-        { type: "bail", label: "Bail en cours + annexes" },
+        { type: "bail", label: "Bail en cours + annexes (notice, diagnostics, copro)" },
         { type: "edl", label: "État des lieux entrée / sortie" },
         { type: "quittances", label: "Quittances de loyer (3 dernières)" },
-        { type: "depot_garantie", label: "Dépôt de garantie / inventaire meublé" },
+        { type: "depot_garantie", label: "Dépôt de garantie / décompte / provision charges" },
+        { type: "grille_vetuste", label: "Grille de vétusté" },
+        { type: "inventaire_cles", label: "Inventaire des clés / badges" },
+        { type: "mise_en_demeure", label: "Mise en demeure / décompte impayé" },
       ],
     },
     {

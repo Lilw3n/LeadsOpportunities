@@ -1422,8 +1422,9 @@
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="conge" /> <span>Congé / fin de bail</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="travaux" /> <span>Travaux / accès au logement</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="visites" /> <span>Visites / mise à disposition</span></label>' +
-          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="depot_garantie" /> <span>Dépôt de garantie / vétusté / clés</span></label>' +
-          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="mise_en_demeure" /> <span>Mise en demeure / intérêts</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="depot_garantie" /> <span>Dépôt de garantie / vétusté / provision / clés</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="mise_en_demeure" /> <span>Mise en demeure / intérêts de retard</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="annexes" /> <span>Pièces à annexer au bail</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="impayes" /> <span>Impayés</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="encadrement" /> <span>Encadrement des loyers</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="pno_gli" /> <span>PNO / GLI</span></label>' +
@@ -1435,8 +1436,9 @@
               { v: "visites", t: "Visites / mise à disposition" },
               { v: "conge_bailleur", t: "Congé bailleur" },
               { v: "conge_locataire", t: "Congé locataire" },
-              { v: "depot_garantie", t: "Dépôt de garantie / vétusté / clés" },
-              { v: "mise_en_demeure", t: "Mise en demeure / intérêts" },
+              { v: "depot_garantie", t: "Dépôt de garantie / vétusté / provision / clés" },
+              { v: "mise_en_demeure", t: "Mise en demeure / intérêts de retard" },
+              { v: "annexes", t: "Pièces à annexer au bail" },
             ]) +
               input("locationTravauxJours", "Durée travaux (jours)", "number", "Ex. 25", false)
           ) +

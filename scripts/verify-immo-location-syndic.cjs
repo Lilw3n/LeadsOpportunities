@@ -129,7 +129,12 @@ assert(Droits && Droits.explain("travaux").delay.indexOf("8 jours") >= 0, "droit
 var trav = Droits.explain("travaux").tenant.join(" ");
 assert(trav.indexOf("21 jours") >= 0, "droits travaux baisse 21 j");
 assert(Droits.explain("depot_garantie").tenant.join(" ").indexOf("vétusté") >= 0 || Droits.explain("depot_garantie").tenant.join(" ").indexOf("Vétusté") >= 0, "droits DG vétusté");
-assert(Droits.kindFromSujet("depot") === "depot_garantie", "sujet depot → DG");
+assert(Droits.explain("depot_garantie").landlord.join(" ").indexOf("Provision") >= 0 || Droits.explain("depot_garantie").tenant.join(" ").indexOf("Provision") >= 0, "droits provision charges");
+assert(Droits.explain("depot_garantie").landlord.join(" ").indexOf("clés") >= 0, "droits restitution clés");
+assert(Droits.explain("mise_en_demeure").landlord.join(" ").indexOf("Intérêts") >= 0, "droits intérêts de retard");
+assert(Droits.explain("annexes").checklist && Droits.explain("annexes").checklist.length >= 8, "liste annexes bail");
+assert(Droits.kindFromSujet("provision") === "depot_garantie", "sujet provision → DG");
+assert(Droits.kindFromSujet("annexes") === "annexes", "sujet annexes");
 assert(Droits.explain("visites").landlord.join(" ").indexOf("décent") >= 0, "mise à disposition logement décent");
 
 vm.runInNewContext(read("js/irl-revision-lib.js"), sandbox, { filename: "js/irl-revision-lib.js" });

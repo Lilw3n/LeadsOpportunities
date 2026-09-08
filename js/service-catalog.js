@@ -224,6 +224,7 @@
       travaux: "location",
       droits: "location",
       "depot-garantie": "location",
+      annexes: "location",
       "syndic-copro": "syndic",
       syndic_copro: "syndic",
       copropriete: "syndic",
@@ -255,6 +256,7 @@
     travaux: "./landings/location.html?role=gestion&sujet=travaux",
     droits: "./landings/location.html?role=gestion&sujet=droits",
     "depot-garantie": "./landings/location.html?role=gestion&sujet=depot",
+    annexes: "./landings/location.html?role=gestion&sujet=annexes",
     "gestion-locative": "./landings/location.html?role=gestion",
     syndic: "./landings/syndic.html",
   };
@@ -285,6 +287,7 @@
     travaux: "./landings/location.html?role=gestion&sujet=travaux",
     droits: "./landings/location.html?role=gestion&sujet=droits",
     "depot-garantie": "./landings/location.html?role=gestion&sujet=depot",
+    annexes: "./landings/location.html?role=gestion&sujet=annexes",
     "gestion-locative": "./landings/location.html?role=gestion",
     syndic: "./landings/syndic.html",
   };
