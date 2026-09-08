@@ -1362,11 +1362,13 @@
           select("locationRole", "Vous etes", [
             { v: "locataire", t: "Locataire — je cherche un logement" },
             { v: "bailleur", t: "Bailleur — je mets un bien en location" },
+            { v: "gestion", t: "Propriétaire — gestion de bail / IRL / coloc" },
           ]) +
             select("locationType", "Type de bien", [
               { v: "appartement", t: "Appartement" },
               { v: "maison", t: "Maison" },
               { v: "studio", t: "Studio / T1" },
+              { v: "colocation", t: "Colocation" },
               { v: "local", t: "Local / commerce" },
             ])
         ) +
@@ -1385,6 +1387,25 @@
               { v: "meuble", t: "Meublé" },
               { v: "saisonnier", t: "Saisonnier" },
             ]) +
+              select("locationColoc", "Colocation ?", [
+                { v: "non", t: "Non" },
+                { v: "oui", t: "Oui" },
+                { v: "a_preciser", t: "À préciser" },
+              ])
+          ) +
+          fieldRow(
+            input("locationColocCount", "Nombre de colocataires", "number", "Ex. 3", false) +
+              select("locationColocBail", "Bail coloc", [
+                { v: "unique", t: "Bail unique (tous sur le même bail)" },
+                { v: "chambres", t: "Baux individuels / chambres" },
+                { v: "mixte", t: "Mixte" },
+              ])
+          ) +
+          fieldRow(
+            select("locationColocCaution", "Caution coloc", [
+              { v: "solidaire", t: "Solidaire" },
+              { v: "individuelle", t: "Individuelle" },
+            ]) +
               select("locationNeedInsurance", "Assurances à étudier", [
                 { v: "oui_locataire", t: "MRH locataire" },
                 { v: "oui_pno", t: "PNO / GLI bailleur" },
@@ -1392,9 +1413,24 @@
                 { v: "non", t: "Plus tard" },
               ])
           ) +
+          '<p class="search-section-label">Si vous gérez un bail (propriétaire ou client)</p>' +
+          '<div class="field-checks">' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="revision_irl" /> <span>Révision IRL / loyer indexé</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="colocation" /> <span>Colocation</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="quittances" /> <span>Quittances</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="etat_des_lieux" /> <span>État des lieux</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="conge" /> <span>Congé / fin de bail</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="impayes" /> <span>Impayés</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="encadrement" /> <span>Encadrement des loyers</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="pno_gli" /> <span>PNO / GLI</span></label>' +
+          "</div>" +
+          fieldRow(
+            input("irlOld", "Trimestre IRL de référence (bail)", "text", "Ex. 2025-T2", false) +
+              input("irlRent", "Loyer actuel HC (€)", "text", "Ex. 650", false)
+          ) +
           textarea(
             "locationDetails",
-            "Précisions (disponibilité, animaux, DPE…)",
+            "Précisions (disponibilité, animaux, DPE, clause de solidarité…)",
             "Ex. disponible septembre, centre-ville, 2 pièces…",
             false
           )

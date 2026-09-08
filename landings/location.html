@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Location immobilière | Locataire &amp; bailleur — Nancy, Lunéville, 54</title>
-  <meta name="description" content="Cherchez une location ou mettez votre bien en location. Mandat location, recherche locataire, PNO et GLI. Courtier et négociateur — bassin Nancy, Lunéville, Varangéville." />
+  <title>Location &amp; gestion locative | IRL, colocation — Nancy, Lunéville, 54</title>
+  <meta name="description" content="Location, gestion de bail, révision IRL, colocation, quittances, état des lieux. Pour locataires, bailleurs et propriétaires — bassin Nancy, Lunéville, Varangéville." />
   <meta name="robots" content="index,follow" />
   <meta name="geo.region" content="FR-54" />
   <meta name="language" content="fr-FR" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/landings/location.html" />
   <link rel="alternate" hreflang="fr-FR" href="https://www.leadsopportunities.fr/landings/location.html" />
-  <meta property="og:title" content="Location immobilière | Locataire &amp; bailleur" />
-  <meta property="og:description" content="Recherche locataire ou logement : mandat location, PNO, GLI. Bassin Nancy — Meurthe-et-Moselle." />
+  <meta property="og:title" content="Location &amp; gestion locative | IRL, colocation" />
+  <meta property="og:description" content="Recherche locataire, gestion de bail, révision IRL, colocation, PNO / GLI. Bassin Nancy — Meurthe-et-Moselle." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:url" content="https://www.leadsopportunities.fr/landings/location.html" />
@@ -55,24 +55,30 @@
   </header>
   <main class="page">
     <div class="container" style="max-width:760px">
-      <span class="badge">Location</span>
+      <span class="badge">Location &amp; gestion</span>
       <section class="card">
-        <h1>Louer ou mettre en location — sans tout mélanger avec la vente</h1>
+        <h1>Louer, mettre en location, ou gérer un bail en cours</h1>
         <p class="sub">
-          Locataire : on cherche un logement (Nancy, Lunéville, bassin 54). Bailleur : mandat de location,
-          recherche locataire, état des lieux — et PNO / GLI si besoin. Un seul interlocuteur.
+          Locataire, bailleur ou propriétaire (y compris pour votre propre parc) : matching logement,
+          mandat location, <strong>révision IRL</strong>, <strong>colocation</strong>, quittances, état des lieux,
+          congé, impayés, encadrement des loyers, PNO / GLI. Un seul interlocuteur — bassin Nancy, Lunéville, 54.
         </p>
 
-        <div class="immo-ls-grid">
+        <div class="immo-ls-grid immo-ls-grid--3">
           <article class="immo-ls-card">
             <strong>Locataire</strong>
             <h3>Je cherche un logement</h3>
-            <p>Critères, matching, visites. Assurance habitation locataire en option.</p>
+            <p>Seul, en couple ou en colocation. Critères, matching, visites. Assurance habitation en option.</p>
           </article>
           <article class="immo-ls-card">
             <strong>Bailleur</strong>
             <h3>Je mets mon bien en location</h3>
-            <p>Mandat location, dossier locataire, honoraires au m² (barème public). PNO et loyers impayés.</p>
+            <p>Mandat location, dossier locataire, honoraires au m². Bail nu, meublé ou colocation.</p>
+          </article>
+          <article class="immo-ls-card">
+            <strong>Propriétaire</strong>
+            <h3>Je gère un bail en cours</h3>
+            <p>Révision IRL, quittances, EDL, congé, impayés — pour un client ou pour vous-même.</p>
           </article>
         </div>
 
@@ -86,13 +92,52 @@
 
         <div class="immo-ls-actions">
           <a class="btn btn-soft" href="../immobilier/location/">Hub location</a>
+          <a class="btn btn-soft" href="../immobilier/location/#irl">Calculateur IRL</a>
+          <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=coloc">Colocation</a>
           <a class="btn btn-soft" href="../bareme-honoraires/">Barème honoraires</a>
           <a class="btn btn-soft" href="./questionnaire.html?need=pno&amp;journey=standard">Devis PNO</a>
         </div>
 
+        <div class="irl-widget" data-irl-widget id="irl">
+          <h2>Révision de loyer indexé (IRL)</h2>
+          <p>
+            Formule : nouveau loyer = loyer actuel × (IRL nouveau / IRL de référence du bail).
+            Une fois par an, même trimestre que dans le bail, <strong>clause de révision obligatoire</strong>.
+            Indice métropole INSEE (Corse et DOM : indices distincts, à traiter au dossier).
+          </p>
+          <div class="irl-widget-grid">
+            <div class="field">
+              <label for="irlRentLanding">Loyer actuel HC (€ / mois)</label>
+              <input id="irlRentLanding" data-irl-rent type="number" inputmode="decimal" min="1" step="1" placeholder="Ex. 650" />
+            </div>
+            <div class="field">
+              <label for="irlOldLanding">Indice de référence (bail)</label>
+              <select id="irlOldLanding" data-irl-old></select>
+            </div>
+            <div class="field">
+              <label for="irlNewLanding">Nouvel indice</label>
+              <select id="irlNewLanding" data-irl-new></select>
+            </div>
+          </div>
+          <div class="irl-widget-out">
+            <div><span>Nouveau loyer</span><strong data-irl-out-new>—</strong></div>
+            <div><span>Écart mensuel</span><strong data-irl-out-delta>—</strong></div>
+            <div><span>Variation</span><strong data-irl-out-pct>—</strong></div>
+          </div>
+          <p class="irl-widget-source" data-irl-source></p>
+          <p class="immo-ls-note">
+            Outil indicatif. Sans clause de révision dans le bail, le loyer n’est pas indexé.
+            Prochain IRL (T3 2026) attendu vers mi-octobre 2026.
+          </p>
+          <div class="immo-ls-actions">
+            <a class="btn btn-primary" href="#demande">Faire gérer cette révision</a>
+            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=irl#demande">Demande propriétaire</a>
+          </div>
+        </div>
+
         <div class="immo-ls-form" data-immo-service-form id="demande">
           <h2>Décrivez votre projet</h2>
-          <p class="form-lead" style="margin-top:0">Téléphone + e-mail suffisent. Le reste aide à qualifier.</p>
+          <p class="form-lead" style="margin-top:0">Téléphone + e-mail suffisent. Le reste aide à qualifier — y compris pour vos propres biens.</p>
           <p class="immo-ls-success" data-immo-form-success hidden>Demande envoyée. Un conseiller vous rappelle.</p>
           <form data-lead-source="location_landing" novalidate>
             <input type="hidden" name="need" value="location" />
@@ -100,9 +145,10 @@
               <label>Ne pas remplir<input type="text" name="_hp" tabindex="-1" autocomplete="off" /></label>
             </div>
             <p class="search-section-label">Vous êtes</p>
-            <div class="immo-ls-tabs" role="radiogroup" aria-label="Locataire ou bailleur">
+            <div class="immo-ls-tabs" role="radiogroup" aria-label="Locataire, bailleur ou gestion">
               <label><input type="radio" name="locationRole" value="locataire" checked /> Locataire</label>
               <label><input type="radio" name="locationRole" value="bailleur" /> Bailleur</label>
+              <label><input type="radio" name="locationRole" value="gestion" /> Propriétaire / gestion</label>
             </div>
             <div class="grid">
               <div class="field">
@@ -111,6 +157,7 @@
                   <option value="appartement">Appartement</option>
                   <option value="maison">Maison</option>
                   <option value="studio">Studio / T1</option>
+                  <option value="colocation">Colocation</option>
                   <option value="local">Local / commerce</option>
                 </select>
               </div>
@@ -126,17 +173,59 @@
                 <label for="locBudget">Budget loyer max (€ / mois)</label>
                 <input id="locBudget" name="locationBudget" inputmode="numeric" placeholder="Ex. 650" />
               </div>
-              <div class="field" data-role-panel="bailleur">
-                <label for="locRent">Loyer souhaité (€ / mois)</label>
+              <div class="field" data-role-panel="bailleur,gestion">
+                <label for="locRent">Loyer actuel ou souhaité (€ / mois)</label>
                 <input id="locRent" name="locationRent" inputmode="numeric" placeholder="Ex. 620" />
               </div>
               <div class="field">
                 <label for="locSurface">Surface (m²)</label>
                 <input id="locSurface" name="locationSurface" inputmode="numeric" placeholder="Ex. 58" />
               </div>
+              <div class="field">
+                <label for="locColoc">Colocation ?</label>
+                <select id="locColoc" name="locationColoc">
+                  <option value="non">Non</option>
+                  <option value="oui">Oui</option>
+                  <option value="a_preciser">À préciser</option>
+                </select>
+              </div>
+              <div class="field" data-coloc-panel hidden>
+                <label for="locColocCount">Nombre de colocataires</label>
+                <input id="locColocCount" name="locationColocCount" inputmode="numeric" placeholder="Ex. 3" />
+              </div>
+              <div class="field" data-coloc-panel hidden>
+                <label for="locColocBail">Type de bail coloc</label>
+                <select id="locColocBail" name="locationColocBail">
+                  <option value="">À préciser</option>
+                  <option value="unique">Bail unique (tous sur le même bail)</option>
+                  <option value="chambres">Baux individuels / chambres</option>
+                  <option value="mixte">Mixte</option>
+                </select>
+              </div>
+              <div class="field" data-coloc-panel hidden>
+                <label for="locColocCaution">Caution</label>
+                <select id="locColocCaution" name="locationColocCaution">
+                  <option value="">À préciser</option>
+                  <option value="solidaire">Solidaire (tous responsables du loyer)</option>
+                  <option value="individuelle">Individuelle</option>
+                </select>
+              </div>
+              <div class="field full" data-role-panel="gestion">
+                <p class="search-section-label" style="margin:4px 0 8px">À gérer (cochez tout ce qui s’applique)</p>
+                <div class="immo-ls-checks">
+                  <label><input type="checkbox" name="locationGestionNeed" value="revision_irl" /> Révision IRL / loyer indexé</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="colocation" /> Colocation (bail, caution, assurances)</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="quittances" /> Quittances / appels de loyer</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="etat_des_lieux" /> État des lieux (entrée / sortie)</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="conge" /> Congé / fin de bail</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="impayes" /> Impayés / recouvrement</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="encadrement" /> Encadrement des loyers</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="pno_gli" /> PNO / garantie loyers impayés</label>
+                </div>
+              </div>
               <div class="field full">
                 <label for="locDetails">Précisions</label>
-                <textarea id="locDetails" name="locationDetails" rows="3" placeholder="Disponibilité, meublé, animaux, DPE…"></textarea>
+                <textarea id="locDetails" name="locationDetails" rows="3" placeholder="Disponibilité, meublé, animaux, DPE, trimestre IRL du bail, clause de solidarité…"></textarea>
               </div>
               <div class="field">
                 <label for="locPhone">Téléphone <span aria-hidden="true">*</span></label>
@@ -168,6 +257,8 @@
   <script src="../js/leads-storage.js"></script>
   <script src="../js/cookie-banner.js"></script>
   <script src="../js/geo-france-guard.js"></script>
+  <script src="../js/irl-revision-lib.js"></script>
+  <script src="../js/irl-revision-widget.js"></script>
   <script src="../js/immo-service-lead-form.js"></script>
   <script src="../js/france-seo-meta.js"></script>
 </body>

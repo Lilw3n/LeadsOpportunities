@@ -2,6 +2,40 @@
  * Formulaire lead location / syndic — POST /api/lead + stockage local.
  */
 (function (global) {
+  var ROLE_ALIASES = {
+    locataire: "locataire",
+    tenant: "locataire",
+    loc: "locataire",
+    bailleur: "bailleur",
+    landlord: "bailleur",
+    proprio: "gestion",
+    proprietaire: "gestion",
+    "propriétaire": "gestion",
+    owner: "gestion",
+    gestion: "gestion",
+    gestionnaire: "gestion",
+  };
+
+  var SUJET_TO_NEED = {
+    irl: "revision_irl",
+    revision: "revision_irl",
+    "revision-loyer": "revision_irl",
+    "revision_loyer": "revision_irl",
+    coloc: "colocation",
+    colocation: "colocation",
+    quittance: "quittances",
+    quittances: "quittances",
+    conge: "conge",
+    impaye: "impayes",
+    impayes: "impayes",
+    edl: "etat_des_lieux",
+    "etat-des-lieux": "etat_des_lieux",
+    encadrement: "encadrement",
+    pno: "pno_gli",
+    gli: "pno_gli",
+    "pno-gli": "pno_gli",
+  };
+
   function getAttr() {
     if (global.Attribution && typeof global.Attribution.get === "function") {
       try {
@@ -39,6 +73,11 @@
     return o;
   }
 
+  function asList(v) {
+    if (v == null || v === "") return "";
+    return Array.isArray(v) ? v.filter(Boolean).join(", ") : String(v);
+  }
+
   function postLead(body) {
     return fetch("/api/lead", {
       method: "POST",
@@ -55,22 +94,14 @@
       });
   }
 
-  function applyRoleFromUrl(root) {
-    var role = new URLSearchParams(global.location.search).get("role") || "";
-    var ville = new URLSearchParams(global.location.search).get("ville") || "";
-    if (ville) {
-      root.querySelectorAll("[data-immo-city]").forEach(function (el) {
-        if (!el.value) el.value = ville;
-      });
-    }
-    if (!role) return;
-    var radio = root.querySelector('input[name="locationRole"][value="' + role + '"]');
-    if (radio) {
-      radio.checked = true;
-      radio.dispatchEvent(new Event("change", { bubbles: true }));
-    }
-    var syndic = root.querySelector('select[name="syndicRequest"]');
-    if (syndic && !syndic.value && role) syndic.value = role;
+  function panelMatches(want, role) {
+    if (!want || want === "all") return true;
+    return want
+      .split(",")
+      .map(function (s) {
+        return s.trim();
+      })
+      .indexOf(role) !== -1;
   }
 
   function syncRolePanels(root) {
@@ -78,12 +109,103 @@
     var role = roleEl ? roleEl.value : "";
     root.querySelectorAll("[data-role-panel]").forEach(function (panel) {
       var want = panel.getAttribute("data-role-panel");
-      panel.hidden = want !== "all" && want !== role;
+      panel.hidden = !panelMatches(want, role);
     });
     var needInput = root.querySelector('input[name="need"]');
     if (needInput && needInput.getAttribute("data-need-fixed") !== "syndic") {
       needInput.value = "location";
     }
+  }
+
+  function syncColocPanels(root) {
+    var colocEl = root.querySelector('[name="locationColoc"]');
+    var on = colocEl && String(colocEl.value) === "oui";
+    root.querySelectorAll("[data-coloc-panel]").forEach(function (panel) {
+      panel.hidden = !on;
+    });
+  }
+
+  function setRole(root, role) {
+    var mapped = ROLE_ALIASES[String(role || "").toLowerCase()] || "";
+    if (!mapped) return;
+    var radio = root.querySelector('input[name="locationRole"][value="' + mapped + '"]');
+    if (radio) {
+      radio.checked = true;
+      radio.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+  }
+
+  function applyRoleFromUrl(root) {
+    var q = new URLSearchParams(global.location.search);
+    var ville = q.get("ville") || "";
+    if (ville) {
+      root.querySelectorAll("[data-immo-city]").forEach(function (el) {
+        if (!el.value) el.value = ville;
+      });
+    }
+    var role = q.get("role") || "";
+    var sujet = String(q.get("sujet") || "").toLowerCase();
+    if (!role && sujet && SUJET_TO_NEED[sujet]) role = "gestion";
+    if (role) setRole(root, role);
+    var syndic = root.querySelector('select[name="syndicRequest"]');
+    if (syndic && !syndic.value && role) syndic.value = role;
+  }
+
+  function applySujetFromUrl(root) {
+    var sujet = String(new URLSearchParams(global.location.search).get("sujet") || "").toLowerCase();
+    if (!sujet) return;
+    var need = SUJET_TO_NEED[sujet];
+    if (need) {
+      var box = root.querySelector('input[name="locationGestionNeed"][value="' + need + '"]');
+      if (box) box.checked = true;
+    }
+    if (need === "colocation") {
+      var coloc = root.querySelector('[name="locationColoc"]');
+      if (coloc) coloc.value = "oui";
+      var typeEl = root.querySelector('[name="locationType"]');
+      if (typeEl && (!typeEl.value || typeEl.value === "appartement")) typeEl.value = "colocation";
+    }
+    syncColocPanels(root);
+    if (need === "revision_irl" && !global.location.hash) {
+      var irl = document.getElementById("irl");
+      if (irl && typeof irl.scrollIntoView === "function") {
+        setTimeout(function () {
+          irl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 50);
+      }
+    }
+  }
+
+  function snapshotIrl() {
+    var w = document.querySelector("[data-irl-widget]");
+    var Irl = global.IrlRevision;
+    if (!w || !Irl) return {};
+    var rentEl = w.querySelector("[data-irl-rent]");
+    var oldEl = w.querySelector("[data-irl-old]");
+    var newEl = w.querySelector("[data-irl-new]");
+    var rent = rentEl ? rentEl.value : "";
+    var oldId = oldEl ? oldEl.value : "";
+    var newId = newEl ? newEl.value : "";
+    if (!rent) return {};
+    var r = Irl.revise(rent, oldId, newId);
+    if (!r.ok) return { irlRent: rent, irlOld: oldId, irlNew: newId };
+    return {
+      irlRent: rent,
+      irlOld: oldId,
+      irlNew: newId,
+      irlNewRent: r.newRent,
+      irlDelta: r.delta,
+      irlPct: r.pct,
+    };
+  }
+
+  function shouldAttachIrl(fields) {
+    if (fields.locationRole === "gestion") return true;
+    var needs = fields.locationGestionNeed;
+    var list = Array.isArray(needs) ? needs : needs ? [needs] : [];
+    if (list.indexOf("revision_irl") !== -1) return true;
+    var sujet = String(new URLSearchParams(global.location.search).get("sujet") || "").toLowerCase();
+    return sujet === "irl" || sujet === "revision" || sujet === "revision-loyer" || sujet === "revision_loyer";
   }
 
   function wire(form) {
@@ -98,8 +220,25 @@
         syncRolePanels(root);
       });
     });
+    form.querySelectorAll('[name="locationColoc"]').forEach(function (el) {
+      el.addEventListener("change", function () {
+        syncColocPanels(root);
+      });
+    });
+    var typeEl = form.querySelector('[name="locationType"]');
+    if (typeEl) {
+      typeEl.addEventListener("change", function () {
+        if (typeEl.value === "colocation") {
+          var coloc = form.querySelector('[name="locationColoc"]');
+          if (coloc) coloc.value = "oui";
+          syncColocPanels(root);
+        }
+      });
+    }
     applyRoleFromUrl(root);
+    applySujetFromUrl(root);
     syncRolePanels(root);
+    syncColocPanels(root);
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -124,10 +263,35 @@
       var bits = [];
       if (fields.locationRole) bits.push("Rôle : " + fields.locationRole);
       if (fields.locationCity || fields.syndicCity) bits.push("Ville : " + (fields.locationCity || fields.syndicCity));
-      if (fields.locationBudget) bits.push("Budget/loyer : " + fields.locationBudget + " €");
+      if (fields.locationType) bits.push("Type : " + fields.locationType);
+      if (fields.locationBudget) bits.push("Budget : " + fields.locationBudget + " €");
+      if (fields.locationRent) bits.push("Loyer : " + fields.locationRent + " €");
+      if (fields.locationColoc && fields.locationColoc !== "non") bits.push("Colocation : " + fields.locationColoc);
+      if (fields.locationColocCount) bits.push("Colocataires : " + fields.locationColocCount);
+      if (fields.locationColocBail) bits.push("Bail coloc : " + fields.locationColocBail);
+      if (fields.locationColocCaution) bits.push("Caution : " + fields.locationColocCaution);
+      if (fields.locationGestionNeed) bits.push("Gestion : " + asList(fields.locationGestionNeed));
       if (fields.syndicRequest) bits.push("Demande syndic : " + fields.syndicRequest);
       if (fields.locationDetails || fields.syndicDetails) {
         bits.push(fields.locationDetails || fields.syndicDetails);
+      }
+
+      var irlSnap = shouldAttachIrl(fields) ? snapshotIrl() : {};
+      if (irlSnap.irlNewRent) {
+        bits.push(
+          "IRL : " +
+            irlSnap.irlRent +
+            " € → " +
+            irlSnap.irlNewRent +
+            " € (" +
+            (Number(irlSnap.irlPct) >= 0 ? "+" : "") +
+            String(irlSnap.irlPct).replace(".", ",") +
+            " %, " +
+            irlSnap.irlOld +
+            " → " +
+            irlSnap.irlNew +
+            ")"
+        );
       }
 
       var payload = Object.assign(
@@ -144,7 +308,8 @@
         },
         getUtmParams(),
         getAttr(),
-        fields
+        fields,
+        irlSnap
       );
       delete payload.consent;
 

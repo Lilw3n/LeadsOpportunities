@@ -150,3 +150,111 @@
   gap: 10px;
   margin-top: 16px;
 }
+@media (min-width: 900px) {
+  .immo-ls-grid.immo-ls-grid--3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.immo-ls-checks {
+  display: grid;
+  gap: 8px 14px;
+  margin: 0 0 12px;
+}
+@media (min-width: 640px) {
+  .immo-ls-checks {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.immo-ls-checks label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin: 0;
+  cursor: pointer;
+}
+.immo-ls-checks input {
+  width: auto;
+  margin-top: 3px;
+  accent-color: #0369a1;
+}
+.irl-widget {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 22px 0;
+}
+.irl-widget h2,
+.irl-widget h3 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+.irl-widget > p {
+  margin: 0 0 14px;
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.irl-widget-grid {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 700px) {
+  .irl-widget-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.irl-widget .field label,
+.irl-widget-grid label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.irl-widget input,
+.irl-widget select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font: inherit;
+  box-sizing: border-box;
+  background: #fff;
+}
+.irl-widget-out {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+@media (min-width: 640px) {
+  .irl-widget-out {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.irl-widget-out div {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.irl-widget-out span {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  font-weight: 600;
+}
+.irl-widget-out strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.15rem;
+  color: #0f172a;
+}
+.irl-widget-source {
+  margin: 12px 0 0 !important;
+  font-size: 0.8rem !important;
+  color: #64748b;
+}

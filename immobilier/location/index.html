@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Location immobilière | Locataire &amp; bailleur — Leads Opportunities</title>
-  <meta name="description" content="Location habitation et pro : recherche de logement, mandat bailleur, honoraires au m². Nancy, Lunéville, Varangéville, bassin 54." />
+  <title>Location &amp; gestion locative | IRL, colocation — Leads Opportunities</title>
+  <meta name="description" content="Location habitation et pro : recherche de logement, mandat bailleur, gestion de bail, révision IRL, colocation. Nancy, Lunéville, Varangéville, bassin 54." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/immobilier/location/" />
-  <meta property="og:title" content="Location immobilière | Locataire &amp; bailleur" />
-  <meta property="og:description" content="Mandat location, recherche locataire, PNO et GLI — bassin Nancy." />
+  <meta property="og:title" content="Location &amp; gestion locative | IRL, colocation" />
+  <meta property="og:description" content="Mandat location, gestion de bail, révision IRL, colocation, PNO et GLI — bassin Nancy." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.leadsopportunities.fr/immobilier/location/" />
   <meta property="og:image" content="https://www.leadsopportunities.fr/assets/piliers/pilier-immobilier.jpg" />
@@ -38,23 +38,24 @@
   </header>
   <header class="pilier-hero-media" aria-label="Location">
     <div class="pilier-hero-inner">
-      <span class="section-badge">Location</span>
-      <h1>Locataires et bailleurs</h1>
-      <p class="lead">Un parcours dédié, distinct de la vente : matching logement, mandat location, honoraires transparents.</p>
+      <span class="section-badge">Location &amp; gestion</span>
+      <h1>Locataires, bailleurs et propriétaires</h1>
+      <p class="lead">Un parcours dédié, distinct de la vente : matching logement, mandat location, révision IRL, colocation, suivi de bail — y compris pour votre propre parc.</p>
       <div class="pilier-actions">
         <a class="btn btn-primary btn-lg" href="../../landings/location.html?role=locataire">Je cherche une location</a>
         <a class="btn btn-outline btn-lg" href="../../landings/location.html?role=bailleur">Je mets en location</a>
+        <a class="btn btn-outline btn-lg" href="../../landings/location.html?role=gestion">Je gère un bail</a>
       </div>
     </div>
   </header>
   <main class="pilier-wrap">
-    <h2 class="pilier-section-title">Deux publics, deux dossiers</h2>
+    <h2 class="pilier-section-title">Trois publics, un même dossier</h2>
     <section class="pilier-grid">
       <a class="pilier-card pilier-card--featured" href="../../landings/location.html?role=locataire">
         <span class="pilier-card-media" style="background-image:url('../../assets/piliers/pilier-immobilier.jpg');background-position:center 30%" aria-hidden="true"></span>
         <span class="pilier-card-body">
           <strong>Locataire</strong>
-          <p>Budget, ville, visites. Assurance locataire en option une fois le logement trouvé.</p>
+          <p>Budget, ville, visites — seul, en couple ou en colocation. Assurance locataire en option.</p>
           <span class="go">Chercher un logement →</span>
         </span>
       </a>
@@ -62,8 +63,23 @@
         <span class="pilier-card-media" style="background-image:url('../../assets/piliers/pilier-immobilier.jpg');background-position:center 55%" aria-hidden="true"></span>
         <span class="pilier-card-body">
           <strong>Bailleur</strong>
-          <p>Mandat location, recherche locataire, état des lieux. Barème €/m² Portes Clés. PNO / GLI.</p>
+          <p>Mandat location, recherche locataire, état des lieux. Barème €/m². Bail nu, meublé ou coloc.</p>
           <span class="go">Mettre mon bien en location →</span>
+        </span>
+      </a>
+      <a class="pilier-card pilier-card--featured" href="../../landings/location.html?role=gestion">
+        <span class="pilier-card-media" style="background-image:url('../../assets/piliers/pilier-immobilier.jpg');background-position:center 70%" aria-hidden="true"></span>
+        <span class="pilier-card-body">
+          <strong>Propriétaire / gestion</strong>
+          <p>Bail déjà en place : IRL, quittances, congé, impayés, encadrement. Pour un client ou pour vous.</p>
+          <span class="go">Gérer un bail →</span>
+        </span>
+      </a>
+      <a class="pilier-card" href="../../landings/location.html?role=gestion&amp;sujet=coloc">
+        <span class="pilier-card-body">
+          <strong>Colocation</strong>
+          <p>Bail unique ou chambres, caution solidaire, assurances de chaque colocataire. Locataire ou bailleur.</p>
+          <span class="go">Dossier colocation →</span>
         </span>
       </a>
       <a class="pilier-card" href="../../bareme-honoraires/">
@@ -81,6 +97,41 @@
         </span>
       </a>
     </section>
+
+    <section class="pilier-about" style="display:block;padding:8px 0 8px" aria-labelledby="irlTitle">
+      <h2 class="pilier-section-title" id="irlTitle">Révision des loyers (IRL)</h2>
+      <p>Indice de référence des loyers INSEE, métropole. Le loyer ne se révise que s’il y a une clause dans le bail, une fois par an, sur le même trimestre que celui prévu au contrat.</p>
+      <div class="irl-widget" data-irl-widget id="irl">
+        <h3>Calculateur IRL</h3>
+        <p>Nouveau loyer = loyer × (IRL nouveau / IRL de référence). Dernier indice publié : T2 2026 = 148,37 (+1,15 % sur un an).</p>
+        <div class="irl-widget-grid">
+          <div class="field">
+            <label for="irlRentHub">Loyer actuel HC (€ / mois)</label>
+            <input id="irlRentHub" data-irl-rent type="number" inputmode="decimal" min="1" step="1" placeholder="Ex. 650" />
+          </div>
+          <div class="field">
+            <label for="irlOldHub">Indice de référence (bail)</label>
+            <select id="irlOldHub" data-irl-old></select>
+          </div>
+          <div class="field">
+            <label for="irlNewHub">Nouvel indice</label>
+            <select id="irlNewHub" data-irl-new></select>
+          </div>
+        </div>
+        <div class="irl-widget-out">
+          <div><span>Nouveau loyer</span><strong data-irl-out-new>—</strong></div>
+          <div><span>Écart mensuel</span><strong data-irl-out-delta>—</strong></div>
+          <div><span>Variation</span><strong data-irl-out-pct>—</strong></div>
+        </div>
+        <p class="irl-widget-source" data-irl-source></p>
+        <p class="immo-ls-note">Corse et DOM : indices distincts. Prochain IRL (T3 2026) vers mi-octobre 2026. Outil indicatif — on calcule et on notifie le locataire avec vous.</p>
+        <div class="immo-ls-actions">
+          <a class="btn btn-primary" href="../../landings/location.html?role=gestion&amp;sujet=irl">Faire gérer cette révision</a>
+          <a class="btn btn-outline" href="../../landings/location.html?role=gestion">Tout le suivi de bail</a>
+        </div>
+      </div>
+    </section>
+
     <section class="pilier-about" style="display:block;padding:8px 0 32px">
       <h2 class="pilier-section-title">Bassin Nancy (54)</h2>
       <p>Priorité locale : Nancy, Lunéville, Varangéville, Jarville, Dombasle, Saint-Nicolas-de-Port. Pas de silo 300 villes : on convertit d’abord le 54.</p>
@@ -103,5 +154,7 @@
       </small>
     </div>
   </footer>
+  <script src="../../js/irl-revision-lib.js"></script>
+  <script src="../../js/irl-revision-widget.js"></script>
 </body>
 </html>
