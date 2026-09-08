@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-08",
   "sections": [
     "actu",
     "animaux",
@@ -1965,6 +1965,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "e-coli-rappel-d-un-cantal-jeune-vendu-chez-carrefour-partout-en-france.html",
+      "title": "E.coli : rappel d’un cantal jeune vendu chez Carrefour partout en France : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=e-coli-rappel-d-un-cantal-jeune-vendu",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "basket-coupe-du-monde-2026-f-l-equipe-de-france-lance-son-mondial-avec-d.html",
+      "title": "Basket – Coupe du Monde 2026 (F) : L'équipe de France lance son Mondial avec d'immenses… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=basket-coupe-du-monde-2026-f-l-equ",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "sommet-lumiere-le-cinema-mondial-reuni-a-saint-paul-de-vence-pour-un-dav.html",
+      "title": "Sommet Lumière : le cinéma mondial réuni à Saint-Paul-de-Vence pour un \"Davos du 7ème art\" : assurance habitation — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=sommet-lumiere-le-cinema-mondial-reuni",
+      "matchedRule": null,
       "species": null
     }
   ]
