@@ -46,7 +46,13 @@ async function ensureTourSchema(sql) {
   }
 }
 
+function twilioSmsEnabled() {
+  var flag = String(process.env.TWILIO_SMS_ENABLED || "").toLowerCase();
+  return flag === "1" || flag === "true" || flag === "on";
+}
+
 async function maybeSendSms(phone, code) {
+  if (!twilioSmsEnabled()) return { ok: false, reason: "sms_disabled" };
   var sid = process.env.TWILIO_ACCOUNT_SID;
   var token = process.env.TWILIO_AUTH_TOKEN;
   var from = process.env.TWILIO_FROM_NUMBER;
@@ -73,10 +79,22 @@ async function maybeSendSms(phone, code) {
   }
 }
 
-function bagOf(property) {
+function bagOf(property, token) {
   var bag = AdLib.getAdMeta(property);
-  var access = Tour.normalizeTourAccess((bag.ad && bag.ad.tour_access) || {}, null);
-  return { bag: bag, ad: bag.ad || {}, access: access };
+  var ad = bag.ad || {};
+  var access =
+    (Tour.getTourAccessForToken && Tour.getTourAccessForToken(ad, token)) ||
+    Tour.normalizeTourAccess(ad.tour_access || {}, null);
+  return { bag: bag, ad: ad, access: access };
+}
+
+function isHttps(req) {
+  return String((req.headers && req.headers["x-forwarded-proto"]) || "") === "https";
+}
+
+function attachGrantCookie(req, res, grant) {
+  if (!grant || !Tour.grantSetCookie) return;
+  res.setHeader("Set-Cookie", Tour.grantSetCookie(grant, isHttps(req)));
 }
 
 function publicHint(property, ad) {
@@ -90,9 +108,17 @@ function publicHint(property, ad) {
 async function bumpLinkViews(sql, property, access) {
   if (!sql || !property || !property.id) return access.view_count || 0;
   var next = (Number(access.view_count) || 0) + 1;
-  var meta = Object.assign({}, bagOf(property).bag.meta || {});
+  var meta = Object.assign({}, bagOf(property, access && access.token).bag.meta || {});
   var ad = Object.assign({}, meta.ad || {});
-  ad.tour_access = Object.assign({}, access, { view_count: next, updated_at: new Date().toISOString() });
+  var started = Tour.startDurationOnFirstView
+    ? Tour.startDurationOnFirstView(access)
+    : access;
+  var nextAccess = Object.assign({}, started, { view_count: next, updated_at: new Date().toISOString() });
+  if (Tour.replaceTourLink) {
+    ad = Tour.replaceTourLink(ad, nextAccess);
+  } else {
+    ad.tour_access = nextAccess;
+  }
   meta.ad = ad;
   try {
     await sql`
@@ -170,7 +196,7 @@ module.exports = async function immoTourAccess(req, res) {
           : null,
       });
     }
-    var infoGet = bagOf(foundGet);
+    var infoGet = bagOf(foundGet, tokenGet);
     var meta = Tour.publicMeta(infoGet.access, publicHint(foundGet, infoGet.ad), foundGet);
     return res.status(200).json(Object.assign({ token: tokenGet }, meta));
   }
@@ -198,7 +224,7 @@ module.exports = async function immoTourAccess(req, res) {
   }
   var found = AdLib.findByTourToken(properties, token);
   if (!found) return res.status(404).json({ ok: false, error: "Lien introuvable ou renouvelé" });
-  var info = bagOf(found);
+  var info = bagOf(found, token);
   var status = Tour.tourLinkStatus(info.access, 0, found);
   if (!status.ok) {
     return res.status(410).json({
@@ -214,17 +240,34 @@ module.exports = async function immoTourAccess(req, res) {
     });
   }
 
+  if (action === "advisor_code") {
+    var userCode = await getAuthUser(req);
+    if (!userCode) return res.status(401).json({ error: "Connexion CRM requise" });
+    var emailC = Tour.normalizeEmail(body.email);
+    var phoneC = Tour.normalizePhone(body.phone);
+    if (!emailC && !phoneC) {
+      return res.status(400).json({ ok: false, error: "E-mail ou téléphone du contact requis." });
+    }
+    return res.status(200).json({
+      ok: true,
+      expires_minutes: 10,
+      email_code: emailC ? Tour.otpCode(token, "email|" + emailC) : "",
+      phone_code: phoneC ? Tour.otpCode(token, "phone|" + phoneC) : "",
+    });
+  }
+
   if (action === "advisor_preview") {
     var user = await getAuthUser(req);
     if (!user) return res.status(401).json({ error: "Connexion CRM requise" });
     var grantPrev = Tour.makeGrant(token, "admin:" + String(user.userId || user.email || "crm"));
+    attachGrantCookie(req, res, grantPrev);
     return res.status(200).json({
       ok: true,
       grant: grantPrev,
       preview_url:
         "/immobilier/visite.html?t=" + encodeURIComponent(token) + "&grant=" + encodeURIComponent(grantPrev) + "&admin=1",
+      player_url: Tour.playerPath ? Tour.playerPath(token) : "/api/immo-tour-player?t=" + encodeURIComponent(token),
       listing: AdLib.toAdListing(found, { includeTourUrl: false }),
-      embed_url: Tour.embedUrl(info.ad.virtual_tour),
     });
   }
 
@@ -293,7 +336,7 @@ module.exports = async function immoTourAccess(req, res) {
       if (!sms.ok && info.access.verify_mode === "sms") {
         return res.status(502).json({
           ok: false,
-          error: "SMS non actif. Passez la vérif en e-mail, ou configurez Twilio.",
+          error: "SMS désactivé (pas de frais). Utilisez la vérif e-mail.",
         });
       }
     }
@@ -309,7 +352,7 @@ module.exports = async function immoTourAccess(req, res) {
         : Tour.needsEmail(info.access)
           ? sms.ok
             ? "Codes envoyés."
-            : "Code envoyé par e-mail. Le SMS n’est pas actif : le téléphone est quand même enregistré."
+            : "Code envoyé par e-mail. Le SMS est configuré mais désactivé (pas de frais)."
           : "Code envoyé par SMS.",
     });
   }
@@ -324,7 +367,7 @@ module.exports = async function immoTourAccess(req, res) {
         error: "Cochez l’acceptation des droits d’auteur (usage unique et personnel).",
       });
     }
-    if (!Tour.isAllowlisted(info.access, emailV, phoneV)) {
+    if (!Tour.needsOtp(info.access) && !Tour.isAllowlisted(info.access, emailV, phoneV)) {
       return res.status(403).json({
         ok: false,
         error: "Vous n’êtes pas sur la liste autorisée. Contactez Wendy BUCHET.",
@@ -408,10 +451,12 @@ module.exports = async function immoTourAccess(req, res) {
     }
 
     var grant = Tour.makeGrant(token, storeEmail + "|" + (phoneV || ""));
+    attachGrantCookie(req, res, grant);
     var listing = AdLib.toAdListing(found, { includeTourUrl: false });
     return res.status(200).json({
       ok: true,
       grant: grant,
+      player_url: Tour.playerPath ? Tour.playerPath(token) : "/api/immo-tour-player?t=" + encodeURIComponent(token),
       listing: listing,
       phone_verified: phoneVerified,
       contact_email: Tour.maskEmail(emailV),
@@ -421,15 +466,19 @@ module.exports = async function immoTourAccess(req, res) {
   if (action === "view_tour") {
     var granted = Tour.verifyGrant(body.grant, token);
     if (!granted) return res.status(401).json({ ok: false, error: "Session expirée. Recueillez un nouveau code." });
-    var embed = Tour.embedUrl(info.ad.virtual_tour);
+    var embed = Tour.resolveTourUrl
+      ? Tour.resolveTourUrl(info.ad, info.access)
+      : Tour.embedUrl(info.ad.virtual_tour);
     if (!embed) return res.status(404).json({ ok: false, error: "Visite 3D non configurée." });
+    attachGrantCookie(req, res, body.grant);
 
+    var playerUrl = Tour.playerPath ? Tour.playerPath(token) : "/api/immo-tour-player?t=" + encodeURIComponent(token);
     var isAdvisor = String(granted.contact || "").indexOf("admin:") === 0;
     if (isAdvisor) {
       return res.status(200).json({
         ok: true,
         preview: true,
-        embed_url: embed,
+        player_url: playerUrl,
         listing: AdLib.toAdListing(found, { includeTourUrl: false }),
       });
     }
@@ -471,7 +520,7 @@ module.exports = async function immoTourAccess(req, res) {
 
     return res.status(200).json({
       ok: true,
-      embed_url: embed,
+      player_url: playerUrl,
       listing: AdLib.toAdListing(found, { includeTourUrl: false }),
     });
   }

@@ -13,7 +13,22 @@
   var highlightId = "";
   var photoState = [];
   var videoState = [];
+  var hiddenTourUrl = "";
   var Access = window.ImmoAdDemoAccess;
+
+  function paintHiddenTourUrl(url) {
+    hiddenTourUrl = String(url || "").trim();
+    var mask = document.getElementById("adTourMasked");
+    var lab = document.getElementById("adTourLabel");
+    var inp = document.getElementById("adTour");
+    if (mask) {
+      mask.textContent = hiddenTourUrl
+        ? "Lien 3D enregistré et masqué — jamais collé sur Leboncoin ni visible pour un visiteur."
+        : "Aucun lien 3D enregistré.";
+    }
+    if (lab) lab.hidden = true;
+    if (inp) inp.value = "";
+  }
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -171,11 +186,20 @@
       furnished: document.getElementById("adFurnished").checked,
       photos: photoState.slice(),
       videos: videoState.slice(),
-      virtual_tour: document.getElementById("adTour").value.trim(),
+      virtual_tour: (document.getElementById("adTour") && document.getElementById("adTour").value.trim()) || hiddenTourUrl,
       platforms: document.getElementById("adPlatforms").value,
       demo_label: document.getElementById("adDemoLabel").value.trim(),
       listing_url: document.getElementById("adListingUrl").value.trim(),
       tour_gate: document.getElementById("chTourGate") ? document.getElementById("chTourGate").checked : false,
+      tour_name: document.getElementById("adTourName") ? document.getElementById("adTourName").value : "",
+      tour_availability: document.getElementById("adTourAvailability")
+        ? document.getElementById("adTourAvailability").value
+        : "active",
+      tour_visibility: document.getElementById("adTourVisibility")
+        ? document.getElementById("adTourVisibility").value
+        : "listed",
+      tour_link_id: document.getElementById("adTourLinkId") ? document.getElementById("adTourLinkId").value : "",
+      tour_create_link: !!window.__createNamedTourOnce,
       tour_days: "",
       tour_duration_value: document.getElementById("adTourDuration")
         ? document.getElementById("adTourDuration").value
@@ -183,9 +207,12 @@
       tour_duration_unit: document.getElementById("adTourDurationUnit")
         ? document.getElementById("adTourDurationUnit").value
         : "days",
+      tour_duration_start: document.getElementById("adTourDurationStart")
+        ? document.getElementById("adTourDurationStart").value
+        : "first_view",
       tour_max_views: document.getElementById("adTourMaxViews") ? document.getElementById("adTourMaxViews").value : "",
       tour_max_per_contact: document.getElementById("adTourMaxPer") ? document.getElementById("adTourMaxPer").value : "",
-      tour_verify_mode: document.getElementById("adTourVerify") ? document.getElementById("adTourVerify").value : "both",
+      tour_verify_mode: document.getElementById("adTourVerify") ? document.getElementById("adTourVerify").value : "email",
       tour_period_mode: document.getElementById("adTourPeriod") ? document.getElementById("adTourPeriod").value : "limited",
       tour_allow_emails: document.getElementById("adTourAllowEmails") ? document.getElementById("adTourAllowEmails").value : "",
       tour_allow_phones: document.getElementById("adTourAllowPhones") ? document.getElementById("adTourAllowPhones").value : "",
@@ -224,9 +251,41 @@
 
   function fillTourGate(ad, property) {
     var Tour = window.ImmoTourAccess;
-    var ta = (ad && ad.tour_access) || {};
+    var links = Tour && Tour.listTourLinks ? Tour.listTourLinks(ad) : ad && ad.tour_access ? [ad.tour_access] : [];
+    var selectedId = document.getElementById("adTourLinkId") ? document.getElementById("adTourLinkId").value : "";
+    var ta = links[0] || (ad && ad.tour_access) || {};
+    if (selectedId) {
+      links.forEach(function (l) {
+        if (l.id === selectedId || l.token === selectedId) ta = l;
+      });
+    }
+    var linkSel = document.getElementById("adTourLinkSelect");
+    if (linkSel) {
+      linkSel.innerHTML =
+        '<option value="">— Lien principal —</option>' +
+        links
+          .map(function (l) {
+            return (
+              '<option value="' +
+              esc(l.id || l.token) +
+              '">' +
+              esc((l.name || "Visite") + (l.availability === "paused" ? " · pause" : "") + (l.visibility === "unlisted" ? " · masqué site" : "")) +
+              "</option>"
+            );
+          })
+          .join("");
+      if (ta.id || ta.token) linkSel.value = ta.id || ta.token;
+    }
+    var idEl = document.getElementById("adTourLinkId");
+    if (idEl) idEl.value = ta.id || ta.token || "";
+    var nameEl = document.getElementById("adTourName");
+    if (nameEl) nameEl.value = ta.name || "";
+    var avEl = document.getElementById("adTourAvailability");
+    if (avEl) avEl.value = ta.availability === "paused" ? "paused" : "active";
+    var visEl = document.getElementById("adTourVisibility");
+    if (visEl) visEl.value = ta.visibility === "unlisted" ? "unlisted" : "listed";
     var gate = document.getElementById("chTourGate");
-    if (gate) gate.checked = ta.enabled !== false;
+    if (gate) gate.checked = !!(ta.token && ta.availability !== "paused");
     var daysEl = document.getElementById("adTourDays");
     var durEl = document.getElementById("adTourDuration");
     var unitEl = document.getElementById("adTourDurationUnit");
@@ -238,12 +297,20 @@
       if (durEl && !durEl.value) durEl.value = "30";
     }
     if (unitEl) unitEl.value = ta.duration_unit === "hours" ? "hours" : "days";
+    var startEl = document.getElementById("adTourDurationStart");
+    if (startEl) {
+      if (ta.duration_start === "created" || ta.duration_start === "first_view") {
+        startEl.value = ta.duration_start;
+      } else {
+        startEl.value = ta.expires_at && !ta.first_viewed_at ? "created" : "first_view";
+      }
+    }
     var maxEl = document.getElementById("adTourMaxViews");
     if (maxEl && ta.max_views != null) maxEl.value = String(ta.max_views);
     var perEl = document.getElementById("adTourMaxPer");
     if (perEl && ta.max_views_per_contact != null) perEl.value = String(ta.max_views_per_contact);
     var ver = document.getElementById("adTourVerify");
-    if (ver) ver.value = ta.verify_mode || "both";
+    if (ver) ver.value = ta.verify_mode || "email";
     var perMode = document.getElementById("adTourPeriod");
     if (perMode) perMode.value = ta.period_mode || "limited";
     var allowE = document.getElementById("adTourAllowEmails");
@@ -272,24 +339,27 @@
     var urlEl = document.getElementById("adTourPublicUrl");
     var list = document.getElementById("adTourChannelLinks");
     if (urlEl) {
-      if (ta.enabled && ta.token) {
+      if (ta.token) {
         var st = Tour && Tour.tourLinkStatus ? Tour.tourLinkStatus(ta, 0, property) : { ok: true };
         urlEl.textContent =
+          (ta.name ? ta.name + " · " : "") +
           tourPublicUrl(ta.token, "leboncoin") +
+          (ta.availability === "paused" ? " · en pause" : "") +
+          (ta.visibility === "unlisted" ? " · masqué site" : "") +
           (st.remaining != null ? " · " + st.remaining + " vues restantes" : "") +
           (st.expires_at ? " · expire le " + new Date(st.expires_at).toLocaleDateString("fr-FR") : "") +
           (ta.view_count ? " · déjà " + ta.view_count + " vue(s)" : "");
         if (list && Tour && Tour.channelLinks) {
-          var links = Tour.channelLinks(ta.token, location.origin);
+          var channelUrls = Tour.channelLinks(ta.token, location.origin);
           list.innerHTML =
             "<div>Site : <code>" +
-            links.site +
+            channelUrls.site +
             "</code></div><div>Leboncoin : <code>" +
-            links.leboncoin +
+            channelUrls.leboncoin +
             "</code></div><div>SeLoger : <code>" +
-            links.seloger +
+            channelUrls.seloger +
             "</code></div><div>Meta : <code>" +
-            links.meta +
+            channelUrls.meta +
             "</code></div>";
         }
       } else {
@@ -676,8 +746,8 @@
       if (!document.getElementById("adFurnished").checked && sell.furnished === true) {
         document.getElementById("adFurnished").checked = true;
       }
-      if (!document.getElementById("adTour").value && sell.virtual_tour) {
-        document.getElementById("adTour").value = sell.virtual_tour;
+      if (!hiddenTourUrl && sell.virtual_tour) {
+        paintHiddenTourUrl(sell.virtual_tour);
       }
     }
     document.getElementById("adElevator").checked = !!(crit.has_elevator || p.has_elevator);
@@ -688,7 +758,7 @@
     document.getElementById("adTerrace").checked = !!(crit.has_terrace || p.has_terrace);
     document.getElementById("adGarden").checked = !!(crit.has_garden || p.has_garden);
     document.getElementById("adFurnished").checked = !!(crit.furnished);
-    document.getElementById("adTour").value = ad.virtual_tour || "";
+    paintHiddenTourUrl(ad.virtual_tour || "");
     document.getElementById("adListingUrl").value = ad.listing_url || p.listing_url || "";
     syncOpenListingBtn();
     document.getElementById("adPlatforms").value = (ad.platforms || ["Meta", "Google", "Leboncoin"]).join(", ");
@@ -834,6 +904,7 @@
     fillForm(null);
     photoState = [];
     videoState = [];
+    paintHiddenTourUrl("");
     renderPhotoThumbs();
     renderVideoList();
     document.getElementById("adAccessEmails").value = "";
@@ -851,35 +922,90 @@
   }
 
   paintCreateLink();
+  function selectedTourAccess() {
+    var existing = currentId ? Store.getProperty(currentId) : null;
+    if (!existing) return null;
+    var ad = AdLib.getAdMeta(existing).ad;
+    var Tour = window.ImmoTourAccess;
+    var id = document.getElementById("adTourLinkId") ? document.getElementById("adTourLinkId").value : "";
+    if (Tour && Tour.listTourLinks) {
+      var list = Tour.listTourLinks(ad);
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].id === id || list[i].token === id) return list[i];
+      }
+      return list[0] || ad.tour_access || null;
+    }
+    return ad.tour_access || null;
+  }
   var copyTourBtn = document.getElementById("btnCopyTourLink");
   if (copyTourBtn) {
     copyTourBtn.onclick = function () {
-      var existing = currentId ? Store.getProperty(currentId) : null;
-      var ta = existing && AdLib.getAdMeta(existing).ad.tour_access;
+      var ta = selectedTourAccess();
       copyTourUrl(ta && ta.token, "leboncoin", "Leboncoin");
     };
   }
   var copySiteBtn = document.getElementById("btnCopyTourSite");
   if (copySiteBtn) {
     copySiteBtn.onclick = function () {
-      var existing = currentId ? Store.getProperty(currentId) : null;
-      var ta = existing && AdLib.getAdMeta(existing).ad.tour_access;
+      var ta = selectedTourAccess();
       copyTourUrl(ta && ta.token, "site", "site");
     };
   }
   var rotateTourBtn = document.getElementById("btnRotateTourLink");
   if (rotateTourBtn) {
     rotateTourBtn.onclick = function () {
-      if (!confirm("L’ancien lien Leboncoin / Meta ne fonctionnera plus. Continuer ?")) return;
+      if (!confirm("Seul CE lien nommé change d’URL. Les autres liens (ex. déjà sur Leboncoin) restent valables. Continuer ?")) return;
       window.__rotateTourOnce = true;
       document.getElementById("adForm").requestSubmit();
+    };
+  }
+  var editTourUrlBtn = document.getElementById("btnEditTourUrl");
+  if (editTourUrlBtn) {
+    editTourUrlBtn.onclick = function () {
+      var lab = document.getElementById("adTourLabel");
+      var inp = document.getElementById("adTour");
+      if (lab) lab.hidden = false;
+      if (inp) {
+        inp.value = "";
+        inp.focus();
+      }
+    };
+  }
+  var newNamedBtn = document.getElementById("btnNewNamedTourLink");
+  if (newNamedBtn) {
+    newNamedBtn.onclick = function () {
+      var nameEl = document.getElementById("adTourName");
+      if (nameEl && !String(nameEl.value || "").trim()) {
+        nameEl.value = "Nouveau lien";
+      }
+      window.__createNamedTourOnce = true;
+      document.getElementById("adForm").requestSubmit();
+    };
+  }
+  var linkSelEl = document.getElementById("adTourLinkSelect");
+  if (linkSelEl) {
+    linkSelEl.onchange = function () {
+      var idEl = document.getElementById("adTourLinkId");
+      if (idEl) idEl.value = linkSelEl.value || "";
+      if (!currentId) return;
+      var p = Store.getProperty(currentId);
+      if (p) fillTourGate(AdLib.getAdMeta(p).ad, p);
+    };
+  }
+  var avSel = document.getElementById("adTourAvailability");
+  var gateEl = document.getElementById("chTourGate");
+  if (avSel && gateEl) {
+    avSel.onchange = function () {
+      gateEl.checked = avSel.value !== "paused";
+    };
+    gateEl.onchange = function () {
+      avSel.value = gateEl.checked ? "active" : "paused";
     };
   }
   var previewTourBtn = document.getElementById("btnPreviewTour");
   if (previewTourBtn) {
     previewTourBtn.onclick = function () {
-      var existing = currentId ? Store.getProperty(currentId) : null;
-      var ta = existing && AdLib.getAdMeta(existing).ad.tour_access;
+      var ta = selectedTourAccess();
       if (!ta || !ta.token) {
         msg("Enregistrez d’abord le lien visite.");
         return;
@@ -1012,15 +1138,42 @@
     var existing = currentId ? Store.getProperty(currentId) : null;
     var base = existing ? Object.assign({}, existing) : { id: currentId || undefined };
     var next = AdLib.applyAdToProperty(base, form);
+    var Tour = window.ImmoTourAccess;
+    var prevLinks = existing && Tour && Tour.listTourLinks ? Tour.listTourLinks(AdLib.getAdMeta(existing).ad) : [];
+    var prevTokens = {};
+    prevLinks.forEach(function (l) {
+      if (l && l.token) prevTokens[l.token] = true;
+    });
     window.__rotateTourOnce = false;
+    window.__createNamedTourOnce = false;
     if (currentId) next.id = currentId;
     var saved = Store.upsertProperty(next);
     currentId = saved.id;
     highlightId = saved.id;
+    var nextLinks = Tour && Tour.listTourLinks ? Tour.listTourLinks(AdLib.getAdMeta(saved).ad) : [];
+    var currentLink =
+      nextLinks.filter(function (l) {
+        return l && l.token && !prevTokens[l.token];
+      })[0] ||
+      nextLinks.filter(function (l) {
+        return l && (l.id === form.tour_link_id || l.token === form.tour_link_id);
+      })[0] ||
+      nextLinks[0];
+    if (currentLink && document.getElementById("adTourLinkId")) {
+      document.getElementById("adTourLinkId").value = currentLink.id || currentLink.token || "";
+    }
     fillForm(saved);
     listAds();
     showCreatedBanner(saved);
-    msg("Pub enregistrée et mise en évidence à droite.", true);
+    if (form.tour_create_link && currentLink) {
+      msg("Nouveau lien « " + (currentLink.name || "Visite") + " » créé. Les URLs déjà publiées sont inchangées.", true);
+    } else if (form.rotate_tour_token) {
+      msg("Ce lien a été renouvelé. L’ancienne URL ne marche plus.", true);
+    } else if (currentLink && currentLink.token) {
+      msg("Réglages enregistrés. L’URL publiée (Leboncoin) est inchangée.", true);
+    } else {
+      msg("Pub enregistrée et mise en évidence à droite.", true);
+    }
   };
 
   document.getElementById("btnDeleteAd").onclick = function () {

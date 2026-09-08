@@ -50,16 +50,24 @@
   }
 
   function applyVerifyMode(meta) {
-    var mode = (meta && meta.verify_mode) || "both";
+    var mode = (meta && meta.verify_mode) || "email";
     var emailWrap = el("tourEmailWrap");
     var phoneWrap = el("tourPhoneWrap");
     var firstWrap = el("tourFirstWrap");
     var requestBtn = el("tourRequest");
     var openNone = el("tourOpenNone");
+    var askStep = el("tourAskStep");
+    var codes = el("tourCodes");
+    var emailCodeWrap = el("tourEmailCodeWrap");
+    var smsHint = el("tourSmsHint");
     if (emailWrap) emailWrap.hidden = mode === "none" || mode === "sms";
     if (phoneWrap) phoneWrap.hidden = mode === "none" || mode === "email";
     if (firstWrap) firstWrap.hidden = mode === "none";
     if (requestBtn) requestBtn.hidden = mode === "none";
+    if (askStep) askStep.hidden = mode === "none";
+    if (codes) codes.hidden = mode === "none";
+    if (emailCodeWrap) emailCodeWrap.hidden = mode === "none" || mode === "sms";
+    if (smsHint) smsHint.hidden = mode !== "sms";
     if (openNone) openNone.hidden = mode !== "none";
   }
 
@@ -67,14 +75,21 @@
     lastMeta = meta;
     var title = el("tourTitle");
     var sub = el("tourSub");
-    if (title) title.textContent = meta.title || "Visite virtuelle";
+    if (title) title.textContent = meta.name || meta.title || "Visite virtuelle";
     if (sub) {
       var bits = [];
+      if (meta.name && meta.title && meta.name !== meta.title) bits.push(meta.title);
       if (meta.city) bits.push(meta.city);
       if (meta.period_mode === "mandate") bits.push("valable pendant le mandat exclusif");
       else if (meta.period_mode === "unlimited") bits.push("durée illimitée (quota possible)");
       if (meta.expires_at) {
-        bits.push("jusqu’au " + new Date(meta.expires_at).toLocaleDateString("fr-FR"));
+        bits.push("jusqu’au " + new Date(meta.expires_at).toLocaleString("fr-FR"));
+      } else if (meta.duration_start === "first_view" && meta.duration_value) {
+        bits.push(
+          meta.duration_value +
+            (meta.duration_unit === "hours" ? " h" : " j") +
+            " à partir de la 1re ouverture"
+        );
       }
       if (meta.remaining != null) bits.push(meta.remaining + " consultation(s) restante(s)");
       sub.textContent = bits.join(" · ") || "Wendy BUCHET — mandataire immobilier.";
@@ -125,7 +140,7 @@
       '<div class="tour-frame-wrap">' +
       '<iframe title="Visite virtuelle" src="' +
       esc(embedUrl) +
-      '" allow="xr-spatial-tracking; fullscreen; web-share" allowfullscreen></iframe>' +
+      '" referrerpolicy="same-origin" allow="xr-spatial-tracking; fullscreen" allowfullscreen></iframe>' +
       "</div>";
   }
 
@@ -167,12 +182,8 @@
                 if (open) open.hidden = false;
                 return;
               }
-              var codes = el("tourCodes");
-              if (codes) codes.hidden = false;
-              var smsHint = el("tourSmsHint");
-              if (smsHint) smsHint.hidden = !res.d.delivery_sms;
-              var emailCodeWrap = el("tourEmailCodeWrap");
-              if (emailCodeWrap) emailCodeWrap.hidden = !res.d.delivery_email;
+              var codeInp = el("tourEmailCode");
+              if (codeInp) codeInp.focus();
             } else {
               setMsg((res.d && res.d.error) || "Impossible d’envoyer le code.");
             }
@@ -186,6 +197,17 @@
       if (!termsOk()) {
         setMsg("Cochez l’acceptation des droits d’auteur.");
         return;
+      }
+      var mode = (lastMeta && lastMeta.verify_mode) || "email";
+      if (mode !== "none") {
+        var typed =
+          (el("tourEmailCode") && el("tourEmailCode").value.trim()) ||
+          (el("tourPhoneCode") && el("tourPhoneCode").value.trim()) ||
+          "";
+        if (!typed) {
+          setMsg("Saisissez le code à 6 chiffres (reçu par e-mail ou donné par le mandataire).");
+          return;
+        }
       }
       var payload = payloadBase(token);
       payload.action = "verify_access";
@@ -215,8 +237,12 @@
     setMsg("Ouverture de la visite…", true);
     post({ action: "view_tour", token: token, grant: grant })
       .then(function (res) {
-        if (res.d && res.d.ok && res.d.embed_url) {
-          showPlayer(res.d.embed_url, res.d.listing || listing);
+        if (res.d && res.d.ok && (res.d.player_url || res.d.embed_url)) {
+          var src = res.d.player_url || "";
+          if (!src || src.indexOf("/api/immo-tour-player") !== 0) {
+            src = "/api/immo-tour-player?t=" + encodeURIComponent(token);
+          }
+          showPlayer(src, res.d.listing || listing);
         } else {
           showError((res.d && res.d.error) || "Impossible d’ouvrir la visite.", (res.d && res.d.contact) || (lastMeta && lastMeta.contact));
         }

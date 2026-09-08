@@ -321,6 +321,9 @@
   border: 1px solid #99f6e4;
 }
 #contactTourMount label { display: flex; flex-direction: column; gap: 4px; font-size: .78rem; font-weight: 700; color: var(--muted); margin-bottom: 10px; }
+#contactTourMount textarea { min-height: 64px; }
+#contactTourMount .pub-tour-named { margin: 0 0 12px; padding: 10px 0 0; border-top: 1px solid rgba(22,101,52,.12); }
+#contactTourMount .pub-tour-named:first-child { border-top: 0; padding-top: 0; }
 #contactTourMount input, #contactTourMount select, #contactTourMount textarea {
   padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font: inherit; background: #f8fafc;
 }
