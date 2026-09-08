@@ -348,6 +348,16 @@ module.exports = async function immoTourAccess(req, res) {
     var embed = Tour.embedUrl(info.ad.virtual_tour);
     if (!embed) return res.status(404).json({ ok: false, error: "Visite 3D non configurée." });
 
+    var isAdvisor = String(granted.contact || "").indexOf("admin:") === 0;
+    if (isAdvisor) {
+      return res.status(200).json({
+        ok: true,
+        preview: true,
+        embed_url: embed,
+        listing: AdLib.toAdListing(found, { includeTourUrl: false }),
+      });
+    }
+
     var contactEmail = String(granted.contact || "").split("|")[0];
     if (sql && Tour.normalizeEmail(contactEmail)) {
       var rows = [];
@@ -373,7 +383,7 @@ module.exports = async function immoTourAccess(req, res) {
       } catch (e3) {}
     }
 
-    var live = Tour.tourLinkStatus(info.access, 1);
+    var live = Tour.tourLinkStatus(info.access);
     if (!live.ok) {
       return res.status(410).json({
         ok: false,

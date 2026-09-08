@@ -73,6 +73,8 @@ assert(!AdLib.findByTourToken([gated], "vt_inconnu_xxxx"), "token inconnu");
 
 var st = Tour.tourLinkStatus(ta);
 assert(st.ok && st.remaining === 50, "quota initial 50");
+var almost = Object.assign({}, ta, { view_count: 49 });
+assert(Tour.tourLinkStatus(almost).ok === true && Tour.tourLinkStatus(almost).remaining === 1, "49/50 encore autorisé");
 var burned = Object.assign({}, ta, { view_count: 50 });
 assert(Tour.tourLinkStatus(burned).reason === "quota", "quota atteint");
 var expired = Object.assign({}, ta, { expires_at: "2020-01-01T00:00:00.000Z" });
