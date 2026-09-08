@@ -39,5 +39,8 @@ articles.forEach(function (a) {
 var gsc = fs.readFileSync(path.join(root, "scripts/seo-gsc-priority-urls.cjs"), "utf8");
 assert(gsc.indexOf("heritiers-pas-daccord") !== -1, "GSC héritiers");
 assert(gsc.indexOf("taux-pret-immobilier-aout-2026") !== -1, "GSC taux août");
+assert(gsc.indexOf("louer-appartement-nancy-54-locataire-2026") !== -1, "GSC location locataire");
+assert(gsc.indexOf("mettre-appartement-en-location-mandat-pno-gli-2026") !== -1, "GSC location bailleur");
+assert(gsc.indexOf("changer-syndic-copropriete-mise-en-concurrence-2026") !== -1, "GSC syndic");
 
 process.exit(failed ? 1 : 0);

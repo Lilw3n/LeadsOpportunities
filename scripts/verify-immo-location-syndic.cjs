@@ -113,4 +113,22 @@ assert(embed.indexOf("immoLocSurface") >= 0, "JS estimateur location");
 var pkg = JSON.parse(read("package.json"));
 assert(pkg.scripts["verify:immo-location-syndic"], "script npm verify");
 
+[
+  "blog/louer-appartement-nancy-54-locataire-2026.html",
+  "blog/mettre-appartement-en-location-mandat-pno-gli-2026.html",
+  "blog/changer-syndic-copropriete-mise-en-concurrence-2026.html",
+].forEach(function (f) {
+  assert(exists(f), f + " article lead");
+});
+var locArticle = read("blog/louer-appartement-nancy-54-locataire-2026.html");
+assert(locArticle.indexOf("landings/location.html") >= 0, "article locataire CTA location");
+assert(/Varangéville/.test(locArticle), "article locataire Varangéville");
+var bailArticle = read("blog/mettre-appartement-en-location-mandat-pno-gli-2026.html");
+assert(bailArticle.indexOf("role=bailleur") >= 0, "article bailleur rôle");
+var synArticle = read("blog/changer-syndic-copropriete-mise-en-concurrence-2026.html");
+assert(synArticle.indexOf("landings/syndic.html") >= 0, "article syndic CTA");
+assert(/Loi Hoguet/.test(synArticle), "article syndic Hoguet");
+assert(locHub.indexOf("louer-appartement-nancy-54-locataire-2026") >= 0, "hub location lien article locataire");
+assert(synHub.indexOf("changer-syndic-copropriete-mise-en-concurrence-2026") >= 0, "hub syndic lien article");
+
 process.exit(failed ? 1 : 0);

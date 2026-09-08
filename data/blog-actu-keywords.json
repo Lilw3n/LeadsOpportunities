@@ -8,6 +8,20 @@
       "tagClass": "tag-sante"
     },
     {
+      "keywords": ["syndic", "copropriété", "copropriete", "conseil syndical", "charges de copropriété", "assemblée générale copro", "ag de copropriété", "mise en concurrence syndic"],
+      "section": "finance",
+      "need": "syndic",
+      "tag": "Syndic & copropriété",
+      "tagClass": "tag-immo"
+    },
+    {
+      "keywords": ["mise en location", "gestion locative", "mandat de location", "loyers impayés", "loyers impayes", "propriétaire bailleur", "proprietaire bailleur", "chercher une location", "location appartement", "location maison"],
+      "section": "finance",
+      "need": "location",
+      "tag": "Location immobilière",
+      "tagClass": "tag-immo"
+    },
+    {
       "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur"],
       "section": "habitat",
       "need": "habitation",
@@ -148,6 +162,8 @@
     "animaux": { "href": "../landings/questionnaire.html?need=animaux&journey=standard", "label": "Questionnaire animaux (3 min)" },
     "emprunteur": { "href": "../landings/questionnaire.html?need=emprunteur&journey=standard", "label": "Questionnaire emprunteur (3 min)" },
     "prevoyance": { "href": "../landings/questionnaire.html?need=prevoyance&journey=standard", "label": "Questionnaire prévoyance (3 min)" },
-    "rc-pro": { "href": "../landings/questionnaire.html?need=rc-pro&journey=standard", "label": "Questionnaire RC Pro (3 min)" }
+    "rc-pro": { "href": "../landings/questionnaire.html?need=rc-pro&journey=standard", "label": "Questionnaire RC Pro (3 min)" },
+    "location": { "href": "../landings/questionnaire.html?need=location&journey=standard", "label": "Questionnaire location (3 min)" },
+    "syndic": { "href": "../landings/questionnaire.html?need=syndic&journey=standard", "label": "Questionnaire syndic (3 min)" }
   }
 }
