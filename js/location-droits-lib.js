@@ -19,6 +19,7 @@
     { id: "mise_en_demeure", label: "Impayé : mise en demeure, intérêts de retard" },
     { id: "annexes", label: "Pièces à annexer au bail" },
     { id: "meuble", label: "Location meublée et exonérations" },
+    { id: "commercial", label: "Bail commercial et fiscalité" },
     { id: "fiscalite", label: "TVA, taxes, local commercial" },
   ];
 
@@ -76,8 +77,14 @@
     tva: "fiscalite",
     taxes: "fiscalite",
     impot: "fiscalite",
-    commercial: "fiscalite",
-    "bail-commercial": "annexes",
+    commercial: "commercial",
+    "bail-commercial": "commercial",
+    "local-commercial": "commercial",
+    ilc: "commercial",
+    ilat: "commercial",
+    "pas-de-porte": "commercial",
+    despecialisation: "commercial",
+    "3-6-9": "commercial",
   };
 
   var DETAILS = {
@@ -463,6 +470,62 @@
         "On ne fige pas un taux d’abattement 2026 ici : il dépend du classement et de l’année fiscale.",
       ],
     },
+    commercial: {
+      delay: "Code de commerce (statut des baux commerciaux, art. L. 145-1 et s.). Pas la loi 1989. Durée type 9 ans (3-6-9). Pas un acte d’avocat ni un conseil fiscal signé.",
+      tenant: [
+        "Preneur : droit au renouvellement en principe ; congé triennal 6 mois d’écrit ; destination du local à respecter.",
+        "Le loyer n’est pas plafonné comme en habitation (pas d’encadrement IRL / loyer de référence).",
+      ],
+      landlord: [
+        "Ne pas copier un bail d’habitation (IRL, dépôt 1 ou 2 mois, congé reprise pour habiter).",
+        "Relire : durée, destination, indexation ILC ou ILAT, dépôt, pas-de-porte, charges, TVA HT/TTC.",
+        "Congé / refus de renouvellement : fiche « Congé / bail commercial » — indemnité d’éviction souvent en jeu.",
+      ],
+      groups: [
+        {
+          title: "Qualification — ce n’est pas un bail d’habitation",
+          items: [
+            { req: "obligatoire", t: "Local affecté à une activité commerciale, industrielle ou artisanale (immatriculation, destination)" },
+            { req: "obligatoire", t: "Statut des baux commerciaux : 9 ans, renouvellement, congé triennal — pas la loi du 6 juillet 1989" },
+            { req: "selon cas", t: "Bail dérogatoire (max. 3 ans) : hors statut, pas de droit au renouvellement — à ne pas « glisser » en 9 ans par erreur" },
+            { req: "selon cas", t: "Bail professionnel (professions libérales) : 6 ans, autre cadre — ni 1989 ni L. 145" },
+            { req: "selon cas", t: "Local mixte habitation + commerce : deux régimes possibles, ne pas mélanger les clauses" },
+          ],
+        },
+        {
+          title: "Durée, loyer, indexation, dépôt",
+          items: [
+            { req: "obligatoire", t: "Durée 9 ans (3-6-9). Le preneur peut partir à 3 ou 6 ans (6 mois d’écrit). Le bailleur ne « reprend » pas à 3 ans comme en habitation" },
+            { req: "obligatoire", t: "Indexation ILC (commerces) ou ILAT (bureaux, tertiaire, entrepôts) — pas l’IRL habitation" },
+            { req: "selon cas", t: "Dépôt de garantie : contractuel (souvent 3 mois ou plus), pas le plafond 1 ou 2 mois de la loi 1989" },
+            { req: "selon cas", t: "Pas-de-porte / droit d’entrée, droit au bail, cession du fonds : à qualifier (prix vs loyer)" },
+            { req: "selon cas", t: "Déspécialisation (changement d’activité) : accord ou procédure, pas un avenant « à la va-vite »" },
+          ],
+        },
+        {
+          title: "Fiscalité du bailleur (local commercial)",
+          items: [
+            { req: "obligatoire", t: "Loyers d’un local nu : en principe revenus fonciers (IR) ou résultat de société — pas du LMNP habitation" },
+            { req: "selon cas", t: "Option TVA sur les loyers (CGI) : loyer HT, TVA collectée, TVA déductible sur travaux / acquisition — taux et option à caler au dossier" },
+            { req: "selon cas", t: "Sans option : location souvent exonérée de TVA (pas de déduction sur les travaux)" },
+            { req: "obligatoire", t: "Taxe foncière : propriétaire. Ne pas la refacturer hors clause / usage autorisé" },
+            { req: "selon cas", t: "CFE : en principe à la charge de l’exploitant (preneur), pas du bailleur « nu-propriétaire bailleur »" },
+          ],
+        },
+        {
+          title: "Fiscalité du preneur & points de vigilance",
+          items: [
+            { req: "selon cas", t: "Loyer et charges : charges déductibles du BIC / BNC de l’activité" },
+            { req: "selon cas", t: "Droit au bail, pas-de-porte : traitement comptable (immobilisation vs charge) selon la nature" },
+            { req: "selon cas", t: "Cession / renouvellement : plus-value, indemnité d’éviction — on ne les « improvise » pas dans un SMS" },
+          ],
+        },
+      ],
+      watch: [
+        "Un bail d’habitation sur un local commercial (ou l’inverse) est fragile : requalification, congé, fiscalité.",
+        "TVA, ILC/ILAT et indemnité d’éviction : on calibre sur le bail réel, sans taux figé 2026 ici.",
+      ],
+    },
     fiscalite: {
       delay: "Cadre fiscal 2026, à caler sur le régime réel du bailleur (IR, société, LMNP). Pas un conseil fiscal signé. Meublé / exonérations : fiche dédiée.",
       tenant: [
@@ -493,7 +556,7 @@
           items: [
             { req: "selon cas", t: "Habitation nue : exonération de TVA (en principe)" },
             { req: "selon cas", t: "Para-hôtelier (petit-déj, linge, accueil…) : TVA possible (taux réduit selon prestation)" },
-            { req: "selon cas", t: "Local commercial / professionnel : option TVA à étudier (déduction, loyer HT vs TTC)" },
+            { req: "selon cas", t: "Local commercial / professionnel : option TVA — détail dans « Bail commercial et fiscalité »" },
             { req: "obligatoire", t: "Taxe foncière : à la charge du propriétaire ; ne pas la « refacturer » hors charges récupérables autorisées" },
           ],
         },

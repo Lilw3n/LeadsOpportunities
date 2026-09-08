@@ -60,7 +60,8 @@ assert(locLanding.indexOf("locationNoticeKind") >= 0, "type d’avis");
 assert(locLanding.indexOf('value="travaux"') >= 0 && locLanding.indexOf("depot_garantie") >= 0, "travaux + dépôt de garantie");
 assert(locLanding.indexOf('value="annexes"') >= 0 && locLanding.indexOf("sujet=annexes") >= 0, "landing pièces / annexes");
 assert(locLanding.indexOf("locationFurnished") >= 0 && locLanding.indexOf("locationMeubleRegime") >= 0, "landing meublé + régime");
-assert(locLanding.indexOf("sujet=exoneration") >= 0, "landing lien exonération");
+assert(locLanding.indexOf("sujet=commercial") >= 0 && locLanding.indexOf("locationCommercialIndex") >= 0, "landing bail commercial");
+assert(locLanding.indexOf("bail_commercial") >= 0, "checkbox bail commercial");
 assert(locLanding.indexOf('value="conges"') >= 0, "landing congés");
 assert(locLanding.indexOf("sujet=conge-locataire") >= 0 && locLanding.indexOf("sujet=conge-bailleur") >= 0, "landing congé locataire + bailleur");
 assert(locLanding.indexOf("locationCongeAuteur") >= 0, "landing qui donne le congé");
@@ -111,7 +112,7 @@ assert(cat.getRapideUrl("conges").indexOf("sujet=conges") >= 0, "rapide congés"
 assert(cat.getRapideUrl("conge-locataire").indexOf("conge-locataire") >= 0, "rapide congé locataire");
 assert(cat.getRapideUrl("conge-bailleur").indexOf("conge-bailleur") >= 0, "rapide congé bailleur");
 assert(cat.getRapideUrl("meuble").indexOf("sujet=meuble") >= 0, "rapide meublé");
-assert(cat.getRapideUrl("exoneration").indexOf("exoneration") >= 0, "rapide exonération");
+assert(cat.getRapideUrl("commercial").indexOf("sujet=commercial") >= 0, "rapide bail commercial");
 assert(cat.getService("droits") && cat.getService("droits").need === "location", "alias droits");
 assert(cat.getCompletUrl("syndic").indexOf("syndic.html") >= 0, "complet syndic");
 
@@ -133,7 +134,7 @@ assert(schema.indexOf('"Syndic"') >= 0, "type_mandat Syndic");
 assert(schema.indexOf('"Gestion locative"') >= 0, "type_mandat Gestion locative");
 assert(schema.indexOf("clause_revision") >= 0 && schema.indexOf("irl_trimestre_ref") >= 0, "CRM bail IRL");
 assert(schema.indexOf("caution_solidaire") >= 0 && schema.indexOf("nb_colocataires") >= 0, "CRM bail colocation");
-assert(schema.indexOf("regime_meuble") >= 0, "CRM régime meublé");
+assert(schema.indexOf("indexation_loyer") >= 0, "CRM indexation ILC/ILAT");
 
 vm.runInNewContext(read("js/location-droits-lib.js"), sandbox, { filename: "js/location-droits-lib.js" });
 var Droits = sandbox.LocationDroits;
@@ -170,6 +171,12 @@ assert(conges.groups.some(function (g) { return /commercial/i.test(g.title); }),
 assert(/3 mois/.test(conges.checklist.join(" ")), "congés: préavis 3 mois");
 assert(Droits.kindFromSujet("par-le-locataire") === "conge_locataire", "sujet par-le-locataire");
 assert(Droits.kindFromSujet("par-le-bailleur") === "conge_bailleur", "sujet par-le-bailleur");
+assert(Droits.kindFromSujet("commercial") === "commercial", "sujet commercial");
+assert(Droits.kindFromSujet("bail-commercial") === "commercial", "sujet bail-commercial");
+var commercial = Droits.explain("commercial");
+assert(commercial.groups && commercial.groups.length >= 3, "commercial: groupes qualification / loyer / fiscalité");
+assert(commercial.checklist.some(function (c) { return /ILC|ILAT/.test(c); }), "commercial: ILC/ILAT");
+assert(commercial.checklist.some(function (c) { return /TVA/.test(c); }), "commercial: TVA");
 assert(Droits.kindFromSujet("conge-commercial") === "conge_commercial", "sujet congé commercial");
 assert(Droits.explain("conge_commercial").delay.indexOf("1989") >= 0, "congé commercial hors loi 1989");
 assert(Droits.explain("visites").landlord.join(" ").indexOf("décent") >= 0, "mise à disposition logement décent");

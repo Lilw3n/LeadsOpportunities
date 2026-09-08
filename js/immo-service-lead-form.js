@@ -54,7 +54,12 @@
     annexes: "annexes",
     pieces: "annexes",
     bail: "annexes",
-    "bail-commercial": "annexes",
+    "bail-commercial": "bail_commercial",
+    commercial: "bail_commercial",
+    "local-commercial": "bail_commercial",
+    ilc: "bail_commercial",
+    ilat: "bail_commercial",
+    "3-6-9": "bail_commercial",
     meuble: "fiscalite",
     meublee: "fiscalite",
     lmnp: "fiscalite",
@@ -69,8 +74,6 @@
     tva: "fiscalite",
     taxes: "fiscalite",
     impot: "fiscalite",
-    lmnp: "fiscalite",
-    commercial: "fiscalite",
     demeure: "mise_en_demeure",
     "mise-en-demeure": "mise_en_demeure",
     retard: "mise_en_demeure",
@@ -245,6 +248,10 @@
       var furn = root.querySelector('[name="locationFurnished"]');
       if (furn) furn.value = "meuble";
     }
+    if (notice === "commercial" || /commercial|ilc|ilat|3-6-9/.test(sujet)) {
+      var typeCom = root.querySelector('[name="locationType"]');
+      if (typeCom) typeCom.value = "local";
+    }
     if (notice) {
       var noticeEl = root.querySelector('[name="locationNoticeKind"]');
       if (noticeEl) noticeEl.value = notice;
@@ -396,6 +403,8 @@
       if (fields.locationNoticeKind) bits.push("Avis : " + fields.locationNoticeKind);
       if (fields.locationFurnished) bits.push("Meublé : " + fields.locationFurnished);
       if (fields.locationMeubleRegime) bits.push("Régime meublé : " + fields.locationMeubleRegime);
+      if (fields.locationCommercialIndex) bits.push("Indexation : " + fields.locationCommercialIndex);
+      if (fields.locationCommercialTva) bits.push("TVA loyer : " + fields.locationCommercialTva);
       if (fields.locationCongeAuteur) bits.push("Congé donné par : " + fields.locationCongeAuteur);
       if (fields.locationCongeEcheance) bits.push("Échéance / effet : " + fields.locationCongeEcheance);
       if (fields.locationTravauxJours) bits.push("Durée travaux : " + fields.locationTravauxJours + " j");

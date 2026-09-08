@@ -272,6 +272,7 @@ window.CrmImmoSchema = (function () {
         sel("coloc_bail_type", "Bail coloc", ["", "Bail unique", "Baux individuels (chambres)", "Mixte"]),
         sel("caution_solidaire", "Caution solidaire", ["", "Oui — solidaire", "Non — individuelle", "Mixte"]),
         tri("clause_revision", "Clause de révision IRL"),
+        sel("indexation_loyer", "Indexation (si commercial)", ["", "IRL habitation", "ILC", "ILAT", "Fixe", "Autre"]),
         f("irl_trimestre_ref", "Trimestre IRL de référence", "text", { hint: "Ex. T2 2025 — même trimestre chaque année" }),
         num("irl_indice_signature", "Indice IRL à la signature"),
         date("date_prochaine_revision", "Prochaine révision IRL"),

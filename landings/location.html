@@ -161,7 +161,8 @@
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=conges#demande">Tous les congés</a>
             <a class="btn btn-soft" href="./location.html?role=locataire&amp;sujet=conge-locataire#droits">Par le locataire</a>
             <a class="btn btn-soft" href="./location.html?role=bailleur&amp;sujet=conge-bailleur#droits">Par le bailleur</a>
-            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=conge-commercial#droits">Bail commercial</a>
+            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=commercial#droits">Bail commercial</a>
+            <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=conge-commercial#droits">Congé commercial</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=meuble#droits">Meublé / exonérations</a>
             <a class="btn btn-soft" href="./location.html?role=gestion&amp;sujet=exoneration#droits">Chambre / RP</a>
           </div>
@@ -266,6 +267,7 @@
                   <label><input type="checkbox" name="locationGestionNeed" value="mise_en_demeure" /> Mise en demeure / intérêts de retard</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="annexes" /> Pièces / annexes du bail</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="fiscalite" /> Meublé / TVA / fiscalité bailleur</label>
+                  <label><input type="checkbox" name="locationGestionNeed" value="bail_commercial" /> Bail commercial / ILC-ILAT / TVA local</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="impayes" /> Impayés / recouvrement</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="encadrement" /> Encadrement des loyers</label>
                   <label><input type="checkbox" name="locationGestionNeed" value="pno_gli" /> PNO / garantie loyers impayés</label>
@@ -286,6 +288,7 @@
                   <option value="mise_en_demeure">Mise en demeure / intérêts de retard</option>
                   <option value="annexes">Pièces à annexer au bail</option>
                   <option value="meuble">Location meublée et exonérations</option>
+                  <option value="commercial">Bail commercial et fiscalité</option>
                   <option value="fiscalite">TVA, taxes, local commercial</option>
                 </select>
               </div>
@@ -313,6 +316,25 @@
                   <option value="partie_rp">Partie de la résidence principale</option>
                   <option value="tourisme_classe">Meublé de tourisme classé</option>
                   <option value="saisonnier">Saisonnier / Airbnb</option>
+                </select>
+              </div>
+              <div class="field" data-role-panel="gestion,bailleur" data-notice-panel="commercial,conge_commercial" hidden>
+                <label for="locCommercialIndex">Indexation du loyer</label>
+                <select id="locCommercialIndex" name="locationCommercialIndex">
+                  <option value="">À préciser</option>
+                  <option value="ilc">ILC (commerces)</option>
+                  <option value="ilat">ILAT (bureaux / tertiaire)</option>
+                  <option value="fixe">Loyer fixe (pas d’indexation)</option>
+                  <option value="autre">Autre clause</option>
+                </select>
+              </div>
+              <div class="field" data-role-panel="gestion,bailleur" data-notice-panel="commercial" hidden>
+                <label for="locCommercialTva">TVA sur le loyer</label>
+                <select id="locCommercialTva" name="locationCommercialTva">
+                  <option value="">À préciser</option>
+                  <option value="option">Option TVA (loyer HT)</option>
+                  <option value="exonere">Exonéré (pas d’option)</option>
+                  <option value="a_etudier">À étudier</option>
                 </select>
               </div>
               <div class="field" data-role-panel="bailleur,gestion" data-notice-panel="depot_garantie" hidden>

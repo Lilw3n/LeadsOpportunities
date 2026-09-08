@@ -1427,6 +1427,7 @@
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="mise_en_demeure" /> <span>Mise en demeure / intérêts de retard</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="annexes" /> <span>Pièces à annexer au bail</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="fiscalite" /> <span>Meublé / TVA / fiscalité bailleur</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="bail_commercial" /> <span>Bail commercial / ILC-ILAT / TVA local</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="impayes" /> <span>Impayés</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="encadrement" /> <span>Encadrement des loyers</span></label>' +
           '<label class="field-check"><input type="checkbox" name="locationGestionNeed" value="pno_gli" /> <span>PNO / GLI</span></label>' +
@@ -1444,6 +1445,7 @@
               { v: "mise_en_demeure", t: "Mise en demeure / intérêts de retard" },
               { v: "annexes", t: "Pièces à annexer au bail" },
               { v: "meuble", t: "Location meublée et exonérations" },
+              { v: "commercial", t: "Bail commercial et fiscalité" },
               { v: "fiscalite", t: "TVA, taxes, local commercial" },
             ]) +
               select("locationMeubleRegime", "Régime meublé / exonération", [
@@ -1454,7 +1456,7 @@
                 { v: "partie_rp", t: "Partie de la RP" },
                 { v: "tourisme_classe", t: "Meublé de tourisme classé" },
                 { v: "saisonnier", t: "Saisonnier / Airbnb" },
-              ])
+              ]) +
               input("locationTravauxJours", "Durée travaux (jours)", "number", "Ex. 25", false)
           ) +
           fieldRow(
