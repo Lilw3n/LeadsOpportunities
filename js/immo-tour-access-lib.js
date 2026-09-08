@@ -142,7 +142,7 @@
   function normalizeVerifyMode(value, fallback) {
     var v = String(value || "").toLowerCase().trim();
     if (VERIFY_MODES.indexOf(v) !== -1) return v;
-    return fallback || "both";
+    return fallback || "email";
   }
 
   function normalizePeriodMode(value, fallback) {
@@ -270,7 +270,7 @@
 
     var verifyMode = normalizeVerifyMode(
       f && f.tour_verify_mode != null ? f.tour_verify_mode : prev.verify_mode,
-      prev.verify_mode || "both"
+      prev.verify_mode || "email"
     );
     var periodMode = normalizePeriodMode(
       f && f.tour_period_mode != null ? f.tour_period_mode : prev.period_mode,
@@ -394,7 +394,7 @@
       tour_duration_start: "first_view",
       tour_max_views: DEFAULT_MAX_VIEWS,
       tour_max_per_contact: DEFAULT_MAX_PER_CONTACT,
-      tour_verify_mode: "both",
+      tour_verify_mode: "email",
       tour_period_mode: "limited",
     };
   }
@@ -479,17 +479,17 @@
   }
 
   function needsEmail(access) {
-    var m = (access && access.verify_mode) || "both";
+    var m = (access && access.verify_mode) || "email";
     return m === "email" || m === "both";
   }
 
   function needsPhone(access) {
-    var m = (access && access.verify_mode) || "both";
+    var m = (access && access.verify_mode) || "email";
     return m === "sms" || m === "both";
   }
 
   function needsOtp(access) {
-    return ((access && access.verify_mode) || "both") !== "none";
+    return ((access && access.verify_mode) || "email") !== "none";
   }
 
   function statusMessage(reason) {
@@ -636,7 +636,7 @@
     var st = tourLinkStatus(access, 0, property);
     var hint = listingHint || {};
     var a = access || {};
-    var mode = a.verify_mode || "both";
+    var mode = a.verify_mode || "email";
     return {
       ok: st.ok,
       reason: st.ok ? null : st.reason,

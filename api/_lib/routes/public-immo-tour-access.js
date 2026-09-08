@@ -46,7 +46,13 @@ async function ensureTourSchema(sql) {
   }
 }
 
+function twilioSmsEnabled() {
+  var flag = String(process.env.TWILIO_SMS_ENABLED || "").toLowerCase();
+  return flag === "1" || flag === "true" || flag === "on";
+}
+
 async function maybeSendSms(phone, code) {
+  if (!twilioSmsEnabled()) return { ok: false, reason: "sms_disabled" };
   var sid = process.env.TWILIO_ACCOUNT_SID;
   var token = process.env.TWILIO_AUTH_TOKEN;
   var from = process.env.TWILIO_FROM_NUMBER;
@@ -314,7 +320,7 @@ module.exports = async function immoTourAccess(req, res) {
       if (!sms.ok && info.access.verify_mode === "sms") {
         return res.status(502).json({
           ok: false,
-          error: "SMS non actif. Passez la vérif en e-mail, ou configurez Twilio.",
+          error: "SMS désactivé (pas de frais). Utilisez la vérif e-mail.",
         });
       }
     }
@@ -330,7 +336,7 @@ module.exports = async function immoTourAccess(req, res) {
         : Tour.needsEmail(info.access)
           ? sms.ok
             ? "Codes envoyés."
-            : "Code envoyé par e-mail. Le SMS n’est pas actif : le téléphone est quand même enregistré."
+            : "Code envoyé par e-mail. Le SMS est configuré mais désactivé (pas de frais)."
           : "Code envoyé par SMS.",
     });
   }

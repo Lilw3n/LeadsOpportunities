@@ -212,7 +212,7 @@
         : "first_view",
       tour_max_views: document.getElementById("adTourMaxViews") ? document.getElementById("adTourMaxViews").value : "",
       tour_max_per_contact: document.getElementById("adTourMaxPer") ? document.getElementById("adTourMaxPer").value : "",
-      tour_verify_mode: document.getElementById("adTourVerify") ? document.getElementById("adTourVerify").value : "both",
+      tour_verify_mode: document.getElementById("adTourVerify") ? document.getElementById("adTourVerify").value : "email",
       tour_period_mode: document.getElementById("adTourPeriod") ? document.getElementById("adTourPeriod").value : "limited",
       tour_allow_emails: document.getElementById("adTourAllowEmails") ? document.getElementById("adTourAllowEmails").value : "",
       tour_allow_phones: document.getElementById("adTourAllowPhones") ? document.getElementById("adTourAllowPhones").value : "",
@@ -310,7 +310,7 @@
     var perEl = document.getElementById("adTourMaxPer");
     if (perEl && ta.max_views_per_contact != null) perEl.value = String(ta.max_views_per_contact);
     var ver = document.getElementById("adTourVerify");
-    if (ver) ver.value = ta.verify_mode || "both";
+    if (ver) ver.value = ta.verify_mode || "email";
     var perMode = document.getElementById("adTourPeriod");
     if (perMode) perMode.value = ta.period_mode || "limited";
     var allowE = document.getElementById("adTourAllowEmails");

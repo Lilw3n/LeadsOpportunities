@@ -106,9 +106,9 @@
         "</select></label></div>" +
         '<div class="row2">' +
         '<label>Vérif<select id="ctTourVerify">' +
-        '<option value="both" selected>E-mail + SMS</option>' +
-        '<option value="email">E-mail</option>' +
-        '<option value="sms">SMS</option>' +
+        '<option value="email" selected>E-mail (gratuit)</option>' +
+        '<option value="sms">SMS (désactivé, payant)</option>' +
+        '<option value="both">E-mail + SMS (SMS désactivé)</option>' +
         '<option value="none">Aucune</option>' +
         "</select></label>" +
         '<label>Période<select id="ctTourPeriod">' +

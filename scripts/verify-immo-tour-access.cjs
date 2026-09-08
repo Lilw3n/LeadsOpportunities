@@ -257,6 +257,10 @@ assert(api.indexOf("request_access") !== -1 && api.indexOf("view_tour") !== -1, 
 assert(api.indexOf("accepted_terms") !== -1 && api.indexOf("isAllowlisted") !== -1, "API : droits + allowlist");
 assert(api.indexOf("acheteur_immo") !== -1, "lead vertical acquéreur");
 assert(api.indexOf("startDurationOnFirstView") !== -1, "API : durée au 1er clic");
+assert(api.indexOf("TWILIO_SMS_ENABLED") !== -1, "API : SMS Twilio coupé par défaut");
+assert(api.indexOf("sms_disabled") !== -1, "API : aucun SMS tant que le flag est off");
+assert(crm.indexOf("désactivé — payant") !== -1, "CRM : SMS marqué payant");
+assert(tourUi.indexOf("E-mail (gratuit)") !== -1, "contact : vérif e-mail par défaut");
 assert(api.indexOf("player_url") !== -1, "API : lecteur same-origin");
 assert(api.indexOf("embed_url") === -1, "API : pas d’URL Matterport en JSON");
 var player = read("api/_lib/routes/public-immo-tour-player.js");

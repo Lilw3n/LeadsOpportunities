@@ -26,6 +26,8 @@ function findDemo(properties, token) {
 }
 
 async function maybeSendSms(phone, code) {
+  var flag = String(process.env.TWILIO_SMS_ENABLED || "").toLowerCase();
+  if (flag !== "1" && flag !== "true" && flag !== "on") return { ok: false, reason: "sms_disabled" };
   var sid = process.env.TWILIO_ACCOUNT_SID;
   var token = process.env.TWILIO_AUTH_TOKEN;
   var from = process.env.TWILIO_FROM_NUMBER;
