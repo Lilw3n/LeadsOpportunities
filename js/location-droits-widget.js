@@ -35,7 +35,8 @@
       if (req === "obligatoire") cls += " immo-droits-badge--obli";
       else if (req === "selon cas") cls += " immo-droits-badge--cas";
       else cls += " immo-droits-badge--reco";
-      return '<span class="' + cls + '">' + req + "</span> ";
+      var label = req === "recommande" ? "recommandé" : req;
+      return '<span class="' + cls + '">' + label + "</span> ";
     }
 
     function itemLi(it) {
