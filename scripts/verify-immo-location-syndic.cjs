@@ -58,6 +58,9 @@ assert(locLanding.indexOf("data-irl-widget") >= 0, "widget IRL landing");
 assert(locLanding.indexOf("data-droits-widget") >= 0 && locLanding.indexOf('id="droits"') >= 0, "aide-mémoire droits locataire");
 assert(locLanding.indexOf("locationNoticeKind") >= 0, "type d’avis");
 assert(locLanding.indexOf('value="travaux"') >= 0 && locLanding.indexOf("depot_garantie") >= 0, "travaux + dépôt de garantie");
+assert(locLanding.indexOf('value="annexes"') >= 0 && locLanding.indexOf("sujet=annexes") >= 0, "landing pièces / annexes");
+assert(locLanding.indexOf('value="fiscalite"') >= 0 && locLanding.indexOf("sujet=meuble") >= 0, "landing meublé / fiscalité");
+assert(locLanding.indexOf('value="conges"') >= 0, "landing congés");
 assert(locLanding.indexOf("location-droits-lib.js") >= 0, "script droits landing");
 assert(locLanding.indexOf("irl-revision-lib.js") >= 0, "script IRL landing");
 assert(locLanding.indexOf("immo-service-lead-form.js") >= 0, "script lead location");
@@ -100,6 +103,9 @@ assert(cat.getRapideUrl("location").indexOf("location.html") >= 0, "rapide locat
 assert(cat.getRapideUrl("irl").indexOf("sujet=irl") >= 0, "rapide IRL");
 assert(cat.getRapideUrl("coloc").indexOf("sujet=coloc") >= 0, "rapide coloc");
 assert(cat.getRapideUrl("travaux").indexOf("sujet=travaux") >= 0, "rapide travaux");
+assert(cat.getRapideUrl("annexes").indexOf("sujet=annexes") >= 0, "rapide annexes");
+assert(cat.getRapideUrl("conges").indexOf("sujet=conges") >= 0, "rapide congés");
+assert(cat.getRapideUrl("meuble").indexOf("sujet=meuble") >= 0, "rapide meublé");
 assert(cat.getService("droits") && cat.getService("droits").need === "location", "alias droits");
 assert(cat.getCompletUrl("syndic").indexOf("syndic.html") >= 0, "complet syndic");
 
@@ -133,8 +139,19 @@ assert(Droits.explain("depot_garantie").landlord.join(" ").indexOf("Provision") 
 assert(Droits.explain("depot_garantie").landlord.join(" ").indexOf("clés") >= 0, "droits restitution clés");
 assert(Droits.explain("mise_en_demeure").landlord.join(" ").indexOf("Intérêts") >= 0, "droits intérêts de retard");
 assert(Droits.explain("annexes").checklist && Droits.explain("annexes").checklist.length >= 8, "liste annexes bail");
+assert(Droits.explain("annexes").groups && Droits.explain("annexes").groups.length >= 4, "annexes: groupes habitation / entrée / meublé / coloc / commercial");
+assert(Droits.explain("annexes").checklist.some(function (c) { return /dpe/i.test(c); }), "annexes: DPE");
+assert(Droits.explain("annexes").checklist.some(function (c) { return /Boutin/i.test(c); }), "annexes: loi Boutin");
+assert(Droits.explain("annexes").checklist.some(function (c) { return /bail commercial/i.test(c); }), "annexes: bail commercial");
 assert(Droits.kindFromSujet("provision") === "depot_garantie", "sujet provision → DG");
 assert(Droits.kindFromSujet("annexes") === "annexes", "sujet annexes");
+assert(Droits.kindFromSujet("meuble") === "fiscalite", "sujet meuble → fiscalité");
+assert(Droits.kindFromSujet("conges") === "conges", "sujet conges");
+var fiscalite = Droits.explain("fiscalite");
+assert(fiscalite.groups && fiscalite.groups.some(function (g) { return /meubl/i.test(g.title); }), "fiscalité: groupe meublé");
+assert(/TVA/.test(fiscalite.landlord.join(" ")), "fiscalité: TVA bailleur");
+var conges = Droits.explain("conges");
+assert(/3 mois|1 mois/.test(conges.tenant.join(" ")), "congés: préavis 3 mois / 1 mois");
 assert(Droits.explain("visites").landlord.join(" ").indexOf("décent") >= 0, "mise à disposition logement décent");
 
 vm.runInNewContext(read("js/irl-revision-lib.js"), sandbox, { filename: "js/irl-revision-lib.js" });
@@ -150,6 +167,7 @@ assert(revised.pct === 1.15, "IRL +1,15 %");
 var formSrc = read("js/immo-service-lead-form.js");
 assert(formSrc.indexOf("panelMatches") >= 0, "panels rôles virgule");
 assert(formSrc.indexOf("SUJET_TO_NEED") >= 0 && formSrc.indexOf("proprietaire") >= 0, "URL ?role=gestion / ?sujet=irl");
+assert(formSrc.indexOf("fiscalite") >= 0 && formSrc.indexOf('conges: "conge"') >= 0, "URL sujet congés / fiscalité");
 
 var home = read("index.html");
 assert(home.indexOf("landings/location.html") >= 0 && home.indexOf("landings/syndic.html") >= 0, "pills accueil");
@@ -177,6 +195,7 @@ assert(embed.indexOf("dossier * 2") >= 0, "formule total agence TG0422");
 var css = read("css/immo-location-syndic.css");
 assert(css.indexOf("[data-role-panel][hidden]") >= 0, "CSS hidden panels rôle");
 assert(css.indexOf("irl-widget") >= 0, "CSS widget IRL");
+assert(css.indexOf("immo-droits-badge--obli") >= 0, "CSS badges annexes obligatoire / selon cas");
 
 var pkg = JSON.parse(read("package.json"));
 assert(pkg.scripts["verify:immo-location-syndic"], "script npm verify");

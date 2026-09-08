@@ -11,11 +11,13 @@
     { id: "irl", label: "Révision IRL — comment l'annoncer" },
     { id: "travaux", label: "Travaux dans le logement" },
     { id: "visites", label: "Visites / mise à disposition des locaux" },
+    { id: "conges", label: "Congés : locataire, bailleur, commercial" },
     { id: "conge_bailleur", label: "Congé donné par le bailleur" },
     { id: "conge_locataire", label: "Congé donné par le locataire" },
     { id: "depot_garantie", label: "Dépôt de garantie, vétusté, provision, clés" },
     { id: "mise_en_demeure", label: "Impayé : mise en demeure, intérêts de retard" },
     { id: "annexes", label: "Pièces à annexer au bail" },
+    { id: "fiscalite", label: "Meublé, fiscalité, TVA, taxes" },
   ];
 
   var SUJET_TO_KIND = {
@@ -28,8 +30,11 @@
     locaux: "visites",
     "mise-a-disposition": "visites",
     droits: "visites",
-    preavis: "conge_locataire",
-    conge: "conge_bailleur",
+    preavis: "conges",
+    conge: "conges",
+    conges: "conges",
+    "conge-bailleur": "conge_bailleur",
+    "conge-locataire": "conge_locataire",
     depot: "depot_garantie",
     dg: "depot_garantie",
     garantie: "depot_garantie",
@@ -44,6 +49,14 @@
     annexes: "annexes",
     pieces: "annexes",
     bail: "annexes",
+    meuble: "fiscalite",
+    fiscalite: "fiscalite",
+    tva: "fiscalite",
+    taxes: "fiscalite",
+    impot: "fiscalite",
+    lmnp: "fiscalite",
+    commercial: "fiscalite",
+    "bail-commercial": "annexes",
   };
 
   var DETAILS = {
@@ -98,6 +111,24 @@
       watch: [
         "Changer les serrures ou retenir une copie « pour passer quand je veux » = violation de domicile.",
         "Bail commercial : autres règles (pas ce cadre).",
+      ],
+    },
+    conges: {
+      delay: "Toujours un écrit (LRAR, remise contre récépissé ou acte). Le délai court à réception, pas à l’envoi.",
+      tenant: [
+        "Habitation : préavis 3 mois (nu) ou 1 mois (meublé / souvent zone tendue — Nancy métropole à vérifier, Lunéville souvent hors liste).",
+        "Motifs de préavis réduit (mutation, perte d’emploi, RSA, santé…) à justifier dans la lettre.",
+        "Un SMS ne rompt pas le bail. Les clés se rendent à la date d’effet, avec EDL de sortie.",
+      ],
+      landlord: [
+        "Habitation nue : 6 mois avant l’échéance, motif légal (reprise, vente, motif légitime et sérieux) + mentions obligatoires.",
+        "Meublé : 3 mois avant l’échéance, mêmes exigences de motif et de forme.",
+        "Bail commercial : congé pour l’échéance triennale, 6 mois d’avance, motifs du code de commerce — ce n’est pas la loi 1989.",
+      ],
+      watch: [
+        "Personne morale (SCI) : reprise pour habiter souvent impossible.",
+        "Colocation : le congé d’un seul colocataire n’éteint pas toujours le bail des autres (bail unique vs chambres).",
+        "On rédige le congé sur le bail réel (nu / meublé / commercial / mobilité).",
       ],
     },
     conge_bailleur: {
@@ -171,37 +202,121 @@
       ],
     },
     annexes: {
-      delay: "Remises à la signature du bail. L’état des lieux peut être établi à l’entrée, au plus tard lors de la remise des clés.",
+      delay: "Habitation : remises à la signature. EDL au plus tard à la remise des clés. Commercial : état des lieux + diagnostics propres au local.",
       tenant: [
-        "Recevoir les annexes obligatoires (diagnostics, notice d’information, règlement de copro si lot).",
-        "Meublé : inventaire du mobilier conforme à la liste légale, signé.",
-        "Remettre une attestation d’assurance habitation (risques locatifs) au bailleur.",
+        "Recevoir les annexes obligatoires avant ou lors de la signature.",
+        "Meublé : inventaire du mobilier (liste légale) signé des deux côtés.",
+        "Remettre l’attestation d’assurance habitation (risques locatifs).",
       ],
       landlord: [
-        "Ne pas signer un bail « nu » sans le dossier de diagnostic et la notice d’information.",
+        "Ne pas faire signer un bail d’habitation sans notice d’information ni dossier de diagnostic.",
         "Copropriété : extraits du règlement (destination, jouissance, charges).",
-        "Si caution : acte de cautionnement daté, mentions manuscrites exigées.",
-        "Grille de vétusté et inventaire des clés : pas obligatoires mais évitent le contentieux à la sortie.",
+        "Commercial : ne pas copier la liste habitation — ILC/ILAT, pas IRL ; annexe environnementale si local > 2 000 m².",
       ],
-      checklist: [
-        "Bail (nu, meublé, mobilité ou coloc) + clauses IRL / solidarité",
-        "Notice d’information locataire (décret 2015)",
-        "DPE",
-        "ERP / état des risques",
-        "CREP plomb (permis de construire avant 1949)",
-        "Amiante (permis avant juillet 1997)",
-        "Gaz et électricité si installation de plus de 15 ans",
-        "Extraits règlement de copropriété / charges (si copro)",
-        "État des lieux d’entrée (et sortie plus tard)",
-        "Inventaire mobilier (meublé) + grille de vétusté",
-        "Acte de cautionnement (si caution)",
-        "Inventaire des clés / badges + relevés compteurs",
-        "Attestation d’assurance locataire (remise par le locataire)",
-        "Encadrement des loyers : références si la commune est concernée",
+      groups: [
+        {
+          title: "Habitation (loi 1989) — obligatoire à la signature",
+          items: [
+            { req: "obligatoire", t: "Bail (nu, meublé, mobilité ou coloc) avec clauses IRL / solidarité" },
+            { req: "obligatoire", t: "Notice d’information locataire (décret 2015)" },
+            { req: "obligatoire", t: "Surface habitable (loi Boutin) — dans le bail ou en annexe" },
+            { req: "obligatoire", t: "DPE" },
+            { req: "obligatoire", t: "ERP / état des risques et pollutions" },
+            { req: "selon cas", t: "CREP plomb — permis de construire avant 1949" },
+            { req: "selon cas", t: "Amiante — permis avant juillet 1997" },
+            { req: "selon cas", t: "Gaz et électricité — installation de plus de 15 ans" },
+            { req: "selon cas", t: "Termites — zone couverte par arrêté préfectoral" },
+            { req: "selon cas", t: "Assainissement non collectif (SPANC) — maison hors tout-à-l’égout" },
+            { req: "selon cas", t: "Bruit (plan d’exposition au bruit aéroport)" },
+            { req: "selon cas", t: "Extraits du règlement de copropriété / charges" },
+            { req: "selon cas", t: "Encadrement des loyers : loyer de référence (si commune concernée)" },
+            { req: "selon cas", t: "Acte de cautionnement (si caution personne physique — mentions manuscrites)" },
+            { req: "recommande", t: "Honoraires d’agence / détail des frais (si un professionnel intervient)" },
+          ],
+        },
+        {
+          title: "À l’entrée dans les lieux",
+          items: [
+            { req: "obligatoire", t: "État des lieux d’entrée contradictoire (sortie : en fin de bail)" },
+            { req: "obligatoire", t: "Attestation d’assurance locataire (risques locatifs)" },
+            { req: "recommande", t: "Inventaire des clés / badges + relevés de compteurs" },
+            { req: "recommande", t: "Grille de vétusté annexée (évite le conflit à la sortie)" },
+          ],
+        },
+        {
+          title: "En plus si meublé",
+          items: [
+            { req: "obligatoire", t: "Inventaire et état détaillé du mobilier (décret 31 juillet 2015 — liste minimale)" },
+            { req: "selon cas", t: "Contrat d’entretien / notices des équipements fournis" },
+          ],
+        },
+        {
+          title: "En plus si colocation",
+          items: [
+            { req: "selon cas", t: "Bail unique avec clause de solidarité, ou baux individuels par chambre" },
+            { req: "recommande", t: "Règlement intérieur coloc (charges, parties communes)" },
+            { req: "recommande", t: "Attestation d’assurance de chaque colocataire" },
+          ],
+        },
+        {
+          title: "Bail commercial (autre cadre)",
+          items: [
+            { req: "obligatoire", t: "Bail commercial (code de commerce) — pas un bail loi 1989" },
+            { req: "obligatoire", t: "État des lieux d’entrée du local" },
+            { req: "obligatoire", t: "ERP / diagnostics du local (amiante, etc.)" },
+            { req: "selon cas", t: "DPE tertiaire / annexe environnementale (« annexe verte ») si plus de 2 000 m²" },
+            { req: "selon cas", t: "Extraits règlement de copropriété / destination des lots" },
+            { req: "recommande", t: "Inventaire, clause d’indexation ILC/ILAT (pas IRL habitation)" },
+            { req: "recommande", t: "Caution / garantie à première demande, état du fonds si cession" },
+          ],
+        },
       ],
       watch: [
-        "Un bail sans annexes obligatoires est fragile (sanctions / inopposabilité selon les pièces).",
-        "Bail commercial ou saisonnier : autre liste.",
+        "Un bail d’habitation sans annexes obligatoires est fragile (sanctions / inopposabilité selon les pièces).",
+        "Saisonnier / mobilité / civil : listes encore différentes — on calibre sur le contrat réel.",
+      ],
+    },
+    fiscalite: {
+      delay: "Cadre fiscal 2026, à caler sur le régime réel du bailleur (IR, société, LMNP). Pas un conseil fiscal signé.",
+      tenant: [
+        "Charges locatives récupérables ≠ impôts du bailleur : la taxe foncière n’est pas un loyer.",
+        "Meublé : le statut du bailleur (BIC) ne change pas vos droits au bail (durée, préavis, dépôt).",
+      ],
+      landlord: [
+        "Nu : revenus fonciers (micro-foncier ou réel). Meublé : BIC (micro-BIC ou réel / LMNP) — ce n’est pas le même impôt.",
+        "Exonérations : ne pas confondre plus-value sur résidence principale et loyers encaissés (toujours imposables selon le régime).",
+        "TVA : location nue d’habitation en principe exonérée. Meublé para-hôtelier ou local commercial : option / taux à vérifier.",
+        "Taxes : taxe foncière (bailleur), CFE souvent due en meublé, TH abolie pour la RP — pas de « taxe loyer » à inventer.",
+      ],
+      groups: [
+        {
+          title: "Location nue",
+          items: [
+            { req: "obligatoire", t: "Déclarer les loyers en revenus fonciers (micro-foncier ou frais réels)" },
+            { req: "selon cas", t: "Charges récupérables sur le locataire : liste légale, pas la TF au réel sauf exception" },
+          ],
+        },
+        {
+          title: "Location meublée & « exonérations »",
+          items: [
+            { req: "obligatoire", t: "BIC : micro-BIC ou réel (LMNP). Plafonds et abattements selon classement (meuble tourisme vs classique) — on les vérifie au dossier" },
+            { req: "selon cas", t: "CFE (cotisation foncière des entreprises) : souvent due en meublé, avec seuils / exonérations temporaires" },
+            { req: "selon cas", t: "Chambre chez l’habitant / pièce de la RP : régimes d’exonération limités, conditions strictes (plafond, pièce principale conservée)" },
+          ],
+        },
+        {
+          title: "TVA & taxes",
+          items: [
+            { req: "selon cas", t: "Habitation nue : exonération de TVA (en principe)" },
+            { req: "selon cas", t: "Para-hôtelier (petit-déj, linge, accueil…) : TVA possible (taux réduit selon prestation)" },
+            { req: "selon cas", t: "Local commercial / professionnel : option TVA à étudier (déduction, loyer HT vs TTC)" },
+            { req: "obligatoire", t: "Taxe foncière : à la charge du propriétaire ; ne pas la « refacturer » hors charges récupérables autorisées" },
+          ],
+        },
+      ],
+      watch: [
+        "Un bail meublé mal qualifié (inventaire incomplet) peut être requalifié en nu — fiscalité et préavis changent.",
+        "SCI à l’IR vs à l’IS, location meublée en société : on ne mélange pas les régimes.",
       ],
     },
   };
@@ -213,17 +328,30 @@
     return KINDS[0];
   }
 
+  function flattenChecklist(d) {
+    if (d.checklist && d.checklist.length) return d.checklist;
+    var out = [];
+    (d.groups || []).forEach(function (g) {
+      (g.items || []).forEach(function (it) {
+        out.push(typeof it === "string" ? it : it.t);
+      });
+    });
+    return out;
+  }
+
   function explain(id) {
-    var meta = find(id);
-    var d = DETAILS[meta.id] || DETAILS.irl;
+    var key = DETAILS[id] ? id : find(id).id;
+    var meta = find(key);
+    var d = DETAILS[key] || DETAILS.irl;
     return {
-      id: meta.id,
-      label: meta.label,
+      id: key,
+      label: meta.label || key,
       delay: d.delay,
       tenant: d.tenant,
       landlord: d.landlord,
       watch: d.watch,
-      checklist: d.checklist || [],
+      groups: d.groups || [],
+      checklist: flattenChecklist(d),
       source: SOURCE,
     };
   }

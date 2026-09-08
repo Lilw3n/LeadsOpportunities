@@ -331,6 +331,8 @@
     depot_garantie: "Dépôt de garantie / vétusté / provision / clés",
     mise_en_demeure: "Mise en demeure / intérêts de retard",
     annexes: "Pièces à annexer au bail",
+    fiscalite: "Meublé / TVA / fiscalité bailleur",
+    conges: "Congés locataire / bailleur / commercial",
     travaux: "Travaux / accès au logement",
     visites: "Visites / mise à disposition",
     conge_bailleur: "Congé bailleur",

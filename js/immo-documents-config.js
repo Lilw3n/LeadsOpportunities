@@ -56,6 +56,8 @@
       driveFolder: "04_documents_confidentiels",
       items: [
         { type: "bail", label: "Bail en cours + annexes (notice, diagnostics, copro)" },
+        { type: "notice_locataire", label: "Notice d'information locataire (décret 2015)" },
+        { type: "surface_boutin", label: "Surface habitable (loi Boutin)" },
         { type: "edl", label: "État des lieux entrée / sortie" },
         { type: "quittances", label: "Quittances de loyer (3 dernières)" },
         { type: "depot_garantie", label: "Dépôt de garantie / décompte / provision charges" },
@@ -277,6 +279,8 @@
       driveFolder: "04_documents_confidentiels",
       items: [
         { type: "bail", label: "Bail en cours + annexes (notice, diagnostics, copro)" },
+        { type: "notice_locataire", label: "Notice d'information locataire (décret 2015)" },
+        { type: "surface_boutin", label: "Surface habitable (loi Boutin)" },
         { type: "edl", label: "État des lieux entrée / sortie" },
         { type: "quittances", label: "Quittances de loyer (3 dernières)" },
         { type: "depot_garantie", label: "Dépôt de garantie / décompte / provision charges" },

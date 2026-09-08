@@ -306,6 +306,29 @@
 .immo-droits-col--full {
   margin-bottom: 12px;
 }
+.immo-droits-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+.immo-droits-badge--obli {
+  color: #9a3412;
+  background: #ffedd5;
+}
+.immo-droits-badge--cas {
+  color: #075985;
+  background: #e0f2fe;
+}
+.immo-droits-badge--reco {
+  color: #065f46;
+  background: #d1fae5;
+}
 .immo-droits-col h3 {
   font-size: 0.82rem;
   text-transform: uppercase;

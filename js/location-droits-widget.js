@@ -29,15 +29,38 @@
       if (fromUrl) sel.value = fromUrl;
     }
 
-    function checklist(items) {
-      if (!items || !items.length) return "";
-      return (
-        '<div class="immo-droits-col immo-droits-col--full"><h3>Pièces à annexer</h3><ul>' +
-        items
-          .map(function (t) {
-            return "<li>" + t + "</li>";
+    function badge(req) {
+      if (!req) return "";
+      var cls = "immo-droits-badge";
+      if (req === "obligatoire") cls += " immo-droits-badge--obli";
+      else if (req === "selon cas") cls += " immo-droits-badge--cas";
+      else cls += " immo-droits-badge--reco";
+      return '<span class="' + cls + '">' + req + "</span> ";
+    }
+
+    function itemLi(it) {
+      if (typeof it === "string") return "<li>" + it + "</li>";
+      return "<li>" + badge(it.req) + it.t + "</li>";
+    }
+
+    function groupsHtml(groups, fallbackItems) {
+      if (groups && groups.length) {
+        return groups
+          .map(function (g) {
+            return (
+              '<div class="immo-droits-col immo-droits-col--full"><h3>' +
+              g.title +
+              "</h3><ul>" +
+              (g.items || []).map(itemLi).join("") +
+              "</ul></div>"
+            );
           })
-          .join("") +
+          .join("");
+      }
+      if (!fallbackItems || !fallbackItems.length) return "";
+      return (
+        '<div class="immo-droits-col immo-droits-col--full"><h3>Liste</h3><ul>' +
+        fallbackItems.map(itemLi).join("") +
         "</ul></div>"
       );
     }
@@ -50,7 +73,7 @@
         '<p class="immo-droits-delay"><strong>Délai / forme</strong> — ' +
         d.delay +
         "</p>" +
-        checklist(d.checklist) +
+        groupsHtml(d.groups, d.checklist) +
         '<div class="immo-droits-cols">' +
         '<div class="immo-droits-col"><h3>Le locataire a droit à</h3>' +
         list(d.tenant) +
