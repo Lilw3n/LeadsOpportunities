@@ -240,6 +240,22 @@ module.exports = async function immoTourAccess(req, res) {
     });
   }
 
+  if (action === "advisor_code") {
+    var userCode = await getAuthUser(req);
+    if (!userCode) return res.status(401).json({ error: "Connexion CRM requise" });
+    var emailC = Tour.normalizeEmail(body.email);
+    var phoneC = Tour.normalizePhone(body.phone);
+    if (!emailC && !phoneC) {
+      return res.status(400).json({ ok: false, error: "E-mail ou téléphone du contact requis." });
+    }
+    return res.status(200).json({
+      ok: true,
+      expires_minutes: 10,
+      email_code: emailC ? Tour.otpCode(token, "email|" + emailC) : "",
+      phone_code: phoneC ? Tour.otpCode(token, "phone|" + phoneC) : "",
+    });
+  }
+
   if (action === "advisor_preview") {
     var user = await getAuthUser(req);
     if (!user) return res.status(401).json({ error: "Connexion CRM requise" });
@@ -351,7 +367,7 @@ module.exports = async function immoTourAccess(req, res) {
         error: "Cochez l’acceptation des droits d’auteur (usage unique et personnel).",
       });
     }
-    if (!Tour.isAllowlisted(info.access, emailV, phoneV)) {
+    if (!Tour.needsOtp(info.access) && !Tour.isAllowlisted(info.access, emailV, phoneV)) {
       return res.status(403).json({
         ok: false,
         error: "Vous n’êtes pas sur la liste autorisée. Contactez Wendy BUCHET.",

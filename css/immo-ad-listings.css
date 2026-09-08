@@ -503,6 +503,15 @@ body.lbc-lightbox-open { overflow: hidden; }
   flex: 1; border: 1px solid var(--immo-ad-line); background: #fff; padding: 8px; cursor: pointer; font-weight: 700;
 }
 .immo-ad-gate .gate-tabs button.is-active { background: var(--immo-ad-ink); color: #fff; border-color: var(--immo-ad-ink); }
+.immo-ad-gate .tour-step {
+  margin: 14px 0 0;
+  padding: 12px 12px 10px;
+  border: 1px solid var(--immo-ad-line);
+  border-radius: 10px;
+  background: #f8fafc;
+}
+.immo-ad-gate .tour-step h3 { margin: 0 0 6px; font-size: 0.95rem; color: #0f172a; }
+.immo-ad-gate .tour-step > p { margin: 0 0 10px; }
 
 .tour-player { margin: 8px 0 40px; }
 .tour-player-copy h2 { margin: 0 0 6px; font-size: 1.25rem; }

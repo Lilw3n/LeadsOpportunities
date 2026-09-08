@@ -195,6 +195,8 @@ assert(AdLib.toAdListing(ungated).virtual_tour.indexOf("matterport") !== -1, "sa
 var html = read("immobilier/visite.html");
 assert(html.indexOf("noindex") !== -1, "visite noindex");
 assert(html.indexOf("tourEmail") !== -1 && html.indexOf("tourPhone") !== -1, "champs e-mail + tél");
+assert(html.indexOf("Demander un code") !== -1 && html.indexOf("Valider le code") !== -1, "demande + validation de code");
+assert(html.indexOf("id=\"tourCodes\"") !== -1 && html.indexOf("id=\"tourVerify\"") !== -1, "bloc valider toujours présent");
 assert(html.indexOf("tourTerms") !== -1 && html.indexOf("Wendy BUCHET") !== -1, "droits d’auteur + mandataire");
 assert(html.indexOf("usage unique et personnel") !== -1, "bandeau visite respectueux");
 assert(html.indexOf("outil de pub") === -1 && html.indexOf("ou le propriétaire") === -1, "bandeau sans viser le propriétaire");
@@ -254,6 +256,7 @@ assert(Tour.channelLinks(taNone.token, "https://www.leadsopportunities.fr").lebo
 
 var api = read("api/_lib/routes/public-immo-tour-access.js");
 assert(api.indexOf("request_access") !== -1 && api.indexOf("view_tour") !== -1, "API actions");
+assert(api.indexOf("advisor_code") !== -1, "API : code à donner depuis le CRM");
 assert(api.indexOf("accepted_terms") !== -1 && api.indexOf("isAllowlisted") !== -1, "API : droits + allowlist");
 assert(api.indexOf("acheteur_immo") !== -1, "lead vertical acquéreur");
 assert(api.indexOf("startDurationOnFirstView") !== -1, "API : durée au 1er clic");
@@ -273,6 +276,7 @@ assert(pageJs.indexOf("immo-tour-player") !== -1, "page : iframe interne");
 assert(pageJs.indexOf("my.matterport.com") === -1, "page : pas d’URL Matterport");
 assert(tourUi.indexOf("ctTourUrlEdit") !== -1 && tourUi.indexOf("masqué") !== -1, "contact : lien 3D masqué");
 assert(tourUi.indexOf("lien indépendant") !== -1, "contact : liens indépendants");
+assert(tourUi.indexOf("data-give-code") !== -1 && tourUi.indexOf("advisor_code") !== -1, "contact : donner un code");
 assert(crm.indexOf("btnEditTourUrl") !== -1 && crm.indexOf("adTourMasked") !== -1, "CRM : lien 3D masqué");
 
 var css = read("css/immo-ad-listings.css");

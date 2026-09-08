@@ -266,6 +266,9 @@
             '<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="./immobilier/visite.html?t=' +
             encodeURIComponent(l.token) +
             '">Ouvrir</a>' +
+            '<button type="button" class="btn btn-ghost btn-sm" data-give-code="' +
+            esc(l.token) +
+            '">Donner un code (10 min)</button>' +
             "</div></div>"
           );
         })
@@ -275,9 +278,9 @@
         '<div class="pub-media-actions"><a class="btn btn-ghost btn-sm" href="./crm-immo-pubs.html?property=' +
         encodeURIComponent(prop.id) +
         '">Réglages avancés</a></div>' +
-        "<p class=\"pub-hint\">L’URL ne change pas quand tu modifies durée / dispo / visibilité. Pour tester : e-mail / tél. de <strong>" +
-        esc(contactName(contact)) +
-        "</strong>.</p>";
+        "<p class=\"pub-hint\">L’URL ne change pas quand tu modifies durée / dispo / visibilité. " +
+        "<strong>Donner un code</strong> copie un code à 6 chiffres (10 min) à transmettre de vive voix ou par SMS perso. " +
+        "Sur la page visite : Demander un code (0 accès) ou Valider le code (déjà reçu).</p>";
       box.querySelectorAll("[data-copy]").forEach(function (btn) {
         btn.onclick = function () {
           var u = btn.getAttribute("data-copy");
@@ -290,6 +293,71 @@
               }
             });
           }
+        };
+      });
+      box.querySelectorAll("[data-give-code]").forEach(function (btn) {
+        btn.onclick = function () {
+          var tok = btn.getAttribute("data-give-code");
+          var msg = root.querySelector("#ctTourMsg");
+          var crmTok = "";
+          try {
+            crmTok = localStorage.getItem("lo_token") || "";
+          } catch (e) {}
+          if (!contact.email && !contact.phone) {
+            if (msg) {
+              msg.textContent = "Ajoute un e-mail ou un tél. sur la fiche pour générer un code.";
+              msg.style.color = "#9a3412";
+            }
+            return;
+          }
+          if (msg) {
+            msg.textContent = "Génération du code…";
+            msg.style.color = "#334155";
+          }
+          fetch("/api/immo-tour-access", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: crmTok ? "Bearer " + crmTok : "",
+            },
+            body: JSON.stringify({
+              action: "advisor_code",
+              token: tok,
+              email: contact.email || "",
+              phone: contact.phone || "",
+            }),
+          })
+            .then(function (r) {
+              return r.json();
+            })
+            .then(function (d) {
+              var code = (d && (d.email_code || d.phone_code)) || "";
+              if (!d || !d.ok || !code) {
+                if (msg) {
+                  msg.textContent = (d && d.error) || "Impossible de générer le code (connexion CRM).";
+                  msg.style.color = "#9a3412";
+                }
+                return;
+              }
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code);
+              }
+              if (msg) {
+                msg.textContent =
+                  "Code pour " +
+                  contactName(contact) +
+                  " : " +
+                  code +
+                  " (valable 10 min). Copié — à donner de vive voix. Sur la page visite : Valider le code.";
+                msg.style.color = "#166534";
+              }
+            })
+            .catch(function () {
+              if (msg) {
+                msg.textContent = "Erreur réseau.";
+                msg.style.color = "#9a3412";
+              }
+            });
         };
       });
     }

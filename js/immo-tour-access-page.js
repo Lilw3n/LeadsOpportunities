@@ -50,16 +50,24 @@
   }
 
   function applyVerifyMode(meta) {
-    var mode = (meta && meta.verify_mode) || "both";
+    var mode = (meta && meta.verify_mode) || "email";
     var emailWrap = el("tourEmailWrap");
     var phoneWrap = el("tourPhoneWrap");
     var firstWrap = el("tourFirstWrap");
     var requestBtn = el("tourRequest");
     var openNone = el("tourOpenNone");
+    var askStep = el("tourAskStep");
+    var codes = el("tourCodes");
+    var emailCodeWrap = el("tourEmailCodeWrap");
+    var smsHint = el("tourSmsHint");
     if (emailWrap) emailWrap.hidden = mode === "none" || mode === "sms";
     if (phoneWrap) phoneWrap.hidden = mode === "none" || mode === "email";
     if (firstWrap) firstWrap.hidden = mode === "none";
     if (requestBtn) requestBtn.hidden = mode === "none";
+    if (askStep) askStep.hidden = mode === "none";
+    if (codes) codes.hidden = mode === "none";
+    if (emailCodeWrap) emailCodeWrap.hidden = mode === "none" || mode === "sms";
+    if (smsHint) smsHint.hidden = mode !== "sms";
     if (openNone) openNone.hidden = mode !== "none";
   }
 
@@ -174,12 +182,8 @@
                 if (open) open.hidden = false;
                 return;
               }
-              var codes = el("tourCodes");
-              if (codes) codes.hidden = false;
-              var smsHint = el("tourSmsHint");
-              if (smsHint) smsHint.hidden = !res.d.delivery_sms;
-              var emailCodeWrap = el("tourEmailCodeWrap");
-              if (emailCodeWrap) emailCodeWrap.hidden = !res.d.delivery_email;
+              var codeInp = el("tourEmailCode");
+              if (codeInp) codeInp.focus();
             } else {
               setMsg((res.d && res.d.error) || "Impossible d’envoyer le code.");
             }
@@ -193,6 +197,17 @@
       if (!termsOk()) {
         setMsg("Cochez l’acceptation des droits d’auteur.");
         return;
+      }
+      var mode = (lastMeta && lastMeta.verify_mode) || "email";
+      if (mode !== "none") {
+        var typed =
+          (el("tourEmailCode") && el("tourEmailCode").value.trim()) ||
+          (el("tourPhoneCode") && el("tourPhoneCode").value.trim()) ||
+          "";
+        if (!typed) {
+          setMsg("Saisissez le code à 6 chiffres (reçu par e-mail ou donné par le mandataire).");
+          return;
+        }
       }
       var payload = payloadBase(token);
       payload.action = "verify_access";
