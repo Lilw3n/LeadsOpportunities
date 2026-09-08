@@ -148,6 +148,10 @@ var embed = read("js/immobilier-bareme-embed.js");
 assert(embed.indexOf("immoLocSurface") >= 0, "JS estimateur location");
 assert(embed.indexOf("dossier * 2") >= 0, "formule total agence TG0422");
 
+var css = read("css/immo-location-syndic.css");
+assert(css.indexOf("[data-role-panel][hidden]") >= 0, "CSS hidden panels rôle");
+assert(css.indexOf("irl-widget") >= 0, "CSS widget IRL");
+
 var pkg = JSON.parse(read("package.json"));
 assert(pkg.scripts["verify:immo-location-syndic"], "script npm verify");
 
