@@ -27,6 +27,7 @@ function read(rel) {
   "js/immo-tour-access-page.js",
   "api/_lib/routes/public-immo-tour-access.js",
   "crm-immo-pubs.html",
+  "js/crm-contact-tour.js",
 ].forEach(function (f) {
   assert(fs.existsSync(path.join(ROOT, f)), f + " existe");
 });
@@ -104,6 +105,13 @@ assert(crm.indexOf("chTourGate") !== -1 && crm.indexOf("adTourDays") !== -1, "CR
 assert(crm.indexOf("btnCopyTourLink") !== -1 && crm.indexOf("btnRotateTourLink") !== -1, "CRM : copier / renouveler");
 assert(crm.indexOf("adTourVerify") !== -1 && crm.indexOf("adTourPeriod") !== -1, "CRM : vérif + période");
 assert(crm.indexOf("adTourAllowEmails") !== -1 && crm.indexOf("chTourBindLbc") !== -1, "CRM : personnes + canaux");
+
+var contactHtml = read("crm-contact.html");
+assert(contactHtml.indexOf("contactTourMount") !== -1 && contactHtml.indexOf("crm-contact-tour.js") !== -1, "fiche contact : bloc visite");
+var contactJs = read("crm-contact.js");
+assert(contactJs.indexOf("CrmContactTour") !== -1, "fiche contact : mount visite");
+var tourUi = read("js/crm-contact-tour.js");
+assert(tourUi.indexOf("tour_allow_emails") !== -1 && tourUi.indexOf("visite.html") !== -1, "contact tour : allowlist + lien public");
 
 var noneMode = AdLib.applyAdToProperty(
   { id: "prop_none", status: "mandat", title: "Y", city: "Nancy", forme_mandat: "Exclusif", mandate_started_at: "2026-01-01", mandate_ends_at: "2099-12-31" },

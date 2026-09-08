@@ -1908,6 +1908,9 @@
     }
     renderHeader();
     renderDossier();
+    if (window.CrmContactTour) {
+      window.CrmContactTour.mount(document.getElementById("contactTourMount"), data.contact, data);
+    }
     bindSlackFiche();
     bindTodoistFiche();
     renderDriveBar(data.driveInfo || {});
