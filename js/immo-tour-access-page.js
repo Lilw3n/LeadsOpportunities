@@ -67,9 +67,10 @@
     lastMeta = meta;
     var title = el("tourTitle");
     var sub = el("tourSub");
-    if (title) title.textContent = meta.title || "Visite virtuelle";
+    if (title) title.textContent = meta.name || meta.title || "Visite virtuelle";
     if (sub) {
       var bits = [];
+      if (meta.name && meta.title && meta.name !== meta.title) bits.push(meta.title);
       if (meta.city) bits.push(meta.city);
       if (meta.period_mode === "mandate") bits.push("valable pendant le mandat exclusif");
       else if (meta.period_mode === "unlimited") bits.push("durée illimitée (quota possible)");

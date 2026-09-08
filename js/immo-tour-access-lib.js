@@ -18,6 +18,8 @@
   var VERIFY_MODES = ["none", "email", "sms", "both"];
   var PERIOD_MODES = ["limited", "unlimited", "mandate"];
   var BIND_KEYS = ["site", "leboncoin", "seloger", "meta", "other"];
+  var AVAILABILITIES = ["active", "paused"];
+  var VISIBILITIES = ["listed", "unlisted"];
 
   var AUTHOR = {
     name: "Wendy BUCHET",
@@ -89,6 +91,22 @@
         return /^https:\/\//i.test(u) && !/@/.test(u) && u.length < 500;
       })
       .slice(0, 12);
+  }
+
+  function makeLinkId(token) {
+    var t = String(token || "")
+      .replace(/^vt_/i, "")
+      .replace(/[^a-z0-9]+/gi, "")
+      .slice(0, 18);
+    if (t) return "tl_" + t;
+    return "tl_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+  }
+
+  function normalizeLinkName(name) {
+    return String(name || "")
+      .replace(/[<>]/g, "")
+      .trim()
+      .slice(0, 80);
   }
 
   function makeTourToken() {
@@ -217,6 +235,30 @@
     if (f && f.rotate_tour_token) token = makeTourToken();
     if (enabled && !token) token = makeTourToken();
 
+    var id = String(prev.id || "").trim();
+    if (!/^tl_[a-z0-9_]+$/i.test(id)) id = token ? makeLinkId(token) : makeLinkId();
+
+    var linkName = normalizeLinkName((f && f.tour_name != null ? f.tour_name : prev.name) || "");
+    if (!linkName) linkName = "Visite virtuelle";
+
+    var availability = String(
+      (f && f.tour_availability != null && f.tour_availability !== ""
+        ? f.tour_availability
+        : prev.availability) || "active"
+    ).toLowerCase();
+    if (AVAILABILITIES.indexOf(availability) === -1) availability = "active";
+    if (f && Object.prototype.hasOwnProperty.call(f, "tour_gate") && !enabled && token) {
+      availability = "paused";
+      enabled = true;
+    }
+
+    var visibility = String(
+      (f && f.tour_visibility != null && f.tour_visibility !== ""
+        ? f.tour_visibility
+        : prev.visibility) || "listed"
+    ).toLowerCase();
+    if (VISIBILITIES.indexOf(visibility) === -1) visibility = "listed";
+
     var maxViews = toInt(f && f.tour_max_views != null ? f.tour_max_views : prev.max_views, 0);
     var maxPer = toInt(
       f && f.tour_max_per_contact != null && f.tour_max_per_contact !== ""
@@ -316,6 +358,10 @@
     );
 
     return {
+      id: id,
+      name: linkName,
+      availability: availability,
+      visibility: visibility,
       enabled: !!enabled,
       token: token,
       max_views: maxViews,
@@ -355,7 +401,13 @@
 
   function tourLinkStatus(access, extraViews, property) {
     var a = access && typeof access === "object" ? access : {};
-    if (!a.enabled || !isTourToken(a.token)) {
+    if (!isTourToken(a.token)) {
+      return { ok: false, reason: "disabled", remaining: 0 };
+    }
+    if (a.availability === "paused") {
+      return { ok: false, reason: "paused", remaining: 0 };
+    }
+    if (!a.enabled) {
       return { ok: false, reason: "disabled", remaining: 0 };
     }
     var period = a.period_mode || "limited";
@@ -449,6 +501,7 @@
     if (reason === "mandate_not_exclusive") {
       return "Ce lien n’est actif que pendant un mandat exclusif.";
     }
+    if (reason === "paused") return "Cette visite est temporairement indisponible.";
     if (reason === "disabled") return "Cette visite n’est plus accessible.";
     return "Ce lien n’est plus valable (expiré, quota, mandat ou renouvelé).";
   }
@@ -555,7 +608,10 @@
       ok: st.ok,
       reason: st.ok ? null : st.reason,
       error: st.ok ? null : statusMessage(st.reason),
-      title: String(hint.title || hint.headline || "Visite virtuelle").slice(0, 80),
+      title: String(hint.title || hint.headline || a.name || "Visite virtuelle").slice(0, 80),
+      name: String(a.name || "").slice(0, 80),
+      availability: a.availability || "active",
+      visibility: a.visibility || "listed",
       city: String(hint.city || "").slice(0, 60),
       remaining: st.remaining,
       max_views: st.max_views || null,
@@ -582,6 +638,114 @@
     };
   }
 
+  function listedHref(access) {
+    var a = access && typeof access === "object" ? access : {};
+    return !!(
+      a.token &&
+      a.enabled !== false &&
+      a.availability !== "paused" &&
+      a.visibility !== "unlisted"
+    );
+  }
+
+  function listTourLinks(ad) {
+    var src = ad && typeof ad === "object" ? ad : {};
+    var raw = Array.isArray(src.tour_links) ? src.tour_links : [];
+    var seen = {};
+    var out = [];
+    raw.forEach(function (item) {
+      var n = normalizeTourAccess(item, null);
+      if (!n.token || seen[n.token]) return;
+      seen[n.token] = true;
+      out.push(n);
+    });
+    var primary = src.tour_access ? normalizeTourAccess(src.tour_access, null) : null;
+    if (primary && primary.token && !seen[primary.token]) {
+      out.unshift(primary);
+    }
+    return out;
+  }
+
+  function pickPrimaryLink(links) {
+    var list = Array.isArray(links) ? links : [];
+    var i;
+    for (i = 0; i < list.length; i++) {
+      if (listedHref(list[i])) return list[i];
+    }
+    for (i = 0; i < list.length; i++) {
+      if (list[i] && list[i].token) return list[i];
+    }
+    return normalizeTourAccess({}, { tour_gate: false });
+  }
+
+  function getTourAccessForToken(ad, token) {
+    var t = String(token || "").trim();
+    if (!isTourToken(t)) return null;
+    var links = listTourLinks(ad);
+    for (var i = 0; i < links.length; i++) {
+      if (String(links[i].token || "") === t) return links[i];
+    }
+    return null;
+  }
+
+  function replaceTourLink(ad, nextAccess) {
+    var bag = ad && typeof ad === "object" ? ad : {};
+    var next = normalizeTourAccess(nextAccess, null);
+    var links = listTourLinks(bag);
+    var found = false;
+    links = links.map(function (l) {
+      if (l.token === next.token || (next.id && l.id === next.id)) {
+        found = true;
+        return next;
+      }
+      return l;
+    });
+    if (!found && next.token) links.push(next);
+    bag.tour_links = links;
+    if (bag.tour_access && bag.tour_access.token === next.token) {
+      bag.tour_access = next;
+    } else {
+      bag.tour_access = pickPrimaryLink(links);
+    }
+    return bag;
+  }
+
+  function applyTourLinks(prevAd, form) {
+    var prev = prevAd && typeof prevAd === "object" ? prevAd : {};
+    var f = form && typeof form === "object" ? form : {};
+    var links = listTourLinks(prev);
+    if (f.tour_create_link) {
+      var created = normalizeTourAccess(
+        {},
+        Object.assign({}, f, { rotate_tour_token: true, tour_gate: true })
+      );
+      links.push(created);
+      return { links: links, primary: pickPrimaryLink(links), current: created };
+    }
+    var want = String(f.tour_link_id || "").trim();
+    var idx = -1;
+    var i;
+    if (want) {
+      for (i = 0; i < links.length; i++) {
+        if (links[i].id === want || links[i].token === want) {
+          idx = i;
+          break;
+        }
+      }
+    }
+    if (idx < 0 && links.length) idx = 0;
+    if (idx < 0) {
+      var first = normalizeTourAccess({}, f);
+      return {
+        links: first.token ? [first] : [],
+        primary: first.token ? first : pickPrimaryLink([]),
+        current: first,
+      };
+    }
+    links[idx] = normalizeTourAccess(links[idx], f);
+    return { links: links, primary: pickPrimaryLink(links), current: links[idx] };
+  }
+
   function channelLinks(token, origin) {
     var base = String(origin || "").replace(/\/$/, "");
     return {
@@ -601,12 +765,15 @@
     DEFAULT_MAX_PER_CONTACT: DEFAULT_MAX_PER_CONTACT,
     VERIFY_MODES: VERIFY_MODES,
     PERIOD_MODES: PERIOD_MODES,
+    AVAILABILITIES: AVAILABILITIES,
+    VISIBILITIES: VISIBILITIES,
     AUTHOR: AUTHOR,
     COPYRIGHT: COPYRIGHT,
     normalizeEmail: normalizeEmail,
     normalizePhone: normalizePhone,
     normalizeName: normalizeName,
     parseList: parseList,
+    makeLinkId: makeLinkId,
     makeTourToken: makeTourToken,
     isTourToken: isTourToken,
     publicTourPath: publicTourPath,
@@ -632,5 +799,11 @@
     maskPhone: maskPhone,
     embedUrl: embedUrl,
     publicMeta: publicMeta,
+    listedHref: listedHref,
+    listTourLinks: listTourLinks,
+    pickPrimaryLink: pickPrimaryLink,
+    getTourAccessForToken: getTourAccessForToken,
+    replaceTourLink: replaceTourLink,
+    applyTourLinks: applyTourLinks,
   };
 });

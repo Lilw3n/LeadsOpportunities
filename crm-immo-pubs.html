@@ -260,7 +260,30 @@
           </label>
           <div class="pub-tour-box">
             <label class="pub-checks" style="margin:0 0 8px"><input type="checkbox" id="chTourGate" checked /> Activer le lien visite (site + portails, droits d’auteur Wendy BUCHET)</label>
-            <p class="pub-hint" style="margin:0 0 8px">Un seul lien à coller partout. Pendant un mandat exclusif, le public peut voir ; hors mandat / lien recyclé par un autre agent = poursuite + redirection vers vous.</p>
+            <p class="pub-hint" style="margin:0 0 8px">Tu peux changer durée, disponibilité et visibilité <strong>sans changer l’URL</strong> déjà collée sur Leboncoin. «&nbsp;Renouveler&nbsp;» est le seul bouton qui casse l’ancien lien.</p>
+            <label style="margin:0 0 8px">Lien à régler
+              <select id="adTourLinkSelect">
+                <option value="">— Lien principal —</option>
+              </select>
+            </label>
+            <label style="margin:0 0 8px">Nom du lien
+              <input id="adTourName" type="text" maxlength="80" placeholder="ex. Leboncoin Dombasle, Site vitrine, Test Michèle" />
+            </label>
+            <input type="hidden" id="adTourLinkId" value="" />
+            <div class="pub-media-actions" style="align-items:flex-end">
+              <label style="margin:0;flex:1">Disponibilité
+                <select id="adTourAvailability">
+                  <option value="active" selected>Actif (le lien fonctionne)</option>
+                  <option value="paused">En pause (URL inchangée, accès coupé)</option>
+                </select>
+              </label>
+              <label style="margin:0;flex:1">Visibilité
+                <select id="adTourVisibility">
+                  <option value="listed" selected>Visible sur le site</option>
+                  <option value="unlisted">Masqué sur le site (Leboncoin / URL directe OK)</option>
+                </select>
+              </label>
+            </div>
             <p class="pub-hint" id="adTourMandateHint" style="margin:0 0 8px"></p>
             <label style="margin:0 0 8px">Vérification avant accès
               <select id="adTourVerify">
@@ -324,7 +347,8 @@
             <div class="pub-media-actions">
               <button type="button" class="btn btn-primary btn-sm" id="btnCopyTourLink">Copier le lien Leboncoin</button>
               <button type="button" class="btn btn-ghost btn-sm" id="btnCopyTourSite">Copier le lien site</button>
-              <button type="button" class="btn btn-ghost btn-sm" id="btnRotateTourLink">Renouveler le lien (invalide l’ancien)</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnNewNamedTourLink">Créer un autre lien nommé</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnRotateTourLink">Renouveler CE lien (invalide l’ancien)</button>
               <button type="button" class="btn btn-ghost btn-sm" id="btnPreviewTour">Prévisualiser (CRM)</button>
             </div>
           </div>

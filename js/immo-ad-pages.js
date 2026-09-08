@@ -180,7 +180,9 @@
       mediaLinks +=
         '<a class="btn btn-primary" href="' +
         esc(p.tour_href) +
-        '">Visite virtuelle 3D (acquéreur)</a>';
+        '">' +
+        esc(p.tour_name || "Visite virtuelle 3D (acquéreur)") +
+        "</a>";
     } else if (p.virtual_tour) {
       mediaLinks +=
         '<a class="btn btn-primary" href="' +

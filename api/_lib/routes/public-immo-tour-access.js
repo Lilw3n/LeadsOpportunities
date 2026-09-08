@@ -73,10 +73,13 @@ async function maybeSendSms(phone, code) {
   }
 }
 
-function bagOf(property) {
+function bagOf(property, token) {
   var bag = AdLib.getAdMeta(property);
-  var access = Tour.normalizeTourAccess((bag.ad && bag.ad.tour_access) || {}, null);
-  return { bag: bag, ad: bag.ad || {}, access: access };
+  var ad = bag.ad || {};
+  var access =
+    (Tour.getTourAccessForToken && Tour.getTourAccessForToken(ad, token)) ||
+    Tour.normalizeTourAccess(ad.tour_access || {}, null);
+  return { bag: bag, ad: ad, access: access };
 }
 
 function publicHint(property, ad) {
@@ -90,12 +93,17 @@ function publicHint(property, ad) {
 async function bumpLinkViews(sql, property, access) {
   if (!sql || !property || !property.id) return access.view_count || 0;
   var next = (Number(access.view_count) || 0) + 1;
-  var meta = Object.assign({}, bagOf(property).bag.meta || {});
+  var meta = Object.assign({}, bagOf(property, access && access.token).bag.meta || {});
   var ad = Object.assign({}, meta.ad || {});
   var started = Tour.startDurationOnFirstView
     ? Tour.startDurationOnFirstView(access)
     : access;
-  ad.tour_access = Object.assign({}, started, { view_count: next, updated_at: new Date().toISOString() });
+  var nextAccess = Object.assign({}, started, { view_count: next, updated_at: new Date().toISOString() });
+  if (Tour.replaceTourLink) {
+    ad = Tour.replaceTourLink(ad, nextAccess);
+  } else {
+    ad.tour_access = nextAccess;
+  }
   meta.ad = ad;
   try {
     await sql`
@@ -173,7 +181,7 @@ module.exports = async function immoTourAccess(req, res) {
           : null,
       });
     }
-    var infoGet = bagOf(foundGet);
+    var infoGet = bagOf(foundGet, tokenGet);
     var meta = Tour.publicMeta(infoGet.access, publicHint(foundGet, infoGet.ad), foundGet);
     return res.status(200).json(Object.assign({ token: tokenGet }, meta));
   }
@@ -201,7 +209,7 @@ module.exports = async function immoTourAccess(req, res) {
   }
   var found = AdLib.findByTourToken(properties, token);
   if (!found) return res.status(404).json({ ok: false, error: "Lien introuvable ou renouvelé" });
-  var info = bagOf(found);
+  var info = bagOf(found, token);
   var status = Tour.tourLinkStatus(info.access, 0, found);
   if (!status.ok) {
     return res.status(410).json({

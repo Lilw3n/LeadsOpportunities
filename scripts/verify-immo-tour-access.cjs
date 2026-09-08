@@ -111,6 +111,53 @@ var implicit = AdLib.applyAdToProperty(
 assert(implicit.metadata.ad.tour_access.duration_start === "first_view", "défaut : durée au 1er clic");
 assert(!implicit.metadata.ad.tour_access.expires_at, "défaut : pas d’expiration avant ouverture");
 
+var named = AdLib.applyAdToProperty(implicit, {
+  virtual_tour: "https://my.matterport.com/show/?m=i1",
+  tour_gate: true,
+  tour_name: "Leboncoin Dombasle",
+  tour_availability: "active",
+  tour_visibility: "listed",
+  tour_duration_value: 48,
+  tour_duration_unit: "hours",
+  tour_duration_start: "first_view",
+  tour_link_id: implicit.metadata.ad.tour_access.id || implicit.metadata.ad.tour_access.token,
+});
+assert(named.metadata.ad.tour_access.token === implicit.metadata.ad.tour_access.token, "renommer / durée : token inchangé");
+assert(named.metadata.ad.tour_access.name === "Leboncoin Dombasle", "nom du lien");
+assert(Array.isArray(named.metadata.ad.tour_links) && named.metadata.ad.tour_links.length >= 1, "tour_links persistés");
+
+var extra = AdLib.applyAdToProperty(named, {
+  virtual_tour: "https://my.matterport.com/show/?m=i1",
+  tour_gate: true,
+  tour_create_link: true,
+  tour_name: "Site vitrine",
+  tour_availability: "active",
+  tour_visibility: "listed",
+  tour_duration_value: 7,
+  tour_duration_unit: "days",
+});
+assert(extra.metadata.ad.tour_links.length === 2, "2e lien nommé");
+assert(extra.metadata.ad.tour_links[0].token === named.metadata.ad.tour_access.token, "1er lien Leboncoin intact");
+assert(extra.metadata.ad.tour_links[1].name === "Site vitrine", "2e lien nommé Site");
+assert(extra.metadata.ad.tour_links[1].token !== extra.metadata.ad.tour_links[0].token, "2 tokens distincts");
+assert(AdLib.findByTourToken([extra], extra.metadata.ad.tour_links[1].token).id === "prop_implicit", "findByTourToken 2e lien");
+
+var paused = AdLib.applyAdToProperty(named, {
+  virtual_tour: "https://my.matterport.com/show/?m=i1",
+  tour_gate: true,
+  tour_availability: "paused",
+  tour_visibility: "unlisted",
+  tour_name: "Leboncoin Dombasle",
+  tour_link_id: named.metadata.ad.tour_access.id,
+  tour_duration_value: 48,
+  tour_duration_unit: "hours",
+  tour_duration_start: "first_view",
+});
+assert(paused.metadata.ad.tour_access.token === named.metadata.ad.tour_access.token, "pause : token inchangé");
+assert(Tour.tourLinkStatus(paused.metadata.ad.tour_access).reason === "paused", "pause coupe l’accès");
+assert(!AdLib.toAdListing(paused).tour_href, "masqué site : pas de bouton vitrine");
+assert(!AdLib.toAdListing(paused).virtual_tour, "pause : Matterport toujours masqué");
+
 var listing = AdLib.toAdListing(gated);
 assert(listing.tour_gate === true, "listing public : porte activée");
 assert(!listing.virtual_tour, "Matterport non exposé en public");
@@ -155,6 +202,8 @@ var crm = read("crm-immo-pubs.html");
 assert(crm.indexOf("chTourGate") !== -1 && crm.indexOf("adTourDuration") !== -1, "CRM : durée libre");
 assert(crm.indexOf("adTourDurationUnit") !== -1 && crm.indexOf("Heures") !== -1, "CRM : heures ou jours");
 assert(crm.indexOf("adTourDurationStart") !== -1, "CRM : durée dès la 1re consultation");
+assert(crm.indexOf("adTourName") !== -1 && crm.indexOf("adTourAvailability") !== -1, "CRM : nom + disponibilité");
+assert(crm.indexOf("adTourVisibility") !== -1 && crm.indexOf("btnNewNamedTourLink") !== -1, "CRM : visibilité + autre lien");
 assert(crm.indexOf("btnCopyTourLink") !== -1 && crm.indexOf("btnRotateTourLink") !== -1, "CRM : copier / renouveler");
 assert(crm.indexOf("adTourVerify") !== -1 && crm.indexOf("adTourPeriod") !== -1, "CRM : vérif + période");
 assert(crm.indexOf("adTourAllowEmails") !== -1 && crm.indexOf("chTourBindLbc") !== -1, "CRM : personnes + canaux");
@@ -167,6 +216,8 @@ var tourUi = read("js/crm-contact-tour.js");
 assert(tourUi.indexOf("tour_allow_emails") !== -1 && tourUi.indexOf("visite.html") !== -1, "contact tour : allowlist + lien public");
 assert(tourUi.indexOf("ctTourEmails") !== -1 && tourUi.indexOf("ctTourPhones") !== -1, "contact tour : ajout e-mail / tél");
 assert(tourUi.indexOf("first_view") !== -1, "contact tour : durée au 1er clic");
+assert(tourUi.indexOf("ctTourName") !== -1 && tourUi.indexOf("ctTourAvailability") !== -1, "contact tour : nom + dispo");
+assert(tourUi.indexOf("URL inchangée") !== -1 && tourUi.indexOf("tour_create_link") !== -1, "contact tour : URL stable + autre lien");
 
 var noneMode = AdLib.applyAdToProperty(
   { id: "prop_none", status: "mandat", title: "Y", city: "Nancy", forme_mandat: "Exclusif", mandate_started_at: "2026-01-01", mandate_ends_at: "2099-12-31" },

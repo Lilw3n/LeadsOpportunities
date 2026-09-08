@@ -418,11 +418,22 @@
     };
 
     var Tour = tourLib();
-    var tourAccess = Tour ? Tour.normalizeTourAccess(ad.tour_access, null) : ad.tour_access || {};
-    listing.tour_gate = !!(tourAccess.enabled && tourAccess.token);
-    listing.tour_href =
-      listing.tour_gate && Tour ? Tour.publicTourPath(tourAccess.token) : listing.tour_gate ? "/immobilier/visite.html?t=" + encodeURIComponent(tourAccess.token) : "";
-    if (listing.tour_gate && !opts.includeTourUrl) {
+    var tourLinks = Tour && Tour.listTourLinks ? Tour.listTourLinks(ad) : ad.tour_access ? [ad.tour_access] : [];
+    var shown = null;
+    var anyToken = false;
+    tourLinks.forEach(function (l) {
+      if (l && l.token) anyToken = true;
+      if (!shown && Tour && Tour.listedHref && Tour.listedHref(l)) shown = l;
+      else if (!shown && l && l.token && l.enabled && l.availability !== "paused" && l.visibility !== "unlisted") shown = l;
+    });
+    listing.tour_gate = !!(shown && shown.token);
+    listing.tour_href = shown
+      ? Tour && Tour.publicTourPath
+        ? Tour.publicTourPath(shown.token, "site")
+        : "/immobilier/visite.html?t=" + encodeURIComponent(shown.token)
+      : "";
+    listing.tour_name = shown && shown.name ? shown.name : "";
+    if (anyToken && !opts.includeTourUrl) {
       listing.virtual_tour = "";
     }
     if (!opts.includeToken) delete listing.share_token;
@@ -445,6 +456,16 @@
 
     var shareToken = prev.share_token || makeShareToken();
     if (form.rotate_token) shareToken = makeShareToken();
+
+    var Tour = tourLib();
+    var tourPack = Tour && Tour.applyTourLinks
+      ? Tour.applyTourLinks(prev, form)
+      : {
+          primary: Tour && Tour.normalizeTourAccess
+            ? Tour.normalizeTourAccess(prev.tour_access, form)
+            : prev.tour_access || { enabled: false },
+          links: Array.isArray(prev.tour_links) ? prev.tour_links : [],
+        };
 
     meta.ad = {
       headline: String(form.headline || form.title || "").trim().slice(0, 120),
@@ -469,11 +490,8 @@
         emails: parseAccessEmails(form),
         phones: parseAccessPhones(form),
       },
-      tour_access: (function () {
-        var Tour = tourLib();
-        if (Tour && Tour.normalizeTourAccess) return Tour.normalizeTourAccess(prev.tour_access, form);
-        return prev.tour_access || { enabled: false };
-      })(),
+      tour_access: tourPack.primary,
+      tour_links: tourPack.links,
       criteria: {
         floor: String(form.floor || "").trim(),
         dpe: String(form.dpe || "").trim().toUpperCase().slice(0, 1),
@@ -545,6 +563,8 @@
     var list = properties || [];
     for (var i = 0; i < list.length; i++) {
       var bag = getAdMeta(list[i]);
+      var Tour = tourLib();
+      if (Tour && Tour.getTourAccessForToken && Tour.getTourAccessForToken(bag.ad, t)) return list[i];
       var ta = bag.ad && bag.ad.tour_access;
       if (ta && String(ta.token || "") === t) return list[i];
     }

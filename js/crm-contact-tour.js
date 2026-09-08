@@ -48,6 +48,7 @@
     }
 
     extra = extra || {};
+    var selectedLinkId = "";
     var driveProps = ((extra.driveInfo && extra.driveInfo.propertyFolders) || []).map(function (f) {
       return f.propertyId;
     });
@@ -71,21 +72,33 @@
 
       var existingTour = null;
       list.forEach(function (p) {
-        var ta = AdLib.getAdMeta(p).ad.tour_access;
-        if (ta && ta.enabled && ta.token) existingTour = { property: p, ta: ta };
+        var adx = AdLib.getAdMeta(p).ad;
+        var found = Tour.listTourLinks ? Tour.listTourLinks(adx) : adx.tour_access ? [adx.tour_access] : [];
+        var ta = found[0] || adx.tour_access;
+        if (ta && ta.token) existingTour = { property: p, ta: ta };
       });
 
       root.innerHTML =
         '<div class="panel-head"><h2>Visite virtuelle (test avec ce contact)</h2>' +
         '<a class="btn btn-ghost btn-sm" href="./crm-immo-pubs.html">Pubs mandats</a></div>' +
         "<p class=\"pub-hint\">Colle ton lien Matterport / 3D. Pour autoriser quelqu’un : " +
-        "<strong>ajoute son e-mail ou son 06</strong> dans les champs ci-dessous (un par ligne), " +
-        "coche «&nbsp;Restreindre à ces personnes&nbsp;», puis Enregistrer. " +
-        "La durée (ex. 30 h) commence à la <strong>première ouverture réelle de la visite</strong>, pas à la création du lien.</p>" +
+        "<strong>ajoute son e-mail ou son 06</strong> (un par ligne), coche «&nbsp;Restreindre&nbsp;», puis Enregistrer. " +
+        "Durée, disponibilité et visibilité se changent <strong>sans modifier l’URL</strong> déjà collée sur Leboncoin.</p>" +
         '<label>Bien lié<select id="ctTourProp">' +
         options +
         "</select></label>" +
+        '<label>Lien à régler<select id="ctTourLinkSelect"><option value="">— Nouveau lien —</option></select></label>' +
+        '<label>Nom du lien<input id="ctTourName" type="text" maxlength="80" placeholder="ex. Leboncoin Dombasle, Test Michèle" /></label>' +
         '<label>Lien visite 3D (Matterport, Nodalview…)<input id="ctTourUrl" type="url" placeholder="https://my.matterport.com/show/?m=…" /></label>' +
+        '<div class="row2">' +
+        '<label>Disponibilité<select id="ctTourAvailability">' +
+        '<option value="active" selected>Actif</option>' +
+        '<option value="paused">En pause (URL inchangée)</option>' +
+        "</select></label>" +
+        '<label>Visibilité<select id="ctTourVisibility">' +
+        '<option value="listed" selected>Visible sur le site</option>' +
+        '<option value="unlisted">Masqué sur le site</option>' +
+        "</select></label></div>" +
         '<div class="row2">' +
         '<label>Vérif<select id="ctTourVerify">' +
         '<option value="both" selected>E-mail + SMS</option>' +
@@ -113,7 +126,8 @@
         '<label>Téléphones autorisés (un 06 / 07 par ligne)<textarea id="ctTourPhones" rows="3" placeholder="06 12 34 56 78"></textarea></label>' +
         '<label class="pub-checks"><input type="checkbox" id="ctTourAllow" checked /> Restreindre à ces e-mails / tél. (sinon tout le monde qui passe la vérif)</label>' +
         '<div class="pub-media-actions">' +
-        '<button type="button" class="btn btn-primary btn-sm" id="ctTourSave">Enregistrer et créer le lien</button>' +
+        '<button type="button" class="btn btn-primary btn-sm" id="ctTourSave">Enregistrer les réglages (URL inchangée)</button>' +
+        '<button type="button" class="btn btn-ghost btn-sm" id="ctTourNew">Créer un autre lien nommé</button>' +
         "</div>" +
         '<p id="ctTourMsg" class="pub-hint"></p>' +
         '<div id="ctTourLinks"></div>';
@@ -123,26 +137,41 @@
         if (sel) sel.value = list[0].id;
         var ad0 = AdLib.getAdMeta(list[0]).ad;
         if (ad0.virtual_tour) root.querySelector("#ctTourUrl").value = ad0.virtual_tour;
-        if (ad0.tour_access && ad0.tour_access.verify_mode) {
-          root.querySelector("#ctTourVerify").value = ad0.tour_access.verify_mode;
+        var links0 = Tour.listTourLinks ? Tour.listTourLinks(ad0) : ad0.tour_access ? [ad0.tour_access] : [];
+        var selLink = links0[0] || ad0.tour_access || {};
+        if (selectedLinkId) {
+          links0.forEach(function (l) {
+            if (l.id === selectedLinkId || l.token === selectedLinkId) selLink = l;
+          });
         }
-        if (ad0.tour_access && ad0.tour_access.period_mode) {
-          root.querySelector("#ctTourPeriod").value = ad0.tour_access.period_mode;
+        var linkSel = root.querySelector("#ctTourLinkSelect");
+        if (linkSel) {
+          linkSel.innerHTML =
+            (links0.length ? "" : '<option value="">— Nouveau lien —</option>') +
+            links0
+              .map(function (l) {
+                return (
+                  '<option value="' +
+                  esc(l.id || l.token) +
+                  '">' +
+                  esc((l.name || "Visite") + (l.availability === "paused" ? " · pause" : "") + (l.visibility === "unlisted" ? " · masqué" : "")) +
+                  "</option>"
+                );
+              })
+              .join("");
+          if (selLink && (selLink.id || selLink.token)) linkSel.value = selLink.id || selLink.token;
         }
-        if (ad0.tour_access && ad0.tour_access.duration_value) {
-          root.querySelector("#ctTourDuration").value = String(ad0.tour_access.duration_value);
-        }
-        if (ad0.tour_access && ad0.tour_access.duration_unit) {
-          root.querySelector("#ctTourDurationUnit").value = ad0.tour_access.duration_unit;
-        }
-        if (ad0.tour_access && ad0.tour_access.max_views != null) {
-          root.querySelector("#ctTourMaxViews").value = String(ad0.tour_access.max_views);
-        }
-        if (ad0.tour_access && ad0.tour_access.duration_start) {
-          root.querySelector("#ctTourDurationStart").value = ad0.tour_access.duration_start;
-        }
-        var emails0 = ((ad0.tour_access && ad0.tour_access.allow_emails) || []).slice();
-        var phones0 = ((ad0.tour_access && ad0.tour_access.allow_phones) || []).slice();
+        if (selLink.name) root.querySelector("#ctTourName").value = selLink.name;
+        if (selLink.availability) root.querySelector("#ctTourAvailability").value = selLink.availability;
+        if (selLink.visibility) root.querySelector("#ctTourVisibility").value = selLink.visibility;
+        if (selLink.verify_mode) root.querySelector("#ctTourVerify").value = selLink.verify_mode;
+        if (selLink.period_mode) root.querySelector("#ctTourPeriod").value = selLink.period_mode;
+        if (selLink.duration_value) root.querySelector("#ctTourDuration").value = String(selLink.duration_value);
+        if (selLink.duration_unit) root.querySelector("#ctTourDurationUnit").value = selLink.duration_unit;
+        if (selLink.max_views != null) root.querySelector("#ctTourMaxViews").value = String(selLink.max_views);
+        if (selLink.duration_start) root.querySelector("#ctTourDurationStart").value = selLink.duration_start;
+        var emails0 = (selLink.allow_emails || []).slice();
+        var phones0 = (selLink.allow_phones || []).slice();
         var allowOn = emails0.length + phones0.length > 0;
         var contactEmail = Tour.normalizeEmail ? Tour.normalizeEmail(contact.email) : String(contact.email || "").toLowerCase();
         var contactPhone = Tour.normalizePhone ? Tour.normalizePhone(contact.phone) : String(contact.phone || "").replace(/\D/g, "");
@@ -156,7 +185,7 @@
         root.querySelector("#ctTourPhones").value = contact.phone || "";
       }
 
-      if (existingTour) showLinks(existingTour.ta, existingTour.property);
+      if (existingTour) showLinks(existingTour.ta, existingTour.property, AdLib.getAdMeta(existingTour.property).ad);
 
       if (msgText) {
         var m = root.querySelector("#ctTourMsg");
@@ -167,34 +196,62 @@
       }
 
       root.querySelector("#ctTourSave").onclick = function () {
-        save(list);
+        save(list, false);
       };
+      var newBtn = root.querySelector("#ctTourNew");
+      if (newBtn) {
+        newBtn.onclick = function () {
+          save(list, true);
+        };
+      }
+      var linkSelEl = root.querySelector("#ctTourLinkSelect");
+      if (linkSelEl) {
+        linkSelEl.onchange = function () {
+          selectedLinkId = linkSelEl.value || "";
+          paint();
+        };
+      }
     }
 
-    function showLinks(ta, prop) {
+    function showLinks(ta, prop, ad) {
       var box = root.querySelector("#ctTourLinks");
       if (!box || !ta || !ta.token) return;
-      var lbc = publicUrl(ta.token, "leboncoin");
-      var site = publicUrl(ta.token, "site");
+      var all = Tour.listTourLinks && ad ? Tour.listTourLinks(ad) : [ta];
+      if (!all.length) all = [ta];
+      var rows = all
+        .map(function (l) {
+          var lbc = publicUrl(l.token, "leboncoin");
+          var site = publicUrl(l.token, "site");
+          return (
+            '<div class="pub-tour-named">' +
+            "<strong>" +
+            esc(l.name || "Visite virtuelle") +
+            "</strong>" +
+            (l.availability === "paused" ? " · en pause" : "") +
+            (l.visibility === "unlisted" ? " · masqué site" : "") +
+            '<p class="pub-tour-url">' +
+            esc(lbc) +
+            "</p>" +
+            '<div class="pub-media-actions">' +
+            '<button type="button" class="btn btn-primary btn-sm" data-copy="' +
+            esc(lbc) +
+            '">Copier Leboncoin</button>' +
+            '<button type="button" class="btn btn-ghost btn-sm" data-copy="' +
+            esc(site) +
+            '">Copier site</button>' +
+            '<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="./immobilier/visite.html?t=' +
+            encodeURIComponent(l.token) +
+            '">Ouvrir</a>' +
+            "</div></div>"
+          );
+        })
+        .join("");
       box.innerHTML =
-        '<p class="pub-tour-url">' +
-        esc(lbc) +
-        "</p>" +
-        '<div class="pub-media-actions">' +
-        '<button type="button" class="btn btn-primary btn-sm" data-copy="' +
-        esc(lbc) +
-        '">Copier Leboncoin</button>' +
-        '<button type="button" class="btn btn-ghost btn-sm" data-copy="' +
-        esc(site) +
-        '">Copier site</button>' +
-        '<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="./immobilier/visite.html?t=' +
-        encodeURIComponent(ta.token) +
-        '">Ouvrir la page visite</a>' +
-        '<a class="btn btn-ghost btn-sm" href="./crm-immo-pubs.html?property=' +
+        rows +
+        '<div class="pub-media-actions"><a class="btn btn-ghost btn-sm" href="./crm-immo-pubs.html?property=' +
         encodeURIComponent(prop.id) +
-        '">Réglages avancés</a>' +
-        "</div>" +
-        "<p class=\"pub-hint\">Pour tester : ouvre le lien, utilise l’e-mail / tél. de <strong>" +
+        '">Réglages avancés</a></div>' +
+        "<p class=\"pub-hint\">L’URL ne change pas quand tu modifies durée / dispo / visibilité. Pour tester : e-mail / tél. de <strong>" +
         esc(contactName(contact)) +
         "</strong>.</p>";
       box.querySelectorAll("[data-copy]").forEach(function (btn) {
@@ -213,9 +270,15 @@
       });
     }
 
-    function save(list) {
+    function save(list, createNew) {
       var propId = root.querySelector("#ctTourProp").value;
       var url = root.querySelector("#ctTourUrl").value.trim();
+      var linkName = root.querySelector("#ctTourName").value;
+      var availability = root.querySelector("#ctTourAvailability").value;
+      var visibility = root.querySelector("#ctTourVisibility").value;
+      var linkId = root.querySelector("#ctTourLinkSelect")
+        ? root.querySelector("#ctTourLinkSelect").value
+        : "";
       var verify = root.querySelector("#ctTourVerify").value;
       var period = root.querySelector("#ctTourPeriod").value;
       var durationVal = root.querySelector("#ctTourDuration").value;
@@ -266,7 +329,12 @@
         virtual_tour: url,
         listing_url: ad.listing_url || "",
         channel_public: true,
-        tour_gate: true,
+        tour_gate: availability !== "paused",
+        tour_name: linkName || (createNew ? "Nouveau lien" : "Visite virtuelle"),
+        tour_availability: availability,
+        tour_visibility: visibility,
+        tour_link_id: createNew ? "" : linkId || selectedLinkId,
+        tour_create_link: !!createNew,
         tour_verify_mode: verify,
         tour_period_mode: period,
         tour_days: period === "limited" && durationUnit === "days" ? durationVal : period === "unlimited" ? 0 : "",
@@ -295,11 +363,24 @@
           phone: contact.phone || "",
         });
       }
-      var ta = AdLib.getAdMeta(updated).ad.tour_access;
-      paint("Lien créé pour " + contactName(contact) + ".", true);
+      var savedAd = AdLib.getAdMeta(updated).ad;
+      var savedLinks = Tour.listTourLinks ? Tour.listTourLinks(savedAd) : savedAd.tour_access ? [savedAd.tour_access] : [];
+      var current =
+        (createNew && savedLinks.length ? savedLinks[savedLinks.length - 1] : null) ||
+        savedLinks.filter(function (l) {
+          return l.id === linkId || l.token === linkId;
+        })[0] ||
+        savedAd.tour_access;
+      selectedLinkId = (current && (current.id || current.token)) || "";
+      var doneMsg = createNew
+        ? "Nouveau lien « " + ((current && current.name) || "Visite") + " » créé. Les URLs déjà publiées restent valables."
+        : current && current.token
+          ? "Réglages de « " + (current.name || "Visite") + " » enregistrés. L’URL Leboncoin est inchangée."
+          : "Lien enregistré pour " + contactName(contact) + ".";
+      paint(doneMsg, true);
       root.querySelector("#ctTourProp").value = updated.id;
       root.querySelector("#ctTourUrl").value = url;
-      showLinks(ta, updated);
+      showLinks(current, updated, savedAd);
     }
 
     Store.syncFromApi().then(function () {
