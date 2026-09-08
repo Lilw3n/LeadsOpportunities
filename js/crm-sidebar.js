@@ -34,6 +34,7 @@ window.CrmSidebar = {
     { href: "./crm-sources.html", label: "Origine leads", icon: "stats" },
     { href: "./crm-trafic.html", label: "Trafic & visites", icon: "stats" },
     { href: "./crm-event-manager.html", label: "Gestionnaire d’événements", icon: "calendar" },
+    { href: "./crm-immo-tour-requests.html", label: "Demandes de visite", icon: "alert", badge: "à valider" },
     { href: "./crm-marches.html", label: "Marchés & présence", icon: "calendar" },
     { href: "./crm-search.html", label: "Recherche", icon: "search" },
     { href: "./crm-quote-new.html", label: "Nouveau devis", icon: "contract" },
@@ -117,6 +118,7 @@ window.CrmSidebar = {
       items: [
         { type: "link", href: "./crm-immo-properties.html", label: "Piges & biens", icon: "immo", highlight: true, desc: "Filtres type Piges + actions listing (SMS, suivi, export…)", keywords: "piges bien annonce leboncoin seloger paruvendu inventaire prospection" },
         { type: "link", href: "./crm-immo-pubs.html", label: "Pubs mandats / démo", icon: "social", badge: "pub", highlight: true, desc: "Vitrine mandats, démo vendeur, lien visite acquéreur (e-mail + tél., quota, anti-copie)", keywords: "pub mandat demo vendeur leboncoin video matterport visite virtuelle anti copie" },
+        { type: "link", href: "./crm-immo-tour-requests.html", label: "Demandes de visite", icon: "alert", badge: "à valider", highlight: true, desc: "Valider ou décliner les demandes de visite virtuelle — le code ne part qu’après ton accord", keywords: "visite virtuelle code otp valider decliner demande acces matterport" },
         { type: "link", href: "./crm-immo-suivi.html", label: "Suivi", icon: "immo", badge: "pipeline", desc: "Ventes, locations, offres, sorties de stock", keywords: "suivi ventes locations offres stock sorties" },
         { type: "link", href: "./crm-immo-matching.html", label: "Matching acquéreurs", icon: "ai", badge: "smart", desc: "Critères géo, surface, pièces, dépendances vs biens", keywords: "matching acheteur recherche criteria" },
         { type: "link", href: "./crm-immo-documents.html", label: "Documents immo", icon: "document", desc: "Mandats, bons de visite, offres, compromis (édition)", keywords: "mandat compromis offre visite document" },

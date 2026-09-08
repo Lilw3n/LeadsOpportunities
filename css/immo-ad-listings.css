@@ -530,6 +530,46 @@ body.lbc-lightbox-open { overflow: hidden; }
   height: min(70vh, 640px);
   border: 0;
 }
+.tour-req-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #64748b;
+  background: #f1f5f9;
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+.tour-req-badge.is-hot {
+  color: #9a3412;
+  background: #ffedd5;
+}
+.tour-req-card {
+  background: #fff;
+  border: 1px solid #dbe3ee;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 10px 0 0;
+}
+.tour-req-card.tour-req-pending { border-color: #fdba74; background: #fff7ed; }
+.tour-req-card.tour-req-approved { border-color: #86efac; background: #f0fdf4; }
+.tour-req-card.tour-req-declined { border-color: #fecaca; background: #fef2f2; }
+.tour-req-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+.tour-req-st { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #9a3412; }
+.tour-req-approved .tour-req-st { color: #166534; }
+.tour-req-declined .tour-req-st { color: #991b1b; }
+.tour-req-meta { margin: 4px 0 0; color: #64748b; font-size: 0.82rem; }
+.tour-req-actions { margin-top: 8px; }
+.tour-req-inbox {
+  margin: 0 0 16px;
+}
+
 .pub-tour-box {
   background: #ecfdf5;
   border: 1px solid #99f6e4;

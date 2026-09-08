@@ -94,6 +94,18 @@
       font-size:.85rem; color:#9a3412;
     }
     .pub-code-box strong { font-size:1.25rem; letter-spacing:.12em; }
+    .tour-req-badge { display:inline-block; font-size:.72rem; font-weight:800; letter-spacing:.03em; text-transform:uppercase; color:#64748b; background:#f1f5f9; border-radius:999px; padding:4px 10px; }
+    .tour-req-badge.is-hot { color:#9a3412; background:#ffedd5; }
+    .tour-req-card { background:#fff; border:1px solid #dbe3ee; border-radius:10px; padding:12px 14px; margin:10px 0 0; }
+    .tour-req-card.tour-req-pending { border-color:#fdba74; background:#fff7ed; }
+    .tour-req-card.tour-req-approved { border-color:#86efac; background:#f0fdf4; }
+    .tour-req-card.tour-req-declined { border-color:#fecaca; background:#fef2f2; }
+    .tour-req-head { display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
+    .tour-req-st { font-size:.75rem; font-weight:800; text-transform:uppercase; letter-spacing:.04em; color:#9a3412; }
+    .tour-req-approved .tour-req-st { color:#166534; }
+    .tour-req-declined .tour-req-st { color:#991b1b; }
+    .tour-req-meta { margin:4px 0 0; color:#64748b; font-size:.82rem; }
+    .tour-req-inbox { margin:0 0 16px; }
   </style>
 </head>
 <body class="crm-subpage">
@@ -106,6 +118,7 @@
     <div class="crm-action-row">
       <a class="btn btn-primary" href="./crm-immo-pubs.html?new=1" id="btnCreateLinkTop">Créer une pub / démo</a>
       <a class="btn btn-ghost" href="./immobilier/pubs-mandats.html" target="_blank" rel="noopener">Vitrine publique</a>
+      <a class="btn btn-primary" href="./crm-immo-tour-requests.html">Demandes de visite</a>
       <a class="btn btn-ghost" href="./crm-immo-properties.html">Piges &amp; biens</a>
       <a class="btn btn-ghost" href="./crm-pubs.html">Gestion pubs Ads</a>
     </div>
@@ -124,6 +137,8 @@
   </div>
 
   <div class="pub-created-banner" id="createdBanner" aria-live="polite"></div>
+
+  <section class="panel tour-req-inbox pub-tour-box" id="tourRequestInbox"></section>
 
   <div class="pub-immo-grid">
     <section class="panel">
@@ -290,7 +305,7 @@
             <label style="margin:0 0 8px">Vérification avant accès
               <select id="adTourVerify">
                 <option value="none">Aucune (droits d’auteur seulement)</option>
-                <option value="email" selected>E-mail (code, gratuit — recommandé)</option>
+                <option value="email" selected>E-mail (Wendy valide, puis code gratuit)</option>
                 <option value="sms">SMS (Twilio prêt, désactivé — payant)</option>
                 <option value="both">E-mail + SMS (SMS désactivé, e-mail seul)</option>
               </select>
@@ -404,6 +419,7 @@
   <script src="./js/immo-tour-access-lib.js"></script>
   <script src="./js/immo-ad-listings-lib.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-tour-requests.js"></script>
   <script src="./js/crm-immo-pubs.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
 </body>

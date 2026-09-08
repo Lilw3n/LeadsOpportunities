@@ -1184,6 +1184,12 @@
     msg("Supprimé.", true);
   };
 
+  if (window.CrmImmoTourRequests) {
+    window.CrmImmoTourRequests.mount(document.getElementById("tourRequestInbox"), {
+      title: "Demandes de visite à valider ou décliner",
+    });
+  }
+
   Store.syncFromApi().then(function () {
     var params = new URLSearchParams(location.search);
     var id = params.get("id") || params.get("property");

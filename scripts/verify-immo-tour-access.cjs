@@ -29,6 +29,8 @@ function read(rel) {
   "api/_lib/routes/public-immo-tour-player.js",
   "crm-immo-pubs.html",
   "js/crm-contact-tour.js",
+  "js/crm-immo-tour-requests.js",
+  "crm-immo-tour-requests.html",
 ].forEach(function (f) {
   assert(fs.existsSync(path.join(ROOT, f)), f + " existe");
 });
@@ -180,6 +182,17 @@ assert(Tour.tourLinkStatus(burned).reason === "quota", "quota atteint");
 var expired = Object.assign({}, ta, { expires_at: "2020-01-01T00:00:00.000Z" });
 assert(Tour.tourLinkStatus(expired).reason === "expired", "lien expiré");
 
+assert(Tour.nextAskOutcome("").status === "pending" && Tour.nextAskOutcome("").create === true, "1re demande → pending");
+assert(Tour.nextAskOutcome("pending").create === false && Tour.nextAskOutcome("pending").resend === false, "déjà pending : pas de code");
+assert(Tour.nextAskOutcome("declined").ok === false, "déclinée : refus");
+assert(Tour.nextAskOutcome("approved").resend === true, "déjà validée : renvoi possible");
+assert(Tour.applyRequestDecision("approve").status === "approved", "Wendy valide");
+assert(Tour.applyRequestDecision("decline").status === "declined", "Wendy décline");
+assert(Tour.requestCanVerify("approved") === true, "code seulement après validation");
+assert(Tour.requestCanVerify("pending") === false && Tour.requestCanVerify("declined") === false, "pending/déclinée : pas de visite");
+assert(Tour.requestStatusMessage("pending").indexOf("attente") !== -1, "message attente");
+assert(Tour.storeContactKey("Wendy@Exemple.FR", "", "vt_x") === "wendy@exemple.fr", "clé contact e-mail");
+
 var otp = Tour.otpCode(ta.token, "email|wendy@exemple.fr");
 assert(/^\d{6}$/.test(otp), "OTP e-mail 6 chiffres");
 assert(Tour.verifyOtp(ta.token, "email|wendy@exemple.fr", otp), "verify OTP");
@@ -195,7 +208,8 @@ assert(AdLib.toAdListing(ungated).virtual_tour.indexOf("matterport") !== -1, "sa
 var html = read("immobilier/visite.html");
 assert(html.indexOf("noindex") !== -1, "visite noindex");
 assert(html.indexOf("tourEmail") !== -1 && html.indexOf("tourPhone") !== -1, "champs e-mail + tél");
-assert(html.indexOf("Demander un code") !== -1 && html.indexOf("Valider le code") !== -1, "demande + validation de code");
+assert(html.indexOf("Demander l") !== -1 && html.indexOf("Valider le code") !== -1, "demande d’accès + validation de code");
+assert(html.indexOf("validera ou déclinera") !== -1, "page : Wendy valide ou décline");
 assert(html.indexOf("id=\"tourCodes\"") !== -1 && html.indexOf("id=\"tourVerify\"") !== -1, "bloc valider toujours présent");
 assert(html.indexOf("tourTerms") !== -1 && html.indexOf("Wendy BUCHET") !== -1, "droits d’auteur + mandataire");
 assert(html.indexOf("usage unique et personnel") !== -1, "bandeau visite respectueux");
@@ -249,6 +263,8 @@ assert(Tour.playerPath(taNone.token).indexOf("/api/immo-tour-player?t=") === 0, 
 assert(Tour.playerRequestOk({ "sec-fetch-dest": "iframe" }) === true, "lecteur iframe OK");
 assert(Tour.playerRequestOk({ referer: "https://www.leadsopportunities.fr/immobilier/visite.html?t=x" }) === true, "lecteur referer OK");
 assert(Tour.playerRequestOk({ referer: "https://evil.example/x" }) === false, "lecteur refus hors page");
+assert(Tour.publicMeta(taNone).approval_required === false, "vérif nulle : pas d’approbation");
+assert(Tour.publicMeta(ta).approval_required === true, "e-mail : approbation Wendy requise");
 assert(Tour.COPYRIGHT.indexOf("Wendy BUCHET") !== -1, "droits d’auteur Wendy");
 assert(Tour.COPYRIGHT.indexOf("ou le propriétaire") === -1, "mentions légales sans viser le propriétaire");
 assert(Tour.AUTHOR.role.indexOf("Mandataire") !== -1, "mandataire");
@@ -257,6 +273,10 @@ assert(Tour.channelLinks(taNone.token, "https://www.leadsopportunities.fr").lebo
 var api = read("api/_lib/routes/public-immo-tour-access.js");
 assert(api.indexOf("request_access") !== -1 && api.indexOf("view_tour") !== -1, "API actions");
 assert(api.indexOf("advisor_code") !== -1, "API : code à donner depuis le CRM");
+assert(api.indexOf("decide_request") !== -1 && api.indexOf("list_requests") !== -1, "API : valider / décliner");
+assert(api.indexOf("crm_immo_tour_requests") !== -1, "API : table file d’attente");
+assert(api.indexOf("en attente de validation") !== -1 || api.indexOf("va la valider ou la décliner") !== -1, "API : pas de code auto");
+assert(api.indexOf("sendVisitorOtpEmail") !== -1, "API : code seulement après validation Wendy");
 assert(api.indexOf("accepted_terms") !== -1 && api.indexOf("isAllowlisted") !== -1, "API : droits + allowlist");
 assert(api.indexOf("acheteur_immo") !== -1, "lead vertical acquéreur");
 assert(api.indexOf("startDurationOnFirstView") !== -1, "API : durée au 1er clic");
@@ -277,6 +297,18 @@ assert(pageJs.indexOf("my.matterport.com") === -1, "page : pas d’URL Matterpor
 assert(tourUi.indexOf("ctTourUrlEdit") !== -1 && tourUi.indexOf("masqué") !== -1, "contact : lien 3D masqué");
 assert(tourUi.indexOf("lien indépendant") !== -1, "contact : liens indépendants");
 assert(tourUi.indexOf("data-give-code") !== -1 && tourUi.indexOf("advisor_code") !== -1, "contact : donner un code");
+assert(tourUi.indexOf("ctTourRequests") !== -1 && tourUi.indexOf("CrmImmoTourRequests") !== -1, "contact : file Valider / Décliner");
+assert(tourUi.indexOf("tu valides ou tu déclines") !== -1, "contact : aucun code automatique");
+var reqUi = read("js/crm-immo-tour-requests.js");
+assert(reqUi.indexOf("decide_request") !== -1 && reqUi.indexOf("data-tour-approve") !== -1, "CRM : bouton Valider");
+assert(reqUi.indexOf("data-tour-decline") !== -1 && reqUi.indexOf("Décliner") !== -1, "CRM : bouton Décliner");
+var reqHtml = read("crm-immo-tour-requests.html");
+assert(reqHtml.indexOf("tourRequestMount") !== -1, "page CRM demandes de visite");
+assert(crm.indexOf("tourRequestInbox") !== -1 && crm.indexOf("crm-immo-tour-requests.html") !== -1, "pubs : file + lien demandes");
+var side = read("js/crm-sidebar.js");
+assert(side.indexOf("crm-immo-tour-requests.html") !== -1, "sidebar : Demandes de visite");
+assert(pageJs.indexOf("Envoi de la demande") !== -1, "page : demande sans envoi auto de code");
+assert(pageJs.indexOf("res.d.pending") !== -1, "page : état en attente");
 assert(crm.indexOf("btnEditTourUrl") !== -1 && crm.indexOf("adTourMasked") !== -1, "CRM : lien 3D masqué");
 
 var css = read("css/immo-ad-listings.css");

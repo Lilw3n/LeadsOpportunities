@@ -492,6 +492,69 @@
     return ((access && access.verify_mode) || "email") !== "none";
   }
 
+  var REQUEST_STATUSES = ["pending", "approved", "declined"];
+
+  function storeContactKey(email, phone, token) {
+    var e = normalizeEmail(email);
+    var p = normalizePhone(phone);
+    if (e) return e;
+    if (p) return "sms+" + p + "@visite.local";
+    return "anon+" + String(token || "").slice(-12) + "@visite.local";
+  }
+
+  function normalizeRequestStatus(status) {
+    var s = String(status || "")
+      .toLowerCase()
+      .trim();
+    if (REQUEST_STATUSES.indexOf(s) !== -1) return s;
+    return "";
+  }
+
+  function requestCanVerify(status) {
+    return normalizeRequestStatus(status) === "approved";
+  }
+
+  function requestStatusMessage(status) {
+    var s = normalizeRequestStatus(status);
+    if (s === "declined") {
+      return "Votre demande a été déclinée. Contactez Wendy BUCHET.";
+    }
+    if (s === "pending") {
+      return "Votre demande est en attente de validation par Wendy BUCHET.";
+    }
+    if (!s) {
+      return "Demandez d’abord l’accès. Wendy validera ou déclinera.";
+    }
+    return "";
+  }
+
+  function nextAskOutcome(prevStatus) {
+    var s = normalizeRequestStatus(prevStatus);
+    if (s === "declined") {
+      return { ok: false, status: "declined", resend: false, create: false };
+    }
+    if (s === "approved") {
+      return { ok: true, status: "approved", resend: true, create: false };
+    }
+    if (s === "pending") {
+      return { ok: true, status: "pending", resend: false, create: false };
+    }
+    return { ok: true, status: "pending", resend: false, create: true };
+  }
+
+  function applyRequestDecision(decision) {
+    var d = String(decision || "")
+      .toLowerCase()
+      .trim();
+    if (d === "decline" || d === "declined") {
+      return { ok: true, status: "declined", send_code: false };
+    }
+    if (d === "approve" || d === "approved" || d === "resend") {
+      return { ok: true, status: "approved", send_code: true };
+    }
+    return { ok: false, status: "", send_code: false };
+  }
+
   function statusMessage(reason) {
     if (reason === "expired") return "Ce lien de visite a expiré.";
     if (reason === "quota") return "Le nombre de consultations de ce lien est atteint.";
@@ -658,6 +721,7 @@
       require_email: needsEmail(a),
       require_phone: needsPhone(a),
       require_otp: needsOtp(a),
+      approval_required: needsOtp(a),
       allowlist: !!(a.allow_emails && a.allow_emails.length) || !!(a.allow_phones && a.allow_phones.length),
       bind: a.bind || {},
       copyright: COPYRIGHT,
@@ -823,6 +887,13 @@
     needsEmail: needsEmail,
     needsPhone: needsPhone,
     needsOtp: needsOtp,
+    REQUEST_STATUSES: REQUEST_STATUSES,
+    storeContactKey: storeContactKey,
+    normalizeRequestStatus: normalizeRequestStatus,
+    requestCanVerify: requestCanVerify,
+    requestStatusMessage: requestStatusMessage,
+    nextAskOutcome: nextAskOutcome,
+    applyRequestDecision: applyRequestDecision,
     statusMessage: statusMessage,
     otpCode: otpCode,
     verifyOtp: verifyOtp,
