@@ -92,7 +92,10 @@ async function bumpLinkViews(sql, property, access) {
   var next = (Number(access.view_count) || 0) + 1;
   var meta = Object.assign({}, bagOf(property).bag.meta || {});
   var ad = Object.assign({}, meta.ad || {});
-  ad.tour_access = Object.assign({}, access, { view_count: next, updated_at: new Date().toISOString() });
+  var started = Tour.startDurationOnFirstView
+    ? Tour.startDurationOnFirstView(access)
+    : access;
+  ad.tour_access = Object.assign({}, started, { view_count: next, updated_at: new Date().toISOString() });
   meta.ad = ad;
   try {
     await sql`

@@ -51,6 +51,7 @@ var gated = AdLib.applyAdToProperty(
     channel_public: true,
     tour_gate: true,
     tour_days: 30,
+    tour_duration_start: "created",
     tour_max_views: 50,
     tour_max_per_contact: 8,
   }
@@ -67,6 +68,7 @@ var hourly = AdLib.applyAdToProperty(
     tour_gate: true,
     tour_duration_value: 6,
     tour_duration_unit: "hours",
+    tour_duration_start: "created",
     tour_max_views: 1,
     tour_max_per_contact: 1,
   }
@@ -77,6 +79,37 @@ assert(tah.duration_unit === "hours" && tah.duration_value === 6, "durée 6 heur
 assert(deltaH > 5 * 3600000 && deltaH < 7 * 3600000, "expiration dans ~6 h");
 assert(tah.max_views === 1, "1 utilisation");
 assert(Tour.tourLinkStatus(Object.assign({}, tah, { view_count: 1 })).reason === "quota", "1/1 coupe le lien");
+
+var firstClick = AdLib.applyAdToProperty(
+  { id: "prop_click", status: "mandat", title: "C", city: "Nancy" },
+  {
+    virtual_tour: "https://my.matterport.com/show/?m=c1",
+    tour_gate: true,
+    tour_duration_value: 48,
+    tour_duration_unit: "hours",
+    tour_duration_start: "first_view",
+    tour_max_views: 10,
+  }
+);
+var tac = firstClick.metadata.ad.tour_access;
+assert(tac.duration_start === "first_view", "durée au 1er clic");
+assert(!tac.expires_at, "pas d’expiration avant la 1re ouverture");
+assert(Tour.tourLinkStatus(tac).ok === true, "lien OK avant 1re ouverture");
+var started = Tour.startDurationOnFirstView(tac, Date.parse("2026-09-08T12:00:00.000Z"));
+assert(!!started.first_viewed_at, "1re ouverture horodatée");
+assert(Date.parse(started.expires_at) === Date.parse("2026-09-10T12:00:00.000Z"), "expire 48 h après le 1er clic");
+
+var implicit = AdLib.applyAdToProperty(
+  { id: "prop_implicit", status: "mandat", title: "I", city: "Nancy" },
+  {
+    virtual_tour: "https://my.matterport.com/show/?m=i1",
+    tour_gate: true,
+    tour_duration_value: 2,
+    tour_duration_unit: "days",
+  }
+);
+assert(implicit.metadata.ad.tour_access.duration_start === "first_view", "défaut : durée au 1er clic");
+assert(!implicit.metadata.ad.tour_access.expires_at, "défaut : pas d’expiration avant ouverture");
 
 var listing = AdLib.toAdListing(gated);
 assert(listing.tour_gate === true, "listing public : porte activée");
@@ -121,6 +154,7 @@ assert(html.indexOf("immo-tour-access-page.js") !== -1, "script page");
 var crm = read("crm-immo-pubs.html");
 assert(crm.indexOf("chTourGate") !== -1 && crm.indexOf("adTourDuration") !== -1, "CRM : durée libre");
 assert(crm.indexOf("adTourDurationUnit") !== -1 && crm.indexOf("Heures") !== -1, "CRM : heures ou jours");
+assert(crm.indexOf("adTourDurationStart") !== -1, "CRM : durée dès la 1re consultation");
 assert(crm.indexOf("btnCopyTourLink") !== -1 && crm.indexOf("btnRotateTourLink") !== -1, "CRM : copier / renouveler");
 assert(crm.indexOf("adTourVerify") !== -1 && crm.indexOf("adTourPeriod") !== -1, "CRM : vérif + période");
 assert(crm.indexOf("adTourAllowEmails") !== -1 && crm.indexOf("chTourBindLbc") !== -1, "CRM : personnes + canaux");
@@ -131,6 +165,8 @@ var contactJs = read("crm-contact.js");
 assert(contactJs.indexOf("CrmContactTour") !== -1, "fiche contact : mount visite");
 var tourUi = read("js/crm-contact-tour.js");
 assert(tourUi.indexOf("tour_allow_emails") !== -1 && tourUi.indexOf("visite.html") !== -1, "contact tour : allowlist + lien public");
+assert(tourUi.indexOf("ctTourEmails") !== -1 && tourUi.indexOf("ctTourPhones") !== -1, "contact tour : ajout e-mail / tél");
+assert(tourUi.indexOf("first_view") !== -1, "contact tour : durée au 1er clic");
 
 var noneMode = AdLib.applyAdToProperty(
   { id: "prop_none", status: "mandat", title: "Y", city: "Nancy", forme_mandat: "Exclusif", mandate_started_at: "2026-01-01", mandate_ends_at: "2099-12-31" },
@@ -161,6 +197,7 @@ var api = read("api/_lib/routes/public-immo-tour-access.js");
 assert(api.indexOf("request_access") !== -1 && api.indexOf("view_tour") !== -1, "API actions");
 assert(api.indexOf("accepted_terms") !== -1 && api.indexOf("isAllowlisted") !== -1, "API : droits + allowlist");
 assert(api.indexOf("acheteur_immo") !== -1, "lead vertical acquéreur");
+assert(api.indexOf("startDurationOnFirstView") !== -1, "API : durée au 1er clic");
 
 var css = read("css/immo-ad-listings.css");
 assert(css.indexOf(".immo-ad-gate [hidden]") !== -1, "hidden n’est pas écrasé par display:flex");

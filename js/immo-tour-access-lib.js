@@ -246,6 +246,18 @@
     ).toLowerCase();
     if (durationUnit !== "hours" && durationUnit !== "days") durationUnit = "days";
 
+    var durationStart;
+    if (f && f.tour_duration_start != null && f.tour_duration_start !== "") {
+      durationStart = String(f.tour_duration_start).toLowerCase();
+    } else if (prev.duration_start) {
+      durationStart = String(prev.duration_start).toLowerCase();
+    } else if (prev.expires_at && !prev.first_viewed_at) {
+      durationStart = "created";
+    } else {
+      durationStart = "first_view";
+    }
+    if (durationStart !== "created" && durationStart !== "first_view") durationStart = "first_view";
+
     var expiresAt = parseExpiresAt(prev.expires_at);
     if (periodMode === "unlimited") {
       expiresAt = null;
@@ -273,10 +285,22 @@
             expiresAt = null;
             durationValue = 0;
           } else {
-            var ms = unit === "hours" ? amount * 3600000 : amount * 86400000;
-            expiresAt = new Date(Date.now() + ms).toISOString();
             durationValue = amount;
             durationUnit = unit === "hours" ? "hours" : "days";
+            if (durationStart === "first_view") {
+              if (prev.first_viewed_at) {
+                var already = Date.parse(prev.first_viewed_at);
+                var remainMs = unit === "hours" ? amount * 3600000 : amount * 86400000;
+                expiresAt = Number.isFinite(already)
+                  ? new Date(already + remainMs).toISOString()
+                  : null;
+              } else {
+                expiresAt = null;
+              }
+            } else {
+              var ms = unit === "hours" ? amount * 3600000 : amount * 86400000;
+              expiresAt = new Date(Date.now() + ms).toISOString();
+            }
           }
         }
       }
@@ -299,6 +323,8 @@
       expires_at: expiresAt,
       duration_value: durationValue || null,
       duration_unit: durationUnit,
+      duration_start: durationStart,
+      first_viewed_at: prev.first_viewed_at || null,
       verify_mode: verifyMode,
       period_mode: periodMode,
       require_email: verifyMode === "email" || verifyMode === "both",
@@ -319,6 +345,7 @@
       tour_days: DEFAULT_DAYS,
       tour_duration_value: DEFAULT_DAYS,
       tour_duration_unit: "days",
+      tour_duration_start: "first_view",
       tour_max_views: DEFAULT_MAX_VIEWS,
       tour_max_per_contact: DEFAULT_MAX_PER_CONTACT,
       tour_verify_mode: "both",
@@ -358,7 +385,28 @@
       view_count: used,
       expires_at: period === "unlimited" ? null : a.expires_at || null,
       period_mode: period,
+      duration_start: a.duration_start || "created",
+      first_viewed_at: a.first_viewed_at || null,
     };
+  }
+
+  function durationMs(value, unit) {
+    var n = toInt(value, 0);
+    if (n <= 0) return 0;
+    return String(unit) === "hours" ? n * 3600000 : n * 86400000;
+  }
+
+  function startDurationOnFirstView(access, now) {
+    var a = Object.assign({}, access && typeof access === "object" ? access : {});
+    if ((a.duration_start || "first_view") !== "first_view") return a;
+    if (a.period_mode && a.period_mode !== "limited") return a;
+    if (a.first_viewed_at) return a;
+    var ms = durationMs(a.duration_value, a.duration_unit);
+    var t = now || Date.now();
+    a.first_viewed_at = new Date(t).toISOString();
+    if (ms > 0) a.expires_at = new Date(t + ms).toISOString();
+    a.updated_at = new Date(t).toISOString();
+    return a;
   }
 
   function contactQuotaOk(used, access) {
@@ -513,6 +561,10 @@
       max_views: st.max_views || null,
       expires_at: st.expires_at || null,
       period_mode: a.period_mode || "limited",
+      duration_start: a.duration_start || "first_view",
+      duration_value: a.duration_value || null,
+      duration_unit: a.duration_unit || "days",
+      first_viewed_at: a.first_viewed_at || null,
       verify_mode: mode,
       require_email: needsEmail(a),
       require_phone: needsPhone(a),
@@ -564,6 +616,8 @@
     tourLinkStatus: tourLinkStatus,
     mandateInfo: mandateInfo,
     isExclusiveForm: isExclusiveForm,
+    durationMs: durationMs,
+    startDurationOnFirstView: startDurationOnFirstView,
     contactQuotaOk: contactQuotaOk,
     isAllowlisted: isAllowlisted,
     needsEmail: needsEmail,

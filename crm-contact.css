@@ -321,6 +321,7 @@
   border: 1px solid #99f6e4;
 }
 #contactTourMount label { display: flex; flex-direction: column; gap: 4px; font-size: .78rem; font-weight: 700; color: var(--muted); margin-bottom: 10px; }
+#contactTourMount textarea { min-height: 64px; }
 #contactTourMount input, #contactTourMount select, #contactTourMount textarea {
   padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font: inherit; background: #f8fafc;
 }

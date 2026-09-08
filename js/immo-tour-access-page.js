@@ -74,7 +74,13 @@
       if (meta.period_mode === "mandate") bits.push("valable pendant le mandat exclusif");
       else if (meta.period_mode === "unlimited") bits.push("durée illimitée (quota possible)");
       if (meta.expires_at) {
-        bits.push("jusqu’au " + new Date(meta.expires_at).toLocaleDateString("fr-FR"));
+        bits.push("jusqu’au " + new Date(meta.expires_at).toLocaleString("fr-FR"));
+      } else if (meta.duration_start === "first_view" && meta.duration_value) {
+        bits.push(
+          meta.duration_value +
+            (meta.duration_unit === "hours" ? " h" : " j") +
+            " à partir de la 1re ouverture"
+        );
       }
       if (meta.remaining != null) bits.push(meta.remaining + " consultation(s) restante(s)");
       sub.textContent = bits.join(" · ") || "Wendy BUCHET — mandataire immobilier.";

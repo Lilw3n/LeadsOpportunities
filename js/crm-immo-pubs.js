@@ -183,6 +183,9 @@
       tour_duration_unit: document.getElementById("adTourDurationUnit")
         ? document.getElementById("adTourDurationUnit").value
         : "days",
+      tour_duration_start: document.getElementById("adTourDurationStart")
+        ? document.getElementById("adTourDurationStart").value
+        : "first_view",
       tour_max_views: document.getElementById("adTourMaxViews") ? document.getElementById("adTourMaxViews").value : "",
       tour_max_per_contact: document.getElementById("adTourMaxPer") ? document.getElementById("adTourMaxPer").value : "",
       tour_verify_mode: document.getElementById("adTourVerify") ? document.getElementById("adTourVerify").value : "both",
@@ -238,6 +241,14 @@
       if (durEl && !durEl.value) durEl.value = "30";
     }
     if (unitEl) unitEl.value = ta.duration_unit === "hours" ? "hours" : "days";
+    var startEl = document.getElementById("adTourDurationStart");
+    if (startEl) {
+      if (ta.duration_start === "created" || ta.duration_start === "first_view") {
+        startEl.value = ta.duration_start;
+      } else {
+        startEl.value = ta.expires_at && !ta.first_viewed_at ? "created" : "first_view";
+      }
+    }
     var maxEl = document.getElementById("adTourMaxViews");
     if (maxEl && ta.max_views != null) maxEl.value = String(ta.max_views);
     var perEl = document.getElementById("adTourMaxPer");

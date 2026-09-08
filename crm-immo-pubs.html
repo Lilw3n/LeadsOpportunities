@@ -295,7 +295,13 @@
                 <input id="adTourMaxPer" type="number" min="0" step="1" value="8" />
               </label>
             </div>
-            <p class="pub-hint" style="margin:0 0 8px">Exemples : 6 heures · 2 jours · 1 seule utilisation · 12 vues. Tu peux combiner durée + nombre d’utilisations.</p>
+            <label style="margin:0 0 8px">La durée commence
+              <select id="adTourDurationStart">
+                <option value="first_view" selected>À la première consultation du lien</option>
+                <option value="created">Dès la création du lien</option>
+              </select>
+            </label>
+            <p class="pub-hint" style="margin:0 0 8px">Exemples : 6 heures · 2 jours · 1 seule utilisation. Tu peux combiner durée + nombre d’ouvertures. E-mails / tél. autorisés : les champs plus bas (une ligne = une personne).</p>
             <p class="pub-hint" style="margin:8px 0 4px">Lier ce lien à :</p>
             <div class="pub-checks">
               <label><input type="checkbox" id="chTourBindSite" checked /> Bien du site</label>

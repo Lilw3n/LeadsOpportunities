@@ -78,10 +78,10 @@
       root.innerHTML =
         '<div class="panel-head"><h2>Visite virtuelle (test avec ce contact)</h2>' +
         '<a class="btn btn-ghost btn-sm" href="./crm-immo-pubs.html">Pubs mandats</a></div>' +
-        "<p class=\"pub-hint\">Colle ton lien Matterport / 3D. <strong>" +
-        esc(contactName(contact)) +
-        "</strong> sera ajouté aux personnes autorisées (e-mail + tél. de la fiche). " +
-        "Le lien public à coller sur Leboncoin / le site se génère ensuite.</p>" +
+        "<p class=\"pub-hint\">Colle ton lien Matterport / 3D. Pour autoriser quelqu’un : " +
+        "<strong>ajoute son e-mail ou son 06</strong> dans les champs ci-dessous (un par ligne), " +
+        "coche «&nbsp;Restreindre à ces personnes&nbsp;», puis Enregistrer. " +
+        "La durée (ex. 30 h) commence à la <strong>première ouverture réelle de la visite</strong>, pas à la création du lien.</p>" +
         '<label>Bien lié<select id="ctTourProp">' +
         options +
         "</select></label>" +
@@ -105,7 +105,13 @@
         '<option value="days" selected>Jours</option>' +
         "</select></label></div>" +
         '<label>Utilisations max (0 = illimité)<input id="ctTourMaxViews" type="number" min="0" step="1" value="1" /></label>' +
-        '<label class="pub-checks"><input type="checkbox" id="ctTourAllow" checked /> Autoriser uniquement ce contact (et ceux déjà listés)</label>' +
+        '<label>La durée commence<select id="ctTourDurationStart">' +
+        '<option value="first_view" selected>À la première consultation du lien</option>' +
+        '<option value="created">Dès la création du lien</option>' +
+        "</select></label>" +
+        '<label>E-mails autorisés (un par ligne, ajoute ou retire puis Enregistrer)<textarea id="ctTourEmails" rows="3" placeholder="michele@exemple.fr&#10;autre@exemple.fr"></textarea></label>' +
+        '<label>Téléphones autorisés (un 06 / 07 par ligne)<textarea id="ctTourPhones" rows="3" placeholder="06 12 34 56 78"></textarea></label>' +
+        '<label class="pub-checks"><input type="checkbox" id="ctTourAllow" checked /> Restreindre à ces e-mails / tél. (sinon tout le monde qui passe la vérif)</label>' +
         '<div class="pub-media-actions">' +
         '<button type="button" class="btn btn-primary btn-sm" id="ctTourSave">Enregistrer et créer le lien</button>' +
         "</div>" +
@@ -132,6 +138,22 @@
         if (ad0.tour_access && ad0.tour_access.max_views != null) {
           root.querySelector("#ctTourMaxViews").value = String(ad0.tour_access.max_views);
         }
+        if (ad0.tour_access && ad0.tour_access.duration_start) {
+          root.querySelector("#ctTourDurationStart").value = ad0.tour_access.duration_start;
+        }
+        var emails0 = ((ad0.tour_access && ad0.tour_access.allow_emails) || []).slice();
+        var phones0 = ((ad0.tour_access && ad0.tour_access.allow_phones) || []).slice();
+        var allowOn = emails0.length + phones0.length > 0;
+        var contactEmail = Tour.normalizeEmail ? Tour.normalizeEmail(contact.email) : String(contact.email || "").toLowerCase();
+        var contactPhone = Tour.normalizePhone ? Tour.normalizePhone(contact.phone) : String(contact.phone || "").replace(/\D/g, "");
+        if (contactEmail && emails0.indexOf(contactEmail) === -1) emails0 = emails0.concat([contactEmail]);
+        if (contactPhone && phones0.indexOf(contactPhone) === -1) phones0 = phones0.concat([contactPhone]);
+        root.querySelector("#ctTourEmails").value = emails0.join("\n");
+        root.querySelector("#ctTourPhones").value = phones0.join("\n");
+        root.querySelector("#ctTourAllow").checked = allowOn || (!ad0.tour_access || !ad0.tour_access.token);
+      } else {
+        root.querySelector("#ctTourEmails").value = contact.email || "";
+        root.querySelector("#ctTourPhones").value = contact.phone || "";
       }
 
       if (existingTour) showLinks(existingTour.ta, existingTour.property);
@@ -199,6 +221,9 @@
       var durationVal = root.querySelector("#ctTourDuration").value;
       var durationUnit = root.querySelector("#ctTourDurationUnit").value;
       var maxViews = root.querySelector("#ctTourMaxViews").value;
+      var durationStart = root.querySelector("#ctTourDurationStart").value;
+      var extraEmails = root.querySelector("#ctTourEmails").value;
+      var extraPhones = root.querySelector("#ctTourPhones").value;
       var allow = root.querySelector("#ctTourAllow").checked;
       var msg = root.querySelector("#ctTourMsg");
       if (!url || !/^https:\/\//i.test(url)) {
@@ -219,13 +244,18 @@
 
       var bag = AdLib.getAdMeta(prop);
       var ad = bag.ad || {};
-      var emails = (ad.tour_access && ad.tour_access.allow_emails) || [];
-      var phones = (ad.tour_access && ad.tour_access.allow_phones) || [];
-      if (allow) {
-        if (contact.email && emails.indexOf(String(contact.email).toLowerCase()) === -1) {
-          emails = emails.concat([contact.email]);
-        }
-        if (contact.phone) phones = phones.concat([contact.phone]);
+      var emails = Tour.parseList ? Tour.parseList(extraEmails, "email") : [];
+      var phones = Tour.parseList ? Tour.parseList(extraPhones, "phone") : [];
+      var contactEmail = Tour.normalizeEmail ? Tour.normalizeEmail(contact.email) : "";
+      var contactPhone = Tour.normalizePhone ? Tour.normalizePhone(contact.phone) : "";
+      var extraPeople = emails.some(function (e) { return e !== contactEmail; })
+        || phones.some(function (p) { return p !== contactPhone; });
+      if (extraPeople) allow = true;
+      if (allow && contactEmail && emails.indexOf(contactEmail) === -1) {
+        emails = emails.concat([contactEmail]);
+      }
+      if (allow && contactPhone && phones.indexOf(contactPhone) === -1) {
+        phones = phones.concat([contactPhone]);
       }
 
       var updated = AdLib.applyAdToProperty(prop, {
@@ -242,6 +272,7 @@
         tour_days: period === "limited" && durationUnit === "days" ? durationVal : period === "unlimited" ? 0 : "",
         tour_duration_value: period === "limited" ? durationVal : "",
         tour_duration_unit: durationUnit,
+        tour_duration_start: durationStart,
         tour_max_views: maxViews,
         tour_max_per_contact: 8,
         tour_allow_emails: allow ? emails : "",
