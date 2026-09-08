@@ -245,10 +245,47 @@
 
         <div class="pub-media-block">
           <h4>Visite virtuelle</h4>
-          <p class="pub-hint" style="margin:0">Matterport, Nodalview, Kuula, Giraffe360…</p>
-          <label style="margin:0">Lien visite 3D / 360°
+          <p class="pub-hint" style="margin:0">Matterport, Nodalview, Kuula, Giraffe360… À coller ici. Le lien public Leboncoin / Meta doit pointer vers <strong>votre site</strong>, pas vers Matterport.</p>
+          <label style="margin:0">Lien visite 3D / 360° (privé, jamais publié brut)
             <input id="adTour" type="url" placeholder="https://my.matterport.com/show/?m=…" />
           </label>
+          <div class="pub-tour-box">
+            <label class="pub-checks" style="margin:0 0 8px"><input type="checkbox" id="chTourGate" checked /> Lien acquéreur (e-mail + téléphone, confirmation)</label>
+            <p class="pub-hint" style="margin:0 0 8px">Durée et/ou nombre de vues : un autre agent ou le propriétaire ne peut pas recycler le lien indéfiniment.</p>
+            <div class="pub-media-actions" style="align-items:flex-end">
+              <label style="margin:0;flex:1">Durée du lien
+                <select id="adTourDays">
+                  <option value="">Conserver la date actuelle</option>
+                  <option value="7">7 jours à partir d’aujourd’hui</option>
+                  <option value="14">14 jours</option>
+                  <option value="30" selected>30 jours</option>
+                  <option value="60">60 jours</option>
+                  <option value="0">Sans date de fin</option>
+                </select>
+              </label>
+              <label style="margin:0;flex:1">Consultations max (lien)
+                <select id="adTourMaxViews">
+                  <option value="20">20</option>
+                  <option value="50" selected>50</option>
+                  <option value="100">100</option>
+                  <option value="0">Illimité</option>
+                </select>
+              </label>
+              <label style="margin:0;flex:1">Max / e-mail
+                <select id="adTourMaxPer">
+                  <option value="3">3</option>
+                  <option value="8" selected>8</option>
+                  <option value="20">20</option>
+                </select>
+              </label>
+            </div>
+            <p class="pub-tour-url" id="adTourPublicUrl">Enregistrez pour générer le lien à coller sur Leboncoin.</p>
+            <div class="pub-media-actions">
+              <button type="button" class="btn btn-primary btn-sm" id="btnCopyTourLink">Copier le lien acquéreur</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnRotateTourLink">Renouveler le lien (invalide l’ancien)</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnPreviewTour">Prévisualiser (CRM)</button>
+            </div>
+          </div>
         </div>
         <label>Plateformes diffusées
           <input id="adPlatforms" value="Meta, Google, Leboncoin, SeLoger" />
@@ -295,6 +332,7 @@
   <script src="./js/immo-listing-paste-lib.js"></script>
   <script src="./js/immo-photo-compress-lib.js"></script>
   <script src="./js/immo-ad-demo-access-lib.js"></script>
+  <script src="./js/immo-tour-access-lib.js"></script>
   <script src="./js/immo-ad-listings-lib.js"></script>
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/crm-immo-pubs.js"></script>

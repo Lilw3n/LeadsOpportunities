@@ -78,6 +78,8 @@ var files = [
   "js/crm-immo-pubs.js",
   "js/immo-ad-listings-lib.js",
   "js/immo-ad-demo-access-lib.js",
+  "js/immo-tour-access-lib.js",
+  "immobilier/visite.html",
   "js/immo-ad-protect.js",
   "js/immo-ad-pages.js",
   "css/immo-ad-listings.css",

@@ -108,6 +108,14 @@
       "destination": "/immobilier/syndic/index.html"
     },
     {
+      "source": "/immobilier/visite",
+      "destination": "/immobilier/visite.html"
+    },
+    {
+      "source": "/immobilier/visite/",
+      "destination": "/immobilier/visite.html"
+    },
+    {
       "source": "/agence-varangeville",
       "destination": "/agence-varangeville.html"
     },

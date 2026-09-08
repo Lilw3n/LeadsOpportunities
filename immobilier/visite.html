@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visite virtuelle acquéreur | Leads Opportunities</title>
+  <meta name="description" content="Visite virtuelle réservée aux acquéreurs : e-mail et téléphone confirmés, lien limité." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="../main.css" />
+  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260908tour" />
+</head>
+<body class="immo-ad-page immo-ad-page--listing immo-tour-page">
+  <div class="immo-ad-private-banner">
+    Visite virtuelle réservée aux acquéreurs — ce lien n’est pas un outil de pub pour un autre agent ou le propriétaire
+  </div>
+
+  <header class="immo-ad-hero" style="padding:24px 0 18px">
+    <div class="container">
+      <span class="immo-ad-badge">Acquéreur uniquement</span>
+      <h1 id="tourTitle">Visite virtuelle</h1>
+      <p class="lead" id="tourSub">E-mail + téléphone réels, confirmation, puis visualisation sur notre site.</p>
+    </div>
+  </header>
+
+  <main class="container" id="tourProtect">
+    <p id="tourError" class="immo-ad-empty" hidden></p>
+
+    <div id="tourGate" class="immo-ad-gate" hidden>
+      <h2>Accéder à la visite 3D</h2>
+      <p>
+        Ce lien remplace le Matterport public sur Leboncoin / Meta.
+        Un autre professionnel ou le propriétaire ne doit pas s’en servir pour diffuser le bien.
+        Vos coordonnées créent un dossier <strong>acquéreur</strong>.
+      </p>
+      <label>Prénom
+        <input id="tourFirst" type="text" autocomplete="given-name" placeholder="Votre prénom" />
+      </label>
+      <label>E-mail
+        <input id="tourEmail" type="email" autocomplete="email" placeholder="vous@exemple.fr" />
+      </label>
+      <label>Téléphone
+        <input id="tourPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78" />
+      </label>
+      <div class="gate-actions">
+        <button type="button" class="btn btn-primary" id="tourRequest">Recevoir le code</button>
+      </div>
+      <div id="tourCodes" hidden>
+        <label>Code reçu par e-mail
+          <input id="tourEmailCode" type="text" inputmode="numeric" maxlength="6" placeholder="••••••" autocomplete="one-time-code" />
+        </label>
+        <label id="tourSmsHint" hidden>Code reçu par SMS
+          <input id="tourPhoneCode" type="text" inputmode="numeric" maxlength="6" placeholder="••••••" />
+        </label>
+        <div class="gate-actions">
+          <button type="button" class="btn btn-primary" id="tourVerify">Confirmer et voir la visite</button>
+        </div>
+      </div>
+      <p class="gate-msg" id="tourMsg"></p>
+    </div>
+
+    <div id="tourPlayer" class="tour-player" hidden></div>
+  </main>
+
+  <footer style="padding:28px 0;text-align:center;color:#64748b;font-size:.82rem">
+    <div class="container">
+      Leads Opportunities — Wendy Buchet, ORIAS n° 15005935 ·
+      <a href="../landings/acheteur-immo.html">Recherche acquéreur</a>
+    </div>
+  </footer>
+
+  <script src="../js/immo-ad-protect.js"></script>
+  <script src="../js/immo-tour-access-page.js"></script>
+</body>
+</html>

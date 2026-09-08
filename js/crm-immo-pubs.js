@@ -175,11 +175,61 @@
       platforms: document.getElementById("adPlatforms").value,
       demo_label: document.getElementById("adDemoLabel").value.trim(),
       listing_url: document.getElementById("adListingUrl").value.trim(),
+      tour_gate: document.getElementById("chTourGate") ? document.getElementById("chTourGate").checked : false,
+      tour_days: document.getElementById("adTourDays") ? document.getElementById("adTourDays").value : "",
+      tour_max_views: document.getElementById("adTourMaxViews") ? document.getElementById("adTourMaxViews").value : "",
+      tour_max_per_contact: document.getElementById("adTourMaxPer") ? document.getElementById("adTourMaxPer").value : "",
+      rotate_tour_token: !!(window.__rotateTourOnce),
       channel_public: document.getElementById("chPublic").checked,
       channel_private: document.getElementById("chPrivate").checked,
       access_emails: document.getElementById("adAccessEmails").value,
       access_phones: document.getElementById("adAccessPhones").value,
     };
+  }
+
+  function tourPublicUrl(token) {
+    return location.origin + "/immobilier/visite.html?t=" + encodeURIComponent(token || "") + "&utm_source=leboncoin";
+  }
+
+  function copyTourUrl(token) {
+    if (!token) {
+      msg("Enregistrez d’abord la pub pour générer le lien.");
+      return;
+    }
+    var url = tourPublicUrl(token);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () {
+        msg("Lien visite acquéreur copié — à coller sur Leboncoin / Meta.", true);
+      });
+    } else {
+      msg(url, true);
+    }
+  }
+
+  function fillTourGate(ad) {
+    var Tour = window.ImmoTourAccess;
+    var ta = (ad && ad.tour_access) || {};
+    var gate = document.getElementById("chTourGate");
+    if (gate) gate.checked = ta.enabled !== false;
+    var daysEl = document.getElementById("adTourDays");
+    if (daysEl) daysEl.value = ta.token ? "" : "30";
+    var maxEl = document.getElementById("adTourMaxViews");
+    if (maxEl && ta.max_views != null) maxEl.value = String(ta.max_views);
+    var perEl = document.getElementById("adTourMaxPer");
+    if (perEl && ta.max_views_per_contact) perEl.value = String(ta.max_views_per_contact);
+    var urlEl = document.getElementById("adTourPublicUrl");
+    if (urlEl) {
+      if (ta.enabled && ta.token) {
+        var st = Tour && Tour.tourLinkStatus ? Tour.tourLinkStatus(ta) : { ok: true };
+        urlEl.textContent =
+          tourPublicUrl(ta.token) +
+          (st.remaining != null ? " · " + st.remaining + " vues restantes" : "") +
+          (ta.expires_at ? " · expire le " + new Date(ta.expires_at).toLocaleDateString("fr-FR") : "") +
+          (ta.view_count ? " · déjà " + ta.view_count + " vue(s)" : "");
+      } else {
+        urlEl.textContent = "Enregistrez pour générer le lien à coller sur Leboncoin.";
+      }
+    }
   }
 
   function setImportStatus(text, ok) {
@@ -337,6 +387,12 @@
         encodeURIComponent(property.id) +
         '" target="_blank" rel="noopener">Voir la pub publique</a>';
     }
+    if (bag.ad.tour_access && bag.ad.tour_access.enabled && bag.ad.tour_access.token) {
+      links +=
+        '<button type="button" class="btn btn-primary btn-sm" id="btnCopyTourBanner" data-token="' +
+        esc(bag.ad.tour_access.token) +
+        '">Copier le lien visite acquéreur</button>';
+    }
     if (channels.indexOf("private") !== -1 && bag.ad.share_token) {
       links +=
         '<button type="button" class="btn btn-primary btn-sm" id="btnAdminPreviewBanner" data-token="' +
@@ -387,6 +443,12 @@
             msg("Lien vendeur copié.", true);
           });
         }
+      };
+    }
+    var copyTourBanner = document.getElementById("btnCopyTourBanner");
+    if (copyTourBanner) {
+      copyTourBanner.onclick = function () {
+        copyTourUrl(copyTourBanner.getAttribute("data-token"));
       };
     }
     box.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -568,6 +630,7 @@
     document.getElementById("adAccessPhones").value = (acc.phones || []).join("\n");
     document.getElementById("chPublic").checked = channels.indexOf("public") !== -1;
     document.getElementById("chPrivate").checked = channels.indexOf("private") !== -1 || (!property && true);
+    fillTourGate(ad);
     document.getElementById("formTitle").textContent = p.id ? "Éditer l'annonce" : "Nouvelle annonce";
     document.getElementById("btnDeleteAd").hidden = !p.id;
     currentId = p.id || "";
@@ -655,6 +718,7 @@
         if (photos) mediaBits.push(photos + " photo" + (photos > 1 ? "s" : ""));
         if (bag.ad.videos && bag.ad.videos.length) mediaBits.push(bag.ad.videos.length + " vidéo" + (bag.ad.videos.length > 1 ? "s" : ""));
         if (bag.ad.virtual_tour) mediaBits.push("visite 3D");
+        if (bag.ad.tour_access && bag.ad.tour_access.enabled) mediaBits.push("lien acquéreur");
         if (acc.emails.length) mediaBits.push(acc.emails.length + " e-mail" + (acc.emails.length > 1 ? "s" : ""));
         if (acc.phones.length) mediaBits.push(acc.phones.length + " tél.");
         var tags = "";
@@ -720,6 +784,58 @@
   }
 
   paintCreateLink();
+  var copyTourBtn = document.getElementById("btnCopyTourLink");
+  if (copyTourBtn) {
+    copyTourBtn.onclick = function () {
+      var existing = currentId ? Store.getProperty(currentId) : null;
+      var ta = existing && AdLib.getAdMeta(existing).ad.tour_access;
+      copyTourUrl(ta && ta.token);
+    };
+  }
+  var rotateTourBtn = document.getElementById("btnRotateTourLink");
+  if (rotateTourBtn) {
+    rotateTourBtn.onclick = function () {
+      if (!confirm("L’ancien lien Leboncoin / Meta ne fonctionnera plus. Continuer ?")) return;
+      window.__rotateTourOnce = true;
+      document.getElementById("adForm").requestSubmit();
+    };
+  }
+  var previewTourBtn = document.getElementById("btnPreviewTour");
+  if (previewTourBtn) {
+    previewTourBtn.onclick = function () {
+      var existing = currentId ? Store.getProperty(currentId) : null;
+      var ta = existing && AdLib.getAdMeta(existing).ad.tour_access;
+      if (!ta || !ta.token) {
+        msg("Enregistrez d’abord le lien visite.");
+        return;
+      }
+      var crmTok = "";
+      try {
+        crmTok = localStorage.getItem("lo_token") || "";
+      } catch (e) {}
+      fetch("/api/immo-tour-access", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: crmTok ? "Bearer " + crmTok : "",
+        },
+        body: JSON.stringify({ action: "advisor_preview", token: ta.token }),
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (d) {
+          if (d && d.preview_url) {
+            window.open(d.preview_url, "_blank", "noopener");
+          } else {
+            msg((d && d.error) || "Prévisualisation impossible (connexion CRM).");
+          }
+        })
+        .catch(function () {
+          msg("Erreur réseau.");
+        });
+    };
+  }
   document.getElementById("btnNewAd").onclick = resetForm;
   var btnImport = document.getElementById("btnImportListing");
   if (btnImport) btnImport.onclick = runListingImport;
@@ -821,6 +937,7 @@
     var existing = currentId ? Store.getProperty(currentId) : null;
     var base = existing ? Object.assign({}, existing) : { id: currentId || undefined };
     var next = AdLib.applyAdToProperty(base, form);
+    window.__rotateTourOnce = false;
     if (currentId) next.id = currentId;
     var saved = Store.upsertProperty(next);
     currentId = saved.id;

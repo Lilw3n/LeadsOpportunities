@@ -56,7 +56,7 @@
       (p.description ? '<p class="immo-ad-card__desc">' + esc(p.description) + "</p>" : "") +
       '<div class="immo-ad-card__tags">' +
       (p.videos && p.videos.length ? "<span>Vidéo</span>" : "") +
-      (p.virtual_tour ? "<span>Visite virtuelle</span>" : "") +
+      (p.virtual_tour || p.has_virtual_tour || p.tour_gate ? "<span>Visite virtuelle</span>" : "") +
       "</div></div></article>"
     );
   }
@@ -107,7 +107,7 @@
       { label: "Année de construction", value: p.year_built != null && p.year_built !== "" ? String(p.year_built) : EMPTY },
       { label: "Meublé", value: yesNoOrEmpty(p.furnished) },
       { label: "Vidéo", value: p.videos && p.videos.length ? p.videos.length + " lien(s)" : EMPTY },
-      { label: "Visite virtuelle", value: p.virtual_tour ? "Oui" : EMPTY },
+      { label: "Visite virtuelle", value: p.virtual_tour || p.has_virtual_tour || p.tour_gate ? "Oui" : EMPTY },
     ];
   }
 
@@ -176,7 +176,12 @@
         })
         .join("");
     }
-    if (p.virtual_tour) {
+    if (p.tour_gate && p.tour_href) {
+      mediaLinks +=
+        '<a class="btn btn-primary" href="' +
+        esc(p.tour_href) +
+        '">Visite virtuelle 3D (acquéreur)</a>';
+    } else if (p.virtual_tour) {
       mediaLinks +=
         '<a class="btn btn-primary" href="' +
         esc(p.virtual_tour) +

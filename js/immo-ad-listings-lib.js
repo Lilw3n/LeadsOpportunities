@@ -100,6 +100,17 @@
     return "ad_" + a + "_" + b + c;
   }
 
+  function tourLib() {
+    if (typeof require === "function") {
+      try {
+        return require("./immo-tour-access-lib.js");
+      } catch (e) {
+        return null;
+      }
+    }
+    return typeof globalThis !== "undefined" ? globalThis.ImmoTourAccess : null;
+  }
+
   function parseAccessEmails(form) {
     var Access =
       (typeof require === "function"
@@ -395,6 +406,7 @@
       cover: PublicLib && PublicLib.coverOf ? PublicLib.coverOf(photos) : photos[0] || null,
       videos: videos,
       virtual_tour: tour,
+      has_virtual_tour: !!tour,
       channels: channels,
       status: String(p.status || ""),
       share_token: opts.includeToken ? String(ad.share_token || "") : undefined,
@@ -405,6 +417,14 @@
       _from_sell_dossier: !!(fromSell.rooms != null || fromSell.floor || fromSell.dpe || fromSell.heating),
     };
 
+    var Tour = tourLib();
+    var tourAccess = Tour ? Tour.normalizeTourAccess(ad.tour_access, null) : ad.tour_access || {};
+    listing.tour_gate = !!(tourAccess.enabled && tourAccess.token);
+    listing.tour_href =
+      listing.tour_gate && Tour ? Tour.publicTourPath(tourAccess.token) : listing.tour_gate ? "/immobilier/visite.html?t=" + encodeURIComponent(tourAccess.token) : "";
+    if (listing.tour_gate && !opts.includeTourUrl) {
+      listing.virtual_tour = "";
+    }
     if (!opts.includeToken) delete listing.share_token;
     return listing;
   }
@@ -449,6 +469,11 @@
         emails: parseAccessEmails(form),
         phones: parseAccessPhones(form),
       },
+      tour_access: (function () {
+        var Tour = tourLib();
+        if (Tour && Tour.normalizeTourAccess) return Tour.normalizeTourAccess(prev.tour_access, form);
+        return prev.tour_access || { enabled: false };
+      })(),
       criteria: {
         floor: String(form.floor || "").trim(),
         dpe: String(form.dpe || "").trim().toUpperCase().slice(0, 1),
@@ -514,6 +539,18 @@
     return null;
   }
 
+  function findByTourToken(properties, token) {
+    var t = String(token || "").trim();
+    if (!t || t.indexOf("vt_") !== 0) return null;
+    var list = properties || [];
+    for (var i = 0; i < list.length; i++) {
+      var bag = getAdMeta(list[i]);
+      var ta = bag.ad && bag.ad.tour_access;
+      if (ta && String(ta.token || "") === t) return list[i];
+    }
+    return null;
+  }
+
   function filterPublicAds(properties) {
     return (properties || []).filter(isPublicMandateAd).map(function (p) {
       return toAdListing(p);
@@ -546,6 +583,7 @@
     toAdListing: toAdListing,
     applyAdToProperty: applyAdToProperty,
     findByShareToken: findByShareToken,
+    findByTourToken: findByTourToken,
     filterPublicAds: filterPublicAds,
     filterPrivateAds: filterPrivateAds,
     sanitizePhotos: sanitizePhotos,

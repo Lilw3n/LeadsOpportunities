@@ -172,7 +172,14 @@
         listing.videos = ad.videos.filter(isSafeMediaUrl).slice(0, 6);
       }
       if (ad.virtual_tour && isSafeMediaUrl(ad.virtual_tour)) {
-        listing.virtual_tour = String(ad.virtual_tour).slice(0, 2000);
+        var gated = ad.tour_access && ad.tour_access.enabled && ad.tour_access.token;
+        if (gated) {
+          listing.has_virtual_tour = true;
+          listing.tour_gate = true;
+          listing.tour_href = "/immobilier/visite.html?t=" + encodeURIComponent(ad.tour_access.token);
+        } else {
+          listing.virtual_tour = String(ad.virtual_tour).slice(0, 2000);
+        }
       }
     }
     SENSITIVE_KEYS.forEach(function (k) {
