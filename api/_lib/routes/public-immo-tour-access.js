@@ -1,10 +1,12 @@
 /**
  * POST /api/immo-tour-access
- * - request_access { token, first_name, email, phone }
- * - verify_access { token, email, phone, email_code, phone_code? }
+ * - request_access { token, first_name, email, phone } → file d’attente (pas de code auto)
+ * - verify_access { token, email, phone, email_code, phone_code? } → après validation Wendy
  * - view_tour { token, grant }
  * - advisor_preview { token } + Bearer CRM
+ * - list_requests / decide_request { approve | decline } + Bearer CRM
  * GET /api/immo-tour-access?token=… → méta publique (sans URL Matterport)
+ * GET /api/immo-tour-access?inbox=1 + Bearer CRM → file des demandes
  */
 const { randomUUID } = require("crypto");
 const { applyApiGuards, rateLimit, getClientIp, parseJsonBody } = require("../security");
@@ -44,6 +46,265 @@ async function ensureTourSchema(sql) {
   } catch (e) {
     console.warn("[immo-tour-access] schema", e && e.message);
   }
+}
+
+async function ensureTourRequestSchema(sql) {
+  if (!sql) return;
+  try {
+    await sql`
+      CREATE TABLE IF NOT EXISTS crm_immo_tour_requests (
+        id TEXT PRIMARY KEY,
+        tour_token TEXT NOT NULL,
+        property_id TEXT,
+        property_title TEXT,
+        link_name TEXT,
+        first_name TEXT,
+        email TEXT NOT NULL,
+        phone TEXT,
+        status TEXT NOT NULL DEFAULT 'pending',
+        decline_reason TEXT,
+        utm_source TEXT,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        decided_at TIMESTAMPTZ,
+        decided_by TEXT,
+        code_sent_at TIMESTAMPTZ
+      )
+    `;
+    await sql`CREATE UNIQUE INDEX IF NOT EXISTS idx_immo_tour_req_unique ON crm_immo_tour_requests (tour_token, email)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_immo_tour_req_status ON crm_immo_tour_requests (status, created_at DESC)`;
+  } catch (e) {
+    console.warn("[immo-tour-access] request schema", e && e.message);
+  }
+}
+
+function publicRequestRow(row) {
+  if (!row) return null;
+  return {
+    id: row.id,
+    tour_token: row.tour_token,
+    property_id: row.property_id || "",
+    property_title: row.property_title || "",
+    link_name: row.link_name || "",
+    first_name: row.first_name || "",
+    email: row.email || "",
+    phone: row.phone || "",
+    status: row.status || "pending",
+    decline_reason: row.decline_reason || "",
+    utm_source: row.utm_source || "",
+    created_at: row.created_at,
+    decided_at: row.decided_at,
+    decided_by: row.decided_by || "",
+    code_sent_at: row.code_sent_at,
+  };
+}
+
+async function findTourRequest(sql, token, email) {
+  if (!sql || !token || !email) return null;
+  try {
+    var rows = await sql`
+      SELECT * FROM crm_immo_tour_requests
+      WHERE tour_token = ${token} AND email = ${email}
+      LIMIT 1
+    `;
+    return rows && rows[0] ? rows[0] : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function findTourRequestById(sql, id) {
+  if (!sql || !id) return null;
+  try {
+    var rows = await sql`
+      SELECT * FROM crm_immo_tour_requests
+      WHERE id = ${id}
+      LIMIT 1
+    `;
+    return rows && rows[0] ? rows[0] : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function listTourRequests(sql, filters) {
+  if (!sql) return [];
+  var f = filters || {};
+  var status = String(f.status || "").trim();
+  var token = String(f.token || "").trim();
+  var propertyId = String(f.property_id || "").trim();
+  try {
+    if (status && token) {
+      return await sql`
+        SELECT * FROM crm_immo_tour_requests
+        WHERE status = ${status} AND tour_token = ${token}
+        ORDER BY created_at DESC
+        LIMIT 200
+      `;
+    }
+    if (status && propertyId) {
+      return await sql`
+        SELECT * FROM crm_immo_tour_requests
+        WHERE status = ${status} AND property_id = ${propertyId}
+        ORDER BY created_at DESC
+        LIMIT 200
+      `;
+    }
+    if (token) {
+      return await sql`
+        SELECT * FROM crm_immo_tour_requests
+        WHERE tour_token = ${token}
+        ORDER BY created_at DESC
+        LIMIT 200
+      `;
+    }
+    if (propertyId) {
+      return await sql`
+        SELECT * FROM crm_immo_tour_requests
+        WHERE property_id = ${propertyId}
+        ORDER BY created_at DESC
+        LIMIT 200
+      `;
+    }
+    if (status) {
+      return await sql`
+        SELECT * FROM crm_immo_tour_requests
+        WHERE status = ${status}
+        ORDER BY created_at DESC
+        LIMIT 200
+      `;
+    }
+    return await sql`
+      SELECT * FROM crm_immo_tour_requests
+      ORDER BY created_at DESC
+      LIMIT 200
+    `;
+  } catch (e) {
+    console.warn("[immo-tour-access] list requests", e && e.message);
+    return [];
+  }
+}
+
+async function sendVisitorOtpEmail(email, firstName, code) {
+  var e = Tour.normalizeEmail(email);
+  if (!e || e.indexOf("@visite.local") !== -1) return { ok: false, reason: "no_email" };
+  return sendViaResend({
+    to: e,
+    subject: "Code visite virtuelle — Wendy BUCHET",
+    text:
+      "Bonjour " +
+      (firstName || "") +
+      ",\n\nWendy BUCHET a validé votre demande. Votre code pour la visite virtuelle : " +
+      code +
+      "\nValable 10 minutes.\nUsage unique et personnel — Wendy BUCHET, mandataire immobilier, ORIAS n° 15005935.\n\nLeads Opportunities",
+    html:
+      "<p>Bonjour " +
+      (firstName || "") +
+      ",</p><p>Wendy BUCHET a <strong>validé</strong> votre demande de visite virtuelle.</p>" +
+      "<p>Votre code :</p>" +
+      "<p style=\"font-size:28px;font-weight:800;letter-spacing:4px\">" +
+      code +
+      "</p><p>Valable 10 minutes. Usage unique et personnel.</p><p>Wendy BUCHET — Mandataire immobilier — ORIAS n° 15005935</p>",
+  });
+}
+
+async function notifyAdvisorNewRequest(row) {
+  var to = (Tour.AUTHOR && Tour.AUTHOR.email) || "contact@leadsopportunities.fr";
+  var title = row.property_title || "Visite virtuelle";
+  var who = [row.first_name, row.email, row.phone].filter(Boolean).join(" · ");
+  return sendViaResend({
+    to: to,
+    subject: "Demande de visite à valider — " + (row.first_name || row.email || "visiteur"),
+    text:
+      "Nouvelle demande de visite virtuelle (à valider ou décliner).\n\n" +
+      who +
+      "\nBien : " +
+      title +
+      (row.link_name ? "\nLien : " + row.link_name : "") +
+      "\n\nOuvrir le CRM : https://www.leadsopportunities.fr/crm-immo-tour-requests.html",
+    html:
+      "<p>Nouvelle demande de visite virtuelle — <strong>à valider ou décliner</strong>.</p>" +
+      "<p>" +
+      String(who).replace(/</g, "") +
+      "</p><p>Bien : " +
+      String(title).replace(/</g, "") +
+      (row.link_name ? " · " + String(row.link_name).replace(/</g, "") : "") +
+      "</p><p><a href=\"https://www.leadsopportunities.fr/crm-immo-tour-requests.html\">Ouvrir les demandes de visite</a></p>",
+  });
+}
+
+async function sendDeclineEmail(email, firstName, reason) {
+  var e = Tour.normalizeEmail(email);
+  if (!e || e.indexOf("@visite.local") !== -1) return { ok: false, reason: "no_email" };
+  var extra = reason ? "\nMotif : " + reason + "\n" : "";
+  return sendViaResend({
+    to: e,
+    subject: "Demande de visite — non acceptée",
+    text:
+      "Bonjour " +
+      (firstName || "") +
+      ",\n\nVotre demande d’accès à la visite virtuelle n’a pas été acceptée." +
+      extra +
+      "\nWendy BUCHET — Mandataire immobilier — ORIAS n° 15005935\ncontact@leadsopportunities.fr",
+    html:
+      "<p>Bonjour " +
+      (firstName || "") +
+      ",</p><p>Votre demande d’accès à la visite virtuelle <strong>n’a pas été acceptée</strong>.</p>" +
+      (reason ? "<p>" + String(reason).replace(/</g, "") + "</p>" : "") +
+      "<p>Wendy BUCHET — Mandataire immobilier — ORIAS n° 15005935</p>",
+  });
+}
+
+async function upsertTourRequest(sql, payload) {
+  var id = payload.id || "tr_" + randomUUID();
+  await sql`
+    INSERT INTO crm_immo_tour_requests (
+      id, tour_token, property_id, property_title, link_name, first_name, email, phone,
+      status, decline_reason, utm_source, decided_at, decided_by, code_sent_at
+    ) VALUES (
+      ${id},
+      ${payload.tour_token},
+      ${payload.property_id || null},
+      ${payload.property_title || null},
+      ${payload.link_name || null},
+      ${payload.first_name || null},
+      ${payload.email},
+      ${payload.phone || null},
+      ${payload.status || "pending"},
+      ${payload.decline_reason || null},
+      ${payload.utm_source || null},
+      ${payload.decided_at || null},
+      ${payload.decided_by || null},
+      ${payload.code_sent_at || null}
+    )
+    ON CONFLICT (tour_token, email) DO UPDATE SET
+      first_name = COALESCE(EXCLUDED.first_name, crm_immo_tour_requests.first_name),
+      phone = COALESCE(EXCLUDED.phone, crm_immo_tour_requests.phone),
+      property_title = COALESCE(EXCLUDED.property_title, crm_immo_tour_requests.property_title),
+      link_name = COALESCE(EXCLUDED.link_name, crm_immo_tour_requests.link_name),
+      status = EXCLUDED.status,
+      decline_reason = EXCLUDED.decline_reason,
+      decided_at = EXCLUDED.decided_at,
+      decided_by = COALESCE(EXCLUDED.decided_by, crm_immo_tour_requests.decided_by),
+      code_sent_at = COALESCE(EXCLUDED.code_sent_at, crm_immo_tour_requests.code_sent_at)
+  `;
+  return findTourRequest(sql, payload.tour_token, payload.email);
+}
+
+function visitorCodes(token, email, phone) {
+  var e = Tour.normalizeEmail(email);
+  var p = Tour.normalizePhone(phone);
+  return {
+    email_code: e ? Tour.otpCode(token, "email|" + e) : "",
+    phone_code: p ? Tour.otpCode(token, "phone|" + p) : "",
+  };
+}
+
+function inboxPayload(rows) {
+  var list = (rows || []).map(publicRequestRow).filter(Boolean);
+  var pending = list.filter(function (r) {
+    return r.status === "pending";
+  }).length;
+  return { ok: true, pending_count: pending, requests: list };
 }
 
 function twilioSmsEnabled() {
@@ -173,11 +434,26 @@ module.exports = async function immoTourAccess(req, res) {
   var ip = getClientIp(req);
   res.setHeader("Cache-Control", "private, no-store");
   var sql = getSql();
-  if (sql) await ensureTourSchema(sql);
+  if (sql) {
+    await ensureTourSchema(sql);
+    await ensureTourRequestSchema(sql);
+  }
 
   if (req.method === "GET") {
     var rlGet = rateLimit("immo-tour-get:" + ip, 40, 60 * 1000);
     if (!rlGet.allowed) return res.status(429).json({ error: "Trop de requêtes" });
+    var inboxFlag = String((req.query && (req.query.inbox || req.query.requests)) || "") === "1";
+    if (inboxFlag) {
+      var userInbox = await getAuthUser(req);
+      if (!userInbox) return res.status(401).json({ error: "Connexion CRM requise" });
+      if (!sql) return res.status(503).json({ error: "File d’attente indisponible (base)." });
+      var listed = await listTourRequests(sql, {
+        status: req.query && req.query.status,
+        token: req.query && (req.query.token || req.query.t),
+        property_id: req.query && req.query.property_id,
+      });
+      return res.status(200).json(inboxPayload(listed));
+    }
     var tokenGet = String((req.query && (req.query.token || req.query.t)) || "").trim();
     if (!Tour.isTourToken(tokenGet)) return res.status(400).json({ error: "Lien invalide" });
     var propsGet = [];
@@ -214,6 +490,85 @@ module.exports = async function immoTourAccess(req, res) {
   var body = parsed.body || {};
   var action = String(body.action || "").trim();
   var token = String(body.token || "").trim();
+
+  if (action === "list_requests") {
+    var userList = await getAuthUser(req);
+    if (!userList) return res.status(401).json({ error: "Connexion CRM requise" });
+    if (!sql) return res.status(503).json({ error: "File d’attente indisponible (base)." });
+    var listedPost = await listTourRequests(sql, {
+      status: body.status,
+      token: token,
+      property_id: body.property_id,
+    });
+    return res.status(200).json(inboxPayload(listedPost));
+  }
+
+  if (action === "decide_request") {
+    var userDec = await getAuthUser(req);
+    if (!userDec) return res.status(401).json({ error: "Connexion CRM requise" });
+    if (!sql) return res.status(503).json({ error: "File d’attente indisponible (base)." });
+    var reqId = String(body.request_id || body.id || "").trim();
+    var rowDec = await findTourRequestById(sql, reqId);
+    if (!rowDec && Tour.isTourToken(token)) {
+      var keyDec = Tour.storeContactKey(body.email, body.phone, token);
+      rowDec = await findTourRequest(sql, token, keyDec);
+    }
+    if (!rowDec) return res.status(404).json({ ok: false, error: "Demande introuvable." });
+    var decision = Tour.applyRequestDecision(body.decision || body.status);
+    if (!decision.ok) {
+      return res.status(400).json({ ok: false, error: "Indiquez approve ou decline." });
+    }
+    var reason = String(body.reason || body.decline_reason || "")
+      .replace(/[<>]/g, "")
+      .trim()
+      .slice(0, 240);
+    var nowIso = new Date().toISOString();
+    var codes = { email_code: "", phone_code: "" };
+    var sentCode = { ok: false };
+    if (decision.status === "approved") {
+      codes = visitorCodes(rowDec.tour_token, rowDec.email, rowDec.phone);
+      if (codes.email_code) {
+        sentCode = await sendVisitorOtpEmail(rowDec.email, rowDec.first_name, codes.email_code);
+      }
+      if (Tour.normalizePhone(rowDec.phone) && codes.phone_code) {
+        await maybeSendSms(rowDec.phone, codes.phone_code);
+      }
+    } else if (decision.status === "declined") {
+      await sendDeclineEmail(rowDec.email, rowDec.first_name, reason);
+    }
+    try {
+      await sql`
+        UPDATE crm_immo_tour_requests
+        SET
+          status = ${decision.status},
+          decline_reason = ${decision.status === "declined" ? reason || null : null},
+          decided_at = ${nowIso},
+          decided_by = ${String(userDec.email || userDec.userId || "crm")},
+          code_sent_at = ${decision.status === "approved" && sentCode.ok ? nowIso : rowDec.code_sent_at || null}
+        WHERE id = ${rowDec.id}
+      `;
+    } catch (eUp) {
+      return res.status(500).json({ ok: false, error: "Enregistrement impossible." });
+    }
+    var fresh = await findTourRequestById(sql, rowDec.id);
+    return res.status(200).json({
+      ok: true,
+      request: publicRequestRow(fresh || rowDec),
+      email_code: codes.email_code || "",
+      phone_code: codes.phone_code || "",
+      delivery_email: !!(decision.status === "approved" && sentCode.ok),
+      expires_minutes: decision.status === "approved" ? 10 : 0,
+      message:
+        decision.status === "declined"
+          ? "Demande déclinée. Le visiteur ne pourra pas ouvrir la visite."
+          : sentCode.ok
+            ? "Demande validée. Code envoyé par e-mail (10 min)."
+            : codes.email_code
+              ? "Demande validée. Code à transmettre : " + codes.email_code + " (e-mail non parti)."
+              : "Demande validée.",
+    });
+  }
+
   if (!Tour.isTourToken(token)) return res.status(400).json({ error: "Lien invalide" });
 
   var properties = [];
@@ -247,6 +602,25 @@ module.exports = async function immoTourAccess(req, res) {
     var phoneC = Tour.normalizePhone(body.phone);
     if (!emailC && !phoneC) {
       return res.status(400).json({ ok: false, error: "E-mail ou téléphone du contact requis." });
+    }
+    var storeC = Tour.storeContactKey(emailC, phoneC, token);
+    if (sql) {
+      try {
+        await upsertTourRequest(sql, {
+          tour_token: token,
+          property_id: found.id,
+          property_title: (info.ad && info.ad.headline) || found.title || "",
+          link_name: info.access && info.access.name,
+          first_name: Tour.normalizeName(body.first_name),
+          email: storeC,
+          phone: phoneC,
+          status: "approved",
+          decided_at: new Date().toISOString(),
+          decided_by: String(userCode.email || userCode.userId || "crm"),
+        });
+      } catch (eCode) {
+        console.warn("[immo-tour-access] advisor_code request", eCode && eCode.message);
+      }
     }
     return res.status(200).json({
       ok: true,
@@ -296,64 +670,90 @@ module.exports = async function immoTourAccess(req, res) {
       return res.status(200).json({
         ok: true,
         skip_otp: true,
+        pending: false,
         delivery_email: false,
         delivery_sms: false,
         message: "Cochez l’acceptation des droits d’auteur, puis ouvrez la visite.",
       });
     }
 
-    var emailCode = email ? Tour.otpCode(token, "email|" + email) : null;
-    var phoneCode = phone ? Tour.otpCode(token, "phone|" + phone) : null;
-    var sent = { ok: true };
-    if (Tour.needsEmail(info.access)) {
-      sent = await sendViaResend({
-        to: email,
-        subject: "Code visite virtuelle — Wendy BUCHET",
-        text:
-          "Bonjour " +
-          firstName +
-          ",\n\nVotre code pour la visite virtuelle : " +
-          emailCode +
-          "\nValable 10 minutes.\nUsage unique et personnel — Wendy BUCHET, mandataire immobilier, ORIAS n° 15005935.\n\nLeads Opportunities",
-        html:
-          "<p>Bonjour " +
-          firstName +
-          ",</p><p>Votre code pour la visite virtuelle :</p>" +
-          "<p style=\"font-size:28px;font-weight:800;letter-spacing:4px\">" +
-          emailCode +
-          "</p><p>Valable 10 minutes. Usage unique et personnel.</p><p>Wendy BUCHET — Mandataire immobilier — ORIAS n° 15005935</p>",
+    if (!sql) {
+      return res.status(503).json({
+        ok: false,
+        error: "Demande enregistrée localement impossible. Réessayez dans un instant.",
       });
-      if (!sent.ok) {
-        return res.status(502).json({
-          ok: false,
-          error: sent.error || "Envoi e-mail impossible. Réessayez dans un instant.",
-        });
-      }
     }
-    var sms = { ok: false };
-    if (Tour.needsPhone(info.access) && phoneCode) {
-      sms = await maybeSendSms(phone, phoneCode);
-      if (!sms.ok && info.access.verify_mode === "sms") {
-        return res.status(502).json({
-          ok: false,
-          error: "SMS désactivé (pas de frais). Utilisez la vérif e-mail.",
-        });
-      }
+
+    var storeEmail = Tour.storeContactKey(email, phone, token);
+    var existingReq = await findTourRequest(sql, token, storeEmail);
+    var ask = Tour.nextAskOutcome(existingReq && existingReq.status);
+    if (!ask.ok) {
+      return res.status(403).json({
+        ok: false,
+        pending: false,
+        declined: true,
+        error: Tour.requestStatusMessage("declined"),
+        contact: { name: Tour.AUTHOR.name, href: Tour.AUTHOR.contact_path, email: Tour.AUTHOR.email },
+      });
     }
+
+    if (ask.create || !existingReq) {
+      try {
+        existingReq = await upsertTourRequest(sql, {
+          tour_token: token,
+          property_id: found.id,
+          property_title: (info.ad && info.ad.headline) || found.title || "",
+          link_name: info.access && info.access.name,
+          first_name: firstName,
+          email: storeEmail,
+          phone: phone,
+          status: "pending",
+          utm_source: body.utm_source || "leboncoin",
+        });
+      } catch (eAsk) {
+        console.warn("[immo-tour-access] request upsert", eAsk && eAsk.message);
+        return res.status(500).json({ ok: false, error: "Impossible d’enregistrer la demande." });
+      }
+      notifyAdvisorNewRequest(existingReq || {
+        first_name: firstName,
+        email: email,
+        phone: phone,
+        property_title: (info.ad && info.ad.headline) || found.title || "",
+        link_name: info.access && info.access.name,
+      }).catch(function () {});
+    }
+
+    if (ask.resend) {
+      var resendCodes = visitorCodes(token, email, phone);
+      var resent = { ok: false };
+      if (resendCodes.email_code) {
+        resent = await sendVisitorOtpEmail(email, firstName, resendCodes.email_code);
+      }
+      return res.status(200).json({
+        ok: true,
+        skip_otp: false,
+        pending: false,
+        approved: true,
+        delivery_email: !!resent.ok,
+        delivery_sms: false,
+        contact_email: email ? Tour.maskEmail(email) : "",
+        contact_phone: phone ? Tour.maskPhone(phone) : "",
+        message: resent.ok
+          ? "Votre accès est déjà validé. Un nouveau code a été envoyé par e-mail (10 min)."
+          : "Votre accès est déjà validé. Saisissez le code reçu, ou contactez Wendy BUCHET.",
+      });
+    }
+
     return res.status(200).json({
       ok: true,
       skip_otp: false,
-      delivery_email: Tour.needsEmail(info.access),
-      delivery_sms: !!sms.ok,
+      pending: true,
+      delivery_email: false,
+      delivery_sms: false,
       contact_email: email ? Tour.maskEmail(email) : "",
       contact_phone: phone ? Tour.maskPhone(phone) : "",
-      message: sms.ok && Tour.needsEmail(info.access)
-        ? "Codes envoyés par e-mail et SMS."
-        : Tour.needsEmail(info.access)
-          ? sms.ok
-            ? "Codes envoyés."
-            : "Code envoyé par e-mail. Le SMS est configuré mais désactivé (pas de frais)."
-          : "Code envoyé par SMS.",
+      message:
+        "Demande envoyée. Wendy BUCHET va la valider ou la décliner. Si elle accepte, vous recevrez un code par e-mail.",
     });
   }
 
@@ -379,6 +779,20 @@ module.exports = async function immoTourAccess(req, res) {
     }
     if (Tour.needsPhone(info.access) && !phoneV) {
       return res.status(400).json({ ok: false, error: "Téléphone requis." });
+    }
+    if (Tour.needsOtp(info.access) && sql) {
+      var storePending = Tour.storeContactKey(emailV, phoneV, token);
+      var gateReq = await findTourRequest(sql, token, storePending);
+      var gateStatus = gateReq ? gateReq.status : "";
+      if (!Tour.requestCanVerify(gateStatus)) {
+        return res.status(403).json({
+          ok: false,
+          pending: gateStatus === "pending",
+          declined: gateStatus === "declined",
+          error: Tour.requestStatusMessage(gateStatus),
+          contact: { name: Tour.AUTHOR.name, href: Tour.AUTHOR.contact_path, email: Tour.AUTHOR.email },
+        });
+      }
     }
     if (Tour.needsEmail(info.access) && !Tour.verifyOtp(token, "email|" + emailV, body.email_code)) {
       return res.status(401).json({ ok: false, error: "Code e-mail incorrect ou expiré." });

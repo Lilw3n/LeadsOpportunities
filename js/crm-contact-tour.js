@@ -84,7 +84,7 @@
         '<a class="btn btn-ghost btn-sm" href="./crm-immo-pubs.html">Pubs mandats</a></div>' +
         "<p class=\"pub-hint\">Tu peux créer <strong>plusieurs liens indépendants</strong> (Leboncoin, site, test…). " +
         "Chacun a sa durée, sa dispo et sa liste. Le lien 3D Matterport reste <strong>privé</strong> : un visiteur ne le voit jamais. " +
-        "Pour autoriser quelqu’un : ajoute e-mail / 06, coche Restreindre, Enregistrer.</p>" +
+        "Le visiteur demande l’accès : <strong>tu valides ou tu déclines</strong> — aucun code ne part tout seul.</p>" +
         '<label>Bien lié<select id="ctTourProp">' +
         options +
         "</select></label>" +
@@ -135,7 +135,8 @@
         '<button type="button" class="btn btn-ghost btn-sm" id="ctTourNew">Créer un autre lien nommé</button>' +
         "</div>" +
         '<p id="ctTourMsg" class="pub-hint"></p>' +
-        '<div id="ctTourLinks"></div>';
+        '<div id="ctTourLinks"></div>' +
+        '<div id="ctTourRequests" class="tour-req-inbox"></div>';
 
       if (list[0]) {
         var sel = root.querySelector("#ctTourProp");
@@ -279,8 +280,8 @@
         encodeURIComponent(prop.id) +
         '">Réglages avancés</a></div>' +
         "<p class=\"pub-hint\">L’URL ne change pas quand tu modifies durée / dispo / visibilité. " +
-        "<strong>Donner un code</strong> copie un code à 6 chiffres (10 min) à transmettre de vive voix ou par SMS perso. " +
-        "Sur la page visite : Demander un code (0 accès) ou Valider le code (déjà reçu).</p>";
+        "<strong>Valider</strong> envoie le code. <strong>Décliner</strong> refuse la visite. " +
+        "<strong>Donner un code</strong> valide aussi la demande et copie un code (10 min) à dicter.</p>";
       box.querySelectorAll("[data-copy]").forEach(function (btn) {
         btn.onclick = function () {
           var u = btn.getAttribute("data-copy");
@@ -360,6 +361,13 @@
             });
         };
       });
+      var reqBox = root.querySelector("#ctTourRequests");
+      if (reqBox && window.CrmImmoTourRequests) {
+        window.CrmImmoTourRequests.mount(reqBox, {
+          title: "Demandes sur ces liens",
+          propertyId: prop && prop.id,
+        });
+      }
     }
 
     function save(list, createNew) {

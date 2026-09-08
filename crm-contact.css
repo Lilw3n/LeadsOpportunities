@@ -335,3 +335,14 @@
   background: #fff; border: 1px dashed #99f6e4; border-radius: 8px; padding: 8px 10px;
 }
 #contactTourMount .pub-media-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+#contactTourMount .tour-req-badge { display: inline-block; font-size: .72rem; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; color: #64748b; background: #f1f5f9; border-radius: 999px; padding: 4px 10px; }
+#contactTourMount .tour-req-badge.is-hot { color: #9a3412; background: #ffedd5; }
+#contactTourMount .tour-req-card { background: #fff; border: 1px solid #dbe3ee; border-radius: 10px; padding: 12px 14px; margin: 10px 0 0; }
+#contactTourMount .tour-req-pending { border-color: #fdba74; background: #fff7ed; }
+#contactTourMount .tour-req-approved { border-color: #86efac; background: #f0fdf4; }
+#contactTourMount .tour-req-declined { border-color: #fecaca; background: #fef2f2; }
+#contactTourMount .tour-req-head { display: flex; justify-content: space-between; gap: 10px; }
+#contactTourMount .tour-req-st { font-size: .75rem; font-weight: 800; text-transform: uppercase; color: #9a3412; }
+#contactTourMount .tour-req-approved .tour-req-st { color: #166534; }
+#contactTourMount .tour-req-declined .tour-req-st { color: #991b1b; }
+#contactTourMount .tour-req-meta { margin: 4px 0 0; color: #64748b; font-size: .82rem; }

@@ -172,20 +172,27 @@
         }
         var payload = payloadBase(token);
         payload.action = "request_access";
-        setMsg("Envoi des codes…");
+        setMsg("Envoi de la demande…");
         post(payload)
           .then(function (res) {
             if (res.d && res.d.ok) {
-              setMsg(res.d.message || "Code envoyé.", true);
+              setMsg(
+                res.d.message ||
+                  (res.d.pending
+                    ? "Demande envoyée. En attente de validation."
+                    : "Demande enregistrée."),
+                true
+              );
               if (res.d.skip_otp) {
                 var open = el("tourOpenNone");
                 if (open) open.hidden = false;
                 return;
               }
+              if (res.d.pending) return;
               var codeInp = el("tourEmailCode");
               if (codeInp) codeInp.focus();
             } else {
-              setMsg((res.d && res.d.error) || "Impossible d’envoyer le code.");
+              setMsg((res.d && res.d.error) || "Impossible d’envoyer la demande.");
             }
           })
           .catch(function () {
