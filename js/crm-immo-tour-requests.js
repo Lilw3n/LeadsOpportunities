@@ -136,6 +136,7 @@
           '<p class="tour-req-meta">Demandé le ' +
           esc(whenFr(r.created_at)) +
           (r.utm_source ? " · " + esc(r.utm_source) : "") +
+          (r.allowlisted === false ? " · hors liste prévue" : "") +
           (r.decline_reason ? " · " + esc(r.decline_reason) : "") +
           "</p>" +
           '<div class="pub-media-actions tour-req-actions">' +
