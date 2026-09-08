@@ -15,8 +15,8 @@ function arg(name) {
 }
 
 function buildPrompt(candidate) {
-  var topic = matchTopic(candidate.title + " " + (candidate.summary || ""));
-  var need = candidate.need || topic.need;
+  var topic = matchTopic(candidate.title, candidate.summary || "");
+  var need = topic.need || candidate.need;
   var platform = candidate.sourceType || candidate.source || "actu";
   var sportBlock = "";
   if (isSportActu(candidate.title + " " + (candidate.summary || ""))) {
@@ -71,8 +71,8 @@ async function generateActuArticleAi(candidate) {
     return { ok: false, error: res.error };
   }
   var parsed = parseJsonFromText(res.text);
-  var topic = matchTopic(candidate.title);
-  var need = candidate.need || topic.need;
+  var topic = matchTopic(candidate.title, candidate.summary || "");
+  var need = topic.need || candidate.need;
   var baseSlug = slugify(candidate.title) || "actu-" + Date.now();
   var file = candidate.suggestedFile || uniqueFile(baseSlug);
   if (!file.endsWith(".html")) file += ".html";

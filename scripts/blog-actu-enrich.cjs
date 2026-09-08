@@ -112,8 +112,8 @@ var ANGLES = {
 
 function enrichFromCandidate(candidate) {
   var title = String(candidate.title || "").trim();
-  var topic = matchTopic(title + " " + (candidate.summary || ""));
-  var need = candidate.need || topic.need || "habitation";
+  var topic = matchTopic(title, candidate.summary || "");
+  var need = topic.need || candidate.need || "habitation";
   var angle = isSportActu(title) ? ANGLES.sport : ANGLES[need] || ANGLES.habitation;
   if (isSportActu(title)) {
     need = "sante";
@@ -206,10 +206,9 @@ function platformLabel(sourceType) {
 
 function isSportActu(text) {
   var hay = String(text || "").toLowerCase();
-  return [
+  var hit = [
     "coupe du monde",
     "world cup",
-    "mondial",
     "fifa",
     "équipe de france",
     "equipe de france",
@@ -223,6 +222,11 @@ function isSportActu(text) {
     "les bleus",
     "france -",
     "france –",
+    "psg",
+    "ligue 1",
+    "ligue1",
+    "parc des princes",
+    "paris saint-germain",
     "france senegal",
     "france sénégal",
     "france argentine",
@@ -236,6 +240,8 @@ function isSportActu(text) {
   ].some(function (kw) {
     return hay.indexOf(kw) !== -1;
   });
+  if (hit) return true;
+  return /\bmondial\b/.test(hay) && /(foot|fifa|coupe du monde|bleus|mbapp)/.test(hay);
 }
 
 module.exports = { enrichFromCandidate: enrichFromCandidate, isSportActu: isSportActu };

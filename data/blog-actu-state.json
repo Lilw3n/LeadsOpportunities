@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-08T10:34:58.785Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.ouest-france.fr/sport/football/kylian-mbappe/sondage-kylian-mbappe-est-il-actuellement-le-meilleur-joueur-du-monde-9c4cd73e-ab67-11f1-8346-c9d5c99462af?utm_source=fluxpublicactu&utm_medium=fluxrss&utm_campaign=banquedecontenu",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a9fe4cf720d4af698cec6e5209089bb&url=https%3a%2f%2fwww.lanouvellerepublique.fr%2fcentre-presse%2fcertains-n-ont-pas-de-mutuelle-car-c-est-cher-lathus-saint-remy-propose-une-mutuelle-communale-a-ses-habitants-1788787626&c=18309179154854841368&mkt=en-us",
+    "https://www.france24.com/fr/vid%C3%A9o/20260908-france-les-pompiers-se-mobilisent-apr%C3%A8s-un-%C3%A9t%C3%A9-aux-incendies-virulents"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-08T10:36:05.770Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-08T10:35:00.939Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "sondage-kylian-mbappe-est-il-actuellement-le-meilleur-joueur-du-monde.html",
+          "title": "SONDAGE. Kylian Mbappé est-il actuellement le meilleur joueur du monde ? : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Ouest-France",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "certains-n-ont-pas-de-mutuelle-car-c-est-cher-lathus-saint-remy-propose-.html",
+          "title": "« Certains n’ont pas de mutuelle car c’est cher » : Lathus-Saint-Rémy propose une mutue… : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "france-les-pompiers-se-mobilisent-apres-un-ete-aux-incendies-virulents.html",
+          "title": "France : les pompiers se mobilisent après un été aux incendies virulents : assurance habitation — que faire ?",
+          "source": "Firefox — France 24",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
