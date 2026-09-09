@@ -807,10 +807,34 @@
     return bag;
   }
 
+  function removeTourLink(ad, linkIdOrToken) {
+    var bag = ad && typeof ad === "object" ? ad : {};
+    var want = String(linkIdOrToken || "").trim();
+    if (!want) {
+      return { links: listTourLinks(bag), primary: pickPrimaryLink(listTourLinks(bag)), current: null, removed: false };
+    }
+    var links = listTourLinks(bag).filter(function (l) {
+      return l.id !== want && l.token !== want;
+    });
+    bag.tour_links = links;
+    bag.tour_access = pickPrimaryLink(links);
+    return { links: links, primary: bag.tour_access, current: bag.tour_access, removed: true };
+  }
+
   function applyTourLinks(prevAd, form) {
     var prev = prevAd && typeof prevAd === "object" ? prevAd : {};
     var f = form && typeof form === "object" ? form : {};
     var links = listTourLinks(prev);
+    if (f.tour_delete_link) {
+      var delWant = String(f.tour_link_id || f.tour_delete_link || "").trim();
+      var removedPack = removeTourLink(prev, delWant);
+      return {
+        links: removedPack.links,
+        primary: removedPack.primary,
+        current: removedPack.primary,
+        removed: removedPack.removed,
+      };
+    }
     if (f.tour_create_link) {
       var created = normalizeTourAccess(
         {},
@@ -913,6 +937,7 @@
     pickPrimaryLink: pickPrimaryLink,
     getTourAccessForToken: getTourAccessForToken,
     replaceTourLink: replaceTourLink,
+    removeTourLink: removeTourLink,
     applyTourLinks: applyTourLinks,
   };
 });

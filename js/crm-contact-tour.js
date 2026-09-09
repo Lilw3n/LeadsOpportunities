@@ -153,9 +153,9 @@
         '<option value="first_view" selected>À la première consultation du lien</option>' +
         '<option value="created">Dès la création du lien</option>' +
         "</select></label>" +
-        '<label>E-mails autorisés (un par ligne, ajoute ou retire puis Enregistrer)<textarea id="ctTourEmails" rows="3" placeholder="michele@exemple.fr&#10;autre@exemple.fr"></textarea></label>' +
-        '<label>Téléphones autorisés (un 06 / 07 par ligne)<textarea id="ctTourPhones" rows="3" placeholder="06 12 34 56 78"></textarea></label>' +
-        '<label class="pub-checks"><input type="checkbox" id="ctTourAllow" checked /> Restreindre à ces e-mails / tél. (sinon tout le monde qui passe la vérif)</label>' +
+        '<label>E-mails autorisés (un par ligne — vide = tout le monde qui demande)<textarea id="ctTourEmails" rows="3" placeholder="acheteur@exemple.fr&#10;autre@exemple.fr"></textarea></label>' +
+        '<label>Téléphones autorisés (un 06 / 07 par ligne — ne pas mettre le propriétaire d’office)<textarea id="ctTourPhones" rows="3" placeholder="06 12 34 56 78"></textarea></label>' +
+        '<label class="pub-checks"><input type="checkbox" id="ctTourAllow" /> Restreindre à ces e-mails / tél. (sinon tout le monde qui passe la vérif)</label>' +
         '<div class="pub-media-actions">' +
         '<button type="button" class="btn btn-primary btn-sm" id="ctTourSave">Enregistrer les réglages (URL inchangée)</button>' +
         '<button type="button" class="btn btn-ghost btn-sm" id="ctTourNew">Créer un autre lien nommé</button>' +
@@ -211,16 +211,13 @@
         var emails0 = (selLink.allow_emails || []).slice();
         var phones0 = (selLink.allow_phones || []).slice();
         var allowOn = emails0.length + phones0.length > 0;
-        var contactEmail = Tour.normalizeEmail ? Tour.normalizeEmail(contact.email) : String(contact.email || "").toLowerCase();
-        var contactPhone = Tour.normalizePhone ? Tour.normalizePhone(contact.phone) : String(contact.phone || "").replace(/\D/g, "");
-        if (contactEmail && emails0.indexOf(contactEmail) === -1) emails0 = emails0.concat([contactEmail]);
-        if (contactPhone && phones0.indexOf(contactPhone) === -1) phones0 = phones0.concat([contactPhone]);
         root.querySelector("#ctTourEmails").value = emails0.join("\n");
         root.querySelector("#ctTourPhones").value = phones0.join("\n");
-        root.querySelector("#ctTourAllow").checked = allowOn || (!ad0.tour_access || !ad0.tour_access.token);
+        root.querySelector("#ctTourAllow").checked = allowOn;
       } else {
-        root.querySelector("#ctTourEmails").value = contact.email || "";
-        root.querySelector("#ctTourPhones").value = contact.phone || "";
+        root.querySelector("#ctTourEmails").value = "";
+        root.querySelector("#ctTourPhones").value = "";
+        root.querySelector("#ctTourAllow").checked = false;
       }
 
       if (existingTour) showLinks(existingTour.ta, existingTour.property, AdLib.getAdMeta(existingTour.property).ad);
@@ -310,6 +307,9 @@
             '<button type="button" class="btn btn-ghost btn-sm" data-give-code="' +
             esc(l.token) +
             '">Donner un code (10 min)</button>' +
+            '<button type="button" class="btn btn-ghost btn-sm" data-delete-link="' +
+            esc(l.id || l.token) +
+            '">Supprimer ce lien</button>' +
             "</div></div>"
           );
         })
@@ -321,7 +321,8 @@
         '">Réglages avancés</a></div>' +
         "<p class=\"pub-hint\">L’URL ne change pas quand tu modifies durée / dispo / visibilité. " +
         "<strong>Valider</strong> envoie le code. <strong>Décliner</strong> refuse la visite. " +
-        "<strong>Donner un code</strong> valide aussi la demande et copie un code (10 min) à dicter.</p>";
+        "<strong>Donner un code</strong> valide aussi la demande et copie un code (10 min) à dicter. " +
+        "<strong>Supprimer ce lien</strong> l’enlève (l’ancienne URL ne marchera plus).</p>";
       box.querySelectorAll("[data-copy]").forEach(function (btn) {
         btn.onclick = function () {
           var u = btn.getAttribute("data-copy");
@@ -401,6 +402,34 @@
             });
         };
       });
+      box.querySelectorAll("[data-delete-link]").forEach(function (btn) {
+        btn.onclick = function () {
+          var delId = btn.getAttribute("data-delete-link");
+          if (!delId) return;
+          if (!confirm("Supprimer ce lien de visite ? L’URL déjà collée (Leboncoin…) ne marchera plus.")) return;
+          var bag = AdLib.getAdMeta(prop);
+          var ad = bag.ad || {};
+          var nextProp = AdLib.applyAdToProperty(prop, {
+            headline: ad.headline || prop.title,
+            body: ad.body || prop.description || "",
+            photos: ad.photos || [],
+            videos: ad.videos || [],
+            virtual_tour: ad.virtual_tour || storedTourUrl,
+            listing_url: ad.listing_url || "",
+            channel_public: true,
+            tour_gate: true,
+            tour_delete_link: true,
+            tour_link_id: delId,
+          });
+          if (!nextProp.owner_contact_id) nextProp.owner_contact_id = contact.id;
+          Store.upsertProperty(nextProp);
+          var savedAd = AdLib.getAdMeta(nextProp).ad;
+          var remaining = Tour.listTourLinks ? Tour.listTourLinks(savedAd) : [];
+          selectedLinkId = remaining[0] ? remaining[0].id || remaining[0].token : "";
+          paint("Lien supprimé. Les autres liens restent valables.", true);
+          if (root.querySelector("#ctTourProp")) root.querySelector("#ctTourProp").value = nextProp.id;
+        };
+      });
       var reqBox = root.querySelector("#ctTourRequests");
       if (reqBox && window.CrmImmoTourRequests) {
         window.CrmImmoTourRequests.mount(reqBox, {
@@ -452,17 +481,7 @@
       var ad = bag.ad || {};
       var emails = Tour.parseList ? Tour.parseList(extraEmails, "email") : [];
       var phones = Tour.parseList ? Tour.parseList(extraPhones, "phone") : [];
-      var contactEmail = Tour.normalizeEmail ? Tour.normalizeEmail(contact.email) : "";
-      var contactPhone = Tour.normalizePhone ? Tour.normalizePhone(contact.phone) : "";
-      var extraPeople = emails.some(function (e) { return e !== contactEmail; })
-        || phones.some(function (p) { return p !== contactPhone; });
-      if (extraPeople) allow = true;
-      if (allow && contactEmail && emails.indexOf(contactEmail) === -1) {
-        emails = emails.concat([contactEmail]);
-      }
-      if (allow && contactPhone && phones.indexOf(contactPhone) === -1) {
-        phones = phones.concat([contactPhone]);
-      }
+      if (emails.length || phones.length) allow = true;
 
       var updated = AdLib.applyAdToProperty(prop, {
         headline: ad.headline || prop.title,
@@ -496,16 +515,6 @@
       });
       if (!updated.owner_contact_id) updated.owner_contact_id = contact.id;
       Store.upsertProperty(updated);
-      if (allow) {
-        Store.upsertParty({
-          property_id: updated.id,
-          contact_id: contact.id,
-          role: "acheteur",
-          name: contactName(contact),
-          email: contact.email || "",
-          phone: contact.phone || "",
-        });
-      }
       var savedAd = AdLib.getAdMeta(updated).ad;
       var savedLinks = Tour.listTourLinks ? Tour.listTourLinks(savedAd) : savedAd.tour_access ? [savedAd.tour_access] : [];
       var current =
