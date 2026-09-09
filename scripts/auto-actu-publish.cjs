@@ -49,6 +49,12 @@ function normalizeTitle(t) {
     .trim();
 }
 
+function isPlaceholderTitle(t) {
+  var title = String(t || "");
+  if (!title.trim()) return true;
+  return /collez ici|titre de la une cafeyn|angle assurance a preciser/i.test(title);
+}
+
 function loadPublishedTitleKeys() {
   var keys = new Set();
   var pub = readJson("blog-actu-published.json", { articles: [] });
@@ -94,6 +100,7 @@ function pickCandidates(candidates, count, state) {
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
+    if (isPlaceholderTitle(c.title)) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");

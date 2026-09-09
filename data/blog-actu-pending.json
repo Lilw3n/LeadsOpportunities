@@ -1,4 +1,233 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
-  "articles": []
+  "updated": "2026-09-09T04:10:00.000Z",
+  "articles": [
+    {
+      "file": "incendies-declaration-sinistre-relogement-assurance-2026.html",
+      "section": "habitat",
+      "tag": "Sinistre habitation",
+      "tagClass": "tag-habitation",
+      "title": "Incendies : déclarer le sinistre, relogement et garanties — que faire maintenant",
+      "description": "Après un incendie, délais de déclaration, frais de relogement et sous-assurance. Checklist habitation pour ne pas rester à découvert — questionnaire gratuit.",
+      "meta": "8 min · Sept 2026",
+      "cardExcerpt": "Délais de déclaration, relogement, capital mobilier : ce que votre habitation doit vraiment couvrir après un incendie.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=incendies-sinistre-relogement-2026",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Les assureurs peuvent <strong>prolonger le délai de déclaration</strong> et prendre en charge le <strong>relogement</strong> après des feux de grande ampleur. L’actualité récente (déclaration, relogement remboursé) rappelle surtout une règle simple : <strong>un sinistre mal déclaré ou un contrat sous-dimensionné</strong> laisse le foyer payer la différence. Un ménage sur dix a déjà réduit ses garanties pour baisser la prime — c’est exactement le profil qui se retrouve à découvert le jour de l’incendie."
+        },
+        {
+          "type": "h2",
+          "text": "Déclarer tout de suite, même si un délai exceptionnel existe"
+        },
+        {
+          "type": "p",
+          "text": "Le contrat prévoit en général <strong>cinq jours ouvrés</strong> après connaissance du sinistre (souvent plus court pour le vol). Une extension annoncée par les assureurs après une vague d’incendies est une <strong>mesure exceptionnelle</strong>, pas un droit automatique. Photographiez les lieux, conservez factures et expertises, et envoyez la déclaration <strong>par écrit</strong> (espace client + recommandé). Ne jetez rien avant le passage de l’expert."
+        },
+        {
+          "type": "h2",
+          "text": "Relogement, mobilier, valeur à neuf : les 4 points qui bloquent l’indemnisation"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "<strong>Frais de relogement</strong> : plafond en nuits ou en euros, et seulement si le logement est inhabitable",
+            "<strong>Capital mobilier</strong> : trop bas = indemnité plafonnée même si tout a brûlé",
+            "<strong>Franchise et exclusions</strong> : barbecue, travaux, local non déclaré, dépendance",
+            "<strong>Catastrophe naturelle / tempête / incendie de forêt</strong> : le régime et les délais ne sont pas les mêmes selon la cause"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Ne pas couper les garanties pour « faire baisser le prix »"
+        },
+        {
+          "type": "p",
+          "text": "Baisser le capital mobilier, retirer le relogement ou augmenter la franchise fait chuter la cotisation… et explose le reste à charge au premier feu. Mieux vaut <strong>comparer à garanties équivalentes</strong> (loi Hamon après un an) que d’être sous-assuré. Propriétaire bailleur : vérifiez aussi la <strong>PNO</strong> et la coordination avec l’assurance du locataire."
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine étape : qualifier votre logement"
+        },
+        {
+          "type": "p",
+          "text": "Le <a href=\"../landings/questionnaire.html?need=habitation&amp;journey=standard&amp;utm_source=blog&amp;utm_medium=actu_daily&amp;utm_campaign=habitation&amp;utm_content=incendies-sinistre-relogement-2026\">questionnaire habitation</a> (3 minutes) précise surface, usage (résidence, location, Airbnb) et niveau de capital. Un courtier ORIAS oriente ensuite vers un contrat cohérent — <strong>gratuit, sans engagement</strong>."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "./canicule-secheresse-fissures-catastrophe-naturelle-assurance.html",
+          "label": "Sécheresse et cat-nat"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "mutuelle-communale-prix-habitants-comparer-2026.html",
+      "section": "sante",
+      "tag": "Mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Mutuelle trop chère : la mutuelle communale aide-t-elle vraiment ?",
+      "description": "Mutuelle communale, tarifs groupés, reste à charge hospitalier : comment comparer si vous n’avez plus de complémentaire — questionnaire mutuelle gratuit.",
+      "meta": "8 min · Sept 2026",
+      "cardExcerpt": "Une commune propose une mutuelle groupée car « c’est trop cher ». Voici ce qu’il faut vérifier avant d’adhérer.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=mutuelle-communale-prix-2026",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Des communes, comme récemment Lathus-Saint-Rémy, proposent une <strong>mutuelle communale</strong> : une offre groupée pour les habitants qui n’ont plus de complémentaire « parce que c’est trop cher ». L’intention est bonne. Le risque : croire que le tarif du village suffit, alors que <strong>hospitalisation, optique, dentaire et délais de carence</strong> varient énormément d’un contrat à l’autre."
+        },
+        {
+          "type": "h2",
+          "text": "Ce qu’une mutuelle communale couvre (et ce qu’elle ne couvre pas)"
+        },
+        {
+          "type": "p",
+          "text": "Une offre communale est souvent un <strong>contrat responsable</strong> négocié pour un volume d’adhérents. Elle peut baisser la cotisation des petits budgets. Elle ne remplace pas une comparaison : plafonds d’honoraires, chambre particulière, implants, lunettes, audiologie, et <strong>tiers payant réel</strong> chez vos praticiens. Si vous êtes salarié, la mutuelle d’entreprise reste prioritaire ; la commune vise surtout retraités, indépendants et personnes sans contrat."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist avant d’adhérer (ou de rester sans mutuelle)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "<strong>Hospitalisation</strong> : pourcentage BRSS + dépassements, chambre particulière",
+            "<strong>Pharmacie et nouveaux traitements</strong> : ce que la Sécu ne rembourse plus ou peu",
+            "<strong>Optique / dentaire</strong> : forfaits annuels vs vos dépenses réelles",
+            "<strong>Délais de carence</strong> et exclusions (affections en cours)",
+            "<strong>Résiliation</strong> : pouvez-vous partir à l’échéance si le niveau ne convient pas ?"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Budget Sécu, hôpitaux, reste à charge : pourquoi comparer maintenant"
+        },
+        {
+          "type": "p",
+          "text": "Quand le budget de la Sécurité sociale est sous tension, le <strong>reste à charge</strong> des ménages augmente (dépassements, soins non remboursés). Une mutuelle « basique » communale peut suffire pour le quotidien, et être trop juste en chirurgie. À l’inverse, un contrat individuel trop haut vous fait payer des garanties inutiles. Le bon niveau dépend de l’âge, des enfants, des lunettes et d’une hospitalisation récente."
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine étape : 3 minutes pour cibler le bon niveau"
+        },
+        {
+          "type": "p",
+          "text": "Le <a href=\"../landings/questionnaire.html?need=sante&amp;journey=standard&amp;utm_source=blog&amp;utm_medium=actu_daily&amp;utm_campaign=sante&amp;utm_content=mutuelle-communale-prix-2026\">questionnaire mutuelle</a> identifie le panier utile — sans engagement. Un courtier ORIAS compare ensuite le marché (April, AXA, Allianz, Generali…) à garanties équivalentes. <strong>100 % gratuit</strong>."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 critères mutuelle"
+        },
+        {
+          "href": "./mutuelle-sante-famille-petit-budget-2026.html",
+          "label": "Mutuelle petit budget"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "assurance-emprunteur-gros-capitaux-lemoine-2026.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Assurance emprunteur gros capitaux : comparer hors banque (Lemoine)",
+      "description": "Nouveaux contrats emprunteur pour prêts élevés : quotité, ITT, délégation Lemoine. Questionnaire gratuit — bassin Nancy / Varangéville.",
+      "meta": "8 min · Sept 2026",
+      "cardExcerpt": "Allianz, Magnolia et le marché visent les gros prêts : profitez-en pour renégocier via la loi Lemoine.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=emprunteur-gros-capitaux-lemoine-2026",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le marché de l’<strong>assurance emprunteur</strong> s’adapte aux prêts élevés : de nouveaux contrats ciblent les <strong>gros capitaux</strong> (investissement, résidence avec apport limité, indivision). L’actualité (offres spécialisées Allianz / courtiers) confirme que le contrat groupe de la banque n’est plus le seul choix — surtout depuis la <strong>loi Lemoine</strong>, qui permet de changer à tout moment à garanties équivalentes."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi un gros prêt coûte trop cher en assurance groupe"
+        },
+        {
+          "type": "p",
+          "text": "Sur un capital important, la prime est calculée sur le capital initial ou restant dû, l’âge et le fumeur. Un contrat groupe « moyen » peut représenter <strong>plusieurs milliers d’euros</strong> sur la durée. Un contrat adapté (quotité 100 % / 100 %, ITT, IPT, parfois dos) réduit la facture sans affaiblir la banque. Deux Français sur dix rencontrent aussi un <strong>refus ou une surprime santé</strong> : mieux vaut un questionnaire médical cadré qu’un abandon du projet."
+        },
+        {
+          "type": "h2",
+          "text": "Les 5 points à aligner avant de signer ou de déléguer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "<strong>Quotité</strong> : 100 % sur chaque tête ou répartition — qui rembourse si l’un des deux disparaît ?",
+            "<strong>ITT / IPT / perte d’emploi</strong> selon statut salarié, TNS ou investisseur",
+            "<strong>Équivalence de garanties</strong> exigée par la banque (tableau à joindre)",
+            "<strong>Mise en place</strong> : avenant banque + nouvel assureur, sans trou de couverture",
+            "<strong>Projet local 54</strong> : pour un achat sur <a href=\"../pret-immobilier/nancy-metropole/\">Nancy, Jarville, Varangéville</a> et la métropole, caler aussi taux, apport et reste à vivre"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Lemoine : l’économie ne concerne pas que les « gros dossiers »"
+        },
+        {
+          "type": "p",
+          "text": "Même sur un prêt classique (primo-accédant, résidence principale), comparer hors banque reste le levier le plus simple. Si la banque refuse la délégation, elle doit motiver l’<strong>absence d’équivalence</strong>. Un courtier ORIAS prépare le dossier et relance. Pour un projet en Meurthe-et-Moselle, le hub <a href=\"../pret-immobilier/nancy-metropole/\">prêt immobilier Nancy métropole</a> recense les communes du bassin (dont Varangéville)."
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine étape : qualifier le prêt"
+        },
+        {
+          "type": "p",
+          "text": "Le <a href=\"../landings/questionnaire.html?need=emprunteur&amp;journey=standard&amp;utm_source=blog&amp;utm_medium=actu_daily&amp;utm_campaign=emprunteur&amp;utm_content=emprunteur-gros-capitaux-lemoine-2026\">questionnaire emprunteur</a> (3 minutes) demande montant, âge, fumeur, résidence ou investissement. Orientation Lemoine possible — <strong>gratuit, sans engagement</strong>."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "./assurance-emprunteur-combien-economiser-lemoine.html",
+          "label": "Combien économiser"
+        },
+        {
+          "href": "../pret-immobilier/nancy-metropole/",
+          "label": "Prêt Nancy métropole"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    }
+  ]
 }

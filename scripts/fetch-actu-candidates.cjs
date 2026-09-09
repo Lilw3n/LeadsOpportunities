@@ -40,6 +40,7 @@ function mergeWithQuotas(buckets, quotas) {
 
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected") return;
+  if (/collez ici|titre de la une cafeyn/i.test(String(item.title || ""))) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
