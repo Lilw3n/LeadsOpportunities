@@ -145,6 +145,15 @@ assert(extra.metadata.ad.tour_links[1].name === "Site vitrine", "2e lien nommé 
 assert(extra.metadata.ad.tour_links[1].token !== extra.metadata.ad.tour_links[0].token, "2 tokens distincts");
 assert(AdLib.findByTourToken([extra], extra.metadata.ad.tour_links[1].token).id === "prop_implicit", "findByTourToken 2e lien");
 
+var deleted = AdLib.applyAdToProperty(extra, {
+  virtual_tour: "https://my.matterport.com/show/?m=i1",
+  tour_delete_link: true,
+  tour_link_id: extra.metadata.ad.tour_links[1].id || extra.metadata.ad.tour_links[1].token,
+});
+assert(deleted.metadata.ad.tour_links.length === 1, "suppression d’un lien nommé");
+assert(deleted.metadata.ad.tour_links[0].token === extra.metadata.ad.tour_links[0].token, "l’autre lien reste");
+assert(Tour.removeTourLink, "API removeTourLink exportée");
+
 var paused = AdLib.applyAdToProperty(named, {
   virtual_tour: "https://my.matterport.com/show/?m=i1",
   tour_gate: true,
@@ -235,6 +244,12 @@ assert(contactJs.indexOf("CrmContactTour") !== -1, "fiche contact : mount visite
 var tourUi = read("js/crm-contact-tour.js");
 assert(tourUi.indexOf("tour_allow_emails") !== -1 && tourUi.indexOf("visite.html") !== -1, "contact tour : allowlist + lien public");
 assert(tourUi.indexOf("ctTourEmails") !== -1 && tourUi.indexOf("ctTourPhones") !== -1, "contact tour : ajout e-mail / tél");
+assert(tourUi.indexOf("emails0.concat") === -1 && tourUi.indexOf("contactEmail && emails.indexOf") === -1, "contact : pas d’auto-ajout propriétaire");
+assert(tourUi.indexOf("data-delete-link") !== -1 && tourUi.indexOf("Supprimer ce lien") !== -1, "contact : supprimer un lien");
+assert(crm.indexOf("btnDeleteTourLink") !== -1, "CRM pubs : supprimer CE lien");
+var crmJsPubs = read("js/crm-immo-pubs.js");
+assert(crmJsPubs.indexOf("tour_delete_link") !== -1 && crmJsPubs.indexOf("__deleteTourOnce") !== -1, "CRM pubs : flag suppression");
+assert(Tour.removeTourLink && typeof Tour.removeTourLink === "function", "lib : removeTourLink");
 assert(tourUi.indexOf("first_view") !== -1, "contact tour : durée au 1er clic");
 assert(tourUi.indexOf("ctTourName") !== -1 && tourUi.indexOf("ctTourAvailability") !== -1, "contact tour : nom + dispo");
 assert(tourUi.indexOf("URL inchangée") !== -1 && tourUi.indexOf("tour_create_link") !== -1, "contact tour : URL stable + autre lien");

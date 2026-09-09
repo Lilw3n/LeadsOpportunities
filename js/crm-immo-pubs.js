@@ -200,6 +200,7 @@
         : "listed",
       tour_link_id: document.getElementById("adTourLinkId") ? document.getElementById("adTourLinkId").value : "",
       tour_create_link: !!window.__createNamedTourOnce,
+      tour_delete_link: !!window.__deleteTourOnce,
       tour_days: "",
       tour_duration_value: document.getElementById("adTourDuration")
         ? document.getElementById("adTourDuration").value
@@ -982,6 +983,20 @@
       document.getElementById("adForm").requestSubmit();
     };
   }
+  var deleteTourBtn = document.getElementById("btnDeleteTourLink");
+  if (deleteTourBtn) {
+    deleteTourBtn.onclick = function () {
+      var idEl = document.getElementById("adTourLinkId");
+      var linkId = idEl ? String(idEl.value || "").trim() : "";
+      if (!linkId) {
+        msg("Sélectionne d’abord le lien à supprimer.");
+        return;
+      }
+      if (!confirm("Supprimer CE lien de visite ? L’URL déjà collée (Leboncoin…) ne marchera plus. Les autres liens restent.")) return;
+      window.__deleteTourOnce = true;
+      document.getElementById("adForm").requestSubmit();
+    };
+  }
   var linkSelEl = document.getElementById("adTourLinkSelect");
   if (linkSelEl) {
     linkSelEl.onchange = function () {
@@ -1146,6 +1161,7 @@
     });
     window.__rotateTourOnce = false;
     window.__createNamedTourOnce = false;
+    window.__deleteTourOnce = false;
     if (currentId) next.id = currentId;
     var saved = Store.upsertProperty(next);
     currentId = saved.id;
@@ -1159,13 +1175,20 @@
         return l && (l.id === form.tour_link_id || l.token === form.tour_link_id);
       })[0] ||
       nextLinks[0];
-    if (currentLink && document.getElementById("adTourLinkId")) {
-      document.getElementById("adTourLinkId").value = currentLink.id || currentLink.token || "";
+    if (form.tour_delete_link) {
+      currentLink = nextLinks[0] || null;
+    }
+    if (document.getElementById("adTourLinkId")) {
+      document.getElementById("adTourLinkId").value = currentLink
+        ? currentLink.id || currentLink.token || ""
+        : "";
     }
     fillForm(saved);
     listAds();
     showCreatedBanner(saved);
-    if (form.tour_create_link && currentLink) {
+    if (form.tour_delete_link) {
+      msg("Lien de visite supprimé. Les autres liens restent valables.", true);
+    } else if (form.tour_create_link && currentLink) {
       msg("Nouveau lien « " + (currentLink.name || "Visite") + " » créé. Les URLs déjà publiées sont inchangées.", true);
     } else if (form.rotate_tour_token) {
       msg("Ce lien a été renouvelé. L’ancienne URL ne marche plus.", true);
