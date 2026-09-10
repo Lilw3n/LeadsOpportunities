@@ -710,11 +710,9 @@
       if (!leadId) return;
       var card = container.querySelector('.event-card[data-id="' + CSS.escape(e.id) + '"]');
       if (!card) return;
-      var block = card.querySelector("[data-int-seller-quick-edit]");
-      if (!block || block.dataset.sellerBound) return;
       var p = INT.resolveLeadPayloadFromEvent(e.description, extra);
       var dossier = INT.buildDossier(null, p);
-      window.InterlocuteurDossierEdit.bindSellerQuickEdit(block, {
+      var saveOpts = {
         leadId: leadId,
         contactId: e.contact_id || contactId,
         api: "crm",
@@ -722,7 +720,15 @@
         onSaved: function () {
           loadContact();
         },
-      });
+      };
+      var sellerBlock = card.querySelector("[data-int-seller-quick-edit]");
+      if (sellerBlock && !sellerBlock.dataset.sellerBound) {
+        window.InterlocuteurDossierEdit.bindSellerQuickEdit(sellerBlock, saveOpts);
+      }
+      var contactBlock = card.querySelector("[data-int-contact-quick-edit]");
+      if (contactBlock && window.InterlocuteurDossierEdit.bindContactQuickEdit && !contactBlock.dataset.contactBound) {
+        window.InterlocuteurDossierEdit.bindContactQuickEdit(contactBlock, saveOpts);
+      }
     });
   }
 

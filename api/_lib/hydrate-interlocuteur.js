@@ -135,8 +135,9 @@ async function hydrateInterlocuteurFromLead(sql, user, lead, contactId) {
 
   const firstName = patches.firstName || current.first_name || null;
   const lastName = patches.lastName || current.last_name || null;
-  const email = patches.email || current.email || lead.email || null;
-  const phone = patches.phone || current.phone || lead.phone || null;
+  // Préférer payload/lead mis à jour (ex. admin remplace ses coordonnées) plutôt que l’ancien contact CRM.
+  const email = patches.email || lead.email || current.email || null;
+  const phone = patches.phone || lead.phone || current.phone || null;
   const companyName = (patches.company && patches.company.name) || current.company || null;
 
   await sql`

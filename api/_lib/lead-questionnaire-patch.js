@@ -229,14 +229,23 @@ async function patchLeadQuestionnaire(sql, opts) {
 
   var email = lead.email;
   var phone = lead.phone;
-  if (patch.email) email = String(patch.email).trim().toLowerCase().slice(0, 320);
-  if (patch.phone || patch.telephone) phone = String(patch.phone || patch.telephone).trim().slice(0, 40);
+  if (Object.prototype.hasOwnProperty.call(patch, "email")) {
+    email = String(patch.email || "")
+      .trim()
+      .toLowerCase()
+      .slice(0, 320);
+  }
+  if (Object.prototype.hasOwnProperty.call(patch, "phone") || Object.prototype.hasOwnProperty.call(patch, "telephone")) {
+    phone = String(patch.phone || patch.telephone || "")
+      .trim()
+      .slice(0, 40);
+  }
 
   await sql`
     UPDATE site_leads SET
       payload = ${JSON.stringify(payload)},
-      email = COALESCE(${email || null}, email),
-      phone = COALESCE(${phone || null}, phone),
+      email = ${email || null},
+      phone = ${phone || null},
       updated_at = NOW(),
       last_activity_at = NOW()
     WHERE id = ${leadId}
