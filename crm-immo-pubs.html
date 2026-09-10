@@ -147,16 +147,24 @@
       <form class="pub-immo-form" id="adForm">
         <input type="hidden" id="adId" value="" />
         <div class="pub-media-block" id="lbcImportBox" style="margin-bottom:16px">
-          <h4>Reprendre depuis Leboncoin</h4>
-          <p class="pub-hint" style="margin:0">Collez le <strong>lien</strong> de l’annonce et/ou le <strong>texte</strong> (titre, prix, critères, description). Leboncoin bloque la lecture auto : ouvrez l’annonce → sélectionnez → copiez → collez ici.</p>
+          <h4>Reprendre depuis Leboncoin (vos annonces)</h4>
+          <p class="pub-hint" style="margin:0">Ce sont <strong>vos</strong> photos. Leboncoin bloque souvent la lecture automatique depuis nos serveurs (captcha) : le plus fiable est d’ouvrir <strong>votre</strong> annonce, cliquer le marque-page ci-dessous, puis coller ici.</p>
+          <p class="pub-hint" style="margin:8px 0 0">
+            <a class="btn btn-ghost btn-sm" id="lbcPhotoBookmarklet" href="#">Photos LBC → presse-papiers</a>
+            <span style="margin-left:6px;font-size:.85rem">Glissez ce bouton dans vos favoris, ouvrez votre annonce LBC, puis cliquez le favori.</span>
+          </p>
           <label style="margin:8px 0 0">Lien Leboncoin (ou autre portail)
             <input id="adListingUrl" type="url" placeholder="https://www.leboncoin.fr/ad/ventes_immobilieres/…" />
           </label>
           <label style="margin:8px 0 0">Texte de l’annonce (copié depuis Leboncoin)
             <textarea id="adListingPaste" rows="5" placeholder="Appartement T3…&#10;147 000 €&#10;65 m² · 3 pièces · Varangéville 54110&#10;Classe énergie D…"></textarea>
           </label>
+          <label style="margin:8px 0 0">Photos (liens images — une URL par ligne)
+            <textarea id="adListingPhotoUrls" rows="3" placeholder="https://img.leboncoin.fr/…&#10;Ou collez le HTML de la galerie : les images sont détectées automatiquement."></textarea>
+          </label>
           <div class="pub-media-actions" style="margin-top:8px">
-            <button type="button" class="btn btn-primary btn-sm" id="btnImportListing">Reprendre les infos</button>
+            <button type="button" class="btn btn-primary btn-sm" id="btnImportListing">Reprendre les infos + photos</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnFetchListingPhotos">Essayer depuis le lien</button>
             <a class="btn btn-ghost btn-sm" id="btnOpenListingUrl" href="#" target="_blank" rel="noopener" hidden>Ouvrir l’annonce</a>
           </div>
           <p class="pub-hint" id="adImportStatus" style="margin:8px 0 0" role="status"></p>

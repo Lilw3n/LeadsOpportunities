@@ -111,7 +111,9 @@
     ];
   }
 
-  function detailHtml(p, privateMode) {
+  function detailHtml(p, privateMode, opts) {
+    opts = opts || {};
+    var adminMode = !!opts.admin;
     var photos = p.photos || [];
     var main = coverUrl(p);
     var count = photos.length;
@@ -212,7 +214,14 @@
       (main
         ? '<img id="adMainImg" src="' + esc(main) + '" alt="' + esc(p.headline || p.title || "Annonce") + '" draggable="false" />' +
           '<button type="button" class="lbc-zoom-hint" id="adZoomOpen" aria-label="Agrandir la photo">🔍 Agrandir</button>'
-        : '<div class="lbc-gallery__empty">Aucune photo renseignée</div>') +
+        : '<div class="lbc-gallery__empty"><span>Aucune photo renseignée</span>' +
+          (adminMode
+            ? '<div class="lbc-gallery__admin-retry">' +
+              '<button type="button" class="btn btn-primary btn-sm" id="btnRetryListingPhotos">Réessayer de récupérer les photos</button>' +
+              '<p class="lbc-gallery__admin-status" id="adPhotoRetryStatus" role="status"></p>' +
+              "</div>"
+            : "") +
+          "</div>") +
       (count
         ? '<button type="button" class="lbc-nav lbc-nav--prev" id="adPrev" aria-label="Photo précédente">‹</button>' +
           '<button type="button" class="lbc-nav lbc-nav--next" id="adNext" aria-label="Photo suivante">›</button>' +
@@ -696,13 +705,100 @@
     paint();
   }
 
-  function showListing(listing, privateMode) {
+  function isCrmAdminSession() {
+    try {
+      return !!(localStorage.getItem("lo_token") || "").trim();
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function setPhotoRetryStatus(text, ok) {
+    var el = document.getElementById("adPhotoRetryStatus");
+    if (!el) return;
+    el.textContent = text || "";
+    el.classList.toggle("is-ok", !!ok);
+    el.classList.toggle("is-err", text && !ok);
+  }
+
+  function bindAdminPhotoRetry(root, listing) {
+    var btn = root && root.querySelector("#btnRetryListingPhotos");
+    if (!btn || !listing) return;
+    btn.addEventListener("click", function () {
+      var tok = "";
+      try {
+        tok = localStorage.getItem("lo_token") || "";
+      } catch (e) {}
+      if (!tok) {
+        setPhotoRetryStatus("Connectez-vous au CRM pour réessayer.", false);
+        return;
+      }
+      if (!listing.listing_url && !listing.id) {
+        setPhotoRetryStatus("Ajoutez d’abord le lien Leboncoin sur la pub CRM.", false);
+        return;
+      }
+      btn.disabled = true;
+      setPhotoRetryStatus("Récupération en cours…", true);
+      fetch("/api/immo-listing-photos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + tok,
+        },
+        body: JSON.stringify({
+          url: listing.listing_url || "",
+          property_id: listing.id || "",
+          persist: true,
+        }),
+      })
+        .then(function (r) {
+          return r.json().then(function (data) {
+            return { status: r.status, data: data };
+          });
+        })
+        .then(function (res) {
+          btn.disabled = false;
+          var data = res.data || {};
+          if (res.status === 401) {
+            setPhotoRetryStatus("Session CRM expirée — reconnectez-vous.", false);
+            return;
+          }
+          if (data.blocked) {
+            setPhotoRetryStatus(data.hint || "Leboncoin bloque encore. Réessayez dans un instant.", false);
+            return;
+          }
+          if (data.photo_urls && data.photo_urls.length) {
+            listing.photos = data.photo_urls.map(function (u) {
+              return { url: u, kind: "photo" };
+            });
+            listing.cover = listing.photos[0] || null;
+            setPhotoRetryStatus(
+              data.hint || data.photo_urls.length + " photo(s) récupérée(s).",
+              true
+            );
+            showListing(listing, !!listing._privateMode, { admin: true });
+            return;
+          }
+          setPhotoRetryStatus(data.hint || data.error || "Aucune photo récupérée.", false);
+        })
+        .catch(function () {
+          btn.disabled = false;
+          setPhotoRetryStatus("Erreur réseau. Réessayez.", false);
+        });
+    });
+  }
+
+  function showListing(listing, privateMode, opts) {
+    opts = opts || {};
+    var adminMode = !!opts.admin || isCrmAdminSession();
+    if (listing) listing._privateMode = !!privateMode;
     var mount = document.getElementById("adDetail");
     var err = document.getElementById("adError");
     if (err) err.hidden = true;
     if (mount) {
-      mount.innerHTML = detailHtml(listing, privateMode);
+      mount.innerHTML = detailHtml(listing, privateMode, { admin: adminMode });
       bindGallery(mount);
+      if (adminMode) bindAdminPhotoRetry(mount, listing);
     }
   }
 
@@ -760,8 +856,7 @@
           return l.id === focusId;
         })[0];
         if (one && detail) {
-          detail.innerHTML = detailHtml(one, false);
-          bindGallery(detail);
+          showListing(one, false, { admin: isCrmAdminSession() });
           grid.innerHTML = listings
             .filter(function (l) {
               return l.id !== focusId;
@@ -806,7 +901,7 @@
     } catch (e) {}
 
     function unlockWithListing(listing, isAdmin) {
-      showListing(listing, true);
+      showListing(listing, true, { admin: !!(isAdmin || adminMode || isCrmAdminSession()) });
       if (isAdmin) {
         var banner = document.querySelector(".immo-ad-private-banner");
         if (banner) {

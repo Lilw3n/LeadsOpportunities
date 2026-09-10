@@ -58,8 +58,12 @@
     var box = document.getElementById("adPhotoThumbs");
     if (!box) return;
     if (!photoState.length) {
-      box.innerHTML = '<p class="pub-hint" style="margin:0">Aucune photo pour l’instant.</p>';
+      box.innerHTML =
+        '<p class="pub-hint" style="margin:0">Aucune photo pour l’instant.</p>' +
+        '<button type="button" class="btn btn-ghost btn-sm" id="btnRetryPhotosEmpty" style="margin-top:8px">Réessayer de récupérer les photos</button>';
       syncHiddenMediaFields();
+      var retryEmpty = document.getElementById("btnRetryPhotosEmpty");
+      if (retryEmpty) retryEmpty.onclick = fetchListingPhotosFromApi;
       return;
     }
     box.innerHTML = photoState
@@ -487,6 +491,50 @@
     msg(parsed.hint || "Infos reprises depuis l’annonce.", true);
   }
 
+  function mergePhotoUrlField(blob) {
+    var el = document.getElementById("adListingPhotoUrls");
+    if (!el) return blob;
+    var extra = el.value.trim();
+    if (!extra) return blob;
+    return [blob, extra].filter(Boolean).join("\n\n");
+  }
+
+  function appendDetectedPhotoUrls(urls) {
+    var el = document.getElementById("adListingPhotoUrls");
+    if (!el || !urls || !urls.length) return;
+    var existing = el.value
+      .split(/\n+/)
+      .map(function (l) {
+        return l.trim();
+      })
+      .filter(Boolean);
+    urls.forEach(function (u) {
+      if (existing.indexOf(u) === -1) existing.push(u);
+    });
+    el.value = existing.join("\n");
+  }
+
+  function onRichListingPaste(ev) {
+    var Paste = window.ImmoListingPaste;
+    if (!Paste || !Paste.extractPhotoUrls) return;
+    var html = "";
+    var plain = "";
+    try {
+      html = (ev.clipboardData && ev.clipboardData.getData("text/html")) || "";
+      plain = (ev.clipboardData && ev.clipboardData.getData("text/plain")) || "";
+    } catch (e) {
+      return;
+    }
+    var found = Paste.extractPhotoUrls(html || plain);
+    if (!found.length) return;
+    appendDetectedPhotoUrls(found);
+    setImportStatus(
+      found.length +
+        " photo(s) détectée(s) dans le collage — cliquez « Reprendre les infos + photos ». Vous pourrez les modifier ensuite.",
+      true
+    );
+  }
+
   function runListingImport() {
     var Paste = window.ImmoListingPaste;
     if (!Paste || !Paste.parseListingPaste) {
@@ -495,12 +543,125 @@
     }
     var url = document.getElementById("adListingUrl").value.trim();
     var paste = document.getElementById("adListingPaste").value.trim();
-    var blob = [url, paste].filter(Boolean).join("\n\n");
-    if (!blob) {
-      setImportStatus("Collez un lien Leboncoin et/ou le texte de l’annonce.", false);
+    var photosField = document.getElementById("adListingPhotoUrls");
+    var photoLines = photosField ? photosField.value.trim() : "";
+    var blob = mergePhotoUrlField([url, paste].filter(Boolean).join("\n\n"));
+    if (!blob && !photoLines) {
+      setImportStatus("Collez un lien Leboncoin, le texte de l’annonce et/ou les liens photos.", false);
       return;
     }
-    applyListingPaste(Paste.parseListingPaste(blob));
+    var beforePhotos = photoState.length;
+    applyListingPaste(Paste.parseListingPaste(blob || photoLines));
+    var added = photoState.length - beforePhotos;
+    if (added > 0) {
+      setImportStatus(
+        (document.getElementById("adImportStatus").textContent || "OK") +
+          " · " +
+          added +
+          " photo(s) ajoutée(s) (modifiables ci-dessous).",
+        true
+      );
+    } else if (url && !paste && !photoLines) {
+      setImportStatus(
+        "Lien reconnu, sans photos locales. Cliquez « Essayer depuis le lien », ou ouvrez votre annonce et utilisez le marque-page Photos LBC.",
+        false
+      );
+    }
+  }
+
+  function applyFetchedPhotos(photoUrls, hint) {
+    var list = Array.isArray(photoUrls) ? photoUrls : [];
+    if (!list.length) {
+      setImportStatus(hint || "Aucune photo récupérée.", false);
+      return;
+    }
+    appendDetectedPhotoUrls(list);
+    list.forEach(function (u) {
+      if (photoState.length >= MAX_PHOTOS) return;
+      if (
+        photoState.some(function (p) {
+          return p && p.url === u;
+        })
+      )
+        return;
+      photoState.push({ url: u, kind: "photo" });
+    });
+    renderPhotoThumbs();
+    setImportStatus(
+      (hint || list.length + " photo(s)") + " · Galerie : " + photoState.length + " photo(s) (modifiables).",
+      true
+    );
+  }
+
+  function fetchListingPhotosFromApi() {
+    var url = document.getElementById("adListingUrl").value.trim();
+    var photosField = document.getElementById("adListingPhotoUrls");
+    var htmlBlob = photosField && /<img[\s>]/i.test(photosField.value || "") ? photosField.value.trim() : "";
+    if (!url && !htmlBlob) {
+      setImportStatus("Indiquez le lien de votre annonce (ou collez le HTML photos).", false);
+      return;
+    }
+    var tok = localStorage.getItem("lo_token") || "";
+    if (!tok) {
+      setImportStatus("Connectez-vous au CRM pour récupérer les photos.", false);
+      return;
+    }
+    setImportStatus("Récupération des photos en cours…", true);
+    fetch("/api/immo-listing-photos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + tok,
+      },
+      body: JSON.stringify(
+        htmlBlob
+          ? { html: htmlBlob, url: url, property_id: currentId || "", persist: !!currentId }
+          : { url: url, property_id: currentId || "", persist: !!currentId }
+      ),
+    })
+      .then(function (r) {
+        return r.json().then(function (data) {
+          return { status: r.status, data: data };
+        });
+      })
+      .then(function (res) {
+        var data = res.data || {};
+        if (res.status === 401) {
+          setImportStatus("Session CRM expirée — reconnectez-vous.", false);
+          return;
+        }
+        if (data.blocked) {
+          setImportStatus(
+            data.hint ||
+              "Leboncoin bloque nos serveurs. Ouvrez votre annonce et utilisez le marque-page Photos LBC.",
+            false
+          );
+          return;
+        }
+        if (data.photo_urls && data.photo_urls.length) {
+          applyFetchedPhotos(data.photo_urls, data.hint);
+          return;
+        }
+        setImportStatus(data.hint || data.error || "Aucune photo récupérée.", false);
+      })
+      .catch(function () {
+        setImportStatus("Erreur réseau pendant la récupération des photos.", false);
+      });
+  }
+
+  function installLbcPhotoBookmarklet() {
+    var a = document.getElementById("lbcPhotoBookmarklet");
+    if (!a) return;
+    var code =
+      "javascript:(function(){try{var u=[],seen={};function add(x){x=String(x||'').trim();if(!x||seen[x])return;if(!/img\\.leboncoin\\.fr|leboncoin\\.fr\\/.*\\.(jpe?g|png|webp)/i.test(x))return;seen[x]=1;u.push(x.split('?')[0]);}document.querySelectorAll('img').forEach(function(img){add(img.currentSrc||img.src);var ss=img.getAttribute('srcset')||'';ss.split(',').forEach(function(p){add(p.trim().split(/\\s+/)[0]);});});document.querySelectorAll('[style*=\"background\"]').forEach(function(el){var m=String(el.style.backgroundImage||'').match(/url\\([\"']?([^\"')]+)/i);if(m)add(m[1]);});var html=document.documentElement?document.documentElement.innerHTML:'';var re=/https?:\\/\\/img\\.leboncoin\\.fr[^\"'\\s<>]+/gi,m;while((m=re.exec(html)))add(m[0]);if(!u.length){alert('Aucune photo Leboncoin trouvée sur cette page. Ouvrez votre annonce puis réessayez.');return;}var t=u.slice(0,24).join('\\n');function ok(){alert(u.length+' photo(s) copiée(s). Revenez au CRM Pubs et collez dans le champ Photos.');}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(function(){prompt('Copiez ces URLs photos :',t);});}else{prompt('Copiez ces URLs photos :',t);}}catch(e){alert('Marque-page : '+e);}})();";
+    a.setAttribute("href", code);
+    a.addEventListener("click", function (ev) {
+      ev.preventDefault();
+      setImportStatus(
+        "Glissez le bouton « Photos LBC → presse-papiers » dans vos favoris (barre favoris). Puis ouvrez votre annonce Leboncoin et cliquez ce favori.",
+        true
+      );
+    });
   }
 
   function createPageUrl() {
@@ -912,6 +1073,8 @@
     document.getElementById("adAccessPhones").value = "";
     document.getElementById("adListingUrl").value = "";
     document.getElementById("adListingPaste").value = "";
+    var photoUrlsEl = document.getElementById("adListingPhotoUrls");
+    if (photoUrlsEl) photoUrlsEl.value = "";
     setImportStatus("");
     syncOpenListingBtn();
     document.getElementById("chPrivate").checked = true;
@@ -1055,6 +1218,14 @@
   document.getElementById("btnNewAd").onclick = resetForm;
   var btnImport = document.getElementById("btnImportListing");
   if (btnImport) btnImport.onclick = runListingImport;
+  var btnFetchPhotos = document.getElementById("btnFetchListingPhotos");
+  if (btnFetchPhotos) btnFetchPhotos.onclick = fetchListingPhotosFromApi;
+  installLbcPhotoBookmarklet();
+  var listingPasteEl = document.getElementById("adListingPaste");
+  if (listingPasteEl) listingPasteEl.addEventListener("paste", onRichListingPaste);
+  var listingPhotosEl = document.getElementById("adListingPhotoUrls");
+  if (listingPhotosEl) listingPhotosEl.addEventListener("paste", onRichListingPaste);
+
   var listingUrlEl = document.getElementById("adListingUrl");
   if (listingUrlEl) {
     listingUrlEl.addEventListener("change", syncOpenListingBtn);

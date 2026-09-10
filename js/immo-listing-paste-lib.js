@@ -1,6 +1,8 @@
 /**
  * Reprise d'infos depuis un lien / texte d'annonce (Leboncoin & portails).
- * Pas de scraping serveur (LBC renvoie un captcha) : on parse l'URL + le texte collé.
+ * Parse URL + texte / HTML collé (photos img.leboncoin.fr).
+ * Un fetch serveur existe (API CRM) mais Leboncoin renvoie souvent un captcha :
+ * dans ce cas, marque-page sur la page annonce déjà ouverte chez le conseiller.
  */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) {
@@ -34,6 +36,113 @@
     }
     return out;
   }
+
+  function decodeHtmlAttr(s) {
+    return String(s || "")
+      .replace(/&amp;/gi, "&")
+      .replace(/&quot;/gi, '"')
+      .replace(/&#39;/gi, "'")
+      .replace(/&lt;/gi, "<")
+      .replace(/&gt;/gi, ">");
+  }
+
+  function normalizePhotoUrl(u) {
+    var url = decodeHtmlAttr(String(u || "").trim());
+    if (!url) return "";
+    url = url.replace(/[.,;:!?)]+$/, "");
+    if (/^\/\//.test(url)) url = "https:" + url;
+    if (!/^https?:\/\//i.test(url)) return "";
+    // drop tracking junk that breaks display
+    url = url.replace(/#.*$/, "");
+    return url;
+  }
+
+  function isPhotoUrl(u) {
+    var url = String(u || "");
+    if (!/^https?:\/\//i.test(url)) return false;
+    if (/leboncoin\.fr\/(ad|annonce)\b/i.test(url)) return false;
+    if (/\/favicon|sprite|logo|icon|pixel|1x1|tracking|analytics/i.test(url)) return false;
+    if (/img\.leboncoin\.fr|img\d*\.leboncoin\.fr|lebocom-ads-images|storage\.googleapis\.com\/.*leboncoin/i.test(url)) {
+      return true;
+    }
+    if (/\.(jpe?g|png|webp|gif)(\?|$)/i.test(url)) return true;
+    if (/[?&](format|width|height|fit)=/i.test(url) && /image|photo|media|cdn|img/i.test(url)) return true;
+    return false;
+  }
+
+  function pickFromSrcset(srcset) {
+    var best = "";
+    var bestW = -1;
+    String(srcset || "")
+      .split(",")
+      .forEach(function (part) {
+        var bits = cleanText(part).split(/\s+/);
+        if (!bits.length) return;
+        var u = normalizePhotoUrl(bits[0]);
+        if (!u || !isPhotoUrl(u)) return;
+        var w = 0;
+        if (bits[1] && /w$/i.test(bits[1])) w = parseInt(bits[1], 10) || 0;
+        if (bits[1] && /x$/i.test(bits[1])) w = Math.round((parseFloat(bits[1]) || 0) * 1000);
+        if (w >= bestW) {
+          bestW = w;
+          best = u;
+        }
+      });
+    return best;
+  }
+
+  /**
+   * Extrait les URLs photos depuis texte brut, HTML collé (clipboard) ou srcset.
+   * Pas de fetch distant : Leboncoin bloque (captcha).
+   */
+  function extractPhotoUrls(raw) {
+    var text = String(raw || "");
+    var out = [];
+    function push(u) {
+      var url = normalizePhotoUrl(u);
+      if (!url || !isPhotoUrl(url)) return;
+      if (out.indexOf(url) === -1) out.push(url);
+    }
+
+    // HTML attributes: src, data-src, data-lazy-src, content (og:image), href images
+    var attrRe =
+      /(?:src|data-src|data-lazy-src|data-original|data-url|content|href)\s*=\s*["']([^"']+)["']/gi;
+    var am;
+    while ((am = attrRe.exec(text))) push(am[1]);
+
+    // srcset / data-srcset
+    var ssRe = /(?:srcset|data-srcset)\s*=\s*["']([^"']+)["']/gi;
+    while ((am = ssRe.exec(text))) {
+      var picked = pickFromSrcset(am[1]);
+      if (picked) push(picked);
+    }
+
+    // bare URLs in text
+    extractUrls(text).forEach(push);
+
+    // JSON-ish "url":"https://img.leboncoin.fr/..."
+    var jsonRe = /https?:\\\/\\\/[^"'\\\s]+/gi;
+    while ((am = jsonRe.exec(text))) {
+      push(am[0].replace(/\\\//g, "/"));
+    }
+
+    // Prefer largest variant when same image path differs only by rule/size query
+    var ranked = {};
+    out.forEach(function (url) {
+      var key = url.replace(/[?#].*$/, "").replace(/\/(small|thumb|ad-small|ad-thumb)[^/]*$/i, "");
+      var score = 0;
+      var wm = url.match(/[?&](?:rule=ad-)?(?:w(?:idth)?=)?(\d{2,4})/i) || url.match(/\s(\d{2,4})w/);
+      if (wm) score = parseInt(wm[1], 10) || 0;
+      if (/large|big|orig|full|2048|1280|1200/i.test(url)) score += 5000;
+      if (/small|thumb|tiny|320|240/i.test(url)) score -= 2000;
+      if (!ranked[key] || score >= ranked[key].score) ranked[key] = { url: url, score: score };
+    });
+    return Object.keys(ranked)
+      .map(function (k) { return ranked[k].url; })
+      .slice(0, 24);
+
+  }
+
 
   function detectListingUrl(text) {
     var urls = extractUrls(text);
@@ -261,10 +370,8 @@
     if (/\bmeubl[ée]\b/i.test(body) && !/\bnon\s+meubl/i.test(body)) out.furnished = true;
     if (/\bnon\s+meubl/i.test(body) || /\bvide\b/i.test(body)) out.furnished = false;
 
-    urls.forEach(function (u) {
-      if (/img\.leboncoin\.fr|leboncoin\.fr\/.*\.(jpe?g|png|webp)/i.test(u) || /\.(jpe?g|png|webp)(\?|$)/i.test(u)) {
-        if (out.photo_urls.indexOf(u) === -1) out.photo_urls.push(u);
-      }
+    extractPhotoUrls(text).forEach(function (u) {
+      if (out.photo_urls.indexOf(u) === -1) out.photo_urls.push(u);
     });
 
     var lines = text.split(/\n/);
@@ -302,7 +409,7 @@
       out.hint =
         "Lien " +
         (out.portal_label || "Leboncoin") +
-        " reconnu. Leboncoin bloque la lecture automatique : ouvrez l’annonce, sélectionnez le texte (titre, prix, critères, description) puis collez-le ici pour préremplir.";
+        " reconnu. Leboncoin bloque la lecture automatique de la page : collez le texte de l’annonce, et pour les photos collez les liens images (img.leboncoin.fr) ou le HTML copié depuis la page. Vous pourrez ensuite les modifier.";
     } else if (out.ok) {
       out.hint =
         out.fields_filled.length +
@@ -320,5 +427,7 @@
     parseListingPaste: parseListingPaste,
     detectListingUrl: detectListingUrl,
     extractUrls: extractUrls,
+    extractPhotoUrls: extractPhotoUrls,
+    isPhotoUrl: isPhotoUrl,
   };
 });
