@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu"],
+      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu", "assurance-maladie", "assurance maladie", "cpam"],
       "section": "sante",
       "need": "sante",
       "tag": "Santé & mutuelle",
@@ -15,14 +15,14 @@
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
+      "keywords": ["emprunteur", "emprunteurs", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
       "section": "finance",
       "need": "emprunteur",
       "tag": "Crédit & emprunteur",
       "tagClass": "tag-actu"
     },
     {
-      "keywords": ["construction", "sinistre", "dégâts des eaux", "degats des eaux", "catastrophe", "récolte", "agricole"],
+      "keywords": ["construction", "sinistre", "sinistré", "sinistrées", "sinistrees", "sinistrés", "zones sinistr", "dégâts des eaux", "degats des eaux", "catastrophe", "crue", "récolte", "agricole"],
       "section": "habitat",
       "need": "habitation",
       "tag": "Habitation & sinistre",
@@ -67,7 +67,8 @@
       "keywords": [
         "coupe du monde",
         "world cup",
-        "mondial",
+        "mondial de foot",
+        "mondial 2026",
         "fifa",
         "équipe de france",
         "equipe de france",
@@ -112,7 +113,15 @@
         "legende du foot",
         "selection française",
         "selection francaise",
-        "football"
+        "football",
+        "mondial de foot",
+        "mondial 2026",
+        "psg",
+        "ligue 1",
+        "ligue1",
+        "parc des princes",
+        "paris saint-germain",
+        "paris-saint-germain"
       ],
       "section": "actu",
       "need": "sante",

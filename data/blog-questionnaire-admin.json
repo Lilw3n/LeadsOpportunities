@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-08",
   "sections": [
     "actu",
     "animaux",
@@ -1965,6 +1965,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "sondage-kylian-mbappe-est-il-actuellement-le-meilleur-joueur-du-monde.html",
+      "title": "SONDAGE. Kylian Mbappé est-il actuellement le meilleur joueur du monde ? : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=sondage-kylian-mbappe-est-il-actuelleme",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "certains-n-ont-pas-de-mutuelle-car-c-est-cher-lathus-saint-remy-propose-.html",
+      "title": "« Certains n’ont pas de mutuelle car c’est cher » : Lathus-Saint-Rémy propose une mutue… : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=certains-n-ont-pas-de-mutuelle-car-c-e",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "france-les-pompiers-se-mobilisent-apres-un-ete-aux-incendies-virulents.html",
+      "title": "France : les pompiers se mobilisent après un été aux incendies virulents : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=france-les-pompiers-se-mobilisent-apre",
+      "matchedRule": "habitation",
       "species": null
     }
   ]
