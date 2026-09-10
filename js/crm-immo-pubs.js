@@ -682,9 +682,9 @@
     var links = "";
     if (channels.indexOf("public") !== -1) {
       links +=
-        '<a class="btn btn-primary btn-sm" href="./immobilier/pubs-mandats.html?id=' +
+        '<a class="btn btn-primary btn-sm" href="./immobilier/biens.html?id=' +
         encodeURIComponent(property.id) +
-        '" target="_blank" rel="noopener">Voir la pub publique</a>';
+        '" target="_blank" rel="noopener">Voir sur le hub biens</a>';
     }
     if (bag.ad.tour_access && bag.ad.tour_access.enabled && bag.ad.tour_access.token) {
       links +=
@@ -955,9 +955,9 @@
     var html = "";
     if (channels.indexOf("public") !== -1) {
       html +=
-        '<a class="btn btn-ghost btn-sm" href="./immobilier/pubs-mandats.html?id=' +
+        '<a class="btn btn-ghost btn-sm" href="./immobilier/biens.html?id=' +
         encodeURIComponent(property.id) +
-        '" target="_blank" rel="noopener">Voir vitrine publique</a>';
+        '" target="_blank" rel="noopener">Voir sur le hub biens</a>';
     }
     if (channels.indexOf("private") !== -1 && bag.ad.share_token) {
       html +=

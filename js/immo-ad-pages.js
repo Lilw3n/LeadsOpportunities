@@ -37,15 +37,20 @@
     var media = cover
       ? '<img src="' + esc(cover) + '" alt="" loading="lazy" draggable="false" />'
       : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#64748b;font-weight:700">Sans photo</div>';
+    var hasTour = !!(p.virtual_tour || p.has_virtual_tour || p.tour_gate || p.tour_href);
     return (
       '<article class="immo-ad-card immo-ad-fade-in" data-id="' +
       esc(p.id) +
+      '" data-tour="' +
+      (hasTour ? "1" : "0") +
       '">' +
       '<div class="immo-ad-card__media immo-ad-media">' +
       media +
       '<span class="immo-ad-card__price">' +
       esc(priceOf(p)) +
-      "</span></div>" +
+      "</span>" +
+      (hasTour ? '<span class="immo-ad-card__tour-badge">Visite 3D</span>' : "") +
+      "</div>" +
       '<div class="immo-ad-card__body">' +
       "<h2>" +
       esc(p.headline || p.title) +
@@ -56,7 +61,7 @@
       (p.description ? '<p class="immo-ad-card__desc">' + esc(p.description) + "</p>" : "") +
       '<div class="immo-ad-card__tags">' +
       (p.videos && p.videos.length ? "<span>Vidéo</span>" : "") +
-      (p.virtual_tour || p.has_virtual_tour || p.tour_gate ? "<span>Visite virtuelle</span>" : "") +
+      (hasTour ? "<span>Visite virtuelle (accès vérifié)</span>" : "") +
       "</div></div></article>"
     );
   }
@@ -839,14 +844,45 @@
     var grid = document.getElementById("adGrid");
     var detail = document.getElementById("adDetail");
     var empty = document.getElementById("adEmpty");
+    var filters = document.getElementById("adFilters");
     if (!grid) return;
     var params = new URLSearchParams(location.search);
     var focusId = params.get("id");
+    var filterMode = params.get("filter") === "tour" ? "tour" : "all";
 
-    fetchPublicAds().then(function (listings) {
-      if (!listings.length) listings = localPublicAds();
+    function syncFilterButtons() {
+      if (!filters) return;
+      filters.querySelectorAll("[data-filter]").forEach(function (btn) {
+        var on = btn.getAttribute("data-filter") === filterMode;
+        btn.classList.toggle("is-active", on);
+        btn.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+    }
+
+    function visibleList(listings) {
+      if (filterMode !== "tour") return listings;
+      return listings.filter(function (p) {
+        return !!(p.virtual_tour || p.has_virtual_tour || p.tour_gate || p.tour_href);
+      });
+    }
+
+    function paint(listings) {
+      var shown = visibleList(listings);
       if (!listings.length) {
-        if (empty) empty.hidden = false;
+        if (empty) {
+          empty.hidden = false;
+          empty.textContent =
+            "Aucun bien en vitrine pour le moment. Les annonces apparaissent ici dès qu’un bien est activé en vitrine publique dans le CRM.";
+        }
+        grid.innerHTML = "";
+        return;
+      }
+      if (!shown.length) {
+        if (empty) {
+          empty.hidden = false;
+          empty.textContent =
+            "Aucun bien avec visite virtuelle dans la vitrine pour le moment. Affichez tous les biens ou revenez plus tard.";
+        }
         grid.innerHTML = "";
         return;
       }
@@ -857,25 +893,52 @@
         })[0];
         if (one && detail) {
           showListing(one, false, { admin: isCrmAdminSession() });
-          grid.innerHTML = listings
+          grid.innerHTML = shown
             .filter(function (l) {
               return l.id !== focusId;
             })
             .map(cardHtml)
             .join("");
         } else {
-          grid.innerHTML = listings.map(cardHtml).join("");
+          grid.innerHTML = shown.map(cardHtml).join("");
         }
       } else {
-        grid.innerHTML = listings.map(cardHtml).join("");
+        if (detail) detail.innerHTML = "";
+        grid.innerHTML = shown.map(cardHtml).join("");
       }
       grid.querySelectorAll("[data-id]").forEach(function (card) {
         card.style.cursor = "pointer";
         card.addEventListener("click", function () {
-          location.search = "?id=" + encodeURIComponent(card.getAttribute("data-id"));
+          var q = "?id=" + encodeURIComponent(card.getAttribute("data-id"));
+          if (filterMode === "tour") q += "&filter=tour";
+          location.search = q;
         });
       });
       if (Protect) Protect.attach(document.getElementById("adProtectRoot") || document.body, { watermark: false });
+    }
+
+    if (filters) {
+      syncFilterButtons();
+      filters.querySelectorAll("[data-filter]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          filterMode = btn.getAttribute("data-filter") === "tour" ? "tour" : "all";
+          syncFilterButtons();
+          var next = new URLSearchParams(location.search);
+          if (filterMode === "tour") next.set("filter", "tour");
+          else next.delete("filter");
+          var qs = next.toString();
+          history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+          fetchPublicAds().then(function (listings) {
+            if (!listings.length) listings = localPublicAds();
+            paint(listings);
+          });
+        });
+      });
+    }
+
+    fetchPublicAds().then(function (listings) {
+      if (!listings.length) listings = localPublicAds();
+      paint(listings);
     });
   }
 

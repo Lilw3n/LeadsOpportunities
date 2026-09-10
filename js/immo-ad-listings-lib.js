@@ -286,9 +286,8 @@
     return channelsOf(bag.ad).indexOf(channel) !== -1;
   }
 
+  /** Visibilité publique = case CRM cochée (choix conseiller), indépendamment du statut mandat. */
   function isPublicMandateAd(property) {
-    var status = String((property && property.status) || "").toLowerCase();
-    if (status !== "mandat" && status !== "sous_offre" && status !== "reserve_sru") return false;
     return hasChannel(property, "public");
   }
 
@@ -445,6 +444,8 @@
     var bag = getAdMeta(p);
     var meta = Object.assign({}, bag.meta);
     var prev = bag.ad || {};
+    if (form.status) p.status = String(form.status).trim();
+
     var channels = [];
     if (form.channel_public) channels.push("public");
     if (form.channel_private) channels.push("private");
@@ -536,10 +537,6 @@
       p.listing_url = String(form.listing_url || prev.listing_url || "").trim().slice(0, 500);
     }
     if (photos.length) p.photos_json = photos;
-    if (form.status) p.status = form.status;
-    else if (channels.indexOf("public") !== -1 && (!p.status || p.status === "estimation" || p.status === "prospection")) {
-      p.status = "mandat";
-    }
     p.metadata = meta;
     p.metadata_json = meta;
     p.seo_published = channels.indexOf("public") !== -1;
