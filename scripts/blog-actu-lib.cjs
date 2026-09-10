@@ -51,16 +51,33 @@ function existingFiles() {
   return files;
 }
 
-function matchTopic(text) {
+function keywordHitsHay(hay, kw) {
+  var k = String(kw || "").toLowerCase().trim();
+  if (!k) return false;
+  if (k.length <= 4) {
+    var escaped = k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    var re = new RegExp("(^|[^a-z0-9àâäéèêëïîôùûüç])" + escaped + "(?=$|[^a-z0-9àâäéèêëïîôùûüç])", "i");
+    return re.test(hay);
+  }
+  return hay.indexOf(k) !== -1;
+}
+
+function matchTopic(text, extra) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
-  var hay = String(text || "").toLowerCase();
+  var hayTitle = String(text || "").toLowerCase();
+  var hayExtra = String(extra || "").toLowerCase();
   var best = null;
   var bestScore = 0;
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
+    var titleHits = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (keywordHitsHay(hayTitle, kw)) {
+        score += 3;
+        titleHits += 1;
+      } else if (keywordHitsHay(hayExtra, kw)) score += 1;
     });
+    if (!titleHits && score < 4) return;
     if (score > bestScore) {
       bestScore = score;
       best = rule;
@@ -142,6 +159,17 @@ function scoreLeadPotential(candidate) {
   return Math.min(100, Math.max(0, score));
 }
 
+/** File inbox : ignorer le modèle « COLLEZ ICI » et les titres vides. */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  if (item.id === "cafeyn-pending-template") return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (/collez ici/i.test(title)) return true;
+  if (/^\[?\s*titre\s*(cafeyn|a completer|à compléter)/i.test(title)) return true;
+  return false;
+}
+
 function rankCandidates(candidates) {
   return candidates
     .map(function (c) {
@@ -171,7 +199,7 @@ function ctaWithUtm(need, slug) {
 function scaffoldArticle(input) {
   var title = String(input.title || "").trim();
   if (!title) return null;
-  var topic = matchTopic(title + " " + (input.summary || "") + " " + (input.note || ""));
+  var topic = matchTopic(title, (input.summary || "") + " " + (input.note || ""));
   var baseSlug = slugify(title);
   if (!baseSlug) baseSlug = "actu-assurance-" + Date.now();
   var file = uniqueFile(baseSlug);
@@ -349,6 +377,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuItem: isPlaceholderActuItem,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };

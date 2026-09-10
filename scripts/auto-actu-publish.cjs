@@ -10,7 +10,7 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderActuItem } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -94,6 +94,7 @@ function pickCandidates(candidates, count, state) {
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
+    if (isPlaceholderActuItem(c)) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
@@ -167,6 +168,24 @@ function runNode(script) {
   execSync("node " + script, { stdio: "inherit", cwd: ROOT });
 }
 
+/** Marque le modèle inbox « COLLEZ ICI » comme rejeté pour que le cron ne le republie plus. */
+function rejectPlaceholderQueueItems() {
+  var queue = readJson("blog-actu-queue.json", { items: [] });
+  var changed = false;
+  (queue.items || []).forEach(function (item) {
+    if (isPlaceholderActuItem(item) && item.status !== "rejected") {
+      item.status = "rejected";
+      item.note = "Modèle inbox — ne pas publier. Ajouter un vrai titre via blog/actu-inbox.html";
+      changed = true;
+    }
+  });
+  if (changed) {
+    queue.updated = new Date().toISOString();
+    writeJson("blog-actu-queue.json", queue);
+    console.log("File : modèle Cafeyn « COLLEZ ICI » marqué rejected.");
+  }
+}
+
 async function main() {
   var count = Math.min(5, Math.max(1, Number(arg("count", 1)) || 1));
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
@@ -176,6 +195,8 @@ async function main() {
   console.log("=== Auto actu publish ===");
   console.log("count:", count, "| IA:", useAi ? "oui" : "non (enrich)", "| dry-run:", dryRun);
   console.log("");
+
+  rejectPlaceholderQueueItems();
 
   var feedsCfg = readJson("blog-actu-feeds.json", { pocket: {} });
   if (feedsCfg.pocket && feedsCfg.pocket.enabled !== false) {
@@ -279,7 +300,10 @@ async function main() {
     if (process.env.STRICT_ACTU_QUALITY === "1" || process.argv.indexOf("--strict-quality") !== -1) {
       console.log("\n=== Contrôle qualité ===");
       try {
-        execSync("node scripts/verify-actu-quality.cjs", { stdio: "inherit", cwd: ROOT });
+        execSync("node scripts/verify-actu-quality.cjs --file=data/blog-actu-pending.json", {
+          stdio: "inherit",
+          cwd: ROOT,
+        });
       } catch (e) {
         console.error("Qualité insuffisante — publication annulée. Utilisez Cursor pour enrichir.");
         process.exit(1);
