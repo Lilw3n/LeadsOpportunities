@@ -30,7 +30,8 @@ npm run blog:feed
 - `JWT_SECRET` (min 32 caracteres)
 - `RESEND_API_KEY` + `LEAD_NOTIFICATION_EMAIL=courtier972@gmail.com`
 - `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET`
-- `ADMIN_EMAILS=courtier972@gmail.com`
+- `ADMIN_EMAILS=courtier972@gmail.com,wendy.buchet.pro@gmail.com`
+- `MATTERPORT_ADMIN_EMAILS=wendy.buchet.pro@gmail.com` (compte Google / Matterport pour les visites — promo admin à la connexion Google)
 - `STRIPE_SECRET_KEY` + `STRIPE_WEBHOOK_SECRET`
 - `NEXT_PUBLIC_APP_URL=https://www.leadsopportunities.fr`
 

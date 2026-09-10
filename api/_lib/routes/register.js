@@ -45,13 +45,8 @@ module.exports = async (req, res) => {
 
     const { hash, salt } = hashPassword(password);
     const userId = randomUUID();
-    const adminEmails = (process.env.ADMIN_EMAILS || "courtier972@gmail.com")
-      .split(",")
-      .map(function (e) {
-        return e.trim().toLowerCase();
-      })
-      .filter(Boolean);
-    const role = adminEmails.indexOf(email) !== -1 ? "admin" : "user";
+    const { isAdminEmail } = require("../admin-emails");
+    const role = isAdminEmail(email) ? "admin" : "user";
     const crmRole = role === "admin" ? "admin" : null;
 
     await sql`

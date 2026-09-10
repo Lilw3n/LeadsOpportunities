@@ -36,10 +36,14 @@ module.exports = async (req, res) => {
         ORDER BY created_at DESC
         LIMIT 200
       `;
+      const { getAdminEmails, getMatterportAdminEmails, primaryMatterportAdminEmail } = require("../admin-emails");
       return res.status(200).json({
         ok: true,
         users: rows,
         canManage: canManageCollaborators(user),
+        adminEmails: getAdminEmails(),
+        matterportAdminEmails: getMatterportAdminEmails(),
+        matterportAdminEmail: primaryMatterportAdminEmail(),
       });
     } catch (e) {
       console.error("[crm/users GET]", e);
@@ -57,12 +61,27 @@ module.exports = async (req, res) => {
     const body = parsed.body || {};
     const email = String(body.email || "").trim().toLowerCase();
     const password = String(body.password || "");
-    const roleCheck = collaboratorRoleOrError(body.crmRole || body.crm_role);
-    if (roleCheck.error) return res.status(400).json({ error: roleCheck.error });
-    const crmRole = roleCheck.role;
+    const asSiteAdmin =
+      body.siteAdmin === true ||
+      body.asSiteAdmin === true ||
+      String(body.crmRole || body.crm_role || "").toLowerCase() === "admin";
 
     if (!email || password.length < 8) {
       return res.status(400).json({ error: "Email et mot de passe (8+ caracteres) requis" });
+    }
+
+    let siteRole = "user";
+    let crmRole = null;
+    if (asSiteAdmin) {
+      if (!isSiteAdmin(user)) {
+        return res.status(403).json({ error: "Seul un administrateur site peut creer un co-admin" });
+      }
+      siteRole = "admin";
+      crmRole = "admin";
+    } else {
+      const roleCheck = collaboratorRoleOrError(body.crmRole || body.crm_role);
+      if (roleCheck.error) return res.status(400).json({ error: roleCheck.error });
+      crmRole = roleCheck.role;
     }
 
     const { hash, salt } = hashPassword(password);
@@ -72,13 +91,18 @@ module.exports = async (req, res) => {
       await sql`
         INSERT INTO users (id, email, password_hash, salt, role, crm_role, full_name, phone, status)
         VALUES (
-          ${id}, ${email}, ${hash}, ${salt}, 'user', ${crmRole},
+          ${id}, ${email}, ${hash}, ${salt}, ${siteRole}, ${crmRole},
           ${body.fullName || body.full_name || null},
           ${body.phone || null},
           'active'
         )
       `;
-      return res.status(201).json({ ok: true, id, crmRole });
+      return res.status(201).json({
+        ok: true,
+        id,
+        crmRole,
+        siteAdmin: siteRole === "admin",
+      });
     } catch (e) {
       if (String(e.message || "").indexOf("unique") !== -1) {
         return res.status(409).json({ error: "Email deja utilise" });
@@ -105,8 +129,27 @@ module.exports = async (req, res) => {
       `;
       if (!existing.length) return res.status(404).json({ error: "Utilisateur introuvable" });
       const target = existing[0];
+      const promoteToSiteAdmin =
+        body.promoteToSiteAdmin === true || body.siteAdmin === true || body.asSiteAdmin === true;
+
+      if (promoteToSiteAdmin) {
+        if (!isSiteAdmin(user)) {
+          return res.status(403).json({ error: "Seul un administrateur site peut promouvoir un co-admin" });
+        }
+        if (target.id === user.id) {
+          return res.status(400).json({ error: "Compte deja administrateur" });
+        }
+        await sql`
+          UPDATE users SET role = 'admin', crm_role = 'admin', status = 'active', updated_at = now()
+          WHERE id = ${targetId}
+        `;
+        return res.status(200).json({ ok: true, siteAdmin: true, promoted: true });
+      }
+
       if (target.role === "admin") {
-        return res.status(403).json({ error: "Le compte administrateur ne peut pas etre modifie ici" });
+        return res.status(403).json({
+          error: "Le compte administrateur ne peut pas etre modifie ici (sauf promotion co-admin deja appliquee)",
+        });
       }
 
       const updates = {};

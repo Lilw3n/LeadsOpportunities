@@ -197,29 +197,43 @@ module.exports = async (req, res) => {
     let role;
     let crmRole;
 
+    const { isAdminEmail } = require("../admin-emails");
+
     if (rows.length) {
       const u = rows[0];
       userId = u.id;
       role = u.role;
       crmRole = u.role === "admin" ? u.crm_role || "admin" : u.crm_role;
-      await sql`
-        UPDATE users SET
-          google_id = ${googleId},
-          auth_provider = CASE WHEN auth_provider = 'password' THEN 'both' ELSE 'google' END,
-          avatar_url = COALESCE(${avatarUrl}, avatar_url),
-          full_name = COALESCE(full_name, ${fullName}),
-          last_login_at = NOW(),
-          updated_at = NOW()
-        WHERE id = ${userId}
-      `;
+      // Co-admin Google (ex. wendy.buchet.pro@gmail.com / Matterport) : promouvoir si listé dans ADMIN_EMAILS
+      if (isAdminEmail(email) && role !== "admin") {
+        role = "admin";
+        crmRole = "admin";
+        await sql`
+          UPDATE users SET
+            role = 'admin',
+            crm_role = 'admin',
+            google_id = ${googleId},
+            auth_provider = CASE WHEN auth_provider = 'password' THEN 'both' ELSE 'google' END,
+            avatar_url = COALESCE(${avatarUrl}, avatar_url),
+            full_name = COALESCE(full_name, ${fullName}),
+            last_login_at = NOW(),
+            updated_at = NOW()
+          WHERE id = ${userId}
+        `;
+      } else {
+        await sql`
+          UPDATE users SET
+            google_id = ${googleId},
+            auth_provider = CASE WHEN auth_provider = 'password' THEN 'both' ELSE 'google' END,
+            avatar_url = COALESCE(${avatarUrl}, avatar_url),
+            full_name = COALESCE(full_name, ${fullName}),
+            last_login_at = NOW(),
+            updated_at = NOW()
+          WHERE id = ${userId}
+        `;
+      }
     } else {
-      const adminEmails = (process.env.ADMIN_EMAILS || "courtier972@gmail.com")
-        .split(",")
-        .map(function (e) {
-          return e.trim().toLowerCase();
-        })
-        .filter(Boolean);
-      role = adminEmails.indexOf(email) !== -1 ? "admin" : "user";
+      role = isAdminEmail(email) ? "admin" : "user";
       crmRole = role === "admin" ? "admin" : null;
       userId = randomUUID();
       const { hash, salt } = hashPassword(randomUUID() + randomUUID());
