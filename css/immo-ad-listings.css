@@ -230,17 +230,28 @@
   color: #e2e8f0;
   line-height: 1.4;
 }
-.lbc-gallery__admin-steps {
-  margin: 0;
-  padding-left: 1.2rem;
-  text-align: left;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #cbd5e1;
-  line-height: 1.45;
+.lbc-gallery__empty--admin {
+  justify-content: flex-start;
+  padding-top: 28px;
 }
-.lbc-gallery__admin-steps strong {
-  color: #fff;
+.lbc-gallery__admin-retry.is-dragover {
+  outline: 2px dashed #5eead4;
+  outline-offset: 4px;
+  background: rgba(15, 23, 42, 0.35);
+}
+.lbc-gallery__admin-advanced {
+  width: 100%;
+  text-align: left;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.lbc-gallery__admin-advanced summary {
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+.lbc-gallery__admin-advanced .btn {
+  margin-top: 8px;
 }
 .lbc-gallery__admin-paste {
   width: 100%;

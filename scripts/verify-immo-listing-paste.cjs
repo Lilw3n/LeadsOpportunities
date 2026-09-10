@@ -112,6 +112,9 @@ assert(crmJs.indexOf("marque-page") === -1, "CRM JS : plus de mention marque-pag
 var pagesJs = read("js/immo-ad-pages.js");
 assert(pagesJs.indexOf("btnRetryListingPhotos") !== -1, "pages : bouton retry photos admin");
 assert(pagesJs.indexOf("btnImportPastedPhotos") !== -1, "pages : importer photos collées");
+assert(pagesJs.indexOf("btnPickListingPhotos") !== -1, "pages : bouton ajouter photos fichier");
+assert(pagesJs.indexOf("adPhotoFileInput") !== -1, "pages : input fichiers photos");
+assert(pagesJs.indexOf("ingestAdminFiles") !== -1, "pages : ingest fichiers admin");
 assert(pagesJs.indexOf("adPhotoPasteBox") !== -1, "pages : zone collage photos");
 assert(pagesJs.indexOf("bindAdminPhotoRetry") !== -1, "pages : bindAdminPhotoRetry");
 assert(pagesJs.indexOf("persist: true") !== -1 || pagesJs.indexOf("persist:true") !== -1, "pages : persist photos");
@@ -122,8 +125,11 @@ assert(css.indexOf("lbc-gallery__admin-retry") !== -1, "CSS : zone retry admin")
 assert(css.indexOf("lbc-gallery__admin-paste") !== -1, "CSS : zone collage admin");
 
 assert(routeSrc.indexOf("persistPhotos") !== -1 || routeSrc.indexOf("persisted") !== -1, "API : persistance photos");
+assert(routeSrc.indexOf("source: \"direct\"") !== -1 || routeSrc.indexOf("source: 'direct'") !== -1 || routeSrc.indexOf('source: "direct"') !== -1, "API : photo_urls directs");
 assert(routeSrc.indexOf("marque-page") === -1, "API : plus de marque-page");
 assert(read("immobilier/biens.html").indexOf("immo-listing-paste-lib") !== -1, "hub biens charge paste lib");
+assert(read("immobilier/biens.html").indexOf("immo-photo-compress-lib") !== -1, "hub biens charge compress");
+assert(read("immobilier/biens.html").indexOf("v=20260910drop") !== -1, "hub biens cache-bust");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");

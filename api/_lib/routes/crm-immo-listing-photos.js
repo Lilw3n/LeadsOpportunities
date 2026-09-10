@@ -162,6 +162,9 @@ module.exports = async function crmImmoListingPhotos(req, res) {
   var propertyId = String(body.property_id || body.id || "").trim();
   var persist = body.persist === true || body.persist === 1 || body.persist === "1";
   var url = await resolveListingUrl(body);
+  var directPhotos = Array.isArray(body.photo_urls)
+    ? body.photo_urls.map(String).filter(Boolean).slice(0, 24)
+    : [];
 
   async function maybePersist(photoUrls) {
     if (!persist || !propertyId || !photoUrls.length) return null;
@@ -170,6 +173,22 @@ module.exports = async function crmImmoListingPhotos(req, res) {
     } catch (e) {
       return { saved: false, reason: String((e && e.message) || e).slice(0, 200) };
     }
+  }
+
+  if (directPhotos.length && !html) {
+    var savedDirect = await maybePersist(directPhotos);
+    return res.status(200).json({
+      ok: true,
+      source: "direct",
+      photo_urls: directPhotos,
+      count: directPhotos.length,
+      persisted: !!(savedDirect && savedDirect.saved),
+      persist_detail: savedDirect || null,
+      hint:
+        directPhotos.length +
+        " photo(s) reçue(s)." +
+        (savedDirect && savedDirect.saved ? " Enregistrées sur le bien." : ""),
+    });
   }
 
   if (html) {
