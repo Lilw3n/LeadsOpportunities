@@ -487,6 +487,50 @@
     msg(parsed.hint || "Infos reprises depuis l’annonce.", true);
   }
 
+  function mergePhotoUrlField(blob) {
+    var el = document.getElementById("adListingPhotoUrls");
+    if (!el) return blob;
+    var extra = el.value.trim();
+    if (!extra) return blob;
+    return [blob, extra].filter(Boolean).join("\n\n");
+  }
+
+  function appendDetectedPhotoUrls(urls) {
+    var el = document.getElementById("adListingPhotoUrls");
+    if (!el || !urls || !urls.length) return;
+    var existing = el.value
+      .split(/\n+/)
+      .map(function (l) {
+        return l.trim();
+      })
+      .filter(Boolean);
+    urls.forEach(function (u) {
+      if (existing.indexOf(u) === -1) existing.push(u);
+    });
+    el.value = existing.join("\n");
+  }
+
+  function onRichListingPaste(ev) {
+    var Paste = window.ImmoListingPaste;
+    if (!Paste || !Paste.extractPhotoUrls) return;
+    var html = "";
+    var plain = "";
+    try {
+      html = (ev.clipboardData && ev.clipboardData.getData("text/html")) || "";
+      plain = (ev.clipboardData && ev.clipboardData.getData("text/plain")) || "";
+    } catch (e) {
+      return;
+    }
+    var found = Paste.extractPhotoUrls(html || plain);
+    if (!found.length) return;
+    appendDetectedPhotoUrls(found);
+    setImportStatus(
+      found.length +
+        " photo(s) détectée(s) dans le collage — cliquez « Reprendre les infos + photos ». Vous pourrez les modifier ensuite.",
+      true
+    );
+  }
+
   function runListingImport() {
     var Paste = window.ImmoListingPaste;
     if (!Paste || !Paste.parseListingPaste) {
@@ -495,12 +539,30 @@
     }
     var url = document.getElementById("adListingUrl").value.trim();
     var paste = document.getElementById("adListingPaste").value.trim();
-    var blob = [url, paste].filter(Boolean).join("\n\n");
-    if (!blob) {
-      setImportStatus("Collez un lien Leboncoin et/ou le texte de l’annonce.", false);
+    var photosField = document.getElementById("adListingPhotoUrls");
+    var photoLines = photosField ? photosField.value.trim() : "";
+    var blob = mergePhotoUrlField([url, paste].filter(Boolean).join("\n\n"));
+    if (!blob && !photoLines) {
+      setImportStatus("Collez un lien Leboncoin, le texte de l’annonce et/ou les liens photos.", false);
       return;
     }
-    applyListingPaste(Paste.parseListingPaste(blob));
+    var beforePhotos = photoState.length;
+    applyListingPaste(Paste.parseListingPaste(blob || photoLines));
+    var added = photoState.length - beforePhotos;
+    if (added > 0) {
+      setImportStatus(
+        (document.getElementById("adImportStatus").textContent || "OK") +
+          " · " +
+          added +
+          " photo(s) ajoutée(s) (modifiables ci-dessous).",
+        true
+      );
+    } else if (url && !paste && !photoLines) {
+      setImportStatus(
+        "Lien reconnu, mais sans photos : Leboncoin bloque la lecture auto. Collez les URLs images (img.leboncoin.fr) ou le HTML de la galerie dans le champ Photos.",
+        false
+      );
+    }
   }
 
   function createPageUrl() {
@@ -912,6 +974,8 @@
     document.getElementById("adAccessPhones").value = "";
     document.getElementById("adListingUrl").value = "";
     document.getElementById("adListingPaste").value = "";
+    var photoUrlsEl = document.getElementById("adListingPhotoUrls");
+    if (photoUrlsEl) photoUrlsEl.value = "";
     setImportStatus("");
     syncOpenListingBtn();
     document.getElementById("chPrivate").checked = true;
@@ -1055,6 +1119,11 @@
   document.getElementById("btnNewAd").onclick = resetForm;
   var btnImport = document.getElementById("btnImportListing");
   if (btnImport) btnImport.onclick = runListingImport;
+  var listingPasteEl = document.getElementById("adListingPaste");
+  if (listingPasteEl) listingPasteEl.addEventListener("paste", onRichListingPaste);
+  var listingPhotosEl = document.getElementById("adListingPhotoUrls");
+  if (listingPhotosEl) listingPhotosEl.addEventListener("paste", onRichListingPaste);
+
   var listingUrlEl = document.getElementById("adListingUrl");
   if (listingUrlEl) {
     listingUrlEl.addEventListener("change", syncOpenListingBtn);

@@ -95,7 +95,7 @@ Implémentation : `js/immo-public-listings-lib.js` + `api/_lib/routes/public-imm
 - Saisie manuelle **sans URL** pour un vendeur (ville obligatoire)
 - Détecte le portail si URL (Leboncoin, SeLoger, ParuVendu…)
 - Parties CRM : vendeur (déposant ou infos collées) ; acquéreur si recherche / double casquette ; critères de rachat si `les_deux`
-- **Pas de scraping**
+- **Pas de scraping** de la page Leboncoin (captcha). Les **photos** sont reprises si vous collez les liens images (`img.leboncoin.fr`) ou le HTML de la galerie ; elles restent ensuite modifiables (ajout / suppression) dans le formulaire pubs.
 
 Catalogue : `js/immo-listing-portals-lib.js`.
 

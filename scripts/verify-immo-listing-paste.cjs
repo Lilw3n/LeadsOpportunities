@@ -15,6 +15,7 @@ function assert(cond, msg) {
 }
 
 assert(Paste.parseListingPaste, "parseListingPaste exposé");
+assert(Paste.extractPhotoUrls, "extractPhotoUrls exposé");
 
 var sample =
   "https://www.leboncoin.fr/ad/ventes_immobilieres/2781234567\n\n" +
@@ -51,10 +52,41 @@ assert(p.property_type === "appartement", "type appartement");
 
 var urlOnly = Paste.parseListingPaste("https://www.leboncoin.fr/ad/ventes_immobilieres/9998887777");
 assert(urlOnly.listing_url.indexOf("9998887777") !== -1, "URL seule reconnue");
-assert(urlOnly.hint && /bloque|collez/i.test(urlOnly.hint), "hint coller le texte si URL seule");
+assert(urlOnly.hint && /bloque|collez|photo/i.test(urlOnly.hint), "hint coller texte/photos si URL seule");
+
+var htmlPhotos =
+  '<img src="https://img.leboncoin.fr/api/v1/lebocom-ads-images/images/aa/bb/cc.jpg?rule=ad-large" />' +
+  '<img srcset="https://img.leboncoin.fr/api/v1/lebocom-ads-images/images/dd/ee/ff.jpg?rule=ad-small 400w, https://img.leboncoin.fr/api/v1/lebocom-ads-images/images/dd/ee/ff.jpg?rule=ad-large 1200w" />' +
+  '<meta property="og:image" content="https://img.leboncoin.fr/api/v1/cover/zz.webp" />';
+var extracted = Paste.extractPhotoUrls(htmlPhotos);
+assert(extracted.length >= 2, "HTML → au moins 2 photos");
+assert(
+  extracted.some(function (u) {
+    return /cc\.jpg/.test(u);
+  }),
+  "src image détectée"
+);
+assert(
+  extracted.some(function (u) {
+    return /ff\.jpg/.test(u);
+  }),
+  "srcset image détectée"
+);
+assert(
+  extracted.some(function (u) {
+    return /cover\/zz\.webp/.test(u);
+  }),
+  "og:image détectée"
+);
+
+var withPhotos = Paste.parseListingPaste(
+  "https://www.leboncoin.fr/ad/ventes_immobilieres/2781234567\n\nT3 Nancy\n200 000 €\n" + htmlPhotos
+);
+assert(withPhotos.photo_urls && withPhotos.photo_urls.length >= 2, "parseListingPaste reprend les photos");
+assert(withPhotos.fields_filled.indexOf("photos") !== -1, "fields_filled inclut photos");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");
   process.exit(1);
 }
-console.log("\nTous les checks reprise Leboncoin OK");
+console.log("\nTous les checks reprise Leboncoin + photos OK");
