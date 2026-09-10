@@ -939,6 +939,8 @@
   }
 
   var SELLER_QUICK_EDIT_KEYS = ["sellerName", "sellerPhone", "sellerEmail", "sellerAgency"];
+  /** Coordonnées de la fiche interlocuteur (ex. admin a créé l’annonce à la place du vendeur). */
+  var CONTACT_QUICK_EDIT_KEYS = ["firstName", "lastName", "email", "phone"];
 
   function filterSellerRows(rows, hideSellerInProjet) {
     if (!hideSellerInProjet || !rows || !rows.length) return rows || [];
@@ -1092,6 +1094,9 @@
     }
     if (opts.sellerQuickEdit && typeof window !== "undefined" && window.InterlocuteurDossierEdit) {
       html += window.InterlocuteurDossierEdit.renderSellerQuickEdit(dossier, { payload: p, eventContext: true });
+      if (window.InterlocuteurDossierEdit.renderContactQuickEdit) {
+        html += window.InterlocuteurDossierEdit.renderContactQuickEdit(dossier, { payload: p, eventContext: true });
+      }
     }
     html += section("Contact", "int-card-perso", dossier.perso);
     html += section("Professionnel", "int-card-pro", dossier.pro);
@@ -1120,6 +1125,7 @@
   var api = {
     LABELS: LABELS,
     SELLER_QUICK_EDIT_KEYS: SELLER_QUICK_EDIT_KEYS,
+    CONTACT_QUICK_EDIT_KEYS: CONTACT_QUICK_EDIT_KEYS,
     AD_DEMO_EDIT_KEYS: AD_DEMO_EDIT_KEYS,
     VALUE_LABELS: VALUE_LABELS,
     parsePayload: parsePayload,

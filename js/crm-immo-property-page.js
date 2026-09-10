@@ -314,19 +314,49 @@
     });
   }
 
+  function photoUrlsText(u) {
+    var photos = (u && u.photos) || [];
+    return photos
+      .map(function (p) {
+        return typeof p === "string" ? p : p && p.url ? p.url : "";
+      })
+      .filter(Boolean)
+      .join("\n");
+  }
+
   function renderUnits() {
     var html =
-      '<p class="dossier-hint">Ajoute les strates du bien : ex. 1 terrain → 1 maison → 2 appartements loués. Chaque unité peut avoir sa transaction.</p>';
+      '<p class="dossier-hint">Dossier intelligent : parcelle / cadastre, immeuble, puis chaque appartement ou lot avec ses <strong>photos</strong> et sa <strong>visite virtuelle</strong>. Les personnes (vendeur, etc.) se lient à l’onglet Personnes.</p>';
     if (!prop.units.length) {
-      html += '<p style="color:var(--muted)">Aucune unité — clique « Ajouter une unité ».</p>';
+      html += '<p style="color:var(--muted)">Aucune unité — clique « Ajouter une unité » ou utilise un preset.</p>';
     }
     html += prop.units
       .map(function (u, idx) {
+        var parentSelect =
+          '<label>Rattaché à<select data-k="parent_id"><option value="">— Aucun (racine) —</option>' +
+          prop.units
+            .filter(function (p) {
+              return p.id !== u.id;
+            })
+            .map(function (p) {
+              return (
+                '<option value="' +
+                esc(p.id) +
+                '"' +
+                (u.parent_id === p.id ? " selected" : "") +
+                ">" +
+                esc(p.label || p.type || p.id) +
+                "</option>"
+              );
+            })
+            .join("") +
+          "</select></label>";
         return (
           '<div class="unit-card" data-unit="' +
           esc(u.id) +
           '"><h4>Unité #' +
           (idx + 1) +
+          (u.label ? " — " + esc(u.label) : "") +
           '</h4><div class="unit-grid">' +
           '<label>Type<select data-k="type">' +
           Schema.UNIT_TYPES.map(function (t) {
@@ -343,7 +373,17 @@
           "</select></label>" +
           '<label>Libellé<input data-k="label" value="' +
           esc(u.label || "") +
-          '" placeholder="Appt RDC / Maison principale…" /></label>' +
+          '" placeholder="Appt RDC / Lot 12 / Maison…" /></label>' +
+          parentSelect +
+          '<label>N° lot / cadastre<input data-k="lot_number" value="' +
+          esc(u.lot_number || "") +
+          '" placeholder="ex. 12" /></label>' +
+          '<label>Réf. cadastrale<input data-k="cadastre_ref" value="' +
+          esc(u.cadastre_ref || "") +
+          '" placeholder="section / n°" /></label>' +
+          '<label>Étage<input data-k="floor" value="' +
+          esc(u.floor || "") +
+          '" placeholder="RDC / 1…" /></label>' +
           '<label>Transaction<select data-k="transaction"><option value="vente"' +
           (u.transaction === "vente" ? " selected" : "") +
           '>Vente</option><option value="location"' +
@@ -370,6 +410,12 @@
           '<label style="grid-column:1/-1">Notes<input data-k="notes" value="' +
           esc(u.notes || "") +
           '" /></label>' +
+          '<label style="grid-column:1/-1">Photos (URLs, une par ligne)<textarea data-k="photos" rows="2" placeholder="https://…">' +
+          esc(photoUrlsText(u)) +
+          "</textarea></label>" +
+          '<label style="grid-column:1/-1">Visite virtuelle (Matterport / URL)<input data-k="virtual_tour" type="url" value="' +
+          esc(u.virtual_tour || "") +
+          '" placeholder="https://my.matterport.com/show/?m=…" /></label>' +
           '</div><div style="margin-top:8px"><button type="button" class="btn btn-ghost btn-sm" data-del-unit="' +
           esc(u.id) +
           '">Retirer</button></div></div>'
@@ -380,6 +426,7 @@
       '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">' +
       '<button type="button" class="btn btn-primary btn-sm" id="btnAddUnit">+ Ajouter une unité</button>' +
       '<button type="button" class="btn btn-ghost btn-sm" id="btnPresetComplex">Preset terrain + maison + 2 appts loués</button>' +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnPresetImmeuble">Preset immeuble (3 appts)</button>' +
       "</div>";
     return html;
   }
@@ -387,6 +434,7 @@
   function collectUnits() {
     var cards = document.querySelectorAll(".unit-card[data-unit]");
     if (!cards.length && state.sectionId !== "composition") return;
+    var Dossier = window.CrmImmoDossier;
     var next = [];
     cards.forEach(function (card) {
       var uid = card.getAttribute("data-unit");
@@ -397,9 +445,23 @@
       card.querySelectorAll("[data-k]").forEach(function (el) {
         var k = el.getAttribute("data-k");
         if (el.type === "checkbox") obj[k] = el.checked;
-        else obj[k] = el.value;
+        else if (k === "photos") {
+          obj.photos = Dossier
+            ? Dossier.normalizePhotoList(el.value)
+            : String(el.value || "")
+                .split(/\n+/)
+                .map(function (s) {
+                  return s.trim();
+                })
+                .filter(Boolean)
+                .map(function (url) {
+                  return { url: url, kind: "photo" };
+                });
+        } else if (k === "parent_id") {
+          obj.parent_id = el.value || null;
+        } else obj[k] = el.value;
       });
-      next.push(obj);
+      next.push(Dossier ? Dossier.normalizeUnit(obj) : obj);
     });
     if (cards.length) prop.units = next;
   }
@@ -468,22 +530,75 @@
       document.getElementById("btnPresetComplex").onclick = function () {
         prop.property_type = "complexe";
         document.getElementById("mType").value = "complexe";
+        var terrain = Object.assign(Schema.emptyUnit("terrain"), {
+          label: "Terrain / parcelle",
+          transaction: "vente",
+          cadastre_ref: "",
+        });
+        var maison = Object.assign(Schema.emptyUnit("maison"), {
+          label: "Maison principale",
+          transaction: "vente",
+          parent_id: terrain.id,
+        });
         prop.units = [
-          Object.assign(Schema.emptyUnit("terrain"), { label: "Terrain / parcelle", transaction: "vente" }),
-          Object.assign(Schema.emptyUnit("maison"), { label: "Maison principale", transaction: "vente" }),
+          terrain,
+          maison,
           Object.assign(Schema.emptyUnit("appartement"), {
             label: "Appartement 1",
             transaction: "location",
             loue: true,
+            parent_id: maison.id,
+            floor: "RDC",
           }),
           Object.assign(Schema.emptyUnit("appartement"), {
             label: "Appartement 2",
             transaction: "location",
             loue: true,
+            parent_id: maison.id,
+            floor: "1",
           }),
         ];
+        prop.is_parent_dossier = true;
         renderAll();
       };
+      var btnImmeuble = document.getElementById("btnPresetImmeuble");
+      if (btnImmeuble) {
+        btnImmeuble.onclick = function () {
+          prop.property_type = "immeuble";
+          document.getElementById("mType").value = "immeuble";
+          var immeuble = Object.assign(Schema.emptyUnit("maison"), {
+            label: "Immeuble (enveloppe)",
+            type: "maison",
+            transaction: "vente",
+          });
+          prop.units = [
+            immeuble,
+            Object.assign(Schema.emptyUnit("appartement"), {
+              label: "Appartement RDC",
+              floor: "RDC",
+              lot_number: "1",
+              parent_id: immeuble.id,
+              transaction: "vente",
+            }),
+            Object.assign(Schema.emptyUnit("appartement"), {
+              label: "Appartement 1er",
+              floor: "1",
+              lot_number: "2",
+              parent_id: immeuble.id,
+              transaction: "vente",
+            }),
+            Object.assign(Schema.emptyUnit("appartement"), {
+              label: "Appartement 2e",
+              floor: "2",
+              lot_number: "3",
+              parent_id: immeuble.id,
+              transaction: "vente",
+            }),
+          ];
+          prop.is_parent_dossier = true;
+          renderAll();
+        };
+      }
       body.querySelectorAll("[data-del-unit]").forEach(function (btn) {
         btn.onclick = function () {
           collectUnits();

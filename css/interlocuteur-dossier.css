@@ -34,10 +34,16 @@
 .int-card-biens { border-top: 3px solid #059669; grid-column: 1 / -1; }
 .int-card-projet { border-top: 3px solid #d97706; grid-column: 1 / -1; }
 .int-card-seller { border-top: 3px solid #0284c7; grid-column: 1 / -1; }
-.int-seller-quick-edit .int-seller-quick-lead {
+.int-card-contact { border-top: 3px solid #0f766e; grid-column: 1 / -1; }
+.int-seller-quick-edit .int-seller-quick-lead,
+.int-contact-quick-edit .int-seller-quick-lead {
   margin: 0 0 12px;
   color: var(--muted, #64748b);
   font-size: 0.85rem;
+}
+.int-contact-quick-edit .int-edit-actions {
+  flex-wrap: wrap;
+  gap: 8px;
 }
 .int-seller-quick-fields {
   display: grid;

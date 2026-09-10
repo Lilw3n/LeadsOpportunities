@@ -79,7 +79,7 @@ window.CrmImmoSchema = (function () {
     {
       id: "composition",
       label: "Composition",
-      hint: "Terrain + maison + appartements loués, lots, dépendances…",
+      hint: "Immeuble, parcelle / cadastre, lots & appartements — chaque unité a ses infos, photos et visite virtuelle.",
       showIf: { types: ["maison", "terrain", "immeuble", "complexe", "local"] },
       special: "units",
     },
@@ -707,6 +707,18 @@ window.CrmImmoSchema = (function () {
   }
 
   function emptyUnit(type) {
+    var Dossier =
+      (typeof require === "function"
+        ? (function () {
+            try {
+              return require("./crm-immo-dossier-lib.js");
+            } catch (e) {
+              return null;
+            }
+          })()
+        : null) ||
+      (typeof window !== "undefined" ? window.CrmImmoDossier : null);
+    if (Dossier && Dossier.emptyUnit) return Dossier.emptyUnit(type);
     return {
       id: "unit_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 6),
       type: type || "appartement",
@@ -716,10 +728,16 @@ window.CrmImmoSchema = (function () {
       surface_m2: "",
       rooms: "",
       bedrooms: "",
+      floor: "",
+      lot_number: "",
+      cadastre_ref: "",
       price: "",
       loyer: "",
       notes: "",
       parent_id: null,
+      photos: [],
+      virtual_tour: "",
+      details: {},
     };
   }
 

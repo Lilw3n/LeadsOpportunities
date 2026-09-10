@@ -33,6 +33,9 @@
   if (s.compactKpis) form.compactKpis.checked = true;
   if (s.autoLogout) form.autoLogout.checked = true;
   if (s.emailNotifs) form.emailNotifs.checked = true;
+  if (s.matterportAdminEmail) form.matterportAdminEmail.value = s.matterportAdminEmail;
+  else if (form.matterportAdminEmail) form.matterportAdminEmail.value = "wendy.buchet.pro@gmail.com";
+  if (s.extraAdminEmails && form.extraAdminEmails) form.extraAdminEmails.value = s.extraAdminEmails;
   if (s.updatedAt) document.getElementById("setUpdated").textContent = new Date(s.updatedAt).toLocaleString("fr-FR");
 
   form.onsubmit = function (e) {
@@ -45,6 +48,8 @@
       compactKpis: !!form.compactKpis.checked,
       autoLogout: !!form.autoLogout.checked,
       emailNotifs: !!form.emailNotifs.checked,
+      matterportAdminEmail: form.matterportAdminEmail ? form.matterportAdminEmail.value.trim() : "",
+      extraAdminEmails: form.extraAdminEmails ? form.extraAdminEmails.value.trim() : "",
     });
   };
 

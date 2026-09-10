@@ -13,21 +13,38 @@
     <div>
       <p class="crm-eyebrow">Équipe</p>
       <h2>Utilisateurs internes</h2>
-      <p>Comptes collaborateurs (commercial, staff, apporteur) — créés par l'administrateur uniquement.</p>
+      <p>Plusieurs comptes <strong>admin</strong> peuvent partager le même CRM (ex. Matterport / Google <code>wendy.buchet.pro@gmail.com</code>). Les collaborateurs restent commercial / staff / apporteur.</p>
     </div>
     <div class="crm-action-row">
+      <a href="./crm-settings.html" class="btn btn-ghost">Paramètres (Matterport)</a>
       <a href="./crm-permissions.html" class="btn btn-ghost">Permissions</a>
       <a href="./crm-roles.html" class="btn btn-ghost">Rôles</a>
     </div>
   </section>
 
+  <section class="crm-page-panel" id="matterportAdminHint">
+    <div class="crm-section-head"><h2>Matterport &amp; co-admins</h2></div>
+    <p style="margin:0 0 8px;font-size:.92rem;color:var(--muted)">
+      Le CRM ne se connecte <strong>pas</strong> à Matterport à ta place (pas d’OAuth Matterport). Sur Matterport, reste connectée avec ton Google.
+      Ici : ajoute le même e-mail comme <strong>co-admin</strong>, ou connecte-toi via «&nbsp;Google&nbsp;» avec cet e-mail — il devient admin automatiquement.
+      Pour chaque bien, colle l’URL Matterport (lien show) dans la pub : la visite reste gérée par ton CRM.
+    </p>
+    <p id="matterportEmailLine" style="margin:0;font-size:.92rem"></p>
+  </section>
+
   <section class="crm-page-panel" id="adminOnlyCreate" hidden>
     <div class="crm-section-head"><h2>Créer un compte</h2></div>
     <form id="userForm" class="panel">
-      <label class="crm-label">Email<input type="email" name="email" class="crm-input" required /></label>
+      <label class="crm-label">Email<input type="email" name="email" class="crm-input" required placeholder="wendy.buchet.pro@gmail.com" /></label>
       <label class="crm-label" style="margin-top:10px;display:block">Mot de passe<input type="password" name="password" class="crm-input" minlength="8" required /></label>
       <label class="crm-label" style="margin-top:10px;display:block">Nom<input name="fullName" class="crm-input" /></label>
-      <label class="crm-label" style="margin-top:10px;display:block">Rôle collaborateur
+      <label class="crm-label" style="margin-top:10px;display:block">Type de compte
+        <select name="accountKind" id="accountKind" class="crm-input">
+          <option value="collaborator">Collaborateur</option>
+          <option value="siteAdmin">Co-administrateur (même CRM)</option>
+        </select>
+      </label>
+      <label class="crm-label" id="crmRoleWrap" style="margin-top:10px;display:block">Rôle collaborateur
         <select name="crmRole" class="crm-input">
           <option value="commercial">Commercial</option>
           <option value="staff">Staff</option>

@@ -107,6 +107,10 @@ assert(crm.indexOf("adVideos") !== -1 && crm.indexOf("adTour") !== -1, "CRM : vi
 assert(crm.indexOf("adEnergyCost") !== -1, "CRM : coût énergie estimé");
 assert(crm.indexOf("questionnaire fiche interlocuteur") !== -1, "CRM : hint sources critères");
 assert(crm.indexOf("adListingUrl") !== -1 && crm.indexOf("btnImportListing") !== -1, "CRM : reprise lien Leboncoin");
+assert(crm.indexOf("adListingPhotoUrls") !== -1, "CRM : champ liens photos import");
+var crmJs = read("js/crm-immo-pubs.js");
+assert(crmJs.indexOf("adListingPhotoUrls") !== -1 && crmJs.indexOf("extractPhotoUrls") !== -1, "JS : import photos");
+assert(crmJs.indexOf("onRichListingPaste") !== -1, "JS : collage HTML photos");
 assert(crm.indexOf("immo-listing-paste-lib") !== -1, "CRM : lib paste chargée");
 assert(crm.indexOf("chPublic") !== -1 && crm.indexOf("chPrivate") !== -1, "CRM : canaux public/privé");
 assert(crm.indexOf("adPhotoFiles") !== -1, "CRM : upload fichiers photos");
