@@ -219,25 +219,27 @@
       (main
         ? '<img id="adMainImg" src="' + esc(main) + '" alt="' + esc(p.headline || p.title || "Annonce") + '" draggable="false" />' +
           '<button type="button" class="lbc-zoom-hint" id="adZoomOpen" aria-label="Agrandir la photo">🔍 Agrandir</button>'
-        : '<div class="lbc-gallery__empty"><span>Aucune photo renseignée</span>' +
+        : '<div class="lbc-gallery__empty' +
+          (adminMode ? " lbc-gallery__empty--admin" : "") +
+          '"><span>Aucune photo renseignée</span>' +
           (adminMode
-            ? '<div class="lbc-gallery__admin-retry">' +
-              '<p class="lbc-gallery__admin-help">Leboncoin bloque souvent la lecture auto. Faites plutôt ceci :</p>' +
-              '<ol class="lbc-gallery__admin-steps">' +
-              "<li>Ouvrez votre annonce Leboncoin</li>" +
-              "<li>Clic droit sur une photo → <strong>Copier l’adresse de l’image</strong></li>" +
-              "<li>Collez les liens (ou le HTML de la galerie) ci-dessous</li>" +
-              "</ol>" +
+            ? '<div class="lbc-gallery__admin-retry" id="adPhotoDropZone">' +
+              '<p class="lbc-gallery__admin-help">Ajoutez les photos de <strong>votre</strong> annonce ici (fichiers ou glisser-déposer).</p>' +
+              '<input type="file" id="adPhotoFileInput" accept="image/*" multiple hidden />' +
+              '<div class="lbc-gallery__admin-actions">' +
+              '<button type="button" class="btn btn-primary btn-sm" id="btnPickListingPhotos">Ajouter des photos</button>' +
               (p.listing_url
                 ? '<a class="btn btn-ghost btn-sm" id="btnOpenListingForPhotos" href="' +
                   esc(p.listing_url) +
-                  '" target="_blank" rel="noopener">Ouvrir mon annonce</a>'
+                  '" target="_blank" rel="noopener">Ouvrir l’annonce Leboncoin</a>'
                 : "") +
-              '<textarea id="adPhotoPasteBox" class="lbc-gallery__admin-paste" rows="3" placeholder="https://img.leboncoin.fr/…&#10;une URL par ligne, ou collez le HTML de la galerie"></textarea>' +
-              '<div class="lbc-gallery__admin-actions">' +
-              '<button type="button" class="btn btn-primary btn-sm" id="btnImportPastedPhotos">Importer les photos collées</button>' +
-              '<button type="button" class="btn btn-ghost btn-sm" id="btnRetryListingPhotos">Réessayer auto</button>' +
+              '<button type="button" class="btn btn-ghost btn-sm" id="btnRetryListingPhotos">Essayer auto</button>' +
               "</div>" +
+              '<details class="lbc-gallery__admin-advanced">' +
+              "<summary>Coller des liens images (optionnel)</summary>" +
+              '<textarea id="adPhotoPasteBox" class="lbc-gallery__admin-paste" rows="3" placeholder="https://img.leboncoin.fr/…&#10;une URL par ligne"></textarea>' +
+              '<button type="button" class="btn btn-ghost btn-sm" id="btnImportPastedPhotos">Importer les liens</button>' +
+              "</details>" +
               '<p class="lbc-gallery__admin-status" id="adPhotoRetryStatus" role="status"></p>' +
               "</div>"
             : "") +
@@ -747,11 +749,20 @@
       setPhotoRetryStatus(hint || "Aucune photo détectée.", false);
       return;
     }
-    listing.photos = urls.map(function (u) {
-      return { url: u, kind: "photo" };
-    });
+    var prev = Array.isArray(listing.photos) ? listing.photos.slice() : [];
+    var seen = {};
+    var merged = [];
+    function push(u) {
+      var url = typeof u === "string" ? u : u && u.url;
+      if (!url || seen[url]) return;
+      seen[url] = true;
+      merged.push({ url: url, kind: "photo" });
+    }
+    urls.forEach(push);
+    prev.forEach(push);
+    listing.photos = merged.slice(0, 24);
     listing.cover = listing.photos[0] || null;
-    setPhotoRetryStatus(hint || urls.length + " photo(s) importée(s).", true);
+    setPhotoRetryStatus(hint || urls.length + " photo(s) ajoutée(s).", true);
     showListing(listing, !!listing._privateMode, { admin: true });
   }
 
@@ -777,18 +788,122 @@
     });
   }
 
+  function compressAdminFiles(files) {
+    var Compress = window.ImmoPhotoCompress;
+    var list = Array.prototype.slice.call(files || []).filter(function (f) {
+      return f && f.type && f.type.indexOf("image/") === 0;
+    });
+    if (!list.length) return Promise.resolve([]);
+    if (Compress && Compress.compressMany) return Compress.compressMany(list.slice(0, 12));
+    return Promise.all(
+      list.slice(0, 12).map(function (file) {
+        return new Promise(function (resolve) {
+          var reader = new FileReader();
+          reader.onload = function () {
+            resolve(reader.result);
+          };
+          reader.onerror = function () {
+            resolve(null);
+          };
+          reader.readAsDataURL(file);
+        });
+      })
+    );
+  }
+
+  function ingestAdminFiles(listing, files) {
+    setPhotoRetryStatus("Ajout des photos…", true);
+    return compressAdminFiles(files).then(function (urls) {
+      var ok = (urls || []).filter(Boolean);
+      if (!ok.length) {
+        setPhotoRetryStatus("Aucune image valide.", false);
+        return;
+      }
+      return postListingPhotos({
+        photo_urls: ok,
+        property_id: listing.id || "",
+        persist: true,
+        url: listing.listing_url || "",
+      }).then(function (res) {
+        var data = res.data || {};
+        if (res.status === 401) {
+          applyAdminPhotos(listing, ok, ok.length + " photo(s) ajoutée(s) en local (reconnectez le CRM pour enregistrer).");
+          return;
+        }
+        applyAdminPhotos(
+          listing,
+          data.photo_urls && data.photo_urls.length ? data.photo_urls : ok,
+          data.hint || ok.length + " photo(s) ajoutée(s)."
+        );
+      });
+    });
+  }
+
   function bindAdminPhotoRetry(root, listing) {
     if (!root || !listing) return;
     var btnRetry = root.querySelector("#btnRetryListingPhotos");
     var btnImport = root.querySelector("#btnImportPastedPhotos");
+    var btnPick = root.querySelector("#btnPickListingPhotos");
+    var fileInput = root.querySelector("#adPhotoFileInput");
     var pasteBox = root.querySelector("#adPhotoPasteBox");
+    var dropZone = root.querySelector("#adPhotoDropZone");
 
     function blockedMsg(data) {
       return (
         (data && data.hint) ||
-        "Leboncoin bloque encore la lecture automatique. Ouvrez votre annonce, copiez l’adresse des images, puis collez-les ci-dessous."
+        "Leboncoin bloque encore la lecture auto. Cliquez « Ajouter des photos » et choisissez les images de votre annonce."
       );
     }
+
+    if (btnPick && fileInput) {
+      btnPick.addEventListener("click", function () {
+        fileInput.click();
+      });
+      fileInput.addEventListener("change", function () {
+        var files = fileInput.files;
+        if (!files || !files.length) return;
+        ingestAdminFiles(listing, files).finally(function () {
+          fileInput.value = "";
+        });
+      });
+    }
+
+    if (dropZone) {
+      ["dragenter", "dragover"].forEach(function (evt) {
+        dropZone.addEventListener(evt, function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.classList.add("is-dragover");
+        });
+      });
+      ["dragleave", "drop"].forEach(function (evt) {
+        dropZone.addEventListener(evt, function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.classList.remove("is-dragover");
+        });
+      });
+      dropZone.addEventListener("drop", function (e) {
+        var files = e.dataTransfer && e.dataTransfer.files;
+        if (files && files.length) ingestAdminFiles(listing, files);
+      });
+    }
+
+    // Coller une image (Ctrl+V) directement sur la zone
+    root.addEventListener("paste", function (ev) {
+      var items = ev.clipboardData && ev.clipboardData.items;
+      if (!items || !items.length) return;
+      var files = [];
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].type && items[i].type.indexOf("image/") === 0) {
+          var f = items[i].getAsFile();
+          if (f) files.push(f);
+        }
+      }
+      if (!files.length) return;
+      ev.preventDefault();
+      ingestAdminFiles(listing, files);
+    });
 
     if (pasteBox) {
       pasteBox.addEventListener("paste", function (ev) {
@@ -801,9 +916,8 @@
           if (!found.length) return;
           setTimeout(function () {
             var cur = String(pasteBox.value || "").trim();
-            var extra = found.join("\n");
-            pasteBox.value = cur ? cur + "\n" + extra : extra;
-            setPhotoRetryStatus(found.length + " lien(s) photo détecté(s) — cliquez « Importer les photos collées ».", true);
+            pasteBox.value = cur ? cur + "\n" + found.join("\n") : found.join("\n");
+            setPhotoRetryStatus(found.length + " lien(s) détecté(s) — cliquez « Importer les liens ».", true);
           }, 0);
         } catch (e) {}
       });
@@ -813,7 +927,7 @@
       btnImport.addEventListener("click", function () {
         var raw = pasteBox ? String(pasteBox.value || "").trim() : "";
         if (!raw) {
-          setPhotoRetryStatus("Collez d’abord les liens photos (ou le HTML de la galerie).", false);
+          setPhotoRetryStatus("Collez d’abord des liens photos, ou utilisez « Ajouter des photos ».", false);
           return;
         }
         var Paste = window.ImmoListingPaste;
@@ -822,6 +936,7 @@
         setPhotoRetryStatus("Import en cours…", true);
         postListingPhotos({
           html: raw,
+          photo_urls: localUrls,
           url: listing.listing_url || "",
           property_id: listing.id || "",
           persist: true,
@@ -838,7 +953,7 @@
               applyAdminPhotos(listing, urls, data.hint || urls.length + " photo(s) importée(s).");
               return;
             }
-            setPhotoRetryStatus(data.hint || data.error || "Aucun lien photo reconnu dans le collage.", false);
+            setPhotoRetryStatus(data.hint || data.error || "Aucun lien photo reconnu.", false);
           })
           .catch(function () {
             btnImport.disabled = false;
@@ -873,18 +988,17 @@
             }
             if (data.blocked) {
               setPhotoRetryStatus(blockedMsg(data), false);
-              if (pasteBox) pasteBox.focus();
               return;
             }
             if (data.photo_urls && data.photo_urls.length) {
               applyAdminPhotos(listing, data.photo_urls, data.hint);
               return;
             }
-            setPhotoRetryStatus(data.hint || data.error || "Aucune photo récupérée. Collez les liens ci-dessous.", false);
+            setPhotoRetryStatus(data.hint || data.error || "Aucune photo auto. Utilisez « Ajouter des photos ».", false);
           })
           .catch(function () {
             btnRetry.disabled = false;
-            setPhotoRetryStatus("Erreur réseau. Collez les liens photos ci-dessous.", false);
+            setPhotoRetryStatus("Erreur réseau. Utilisez « Ajouter des photos ».", false);
           });
       });
     }
