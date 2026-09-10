@@ -168,9 +168,63 @@
       "questionnaireLabel": "Questionnaire VSP (3 min)",
       "landingLabel": "Parcours VSP complet",
       "expressLabel": "Devis VSP rapide"
+    },
+    "location": {
+      "need": "location",
+      "questionnaire": "/landings/questionnaire.html?need=location&journey=standard",
+      "landing": "/landings/location.html",
+      "express": "/landings/location.html",
+      "hook": "Locataire ou bailleur : un dossier clair vaut mieux qu'un portail saturé.",
+      "question": "Vous cherchez un logement ou vous mettez un bien en location ?",
+      "primaryLabel": "Projet location",
+      "questionnaireLabel": "Questionnaire location (3 min)",
+      "landingLabel": "Parcours location Nancy 54",
+      "expressLabel": "Demande location"
+    },
+    "syndic": {
+      "need": "syndic",
+      "questionnaire": "/landings/questionnaire.html?need=syndic&journey=standard",
+      "landing": "/landings/syndic.html",
+      "express": "/landings/syndic.html",
+      "hook": "Charges, AG, fin de mandat : un devis syndic se prépare, il ne s'improvise pas.",
+      "question": "Votre copropriété a-t-elle besoin d'une mise en concurrence ?",
+      "primaryLabel": "Devis syndic",
+      "questionnaireLabel": "Questionnaire syndic (3 min)",
+      "landingLabel": "Parcours syndic Nancy 54",
+      "expressLabel": "Devis syndic"
     }
   },
   "keywordRules": [
+    {
+      "id": "syndic-copro",
+      "match": [
+        "syndic",
+        "copropriété",
+        "copropriete",
+        "conseil syndical",
+        "charges de copro",
+        "assemblée générale copro",
+        "mise en concurrence syndic"
+      ],
+      "section": "syndic",
+      "hook": "Charges, AG, fin de mandat : comparer un syndic avant de voter.",
+      "question": "Votre copropriété a-t-elle besoin d'une mise en concurrence ?"
+    },
+    {
+      "id": "location-immo",
+      "match": [
+        "mise en location",
+        "mandat de location",
+        "gestion locative",
+        "garantie loyers",
+        "chercher une location",
+        "location appartement",
+        "propriétaire bailleur"
+      ],
+      "section": "location",
+      "hook": "Location : matching locataire ou mandat bailleur, sans mélanger avec la vente.",
+      "question": "Vous cherchez un logement ou vous mettez un bien en location ?"
+    },
     {
       "id": "puces-chat",
       "match": [
@@ -373,6 +427,42 @@
     }
   ],
   "articles": {
+    "louer-appartement-nancy-54-locataire-2026.html": {
+      "need": "location",
+      "landing": "/landings/location.html?role=locataire",
+      "questionnaire": "/landings/questionnaire.html?need=location&journey=standard",
+      "express": "/landings/location.html?role=locataire",
+      "hook": "Location à Nancy, Lunéville, Varangéville : critères d'abord, matching ensuite.",
+      "question": "Quel logement cherchez-vous sur le bassin 54 ?",
+      "primaryLabel": "Chercher une location",
+      "landingLabel": "Parcours locataire",
+      "questionnaireLabel": "Décrire mon besoin (3 min)",
+      "expressLabel": "Demande locataire"
+    },
+    "mettre-appartement-en-location-mandat-pno-gli-2026.html": {
+      "need": "location",
+      "landing": "/landings/location.html?role=bailleur",
+      "questionnaire": "/landings/questionnaire.html?need=location&journey=standard",
+      "express": "/landings/location.html?role=bailleur",
+      "hook": "Mandat location, dossier locataire, PNO et GLI : un seul interlocuteur bailleur.",
+      "question": "Prêt à mettre votre bien en location sur le 54 ?",
+      "primaryLabel": "Mandat location",
+      "landingLabel": "Parcours bailleur",
+      "questionnaireLabel": "Décrire mon bien (3 min)",
+      "expressLabel": "Demande bailleur"
+    },
+    "changer-syndic-copropriete-mise-en-concurrence-2026.html": {
+      "need": "syndic",
+      "landing": "/landings/syndic.html",
+      "questionnaire": "/landings/questionnaire.html?need=syndic&journey=standard",
+      "express": "/landings/syndic.html",
+      "hook": "Mise en concurrence syndic : charges, AG et préavis avant de voter.",
+      "question": "Votre conseil syndical veut-il comparer un syndic ?",
+      "primaryLabel": "Devis syndic",
+      "landingLabel": "Parcours syndic",
+      "questionnaireLabel": "Questionnaire copro (3 min)",
+      "expressLabel": "Devis syndic"
+    },
     "chat-puces-tiques-assurance-remboursement.html": {
       "hook": "Puces, tiques et vermifuge : la facture véto dépasse souvent 100 € — et ce n'est que le début.",
       "question": "Si une urgence arrive demain, avez-vous pensé à assurer votre chat ?",

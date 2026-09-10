@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-08",
   "sections": [
     "actu",
     "animaux",
@@ -1718,6 +1718,45 @@
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
       "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "louer-appartement-nancy-54-locataire-2026.html",
+      "title": "Louer un appartement à Nancy (54) : critères, dossier, assurances 2026",
+      "section": "finance",
+      "hook": "Location à Nancy, Lunéville, Varangéville : critères d'abord, matching ensuite.",
+      "question": "Quel logement cherchez-vous sur le bassin 54 ?",
+      "need": "location",
+      "landing": "../landings/location.html?role=locataire&utm_content=location-nancy-locataire",
+      "express": "../landings/location.html?role=locataire",
+      "questionnaire": "../landings/questionnaire.html?need=location&journey=standard",
+      "matchedRule": "location-immo",
+      "species": null
+    },
+    {
+      "file": "mettre-appartement-en-location-mandat-pno-gli-2026.html",
+      "title": "Mettre un appartement en location : mandat, locataire, PNO et GLI (2026)",
+      "section": "finance",
+      "hook": "Mandat location, dossier locataire, PNO et GLI : un seul interlocuteur bailleur.",
+      "question": "Prêt à mettre votre bien en location sur le 54 ?",
+      "need": "location",
+      "landing": "../landings/location.html?role=bailleur&utm_content=location-bailleur",
+      "express": "../landings/location.html?role=bailleur",
+      "questionnaire": "../landings/questionnaire.html?need=location&journey=standard",
+      "matchedRule": "location-immo",
+      "species": null
+    },
+    {
+      "file": "changer-syndic-copropriete-mise-en-concurrence-2026.html",
+      "title": "Changer de syndic de copropriété : mise en concurrence, charges, AG (2026)",
+      "section": "finance",
+      "hook": "Mise en concurrence syndic : charges, AG et préavis avant de voter.",
+      "question": "Votre conseil syndical veut-il comparer un syndic ?",
+      "need": "syndic",
+      "landing": "../landings/syndic.html?utm_content=syndic-concurrence",
+      "express": "../landings/syndic.html",
+      "questionnaire": "../landings/questionnaire.html?need=syndic&journey=standard",
+      "matchedRule": "syndic-copro",
       "species": null
     },
     {

@@ -729,4 +729,241 @@ module.exports = [
       },
     ],
   },
+  {
+    file: "louer-appartement-nancy-54-locataire-2026.html",
+    section: "finance",
+    tag: "Location",
+    tagClass: "tag-immo",
+    themes: ["location", "locataire", "nancy"],
+    title: "Louer un appartement à Nancy (54) : critères, dossier, assurances 2026",
+    description:
+      "Chercher une location à Nancy, Lunéville, Varangéville : budget, dossier locataire, visites, assurance habitation. Matching local, pas un portail anonyme.",
+    meta: "10 min · Septembre 2026",
+    cardExcerpt: "Location Nancy 54 : dossier, visites, MRH locataire — un interlocuteur.",
+    keywords: [
+      "location appartement Nancy",
+      "chercher location Nancy 54",
+      "location Lunéville Varangéville",
+      "dossier locataire Nancy",
+      "assurance habitation locataire Nancy",
+    ],
+    cta: {
+      href: "../landings/location.html?role=locataire&utm_content=location-nancy-locataire",
+      label: "Décrire le logement que je cherche",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: "Vous cherchez une <strong>location à Nancy</strong>, Lunéville, Varangéville ou Jarville — et les portails vous noient sous des annonces déjà louées ? Un <strong>dossier locataire</strong> incomplet, un budget mal calé, une visite ratée : le marché 54 reste tendu sur les T2/T3 corrects. On inverse la logique : vos critères d’abord, le matching ensuite. <a href=\"../landings/location.html?role=locataire&utm_content=location-nancy-intro\"><strong>Décrire mon besoin de location</strong></a> · <a href=\"../immobilier/location/\">hub location locataire &amp; bailleur</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "1. Caler le budget réel (pas seulement le loyer)" },
+      {
+        type: "p",
+        text: "Le loyer affiché n’est pas le coût mensuel. Ajoutez <strong>charges</strong>, assurance habitation locataire, parfois parking, et un reste à vivre réaliste. Les bailleurs sérieux filtrent trop juste. Un T2 Nancy centre n’a pas le même loyer qu’un T2 à Jarville ou Dombasle : dites la <strong>ville prioritaire</strong> et 1–2 communes de repli.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Loyer max charges comprises (chiffre honnête)",
+          "Surface mini, pièces, étage, extérieur",
+          "Meublé / nu / indifférent",
+          "Animaux, date d’entrée, durée souhaitée",
+        ],
+      },
+      { type: "h2", text: "2. Un dossier que le bailleur ouvre vraiment" },
+      {
+        type: "p",
+        text: "Pièce d’identité, justificatif de revenus, contrat de travail ou avis d’imposition, garant si besoin : le dossier type n’a pas changé, mais <strong>l’ordre et la lisibilité</strong> si. Un PDF unique, à jour, sans 40 photos de bulletins, accélère la décision. On peut relayer votre dossier vers des bailleurs du bassin — sans promettre un logement magique le lendemain.",
+      },
+      { type: "h2", text: "3. Assurance locataire : obligatoire, pas un détail" },
+      {
+        type: "p",
+        text: "L’<strong>assurance habitation locataire</strong> (risques locatifs) est exigée à la remise des clés. Colocation : clarifier qui est assuré. Sous-location : souvent exclue. Une fois le logement trouvé, on peut enchaîner un devis MRH. Voir <a href=\"./assurance-habitation-locataire-proprietaire-2026.html\">locataire vs propriétaire</a> et <a href=\"./canicule-orage-inondation-cave-assurance-locataire.html\">cave inondée en location</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "4. Pourquoi un parcours local (pas un comparateur national)" },
+      {
+        type: "p",
+        text: "On ne « scrape » pas Leboncoin pour vous. Le matching sert le <strong>bassin Nancy / Lunéville / Varangéville</strong> : biens suivis, bailleurs déjà en mandat, ou critères trop précis pour un portail. Vous restez libre. <a href=\"../landings/location.html?role=locataire&utm_content=location-nancy-cta\">Lancer ma recherche</a> · <a href=\"../landings/questionnaire.html?need=location&journey=standard&utm_content=location-nancy-quest\">questionnaire location (3 min)</a> · <a href=\"../pret-immobilier/nancy-metropole/\">si le projet devient un achat</a>.",
+      },
+    ],
+    related: [
+      { href: "./mettre-appartement-en-location-mandat-pno-gli-2026.html", label: "Bailleur : mettre en location" },
+      { href: "./pno-bailleur-proprietaire-non-occupant.html", label: "Assurance PNO" },
+      { href: "../immobilier/location/", label: "Hub location 54" },
+    ],
+    faq: [
+      {
+        q: "Faut-il un garant pour louer à Nancy ?",
+        a: "Souvent oui pour un primo-locataire ou des revenus justes. Visale, parent, ou caution : selon le bailleur. Indiquez-le dans le questionnaire.",
+      },
+      {
+        q: "Vous avez des appartements exclusifs ?",
+        a: "Des biens en mandat location, oui — pas un stock secret. Le questionnaire sert à matcher, pas à inventer des clés.",
+      },
+      {
+        q: "L’assurance habitation est-elle obligatoire ?",
+        a: "Oui pour le locataire (risques locatifs). On peut comparer un contrat une fois le logement identifié.",
+      },
+    ],
+  },
+  {
+    file: "mettre-appartement-en-location-mandat-pno-gli-2026.html",
+    section: "finance",
+    tag: "Bailleur",
+    tagClass: "tag-immo",
+    themes: ["location", "bailleur", "pno"],
+    title: "Mettre un appartement en location : mandat, locataire, PNO et GLI (2026)",
+    description:
+      "Bailleur : mandat de location, recherche locataire, état des lieux, honoraires au m². PNO et garantie loyers impayés. Nancy, Lunéville, Varangéville.",
+    meta: "11 min · Septembre 2026",
+    cardExcerpt: "Bailleur 54 : mandat location, dossier locataire, PNO / GLI.",
+    keywords: [
+      "mettre appartement en location",
+      "mandat location Nancy",
+      "gestion locative Meurthe-et-Moselle",
+      "PNO GLI bailleur",
+      "recherche locataire Nancy 54",
+    ],
+    cta: {
+      href: "../landings/location.html?role=bailleur&utm_content=location-bailleur",
+      label: "Mandat location — décrire mon bien",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: "Vous voulez <strong>mettre un appartement ou une maison en location</strong> (Nancy, Lunéville, Varangéville, Jarville) sans y passer vos week-ends : annonces, dossiers fantaisistes, no-show, état des lieux. Un <strong>mandat de location</strong> cadre la recherche locataire, les honoraires au m² (barème public) et, si besoin, <strong>PNO</strong> et <strong>GLI</strong>. <a href=\"../landings/location.html?role=bailleur&utm_content=location-bailleur-intro\"><strong>Décrire le bien à louer</strong></a> · <a href=\"../immobilier/location/\">parcours location</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "1. Mandat location ≠ gestion locative à vie" },
+      {
+        type: "p",
+        text: "Le mandat location, c’est surtout <strong>trouver le locataire</strong> : estimation du loyer, annonce, visites, sélection du dossier, état des lieux. La gestion courante (quittances, sinistres, relances) peut venir ensuite — ce n’est pas automatique. On ne mélange pas avec un mandat de vente.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Loyer cible et charges (comparables du 54, pas un souhait)",
+          "Meublé, nu, saisonnier : fiscalité et bail différents",
+          "DPE : un G ne se loue plus — voir <a href=\"./passoire-energetique-dpe-g-vendre-2026.html\">passoire énergétique</a>",
+          "Honoraires : forfaits TTC / m² selon zone — <a href=\"../bareme-honoraires/\">barème public</a>",
+        ],
+      },
+      { type: "h2", text: "2. Choisir le locataire sans bricoler" },
+      {
+        type: "p",
+        text: "Un « bon feeling » ne remplace pas un dossier. Revenus, stabilité, garant, cohérence du projet : on documente. Mieux vaut 10 jours de vacance qu’un impayé de 8 mois. Les visites groupées et un unique interlocuteur évitent les allers-retours.",
+      },
+      { type: "h2", text: "3. PNO et GLI : deux filets différents" },
+      {
+        type: "p",
+        text: "La <strong>PNO</strong> (propriétaire non occupant) couvre le bien quand vous n’y habitez pas — dégât des eaux, incendie, RC. La <strong>GLI</strong> (loyers impayés) est un autre contrat, avec conditions d’éligibilité du locataire. Les deux se discutent <em>avec</em> le mandat, pas « plus tard si ça va mal ». Guide : <a href=\"./pno-bailleur-proprietaire-non-occupant.html\">assurance PNO</a> · <a href=\"./rentree-2026-investissement-locatif-encore-rentable.html\">investissement locatif 2026</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "4. Lots en copropriété : le syndic ne gère pas votre locataire" },
+      {
+        type: "p",
+        text: "Le <strong>syndic</strong> gère l’immeuble (charges, AG, travaux). Il ne sélectionne pas votre locataire et ne fait pas l’état des lieux. Si les charges explosent, c’est un autre dossier. <a href=\"./changer-syndic-copropriete-mise-en-concurrence-2026.html\">Changer de syndic</a> · <a href=\"../landings/location.html?role=bailleur&utm_content=location-bailleur-cta\">déposer le bien en location</a> · <a href=\"../landings/questionnaire.html?need=location&journey=standard&utm_content=location-bailleur-quest\">questionnaire bailleur</a>.",
+      },
+    ],
+    related: [
+      { href: "./pno-bailleur-proprietaire-non-occupant.html", label: "PNO bailleur" },
+      { href: "./louer-appartement-nancy-54-locataire-2026.html", label: "Côté locataire" },
+      { href: "../landings/syndic.html", label: "Devis syndic" },
+    ],
+    faq: [
+      {
+        q: "Puis-je louer un DPE G en 2026 ?",
+        a: "Les logements classés G sont interdits à la location (progression F ensuite). Travaux ou vente : on cadre avant le mandat.",
+      },
+      {
+        q: "La GLI accepte-t-elle tous les locataires ?",
+        a: "Non. Plafonds de loyer, taux d’effort, pièces du dossier : l’assureur filtre. On le dit avant de promettre une garantie.",
+      },
+      {
+        q: "Les honoraires sont-ils à la charge du locataire ou du bailleur ?",
+        a: "Selon les postes (visite, dossier, EDL) et la zone tendue. Le barème public détaille les forfaits au m².",
+      },
+    ],
+  },
+  {
+    file: "changer-syndic-copropriete-mise-en-concurrence-2026.html",
+    section: "finance",
+    tag: "Syndic",
+    tagClass: "tag-immo",
+    themes: ["syndic", "copropriete", "nancy"],
+    title: "Changer de syndic de copropriété : mise en concurrence, charges, AG (2026)",
+    description:
+      "Conseil syndical, fin de mandat, charges trop élevées : comment changer de syndic sans improvisation. Devis local Nancy, Lunéville, Varangéville — Loi Hoguet.",
+    meta: "10 min · Septembre 2026",
+    cardExcerpt: "Syndic 54 : mise en concurrence, charges, AG — devis cadré.",
+    keywords: [
+      "changer de syndic",
+      "mise en concurrence syndic",
+      "syndic copropriété Nancy",
+      "charges copropriété trop élevées",
+      "conseil syndical devis syndic",
+    ],
+    cta: {
+      href: "../landings/syndic.html?utm_content=syndic-concurrence",
+      label: "Demander un devis syndic",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: "Charges en hausse, AG tendue, syndic injoignable, fin de mandat : le <strong>conseil syndical</strong> veut <strong>mettre en concurrence</strong> — sans se tromper de procédure. Changer de syndic n’est pas un clic : contrat en cours, préavis, vote en AG, contrat-type. Sur Nancy, Lunéville, Varangéville et Jarville, on étudie d’abord lots, travaux et règlement. <a href=\"../landings/syndic.html?utm_content=syndic-intro\"><strong>Décrire la copropriété</strong></a> · <a href=\"../immobilier/syndic/\">hub syndic 54</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "1. Ce que le syndic fait (et ne fait pas)" },
+      {
+        type: "p",
+        text: "Le syndic exécute les décisions d’AG, appelle les charges, suit les prestataires, représente le syndicat. Il ne vend pas vos lots et ne gère pas le locataire d’un bailleur. Activité <strong>réglementée (Loi Hoguet)</strong> : carte professionnelle Gestion et garantie financière. Selon le dossier, mandat en direct <em>ou</em> mise en relation avec un syndic habilité — rien sans écrit.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Nombre de lots (approx.) et usage (habité, loué, mixte)",
+          "Syndic actuel : professionnel, bénévole, ou aucun",
+          "Travaux votés (ravalement, toiture, ascenseur)",
+          "Griefs concrets : délais, honoraires, litiges",
+        ],
+      },
+      { type: "h2", text: "2. Mise en concurrence : le calendrier compte" },
+      {
+        type: "p",
+        text: "On ne « vire » pas un syndic du jour au lendemain. Le contrat fixe durée et préavis ; le vote se fait en <strong>assemblée générale</strong>, avec un contrat alternatif à comparer. Un dossier lisible pour le conseil syndical (honoraires, astreinte, suivi travaux) évite le débat émotionnel. L’académie interne : <a href=\"../academie/immobilier/copropriete.html\">lire charges et copro</a>.",
+      },
+      { type: "h2", text: "3. Charges élevées : syndic ou immeuble ?" },
+      {
+        type: "p",
+        text: "Parfois l’honoraires syndic est le problème. Parfois ce sont le <strong>chauffage collectif</strong>, un ravalement, un contentieux, un fonds travaux trop bas. Avant de changer pour « payer moins », on sépare : poste syndic vs poste immeuble. Sinon le prochain contrat décevra autant.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "4. Copro récente, syndic bénévole, lots loués" },
+      {
+        type: "p",
+        text: "Immeuble neuf ou livré récemment : règlement, AE, fonds travaux à poser tôt. Syndic bénévole épuisé : bascule vers un professionnel avant l’incident. Bailleurs dans l’immeuble : le mandat location est un autre parcours. <a href=\"../landings/syndic.html?utm_content=syndic-cta\">Devis syndic</a> · <a href=\"../landings/questionnaire.html?need=syndic&journey=standard&utm_content=syndic-quest\">questionnaire copro (3 min)</a> · <a href=\"./mettre-appartement-en-location-mandat-pno-gli-2026.html\">lots à louer</a>.",
+      },
+    ],
+    related: [
+      { href: "../immobilier/syndic/", label: "Hub syndic Nancy 54" },
+      { href: "./mettre-appartement-en-location-mandat-pno-gli-2026.html", label: "Location bailleur" },
+      { href: "../academie/immobilier/copropriete.html", label: "Cours copropriété" },
+    ],
+    faq: [
+      {
+        q: "Peut-on changer de syndic en cours d’année ?",
+        a: "Oui si le contrat et le vote d’AG le permettent (révocation, terme, préavis). Le notaire / le contrat-type précisent les règles — on ne force pas.",
+      },
+      {
+        q: "Vous êtes syndic sur tout le Grand Est ?",
+        a: "Priorité bassin Nancy / Lunéville / Varangéville. Pas de promesse nationale. Selon le mandat : gestion directe ou partenaire habilité.",
+      },
+      {
+        q: "Faut-il déjà un PV d’AG pour demander un devis ?",
+        a: "Non. Nombre de lots, ville, griefs et travaux connus suffisent pour un premier cadrage.",
+      },
+    ],
+  },
 ];
