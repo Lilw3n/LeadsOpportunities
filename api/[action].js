@@ -18,6 +18,7 @@ const ROUTES = {
   "immo-listing-submit": () => require("./_lib/routes/public-immo-listing-submit"),
   "immo-listing-draft": () => require("./_lib/routes/public-immo-listing-draft"),
   "immo-listing-document": () => require("./_lib/routes/public-immo-listing-document"),
+  "immo-listing-photos": () => require("./_lib/routes/crm-immo-listing-photos"),
   "immo-network": () => require("./_lib/routes/immo-network-dispatch"),
   "acquisition-focus": () => require("./_lib/routes/public-acquisition-focus"),
   "meta-status": () => require("./_lib/routes/public-meta-status"),

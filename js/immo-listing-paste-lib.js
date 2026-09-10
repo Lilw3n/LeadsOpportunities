@@ -1,6 +1,8 @@
 /**
  * Reprise d'infos depuis un lien / texte d'annonce (Leboncoin & portails).
- * Pas de scraping serveur (LBC renvoie un captcha) : on parse l'URL + le texte collé.
+ * Parse URL + texte / HTML collé (photos img.leboncoin.fr).
+ * Un fetch serveur existe (API CRM) mais Leboncoin renvoie souvent un captcha :
+ * dans ce cas, marque-page sur la page annonce déjà ouverte chez le conseiller.
  */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) {

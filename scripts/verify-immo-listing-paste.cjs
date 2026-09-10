@@ -85,6 +85,29 @@ var withPhotos = Paste.parseListingPaste(
 assert(withPhotos.photo_urls && withPhotos.photo_urls.length >= 2, "parseListingPaste reprend les photos");
 assert(withPhotos.fields_filled.indexOf("photos") !== -1, "fields_filled inclut photos");
 
+var fs = require("fs");
+var path = require("path");
+function read(rel) {
+  return fs.readFileSync(path.join(__dirname, "..", rel), "utf8");
+}
+assert(read("api/[action].js").indexOf("immo-listing-photos") !== -1, "route immo-listing-photos enregistrée");
+assert(fs.existsSync(path.join(__dirname, "../api/_lib/routes/crm-immo-listing-photos.js")), "fichier route photos");
+var routeSrc = read("api/_lib/routes/crm-immo-listing-photos.js");
+assert(routeSrc.indexOf("getAuthUser") !== -1, "API photos : auth CRM");
+assert(routeSrc.indexOf("blocked") !== -1, "API photos : signal blocked si captcha");
+assert(routeSrc.indexOf("extractPhotoUrls") !== -1, "API photos : extractPhotoUrls");
+assert(!/solveCaptcha|2captcha|anticaptcha|puppeteer|playwright/i.test(routeSrc), "pas de solveur captcha");
+
+var crmHtml = read("crm-immo-pubs.html");
+assert(crmHtml.indexOf("lbcPhotoBookmarklet") !== -1, "CRM : marque-page photos");
+assert(crmHtml.indexOf("btnFetchListingPhotos") !== -1, "CRM : bouton essayer depuis le lien");
+assert(crmHtml.indexOf("vos photos") !== -1 || crmHtml.indexOf("vos</strong> photos") !== -1, "CRM : wording vos photos");
+
+var crmJs = read("js/crm-immo-pubs.js");
+assert(crmJs.indexOf("fetchListingPhotosFromApi") !== -1, "CRM JS : fetch API photos");
+assert(crmJs.indexOf("installLbcPhotoBookmarklet") !== -1, "CRM JS : bookmarklet");
+assert(crmJs.indexOf("/api/immo-listing-photos") !== -1, "CRM JS : endpoint photos");
+
 if (failed) {
   console.log("\n" + failed + " échec(s)");
   process.exit(1);
