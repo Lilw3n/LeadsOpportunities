@@ -96,6 +96,51 @@
   padding: 8px 12px;
   font-size: 0.95rem;
 }
+.immo-ad-card__tour-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(30, 90, 138, 0.92);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 5px 8px;
+}
+.immo-ad-hub-intro {
+  margin: 22px 0 0;
+  max-width: 46rem;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.immo-ad-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 4px;
+}
+.immo-ad-filter {
+  appearance: none;
+  border: 1px solid var(--immo-ad-line);
+  background: #fff;
+  color: var(--immo-ad-ink);
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.immo-ad-filter:hover {
+  border-color: var(--immo-ad-accent);
+}
+.immo-ad-filter.is-active {
+  background: var(--immo-ad-ink);
+  border-color: var(--immo-ad-ink);
+  color: #fff;
+}
 .immo-ad-card__body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
 .immo-ad-card__body h2 { margin: 0; font-size: 1.05rem; line-height: 1.35; }
 .immo-ad-card__meta { color: #5b6b7c; font-size: 0.86rem; margin: 0; }

@@ -521,9 +521,9 @@
     var links = "";
     if (channels.indexOf("public") !== -1) {
       links +=
-        '<a class="btn btn-primary btn-sm" href="./immobilier/pubs-mandats.html?id=' +
+        '<a class="btn btn-primary btn-sm" href="./immobilier/biens.html?id=' +
         encodeURIComponent(property.id) +
-        '" target="_blank" rel="noopener">Voir la pub publique</a>';
+        '" target="_blank" rel="noopener">Voir sur le hub biens</a>';
     }
     if (bag.ad.tour_access && bag.ad.tour_access.enabled && bag.ad.tour_access.token) {
       links +=
@@ -794,9 +794,9 @@
     var html = "";
     if (channels.indexOf("public") !== -1) {
       html +=
-        '<a class="btn btn-ghost btn-sm" href="./immobilier/pubs-mandats.html?id=' +
+        '<a class="btn btn-ghost btn-sm" href="./immobilier/biens.html?id=' +
         encodeURIComponent(property.id) +
-        '" target="_blank" rel="noopener">Voir vitrine publique</a>';
+        '" target="_blank" rel="noopener">Voir sur le hub biens</a>';
     }
     if (channels.indexOf("private") !== -1 && bag.ad.share_token) {
       html +=
@@ -1145,6 +1145,15 @@
     var form = formValues();
     if (!form.channel_public && !form.channel_private) {
       msg("Cochez au moins un canal : public ou privé.");
+      return;
+    }
+    if (
+      form.channel_public &&
+      !(AdLib.canPublishPublic ? AdLib.canPublishPublic(form.status) : false)
+    ) {
+      msg(
+        "Vitrine publique refusée : sans mandat (ou sous offre / réservé SRU) vous n’avez pas le droit de commercialiser. Passez le statut CRM en mandat, ou décochez la vitrine. La démo privée et les visites vérifiées restent possibles."
+      );
       return;
     }
     if (form.channel_private && !String(form.access_emails || "").trim() && !String(form.access_phones || "").trim()) {

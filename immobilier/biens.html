@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biens &amp; visites virtuelles — Leads Opportunities</title>
+  <meta name="description" content="Hub des biens sous mandat Leads Opportunities : photos, vidéos et visites virtuelles avec accès vérifié — Nancy et alentours." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/immobilier/biens.html" />
+  <meta property="og:title" content="Biens &amp; visites virtuelles — Leads Opportunities" />
+  <meta property="og:description" content="Vitrine centralisée des mandats : annonces et visites 3D (accès acquéreur vérifié)." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.leadsopportunities.fr/immobilier/biens.html" />
+  <meta property="og:image" content="https://www.leadsopportunities.fr/assets/piliers/pilier-immobilier.jpg" />
+  <link rel="stylesheet" href="../main.css" />
+  <link rel="stylesheet" href="../css/piliers-hub.css?v=20260825real" />
+  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260910hub" />
+</head>
+<body class="immo-ad-page">
+  <header class="topbar">
+    <div class="container nav">
+      <a class="logo" href="../index.html">
+        <span class="logo-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+        <span class="logo-text">
+          <span class="logo-name">Leads Opportunities</span>
+          <span class="logo-tagline">Assurance · Immo · Prêt · Banque · Finance</span>
+        </span>
+      </a>
+      <nav>
+        <a href="../immobilier/">Immobilier</a>
+        <a href="../landings/acheteur-immo.html">Recherche</a>
+        <a href="./biens.html" aria-current="page">Biens &amp; visites</a>
+        <a class="btn btn-nav" href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <header class="immo-ad-hero">
+    <div class="container">
+      <span class="immo-ad-badge">Vitrine mandats</span>
+      <h1>Leads Opportunities</h1>
+      <p class="lead">Tous nos biens commercialisés sous mandat, au même endroit — photos, vidéos et visite virtuelle. L’accès à la visite 3D reste protégé (vérification e-mail / téléphone).</p>
+      <div class="immo-ad-actions">
+        <a class="btn btn-primary" href="../landings/acheteur-immo.html">Je cherche un bien</a>
+        <a class="btn btn-outline" href="../landings/acheteur-immo.html?role=vendeur" style="color:#fff;border-color:rgba(255,255,255,.55)">Je vends</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="adProtectRoot">
+    <div class="immo-ad-hub-intro">
+      <p>Seuls les biens <strong>sous mandat</strong> (ou sous offre) activés en vitrine apparaissent ici. Sans mandat, rien n’est publié — conformément aux règles de commercialisation.</p>
+    </div>
+    <div class="immo-ad-filters" id="adFilters" role="group" aria-label="Filtrer les biens">
+      <button type="button" class="immo-ad-filter is-active" data-filter="all" aria-pressed="true">Tous les biens</button>
+      <button type="button" class="immo-ad-filter" data-filter="tour" aria-pressed="false">Avec visite virtuelle</button>
+    </div>
+    <div id="adDetail"></div>
+    <div id="adEmpty" class="immo-ad-empty" hidden>
+      Aucun mandat publié pour le moment. Les annonces apparaissent ici dès qu’un bien sous mandat est activé en vitrine publique.
+    </div>
+    <div class="immo-ad-grid" id="adGrid" aria-live="polite"></div>
+  </main>
+
+  <footer class="site-footer" style="padding:24px 0;text-align:center;color:#64748b;font-size:.85rem">
+    <div class="container">
+      <a href="../immobilier/">Hub immobilier</a> ·
+      <a href="../bareme-honoraires/">Barème honoraires</a> ·
+      Wendy Buchet — ORIAS
+    </div>
+  </footer>
+
+  <script src="../js/immo-public-listings-lib.js"></script>
+  <script src="../js/immo-ad-listings-lib.js"></script>
+  <script src="../js/immo-ad-protect.js"></script>
+  <script src="../js/immo-ad-pages.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.ImmoAdPages) window.ImmoAdPages.bootPublic();
+    });
+  </script>
+</body>
+</html>

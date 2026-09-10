@@ -68,10 +68,20 @@ var found = AdLib.findByShareToken([sample], sample.metadata.ad.share_token);
 assert(found && found.id === "prop_test_ad", "findByShareToken");
 
 assert(!AdLib.isPublicMandateAd({ status: "estimation", metadata: { ad: { channels: ["public"] } } }), "estimation seule ≠ pub mandat");
-assert(
-  AdLib.applyAdToProperty({ status: "estimation" }, { channel_public: true, title: "X", city: "Nancy" }).status === "mandat",
-  "activer canal public passe en mandat"
+assert(typeof AdLib.canPublishPublic === "function" && AdLib.canPublishPublic("mandat"), "canPublishPublic(mandat)");
+assert(!AdLib.canPublishPublic("estimation"), "estimation ≠ canPublishPublic");
+var blockedPublic = AdLib.applyAdToProperty(
+  { status: "estimation" },
+  { channel_public: true, channel_private: true, title: "X", city: "Nancy" }
 );
+assert(blockedPublic.status === "estimation", "canal public ne force plus le statut mandat");
+assert(AdLib.channelsOf(AdLib.getAdMeta(blockedPublic).ad).indexOf("public") === -1, "public retiré sans mandat");
+assert(blockedPublic.seo_published !== true, "pas de seo_published sans mandat");
+var okPublic = AdLib.applyAdToProperty(
+  { status: "mandat" },
+  { channel_public: true, title: "Y", city: "Nancy" }
+);
+assert(AdLib.isPublicMandateAd(okPublic), "mandat + public → vitrine OK");
 
 var files = [
   "crm-immo-pubs.html",
@@ -83,6 +93,7 @@ var files = [
   "js/immo-ad-protect.js",
   "js/immo-ad-pages.js",
   "css/immo-ad-listings.css",
+  "immobilier/biens.html",
   "immobilier/pubs-mandats.html",
   "immobilier/demo-pub-vendeur.html",
   "api/_lib/routes/public-immo-ads.js",
@@ -232,9 +243,30 @@ var withAccess = AdLib.applyAdToProperty(
 assert(withAccess.metadata.ad.access.emails[0] === "vendeur@test.fr", "access emails stockés");
 assert(withAccess.metadata.ad.access.phones[0] === "0611223344", "access phones stockés");
 
-var pubPage = read("immobilier/pubs-mandats.html");
+var pubPage = read("immobilier/biens.html");
 assert(pubPage.indexOf("index,follow") !== -1, "vitrine publique indexable");
 assert(pubPage.indexOf("immo-ad-protect") !== -1, "vitrine : protect chargé");
+assert(pubPage.indexOf("adFilters") !== -1, "hub biens : filtres");
+assert(pubPage.indexOf("bootPublic") !== -1, "hub biens : bootPublic");
+assert(pubPage.indexOf("mandat") !== -1, "hub biens : mention mandat");
+
+var redirectLegacy = read("immobilier/pubs-mandats.html");
+assert(redirectLegacy.indexOf("biens.html") !== -1, "pubs-mandats → biens.html");
+assert(redirectLegacy.indexOf('rel="canonical"') !== -1 && redirectLegacy.indexOf("/immobilier/biens.html") !== -1, "canonical vers hub biens");
+
+var crmHtml = read("crm-immo-pubs.html");
+assert(crmHtml.indexOf("mandat obligatoire") !== -1 || crmHtml.indexOf("Sans mandat") !== -1, "CRM : garde-fou vitrine");
+
+var crmJsGuard = read("js/crm-immo-pubs.js");
+assert(crmJsGuard.indexOf("canPublishPublic") !== -1, "CRM JS : garde canPublishPublic");
+assert(crmJsGuard.indexOf("biens.html") !== -1, "CRM JS : liens hub biens");
+
+var pagesHub = read("js/immo-ad-pages.js");
+assert(pagesHub.indexOf("adFilters") !== -1 && pagesHub.indexOf("filterMode") !== -1, "pages : filtre visite");
+assert(pagesHub.indexOf("immo-ad-card__tour-badge") !== -1, "pages : badge visite carte");
+
+var cssHub = read("css/immo-ad-listings.css");
+assert(cssHub.indexOf("immo-ad-filters") !== -1 && cssHub.indexOf("immo-ad-card__tour-badge") !== -1, "CSS hub filtres / badge");
 
 var privPage = read("immobilier/demo-pub-vendeur.html");
 assert(privPage.indexOf("noindex") !== -1, "démo privée noindex");
@@ -252,7 +284,8 @@ var sidebar = read("js/crm-sidebar.js");
 assert(sidebar.indexOf("crm-immo-pubs.html") !== -1, "lien sidebar CRM");
 
 var hub = read("immobilier/index.html");
-assert(hub.indexOf("pubs-mandats.html") !== -1, "lien hub immobilier");
+assert(hub.indexOf("biens.html") !== -1, "lien hub immobilier → biens");
+assert(hub.indexOf("Biens") !== -1, "libellé hub biens");
 
 var schema = read("js/crm-immo-property-schema.js");
 assert(schema.indexOf("annonce_pub") !== -1, "section fiche bien Annonce & pubs");

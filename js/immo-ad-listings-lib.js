@@ -286,9 +286,14 @@
     return channelsOf(bag.ad).indexOf(channel) !== -1;
   }
 
+  /** Statuts autorisant une vitrine publique (mandat / commercialisation). */
+  function canPublishPublic(status) {
+    var st = String(status || "").toLowerCase();
+    return st === "mandat" || st === "sous_offre" || st === "reserve_sru";
+  }
+
   function isPublicMandateAd(property) {
-    var status = String((property && property.status) || "").toLowerCase();
-    if (status !== "mandat" && status !== "sous_offre" && status !== "reserve_sru") return false;
+    if (!canPublishPublic(property && property.status)) return false;
     return hasChannel(property, "public");
   }
 
@@ -445,9 +450,17 @@
     var bag = getAdMeta(p);
     var meta = Object.assign({}, bag.meta);
     var prev = bag.ad || {};
+    if (form.status) p.status = String(form.status).trim();
+
     var channels = [];
     if (form.channel_public) channels.push("public");
     if (form.channel_private) channels.push("private");
+    // Sans mandat : pas de vitrine publique (pas de promotion auto du statut).
+    if (channels.indexOf("public") !== -1 && !canPublishPublic(p.status)) {
+      channels = channels.filter(function (c) {
+        return c !== "public";
+      });
+    }
 
     var photos = sanitizePhotos(form.photos);
     var videos = sanitizeUrlList(form.videos || form.video_urls, isSafeVideoUrl, 6);
@@ -536,13 +549,9 @@
       p.listing_url = String(form.listing_url || prev.listing_url || "").trim().slice(0, 500);
     }
     if (photos.length) p.photos_json = photos;
-    if (form.status) p.status = form.status;
-    else if (channels.indexOf("public") !== -1 && (!p.status || p.status === "estimation" || p.status === "prospection")) {
-      p.status = "mandat";
-    }
     p.metadata = meta;
     p.metadata_json = meta;
-    p.seo_published = channels.indexOf("public") !== -1;
+    p.seo_published = channels.indexOf("public") !== -1 && canPublishPublic(p.status);
     return p;
   }
 
@@ -598,6 +607,7 @@
     sellDossierToCriteria: sellDossierToCriteria,
     channelsOf: channelsOf,
     hasChannel: hasChannel,
+    canPublishPublic: canPublishPublic,
     isPublicMandateAd: isPublicMandateAd,
     isPrivateDemoAd: isPrivateDemoAd,
     toAdListing: toAdListing,

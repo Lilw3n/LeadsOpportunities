@@ -117,7 +117,7 @@
     </div>
     <div class="crm-action-row">
       <a class="btn btn-primary" href="./crm-immo-pubs.html?new=1" id="btnCreateLinkTop">Créer une pub / démo</a>
-      <a class="btn btn-ghost" href="./immobilier/pubs-mandats.html" target="_blank" rel="noopener">Vitrine publique</a>
+      <a class="btn btn-ghost" href="./immobilier/biens.html" target="_blank" rel="noopener">Hub biens &amp; visites</a>
       <a class="btn btn-primary" href="./crm-immo-tour-requests.html">Demandes de visite</a>
       <a class="btn btn-ghost" href="./crm-immo-properties.html">Piges &amp; biens</a>
       <a class="btn btn-ghost" href="./crm-pubs.html">Gestion pubs Ads</a>
@@ -185,6 +185,7 @@
               <option value="prospection">Prospection</option>
               <option value="mandat" selected>Mandat en cours</option>
               <option value="sous_offre">Sous offre</option>
+              <option value="reserve_sru">Réservé SRU</option>
             </select>
           </label>
         </div>
@@ -378,9 +379,10 @@
           <input id="adDemoLabel" value="Capacité de diffusion" />
         </label>
         <div class="pub-checks">
-          <label><input type="checkbox" id="chPublic" /> Vitrine publique (mandats)</label>
+          <label><input type="checkbox" id="chPublic" /> Vitrine publique — hub /immobilier/biens.html (mandat obligatoire)</label>
           <label><input type="checkbox" id="chPrivate" checked /> Démo privée vendeur</label>
         </div>
+        <p class="pub-hint" style="margin:0">Sans mandat (ou sous offre), la case vitrine publique est refusée : vous n’avez pas le droit de commercialiser le bien. Les visites virtuelles gardent la vérification d’accès déjà en place.</p>
 
         <div class="pub-media-block" id="accessBlock">
           <h4>Qui peut voir la démo privée ?</h4>
