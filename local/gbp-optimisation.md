@@ -34,4 +34,5 @@
   - site
   - GBP
   - annuaires/citations
+- **Téléphone public actuel (temporaire WithAllo)** : `09 71 18 53 99` (`+33971185399`) — voir `docs/SLACK-WITHALLO-NOTIFS.md`. Portage des 06 en cours.
 - Ajouter un bloc NAP sur les pages locales pour coherence SEO.

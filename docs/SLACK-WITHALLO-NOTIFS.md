@@ -63,9 +63,20 @@ Implémentation : `api/_lib/lead-post-ingest.js` → `notifySlack()`.
 
 ---
 
-## Phase 2 — WithAllo (quand le volume augmente)
+## Phase 2 — WithAllo (actif — numéro temporaire)
 
 Site WithAllo : [https://web.withallo.com/](https://web.withallo.com/)
+
+### Ligne téléphonique publique (temporaire)
+
+| Champ | Valeur |
+|-------|--------|
+| **Numéro Allo (ligne active)** | **09 71 18 53 99** (`tel:+33971185399`) |
+| Statut | Temporaire WithAllo — affiché sur le site / NAP / schema.org |
+| Portage en cours | `06 95 82 08 66` et `06 51 36 62 22` (Allo → « En cours ») |
+| Config | `config/tenant-brand.json` · `config/quote-brand.json` |
+
+Quand le portage est terminé : remettre le mobile définitif partout (agence Varangéville, nancy-54, JSON-LD accueil) et mettre à jour GBP.
 
 ### Déjà câblé dans le projet
 
@@ -77,7 +88,7 @@ Site WithAllo : [https://web.withallo.com/](https://web.withallo.com/)
 | CRM | Source `withallo` dans pipeline + dashboard |
 | Matching VSP | `crm-private-offer-matching.html` reconnaît `withallo` |
 
-### Configuration WithAllo (quand vous souscrivez)
+### Configuration WithAllo
 
 1. Générer un secret fort → Vercel `WITHALLO_WEBHOOK_SECRET`
 2. Dans WithAllo : webhook vers l’URL ci-dessus
@@ -96,7 +107,7 @@ flowchart LR
   B --> C[(CRM Neon)]
   B --> D[Email Resend]
   B --> E[Slack Incoming Webhook]
-  F[WithAllo plus tard] --> B
+  F[WithAllo 09 71 18 53 99] --> B
   C --> G[crm-acquisition / meta-inbox]
 ```
 
