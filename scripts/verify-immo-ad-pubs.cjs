@@ -67,16 +67,15 @@ assert(priv.share_token && priv.share_token.indexOf("ad_") === 0, "token en mode
 var found = AdLib.findByShareToken([sample], sample.metadata.ad.share_token);
 assert(found && found.id === "prop_test_ad", "findByShareToken");
 
-assert(!AdLib.isPublicMandateAd({ status: "estimation", metadata: { ad: { channels: ["public"] } } }), "estimation seule ≠ pub mandat");
-assert(typeof AdLib.canPublishPublic === "function" && AdLib.canPublishPublic("mandat"), "canPublishPublic(mandat)");
-assert(!AdLib.canPublishPublic("estimation"), "estimation ≠ canPublishPublic");
-var blockedPublic = AdLib.applyAdToProperty(
+assert(!AdLib.isPublicMandateAd({ status: "estimation", metadata: { ad: { channels: ["private"] } } }), "privé seul ≠ vitrine publique");
+assert(AdLib.isPublicMandateAd({ status: "estimation", metadata: { ad: { channels: ["public"] } } }), "public même sans mandat = vitrine OK");
+var freePublic = AdLib.applyAdToProperty(
   { status: "estimation" },
   { channel_public: true, channel_private: true, title: "X", city: "Nancy" }
 );
-assert(blockedPublic.status === "estimation", "canal public ne force plus le statut mandat");
-assert(AdLib.channelsOf(AdLib.getAdMeta(blockedPublic).ad).indexOf("public") === -1, "public retiré sans mandat");
-assert(blockedPublic.seo_published !== true, "pas de seo_published sans mandat");
+assert(freePublic.status === "estimation", "statut estimation conservé");
+assert(AdLib.channelsOf(AdLib.getAdMeta(freePublic).ad).indexOf("public") !== -1, "public conservé sans mandat");
+assert(freePublic.seo_published === true, "seo_published si case publique");
 var okPublic = AdLib.applyAdToProperty(
   { status: "mandat" },
   { channel_public: true, title: "Y", city: "Nancy" }
@@ -248,17 +247,17 @@ assert(pubPage.indexOf("index,follow") !== -1, "vitrine publique indexable");
 assert(pubPage.indexOf("immo-ad-protect") !== -1, "vitrine : protect chargé");
 assert(pubPage.indexOf("adFilters") !== -1, "hub biens : filtres");
 assert(pubPage.indexOf("bootPublic") !== -1, "hub biens : bootPublic");
-assert(pubPage.indexOf("mandat") !== -1, "hub biens : mention mandat");
+assert(pubPage.indexOf("vitrine publique") !== -1 || pubPage.indexOf("Vitrine biens") !== -1, "hub biens : mention vitrine");
 
 var redirectLegacy = read("immobilier/pubs-mandats.html");
 assert(redirectLegacy.indexOf("biens.html") !== -1, "pubs-mandats → biens.html");
 assert(redirectLegacy.indexOf('rel="canonical"') !== -1 && redirectLegacy.indexOf("/immobilier/biens.html") !== -1, "canonical vers hub biens");
 
 var crmHtml = read("crm-immo-pubs.html");
-assert(crmHtml.indexOf("mandat obligatoire") !== -1 || crmHtml.indexOf("Sans mandat") !== -1, "CRM : garde-fou vitrine");
+assert(crmHtml.indexOf("vous choisissez") !== -1 || crmHtml.indexOf("avec ou sans mandat") !== -1, "CRM : vitrine au choix");
 
 var crmJsGuard = read("js/crm-immo-pubs.js");
-assert(crmJsGuard.indexOf("canPublishPublic") !== -1, "CRM JS : garde canPublishPublic");
+assert(crmJsGuard.indexOf("canPublishPublic") === -1, "CRM JS : plus de garde canPublishPublic");
 assert(crmJsGuard.indexOf("biens.html") !== -1, "CRM JS : liens hub biens");
 
 var pagesHub = read("js/immo-ad-pages.js");

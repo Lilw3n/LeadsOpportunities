@@ -1147,15 +1147,6 @@
       msg("Cochez au moins un canal : public ou privé.");
       return;
     }
-    if (
-      form.channel_public &&
-      !(AdLib.canPublishPublic ? AdLib.canPublishPublic(form.status) : false)
-    ) {
-      msg(
-        "Vitrine publique refusée : sans mandat (ou sous offre / réservé SRU) vous n’avez pas le droit de commercialiser. Passez le statut CRM en mandat, ou décochez la vitrine. La démo privée et les visites vérifiées restent possibles."
-      );
-      return;
-    }
     if (form.channel_private && !String(form.access_emails || "").trim() && !String(form.access_phones || "").trim()) {
       if (!confirm("Aucun e-mail ni téléphone lié : la démo sera accessible avec le seul lien. Continuer ?")) return;
     }

@@ -776,7 +776,7 @@
         if (empty) {
           empty.hidden = false;
           empty.textContent =
-            "Aucun mandat publié pour le moment. Les annonces apparaissent ici dès qu’un bien sous mandat est activé en vitrine publique.";
+            "Aucun bien en vitrine pour le moment. Les annonces apparaissent ici dès qu’un bien est activé en vitrine publique dans le CRM.";
         }
         grid.innerHTML = "";
         return;

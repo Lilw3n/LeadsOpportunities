@@ -286,14 +286,8 @@
     return channelsOf(bag.ad).indexOf(channel) !== -1;
   }
 
-  /** Statuts autorisant une vitrine publique (mandat / commercialisation). */
-  function canPublishPublic(status) {
-    var st = String(status || "").toLowerCase();
-    return st === "mandat" || st === "sous_offre" || st === "reserve_sru";
-  }
-
+  /** Visibilité publique = case CRM cochée (choix conseiller), indépendamment du statut mandat. */
   function isPublicMandateAd(property) {
-    if (!canPublishPublic(property && property.status)) return false;
     return hasChannel(property, "public");
   }
 
@@ -455,12 +449,6 @@
     var channels = [];
     if (form.channel_public) channels.push("public");
     if (form.channel_private) channels.push("private");
-    // Sans mandat : pas de vitrine publique (pas de promotion auto du statut).
-    if (channels.indexOf("public") !== -1 && !canPublishPublic(p.status)) {
-      channels = channels.filter(function (c) {
-        return c !== "public";
-      });
-    }
 
     var photos = sanitizePhotos(form.photos);
     var videos = sanitizeUrlList(form.videos || form.video_urls, isSafeVideoUrl, 6);
@@ -551,7 +539,7 @@
     if (photos.length) p.photos_json = photos;
     p.metadata = meta;
     p.metadata_json = meta;
-    p.seo_published = channels.indexOf("public") !== -1 && canPublishPublic(p.status);
+    p.seo_published = channels.indexOf("public") !== -1;
     return p;
   }
 
@@ -607,7 +595,6 @@
     sellDossierToCriteria: sellDossierToCriteria,
     channelsOf: channelsOf,
     hasChannel: hasChannel,
-    canPublishPublic: canPublishPublic,
     isPublicMandateAd: isPublicMandateAd,
     isPrivateDemoAd: isPrivateDemoAd,
     toAdListing: toAdListing,
