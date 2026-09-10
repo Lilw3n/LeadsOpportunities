@@ -209,7 +209,9 @@ function isSportActu(text) {
   return [
     "coupe du monde",
     "world cup",
-    "mondial",
+    "mondial 2026",
+    "mondial de foot",
+    "mondial de football",
     "fifa",
     "équipe de france",
     "equipe de france",
