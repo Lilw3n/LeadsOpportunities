@@ -613,7 +613,11 @@
         "Content-Type": "application/json",
         Authorization: "Bearer " + tok,
       },
-      body: JSON.stringify(htmlBlob ? { html: htmlBlob, url: url } : { url: url }),
+      body: JSON.stringify(
+        htmlBlob
+          ? { html: htmlBlob, url: url, property_id: currentId || "", persist: !!currentId }
+          : { url: url, property_id: currentId || "", persist: !!currentId }
+      ),
     })
       .then(function (r) {
         return r.json().then(function (data) {
