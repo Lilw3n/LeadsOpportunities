@@ -32,11 +32,57 @@
     return (D && D.SELLER_QUICK_EDIT_KEYS) || ["sellerName", "sellerPhone", "sellerEmail", "sellerAgency"];
   }
 
-  function sellerLabel(key) {
+  function contactQuickKeys() {
+    var D = global.InterlocuteurDossier;
+    return (D && D.CONTACT_QUICK_EDIT_KEYS) || ["firstName", "lastName", "email", "phone"];
+  }
+
+  function fieldLabel(key) {
     var D = global.InterlocuteurDossier;
     if (D && D.LABELS && D.LABELS[key]) return D.LABELS[key];
     if (D && typeof D.labelOf === "function") return D.labelOf(key);
     return key;
+  }
+
+  function renderFieldInputs(keys, payload) {
+    var p = payload || {};
+    var html = "";
+    keys.forEach(function (key) {
+      var val = p[key] != null ? String(p[key]) : "";
+      var inputType = key === "email" ? "email" : key === "phone" || key === "sellerPhone" ? "tel" : "text";
+      html +=
+        '<label class="int-edit-label">' +
+        esc(fieldLabel(key)) +
+        '<input type="' +
+        inputType +
+        '" data-int-field="' +
+        esc(key) +
+        '" value="' +
+        esc(val) +
+        '" autocomplete="off" /></label>';
+    });
+    return html;
+  }
+
+  function renderContactQuickEdit(dossier, opts) {
+    opts = opts || {};
+    var p = (dossier && dossier.raw) || opts.payload || {};
+    return (
+      '<section class="int-card int-card-contact int-contact-quick-edit" data-int-contact-quick-edit>' +
+      "<h3>Coordonnées fiche contact</h3>" +
+      '<p class="int-seller-quick-lead">' +
+      "Si vous avez créé l’annonce à la place du vendeur, remplacez ici <strong>vos</strong> e-mail / téléphone admin par ceux du contact. " +
+      "Ces champs alimentent la fiche interlocuteur (pas seulement l’annonce)." +
+      "</p>" +
+      '<div class="int-seller-quick-fields">' +
+      renderFieldInputs(contactQuickKeys(), p) +
+      "</div>" +
+      '<div class="int-edit-actions">' +
+      '<button type="button" class="btn btn-ghost btn-sm" data-int-copy-seller-contact title="Copier e-mail et téléphone vendeur dans la fiche">Reprendre e-mail / tél. vendeur</button>' +
+      '<button type="button" class="btn btn-primary btn-sm" data-int-save-contact>Enregistrer coordonnées</button>' +
+      '<span class="int-edit-status" data-int-contact-status hidden role="status"></span>' +
+      "</div></section>"
+    );
   }
 
   function renderSellerQuickEdit(dossier, opts) {
@@ -50,19 +96,8 @@
         ? "Corrigez le nom et le téléphone ci-dessous — le bouton <strong>Modifier</strong> en bas de la carte concerne l’événement (titre, date), pas ces champs."
         : "Corrigez le nom, le téléphone et les coordonnées visibles sur l’annonce.") +
       "</p>" +
-      '<div class="int-seller-quick-fields">';
-    sellerQuickKeys().forEach(function (key) {
-      var val = p[key] != null ? String(p[key]) : "";
-      html +=
-        '<label class="int-edit-label">' +
-        esc(sellerLabel(key)) +
-        '<input type="text" data-int-field="' +
-        esc(key) +
-        '" value="' +
-        esc(val) +
-        '" /></label>';
-    });
-    html +=
+      '<div class="int-seller-quick-fields">' +
+      renderFieldInputs(sellerQuickKeys(), p) +
       "</div>" +
       '<div class="int-edit-actions">' +
       '<button type="button" class="btn btn-primary btn-sm" data-int-save-seller>Enregistrer vendeur</button>' +
@@ -71,11 +106,11 @@
     return html;
   }
 
-  function bindSellerQuickEdit(mount, opts) {
-    if (!mount || mount.dataset.sellerBound) return;
-    mount.dataset.sellerBound = "1";
-    var btn = mount.querySelector("[data-int-save-seller]");
-    var statusEl = mount.querySelector("[data-int-seller-status]");
+  function bindSaveButton(mount, opts, btnSel, statusSel, boundFlag) {
+    if (!mount || mount.dataset[boundFlag]) return;
+    mount.dataset[boundFlag] = "1";
+    var btn = mount.querySelector(btnSel);
+    var statusEl = mount.querySelector(statusSel);
     if (!btn) return;
     btn.addEventListener("click", function () {
       btn.disabled = true;
@@ -102,11 +137,62 @@
     });
   }
 
+  function bindSellerQuickEdit(mount, opts) {
+    bindSaveButton(mount, opts, "[data-int-save-seller]", "[data-int-seller-status]", "sellerBound");
+  }
+
+  function bindContactQuickEdit(mount, opts) {
+    if (!mount) return;
+    bindSaveButton(mount, opts, "[data-int-save-contact]", "[data-int-contact-status]", "contactBound");
+    var copyBtn = mount.querySelector("[data-int-copy-seller-contact]");
+    if (!copyBtn || copyBtn.dataset.copyBound) return;
+    copyBtn.dataset.copyBound = "1";
+    copyBtn.addEventListener("click", function () {
+      var root = mount.closest(".int-dossier") || mount.parentElement || document;
+      var sellerEmail =
+        (root.querySelector('[data-int-field="sellerEmail"]') || {}).value ||
+        ((opts.payload || {}).sellerEmail || "");
+      var sellerPhone =
+        (root.querySelector('[data-int-field="sellerPhone"]') || {}).value ||
+        ((opts.payload || {}).sellerPhone || "");
+      var emailEl = mount.querySelector('[data-int-field="email"]');
+      var phoneEl = mount.querySelector('[data-int-field="phone"]');
+      if (emailEl && sellerEmail) emailEl.value = String(sellerEmail).trim();
+      if (phoneEl && sellerPhone) phoneEl.value = String(sellerPhone).trim();
+      var statusEl = mount.querySelector("[data-int-contact-status]");
+      if (statusEl) {
+        statusEl.hidden = false;
+        statusEl.textContent = sellerEmail || sellerPhone
+          ? "Valeurs vendeur reprises — cliquez Enregistrer coordonnées"
+          : "Aucun e-mail / tél. vendeur à reprendre";
+      }
+    });
+  }
+
   function mountSellerQuickEdit(container, dossier, opts) {
     if (!container) return null;
     container.insertAdjacentHTML("afterbegin", renderSellerQuickEdit(dossier, opts));
     var block = container.querySelector("[data-int-seller-quick-edit]");
     if (block) bindSellerQuickEdit(block, opts);
+    return block;
+  }
+
+  function mountContactQuickEdit(container, dossier, opts) {
+    if (!container) return null;
+    if (container.querySelector("[data-int-contact-quick-edit]")) {
+      var existing = container.querySelector("[data-int-contact-quick-edit]");
+      bindContactQuickEdit(existing, opts);
+      return existing;
+    }
+    var sellerBlock = container.querySelector("[data-int-seller-quick-edit]");
+    var html = renderContactQuickEdit(dossier, opts);
+    if (sellerBlock) {
+      sellerBlock.insertAdjacentHTML("afterend", html);
+    } else {
+      container.insertAdjacentHTML("afterbegin", html);
+    }
+    var block = container.querySelector("[data-int-contact-quick-edit]");
+    if (block) bindContactQuickEdit(block, opts);
     return block;
   }
 
@@ -274,8 +360,11 @@
   global.InterlocuteurDossierEdit = {
     renderEditable: renderEditable,
     renderSellerQuickEdit: renderSellerQuickEdit,
+    renderContactQuickEdit: renderContactQuickEdit,
     bindSellerQuickEdit: bindSellerQuickEdit,
+    bindContactQuickEdit: bindContactQuickEdit,
     mountSellerQuickEdit: mountSellerQuickEdit,
+    mountContactQuickEdit: mountContactQuickEdit,
     bindEditable: bindEditable,
     mountEditable: mountEditable,
     collectFromMount: collectFromMount,

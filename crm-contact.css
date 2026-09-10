@@ -151,11 +151,13 @@
   font-size: 0.78rem;
   color: #0f766e;
 }
-.event-lead-dossier .int-seller-quick-edit {
+.event-lead-dossier .int-seller-quick-edit,
+.event-lead-dossier .int-contact-quick-edit {
   margin-bottom: 10px;
   padding: 10px 12px;
 }
-.event-lead-dossier .int-seller-quick-edit h3 {
+.event-lead-dossier .int-seller-quick-edit h3,
+.event-lead-dossier .int-contact-quick-edit h3 {
   font-size: 0.82rem;
   margin-bottom: 6px;
 }

@@ -629,16 +629,15 @@
 
     function mountSellerQuickEditIfNeeded(answersEl) {
       if (!answersEl || state.editing || !canEdit()) return;
-      if (!isImmoVertical(ctx.vertical)) return;
       var E = global.InterlocuteurDossierEdit;
       var D = global.InterlocuteurDossier;
-      if (!E || !D || !E.mountSellerQuickEdit) return;
+      if (!E || !D) return;
       var dossierMount = answersEl.querySelector(".int-dossier");
-      if (!dossierMount || dossierMount.querySelector("[data-int-seller-quick-edit]")) return;
+      if (!dossierMount) return;
       var dossier = D.buildDossier(
         Object.assign({}, ctx, { payload: ctx.payload, payload_obj: ctx.payload })
       );
-      E.mountSellerQuickEdit(dossierMount, dossier, {
+      var saveOpts = {
         leadId: ctx.leadId,
         contactId: ctx.contactId,
         api: opts.api || "crm",
@@ -646,10 +645,20 @@
         payload: ctx.payload,
         onSaved: function (res) {
           if (res && res.payload) ctx.payload = res.payload;
+          if (res && res.payload) {
+            if (res.payload.email) ctx.email = res.payload.email;
+            if (res.payload.phone) ctx.phone = res.payload.phone;
+          }
           if (typeof opts.onSaved === "function") opts.onSaved(res);
           renderAnswersView();
         },
-      });
+      };
+      if (isImmoVertical(ctx.vertical) && E.mountSellerQuickEdit && !dossierMount.querySelector("[data-int-seller-quick-edit]")) {
+        E.mountSellerQuickEdit(dossierMount, dossier, saveOpts);
+      }
+      if (E.mountContactQuickEdit && !dossierMount.querySelector("[data-int-contact-quick-edit]")) {
+        E.mountContactQuickEdit(dossierMount, dossier, saveOpts);
+      }
     }
 
     function renderAnswersView() {

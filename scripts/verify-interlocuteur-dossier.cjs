@@ -169,7 +169,23 @@ assert(router.indexOf("notify-slack") >= 0, "route notify-slack");
 var em = read("crm-event-manager.html");
 assert(em.indexOf("emSlackBar") >= 0, "événements : barre Slack");
 
-["js/interlocuteur-dossier-lib.js", "api/_lib/hydrate-interlocuteur.js", "api/_lib/routes/crm-notify-slack.js"].forEach(function (rel) {
+var editJs = read("js/interlocuteur-dossier-edit.js");
+assert(editJs.indexOf("data-int-contact-quick-edit") >= 0, "édition : bloc coordonnées fiche contact");
+assert(editJs.indexOf("Enregistrer coordonnées") >= 0, "édition : bouton enregistrer coordonnées");
+assert(editJs.indexOf("Reprendre e-mail / tél. vendeur") >= 0, "édition : reprise vendeur → fiche");
+assert(editJs.indexOf("mountContactQuickEdit") >= 0, "édition : mountContactQuickEdit exporté");
+
+var dossierLib = read("js/interlocuteur-dossier-lib.js");
+assert(dossierLib.indexOf("CONTACT_QUICK_EDIT_KEYS") >= 0, "lib : CONTACT_QUICK_EDIT_KEYS");
+
+var hydrate = read("api/_lib/hydrate-interlocuteur.js");
+assert(hydrate.indexOf("patches.email || lead.email || current.email") >= 0, "hydrate : email lead avant contact stale");
+assert(hydrate.indexOf("patches.phone || lead.phone || current.phone") >= 0, "hydrate : phone lead avant contact stale");
+
+var qTools = read("js/crm-questionnaire-tools.js");
+assert(qTools.indexOf("mountContactQuickEdit") >= 0, "questionnaire tools : mount contact quick edit");
+
+["js/interlocuteur-dossier-lib.js", "js/interlocuteur-dossier-edit.js", "api/_lib/hydrate-interlocuteur.js", "api/_lib/routes/crm-notify-slack.js"].forEach(function (rel) {
   require("child_process").execFileSync(process.execPath, ["--check", path.join(__dirname, "..", rel)]);
   assert(true, "syntaxe " + rel);
 });
