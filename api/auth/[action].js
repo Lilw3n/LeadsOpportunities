@@ -10,6 +10,7 @@ const ROUTES = {
   google: () => require("../_lib/routes/google-start"),
   "google-callback": () => require("../_lib/routes/google-callback"),
   "google-config-env": () => require("../_lib/routes/google-config-env"),
+  "reviews-official-env": () => require("../_lib/routes/reviews-official-env"),
   todoist: () => require("../_lib/routes/todoist-start"),
   "todoist-callback": () => require("../_lib/routes/todoist-callback"),
 };

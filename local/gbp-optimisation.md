@@ -17,11 +17,15 @@
 
 ## 2) Process avis clients
 - **Quand demander l'avis**: apres contact qualifie ou signature.
-- **Script SMS/email court**:
-  - "Merci pour votre confiance. Votre avis nous aide beaucoup. Pouvez-vous partager votre retour ici: [lien GBP]"
+- **Canaux officiels** (priorite) :
+  1. **Trustpilot** — CRM → *Avis officiels* (`/crm-reviews-official.html`) : Business Unit ID + lien profil + templates SMS/e-mail (`{{trustpilot}}`, `{{google}}`).
+  2. **Google Business Profile** — lien avis dans le meme ecran CRM (`GOOGLE_REVIEW_URL` / champ Google).
+- **Script SMS/email** : generer depuis le CRM (boutons Copier SMS / Copier e-mail), ou :
+  - "Merci pour votre confiance. Votre avis nous aide beaucoup. Pouvez-vous partager votre retour ici: [lien Trustpilot ou GBP]"
 - **Regle de reponse**:
   - repondre a 100% des avis sous 48h
   - personnaliser avec service mentionne (VTC/Sante/Credit)
+- **Site public** : bloc `#avis-officiels` (TrustBox) — les notes / AggregateRating SEO ne s'affichent que si cochees **verifiees** dans le JSON (`data/reviews-official.json`).
 
 ## 3) Plan posts GBP (4 semaines)
 - Semaine 1: cas client VTC + conseil devis rapide.
