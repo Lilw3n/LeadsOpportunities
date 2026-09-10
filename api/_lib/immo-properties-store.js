@@ -169,9 +169,24 @@ function parseArr(v) {
   return [];
 }
 
+function parseObj(v) {
+  if (v && typeof v === "object" && !Array.isArray(v)) return v;
+  if (typeof v === "string") {
+    try {
+      const p = JSON.parse(v);
+      return p && typeof p === "object" && !Array.isArray(p) ? p : {};
+    } catch (e) {
+      return {};
+    }
+  }
+  return {};
+}
+
+const Dossier = require("../../js/crm-immo-dossier-lib.js");
+
 function rowToProperty(r) {
   if (!r) return null;
-  return Object.assign({}, r, {
+  var base = Object.assign({}, r, {
     surface_m2: r.surface_m2 != null ? Number(r.surface_m2) : null,
     rooms: r.rooms != null ? Number(r.rooms) : null,
     bedrooms: r.bedrooms != null ? Number(r.bedrooms) : null,
@@ -180,7 +195,10 @@ function rowToProperty(r) {
     honoraires: r.honoraires != null ? Number(r.honoraires) : null,
     lat: r.lat != null ? Number(r.lat) : null,
     lng: r.lng != null ? Number(r.lng) : null,
+    metadata: parseObj(r.metadata_json),
+    photos: parseArr(r.photos_json),
   });
+  return Dossier.hydrateProperty(base);
 }
 
 function rowToParty(r) {
@@ -263,6 +281,7 @@ async function upsertProperty(sql, item, user) {
   await ensureImmoSchema(sql);
   const id = item.id || uid("prop");
   const createdBy = (user && user.id) || item.created_by || null;
+  const packedMeta = Dossier.packMetadata(item);
   await sql`
     INSERT INTO crm_immo_properties (
       id, title, property_type, status, listing_source, listing_url,
@@ -285,7 +304,7 @@ async function upsertProperty(sql, item, user) {
       ${item.price_net != null ? item.price_net : null}, ${item.price_fai != null ? item.price_fai : null},
       ${item.honoraires != null ? item.honoraires : null}, ${item.dpe || null}, ${item.ges || null},
       ${item.description || null}, ${item.notes || null},
-      ${j(item.photos_json || item.photos, [])}, ${j(item.metadata_json || item.metadata, {})},
+      ${j(item.photos_json || item.photos, [])}, ${j(packedMeta, {})},
       ${item.owner_contact_id || null}, ${item.buyer_contact_id || null}, ${item.lead_id || null},
       ${item.assigned_to || null}, ${createdBy}, NOW()
     )

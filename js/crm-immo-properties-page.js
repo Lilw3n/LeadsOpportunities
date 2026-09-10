@@ -148,6 +148,8 @@
         if (p.has_balcony) tags.push("balcon");
         if (p.has_elevator) tags.push("ascenseur");
         if (p.has_pool) tags.push("piscine");
+        var unitCount = Array.isArray(p.units) ? p.units.length : 0;
+        if (unitCount) tags.push(unitCount + " unité(s)");
         var src =
           (Matcher.LISTING_SOURCES.find(function (s) {
             return s.id === p.listing_source;
