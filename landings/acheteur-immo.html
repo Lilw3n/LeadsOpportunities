@@ -36,6 +36,19 @@
       } else if (h === "signalement" || h === "chasseur") {
         document.documentElement.setAttribute("data-immo-hat", "signalement");
       }
+      var ville = p.get("ville") || p.get("city") || p.get("searchCities") || "";
+      if (ville) {
+        document.documentElement.setAttribute("data-immo-ville", ville);
+        document.addEventListener("DOMContentLoaded", function () {
+          var el = document.getElementById("searchCities");
+          if (el && !el.value) el.value = ville;
+          var listingCity = document.querySelector("[data-listing-city]");
+          if (listingCity && !listingCity.value) listingCity.value = ville;
+          var postal = p.get("postal") || p.get("cp") || "";
+          var postalEl = document.getElementById("postalProject");
+          if (postal && postalEl && !postalEl.value) postalEl.value = postal;
+        });
+      }
     })();
   </script>
   <link rel="stylesheet" href="../css/form-audit.css" />
@@ -1415,11 +1428,11 @@
                 <div class="grid" style="margin-top:18px">
                   <div class="field">
                     <label for="postalProject">Code postal / secteur</label>
-                    <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" data-search-bien-required placeholder="Ex. 75011" />
+                    <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" data-search-bien-required placeholder="Ex. 54000" />
                   </div>
                   <div class="field">
-                    <label for="searchCities">Ville(s) visee(s)</label>
-                    <input id="searchCities" name="searchCities" data-optional placeholder="Ex. Paris 11e, Vincennes" />
+                    <label for="searchCities">Ville(s) visée(s)</label>
+                    <input id="searchCities" name="searchCities" data-optional placeholder="Ex. Nancy, Jarville, Varangéville" />
                   </div>
                   <div class="field">
                     <label for="budgetMax">Budget max (€)</label>
@@ -1430,17 +1443,40 @@
                     <input id="budgetMin" name="budgetMin" inputmode="numeric" data-optional placeholder="Ex. 200000" />
                   </div>
                   <div class="field">
-                    <label for="roomsMin">Pieces min.</label>
+                    <label for="roomsMin">Pièces min.</label>
                     <input id="roomsMin" name="roomsMin" inputmode="numeric" data-optional placeholder="Ex. 3" />
+                  </div>
+                  <div class="field">
+                    <label for="bedroomsMin">Chambres min. — optionnel</label>
+                    <input id="bedroomsMin" name="bedroomsMin" inputmode="numeric" data-optional placeholder="Ex. 2" />
                   </div>
                   <div class="field">
                     <label for="propertySurfaceSearch">Surface min. (m²) — optionnel</label>
                     <input id="propertySurfaceSearch" name="propertySurfaceSearch" inputmode="numeric" data-optional placeholder="Ex. 65" />
                   </div>
+                  <div class="field">
+                    <label for="searchRadiusKm">Rayon (km) — optionnel</label>
+                    <input id="searchRadiusKm" name="searchRadiusKm" inputmode="numeric" data-optional placeholder="Ex. 15" />
+                  </div>
                   <div class="field full">
                     <label for="listingUrls">URL d'annonces déjà vues (Leboncoin, SeLoger…)</label>
                     <textarea id="listingUrls" name="listingUrls" rows="2" data-optional placeholder="https://www.leboncoin.fr/ad/…"></textarea>
                   </div>
+                  <div class="field full">
+                    <label for="searchNotes">Autres besoins (quartier, école, travaux…)</label>
+                    <textarea id="searchNotes" name="searchNotes" rows="2" data-optional placeholder="Ex. proche tram, jardin, sans travaux lourds…"></textarea>
+                  </div>
+                </div>
+
+                <p class="search-section-label" style="margin-top:18px">Équipements souhaités</p>
+                <div class="search-chip-grid" role="group" aria-label="Équipements">
+                  <label class="search-chip"><input type="checkbox" name="wantParking" value="1" /><span>Parking</span></label>
+                  <label class="search-chip"><input type="checkbox" name="wantGarage" value="1" /><span>Garage</span></label>
+                  <label class="search-chip"><input type="checkbox" name="wantGarden" value="1" /><span>Jardin</span></label>
+                  <label class="search-chip"><input type="checkbox" name="wantTerrace" value="1" /><span>Terrasse</span></label>
+                  <label class="search-chip"><input type="checkbox" name="wantBalcony" value="1" /><span>Balcon</span></label>
+                  <label class="search-chip"><input type="checkbox" name="wantElevator" value="1" /><span>Ascenseur</span></label>
+                  <label class="search-chip"><input type="checkbox" name="wantCave" value="1" /><span>Cave</span></label>
                 </div>
 
                 <section class="immo-doc-panel" data-immo-docs-acheteur-wrap style="margin-top:18px">

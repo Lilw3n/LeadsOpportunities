@@ -453,7 +453,13 @@ function pretCityFaq(city) {
   ];
 }
 
-function nearbyLinks(city, productDir) {
+function nearbyLinks(city, productDir, labelPrefix) {
+  var prefix = labelPrefix;
+  if (!prefix) {
+    if (productDir === "recherche-bien") prefix = "Recherche ";
+    else if (productDir === "credit-immo") prefix = "Crédit ";
+    else prefix = "Prêt ";
+  }
   return COMMUNES.filter(function (c) {
     return c.slug !== city.slug;
   })
@@ -461,9 +467,97 @@ function nearbyLinks(city, productDir) {
     .map(function (c) {
       return {
         href: "/" + productDir + "/" + c.slug + "/",
-        label: "Prêt " + c.name,
+        label: prefix + c.name,
       };
     });
+}
+
+function rechercheTitle(city) {
+  var c = getCommune(city) || city;
+  return (
+    "Recherche de bien " +
+    c.name +
+    " | Achat immobilier Nancy métropole (54)"
+  );
+}
+
+function rechercheDescription(city) {
+  var c = getCommune(city) || city;
+  return (
+    "Acheter à " +
+    c.name +
+    " (54) : déposez vos critères (ville, budget, pièces). Matching avec nos mandats Nancy, Jarville, Varangéville et communes alentour. Courtier Wendy BUCHET."
+  );
+}
+
+function rechercheIntro(city) {
+  var c = getCommune(city) || city;
+  var p = profile(city);
+  return (
+    "Recherche de bien à " +
+    c.name +
+    " — bassin Nancy métropole (54). " +
+    (p ? p.search : "Déposez budget, type et secteurs pour recevoir les mandats qui matchent.") +
+    ". Objectif : remplir le pipeline acquéreurs pour les mandats locaux (visites, offres, financement)."
+  );
+}
+
+function rechercheCitySections(city) {
+  var c = getCommune(city) || city;
+  var p = profile(city);
+  return [
+    {
+      h2: "Acheter à " + c.name + " — ce que nous recueillons",
+      paragraphs: [
+        (p && p.market ? p.market : "Marché local du bassin nancéien") + ".",
+        "Sans critères clairs (villes, budget max, type, pièces), un mandat reste sans visite. Le formulaire acheteur alimente le matching CRM : on vous propose les biens qui collent, pas tout le stock.",
+      ],
+      list: [
+        "Ville(s) / communes du Grand Nancy et 54",
+        "Budget max (et min si besoin)",
+        "Appartement, maison, terrain, local, immeuble",
+        "Pièces / surface min. et équipements (jardin, parking…)",
+        "URLs d'annonces déjà vues (Leboncoin, SeLoger…)",
+      ],
+    },
+    {
+      h2: "Pourquoi déposer votre recherche ici",
+      paragraphs: [
+        "Leads Opportunities est ancré à Varangéville : Nancy, Jarville, Dombasle, Houdemont, Ludres, Saint-Max et les communes du Grand Nancy. Les vendeurs locaux ont besoin d'acquéreurs qualifiés — vous, avec un dossier lisible.",
+        (p && p.local ? p.local + "." : "") +
+          " Ensuite : enveloppe prêt si besoin, sélection, visite (y compris 3D), offre.",
+      ],
+    },
+    {
+      h2: "Financer le bien trouvé à " + c.name,
+      paragraphs: [
+        "Une fois les critères connus, on calcule la mensualité tenable. Hub prêt : /pret-immobilier/nancy-metropole/ — simulation gratuite.",
+      ],
+    },
+  ];
+}
+
+function rechercheCityFaq(city) {
+  var c = getCommune(city) || city;
+  return [
+    {
+      q: "Cherchez-vous des biens à " + c.name + " ?",
+      a:
+        "Oui. Déposez vos critères (budget, type, communes). Nous matchons avec les mandats du bassin Nancy métropole (54).",
+    },
+    {
+      q: "Couvrez-vous Jarville, Varangéville, Dombasle… ?",
+      a: "Oui — hub /recherche-bien/nancy-metropole/ et une page par commune. Courtier basé à Varangéville.",
+    },
+    {
+      q: "Mes critères sont-ils transmis au conseiller ?",
+      a: "Oui : ils alimentent la fiche lead et les critères CRM (matching vendeur ↔ acquéreur).",
+    },
+    {
+      q: "Faut-il un prêt avant de visiter ?",
+      a: "Fortement conseillé : les vendeurs du 54 privilégient les dossiers financés. Simulation gratuite.",
+    },
+  ];
 }
 
 function hubCityGrid(productDir) {
@@ -475,9 +569,13 @@ function hubCityGrid(productDir) {
 function buildHubPages(page) {
   var gridPret = hubCityGrid("pret-immobilier");
   var gridCredit = hubCityGrid("credit-immo");
+  var gridRecherche = hubCityGrid("recherche-bien");
   var intro =
     "Prêt immobilier et crédit sur Nancy métropole : Nancy, Jarville-la-Malgrange, Varangéville, Dombasle-sur-Meurthe, Houdemont, Ludres, Saint-Max, Maxéville, Vandœuvre, Laxou, Saint-Nicolas-de-Port, Champigneulles, Frouard, Neuves-Maisons et toutes les communes du 54. Courtier ORIAS basé à Varangéville — simulation gratuite, dossier banque, assurance emprunteur.";
-  function hub(file, siloLabel, siloUrl, grid, ctaHref) {
+  var introRecherche =
+    "Recherche de bien et acquisition sur Nancy métropole (54) : Nancy, Jarville-la-Malgrange, Varangéville, Dombasle-sur-Meurthe, Houdemont, Ludres, Saint-Max, Maxéville, Vandœuvre, Laxou et toutes les communes du Grand Nancy. Déposez vos critères — budget, type, secteurs — pour matcher nos mandats et remplir les agendas de visite. Courtier Wendy BUCHET, basé à Varangéville.";
+
+  function hubPret(file, siloLabel, siloUrl, grid, ctaHref) {
     return page({
       file: file,
       theme: "credit",
@@ -515,7 +613,7 @@ function buildHubPages(page) {
       related: [
         { href: "/landings/credit-immo.html?ville=Nancy", label: "Simulation prêt en ligne" },
         { href: "/landings/projection-achat.html", label: "Coût réel de l'achat" },
-        { href: "/recherche-bien/nancy/", label: "Recherche de bien Nancy" },
+        { href: "/recherche-bien/nancy-metropole/", label: "Recherche de bien Nancy métropole" },
         { href: "/blog/pret-immobilier-refuse-que-faire-2026.html", label: "Prêt refusé : que faire" },
         { href: "/pret-immobilier/departement/meurthe-et-moselle/", label: "Département 54" },
       ],
@@ -539,21 +637,104 @@ function buildHubPages(page) {
       ],
     });
   }
+
+  function hubRecherche() {
+    return page({
+      file: "recherche-bien/nancy-metropole/index.html",
+      theme: "credit",
+      badge: "Nancy métropole · 54",
+      title:
+        "Recherche de bien Nancy métropole | Jarville, Varangéville, Dombasle, Houdemont, 54",
+      description:
+        "Acheter à Nancy, Jarville, Varangéville, Dombasle, Houdemont, Ludres, Saint-Max (54) : déposez vos critères de recherche. Matching mandats locaux, visites, prêt. Courtier Varangéville.",
+      keywords:
+        "acheter nancy, recherche bien jarville, maison varangeville, appart houdemont, immobilier 54, acquereur nancy",
+      h1: "Recherche de bien — bassin Nancy métropole (54)",
+      intro: introRecherche,
+      cta: {
+        href: "/landings/acheteur-immo.html?ville=Nancy&utm_content=hub-nancy-metropole#demande",
+        label: "Déposer ma recherche — Nancy 54",
+      },
+      crumbs: [
+        { name: "Accueil", url: "/" },
+        { name: "Recherche de bien", url: "/recherche-bien/" },
+        { name: "Nancy métropole", url: "/recherche-bien/nancy-metropole/" },
+      ],
+      sections: [
+        {
+          h2: "Des mandats sans visite ? Il manque des acquéreurs",
+          paragraphs: [
+            "Pour vendre plus vite sur le bassin nancéien, il faut connaître la recherche des acquéreurs : villes, budget, type de bien, pièces. Sans ça, les mandats restent vides d'agenda.",
+            "Déposez votre alerte : chaque critère entre dans le CRM matching. Dès qu'un bien correspond, on vous contacte — et le vendeur a enfin des dossiers sérieux.",
+          ],
+        },
+        {
+          h2: "Une page par commune du 54",
+          paragraphs: [
+            "Les recherches « acheter maison Jarville », « appartement Varangéville », « maison Dombasle », « bien Houdemont », « terrain Ludres » méritent une réponse locale.",
+            "Chaque fiche commune renvoie vers le formulaire acheteur prérempli avec la ville, plus le hub prêt Nancy métropole.",
+          ],
+        },
+        {
+          h2: "Courtier de proximité — Varangéville",
+          paragraphs: [
+            "Wendy BUCHET / Leads Opportunities : acquisition, mandat, financement et assurance emprunteur sur tout le Grand Nancy et le bassin élargi (54).",
+            "Voir aussi les biens en ligne et les visites virtuelles quand le mandat le permet.",
+          ],
+        },
+      ],
+      hubCityGrid: gridRecherche,
+      related: [
+        {
+          href: "/landings/acheteur-immo.html?ville=Nancy&utm_content=hub-nancy#demande",
+          label: "Formulaire critères acquéreur",
+        },
+        { href: "/immobilier/biens.html", label: "Biens & visites en ligne" },
+        { href: "/pret-immobilier/nancy-metropole/", label: "Prêt Nancy métropole" },
+        { href: "/landings/chasseur-bien.html", label: "Chasseur / signalement" },
+        {
+          href: "/blog/acheter-maison-appartement-nancy-metropole-54-2026.html",
+          label: "Guide achat Nancy 54",
+        },
+        { href: "/recherche-bien/departement/meurthe-et-moselle/", label: "Département 54" },
+      ],
+      faq: [
+        {
+          q: "Comment déposer ma recherche ?",
+          a: "Via le formulaire acheteur : villes, budget, type, pièces. Les critères sont enregistrés pour le matching avec les mandats.",
+        },
+        {
+          q: "Couvrez-vous Varangéville et Jarville ?",
+          a: "Oui — pages dédiées et hub Nancy métropole. Courtier basé à Varangéville.",
+        },
+        {
+          q: "Puis-je voir des biens avant de déposer ?",
+          a: "Oui : /immobilier/biens.html. L'alerte critères reste utile pour les mandats off-market et les nouveautés.",
+        },
+        {
+          q: "Et le financement ?",
+          a: "Même interlocuteur : simulation prêt sur /pret-immobilier/nancy-metropole/ après ou pendant la recherche.",
+        },
+      ],
+    });
+  }
+
   return [
-    hub(
+    hubPret(
       "pret-immobilier/nancy-metropole/index.html",
       "Prêt immobilier",
       "/pret-immobilier/",
       gridPret,
       "/landings/credit-immo.html?ville=Nancy"
     ),
-    hub(
+    hubPret(
       "credit-immo/nancy-metropole/index.html",
       "Crédit immobilier",
       "/credit-immo/",
       gridCredit,
       "/landings/credit-immo.html?ville=Nancy"
     ),
+    hubRecherche(),
   ];
 }
 
@@ -561,6 +742,7 @@ function sitemapEntries(base) {
   var urls = [
     { loc: base + "/pret-immobilier/nancy-metropole/", priority: "0.97", changefreq: "weekly" },
     { loc: base + "/credit-immo/nancy-metropole/", priority: "0.96", changefreq: "weekly" },
+    { loc: base + "/recherche-bien/nancy-metropole/", priority: "0.97", changefreq: "weekly" },
   ];
   COMMUNES.forEach(function (c) {
     if (c.slug === "nancy") return;
@@ -572,6 +754,11 @@ function sitemapEntries(base) {
     urls.push({
       loc: base + "/credit-immo/" + c.slug + "/",
       priority: "0.93",
+      changefreq: "weekly",
+    });
+    urls.push({
+      loc: base + "/recherche-bien/" + c.slug + "/",
+      priority: "0.94",
       changefreq: "weekly",
     });
   });
@@ -589,6 +776,11 @@ module.exports = {
   pretIntro: pretIntro,
   pretCitySections: pretCitySections,
   pretCityFaq: pretCityFaq,
+  rechercheTitle: rechercheTitle,
+  rechercheDescription: rechercheDescription,
+  rechercheIntro: rechercheIntro,
+  rechercheCitySections: rechercheCitySections,
+  rechercheCityFaq: rechercheCityFaq,
   nearbyLinks: nearbyLinks,
   hubCityGrid: hubCityGrid,
   buildHubPages: buildHubPages,

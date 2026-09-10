@@ -457,26 +457,25 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         }
       }
 
-      if (role === "les_deux") {
+      if (role === "acheteur" || role === "les_deux") {
         try {
-          criteriaId = await store.upsertCriteria(
-            sql,
-            {
-              lead_id: leadId,
-              label: "Rachat — " + (personName || "vendeur-acquéreur"),
-              status: "active",
-              property_types: buyType ? [buyType] : [],
-              cities: buyCity ? [buyCity] : [],
-              postal_codes: buyPostal ? [buyPostal] : [],
-              departments: buyPostal ? [buyPostal.slice(0, 2)] : [],
-              rooms_min: buyRooms,
-              surface_min: buySurface,
-              budget_max: buyBudget,
-              notes: wantsRelais ? "Chaîne / prêt relais demandé." : "Vend et rachète.",
-              metadata: { origin: "public_dual_hat", role: "les_deux" },
-            },
-            null
-          );
+          var CritLib = require("../buyer-criteria-from-lead");
+          var critBody = Object.assign({}, body, {
+            role: role,
+            vertical: vertical,
+            searchCities: buyCity || body.searchCities || city,
+            budgetMax: buyBudget != null ? buyBudget : body.budgetMax,
+            roomsMin: buyRooms != null ? buyRooms : body.roomsMin,
+            propertySurfaceSearch: buySurface != null ? buySurface : body.propertySurfaceSearch,
+            buyPropertyType: buyType || body.propertySought,
+            postalProject: buyPostal || postal,
+            _criteriaOrigin: role === "les_deux" ? "public_dual_hat" : "public_acheteur",
+          });
+          if (wantsRelais) critBody.wantsRelais = true;
+          if (role === "les_deux" && !critBody.details) {
+            critBody.details = "Vend et rachète.";
+          }
+          criteriaId = await CritLib.upsertBuyerCriteriaFromLead(sql, critBody, leadId, null);
         } catch (critErr) {
           console.warn("[immo-listing-submit] criteria", critErr && critErr.message);
         }

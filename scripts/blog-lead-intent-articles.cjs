@@ -729,4 +729,161 @@ module.exports = [
       },
     ],
   },
+  {
+    file: "acheter-maison-appartement-nancy-metropole-54-2026.html",
+    section: "finance",
+    tag: "Nancy 54",
+    tagClass: "tag-immo",
+    themes: ["nancy", "acheteur", "local"],
+    title: "Acheter maison ou appartement à Nancy métropole (54) : critères, mandats, communes",
+    description:
+      "Acheter à Nancy, Jarville, Varangéville, Dombasle, Houdemont, Ludres : déposez vos critères de recherche. Matching mandats locaux, visites, prêt. Guide 2026.",
+    meta: "11 min · Septembre 2026",
+    cardExcerpt: "Acquéreurs 54 : déposez budget, villes et type pour matcher les mandats.",
+    keywords: [
+      "acheter maison Nancy",
+      "appartement Jarville",
+      "acheter Varangéville",
+      "immobilier Nancy métropole 54",
+      "recherche bien Houdemont Ludres",
+      "acquéreur Meurthe-et-Moselle",
+      "mandat sans visite Nancy",
+    ],
+    cta: {
+      href: "../landings/acheteur-immo.html?ville=Nancy&utm_content=blog-achat-nancy#demande",
+      label: "Déposer ma recherche Nancy 54",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: "Sur le <strong>bassin nancéien</strong>, trop de mandats restent <strong>sans visite</strong> faute d'acquéreurs dont on connaît vraiment la recherche. Budget flou, villes floues, type de bien flou : impossible de matcher. <a href=\"../landings/acheteur-immo.html?ville=Nancy&utm_content=blog-achat-nancy#demande\"><strong>Déposez vos critères</strong></a> · <a href=\"../recherche-bien/nancy-metropole/\">hub recherche Nancy métropole</a> · <a href=\"../pret-immobilier/nancy-metropole/\">prêt 54</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Communes où chercher en 2026" },
+      {
+        type: "ul",
+        items: [
+          "Nancy (centre, faubourgs), Maxéville, Laxou, Vandœuvre-lès-Nancy",
+          "Jarville-la-Malgrange, Varangéville, Dombasle-sur-Meurthe",
+          "Houdemont, Ludres, Saint-Max, Pulnoy, Saulxures-lès-Nancy",
+          "Essey, Tomblaine, Heillecourt, Malzéville, Villers, Seichamps",
+          "Champigneulles, Frouard, Liverdun, Neuves-Maisons, Saint-Nicolas-de-Port",
+        ],
+      },
+      {
+        type: "p",
+        text: "Chaque commune a une page SEO : <a href=\"../recherche-bien/nancy-metropole/\">grille Nancy métropole</a>. Orthographe : <strong>Varangéville</strong> (pas Varengeville).",
+      },
+      { type: "h2", text: "Ce que nous devons savoir de votre recherche" },
+      {
+        type: "ul",
+        items: [
+          "Ville(s) / rayon autour de Nancy",
+          "Budget max (et min si vous filtrez le bas de gamme)",
+          "Appartement, maison, terrain, local…",
+          "Pièces / chambres / surface min.",
+          "Parking, jardin, ascenseur — si c'est non négociable",
+          "Annonces déjà vues (URLs) pour éviter les doublons",
+        ],
+      },
+      { type: "bridge" },
+      {
+        type: "p",
+        text: "Ces champs alimentent le <strong>matching CRM</strong> : dès qu'un mandat correspond, on vous contacte. Les vendeurs du 54 ont enfin des dossiers sérieux. <a href=\"../immobilier/biens.html\">Voir les biens en ligne</a> · <a href=\"../landings/credit-immo.html?ville=Nancy\">caler le prêt</a>.",
+      },
+      { type: "h2", text: "Devenir la référence locale" },
+      {
+        type: "p",
+        text: "Wendy BUCHET / Leads Opportunities, basée à <strong>Varangéville</strong> : acquisition + financement + assurance emprunteur. Un seul interlocuteur pour Nancy et les communes autour.",
+      },
+      { type: "bridge" },
+      {
+        type: "p",
+        text: "<a href=\"../landings/acheteur-immo.html?ville=Nancy#demande\">Je dépose ma recherche</a> · <a href=\"./acheter-terrain-nancy-metropole-54-2026.html\">terrain à bâtir 54</a> · <a href=\"./recherche-bien-nancy-54-deposer-criteres-2026.html\">pourquoi déposer ses critères</a>.",
+      },
+    ],
+    related: [
+      { href: "../recherche-bien/nancy-metropole/", label: "Hub recherche Nancy" },
+      { href: "../pret-immobilier/nancy-metropole/", label: "Hub prêt Nancy" },
+      { href: "./acheter-terrain-nancy-metropole-54-2026.html", label: "Terrain Nancy 54" },
+      { href: "../immobilier/biens.html", label: "Biens & visites" },
+    ],
+    faq: [
+      {
+        q: "Pourquoi déposer mes critères si je regarde déjà Leboncoin ?",
+        a: "Les mandats locaux et off-market ne sont pas tous en ligne. Le matching CRM croise votre budget et vos villes avec le stock réel de l'agence.",
+      },
+      {
+        q: "Couvrez-vous Varangéville et Jarville ?",
+        a: "Oui — pages dédiées et hub Nancy métropole. Courtier basé à Varangéville.",
+      },
+    ],
+  },
+  {
+    file: "recherche-bien-nancy-54-deposer-criteres-2026.html",
+    section: "finance",
+    tag: "Nancy 54",
+    tagClass: "tag-immo",
+    themes: ["nancy", "acheteur", "matching"],
+    title: "Recherche de bien Nancy (54) : déposer ses critères pour matcher les mandats",
+    description:
+      "Mandats sans visite à Nancy ? Déposez budget, villes et type de bien. Critères enregistrés en CRM pour matching acquéreur ↔ vendeur. Bassin 54.",
+    meta: "8 min · Septembre 2026",
+    cardExcerpt: "Sans critères, pas de matching — déposez votre recherche Nancy 54.",
+    keywords: [
+      "déposer recherche immobilier Nancy",
+      "critères acquéreur 54",
+      "matching mandat Nancy",
+      "alerte bien Jarville Varangéville",
+      "trouver maison Nancy métropole",
+      "pipeline acquéreurs immobilier",
+    ],
+    cta: {
+      href: "../landings/acheteur-immo.html?ville=Nancy&utm_content=blog-criteres#demande",
+      label: "Enregistrer mes critères",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: "Un vendeur du <strong>54</strong> signe un mandat. Personne ne visite. Souvent la cause n'est pas le prix seul : <strong>personne n'a capturé la recherche des acquéreurs</strong> (villes, budget, type). <a href=\"../landings/acheteur-immo.html?ville=Nancy&utm_content=blog-criteres#demande\"><strong>Enregistrez vos critères</strong></a> — ils partent dans le CRM matching. Hub : <a href=\"../recherche-bien/nancy-metropole/\">recherche-bien Nancy métropole</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Le parcours en 4 étapes" },
+      {
+        type: "ol",
+        items: [
+          "Formulaire acheteur : villes du Grand Nancy, budget, pièces, équipements",
+          "Lead + critères CRM (matching vendeur ↔ acquéreur)",
+          "Proposition de biens / visite (y compris virtuelle si disponible)",
+          "Prêt et assurance emprunteur si vous en avez besoin",
+        ],
+      },
+      { type: "h2", text: "SEO local : devenir la référence" },
+      {
+        type: "p",
+        text: "Pages par commune (Nancy, Jarville, <strong>Varangéville</strong>, Dombasle, Houdemont…) + blog + formulaire : le même message partout — <em>dites-nous ce que vous cherchez</em>. <a href=\"../immobilier/biens.html\">Vitrine biens</a> · <a href=\"../pret-immobilier/nancy-metropole/\">prêt bassin</a>.",
+      },
+      { type: "bridge" },
+      {
+        type: "p",
+        text: "<a href=\"../landings/acheteur-immo.html?ville=Jarville-la-Malgrange#demande\">Recherche Jarville</a> · <a href=\"../landings/acheteur-immo.html?ville=Varangéville#demande\">Recherche Varangéville</a> · <a href=\"./acheter-maison-appartement-nancy-metropole-54-2026.html\">guide achat Nancy</a>.",
+      },
+    ],
+    related: [
+      { href: "./acheter-maison-appartement-nancy-metropole-54-2026.html", label: "Acheter Nancy 54" },
+      { href: "../recherche-bien/nancy-metropole/", label: "Hub recherche" },
+      { href: "./vendeur-cherche-acquereur-mandat-matching.html", label: "Matching vendeur" },
+      { href: "../crm-immo-matching.html", label: "CRM matching (pro)" },
+    ],
+    faq: [
+      {
+        q: "Mes critères sont-ils visibles par les vendeurs ?",
+        a: "Non en public. Ils servent au conseiller pour proposer les bons mandats et remplir les agendas de visite.",
+      },
+      {
+        q: "Puis-je modifier ma recherche plus tard ?",
+        a: "Oui — contactez le conseiller ou renvoyez une alerte mise à jour via le même formulaire.",
+      },
+    ],
+  },
 ];
