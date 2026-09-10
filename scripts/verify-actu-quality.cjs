@@ -55,10 +55,12 @@ function main() {
   var file = arg("file");
   var articles = [];
 
+  var useStdin = process.argv.indexOf("--stdin") !== -1;
+
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
+  } else if (useStdin) {
     var stdin = fs.readFileSync(0, "utf8");
     var parsed = JSON.parse(stdin);
     articles = Array.isArray(parsed) ? parsed : [parsed];

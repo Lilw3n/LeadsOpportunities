@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-07",
   "sections": [
     "actu",
     "animaux",
@@ -1965,6 +1965,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "a-cause-des-piratages-du-fisc-ou-de-l-assurance-maladie-les-fraudes-au-f.html",
+      "title": "À cause des piratages du fisc ou de l’Assurance-maladie, les fraudes au faux conseiller… : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=a-cause-des-piratages-du-fisc-ou-de-l-as",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "assurances-pourquoi-le-prix-des-assurances-emprunteurs-est-il-le-seul-a-.html",
+      "title": "Assurances : pourquoi le prix des assurances emprunteurs est-il le seul à baisser ? : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurances-pourquoi-le-prix-des-assura",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "sommet-lumiere-le-cinema-mondial-reuni-a-saint-paul-de-vence-pour-un-dav.html",
+      "title": "Sommet Lumière : le cinéma mondial réuni à Saint-Paul-de-Vence pour un \"Davos du 7ème art\" : assurance habitation — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=sommet-lumiere-le-cinema-mondial-reuni",
+      "matchedRule": null,
       "species": null
     }
   ]
