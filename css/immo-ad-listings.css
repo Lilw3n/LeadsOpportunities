@@ -218,9 +218,49 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  max-width: 22rem;
+  gap: 10px;
+  max-width: 26rem;
+  width: 100%;
   pointer-events: auto;
+}
+.lbc-gallery__admin-help {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.4;
+}
+.lbc-gallery__admin-steps {
+  margin: 0;
+  padding-left: 1.2rem;
+  text-align: left;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  line-height: 1.45;
+}
+.lbc-gallery__admin-steps strong {
+  color: #fff;
+}
+.lbc-gallery__admin-paste {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #475569;
+  background: #0b1220;
+  color: #e2e8f0;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 8px 10px;
+  resize: vertical;
+  min-height: 64px;
+  pointer-events: auto;
+}
+.lbc-gallery__admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
 }
 .lbc-gallery__admin-retry .btn {
   pointer-events: auto;

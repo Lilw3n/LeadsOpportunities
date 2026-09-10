@@ -99,25 +99,31 @@ assert(routeSrc.indexOf("extractPhotoUrls") !== -1, "API photos : extractPhotoUr
 assert(!/solveCaptcha|2captcha|anticaptcha|puppeteer|playwright/i.test(routeSrc), "pas de solveur captcha");
 
 var crmHtml = read("crm-immo-pubs.html");
-assert(crmHtml.indexOf("lbcPhotoBookmarklet") !== -1, "CRM : marque-page photos");
+assert(crmHtml.indexOf("lbcPhotoBookmarklet") === -1, "CRM : plus de marque-page obscur");
 assert(crmHtml.indexOf("btnFetchListingPhotos") !== -1, "CRM : bouton essayer depuis le lien");
-assert(crmHtml.indexOf("vos photos") !== -1 || crmHtml.indexOf("vos</strong> photos") !== -1, "CRM : wording vos photos");
+assert(crmHtml.indexOf("Copier l’adresse de l’image") !== -1 || crmHtml.indexOf("Copier l'adresse de l'image") !== -1, "CRM : consignes collage photos");
 
 var crmJs = read("js/crm-immo-pubs.js");
 assert(crmJs.indexOf("fetchListingPhotosFromApi") !== -1, "CRM JS : fetch API photos");
-assert(crmJs.indexOf("installLbcPhotoBookmarklet") !== -1, "CRM JS : bookmarklet");
 assert(crmJs.indexOf("/api/immo-listing-photos") !== -1, "CRM JS : endpoint photos");
 assert(crmJs.indexOf("btnRetryPhotosEmpty") !== -1, "CRM JS : retry photos galerie vide");
+assert(crmJs.indexOf("marque-page") === -1, "CRM JS : plus de mention marque-page");
 
 var pagesJs = read("js/immo-ad-pages.js");
 assert(pagesJs.indexOf("btnRetryListingPhotos") !== -1, "pages : bouton retry photos admin");
+assert(pagesJs.indexOf("btnImportPastedPhotos") !== -1, "pages : importer photos collées");
+assert(pagesJs.indexOf("adPhotoPasteBox") !== -1, "pages : zone collage photos");
 assert(pagesJs.indexOf("bindAdminPhotoRetry") !== -1, "pages : bindAdminPhotoRetry");
 assert(pagesJs.indexOf("persist: true") !== -1 || pagesJs.indexOf("persist:true") !== -1, "pages : persist photos");
+assert(pagesJs.indexOf("marque-page") === -1, "pages : plus de marque-page");
 
 var css = read("css/immo-ad-listings.css");
 assert(css.indexOf("lbc-gallery__admin-retry") !== -1, "CSS : zone retry admin");
+assert(css.indexOf("lbc-gallery__admin-paste") !== -1, "CSS : zone collage admin");
 
 assert(routeSrc.indexOf("persistPhotos") !== -1 || routeSrc.indexOf("persisted") !== -1, "API : persistance photos");
+assert(routeSrc.indexOf("marque-page") === -1, "API : plus de marque-page");
+assert(read("immobilier/biens.html").indexOf("immo-listing-paste-lib") !== -1, "hub biens charge paste lib");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");

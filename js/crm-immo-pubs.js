@@ -563,7 +563,7 @@
       );
     } else if (url && !paste && !photoLines) {
       setImportStatus(
-        "Lien reconnu, sans photos locales. Cliquez « Essayer depuis le lien », ou ouvrez votre annonce et utilisez le marque-page Photos LBC.",
+        "Lien reconnu, sans photos locales. Cliquez « Essayer depuis le lien », ou ouvrez votre annonce et collez les adresses d’images dans le champ Photos.",
         false
       );
     }
@@ -633,7 +633,7 @@
         if (data.blocked) {
           setImportStatus(
             data.hint ||
-              "Leboncoin bloque nos serveurs. Ouvrez votre annonce et utilisez le marque-page Photos LBC.",
+            "Leboncoin bloque nos serveurs. Ouvrez votre annonce → clic droit sur une photo → Copier l’adresse de l’image → collez dans le champ Photos.",
             false
           );
           return;
@@ -650,18 +650,7 @@
   }
 
   function installLbcPhotoBookmarklet() {
-    var a = document.getElementById("lbcPhotoBookmarklet");
-    if (!a) return;
-    var code =
-      "javascript:(function(){try{var u=[],seen={};function add(x){x=String(x||'').trim();if(!x||seen[x])return;if(!/img\\.leboncoin\\.fr|leboncoin\\.fr\\/.*\\.(jpe?g|png|webp)/i.test(x))return;seen[x]=1;u.push(x.split('?')[0]);}document.querySelectorAll('img').forEach(function(img){add(img.currentSrc||img.src);var ss=img.getAttribute('srcset')||'';ss.split(',').forEach(function(p){add(p.trim().split(/\\s+/)[0]);});});document.querySelectorAll('[style*=\"background\"]').forEach(function(el){var m=String(el.style.backgroundImage||'').match(/url\\([\"']?([^\"')]+)/i);if(m)add(m[1]);});var html=document.documentElement?document.documentElement.innerHTML:'';var re=/https?:\\/\\/img\\.leboncoin\\.fr[^\"'\\s<>]+/gi,m;while((m=re.exec(html)))add(m[0]);if(!u.length){alert('Aucune photo Leboncoin trouvée sur cette page. Ouvrez votre annonce puis réessayez.');return;}var t=u.slice(0,24).join('\\n');function ok(){alert(u.length+' photo(s) copiée(s). Revenez au CRM Pubs et collez dans le champ Photos.');}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(function(){prompt('Copiez ces URLs photos :',t);});}else{prompt('Copiez ces URLs photos :',t);}}catch(e){alert('Marque-page : '+e);}})();";
-    a.setAttribute("href", code);
-    a.addEventListener("click", function (ev) {
-      ev.preventDefault();
-      setImportStatus(
-        "Glissez le bouton « Photos LBC → presse-papiers » dans vos favoris (barre favoris). Puis ouvrez votre annonce Leboncoin et cliquez ce favori.",
-        true
-      );
-    });
+    /* noop — import photos = collage d’URLs / fichiers */
   }
 
   function createPageUrl() {
