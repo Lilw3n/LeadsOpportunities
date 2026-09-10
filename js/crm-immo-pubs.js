@@ -58,8 +58,12 @@
     var box = document.getElementById("adPhotoThumbs");
     if (!box) return;
     if (!photoState.length) {
-      box.innerHTML = '<p class="pub-hint" style="margin:0">Aucune photo pour l’instant.</p>';
+      box.innerHTML =
+        '<p class="pub-hint" style="margin:0">Aucune photo pour l’instant.</p>' +
+        '<button type="button" class="btn btn-ghost btn-sm" id="btnRetryPhotosEmpty" style="margin-top:8px">Réessayer de récupérer les photos</button>';
       syncHiddenMediaFields();
+      var retryEmpty = document.getElementById("btnRetryPhotosEmpty");
+      if (retryEmpty) retryEmpty.onclick = fetchListingPhotosFromApi;
       return;
     }
     box.innerHTML = photoState

@@ -159,13 +159,39 @@
 }
 .lbc-gallery__empty {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 14px;
   height: 100%;
   color: #94a3b8;
   font-weight: 700;
   padding: 40px;
   text-align: center;
+}
+.lbc-gallery__admin-retry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: 22rem;
+  pointer-events: auto;
+}
+.lbc-gallery__admin-retry .btn {
+  pointer-events: auto;
+}
+.lbc-gallery__admin-status {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #cbd5e1;
+}
+.lbc-gallery__admin-status.is-ok {
+  color: #86efac;
+}
+.lbc-gallery__admin-status.is-err {
+  color: #fca5a5;
 }
 .lbc-nav {
   position: absolute;

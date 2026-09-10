@@ -107,6 +107,17 @@ var crmJs = read("js/crm-immo-pubs.js");
 assert(crmJs.indexOf("fetchListingPhotosFromApi") !== -1, "CRM JS : fetch API photos");
 assert(crmJs.indexOf("installLbcPhotoBookmarklet") !== -1, "CRM JS : bookmarklet");
 assert(crmJs.indexOf("/api/immo-listing-photos") !== -1, "CRM JS : endpoint photos");
+assert(crmJs.indexOf("btnRetryPhotosEmpty") !== -1, "CRM JS : retry photos galerie vide");
+
+var pagesJs = read("js/immo-ad-pages.js");
+assert(pagesJs.indexOf("btnRetryListingPhotos") !== -1, "pages : bouton retry photos admin");
+assert(pagesJs.indexOf("bindAdminPhotoRetry") !== -1, "pages : bindAdminPhotoRetry");
+assert(pagesJs.indexOf("persist: true") !== -1 || pagesJs.indexOf("persist:true") !== -1, "pages : persist photos");
+
+var css = read("css/immo-ad-listings.css");
+assert(css.indexOf("lbc-gallery__admin-retry") !== -1, "CSS : zone retry admin");
+
+assert(routeSrc.indexOf("persistPhotos") !== -1 || routeSrc.indexOf("persisted") !== -1, "API : persistance photos");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");
