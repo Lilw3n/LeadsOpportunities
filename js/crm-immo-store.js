@@ -77,6 +77,12 @@ window.CrmImmoStore = (function () {
     try {
       var data = await api("GET", "/api/crm/immo?entity=all");
       if (data && data.db) {
+        var Dossier = window.CrmImmoDossier;
+        if (Dossier && Array.isArray(data.db.properties)) {
+          data.db.properties = data.db.properties.map(function (p) {
+            return Dossier.hydrateProperty(p);
+          });
+        }
         saveLocal(data.db);
         return data.db;
       }
@@ -111,9 +117,12 @@ window.CrmImmoStore = (function () {
   }
 
   function getProperty(id) {
-    return loadLocal().properties.find(function (p) {
-      return p.id === id;
-    }) || null;
+    var p =
+      loadLocal().properties.find(function (x) {
+        return x.id === id;
+      }) || null;
+    var Dossier = window.CrmImmoDossier;
+    return Dossier && p ? Dossier.hydrateProperty(p) : p;
   }
 
   function upsertProperty(input) {
@@ -134,6 +143,18 @@ window.CrmImmoStore = (function () {
     if (!item.docs_checklist || typeof item.docs_checklist !== "object") item.docs_checklist = {};
     if (!Array.isArray(item.images)) item.images = [];
     if (!Array.isArray(item.history)) item.history = [];
+    var Dossier = window.CrmImmoDossier;
+    if (Dossier) {
+      item.units = item.units.map(Dossier.normalizeUnit);
+      item.metadata = Dossier.packMetadata(item);
+      item.metadata_json = item.metadata;
+      if (
+        item.units.length &&
+        ["immeuble", "complexe", "terrain", "maison"].indexOf(item.property_type) !== -1
+      ) {
+        item.is_parent_dossier = true;
+      }
+    }
     var idx = db.properties.findIndex(function (p) {
       return p.id === item.id;
     });

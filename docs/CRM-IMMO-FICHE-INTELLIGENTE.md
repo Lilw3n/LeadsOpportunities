@@ -6,7 +6,7 @@ Référence métier (captures CRM) adaptée et réorganisée :
 Description · Pièces · Images · Immo cloud · Vendeur · Historique · Statistiques
 
 ## Sections Description (ordre)
-1. **Composition** — terrain → maison → appartements loués (unités imbriquées)
+1. **Composition** — dossier immeuble / parcelle / cadastre → lots & appartements (chaque unité : infos, photos, visite virtuelle Matterport, rattachement parent)
 2. Localisation
 3. Aspects financiers
 4. Surfaces
