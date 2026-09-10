@@ -222,7 +222,22 @@
         : '<div class="lbc-gallery__empty"><span>Aucune photo renseignée</span>' +
           (adminMode
             ? '<div class="lbc-gallery__admin-retry">' +
-              '<button type="button" class="btn btn-primary btn-sm" id="btnRetryListingPhotos">Réessayer de récupérer les photos</button>' +
+              '<p class="lbc-gallery__admin-help">Leboncoin bloque souvent la lecture auto. Faites plutôt ceci :</p>' +
+              '<ol class="lbc-gallery__admin-steps">' +
+              "<li>Ouvrez votre annonce Leboncoin</li>" +
+              "<li>Clic droit sur une photo → <strong>Copier l’adresse de l’image</strong></li>" +
+              "<li>Collez les liens (ou le HTML de la galerie) ci-dessous</li>" +
+              "</ol>" +
+              (p.listing_url
+                ? '<a class="btn btn-ghost btn-sm" id="btnOpenListingForPhotos" href="' +
+                  esc(p.listing_url) +
+                  '" target="_blank" rel="noopener">Ouvrir mon annonce</a>'
+                : "") +
+              '<textarea id="adPhotoPasteBox" class="lbc-gallery__admin-paste" rows="3" placeholder="https://img.leboncoin.fr/…&#10;une URL par ligne, ou collez le HTML de la galerie"></textarea>' +
+              '<div class="lbc-gallery__admin-actions">' +
+              '<button type="button" class="btn btn-primary btn-sm" id="btnImportPastedPhotos">Importer les photos collées</button>' +
+              '<button type="button" class="btn btn-ghost btn-sm" id="btnRetryListingPhotos">Réessayer auto</button>' +
+              "</div>" +
               '<p class="lbc-gallery__admin-status" id="adPhotoRetryStatus" role="status"></p>' +
               "</div>"
             : "") +
@@ -726,71 +741,153 @@
     el.classList.toggle("is-err", text && !ok);
   }
 
+  function applyAdminPhotos(listing, photoUrls, hint) {
+    var urls = Array.isArray(photoUrls) ? photoUrls : [];
+    if (!urls.length) {
+      setPhotoRetryStatus(hint || "Aucune photo détectée.", false);
+      return;
+    }
+    listing.photos = urls.map(function (u) {
+      return { url: u, kind: "photo" };
+    });
+    listing.cover = listing.photos[0] || null;
+    setPhotoRetryStatus(hint || urls.length + " photo(s) importée(s).", true);
+    showListing(listing, !!listing._privateMode, { admin: true });
+  }
+
+  function postListingPhotos(payload) {
+    var tok = "";
+    try {
+      tok = localStorage.getItem("lo_token") || "";
+    } catch (e) {}
+    if (!tok) {
+      return Promise.resolve({ status: 401, data: { error: "Connectez-vous au CRM." } });
+    }
+    return fetch("/api/immo-listing-photos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + tok,
+      },
+      body: JSON.stringify(payload),
+    }).then(function (r) {
+      return r.json().then(function (data) {
+        return { status: r.status, data: data };
+      });
+    });
+  }
+
   function bindAdminPhotoRetry(root, listing) {
-    var btn = root && root.querySelector("#btnRetryListingPhotos");
-    if (!btn || !listing) return;
-    btn.addEventListener("click", function () {
-      var tok = "";
-      try {
-        tok = localStorage.getItem("lo_token") || "";
-      } catch (e) {}
-      if (!tok) {
-        setPhotoRetryStatus("Connectez-vous au CRM pour réessayer.", false);
-        return;
-      }
-      if (!listing.listing_url && !listing.id) {
-        setPhotoRetryStatus("Ajoutez d’abord le lien Leboncoin sur la pub CRM.", false);
-        return;
-      }
-      btn.disabled = true;
-      setPhotoRetryStatus("Récupération en cours…", true);
-      fetch("/api/immo-listing-photos", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + tok,
-        },
-        body: JSON.stringify({
+    if (!root || !listing) return;
+    var btnRetry = root.querySelector("#btnRetryListingPhotos");
+    var btnImport = root.querySelector("#btnImportPastedPhotos");
+    var pasteBox = root.querySelector("#adPhotoPasteBox");
+
+    function blockedMsg(data) {
+      return (
+        (data && data.hint) ||
+        "Leboncoin bloque encore la lecture automatique. Ouvrez votre annonce, copiez l’adresse des images, puis collez-les ci-dessous."
+      );
+    }
+
+    if (pasteBox) {
+      pasteBox.addEventListener("paste", function (ev) {
+        try {
+          var html = (ev.clipboardData && ev.clipboardData.getData("text/html")) || "";
+          var plain = (ev.clipboardData && ev.clipboardData.getData("text/plain")) || "";
+          var Paste = window.ImmoListingPaste;
+          if (!Paste || !Paste.extractPhotoUrls) return;
+          var found = Paste.extractPhotoUrls(html || plain);
+          if (!found.length) return;
+          setTimeout(function () {
+            var cur = String(pasteBox.value || "").trim();
+            var extra = found.join("\n");
+            pasteBox.value = cur ? cur + "\n" + extra : extra;
+            setPhotoRetryStatus(found.length + " lien(s) photo détecté(s) — cliquez « Importer les photos collées ».", true);
+          }, 0);
+        } catch (e) {}
+      });
+    }
+
+    if (btnImport) {
+      btnImport.addEventListener("click", function () {
+        var raw = pasteBox ? String(pasteBox.value || "").trim() : "";
+        if (!raw) {
+          setPhotoRetryStatus("Collez d’abord les liens photos (ou le HTML de la galerie).", false);
+          return;
+        }
+        var Paste = window.ImmoListingPaste;
+        var localUrls = Paste && Paste.extractPhotoUrls ? Paste.extractPhotoUrls(raw) : [];
+        btnImport.disabled = true;
+        setPhotoRetryStatus("Import en cours…", true);
+        postListingPhotos({
+          html: raw,
           url: listing.listing_url || "",
           property_id: listing.id || "",
           persist: true,
-        }),
-      })
-        .then(function (r) {
-          return r.json().then(function (data) {
-            return { status: r.status, data: data };
+        })
+          .then(function (res) {
+            btnImport.disabled = false;
+            var data = res.data || {};
+            if (res.status === 401) {
+              setPhotoRetryStatus("Session CRM expirée — reconnectez-vous.", false);
+              return;
+            }
+            var urls = (data.photo_urls && data.photo_urls.length ? data.photo_urls : localUrls) || [];
+            if (urls.length) {
+              applyAdminPhotos(listing, urls, data.hint || urls.length + " photo(s) importée(s).");
+              return;
+            }
+            setPhotoRetryStatus(data.hint || data.error || "Aucun lien photo reconnu dans le collage.", false);
+          })
+          .catch(function () {
+            btnImport.disabled = false;
+            if (localUrls.length) {
+              applyAdminPhotos(listing, localUrls, localUrls.length + " photo(s) importée(s) en local.");
+              return;
+            }
+            setPhotoRetryStatus("Erreur réseau. Réessayez.", false);
           });
+      });
+    }
+
+    if (btnRetry) {
+      btnRetry.addEventListener("click", function () {
+        if (!listing.listing_url && !listing.id) {
+          setPhotoRetryStatus("Ajoutez d’abord le lien Leboncoin sur la pub CRM.", false);
+          return;
+        }
+        btnRetry.disabled = true;
+        setPhotoRetryStatus("Récupération automatique…", true);
+        postListingPhotos({
+          url: listing.listing_url || "",
+          property_id: listing.id || "",
+          persist: true,
         })
-        .then(function (res) {
-          btn.disabled = false;
-          var data = res.data || {};
-          if (res.status === 401) {
-            setPhotoRetryStatus("Session CRM expirée — reconnectez-vous.", false);
-            return;
-          }
-          if (data.blocked) {
-            setPhotoRetryStatus(data.hint || "Leboncoin bloque encore. Réessayez dans un instant.", false);
-            return;
-          }
-          if (data.photo_urls && data.photo_urls.length) {
-            listing.photos = data.photo_urls.map(function (u) {
-              return { url: u, kind: "photo" };
-            });
-            listing.cover = listing.photos[0] || null;
-            setPhotoRetryStatus(
-              data.hint || data.photo_urls.length + " photo(s) récupérée(s).",
-              true
-            );
-            showListing(listing, !!listing._privateMode, { admin: true });
-            return;
-          }
-          setPhotoRetryStatus(data.hint || data.error || "Aucune photo récupérée.", false);
-        })
-        .catch(function () {
-          btn.disabled = false;
-          setPhotoRetryStatus("Erreur réseau. Réessayez.", false);
-        });
-    });
+          .then(function (res) {
+            btnRetry.disabled = false;
+            var data = res.data || {};
+            if (res.status === 401) {
+              setPhotoRetryStatus("Session CRM expirée — reconnectez-vous.", false);
+              return;
+            }
+            if (data.blocked) {
+              setPhotoRetryStatus(blockedMsg(data), false);
+              if (pasteBox) pasteBox.focus();
+              return;
+            }
+            if (data.photo_urls && data.photo_urls.length) {
+              applyAdminPhotos(listing, data.photo_urls, data.hint);
+              return;
+            }
+            setPhotoRetryStatus(data.hint || data.error || "Aucune photo récupérée. Collez les liens ci-dessous.", false);
+          })
+          .catch(function () {
+            btnRetry.disabled = false;
+            setPhotoRetryStatus("Erreur réseau. Collez les liens photos ci-dessous.", false);
+          });
+      });
+    }
   }
 
   function showListing(listing, privateMode, opts) {

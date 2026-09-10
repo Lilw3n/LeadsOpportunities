@@ -2,7 +2,7 @@
  * Reprise d'infos depuis un lien / texte d'annonce (Leboncoin & portails).
  * Parse URL + texte / HTML collé (photos img.leboncoin.fr).
  * Un fetch serveur existe (API CRM) mais Leboncoin renvoie souvent un captcha :
- * dans ce cas, marque-page sur la page annonce déjà ouverte chez le conseiller.
+ * dans ce cas, coller les adresses d’images depuis l’annonce ouverte.
  */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) {

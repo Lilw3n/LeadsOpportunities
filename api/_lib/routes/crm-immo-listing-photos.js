@@ -210,7 +210,7 @@ module.exports = async function crmImmoListingPhotos(req, res) {
       photo_urls: [],
       count: 0,
       hint:
-        "Impossible de joindre l’annonce depuis nos serveurs. Réessayez plus tard, ou utilisez le marque-page « Photos LBC » sur votre page ouverte.",
+        "Impossible de joindre l’annonce depuis nos serveurs. Ouvrez votre annonce Leboncoin, clic droit sur une photo → Copier l’adresse de l’image, puis collez les liens dans le CRM.",
       detail: String((err && err.message) || err).slice(0, 200),
     });
   }
@@ -224,7 +224,7 @@ module.exports = async function crmImmoListingPhotos(req, res) {
       photo_urls: [],
       count: 0,
       hint:
-        "Leboncoin protège encore la page (captcha). Réessayez dans un instant, ou ouvrez l’annonce et utilisez le marque-page Photos LBC.",
+        "Leboncoin bloque encore la lecture automatique. Ouvrez votre annonce → clic droit sur une photo → Copier l’adresse de l’image → collez les liens ci-dessous.",
     });
   }
 
@@ -259,6 +259,6 @@ module.exports = async function crmImmoListingPhotos(req, res) {
         ? photos.length +
           " photo(s) récupérées depuis le lien." +
           (saved && saved.saved ? " Enregistrées sur le bien." : "")
-        : "Page lue mais aucune photo trouvée. Réessayez ou utilisez le marque-page.",
+        : "Page lue mais aucune photo trouvée. Collez les adresses d’images (clic droit → Copier l’adresse de l’image).",
   });
 };
