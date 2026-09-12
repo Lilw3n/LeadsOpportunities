@@ -65,6 +65,7 @@ const ROUTES = {
   "agent-tax-prefs": () => require("../_lib/routes/crm-agent-tax-prefs"),
   "agent-payment-splits": () => require("../_lib/routes/crm-agent-payment-splits"),
   immo: () => require("../_lib/routes/crm-immo"),
+  "immo-users-contact": () => require("../_lib/routes/crm-immo-users-contact"),
   relations: () => require("../_lib/routes/crm-relations"),
 };
 

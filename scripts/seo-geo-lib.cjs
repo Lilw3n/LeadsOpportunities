@@ -1771,6 +1771,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/syndic.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/immobilier/", priority: "0.94", changefreq: "weekly" },
     { loc: base + "/immobilier/biens.html", priority: "0.93", changefreq: "daily" },
+    { loc: base + "/immobilier/marche.html", priority: "0.94", changefreq: "daily" },
     { loc: base + "/immobilier/location/", priority: "0.91", changefreq: "weekly" },
     { loc: base + "/immobilier/syndic/", priority: "0.91", changefreq: "weekly" },
     { loc: base + "/pret-immobilier/", priority: "0.94", changefreq: "weekly" },
