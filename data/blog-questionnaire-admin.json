@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-12",
   "sections": [
     "actu",
     "animaux",
@@ -1965,6 +1965,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "xv-de-france-feminin-les-bleues-s-inclinent-dans-leur-premiere-confronta.html",
+      "title": "XV de France féminin : les Bleues s’inclinent dans leur première confrontation avec les… : mutuelle et remboursements — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=xv-de-france-feminin-les-bleues-s-incl",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "basket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026.html",
+      "title": "Basket – Le parcours de l’équipe de France féminine en Coupe du monde 2026 : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=basket-le-parcours-de-l-equipe-de-fran",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "mondial-de-basket-les-bleues-en-finale-pour-la-premiere-fois-apres-avoir.html",
+      "title": "Mondial de basket : les Bleues en finale pour la première fois après avoir battu l'Alle… : mutuelle et remboursements — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=mondial-de-basket-les-bleues-en-finale",
+      "matchedRule": null,
       "species": null
     }
   ]
