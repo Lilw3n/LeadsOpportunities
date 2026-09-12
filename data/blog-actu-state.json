@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-12T18:24:56.001Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sports/rugby/xv-de-france/xv-de-france-feminin-les-bleues-s-inclinent-dans-leur-premiere-confrontation-avec-les-black-ferns-neo-zelandais-20260912",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa598f7cb3c4d21a68bbfaa033af263&url=https%3a%2f%2fwww.sudouest.fr%2fsport%2fbasket%2fbasket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026-30565495.php&c=895359205782988041&mkt=en-us",
+    "https://www.france24.com/fr/sports/20260912-mondial-basket-bleues-en-finale-premiere-fois-battu-allemagne-france-sports"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-12T18:24:57.742Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-12T18:24:57.742Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "xv-de-france-feminin-les-bleues-s-inclinent-dans-leur-premiere-confronta.html",
+          "title": "XV de France féminin : les Bleues s’inclinent dans leur première confrontation avec les… : mutuelle et remboursements — que faire ?",
+          "source": "Cafeyn — Le Figaro flash",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "basket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026.html",
+          "title": "Basket – Le parcours de l’équipe de France féminine en Coupe du monde 2026 : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "mondial-de-basket-les-bleues-en-finale-pour-la-premiere-fois-apres-avoir.html",
+          "title": "Mondial de basket : les Bleues en finale pour la première fois après avoir battu l'Alle… : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — France 24",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

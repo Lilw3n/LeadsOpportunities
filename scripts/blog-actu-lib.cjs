@@ -77,6 +77,16 @@ function matchTopic(text) {
   };
 }
 
+/** Titres d’exemple / TODO — ne jamais publier. */
+function isPlaceholderActuTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return true;
+  if (/collez ici/i.test(t)) return true;
+  if (/^TODO\b/i.test(t)) return true;
+  if (/\[titre\]/i.test(t)) return true;
+  return false;
+}
+
 function uniqueFile(baseSlug) {
   var files = existingFiles();
   var slug = baseSlug;
@@ -340,6 +350,7 @@ module.exports = {
   slugify: slugify,
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
+  isPlaceholderActuTitle: isPlaceholderActuTitle,
   matchTopic: matchTopic,
   scaffoldArticle: scaffoldArticle,
   stripForManifest: stripForManifest,
