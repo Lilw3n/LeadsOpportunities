@@ -12,6 +12,7 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/france/",
   /* Landings chaudes */
   "/landings/vtc.html",
+  "/landings/taxi.html",
   "/landings/sante.html",
   "/landings/sante-collective.html",
   "/landings/credit-immo.html",
@@ -28,6 +29,7 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/landings/devis.html",
   "/landings/rappel.html",
   "/landings/questionnaire.html?need=vtc&journey=standard",
+  "/landings/questionnaire.html?need=taxi&journey=standard",
   "/landings/questionnaire.html?need=sante&journey=standard",
   "/landings/questionnaire.html?need=collective&journey=standard",
   "/landings/questionnaire.html?need=credit-immo&journey=standard",
@@ -140,6 +142,11 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/blog/orages-grele-ete-auto-habitation-2026.html",
   /* Blog money — VTC + mutuelle canicule + emprunteur */
   "/blog/assurance-vtc-moins-cher-2026.html",
+  "/assurance-taxi/",
+  "/assurance-taxi/garanties/",
+  "/blog/assurance-taxi-moins-cher-2026.html",
+  "/blog/assurance-taxi-garanties-obligatoires-tpt-2026.html",
+  "/blog/devis-assurance-taxi-rappel-15-min-courtier-orias.html",
   "/blog/vtc-premiere-course-checklist-assurance.html",
   "/blog/assurance-vtc-uber-bolt-heetch.html",
   "/assurance-vtc/pas-cher/",

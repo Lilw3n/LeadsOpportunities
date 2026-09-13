@@ -430,6 +430,12 @@ var MAP = {
   "comparatif-vtc-zephir-solly-azar.html": { hero: "vtcChauffeur", figure: "taxiVille" },
   "assurance-vtc-franchise-garanties-2026.html": { hero: "taxiVille", figure: "vtcChauffeur" },
   "vtc-premiere-course-checklist-assurance.html": { hero: "vtcPhone", figure: "vtcChauffeur" },
+  "assurance-taxi-moins-cher-2026.html": { hero: "taxiVille", figure: "vtcChauffeur" },
+  "assurance-taxi-garanties-obligatoires-tpt-2026.html": { hero: "vtcChauffeur", figure: "taxiVille" },
+  "assurance-taxi-creation-activite-ads-2026.html": { hero: "vtcPhone", figure: "taxiVille" },
+  "assurance-taxi-vehicule-relais-perte-exploitation.html": { hero: "taxiVille", figure: "vtcPhone" },
+  "changer-assurance-taxi-resiliation-2026.html": { hero: "vtcChauffeur", figure: "vtcPhone" },
+  "devis-assurance-taxi-rappel-15-min-courtier-orias.html": { hero: "taxiVille", figure: "vtcChauffeur" },
 
   /* Finance */
   "pret-immo-erreurs-a-eviter.html": { hero: "signaturePret", figure: "creditCles" },
@@ -480,6 +486,7 @@ var SECTION_DEFAULT = {
   vsp: { hero: "voiture", figure: "jeuneCond" },
   animaux: { hero: "chienVet", figure: "chatSoin" },
   vtc: { hero: "vtcChauffeur", figure: "taxiVille" },
+  taxi: { hero: "taxiVille", figure: "vtcChauffeur" },
   finance: { hero: "creditCles", figure: "signaturePret" },
   prevoyance: { hero: "famProtect", figure: "obseques" },
   patrimoine: { hero: "epargneRetraite", figure: "budgetFam" },

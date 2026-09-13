@@ -5,7 +5,7 @@
   "products": [
     { "id": "animaux", "name": "Assurance animaux", "category": "animaux", "priceFrom": 19.35, "pricingMode": "from", "icon": "🐾", "landingUrl": "/landings/animaux.html", "need": "animaux" },
     { "id": "vtc", "name": "Assurance Auto VTC", "category": "mobilite", "pricingMode": "sur_mesure", "icon": "🚗", "landingUrl": "/landings/vtc.html", "need": "vtc" },
-    { "id": "taxi", "name": "Assurance Auto Taxi", "category": "mobilite", "priceFrom": 120, "pricingMode": "from", "icon": "🚕", "landingUrl": "/landings/vtc.html", "need": "vtc" },
+    { "id": "taxi", "name": "Assurance Auto Taxi", "category": "mobilite", "priceFrom": 120, "pricingMode": "from", "icon": "🚕", "landingUrl": "/landings/taxi.html", "need": "taxi" },
     { "id": "auto-temp", "name": "Assurance Automobile Temporaire", "category": "mobilite", "priceFrom": 24.2, "pricingMode": "from", "icon": "⏱️", "landingUrl": "/landings/devis.html?need=temporaire", "need": "temporaire" },
     { "id": "auto", "name": "Assurance Auto", "category": "mobilite", "pricingMode": "sur_mesure", "icon": "🚙", "landingUrl": "/landings/devis.html?need=auto", "need": "auto" },
     { "id": "pl-temp", "name": "Poids Lourd Temporaire", "category": "mobilite", "pricingMode": "sur_mesure", "icon": "🚛", "landingUrl": "/landings/devis.html?need=flotte", "need": "flotte" },

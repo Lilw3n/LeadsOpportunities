@@ -82,6 +82,15 @@ var VTC_IDF = [
   link("/blog/assurance-vtc-uber-bolt-heetch.html", "Uber, Bolt, Heetch"),
 ];
 
+var TAXI_BLOG = [
+  link("/assurance-taxi/", "Hub assurance taxi"),
+  link("/assurance-taxi/garanties/", "Garanties taxi"),
+  link("/landings/taxi.html", "Devis taxi"),
+  link("/blog/assurance-taxi-moins-cher-2026.html", "Taxi moins cher"),
+  link("/blog/assurance-taxi-garanties-obligatoires-tpt-2026.html", "Garanties TPT"),
+  link("/blog/devis-assurance-taxi-rappel-15-min-courtier-orias.html", "Devis taxi 15 min"),
+];
+
 var SILOS_IMMO = [
   link("/pret-immobilier/", "Prêt immobilier — villes"),
   link("/recherche-bien/", "Recherche de bien"),
@@ -113,6 +122,7 @@ module.exports = {
   NICHES_VSP: NICHES_VSP,
   ACTU_CLIMAT_HABITATION: ACTU_CLIMAT_HABITATION,
   VTC_IDF: VTC_IDF,
+  TAXI_BLOG: TAXI_BLOG,
   SILOS_IMMO: SILOS_IMMO,
   mergeUnique: mergeUnique,
   link: link,

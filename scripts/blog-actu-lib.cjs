@@ -105,7 +105,7 @@ function scoreLeadPotential(candidate) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  if (need === "vtc" || need === "taxi" || need === "animaux" || need === "prevoyance") score += 15;
 
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
@@ -264,6 +264,11 @@ function relatedForSection(section, need) {
     vtc: [
       { href: "./assurance-vtc-moins-cher-2026.html", label: "VTC moins cher" },
       { href: "../assurance-vtc/", label: "Assurance VTC" },
+    ],
+    taxi: [
+      { href: "./assurance-taxi-moins-cher-2026.html", label: "Taxi moins cher" },
+      { href: "../assurance-taxi/", label: "Assurance taxi" },
+      { href: "../landings/taxi.html", label: "Devis taxi" },
     ],
     finance: [
       { href: "./assurance-emprunteur-loi-lemoine-2026.html", label: "Loi Lemoine" },

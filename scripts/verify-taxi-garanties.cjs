@@ -63,6 +63,8 @@ var landing = read("landings/taxi.html");
 assert(landing.indexOf("Garanties taxi a comparer") !== -1, "landing section garanties");
 assert(landing.indexOf("../assurance-taxi/garanties/") !== -1, "landing liens catalogue");
 assert(landing.indexOf('name="need" value="taxi"') !== -1, "landing need=taxi");
+assert(landing.indexOf('href="./vtc.html"') === -1, "landing taxi ne bascule pas vers VTC");
+assert(landing.indexOf("questionnaire.html?need=taxi") !== -1, "landing questionnaire taxi");
 
 var css = read("seo/seo-pages.css");
 assert(css.indexOf(".seo-guarantee-grid") !== -1, "CSS grille garanties");

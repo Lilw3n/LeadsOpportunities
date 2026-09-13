@@ -107,7 +107,7 @@
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="#demande">Demander mon devis taxi</a>
-              <a class="btn btn-soft" href="./devis-rapide.html">Devis express (30 sec)</a>
+              <a class="btn btn-soft" href="./devis-rapide.html?need=taxi">Devis express (30 sec)</a>
               <a class="btn btn-soft" href="./questionnaire.html?need=taxi&amp;journey=standard">Questionnaire taxi</a>
             </div>
             <div class="vtc-zone-hint" data-vtc-zone-hint hidden></div>
@@ -129,8 +129,8 @@
           </p>
           <div data-callback-strip data-callback-need="taxi" data-callback-source="landing_taxi"></div>
           <div class="journey-toggle" role="navigation" aria-label="Type de parcours">
-            <a href="./devis-rapide.html">Devis express (30 sec)</a>
-            <a href="./vtc.html" class="is-active">Questionnaire (rappel possible a tout moment)</a>
+            <a href="./devis-rapide.html?need=taxi">Devis express (30 sec)</a>
+            <a href="./questionnaire.html?need=taxi&amp;journey=standard" class="is-active">Questionnaire (rappel possible a tout moment)</a>
           </div>
           <div data-eligibility-panel hidden></div>
           <div data-internal-quote hidden></div>
@@ -288,16 +288,15 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="platforms">Plateformes utilisees</label>
+                  <label for="platforms">Activite / clientele</label>
                   <select id="platforms" name="platforms">
                     <option value="">Selectionnez</option>
-                    <option>Uber uniquement</option>
-                    <option>Bolt uniquement</option>
-                    <option>Uber + Bolt</option>
-                    <option>Heetch</option>
-                    <option>Multi-plateformes</option>
+                    <option>Stations de taxi uniquement</option>
+                    <option>Stations + aeroports</option>
+                    <option>Courses privees / conventionnees</option>
+                    <option>Mixte stations + prive</option>
+                    <option>Double activite taxi + VTC (Uber / Bolt…)</option>
                     <option>Clientele privee uniquement</option>
-                    <option>Mixte (plateformes + prive)</option>
                   </select>
                 </div>
               </div>
@@ -326,10 +325,10 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="vtcCard">Carte professionnelle VTC</label>
-                  <select id="vtcCard" name="vtcCard">
+                  <label for="taxiCard">Carte professionnelle / ADS taxi</label>
+                  <select id="taxiCard" name="taxiCard">
                     <option value="">Selectionnez</option>
-                    <option>Oui, en cours de validite</option>
+                    <option>Oui, ADS et carte en cours de validite</option>
                     <option>En cours de demande</option>
                     <option>Non, pas encore demandee</option>
                   </select>
@@ -621,7 +620,7 @@
           <h2>Formules auto pour chauffeurs de taxi</h2>
           <p class="section-lead">L'activite taxi est traitee en usage professionnel via <strong>Auto Pro</strong>. Les formules ci-dessous couvrent les profils les plus frequents.</p>
           <ul class="product-grid">
-            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Auto Pro</strong><span class="product-item-text">Usage professionnel VTC et activite chauffeur</span><span class="tag">Recommande taxi</span><span class="product-item-cta">Demander un devis →</span></a></li>
+            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Auto Pro</strong><span class="product-item-text">Usage professionnel taxi / TPT et activite chauffeur</span><span class="tag">Recommande taxi</span><span class="product-item-cta">Demander un devis →</span></a></li>
             <li class="product-item"><a class="product-item-link" href="#demande"><strong>Auto Standard</strong><span class="product-item-text">Usage personnel non professionnel</span><span class="product-item-cta">Demander un devis →</span></a></li>
             <li class="product-item"><a class="product-item-link" href="#demande"><strong>Auto Aggrave</strong><span class="product-item-text">Profils a risque eleve</span><span class="product-item-cta">Demander un devis →</span></a></li>
             <li class="product-item"><a class="product-item-link" href="#demande"><strong>Auto Collection</strong><span class="product-item-text">Vehicules de collection</span><span class="product-item-cta">Demander un devis →</span></a></li>

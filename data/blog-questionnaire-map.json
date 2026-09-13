@@ -25,6 +25,18 @@
       "landingLabel": "Devis VTC détaillé",
       "expressLabel": "Devis rapide VTC"
     },
+    "taxi": {
+      "need": "taxi",
+      "questionnaire": "/landings/questionnaire.html?need=taxi&journey=standard",
+      "landing": "/landings/taxi.html",
+      "express": "/landings/devis-rapide.html?need=taxi",
+      "hook": "Sans mention TPT et RC pro, un contrat taxi ne tient ni le contrôle ni le sinistre.",
+      "question": "Votre attestation taxi cite-t-elle bien l'usage TPT ?",
+      "primaryLabel": "Devis assurance taxi",
+      "questionnaireLabel": "Questionnaire taxi (3 min)",
+      "landingLabel": "Devis taxi détaillé",
+      "expressLabel": "Devis rapide taxi"
+    },
     "sante": {
       "need": "sante",
       "questionnaire": "/landings/questionnaire.html?need=sante&journey=standard",
@@ -223,6 +235,20 @@
         "rc pro chauffeur"
       ],
       "section": "vtc"
+    },
+    {
+      "id": "taxi",
+      "match": [
+        "assurance taxi",
+        "chauffeur de taxi",
+        "taxi tpt",
+        "usage tpt",
+        "véhicule relais taxi",
+        "vehicule relais taxi",
+        "rc pro taxi",
+        "ads taxi"
+      ],
+      "section": "taxi"
     },
     {
       "id": "collective",
@@ -519,6 +545,32 @@
     "assurance-vtc-moins-cher-2026.html": {
       "section": "vtc",
       "question": "Prêt à comparer votre VTC à garanties équivalentes en 3 minutes ?"
+    },
+    "assurance-taxi-moins-cher-2026.html": {
+      "section": "taxi",
+      "question": "Prêt à comparer votre assurance taxi à garanties TPT équivalentes ?"
+    },
+    "assurance-taxi-garanties-obligatoires-tpt-2026.html": {
+      "section": "taxi",
+      "hook": "Sans TPT + RC pro, le contrôle et le sinistre peuvent tomber à l'eau.",
+      "question": "Votre attestation cite-t-elle taxi / TPT ?"
+    },
+    "assurance-taxi-creation-activite-ads-2026.html": {
+      "section": "taxi",
+      "hook": "La première course sans attestation TPT, c'est une non-assurance.",
+      "question": "Votre dossier création taxi est-il prêt côté assurance ?"
+    },
+    "assurance-taxi-vehicule-relais-perte-exploitation.html": {
+      "section": "taxi",
+      "question": "Votre relais est-il vraiment autorisé en usage taxi ?"
+    },
+    "changer-assurance-taxi-resiliation-2026.html": {
+      "section": "taxi",
+      "question": "Vous changez de contrat sans jour de trou TPT ?"
+    },
+    "devis-assurance-taxi-rappel-15-min-courtier-orias.html": {
+      "section": "taxi",
+      "question": "On vous rappelle pour un devis taxi sous 15 min ?"
     },
     "gta-6-netflix-extended-look-immobilier-france-2026.html": {
       "section": "finance",

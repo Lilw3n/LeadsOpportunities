@@ -307,6 +307,9 @@ function buildTaxiHubPage(page) {
       { href: BASE + "creation-activite/", label: "Creation d activite" },
       { href: BASE + "resiliation/", label: "Resiliation / changement" },
       { href: "/assurance-vtc/", label: "Aussi en VTC ?" },
+      { href: "/blog/assurance-taxi-moins-cher-2026.html", label: "Blog : taxi moins cher" },
+      { href: "/blog/assurance-taxi-garanties-obligatoires-tpt-2026.html", label: "Blog : garanties TPT" },
+      { href: "/blog/devis-assurance-taxi-rappel-15-min-courtier-orias.html", label: "Blog : devis 15 min" },
       { href: LANDING, label: "Devis taxi" },
     ],
     faq: [

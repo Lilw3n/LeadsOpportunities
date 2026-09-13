@@ -36,11 +36,18 @@
       "tagClass": "tag-auto"
     },
     {
-      "keywords": ["vtc", "uber", "bolt", "heetch", "chauffeur", "taxi"],
+      "keywords": ["vtc", "uber", "bolt", "heetch", "chauffeur vtc"],
       "section": "vtc",
       "need": "vtc",
       "tag": "VTC",
       "tagClass": "tag-vtc"
+    },
+    {
+      "keywords": ["taxi", "tpt", "ads taxi", "licence taxi", "station de taxi", "chauffeur de taxi"],
+      "section": "taxi",
+      "need": "taxi",
+      "tag": "Taxi",
+      "tagClass": "tag-taxi"
     },
     {
       "keywords": ["chien", "chat", "animal", "vétérinaire", "veterinaire", "animaux"],
@@ -145,6 +152,7 @@
     "habitation": { "href": "../landings/questionnaire.html?need=habitation&journey=standard", "label": "Questionnaire habitation (3 min)" },
     "auto": { "href": "../landings/questionnaire.html?need=auto&journey=standard", "label": "Questionnaire auto (3 min)" },
     "vtc": { "href": "../landings/questionnaire.html?need=vtc&journey=standard", "label": "Questionnaire VTC (3 min)" },
+    "taxi": { "href": "../landings/questionnaire.html?need=taxi&journey=standard", "label": "Questionnaire taxi (3 min)" },
     "animaux": { "href": "../landings/questionnaire.html?need=animaux&journey=standard", "label": "Questionnaire animaux (3 min)" },
     "emprunteur": { "href": "../landings/questionnaire.html?need=emprunteur&journey=standard", "label": "Questionnaire emprunteur (3 min)" },
     "prevoyance": { "href": "../landings/questionnaire.html?need=prevoyance&journey=standard", "label": "Questionnaire prévoyance (3 min)" },
