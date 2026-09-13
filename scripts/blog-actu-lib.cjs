@@ -8,6 +8,7 @@ const ROOT = path.join(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const { loadPendingArticles, appendPendingArticle, stripForManifest } = require("./blog-actu-pending.cjs");
 const { franceLeadScoreAdjust, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const { PRIMARY_SOURCE_TYPES, normalizeSourceType } = require("./blog-actu-sources.cjs");
 
 function readJson(file, fallback) {
   try {
@@ -98,10 +99,12 @@ function monthLabel() {
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
+  var hay = title + " " + String(candidate.summary || "").toLowerCase();
   var need = candidate.need || "";
+  var sourceType = normalizeSourceType(candidate.sourceType);
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (PRIMARY_SOURCE_TYPES.indexOf(sourceType) !== -1) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
@@ -111,7 +114,6 @@ function scoreLeadPotential(candidate) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
 
-  var hay = title + " " + String(candidate.summary || "").toLowerCase();
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",
@@ -131,15 +133,57 @@ function scoreLeadPotential(candidate) {
 
   score += franceLeadScoreAdjust(candidate);
 
+  if (
+    (sourceType === "edge" || sourceType === "bing" || sourceType === "google" || sourceType === "yahoo") &&
+    /\b(announces|launches|reports|market update|stock|nasdaq|nyse|investors?|globenewswire|business wire|pr newswire)\b/i.test(hay) &&
+    !isFranceMarketTopic(hay)
+  ) {
+    score -= 25;
+  }
+
+  if (hasForeignMarketSignal(hay) && !hasSpecificFranceSignal(hay)) {
+    score -= 60;
+  }
+
+  if (
+    /\b(us open|tennis|basket|football|rugby|finale|demi-finale|quart de finale|match|tournoi|championnat)\b/i.test(hay) &&
+    !hasSpecificFranceSignal(hay) &&
+    !/\b(assurance|mutuelle|voyage|sant[eé]|habitation|emprunteur)\b/i.test(hay)
+  ) {
+    score -= 45;
+  }
+
+  if (
+    sourceType === "yahoo" &&
+    /\b(action|bourse|nasdaq|nyse|wall street|investisseurs?|resultats trimestriels|résultats trimestriels)\b/i.test(hay) &&
+    !hasSpecificFranceSignal(hay)
+  ) {
+    score -= 30;
+  }
+
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 45 * 86400000) score -= 35;
+    else if (age > 21 * 86400000) score -= 20;
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+function hasSpecificFranceSignal(text) {
+  return /\b(france|fran[cç]ais|paris|lyon|marseille|nancy|lorraine|ile-de-france|île-de-france|secu|s[eé]cu|orias|loi lemoine|code de la consommation|equipe de france|équipe de france|les bleus)\b/i.test(
+    text
+  );
+}
+
+function hasForeignMarketSignal(text) {
+  return /\b(b[eé]nin|bohicon|cotonou|zou|afg assurance|cameroun|s[eé]n[eé]gal|maroc|alg[eé]rie|tunisie|suisse|belgique|canada|usa|etats-unis|états-unis|united states)\b/i.test(
+    text
+  );
 }
 
 function rankCandidates(candidates) {
@@ -297,9 +341,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: stripHtml(decodeEntities(title)),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: stripHtml(decodeEntities(desc || "")).slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -331,6 +375,7 @@ function decodeEntities(s) {
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, " ")
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
 }
 
