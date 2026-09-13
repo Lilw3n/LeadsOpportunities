@@ -16,7 +16,7 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="../main.css" />
-  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260913contact1" />
+  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260913contactL" />
 </head>
 <body class="immo-ad-page immo-ad-page--listing immo-tour-page">
   <div class="immo-ad-private-banner">
@@ -44,6 +44,46 @@
     </div>
 
     <div class="tour-stage" id="tourStage">
+      <aside class="tour-stage-contact" id="tourContactCol">
+        <section id="tourContact" class="tour-contact" aria-labelledby="tourContactTitle">
+          <p class="tour-contact-kicker">
+            <span class="tour-contact-pulse" aria-hidden="true"></span>
+            Important — contact
+          </p>
+          <h2 id="tourContactTitle">Contacter Wendy BUCHET</h2>
+          <p class="tour-contact-lead">
+            Une question sur ce bien, une visite physique, une offre ?
+            Laissez vos coordonnées — réponse rapide du mandataire.
+          </p>
+          <form id="tourContactForm" class="tour-contact-form" novalidate>
+            <input type="text" name="_hp" id="tourContactHp" tabindex="-1" autocomplete="off" aria-hidden="true" class="tour-contact-hp" />
+            <label>Prénom *
+              <input id="tourContactFirst" name="firstName" type="text" autocomplete="given-name" required placeholder="Votre prénom" />
+            </label>
+            <label>Téléphone *
+              <input id="tourContactPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="06 12 34 56 78" />
+            </label>
+            <label>E-mail *
+              <input id="tourContactEmail" name="email" type="email" autocomplete="email" required placeholder="vous@exemple.fr" />
+            </label>
+            <label>Votre message
+              <textarea id="tourContactMessage" name="message" rows="3" placeholder="Ex. Je souhaite une visite sur place / mon budget / délai…"></textarea>
+            </label>
+            <label class="tour-copyright-check">
+              <input type="checkbox" id="tourContactConsent" required />
+              <span>J’accepte d’être recontacté(e) par <strong>Wendy BUCHET</strong>, mandataire immobilier, au sujet de ce bien.</span>
+            </label>
+            <div class="gate-actions">
+              <button type="submit" class="btn btn-primary" id="tourContactSubmit">Envoyer ma demande</button>
+            </div>
+            <p class="gate-msg" id="tourContactMsg" role="status"></p>
+          </form>
+          <p class="tour-contact-alt">
+            Ou appelez / écrivez :
+            <a href="mailto:contact@leadsopportunities.fr">contact@leadsopportunities.fr</a>
+          </p>
+        </section>
+      </aside>
       <div class="tour-stage-main">
         <div id="tourPlayer" class="tour-player" hidden></div>
       </div>
@@ -100,42 +140,6 @@
           </div>
           <p class="gate-msg" id="tourMsg"></p>
         </div>
-
-        <section id="tourContact" class="tour-contact" aria-labelledby="tourContactTitle">
-          <p class="tour-contact-kicker">Important</p>
-          <h2 id="tourContactTitle">Contacter Wendy BUCHET</h2>
-          <p class="tour-contact-lead">
-            Une question sur ce bien, une visite physique, une offre ?
-            Laissez vos coordonnées — réponse rapide du mandataire.
-          </p>
-          <form id="tourContactForm" class="tour-contact-form" novalidate>
-            <input type="text" name="_hp" id="tourContactHp" tabindex="-1" autocomplete="off" aria-hidden="true" class="tour-contact-hp" />
-            <label>Prénom *
-              <input id="tourContactFirst" name="firstName" type="text" autocomplete="given-name" required placeholder="Votre prénom" />
-            </label>
-            <label>Téléphone *
-              <input id="tourContactPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="06 12 34 56 78" />
-            </label>
-            <label>E-mail *
-              <input id="tourContactEmail" name="email" type="email" autocomplete="email" required placeholder="vous@exemple.fr" />
-            </label>
-            <label>Votre message
-              <textarea id="tourContactMessage" name="message" rows="3" placeholder="Ex. Je souhaite une visite sur place / mon budget / délai…"></textarea>
-            </label>
-            <label class="tour-copyright-check">
-              <input type="checkbox" id="tourContactConsent" required />
-              <span>J’accepte d’être recontacté(e) par <strong>Wendy BUCHET</strong>, mandataire immobilier, au sujet de ce bien.</span>
-            </label>
-            <div class="gate-actions">
-              <button type="submit" class="btn btn-primary" id="tourContactSubmit">Envoyer ma demande</button>
-            </div>
-            <p class="gate-msg" id="tourContactMsg" role="status"></p>
-          </form>
-          <p class="tour-contact-alt">
-            Ou appelez / écrivez :
-            <a href="mailto:contact@leadsopportunities.fr">contact@leadsopportunities.fr</a>
-          </p>
-        </section>
       </aside>
     </div>
 
