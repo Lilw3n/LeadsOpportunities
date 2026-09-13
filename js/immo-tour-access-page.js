@@ -115,7 +115,9 @@
     var gate = el("tourGate");
     var box = el("tourRedirect");
     var link = el("tourWendyLink");
+    var contactBox = el("tourContact");
     if (gate) gate.hidden = true;
+    if (contactBox) contactBox.hidden = true;
     if (err) {
       err.hidden = false;
       err.textContent = text || "Lien invalide.";
@@ -313,6 +315,7 @@
       return;
     }
     bindGate(token);
+    bindContactForm(token);
 
     var urlGrant = params().get("grant") || "";
     var admin = params().get("admin") === "1";
@@ -354,6 +357,105 @@
       .catch(function () {
         showError("Impossible de vérifier ce lien pour le moment.");
       });
+  }
+
+  function setContactMsg(text, ok) {
+    var node = el("tourContactMsg");
+    if (!node) return;
+    node.textContent = text || "";
+    node.style.color = ok ? "#166534" : "#9a3412";
+  }
+
+  function syncContactFromGate() {
+    var map = [
+      ["tourFirst", "tourContactFirst"],
+      ["tourEmail", "tourContactEmail"],
+      ["tourPhone", "tourContactPhone"],
+    ];
+    map.forEach(function (pair) {
+      var from = el(pair[0]);
+      var to = el(pair[1]);
+      if (from && to && from.value && !to.value) to.value = from.value;
+    });
+  }
+
+  function bindContactForm(token) {
+    var form = el("tourContactForm");
+    if (!form || form.getAttribute("data-bound") === "1") return;
+    form.setAttribute("data-bound", "1");
+    ["tourFirst", "tourEmail", "tourPhone"].forEach(function (id) {
+      var node = el(id);
+      if (node) node.addEventListener("change", syncContactFromGate);
+    });
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      syncContactFromGate();
+      var hp = el("tourContactHp");
+      if (hp && hp.value) {
+        setContactMsg("Demande envoyée. Wendy vous recontacte rapidement.", true);
+        form.reset();
+        return;
+      }
+      var first = (el("tourContactFirst") && el("tourContactFirst").value.trim()) || "";
+      var email = (el("tourContactEmail") && el("tourContactEmail").value.trim()) || "";
+      var phone = (el("tourContactPhone") && el("tourContactPhone").value.trim()) || "";
+      var message = (el("tourContactMessage") && el("tourContactMessage").value.trim()) || "";
+      var consent = el("tourContactConsent");
+      if (!first || !email || !phone) {
+        setContactMsg("Indiquez prénom, e-mail et téléphone.");
+        return;
+      }
+      if (consent && !consent.checked) {
+        setContactMsg("Cochez l’accord pour être recontacté(e).");
+        return;
+      }
+      var btn = el("tourContactSubmit");
+      if (btn) btn.disabled = true;
+      setContactMsg("Envoi en cours…", true);
+      var meta = lastMeta || {};
+      var listingBits = [meta.title || meta.name, meta.city, meta.postal_code].filter(Boolean).join(" · ");
+      var body = {
+        firstName: first,
+        email: email,
+        phone: phone,
+        message: message || "Contact depuis la visite virtuelle" + (listingBits ? " — " + listingBits : ""),
+        vertical: "acheteur_immo",
+        source: "visite-virtuelle",
+        need: "visite_virtuelle",
+        interest: "visite_virtuelle",
+        utm_source: params().get("utm_source") || "visite-virtuelle",
+        utm_medium: params().get("utm_medium") || "formulaire-visite",
+        utm_campaign: params().get("utm_campaign") || "visite-3d",
+        tour_token: token || "",
+        property_label: listingBits,
+        page_url: location.href,
+        _hp: "",
+      };
+      fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify(body),
+      })
+        .then(function (r) {
+          return r.json().then(function (d) {
+            return { status: r.status, d: d };
+          });
+        })
+        .then(function (res) {
+          if (btn) btn.disabled = false;
+          if (res.d && (res.d.ok || res.d.leadId)) {
+            setContactMsg("Demande envoyée. Wendy BUCHET vous recontacte rapidement.", true);
+            form.reset();
+            return;
+          }
+          setContactMsg((res.d && (res.d.message || res.d.error)) || "Envoi impossible. Réessayez ou écrivez à contact@leadsopportunities.fr.");
+        })
+        .catch(function () {
+          if (btn) btn.disabled = false;
+          setContactMsg("Erreur réseau. Réessayez ou contact@leadsopportunities.fr");
+        });
+    });
   }
 
   function openDirectAccess(token) {
