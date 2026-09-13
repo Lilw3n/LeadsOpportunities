@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T09:15:06.335Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sports/basket/basket-une-premiere-finale-mondiale-et-une-revanche-contre-les-americaines-pour-les-bleues-20260913",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa66999237b4e258ecc541cee037aa6&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsante%2fg%25C3%25A9n%25C3%25A9ral%2fmutuelle-sant%25C3%25A9-modulable-%25C3%25A0-la-retraite-comment-ajuster-ses-garanties-par-poste%2far-AA2bTd3J&c=15243153648960819155&mkt=en-us",
+    "https://www.franceinfo.fr/replay-jt/franceinfo/21h-minuit/23-heures/franchise-medicale-le-plafond-annuel-passera-a-140-euros_8190482.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T09:15:08.356Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T09:15:08.356Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "basket-une-premiere-finale-mondiale-et-une-revanche-contre-les-americain.html",
+          "title": "Basket : une première finale mondiale et une revanche contre les Américaines pour les B… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Le Figaro flash",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par.html",
+          "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "franchise-medicale-le-plafond-annuel-passera-a-140-euros.html",
+          "title": "Franchise médicale : le plafond annuel passera à 140 euros : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

@@ -94,6 +94,54 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** Titres 100 % anglais (communiqués US) — hors ciblage leads France. */
+function looksEnglishTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return false;
+  if (/[àâäéèêëïîôùûüçœ]/i.test(t)) return false;
+  var frWords = t.match(
+    /\b(le|la|les|un|une|des|du|de|et|ou|pour|avec|dans|sur|que|qui|est|sont|aux|par|pas|plus|cette|contre|entre|mutuelle|assurance|france|sante|retraite)\b/gi
+  );
+  if (frWords && frWords.length >= 2) return false;
+  var enWords = t.match(
+    /\b(the|and|into|regarding|potential|sale|with|from|what|you|need|know|about|enters|memorandum|understanding|holds|will|play|for|highlights|beats|host|showdown|women'?s|enters)\b/gi
+  );
+  return !!(enWords && enWords.length >= 2);
+}
+
+function articleAgeMs(candidate) {
+  if (!candidate || !candidate.pubDate) return 0;
+  var t = new Date(candidate.pubDate).getTime();
+  if (!t || isNaN(t)) return 0;
+  return Date.now() - t;
+}
+
+function isStaleCandidate(candidate, maxDays) {
+  var age = articleAgeMs(candidate);
+  return age > (maxDays || 21) * 86400000;
+}
+
+function isHighIntentLeadCandidate(candidate) {
+  var hay = String((candidate && candidate.title) || "").toLowerCase() + " " + String((candidate && candidate.summary) || "").toLowerCase();
+  return /mutuelle|assurance emprunteur|franchise m[eé]dicale|reste à charge|reste a charge|sinistre|pr[eê]t immobilier|loi lemoine|donation|pr[eé]voyance|retrait[eé]/.test(
+    hay
+  );
+}
+
+/** File manuelle : ignore le gabarit « COLLEZ ICI » et les items template. */
+function isQueuePlaceholder(item) {
+  if (!item) return true;
+  var id = String(item.id || "");
+  if (id === "cafeyn-pending-template" || /-(template|placeholder)$/i.test(id)) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "placeholder") return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (/^collez ici/i.test(title)) return true;
+  if (/\[\s*titre\s*\]/i.test(title)) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -110,6 +158,22 @@ function scoreLeadPotential(candidate) {
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
+  [
+    "franchise médicale",
+    "franchise medicale",
+    "reste à charge",
+    "reste a charge",
+    "sécurité sociale",
+    "securite sociale",
+    "retraité",
+    "retraite",
+    "donation",
+    "patrimoine",
+  ].forEach(function (kw) {
+    if (title.indexOf(kw) !== -1) score += 10;
+  });
+  if (isHighIntentLeadCandidate(candidate)) score += 18;
+  if (looksEnglishTitle(candidate.title)) score -= 40;
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
@@ -134,8 +198,10 @@ function scoreLeadPotential(candidate) {
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
   if (candidate.pubDate) {
-    var age = Date.now() - new Date(candidate.pubDate).getTime();
-    if (age < 3 * 86400000) score += 12;
+    var age = articleAgeMs(candidate);
+    if (age > 21 * 86400000) score -= 50;
+    else if (age > 14 * 86400000) score -= 20;
+    else if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
   }
 
@@ -347,6 +413,10 @@ module.exports = {
   appendPendingArticle: appendPendingArticle,
   parseRssItems: parseRssItems,
   monthLabel: monthLabel,
+  isQueuePlaceholder: isQueuePlaceholder,
+  looksEnglishTitle: looksEnglishTitle,
+  isStaleCandidate: isStaleCandidate,
+  isHighIntentLeadCandidate: isHighIntentLeadCandidate,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
