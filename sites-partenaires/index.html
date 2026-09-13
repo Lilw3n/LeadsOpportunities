@@ -2,34 +2,73 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Sites partenaires | Leads Opportunities</title>
-  <meta name="description" content="Aperçu des sites de nos partenaires locaux, classés par métier : bâtiment, immobilier, services, commerce." />
+  <meta name="description" content="Aperçu des sites de nos partenaires locaux, classés par métier : bâtiment, immobilier, outre-mer, commerce…" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/sites-partenaires/" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JX8E35693F');
+  </script>
+  <script type="text/javascript">
+  (function () {
+    var K = "lo_cookie_consent_v1";
+    function ok() {
+      try { return localStorage.getItem(K) !== "essential"; } catch (e) { return true; }
+    }
+    window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+    var g = ok();
+    window.clarity("consentv2", {
+      ad_Storage: g ? "granted" : "denied",
+      analytics_Storage: g ? "granted" : "denied"
+    });
+    if (document.getElementById("clarity-script")) return;
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      t.id = "clarity-script";
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "x7yqp46fj9");
+  })();
+  </script>
+  <script src="/js/clarity-init.js" defer></script>
   <link rel="stylesheet" href="../main.css" />
   <link rel="stylesheet" href="../css/partner-sites.css" />
 </head>
-<body>
+<body class="partner-hub-page">
   <header class="site-header">
     <div class="container header-inner">
       <a class="logo" href="../">Leads Opportunities</a>
-      <nav class="nav-links" aria-label="Navigation">
+      <button
+        type="button"
+        class="hamburger"
+        id="partnerHubMenuBtn"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="partnerHubMenu"
+      >
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links partner-hub-nav" id="partnerHubMenu" aria-label="Navigation">
         <a href="../nos-services.html">Services</a>
         <a href="../immobilier/">Immobilier</a>
-        <a href="./">Sites partenaires</a>
-        <a class="btn btn-primary btn-sm" href="../devis.html">Devis</a>
+        <a href="./" aria-current="page">Sites partenaires</a>
+        <a class="btn btn-primary btn-sm" href="../#contact">Devis</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="section" style="padding-bottom:0">
-      <div class="container" style="max-width:760px;text-align:center">
+    <section class="partner-hub-intro">
+      <div class="container partner-hub-intro-inner">
         <p class="section-badge">Partenaires locaux</p>
         <h1>Les sites de nos partenaires</h1>
-        <p style="color:var(--muted,#64748b);line-height:1.55">
-          Filtrez par métier (bâtiment, immobilier…). Si la capture automatique ne convient pas,
-          une photo d’aperçu peut être définie dans le CRM.
+        <p class="partner-hub-lead">
+          Filtrez par métier. Chaque fiche ouvre le site du partenaire — pensé pour mobile comme pour desktop.
         </p>
       </div>
     </section>
@@ -37,12 +76,27 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container" style="padding:28px 20px;text-align:center;color:#64748b;font-size:.9rem">
-      <a href="../">Accueil</a> · Wendy Buchet — courtier ORIAS
+    <div class="container partner-hub-footer">
+      <a href="../">Accueil</a>
+      <span aria-hidden="true">·</span>
+      <span>Wendy Buchet — courtier ORIAS</span>
     </div>
   </footer>
 
   <script src="../js/partner-sites-lib.js"></script>
   <script src="../js/public-partner-sites.js"></script>
+  <script src="../js/cookie-banner.js" defer></script>
+  <script>
+    (function () {
+      var btn = document.getElementById("partnerHubMenuBtn");
+      var menu = document.getElementById("partnerHubMenu");
+      if (!btn || !menu) return;
+      btn.addEventListener("click", function () {
+        var open = menu.classList.toggle("is-open");
+        btn.classList.toggle("is-open", open);
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -154,6 +154,29 @@
     .ps-msg { margin-top: 0.75rem; font-size: 0.88rem; color: #64748b; }
     .ps-msg.ok { color: #047857; }
     .ps-msg.err { color: #b91c1c; }
+
+    @media (max-width: 900px) {
+      .ps-publish-bar { flex-direction: column; align-items: stretch; }
+      .ps-publish-bar .btn { width: 100%; min-height: 44px; }
+      .ps-toolbar .btn,
+      .ps-toolbar label.btn { min-height: 40px; font-size: 0.86rem; }
+      .ps-item-main { flex-direction: column; align-items: stretch; }
+      .ps-item-actions { width: 100%; }
+      .ps-item-actions .btn { flex: 1 1 auto; min-height: 40px; }
+      .ps-preview-frame { min-height: 200px; max-height: 260px; }
+      .ps-preview-frame img { min-height: 200px; max-height: 260px; }
+      .ps-card { padding: 0.95rem 1rem; }
+    }
+
+    @media (max-width: 640px) {
+      .crm-page-panel.crm-gradient-panel { flex-direction: column; align-items: flex-start; }
+      .crm-action-row { width: 100%; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+      .crm-action-row .btn { flex: 1 1 auto; text-align: center; min-height: 42px; }
+      .ps-form-grid input,
+      .ps-form-grid textarea,
+      .ps-form-grid select { font-size: 16px; min-height: 44px; }
+      .ps-public-toggle { width: 100%; justify-content: center; min-height: 40px; }
+    }
   </style>
 </head>
 <body class="crm-subpage">
