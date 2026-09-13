@@ -735,6 +735,7 @@ window.CrmImmoSchema = (function () {
       nb_sdb: "",
       nb_wc: "",
       nb_cuisines: "",
+      pieces_list: [],
       floor: "",
       lot_number: "",
       cadastre_ref: "",
@@ -770,14 +771,15 @@ window.CrmImmoSchema = (function () {
         { id: "cadastre_ref", label: "Réf. cadastrale", type: "text" },
         { id: "floor", label: "Étage", type: "text" },
         { id: "transaction", label: "Transaction", type: "unit_transaction" },
-        { id: "loue", label: "Loué actuellement", type: "checkbox" },
+        { id: "occupation", label: "Occupation", type: "occupation", important: true },
       ],
     },
     {
       id: "loyers",
       label: "Loyers & valeur",
-      hint: "Loyer réel / prévisionnel — agrégé dans les totaux composition.",
+      hint: "Occupation, loyer réel / prévisionnel — agrégé dans les totaux composition.",
       fields: [
+        { id: "occupation", label: "Occupation", type: "occupation", important: true },
         { id: "surface_m2", label: "Surface", type: "number", unit: "m²" },
         { id: "price", label: "Prix / valeur", type: "number", unit: "€" },
         { id: "loyer_reel", label: "Loyer réel", type: "number", unit: "€", important: true },
@@ -789,13 +791,10 @@ window.CrmImmoSchema = (function () {
     {
       id: "pieces",
       label: "Pièces",
-      hint: "Comptage pour totaux immeuble (chambres, SDB, WC, cuisines…).",
+      hint: "Ajoute librement chaque pièce du lot (chambre, SDB, bureau…). Les totaux immeuble se mettent à jour.",
       fields: [
-        { id: "nb_pieces", label: "Nb pièces", type: "number", important: true },
-        { id: "nb_chambres", label: "Chambres", type: "number", important: true },
-        { id: "nb_sdb", label: "Salles de bain / eau", type: "number" },
-        { id: "nb_wc", label: "WC", type: "number" },
-        { id: "nb_cuisines", label: "Cuisines", type: "number" },
+        { id: "nb_pieces", label: "Nb pièces (annonce / T)", type: "number", important: true },
+        { id: "pieces_list", label: "Liste des pièces", type: "pieces_editor" },
       ],
     },
     {

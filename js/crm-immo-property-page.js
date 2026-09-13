@@ -248,7 +248,13 @@
         }
         nav.innerHTML =
           '<button type="button" class="side-back" id="btnBackComposition"><span>← Composition</span></button>' +
-          '<div class="side-unit-tag">' + esc(unitLabel(unit)) + "</div>" +
+          '<div class="side-unit-tag">' +
+          esc(unitLabel(unit)) +
+          '<span class="occ-badge ' +
+          (unit.occupation === "loue" || unit.loue ? "is-loue" : "is-vide") +
+          '">' +
+          (unit.occupation === "loue" || unit.loue ? "loué" : "vide") +
+          "</span></div>" +
           unitSecs
             .map(function (s) {
               return (
@@ -435,7 +441,9 @@
     var Dossier = window.CrmImmoDossier;
     body.querySelectorAll("[data-uk]").forEach(function (el) {
       var k = el.getAttribute("data-uk");
-      if (el.type === "checkbox") unit[k] = el.checked;
+      if (el.type === "radio") {
+        if (el.checked) unit[k] = el.value;
+      } else if (el.type === "checkbox") unit[k] = el.checked;
       else if (k === "photos") {
         unit.photos = Dossier
           ? Dossier.normalizePhotoList(el.value)
@@ -448,6 +456,13 @@
         unit.parent_id = el.value || null;
       } else unit[k] = el.value;
     });
+    if (unit.occupation === "loue" || unit.occupation === "vide") {
+      unit.loue = unit.occupation === "loue";
+    }
+    if (body.querySelector("[data-pieces-editor]")) {
+      unit.pieces_list = collectPiecesEditor(body);
+      if (Dossier && Dossier.syncCountersFromPieces) Dossier.syncCountersFromPieces(unit);
+    }
     syncUnitDerived(unit);
     if (Dossier && Dossier.normalizeUnit) {
       var idx = prop.units.findIndex(function (u) { return u.id === unit.id; });
@@ -455,11 +470,220 @@
     }
   }
 
+  function roomTypes() {
+    var D = window.CrmImmoDossier;
+    return (D && D.ROOM_TYPES) || [
+      { id: "chambre", label: "Chambre" },
+      { id: "cuisine", label: "Cuisine" },
+      { id: "sdb", label: "Salle de bain" },
+      { id: "wc", label: "WC" },
+      { id: "autre", label: "Autre" },
+    ];
+  }
+
+  function collectPiecesEditor(root) {
+    var rows = [];
+    (root || document).querySelectorAll("[data-piece-row]").forEach(function (row) {
+      var typeEl = row.querySelector("[data-pk=type]");
+      var labelEl = row.querySelector("[data-pk=label]");
+      var qtyEl = row.querySelector("[data-pk=qty]");
+      var surfEl = row.querySelector("[data-pk=surface_m2]");
+      var type = typeEl ? typeEl.value : "autre";
+      var meta = roomTypes().find(function (t) { return t.id === type; });
+      rows.push({
+        id: row.getAttribute("data-piece-row") || undefined,
+        type: type,
+        label: labelEl && labelEl.value.trim() ? labelEl.value.trim() : meta ? meta.label : "Pièce",
+        qty: qtyEl ? qtyEl.value : 1,
+        surface_m2: surfEl ? surfEl.value : "",
+      });
+    });
+    var D = window.CrmImmoDossier;
+    return D && D.normalizePiecesList ? D.normalizePiecesList(rows) : rows;
+  }
+
+  function pieceRowHtml(piece) {
+    piece = piece || {};
+    var types = roomTypes();
+    var typeOpts = types
+      .map(function (t) {
+        return (
+          '<option value="' +
+          esc(t.id) +
+          '"' +
+          (piece.type === t.id ? " selected" : "") +
+          ">" +
+          esc(t.label) +
+          "</option>"
+        );
+      })
+      .join("");
+    return (
+      '<div class="piece-row" data-piece-row="' +
+      esc(piece.id || "") +
+      '">' +
+      '<select data-pk="type" title="Type">' +
+      typeOpts +
+      "</select>" +
+      '<input data-pk="label" type="text" value="' +
+      esc(piece.label || "") +
+      '" placeholder="Libellé (ex. Chambre parentale)" />' +
+      '<input data-pk="qty" type="number" min="1" step="1" value="' +
+      esc(piece.qty != null ? piece.qty : 1) +
+      '" title="Quantité" />' +
+      '<input data-pk="surface_m2" type="number" min="0" step="0.1" value="' +
+      esc(piece.surface_m2 || "") +
+      '" placeholder="m²" title="Surface" />' +
+      '<button type="button" class="btn btn-ghost btn-sm" data-del-piece title="Retirer">✕</button>' +
+      "</div>"
+    );
+  }
+
+  function piecesEditorHtml(unit) {
+    var D = window.CrmImmoDossier;
+    var list =
+      unit.pieces_list && unit.pieces_list.length
+        ? unit.pieces_list
+        : D && D.seedPiecesFromCounters
+          ? D.seedPiecesFromCounters(unit)
+          : [];
+    var summary =
+      '<div class="pieces-summary">' +
+      "Totaux dérivés : " +
+      (Number(unit.nb_chambres) || 0) +
+      " ch. · " +
+      (Number(unit.nb_sdb) || 0) +
+      " SDB · " +
+      (Number(unit.nb_wc) || 0) +
+      " WC · " +
+      (Number(unit.nb_cuisines) || 0) +
+      " cuisine(s)</div>";
+    return (
+      '<div class="field-row field-row-block"><label class="important">Pièces du lot</label><div class="field-ctrl field-ctrl-stack">' +
+      '<p class="pieces-editor-hint">Ajoute chaque pièce (type, libellé, quantité, surface). Les compteurs chambres / SDB / WC / cuisines se recalculent pour les totaux composition.</p>' +
+      summary +
+      '<div class="pieces-editor" data-pieces-editor>' +
+      (list.length
+        ? list.map(pieceRowHtml).join("")
+        : '<p class="pieces-empty">Aucune pièce — clique « Ajouter une pièce ».</p>') +
+      "</div>" +
+      '<div class="pieces-editor-actions">' +
+      '<button type="button" class="btn btn-primary btn-sm" id="btnAddPiece">+ Ajouter une pièce</button>' +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnAddPiecePreset">+ Chambre + SDB + WC + cuisine</button>' +
+      "</div></div></div>"
+    );
+  }
+
+  function bindPiecesEditor(root) {
+    var editor = (root || document).querySelector("[data-pieces-editor]");
+    if (!editor) return;
+    var D = window.CrmImmoDossier;
+    function refreshSummary() {
+      var unit = findUnit(state.activeUnitId);
+      if (!unit) return;
+      unit.pieces_list = collectPiecesEditor(root);
+      if (D && D.syncCountersFromPieces) D.syncCountersFromPieces(unit);
+      var box = (root || document).querySelector(".pieces-summary");
+      if (box) {
+        box.textContent =
+          "Totaux dérivés : " +
+          (Number(unit.nb_chambres) || 0) +
+          " ch. · " +
+          (Number(unit.nb_sdb) || 0) +
+          " SDB · " +
+          (Number(unit.nb_wc) || 0) +
+          " WC · " +
+          (Number(unit.nb_cuisines) || 0) +
+          " cuisine(s)";
+      }
+    }
+    function ensureNotEmptyMsg() {
+      var empty = editor.querySelector(".pieces-empty");
+      if (empty && editor.querySelector("[data-piece-row]")) empty.remove();
+    }
+    editor.querySelectorAll("[data-del-piece]").forEach(function (btn) {
+      btn.onclick = function () {
+        var row = btn.closest("[data-piece-row]");
+        if (row) row.remove();
+        if (!editor.querySelector("[data-piece-row]")) {
+          editor.innerHTML = '<p class="pieces-empty">Aucune pièce — clique « Ajouter une pièce ».</p>';
+        }
+        refreshSummary();
+      };
+    });
+    editor.querySelectorAll("[data-pk]").forEach(function (el) {
+      el.onchange = refreshSummary;
+      el.oninput = refreshSummary;
+    });
+    var addBtn = document.getElementById("btnAddPiece");
+    if (addBtn) {
+      addBtn.onclick = function () {
+        ensureNotEmptyMsg();
+        var empty = editor.querySelector(".pieces-empty");
+        if (empty) empty.remove();
+        var piece = D && D.emptyPiece ? D.emptyPiece("chambre") : { id: "piece_new", type: "chambre", label: "Chambre", qty: 1, surface_m2: "" };
+        editor.insertAdjacentHTML("beforeend", pieceRowHtml(piece));
+        bindPiecesEditor(root);
+        refreshSummary();
+      };
+    }
+    var presetBtn = document.getElementById("btnAddPiecePreset");
+    if (presetBtn) {
+      presetBtn.onclick = function () {
+        var empty = editor.querySelector(".pieces-empty");
+        if (empty) empty.remove();
+        ["chambre", "sdb", "wc", "cuisine"].forEach(function (type) {
+          var piece = D && D.emptyPiece ? D.emptyPiece(type) : { type: type, label: type, qty: 1, surface_m2: "" };
+          editor.insertAdjacentHTML("beforeend", pieceRowHtml(piece));
+        });
+        bindPiecesEditor(root);
+        refreshSummary();
+      };
+    }
+  }
+
+  function bindOccupationToggle(root) {
+    var box = (root || document).querySelector("[data-uk-occupation]");
+    if (!box) return;
+    box.querySelectorAll('input[type="radio"]').forEach(function (input) {
+      input.onchange = function () {
+        box.querySelectorAll(".occ-opt").forEach(function (lab) {
+          lab.classList.toggle("is-on", !!(lab.querySelector("input") && lab.querySelector("input").checked));
+        });
+        var unit = findUnit(state.activeUnitId);
+        if (!unit) return;
+        unit.occupation = input.value;
+        unit.loue = input.value === "loue";
+        renderSide();
+      };
+    });
+  }
+
   function unitFieldHtml(field, unit) {
+    if (field.type === "pieces_editor") return piecesEditorHtml(unit);
     var val = unit[field.id];
     if (field.id === "photos") val = photoUrlsText(unit);
     var ctrl = "";
-    if (field.type === "checkbox") {
+    if (field.type === "occupation") {
+      var occ = unit.occupation === "loue" || unit.loue ? "loue" : "vide";
+      ctrl =
+        '<div class="occ-toggle" data-uk-occupation>' +
+        '<label class="occ-opt' +
+        (occ === "loue" ? " is-on" : "") +
+        '"><input type="radio" name="occ_' +
+        esc(unit.id) +
+        '" data-uk="occupation" value="loue"' +
+        (occ === "loue" ? " checked" : "") +
+        " /> Loué</label>" +
+        '<label class="occ-opt' +
+        (occ === "vide" ? " is-on" : "") +
+        '"><input type="radio" name="occ_' +
+        esc(unit.id) +
+        '" data-uk="occupation" value="vide"' +
+        (occ === "vide" ? " checked" : "") +
+        " /> Vide</label>" +
+        "</div>";
+    } else if (field.type === "checkbox") {
       ctrl = '<input type="checkbox" data-uk="' + esc(field.id) + '"' + (unit[field.id] ? " checked" : "") + " />";
     } else if (field.type === "unit_type") {
       ctrl =
@@ -604,7 +828,9 @@
       '<div class="comp-meta">' +
       (u.floor ? "Étage " + esc(u.floor) + " · " : "") +
       (u.lot_number ? "lot " + esc(u.lot_number) + " · " : "") +
-      (u.loue || u.transaction === "location" ? "loué · " : "") +
+      (u.occupation === "loue" || u.loue
+        ? '<span class="occ-badge is-loue">loué</span> · '
+        : '<span class="occ-badge is-vide">vide</span> · ') +
       (u.locataire_nom ? esc(u.locataire_nom) + " · " : "") +
       esc(u.surface_m2 || "—") +
       " m²</div>";
@@ -1010,6 +1236,8 @@
         body.innerHTML = renderUnitSection();
         var back2 = document.getElementById("btnBackComposition2");
         if (back2) back2.onclick = leaveUnitMode;
+        bindPiecesEditor(body);
+        bindOccupationToggle(body);
         return;
       }
     }

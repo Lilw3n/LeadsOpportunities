@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-09-13T19:40:59.832Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -294,7 +294,7 @@
       "blocks": [
         {
           "type": "p",
-          "text": "Entre le match <strong>France–Senegal</strong>, les deplacements de supporters et l'actualite FIFA autour de la <strong>Coupe du monde 2026</strong> en Amerique du Nord, des milliers de Francais prepareront un voyage longue distance. Le vrai sujet assurance : <strong>frais medicaux aux USA/Canada</strong>, ou une consultation peut coutet plusieurs centaines de dollars sans couverture adaptee."
+          "text": "Entre le match <strong>France–Senegal</strong>, les deplacements de supporters et l'actualite FIFA autour de la <strong>Coupe du monde 2026</strong> en Amerique du Nord, des milliers de Francais prepareront un voyage longue distance. Le vrai sujet assurance : <strong>frais medicaux aux USA/Canada</strong>, ou une consultation peut couter plusieurs centaines de dollars sans couverture adaptee."
         },
         {
           "type": "h2",
@@ -372,7 +372,7 @@
         },
         {
           "type": "p",
-          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+          "text": "Avant de reagir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
         },
         {
           "type": "h2",
@@ -412,6 +412,366 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "en-direct-etats-unis-france-deux-ans-apres-les-jo-de-paris-les-americain.html",
+      "section": "actu",
+      "tag": "Coupe du monde 2026",
+      "tagClass": "tag-actu",
+      "title": "EN DIRECT - États-Unis-France : deux ans après les JO de Paris, les Américaines s’échap… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "description": "EN DIRECT - États-Unis-France : deux ans après les JO de Paris, les Américaines s’échappent contre les Bleues en finale du Mondial — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "EN DIRECT - États-Unis-France : deux ans après les JO de Paris, les Américaines s’échappent contre les Bleues  — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=en-direct-etats-unis-france-deux-ans",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Cafeyn (presse partenaire)</strong> (<strong>EN DIRECT - États-Unis-France : deux ans après les JO de Paris, les Américaines s’échap…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Coupe du monde, deplacements supporters ou sejour a l'etranger : sans bonnes garanties, un accident, une annulation ou un cambriolage pendant l'absence peut couter tres cher."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de reagir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Mutuelle : hospitalisation et pharmacie USA / Mexique / Canada (CDM 2026)",
+            "Assistance rapatriement et frais medicaux a l'etranger",
+            "Assurance voyage : annulation transport ou hebergement",
+            "Habitation : logement vide pendant le match ou le deplacement",
+            "Auto : stationnement longue duree — vol, bris de glace, assistance",
+            "Prevoyance : arret maladie si blessure ou epuisement (supporters, deplacements pro)"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Avant le coup d'envoi : questionnaire mutuelle / sante pour verifier la couverture a l'etranger et le reste a charge."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ]
+    },
+    {
+      "file": "mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste : mutuelle et remboursements — que faire ?",
+      "description": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=mutuelle-sante-modulable-a-la-retraite",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Microsoft Edge / MSN</strong> (<strong>Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Le reste a charge sante peut exploser si votre mutuelle n'est pas calibree sur vos vrais besoins."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de reagir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation et chirurgie : plafonds honoraires",
+            "Pharmacie et medicaments nouvellement rembourses",
+            "Optique / dentaire si consommation annuelle",
+            "Delais de carence avant changement de contrat",
+            "Tiers payant et teletransmission"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "les-usages-pervers-des-lunettes-connectees-alimentent-la-colere-en-europ.html",
+      "section": "actu",
+      "tag": "Actu",
+      "tagClass": "tag-actu",
+      "title": "Les usages \"pervers\" des lunettes connectées alimentent la colère en Europe : assurance habitation — que faire ?",
+      "description": "Les usages \"pervers\" des lunettes connectées alimentent la colère en Europe — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Les usages \"pervers\" des lunettes connectées alimentent la colère en Europe — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=les-usages-pervers-des-lunettes-connec",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Mozilla Firefox / Pocket</strong> (<strong>Les usages \"pervers\" des lunettes connectées alimentent la colère en Europe</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut couter des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de reagir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ]
+    },
+    {
+      "file": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux : assurance habitation — que faire ?",
+      "description": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=assurance-habitation-primes-et-sinistr",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut couter des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de reagir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "assurance-habitation-et-incendie-ce-qu-il-faut-savoir-avant-et-apres-un-.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Assurance habitation et incendie : ce qu’il faut savoir avant et après un sinistre : assurance habitation — que faire ?",
+      "description": "Assurance habitation et incendie : ce qu’il faut savoir avant et après un sinistre — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Assurance habitation et incendie : ce qu’il faut savoir avant et après un sinistre — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=assurance-habitation-et-incendie-ce-qu",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Bing News</strong> (<strong>Assurance habitation et incendie : ce qu’il faut savoir avant et après un sinistre</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut couter des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de reagir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
         }
       ]
     }

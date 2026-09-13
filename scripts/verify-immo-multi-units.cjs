@@ -26,6 +26,10 @@ assert(Dossier.emptyUnit, "emptyUnit");
 assert(Dossier.packMetadata, "packMetadata");
 assert(Dossier.hydrateProperty, "hydrateProperty");
 assert(typeof Dossier.unitTotals === "function", "unitTotals exporté");
+var occ = Dossier.normalizeUnit({ type: "appartement", occupation: "loue" });
+assert(occ.loue === true && occ.occupation === "loue", "occupation loue → loue");
+var vide = Dossier.normalizeUnit({ type: "appartement", occupation: "vide" });
+assert(vide.loue === false && vide.occupation === "vide", "occupation vide");
 assert(typeof Dossier.buildCompositionTree === "function", "buildCompositionTree exporté");
 assert(typeof Dossier.subtreeTotals === "function", "subtreeTotals exporté");
 assert(Array.isArray(Dossier.COMPOSITION_LEVELS) && Dossier.COMPOSITION_LEVELS.length >= 5, "COMPOSITION_LEVELS");
@@ -146,8 +150,32 @@ assert(page.indexOf("buildCompositionTree") !== -1, "UI schéma arbre compositio
 assert(page.indexOf("subtreeTotals") !== -1, "UI totaux par branche");
 assert(page.indexOf('emptyUnit("etage")') !== -1 || page.indexOf("emptyUnit('etage')") !== -1, "preset avec étages");
 assert(page.indexOf("comp-synthesis") !== -1, "bloc synthèse modèle");
+assert(page.indexOf("pieces_editor") !== -1 || page.indexOf("piecesEditorHtml") !== -1, "UI éditeur pièces libres");
+assert(page.indexOf("btnAddPiece") !== -1, "bouton ajouter une pièce");
+assert(page.indexOf("pieces_list") !== -1, "persistance pieces_list");
+assert(page.indexOf("occupation") !== -1, "UI occupation loué/vide");
+assert(page.indexOf("occ-toggle") !== -1, "toggle Loué/Vide");
+assert(page.indexOf("is-vide") !== -1, "badge vide composition");
+assert(typeof Dossier.emptyPiece === "function", "emptyPiece exporté");
+assert(typeof Dossier.syncCountersFromPieces === "function", "syncCountersFromPieces exporté");
+assert(Array.isArray(Dossier.ROOM_TYPES) && Dossier.ROOM_TYPES.length >= 8, "ROOM_TYPES catalogue");
+var roomy = Dossier.normalizeUnit({
+  type: "appartement",
+  label: "A pieces",
+  pieces_list: [
+    Dossier.emptyPiece("chambre"),
+    Object.assign(Dossier.emptyPiece("chambre"), { qty: 1, label: "Chambre 2" }),
+    Dossier.emptyPiece("sdb"),
+    Dossier.emptyPiece("bureau"),
+  ],
+});
+assert(roomy.pieces_list.length === 4, "normalize pieces_list");
+assert(Number(roomy.nb_chambres) === 2 && Number(roomy.nb_sdb) === 1, "compteurs dérivés de la liste");
 
 var schema = read("js/crm-immo-property-schema.js");
+assert(schema.indexOf("pieces_editor") !== -1, "schema pieces_editor");
+assert(schema.indexOf("pieces_list") !== -1, "schema pieces_list");
+assert(schema.indexOf('"type": "occupation"') !== -1 || schema.indexOf("type: \"occupation\"") !== -1 || schema.indexOf("occupation") !== -1, "schema champ occupation");
 assert(schema.indexOf("UNIT_SECTIONS") !== -1, "schema UNIT_SECTIONS");
 assert(schema.indexOf("bail_unit") !== -1, "section bail par unité");
 assert(schema.indexOf("loyer_reel") !== -1, "schema loyer_reel");
@@ -155,6 +183,10 @@ assert(schema.indexOf("etage") !== -1, "schema type étage");
 assert(schema.indexOf("immeuble") !== -1, "schema type immeuble");
 
 var html = read("crm-immo-property.html");
+assert(html.indexOf("piece-row") !== -1, "CSS lignes pièces");
+assert(html.indexOf("pieces-editor") !== -1, "CSS éditeur pièces");
+assert(html.indexOf("occ-toggle") !== -1, "CSS toggle occupation");
+assert(html.indexOf("occ-badge") !== -1, "CSS badge occupation");
 assert(html.indexOf("crm-immo-dossier-lib.js") !== -1, "HTML charge dossier-lib");
 assert(
   (html.match(/<style[\s>]/gi) || []).length === (html.match(/<\/style>/gi) || []).length,
