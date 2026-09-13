@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-mondial-de-basket-suivez-la-finale-entre-les-bleues-et-les-etats-unis",
+      "title": "Mondial de basket : suivez la finale entre les Bleues et les Etats-Unis",
+      "url": "https://www.lemonde.fr/sport/live/2026/09/13/en-direct-france-etats-unis-gabby-williams-et-les-bleues-en-mission-pour-un-premier-titre-historique-dans-un-mondial-de-basket-ball_6772841_3242.html",
+      "summary": "Les Françaises affrontent les redoutables Américaines en finale de la Coupe du monde, dimanche à 20 heures, à Berlin. Une affiche de gala, deux ans après la finale des Jeux olympiques de Paris entre les deux équipes, remportée sur le fil par la « Dream Team ».",
+      "pubDate": "Sun, 13 Sep 2026 18:00:06 +0200",
+      "feedId": "source-cafeyn-lemonde-continu",
+      "feedName": "Cafeyn — Le Monde en continu",
+      "sourceType": "cafeyn",
+      "suggestedFile": "mondial-de-basket-suivez-la-finale-entre-les-bleues-et-les-etats-unis.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 83,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-direct-coupe-du-monde-feminine-de-basket-suivez-en-live-la-finale-entre-",
+      "title": "DIRECT. Coupe du monde féminine de basket: suivez en live la finale entre l'équipe de France et les Etats-Unis",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6f5e563614feea61d20098438709a&url=https%3a%2f%2frmcsport.bfmtv.com%2fbasket%2ffeminin%2fdirect-coupe-du-monde-feminine-de-basket-suivez-en-live-la-finale-entre-l-equipe-de-france-et-les-etats-unis_LN-202609130144.html&c=2458250960194483115&mkt=en-us",
+      "summary": "En quête d'une première médaille d'or, l'équipe de France féminine de basket affronte Team USA dimanche soir en finale de la Coupe du monde de basket. Coup d'envoi à 20h à la Uber Arena, à Berlin, en ...",
+      "pubDate": "Sun, 13 Sep 2026 01:59:00 GMT",
+      "feedId": "source-edge-bing-fr",
+      "feedName": "Edge — Bing actu France",
+      "sourceType": "edge",
+      "suggestedFile": "direct-coupe-du-monde-feminine-de-basket-suivez-en-live-la-finale-entre-.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-en-direct-france-etats-unis-les-bleues-officiellement-dans-le-dur-des-la",
+      "title": "EN DIRECT France - Etats-Unis : Les Bleues officiellement dans le dur dès la reprise, la finale est en train de nous échapper (nooooo)...",
+      "url": "https://www.20minutes.fr/sport/basketball/4244875-20260913-direct-france-etats-unis-bleues-peuvent-signer-exploit-vie-contre-team-usa-suivez-finale-revanche-jo-paris-2024?at_medium=display&at_campaign=149",
+      "summary": "Portée par une Gabby Williams en mode MVP, l'équipe de France féminine fait la course en tête face à Team USA pour la première finale mondiale de son histoire",
+      "pubDate": "Sun, 13 Sep 2026 15:32:38 GMT",
+      "feedId": "source-firefox-20minutes-une",
+      "feedName": "Firefox — 20 Minutes une",
+      "sourceType": "firefox",
+      "suggestedFile": "en-direct-france-etats-unis-les-bleues-officiellement-dans-le-dur-des-la.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 69,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-credit-immobilier-combien-pouvez-vous-economiser-avec-une-assurance-de-p",
+      "title": "Crédit immobilier : combien pouvez-vous économiser avec une assurance de prêt individuelle ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6f5e60c3f431ba3689cc6d387d955&url=https%3a%2f%2fwww.quechoisir.org%2fconseils-credit-immobilier-combien-pouvez-vous-economiser-avec-une-assurance-de-pret-individuelle-n177966%2f&c=12697894176744871342&mkt=en-us",
+      "summary": "Souscrire une assurance emprunteur individuelle permet de réaliser des économies significatives, sans perte de protection. Une démarche simplifiée depuis 2022. Pourtant, la majorité des emprunteurs pa ...",
+      "pubDate": "Thu, 27 Aug 2026 16:00:00 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "credit-immobilier-combien-pouvez-vous-economiser-avec-une-assurance-de-p.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    }
+  ]
+}
