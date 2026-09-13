@@ -12,6 +12,7 @@ const {
   parseRssItems,
   existingFiles,
   scoreLeadPotential,
+  isUnusableActuTitle,
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
@@ -39,7 +40,8 @@ function mergeWithQuotas(buckets, quotas) {
 }
 
 function ingestQueueItem(item, buckets, processed) {
-  if (item.status === "published" || item.status === "rejected") return;
+  if (item.status === "published" || item.status === "rejected" || item.status === "template" || item.status === "ignored") return;
+  if (isUnusableActuTitle(item.title)) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
@@ -171,8 +173,13 @@ async function main() {
   });
 
   ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+    buckets[type] = (buckets[type] || []).slice().sort(function (a, b) {
+      var qa = a.status === "queued" ? 1 : 0;
+      var qb = b.status === "queued" ? 1 : 0;
+      return qb - qa;
+    });
     var seen = new Set();
-    buckets[type] = (buckets[type] || []).filter(function (c) {
+    buckets[type] = buckets[type].filter(function (c) {
       var k = (c.url || c.title).toLowerCase();
       if (seen.has(k)) return false;
       seen.add(k);

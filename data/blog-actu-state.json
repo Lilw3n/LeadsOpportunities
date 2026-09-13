@@ -1,10 +1,11 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T19:02:21.655Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.ladepeche.fr/2026/09/13/11-000-euros-par-vol-de-cuivre-65-attaques-en-2026-et-plus-dun-demi-million-deuros-de-degats-pour-orange-dans-le-tarn-et-garonne-lun-des-departements-13548824.php"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T19:02:21.685Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +18,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T19:02:21.685Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "pret-immobilier-plus-cher-en-2026-deleguez-l-assurance-emprunteur.html",
+          "title": "Prêt immobilier plus cher en 2026 : déléguez l'assurance emprunteur : pret et assurance emprunteur — que faire ?",
+          "source": "firefox",
+          "sourceType": "firefox"
+        },
+        {
+          "file": "assurance-habitation-2026-primes-en-hausse-un-menage-sur-dix-reduit-ses-.html",
+          "title": "Assurance habitation 2026 : primes en hausse, un ménage sur dix réduit ses garanties : assurance habitation — que faire ?",
+          "source": "edge",
+          "sourceType": "edge"
+        },
+        {
+          "file": "vols-cables-cuivre-sinistre-habitation-locaux-2026.html",
+          "title": "Vols de câbles en cuivre : ce que votre assurance habitation et vos locaux doivent couvrir",
+          "source": "cafeyn",
+          "sourceType": "cafeyn"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

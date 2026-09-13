@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-09-13T19:03:34.513Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,239 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "pret-immobilier-plus-cher-en-2026-deleguez-l-assurance-emprunteur.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Prêt immobilier plus cher en 2026 : la délégation d'assurance emprunteur reste le levier",
+      "description": "Taux plus élevés, mensualité plus lourde : en 2026, déléguer l'assurance emprunteur (loi Lemoine) peut compenser une partie du coût du crédit. Questionnaire gratuit, courtier ORIAS.",
+      "meta": "8 min · Sept 2026",
+      "cardExcerpt": "Crédit plus cher au printemps 2026 : comparez l'assurance emprunteur hors banque avant de signer ou de renégocier.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=pret-immo-delegation-2026",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Quand le <strong>prêt immobilier coûte plus cher</strong>, beaucoup de ménages regardent uniquement le taux nominal. Or sur 20 ou 25 ans, l'<strong>assurance emprunteur</strong> pèse souvent autant qu'une petite hausse de taux. En 2026, déléguer ce contrat — hors offre groupe de la banque — reste l'un des leviers les plus concrets pour alléger le coût total, sans changer de projet immobilier."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi le crédit pèse davantage cette année"
+        },
+        {
+          "type": "p",
+          "text": "Une mensualité plus haute réduit le reste à vivre et peut faire basculer un dossier au-dessus du seuil d'endettement. La banque exigera quand même une couverture décès / invalidité solide. Le contrat groupe est simple à signer, mais il est rarement le moins cher pour un non-fumeur, un profil jeune ou un emprunteur déjà bien couvert en prévoyance."
+        },
+        {
+          "type": "h2",
+          "text": "Loi Lemoine : ce que vous pouvez faire tout de suite"
+        },
+        {
+          "type": "p",
+          "text": "Depuis la loi Lemoine, vous pouvez <strong>changer d'assurance emprunteur à tout moment</strong>, dès lors que les garanties sont équivalentes. Pas besoin d'attendre l'échéance annuelle. C'est valable pour un prêt déjà en cours comme pour une offre en cours de signature — à condition d'anticiper les délais de substitution."
+        },
+        {
+          "type": "ul",
+          "items": [
+            "<strong>Quotité</strong> : 100 % sur chaque tête, ou répartition 50/50, 70/30 selon les revenus",
+            "<strong>Décès / PTIA</strong> : socle exigé par presque toutes les banques",
+            "<strong>ITT / IPT</strong> : vérifiez les délais de franchise et les exclusions métier",
+            "<strong>Questionnaire médical</strong> : selon montant et âge, certaines offres l'allègent",
+            "<strong>Équivalence</strong> : la banque peut refuser une délégation trop faible — on aligne avant d'envoyer"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Projet dans le 54 : Nancy, Jarville, Varangéville"
+        },
+        {
+          "type": "p",
+          "text": "Si vous achetez ou renégociez dans le <strong>bassin nancéien</strong> — Nancy, Jarville-la-Malgrange, <strong>Varangéville</strong>, Dombasle, Houdemont, Ludres ou Saint-Max — le courtier ORIAS de Leads Opportunities monte le dossier prêt et l'assurance emprunteur ensemble. Une seule étude couvre le hub <a href=\"../pret-immobilier/nancy-metropole/\">prêt immobilier Nancy métropole</a>."
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine étape : qualifier votre dossier"
+        },
+        {
+          "type": "p",
+          "text": "Le <strong>questionnaire emprunteur</strong> (3 minutes) pose le montant, la durée, l'âge, le tabac et l'objet du prêt (résidence principale ou locatif). Vous recevez une orientation avant échange avec un courtier — 100 % gratuit, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine 2026"
+        },
+        {
+          "href": "./assurance-emprunteur-combien-economiser-lemoine.html",
+          "label": "Combien économiser"
+        },
+        {
+          "href": "../pret-immobilier/nancy-metropole/",
+          "label": "Prêt immobilier Nancy métropole"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "assurance-habitation-2026-primes-en-hausse-un-menage-sur-dix-reduit-ses-.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Assurance habitation 2026 : primes en hausse, ne réduisez pas les mauvaises garanties",
+      "description": "Hausse des primes habitation et ménages qui baissent leurs garanties : comment comparer sans se sous-assurer. Checklist franchise, capital mobilier, cat nat. Questionnaire gratuit.",
+      "meta": "8 min · Sept 2026",
+      "cardExcerpt": "Un ménage sur dix baisse ses garanties pour payer moins cher. Voici ce qu'il ne faut pas retirer de votre contrat habitation.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=primes-hausse-2026",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Les <strong>primes d'assurance habitation</strong> ont nettement augmenté en un an, sous l'effet des sinistres climatiques (grêle, sécheresse, inondation) et des contributions publiques. Face à l'avis d'échéance, une partie des foyers <strong>réduit les garanties</strong> pour faire baisser le prix. C'est compréhensible — et souvent la mauvaise économie : au premier dégât des eaux ou au premier vol, le reste à charge explose."
+        },
+        {
+          "type": "h2",
+          "text": "Ce qui fait vraiment monter la facture"
+        },
+        {
+          "type": "p",
+          "text": "Le prix dépend de l'adresse, du type de logement (maison vs appartement), du capital mobilier déclaré et des options (jardin, piscine, objets de valeur, dépendance). Les écarts régionaux se creusent. Baisser le capital mobilier ou retirer le vol pour gagner 4 € par mois revient à s'auto-assurer sur le poste le plus fréquent."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que vous pouvez ajuster sans vous sous-assurer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "<strong>Comparer à garanties équivalentes</strong> (loi Hamon : résiliation à tout moment après un an)",
+            "<strong>Franchise</strong> : une franchise un peu plus haute baisse la prime sans vider les garanties",
+            "<strong>Capital mobilier</strong> : alignez-le sur l'inventaire réel, ni trop bas ni fantaisiste",
+            "<strong>Usage réel</strong> : colocation, location courte, télétravail — une déclaration fausse peut faire chuter l'indemnisation",
+            "<strong>Catastrophes naturelles</strong> : la surprime est légale ; elle ne se « retire » pas du contrat"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Locataire, propriétaire, bailleur : trois contrats différents"
+        },
+        {
+          "type": "p",
+          "text": "Le locataire doit au minimum les risques locatifs. Le propriétaire occupant a besoin du mobilier et souvent d'une protection juridique. Le bailleur a besoin d'une <strong>PNO</strong> (propriétaire non occupant) même si le locataire est assuré. Réduire « un peu partout » sans distinguer ces cas crée des trous de garantie."
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine étape : un devis calé sur votre logement"
+        },
+        {
+          "type": "p",
+          "text": "Le <strong>questionnaire habitation</strong> (3 minutes) précise surface, type de bien, sinistres passés et usage. Vous obtenez une orientation avant échange avec un courtier ORIAS — pour payer le juste prix, pas pour enlever le vol ou le dégât des eaux."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation 2026"
+        },
+        {
+          "href": "./pno-bailleur-proprietaire-non-occupant.html",
+          "label": "PNO bailleur"
+        },
+        {
+          "href": "./canicule-secheresse-fissures-catastrophe-naturelle-assurance.html",
+          "label": "Sécheresse et cat nat"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "vols-cables-cuivre-sinistre-habitation-locaux-2026.html",
+      "section": "habitat",
+      "tag": "Habitation & sinistre",
+      "tagClass": "tag-habitation",
+      "title": "Vols de câbles en cuivre : ce que votre assurance habitation et vos locaux doivent couvrir",
+      "description": "Vols de cuivre en hausse dans plusieurs départements : dégâts électriques, perte d'exploitation, franchise. Vérifiez vol, vandalisme et RC. Questionnaire habitation gratuit.",
+      "meta": "8 min · Sept 2026",
+      "cardExcerpt": "Un vol de câble ne se limite pas au métal volé : les dommages électriques et l'interruption d'activité coûtent souvent bien plus cher.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=vol-cuivre-2026",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Les <strong>vols de câbles en cuivre</strong> se multiplient sur les réseaux et autour des bâtiments. Pour un particulier ou un artisan, le préjudice n'est presque jamais « juste le câble » : c'est le <strong>dommage électrique</strong>, le portail ou l'alarme hors service, parfois plusieurs jours sans ligne. Sans les bonnes options, l'assureur indemnise peu — ou pas."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que le contrat habitation prend (ou pas)"
+        },
+        {
+          "type": "p",
+          "text": "La garantie <strong>vol</strong> ne suffit pas toujours. Il faut regarder le vandalisme, les dommages aux installations électriques, les dépendances (garage, abri, local technique) et le délai de déclaration. Une clôture arrachée ou un compteur forcé peut être exclu si le bien n'était pas « clos et couvert » selon les clauses."
+        },
+        {
+          "type": "ul",
+          "items": [
+            "<strong>Vol et vandalisme</strong> : présents, avec quelles preuves (dépôt de plainte, photos) ?",
+            "<strong>Dommages électriques</strong> : surtension, arrachement, matériel à remplacer",
+            "<strong>Franchise</strong> : souvent trop haute pour un petit vol, ruinante si elle se cumule",
+            "<strong>Locaux pro / RC</strong> : un atelier, un local agricole ou un local commercial a besoin d'une extension",
+            "<strong>Perte d'exploitation</strong> : rarement dans un contrat habitation standard"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Gestes utiles avant et après le sinistre"
+        },
+        {
+          "type": "p",
+          "text": "Avant : éclairage, coffret fermé, photos de l'installation, alarme déclarée au contrat. Après : plainte, photos horodatées, factures, et déclaration dans les délais (souvent 2 jours ouvrés pour un vol). Ne jetez pas le matériel endommagé avant le passage de l'expert."
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine étape : vérifier vol, électrique et usage du local"
+        },
+        {
+          "type": "p",
+          "text": "Le <strong>questionnaire habitation</strong> (3 minutes) précise si le bien est une résidence, un local mixte ou un site professionnel. Un courtier ORIAS vous dit si le contrat actuel suffit ou s'il manque une garantie — avant le prochain arrachement de câble, pas après."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "./canicule-orage-inondation-cave-assurance-locataire.html",
+          "label": "Sinistre locataire"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
         }
       ]
     }
