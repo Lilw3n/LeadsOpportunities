@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-comparatif-assurance-habitation-les-criteres-qui-comptent-vraiment-pour-",
+      "title": "Comparatif assurance habitation : les critères qui comptent vraiment pour bien choisir",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6d78e37e144e5a08b03926b62ed5e&url=https%3a%2f%2fwww.lefigaro.fr%2fcomparatif-assurance-habitation-les-criteres-qui-comptent-vraiment-pour-bien-choisir-20260911&c=9000830959255714399&mkt=fr-fr",
+      "summary": "Comparer des assurances habitation ne consiste pas à repérer la cotisation annuelle la plus basse. Deux offres au même tarif peuvent protéger très différemment une fois le sinistre survenu. Garanties, ...",
+      "pubDate": "Fri, 11 Sep 2026 03:22:00 GMT",
+      "feedId": "source-edge-bing-assurance",
+      "feedName": "Edge — Bing assurance",
+      "sourceType": "edge",
+      "suggestedFile": "comparatif-assurance-habitation-les-criteres-qui-comptent-vraiment-pour-.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro",
+      "title": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains - Foot National",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNMF8ycnNZQ0tHSlNMb1RWdjktUmdaeWU4czFjYU41ZTc1Y3loV1Zka0lZbjFwRktURFRuaWd6Mkk3M3Fob1dIRVlwZUtFeWxxcEJpTm5BeF9SbGVVWjh0NDJ0ck5OM0NvRDl5TWtZZnFRN0xqb3pDSzJOYm8wUHVqelpCUUE3Ym45MG14MWxId09SQ0xTVzA3bVdZSFk1Q0RYNWhUeUI1MUhrRjBJUHFPM1hRTzZpemM5SUlSSWQ2UVZ6X3l2UjBmYw?oc=5",
+      "summary": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains Foot National",
+      "pubDate": "Mon, 07 Sep 2026 07:00:00 GMT",
+      "feedId": "google-news-supporters",
+      "feedName": "Google News — supporters France foot",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-incendie-les-garanties-a-verifier-absolument-dans-votre-assurance-habita",
+      "title": "Incendie : les garanties à vérifier absolument dans votre assurance habitation",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6d7914c87434f8cc03f4003cb0655&url=https%3a%2f%2fwww.actual-immo.fr%2fassurance-habitation-incendie-garanties-indemnisation%2f&c=6354342976929073260&mkt=fr-fr",
+      "summary": "Incendie, mobilier, franchises, valeur à neuf : découvrez les points à vérifier pour éviter une mauvaise surprise avec votre assurance habitation.",
+      "pubDate": "Sat, 12 Sep 2026 04:45:00 GMT",
+      "feedId": "source-bing-sinistres",
+      "feedName": "Bing News — sinistres assurance",
+      "sourceType": "bing",
+      "suggestedFile": "incendie-les-garanties-a-verifier-absolument-dans-votre-assurance-habita.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-direct-coupe-du-monde-feminine-de-basket-suivez-en-live-la-finale-entre-",
+      "title": "DIRECT. Coupe du monde féminine de basket: suivez en live la finale entre l'équipe de France et les Etats-Unis",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6d7911ae04f5f93fa512115717058&url=https%3a%2f%2frmcsport.bfmtv.com%2fbasket%2ffeminin%2fdirect-coupe-du-monde-feminine-de-basket-suivez-en-live-la-finale-entre-l-equipe-de-france-et-les-etats-unis_LN-202609130144.html&c=2458250960194483115&mkt=fr-fr",
+      "summary": "En quête d'une première médaille d'or, l'équipe de France féminine de basket affronte Team USA dimanche soir en finale de la Coupe du monde de basket. Coup d'envoi à 20h à la Uber Arena, à Berlin, en ...",
+      "pubDate": "Sun, 13 Sep 2026 01:59:00 GMT",
+      "feedId": "source-edge-bing-cdm",
+      "feedName": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "suggestedFile": "direct-coupe-du-monde-feminine-de-basket-suivez-en-live-la-finale-entre-.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}
