@@ -58,18 +58,32 @@ function main() {
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
   } else {
-    var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
-    try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
-    } catch (e) {
-      console.error("Lecture pending:", e.message);
-      process.exit(1);
+    var stdin = "";
+    if (!process.stdin.isTTY) {
+      try {
+        stdin = fs.readFileSync(0, "utf8").trim();
+      } catch (e) {
+        stdin = "";
+      }
+    }
+    if (stdin) {
+      try {
+        var parsed = JSON.parse(stdin);
+        articles = parsed.articles || (Array.isArray(parsed) ? parsed : [parsed]);
+      } catch (e) {
+        console.warn("stdin JSON invalide — fallback pending:", e.message);
+      }
+    }
+    if (!articles.length) {
+      var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+      try {
+        var data = JSON.parse(fs.readFileSync(pending, "utf8"));
+        articles = data.articles || [];
+      } catch (e) {
+        console.error("Lecture pending:", e.message);
+        process.exit(1);
+      }
     }
   }
 

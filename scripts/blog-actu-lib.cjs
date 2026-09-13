@@ -95,6 +95,20 @@ function monthLabel() {
 }
 
 /** Score 0–100 : potentiel lead questionnaire */
+/** File manuelle / templates : ne jamais publier un titre « COLLEZ ICI ». */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var id = String(item.id || "").toLowerCase();
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (id === "cafeyn-pending-template" || /-pending-template$/.test(id) || id.indexOf("placeholder") !== -1) {
+    return true;
+  }
+  if (/collez ici/i.test(title)) return true;
+  if (/^\s*\[?(todo|tbd|placeholder|à completer|a completer)\]?\s*$/i.test(title)) return true;
+  return false;
+}
+
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
@@ -351,4 +365,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderActuItem: isPlaceholderActuItem,
 };
