@@ -2,8 +2,18 @@
 /**
  * Affiche l'état du pipeline actu blog.
  */
-const { readJson, loadPendingArticles } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  loadPendingArticles,
+  rankCandidates,
+  hasLeadAngle,
+  isPlaceholderCandidate,
+  isStaleActuCandidate,
+  looksLikeEnglishHeadline,
+} = require("./blog-actu-lib.cjs");
 const MANIFEST = require("./blog-articles-manifest.cjs");
+const { isPlaceholderQueueItem, sourceTypes } = require("./blog-actu-sources.cjs");
+const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 
 function main() {
   var queue = readJson("blog-actu-queue.json", { items: [] });
@@ -14,17 +24,37 @@ function main() {
   console.log("=== Pipeline blog actu ===\n");
   console.log("Articles manifeste:", MANIFEST.articles.length);
   console.log("File manuelle (queue):", (queue.items || []).filter(function (i) {
-    return i.status !== "published";
+    return i.status !== "published" && !isPlaceholderQueueItem(i);
   }).length);
   console.log("Candidats RSS:", (candidates.candidates || []).length);
   console.log("Articles pending (brouillon):", pending.length);
   console.log("Dernier fetch:", state.lastFetch || "jamais");
   console.log("URLs traitées:", (state.processedUrls || []).length);
+  if (candidates.bySource) {
+    console.log(
+      "Sources:",
+      sourceTypes()
+        .map(function (type) {
+          return type + ":" + (candidates.bySource[type] || 0);
+        })
+        .join(" ")
+    );
+  }
 
   if ((candidates.candidates || []).length) {
-    console.log("\n--- Top candidats ---");
-    candidates.candidates.slice(0, 5).forEach(function (c, i) {
-      console.log(i + 1 + ". [" + c.section + "]", c.title.slice(0, 65));
+    var ranked = rankCandidates(candidates.candidates || []).filter(function (c) {
+      if (isPlaceholderCandidate(c)) return false;
+      if (!hasLeadAngle(c)) return false;
+      if (looksLikeEnglishHeadline(c.title)) return false;
+      if (isStaleActuCandidate(c, 30)) return false;
+      var hay = String(c.title || "") + " " + String(c.summary || "");
+      if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
+      return true;
+    });
+
+    console.log("\n--- Top candidats filtrés pour rédaction ---");
+    ranked.slice(0, 5).forEach(function (c, i) {
+      console.log(i + 1 + ". [" + c.section + "] [" + c.leadScore + "/100]", c.title.slice(0, 65));
     });
   }
 

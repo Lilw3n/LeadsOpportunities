@@ -51,6 +51,27 @@ function existingFiles() {
   return files;
 }
 
+function escapeRegExp(s) {
+  return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function containsKeyword(hay, kw) {
+  var needle = String(kw || "").toLowerCase().trim();
+  if (!needle) return false;
+  var text = String(hay || "").toLowerCase();
+  var ambiguous = needle.length <= 5 || /^(s[eé]cu|pret|pr[eê]ts?|bleu|mondial|stade|budget|soins)$/i.test(needle);
+  if (ambiguous) {
+    var re = new RegExp(
+      "(?:^|[^a-z0-9àâäéèêëïîôöùûüç])" +
+        escapeRegExp(needle) +
+        "(?:[^a-z0-9àâäéèêëïîôöùûüç]|$)",
+      "i"
+    );
+    return re.test(text);
+  }
+  return text.indexOf(needle) !== -1;
+}
+
 function matchTopic(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
   var hay = String(text || "").toLowerCase();
@@ -59,9 +80,10 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (containsKeyword(hay, kw)) score += 1;
     });
-    if (score > bestScore) {
+    var minHits = Number(rule.minHits) || 1;
+    if (score >= minHits && score > bestScore) {
       bestScore = score;
       best = rule;
     }
@@ -74,6 +96,7 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matchScore: best ? bestScore : 0,
   };
 }
 
@@ -98,35 +121,40 @@ function monthLabel() {
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
-  var need = candidate.need || "";
+  var summary = String(candidate.summary || candidate.note || "");
+  var topic = matchTopic(title + " " + summary);
+  var need = candidate.need || topic.need || "";
+  var matched = (topic.matchScore || 0) > 0;
 
-  if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (isPlaceholderCandidate(candidate)) return 0;
+  if (candidate.status === "queued" && matched) score += 25;
+  if (["cafeyn", "edge", "firefox", "google", "bing", "yahoo"].indexOf(candidate.sourceType) !== -1) {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  if (matched && (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto")) score += 20;
+  if (matched && (need === "vtc" || need === "animaux" || need === "prevoyance")) score += 15;
 
-  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
-    if (title.indexOf(kw) !== -1) score += 8;
+  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie", "habitation", "locataire"].forEach(function (kw) {
+    if (containsKeyword(title, kw)) score += 10;
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
-  if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
-    [
-      "coupe du monde",
-      "mondial",
-      "mbappe",
-      "mbappé",
-      "deschamps",
-      "équipe de france",
-      "equipe de france",
-      "supporters",
-      "match france",
-      "les bleus",
-    ].forEach(function (kw) {
-      if (title.indexOf(kw) !== -1) score += 14;
-    });
+  var sportHit = [
+    "coupe du monde",
+    "mondial",
+    "mbappe",
+    "mbappé",
+    "deschamps",
+    "équipe de france",
+    "equipe de france",
+    "supporters",
+    "match france",
+    "les bleus",
+  ].some(function (kw) {
+    return containsKeyword(title, kw);
+  });
+  if (sportHit && (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay))) {
+    score += 10;
   }
 
   score += franceLeadScoreAdjust(candidate);
@@ -137,6 +165,9 @@ function scoreLeadPotential(candidate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 365 * 86400000) score -= 50;
+    else if (age > 180 * 86400000) score -= 35;
+    else if (age > 30 * 86400000) score -= 15;
   }
 
   return Math.min(100, Math.max(0, score));
@@ -150,6 +181,105 @@ function rankCandidates(candidates) {
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
     });
+}
+
+function isPlaceholderCandidate(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "rejected" || status === "draft-template") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("pending-template") !== -1 || id.slice(-9) === "-template") return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (/collez ici|titre de la une|à compléter|a completer|placeholder/i.test(title)) return true;
+  return false;
+}
+
+function looksLikeEnglishHeadline(title) {
+  var t = String(title || "");
+  if (
+    /\b(enters into|memorandum of understanding|regarding|potential sale|announces that|money talk|the advantages of getting|heatwave|excess deaths|unprecedented)\b/i.test(
+      t
+    )
+  ) {
+    return true;
+  }
+  var frHits = (
+    t.match(
+      /\b(le|la|les|des|une|un|du|et|en|pour|avec|sur|dans|cette|france|équipe|equipe|assurance|mutuelle|selon|chez|contre|est|sont|que|qui)\b/gi
+    ) || []
+  ).length;
+  var enHits = (
+    t.match(
+      /\b(the|into|of|and|for|with|regarding|potential|sale|enters|announces|agreement|understanding|sees|heatwave|deaths|excess|june|july)\b/gi
+    ) || []
+  ).length;
+  if (enHits >= 2 && frHits === 0) return true;
+  return enHits >= 3 && frHits <= 1;
+}
+
+function isStaleActuCandidate(item, maxDays) {
+  var days = maxDays || 21;
+  if (!item || !item.pubDate) return false;
+  var t = new Date(item.pubDate).getTime();
+  if (isNaN(t)) return false;
+  return Date.now() - t > days * 86400000;
+}
+
+function isHighIntentLead(candidate) {
+  var title = String((candidate && candidate.title) || "").toLowerCase();
+  return /assurance|mutuelle|emprunteur|habitation|sinistre|cr[eé]dit immo|pr[eê]t immobilier|pr[eê]t immo|compl[eé]mentaire sant[eé]|tarif|v[eé]t[eé]rinaire/.test(
+    title
+  );
+}
+
+function hasLeadAngle(candidate) {
+  if (isPlaceholderCandidate(candidate)) return false;
+  var hay =
+    String(candidate.title || "") +
+    " " +
+    String(candidate.summary || "") +
+    " " +
+    String(candidate.note || "");
+  if ((matchTopic(hay).matchScore || 0) > 0) return true;
+  return [
+    "assurance",
+    "mutuelle",
+    "emprunteur",
+    "sinistre",
+    "prêt immobilier",
+    "pret immobilier",
+    "crédit immo",
+    "credit immo",
+    "prévoyance",
+    "prevoyance",
+    "habitation",
+    "orias",
+    "vétérinaire",
+    "veterinaire",
+  ].some(function (kw) {
+    return containsKeyword(hay, kw);
+  });
+}
+
+function significantTitleWords(title) {
+  return String(title || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9àâäéèêëïîôöùûüç ]/g, " ")
+    .split(/\s+/)
+    .filter(function (w) {
+      return w.length > 3;
+    });
+}
+
+function titlesTooSimilar(a, b) {
+  var wa = significantTitleWords(a);
+  if (wa.length < 3) return false;
+  var wb = new Set(significantTitleWords(b));
+  var hits = wa.filter(function (w) {
+    return wb.has(w);
+  }).length;
+  return hits >= 3;
 }
 
 function ctaWithUtm(need, slug) {
@@ -297,9 +427,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: cleanRssText(title),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: cleanRssText(desc || "").slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -317,6 +447,10 @@ function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+function cleanRssText(s) {
+  return stripHtml(decodeEntities(s));
+}
+
 function decodeEntities(s) {
   return String(s)
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
@@ -326,6 +460,7 @@ function decodeEntities(s) {
       return String.fromCharCode(parseInt(num, 10));
     })
     .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
@@ -349,6 +484,13 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  containsKeyword: containsKeyword,
+  isPlaceholderCandidate: isPlaceholderCandidate,
+  looksLikeEnglishHeadline: looksLikeEnglishHeadline,
+  isStaleActuCandidate: isStaleActuCandidate,
+  isHighIntentLead: isHighIntentLead,
+  hasLeadAngle: hasLeadAngle,
+  titlesTooSimilar: titlesTooSimilar,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };

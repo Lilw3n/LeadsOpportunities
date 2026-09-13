@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-mutuelle-pour-chien-ou-chat-est-ce-vraiment-utile-et-combien-coute-cette",
+      "title": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ?",
+      "url": "https://www.ouest-france.fr/economie/assurance/mutuelle-pour-chien-ou-chat-est-ce-vraiment-utile-et-combien-coute-cette-assurance-f73bdabe-add3-11f1-b773-22a20d9d91fa?utm_source=fluxpublicactu&utm_medium=fluxrss&utm_campaign=banquedecontenu",
+      "summary": "+ 20 % en 10 ans : voici dans quelle proportion les frais vétérinaires ont augmenté sur les 10 dernières années selon le syndicat des vétérinaires libéraux. Faut-il souscrire une assurance spécifique pour y faire face ?",
+      "pubDate": "Sun, 13 Sep 2026 06:15:01 GMT",
+      "feedId": "source-cafeyn-ouest-france",
+      "feedName": "Cafeyn — Ouest-France",
+      "sourceType": "cafeyn",
+      "suggestedFile": "mutuelle-pour-chien-ou-chat-est-ce-vraiment-utile-et-combien-coute-cette.html",
+      "section": "animaux",
+      "need": "animaux",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-un-menage-sur-10-a-reduit-ses-protections-pour-bais",
+      "title": "Assurance habitation : un ménage sur 10 a réduit ses protections pour baisser le prix - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxPdGZJMlNVM2VMRDFhVy1aSkdIdmtVM05CeEtUSmVZNW9UMndLOElHeENTblFsR2FOQkVZYjRLTFdHRE5pck1lX1N6SWNDbE9CalpyM29QbUd1NDM3RXJUeEpiR1FWTUxqajV0aEh0WVV6al96Nk5DRjhDY3NKX1VTT2tkYlJ2TzlHVkl1bVJqb1ViV25MRXN1ZWR5elE4ZGJ2MlBGN1BFdWgyTFpqODR3azVteVhmbXhibFBLd3AtaDJYdDVickdYZ3p5UDFaRzJqVEFSN3JsVHd2UG5KTUdZVjhDMndYVlV0cHg3VlY5Y01XLU5BVDN6TlhESQ?oc=5",
+      "summary": "Assurance habitation : un ménage sur 10 a réduit ses protections pour baisser le prix Ouest-France",
+      "pubDate": "Tue, 08 Sep 2026 06:45:08 GMT",
+      "feedId": "google-news-habitation-fr",
+      "feedName": "Google News — assurance habitation",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-un-menage-sur-10-a-reduit-ses-protections-pour-bais.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-un-cout-a-ne-pas-negliger-dans-son-credit-immobilie",
+      "title": "Assurance emprunteur : un coût à ne pas négliger dans son crédit immobilier",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa64056a2c9479fb139a3407259d6c9&url=https%3a%2f%2fwww.msn.com%2ffr-xl%2factualite%2fother%2fassurance-emprunteur-un-co%25C3%25BBt-%25C3%25A0-ne-pas-n%25C3%25A9gliger-dans-son-cr%25C3%25A9dit-immobilier%2far-AA2bOnp6&c=2750108151652696439&mkt=en-us",
+      "summary": "Lorsqu’on achète un logement à crédit, le taux d’intérêt concentre souvent toute l’attention. Pourtant, l’assurance emprunteur peut elle aussi représenter plusieurs milliers d’euros sur la durée du fi ...",
+      "pubDate": "Tue, 08 Sep 2026 05:27:47 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-un-cout-a-ne-pas-negliger-dans-son-credit-immobilie.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-pourquoi-la-corse-reste-la-plus-chere-de-france-cor",
+      "title": "Assurance habitation : pourquoi la Corse reste la plus chère de France ? - Corse Matin",
+      "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNTkh3Z0FDdVN3ODFsQVNGc3JfSE5QeE9tOXVodnd3T01ONzNyVEJxY1hTZVowZHQ5ZzNFOVF5Zmd1UnRlMmMtYWh5bmFya3BGMGk4S0NTeU1MNEE3S0FiUnMwUDZaN05sTDNCUVZaVWhneTZNWU1uSXBCaXNjSnZwdXZQN3FVN0E3TnF0bllMSnpXQWR2RlFQTUtpcENaSk9hWkh3aWdwYVR5THZiWnFpajFQZ0daSFdIR19sRl9qR2lBb05TZlE?oc=5",
+      "summary": "Assurance habitation : pourquoi la Corse reste la plus chère de France ? Corse Matin",
+      "pubDate": "Mon, 24 Aug 2026 07:00:00 GMT",
+      "feedId": "google-news-habitation-fr",
+      "feedName": "Google News — assurance habitation",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-pourquoi-la-corse-reste-la-plus-chere-de-france-cor.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}
