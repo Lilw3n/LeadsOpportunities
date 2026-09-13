@@ -155,6 +155,7 @@
     var preferLocal = /[?&]preview=1(?:&|$)/.test(location.search);
     Lib.fetchCatalog({
       preferLocal: preferLocal,
+      apiUrl: Lib.API_URL || "/api/partner-sites",
       dataUrl: el.getAttribute("data-src") || Lib.DATA_URL,
     }).then(function (catalog) {
       render(el, catalog, { layout: layout, limit: limit });

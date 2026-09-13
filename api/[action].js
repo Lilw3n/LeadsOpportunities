@@ -24,6 +24,7 @@ const ROUTES = {
   "acquisition-focus": () => require("./_lib/routes/public-acquisition-focus"),
   "meta-status": () => require("./_lib/routes/public-meta-status"),
   "subscription-plans": () => require("./_lib/routes/public-subscription-plans"),
+  "partner-sites": () => require("./_lib/routes/public-partner-sites"),
   dashboard: () => require("./dashboard/[action].js"),
 };
 

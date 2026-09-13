@@ -11,6 +11,7 @@
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   var STORAGE_KEY = "lo_partner_sites_v1";
   var DATA_URL = "./data/partner-sites.json";
+  var API_URL = "/api/partner-sites";
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -128,29 +129,47 @@
     localStorage.removeItem(STORAGE_KEY);
   }
 
+  function fetchJsonCatalog(url) {
+    return fetch(url, { credentials: "same-origin", cache: "no-store" }).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    });
+  }
+
+  function catalogFromPayload(json) {
+    if (json && json.catalog) return normalizeCatalog(json.catalog);
+    return normalizeCatalog(json);
+  }
+
+  /**
+   * Priorité :
+   * - preferLocal (?preview=1 CRM) → localStorage
+   * - API /api/partner-sites (catalogue publié Neon)
+   * - dataUrl / data/partner-sites.json (seed)
+   */
   function fetchCatalog(opts) {
     opts = opts || {};
     if (opts.preferLocal) {
       var local = loadLocal();
       if (local && local.sites && local.sites.length) return Promise.resolve(local);
     }
-    var url = opts.dataUrl || DATA_URL;
-    return fetch(url, { credentials: "same-origin", cache: "no-store" })
-      .then(function (r) {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.json();
-      })
-      .then(function (json) {
-        var file = normalizeCatalog(json);
-        if (opts.preferLocal) {
-          var overlay = loadLocal();
-          if (overlay) return overlay;
-        }
-        return file;
-      })
-      .catch(function () {
-        return loadLocal() || normalizeCatalog({});
-      });
+
+    var apiUrl = opts.apiUrl || API_URL;
+    var fileUrl = opts.dataUrl || DATA_URL;
+
+    function fromFile() {
+      return fetchJsonCatalog(fileUrl)
+        .then(catalogFromPayload)
+        .catch(function () {
+          return loadLocal() || normalizeCatalog({});
+        });
+    }
+
+    if (opts.skipApi) return fromFile();
+
+    return fetchJsonCatalog(apiUrl)
+      .then(catalogFromPayload)
+      .catch(fromFile);
   }
 
   function sitesByCategory(catalog, onlyActive) {
@@ -184,6 +203,7 @@
   return {
     STORAGE_KEY: STORAGE_KEY,
     DATA_URL: DATA_URL,
+    API_URL: API_URL,
     esc: esc,
     isHttpUrl: isHttpUrl,
     slugify: slugify,
