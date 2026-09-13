@@ -63,6 +63,32 @@
       padding:10px 12px; font-size:.84rem; margin-bottom:12px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;
       justify-content:space-between;
     }
+    .comp-synthesis {
+      background:linear-gradient(145deg,#f8fafc,#eef6ff); border:1px solid #dbe4f0; border-radius:12px;
+      padding:12px 14px; margin-bottom:14px; font-size:.84rem; color:#1e3a5f; line-height:1.45;
+    }
+    .comp-synthesis p { margin:6px 0 8px; }
+    .comp-levels { margin:0; padding-left:18px; }
+    .comp-levels li { margin:2px 0; }
+    .comp-tree-title { margin:4px 0 8px; color:var(--immo-blue); font-size:.92rem; }
+    .comp-tree { display:flex; flex-direction:column; gap:8px; margin-bottom:8px; }
+    .comp-node {
+      display:flex; gap:10px; justify-content:space-between; align-items:flex-start; flex-wrap:wrap;
+      border:1px solid #dbe4f0; border-radius:10px; padding:10px 12px; background:#fff;
+      border-left:4px solid #94a3b8;
+    }
+    .comp-node.role-foncier { border-left-color:#15803d; background:#f0fdf4; }
+    .comp-node.role-bati { border-left-color:#1e4f8a; background:#f8fafc; }
+    .comp-node.role-niveau { border-left-color:#7c3aed; background:#faf5ff; }
+    .comp-node.role-lot { border-left-color:#c2410c; background:#fff7ed; }
+    .comp-node.role-annexe { border-left-color:#64748b; background:#f8fafc; }
+    .comp-node-main { flex:1; min-width:200px; }
+    .comp-type {
+      display:inline-block; font-size:.65rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+      color:#475569; background:#e2e8f0; border-radius:4px; padding:2px 6px; margin-right:6px;
+    }
+    .comp-meta, .comp-stats { font-size:.78rem; color:var(--muted); margin-top:4px; }
+    .comp-actions { display:flex; gap:6px; flex-wrap:wrap; }
     .dossier-main { background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 18px; min-height:420px; }
     .dossier-main h3 { margin:0 0 6px; color:var(--immo-blue); }
     .dossier-hint { color:var(--muted); font-size:.82rem; margin:0 0 14px; }

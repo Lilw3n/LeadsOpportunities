@@ -214,6 +214,78 @@
     };
   }
 
+  /**
+   * Arbre parent→enfants (terrain → immeuble → étage → appart…).
+   * Les orphelins (parent inconnu) sont remontés en racines.
+   */
+  function buildCompositionTree(units) {
+    units = (Array.isArray(units) ? units : []).map(normalizeUnit);
+    var byId = {};
+    units.forEach(function (u) {
+      byId[u.id] = { unit: u, children: [] };
+    });
+    var roots = [];
+    units.forEach(function (u) {
+      var node = byId[u.id];
+      if (u.parent_id && byId[u.parent_id] && u.parent_id !== u.id) {
+        byId[u.parent_id].children.push(node);
+      } else {
+        roots.push(node);
+      }
+    });
+    function sortNodes(list) {
+      list.sort(function (a, b) {
+        var fa = String((a.unit.floor || "") + (a.unit.lot_number || "") + (a.unit.label || ""));
+        var fb = String((b.unit.floor || "") + (b.unit.lot_number || "") + (b.unit.label || ""));
+        return fa.localeCompare(fb, "fr");
+      });
+      list.forEach(function (n) {
+        sortNodes(n.children);
+      });
+    }
+    sortNodes(roots);
+    return roots;
+  }
+
+  /** Tous les descendants (hors nœud racine), pour totaux partiels. */
+  function collectSubtreeUnits(units, rootId, includeRoot) {
+    units = (Array.isArray(units) ? units : []).map(normalizeUnit);
+    var byParent = {};
+    units.forEach(function (u) {
+      var pid = u.parent_id || "";
+      if (!byParent[pid]) byParent[pid] = [];
+      byParent[pid].push(u);
+    });
+    var out = [];
+    var root = units.find(function (u) {
+      return u.id === rootId;
+    });
+    if (includeRoot && root) out.push(root);
+    function walk(pid) {
+      (byParent[pid] || []).forEach(function (child) {
+        out.push(child);
+        walk(child.id);
+      });
+    }
+    if (rootId) walk(rootId);
+    return out;
+  }
+
+  function subtreeTotals(units, rootId, includeRoot) {
+    return unitTotals(collectSubtreeUnits(units, rootId, includeRoot !== false));
+  }
+
+  /** Niveaux métier attendus dans le schéma composition. */
+  var COMPOSITION_LEVELS = [
+    { id: "terrain", label: "Terrain / parcelle", role: "foncier", aggregates: ["surface_m2", "cadastre"] },
+    { id: "immeuble", label: "Immeuble / enveloppe", role: "bati", aggregates: ["lots", "loyers", "pieces"] },
+    { id: "maison", label: "Maison / bâti", role: "bati", aggregates: ["lots", "loyers", "pieces"] },
+    { id: "etage", label: "Étage", role: "niveau", aggregates: ["lots", "loyers", "pieces"] },
+    { id: "appartement", label: "Appartement / lot", role: "lot", aggregates: ["loyer", "bail", "pieces", "medias"] },
+    { id: "local", label: "Local pro", role: "lot", aggregates: ["loyer", "bail", "pieces", "medias"] },
+    { id: "dependance", label: "Dépendance", role: "annexe", aggregates: ["surface_m2", "medias"] },
+  ];
+
   return {
     parseMeta: parseMeta,
     normalizePhotoList: normalizePhotoList,
@@ -224,5 +296,9 @@
     unitSummary: unitSummary,
     unitTotals: unitTotals,
     sumField: sumField,
+    buildCompositionTree: buildCompositionTree,
+    collectSubtreeUnits: collectSubtreeUnits,
+    subtreeTotals: subtreeTotals,
+    COMPOSITION_LEVELS: COMPOSITION_LEVELS,
   };
 });

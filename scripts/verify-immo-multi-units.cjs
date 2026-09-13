@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Vérifie le dossier multi-lots (immeuble / parcelle) + photos / visite par unité
- * + barre noire par lot + totaux composition.
+ * + barre noire par lot + totaux composition + schéma terrain→immeuble→étage→appart.
  */
 var path = require("path");
 var fs = require("fs");
@@ -26,6 +26,33 @@ assert(Dossier.emptyUnit, "emptyUnit");
 assert(Dossier.packMetadata, "packMetadata");
 assert(Dossier.hydrateProperty, "hydrateProperty");
 assert(typeof Dossier.unitTotals === "function", "unitTotals exporté");
+assert(typeof Dossier.buildCompositionTree === "function", "buildCompositionTree exporté");
+assert(typeof Dossier.subtreeTotals === "function", "subtreeTotals exporté");
+assert(Array.isArray(Dossier.COMPOSITION_LEVELS) && Dossier.COMPOSITION_LEVELS.length >= 5, "COMPOSITION_LEVELS");
+
+var terrain = Dossier.emptyUnit("terrain");
+terrain.label = "Parcelle";
+var immeuble = Dossier.emptyUnit("immeuble");
+immeuble.label = "Immeuble";
+immeuble.parent_id = terrain.id;
+var etage = Dossier.emptyUnit("etage");
+etage.label = "1er";
+etage.parent_id = immeuble.id;
+var apt = Dossier.emptyUnit("appartement");
+apt.label = "A1";
+apt.parent_id = etage.id;
+apt.loyer_reel = 600;
+apt.loyer_previsionnel = 650;
+apt.nb_chambres = 2;
+apt.loue = true;
+var treeUnits = [terrain, immeuble, etage, apt];
+var tree = Dossier.buildCompositionTree(treeUnits);
+assert(tree.length === 1 && tree[0].unit.type === "terrain", "arbre racine terrain");
+assert(tree[0].children[0].unit.type === "immeuble", "arbre enfant immeuble");
+assert(tree[0].children[0].children[0].unit.type === "etage", "arbre petit-enfant étage");
+assert(tree[0].children[0].children[0].children[0].unit.type === "appartement", "arbre lot appart");
+var branch = Dossier.subtreeTotals(treeUnits, immeuble.id, false);
+assert(branch.units === 2 && branch.loyer_reel === 600, "totaux branche immeuble (hors self)");
 
 var u = Dossier.emptyUnit("appartement");
 assert(u.type === "appartement" && Array.isArray(u.photos), "unité appartement + photos[]");
@@ -115,19 +142,31 @@ assert(page.indexOf("UNIT_SECTIONS") !== -1, "UNIT_SECTIONS utilisé");
 assert(page.indexOf("loyer_previsionnel") !== -1, "UI loyer prévisionnel");
 assert(page.indexOf("nb_cuisines") !== -1, "UI cuisines unitaires");
 assert(page.indexOf("function renderUnits(") === -1, "ancien renderUnits retiré");
+assert(page.indexOf("buildCompositionTree") !== -1, "UI schéma arbre composition");
+assert(page.indexOf("subtreeTotals") !== -1, "UI totaux par branche");
+assert(page.indexOf('emptyUnit("etage")') !== -1 || page.indexOf("emptyUnit('etage')") !== -1, "preset avec étages");
+assert(page.indexOf("comp-synthesis") !== -1, "bloc synthèse modèle");
 
 var schema = read("js/crm-immo-property-schema.js");
 assert(schema.indexOf("UNIT_SECTIONS") !== -1, "schema UNIT_SECTIONS");
 assert(schema.indexOf("bail_unit") !== -1, "section bail par unité");
 assert(schema.indexOf("loyer_reel") !== -1, "schema loyer_reel");
+assert(schema.indexOf("etage") !== -1, "schema type étage");
+assert(schema.indexOf("immeuble") !== -1, "schema type immeuble");
 
 var html = read("crm-immo-property.html");
 assert(html.indexOf("crm-immo-dossier-lib.js") !== -1, "HTML charge dossier-lib");
-assert((html.match(/<style[\s>]/gi) || []).length === (html.match(/<\/style>/gi) || []).length, "balises style fermées (évite page blanche)");
+assert(
+  (html.match(/<style[\s>]/gi) || []).length === (html.match(/<\/style>/gi) || []).length,
+  "balises style fermées (évite page blanche)"
+);
 assert(html.indexOf('id="propTitle"') !== -1, "propTitle présent hors style");
 assert(html.indexOf("totals-grid") !== -1, "CSS totaux composition");
 assert(html.indexOf("side-unit-tag") !== -1, "CSS tag unité sidebar");
 assert(html.indexOf("side-back") !== -1, "CSS retour composition");
+assert(html.indexOf("comp-tree") !== -1, "CSS schéma composition");
+assert(html.indexOf("comp-node") !== -1, "CSS nœuds composition");
+assert(fs.existsSync(path.join(root, "docs/CRM-IMMO-COMPOSITION-SCHEMA.md")), "doc schéma composition");
 
 var clientStore = read("js/crm-immo-store.js");
 assert(clientStore.indexOf("packMetadata") !== -1, "client packMetadata");

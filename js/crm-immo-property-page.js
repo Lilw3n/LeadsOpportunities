@@ -563,10 +563,114 @@
     );
   }
 
+  function typeLabel(typeId) {
+    var t = (Schema.UNIT_TYPES || []).find(function (x) {
+      return x.id === typeId;
+    });
+    return (t && t.label) || typeId || "Lot";
+  }
+
+  function levelRole(typeId) {
+    var D = window.CrmImmoDossier;
+    var levels = (D && D.COMPOSITION_LEVELS) || [];
+    var hit = levels.find(function (l) {
+      return l.id === typeId;
+    });
+    return hit ? hit.role : "lot";
+  }
+
+  function renderCompositionNode(node, depth) {
+    var u = node.unit;
+    var D = window.CrmImmoDossier;
+    var branch =
+      D && D.subtreeTotals
+        ? D.subtreeTotals(prop.units, u.id, false)
+        : { units: node.children.length, loyer_reel: 0, loyer_previsionnel: 0, nb_pieces: 0, nb_chambres: 0 };
+    var role = levelRole(u.type);
+    var isLot = role === "lot" || role === "annexe";
+    var html =
+      '<div class="comp-node role-' +
+      esc(role) +
+      '" style="margin-left:' +
+      depth * 18 +
+      'px">' +
+      '<div class="comp-node-main">' +
+      '<span class="comp-type">' +
+      esc(typeLabel(u.type)) +
+      "</span>" +
+      "<strong>" +
+      esc(unitLabel(u)) +
+      "</strong>" +
+      '<div class="comp-meta">' +
+      (u.floor ? "Étage " + esc(u.floor) + " · " : "") +
+      (u.lot_number ? "lot " + esc(u.lot_number) + " · " : "") +
+      (u.loue || u.transaction === "location" ? "loué · " : "") +
+      (u.locataire_nom ? esc(u.locataire_nom) + " · " : "") +
+      esc(u.surface_m2 || "—") +
+      " m²</div>";
+    if (isLot) {
+      html +=
+        '<div class="comp-stats">Loyer réel ' +
+        euro(u.loyer_reel || u.loyer) +
+        " · prév. " +
+        euro(u.loyer_previsionnel) +
+        " · " +
+        esc(u.nb_chambres || u.bedrooms || "0") +
+        " ch. · " +
+        esc(u.nb_sdb || "0") +
+        " SDB · " +
+        esc(u.nb_wc || "0") +
+        " WC · " +
+        esc(u.nb_cuisines || "0") +
+        " cuisine(s)</div>";
+    } else if (node.children.length) {
+      html +=
+        '<div class="comp-stats">Branche · ' +
+        branch.units +
+        " lot(s) · loyers réels " +
+        euro(branch.loyer_reel) +
+        " · prév. " +
+        euro(branch.loyer_previsionnel) +
+        " · " +
+        (Number(branch.nb_pieces) || 0) +
+        " pcs / " +
+        (Number(branch.nb_chambres) || 0) +
+        " ch.</div>";
+    }
+    html +=
+      "</div>" +
+      '<div class="comp-actions">' +
+      '<button type="button" class="btn btn-primary btn-sm" data-open-unit="' +
+      esc(u.id) +
+      '">Fiche (barre noire)</button>' +
+      '<button type="button" class="btn btn-ghost btn-sm" data-del-unit="' +
+      esc(u.id) +
+      '">Retirer</button>' +
+      "</div></div>";
+    (node.children || []).forEach(function (child) {
+      html += renderCompositionNode(child, depth + 1);
+    });
+    return html;
+  }
+
   function renderUnitsOverview() {
     var tot = compositionTotals();
+    var D = window.CrmImmoDossier;
+    var tree = D && D.buildCompositionTree ? D.buildCompositionTree(prop.units || []) : [];
     var html =
-      '<p class="dossier-hint">Chaque unité a sa <strong>propre barre noire</strong> (identité, loyers, pièces, bail, médias). Les totaux ci-dessous agrègent tous les lots.</p>';
+      '<div class="comp-synthesis">' +
+      "<strong>Synthèse du modèle</strong>" +
+      "<p>La composition empile les infos du plus large au plus fin : " +
+      "<em>terrain / parcelle</em> → <em>immeuble ou maison</em> → <em>étage</em> → <em>appartement / local</em> " +
+      "(+ dépendances). Chaque nœud ouvre sa propre barre noire (loyers, pièces, bail, médias). " +
+      "Les totaux globaux et par branche remontent automatiquement.</p>" +
+      '<ol class="comp-levels">' +
+      "<li><b>Terrain</b> — cadastre, surface foncière, viabilisation</li>" +
+      "<li><b>Immeuble / maison</b> — enveloppe bâtie, lots rattachés</li>" +
+      "<li><b>Étage</b> — regroupement des lots d’un niveau</li>" +
+      "<li><b>Appart / local</b> — loyer réel & prévisionnel, pièces, bail individuel</li>" +
+      "</ol></div>";
+
     html +=
       '<div class="totals-grid">' +
       '<div class="total-card"><span class="total-label">Unités</span><strong>' +
@@ -606,52 +710,24 @@
     if (!prop.units.length) {
       html += '<p style="color:var(--muted)">Aucune unité — ajoute un lot ou utilise un preset.</p>';
     } else {
-      html += '<div class="unit-list">';
-      prop.units.forEach(function (u, idx) {
-        var parent = u.parent_id ? findUnit(u.parent_id) : null;
-        html +=
-          '<div class="unit-row">' +
-          '<div class="unit-row-main">' +
-          "<strong>#" +
-          (idx + 1) +
-          " — " +
-          esc(unitLabel(u)) +
-          "</strong>" +
-          '<div class="unit-row-meta">' +
-          esc(u.type || "") +
-          (parent ? " · rattaché à " + esc(unitLabel(parent)) : " · racine") +
-          (u.loue || u.transaction === "location" ? " · loué" : "") +
-          (u.locataire_nom ? " · " + esc(u.locataire_nom) : "") +
-          "</div>" +
-          '<div class="unit-row-stats">' +
-          "Loyer réel " +
-          euro(u.loyer_reel || u.loyer) +
-          " · prév. " +
-          euro(u.loyer_previsionnel) +
-          " · " +
-          esc(u.nb_chambres || u.bedrooms || "0") +
-          " ch. · " +
-          esc(u.nb_sdb || "0") +
-          " SDB · " +
-          esc(u.surface_m2 || "—") +
-          " m²</div></div>" +
-          '<div class="unit-row-actions">' +
-          '<button type="button" class="btn btn-primary btn-sm" data-open-unit="' +
-          esc(u.id) +
-          '">Ouvrir fiche (barre noire)</button>' +
-          '<button type="button" class="btn btn-ghost btn-sm" data-del-unit="' +
-          esc(u.id) +
-          '">Retirer</button>' +
-          "</div></div>";
-      });
+      html += '<h4 class="comp-tree-title">Schéma de composition</h4><div class="comp-tree">';
+      if (tree.length) {
+        tree.forEach(function (root) {
+          html += renderCompositionNode(root, 0);
+        });
+      } else {
+        prop.units.forEach(function (u) {
+          html += renderCompositionNode({ unit: u, children: [] }, 0);
+        });
+      }
       html += "</div>";
     }
 
     html +=
       '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">' +
       '<button type="button" class="btn btn-primary btn-sm" id="btnAddUnit">+ Ajouter une unité</button>' +
-      '<button type="button" class="btn btn-ghost btn-sm" id="btnPresetComplex">Preset terrain + maison + 2 appts loués</button>' +
-      '<button type="button" class="btn btn-ghost btn-sm" id="btnPresetImmeuble">Preset immeuble (3 appts)</button>' +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnPresetComplex">Preset terrain + maison + 2 appts</button>' +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnPresetImmeuble">Preset immeuble (étages + appts)</button>' +
       "</div>";
     return html;
   }
@@ -807,18 +883,44 @@
       btnImmeuble.onclick = function () {
         prop.property_type = "immeuble";
         document.getElementById("mType").value = "immeuble";
-        var immeuble = Object.assign(Schema.emptyUnit("maison"), {
-          label: "Immeuble (enveloppe)",
-          type: "maison",
+        var terrain = Object.assign(Schema.emptyUnit("terrain"), {
+          label: "Parcelle / terrain",
           transaction: "vente",
+          surface_m2: 420,
+          cadastre_ref: "AB 123",
+        });
+        var immeuble = Object.assign(Schema.emptyUnit("immeuble"), {
+          label: "Immeuble A",
+          transaction: "vente",
+          parent_id: terrain.id,
+          surface_m2: 280,
+        });
+        var etageRdc = Object.assign(Schema.emptyUnit("etage"), {
+          label: "RDC",
+          floor: "RDC",
+          parent_id: immeuble.id,
+        });
+        var etage1 = Object.assign(Schema.emptyUnit("etage"), {
+          label: "1er étage",
+          floor: "1",
+          parent_id: immeuble.id,
+        });
+        var etage2 = Object.assign(Schema.emptyUnit("etage"), {
+          label: "2e étage",
+          floor: "2",
+          parent_id: immeuble.id,
         });
         prop.units = [
+          terrain,
           immeuble,
+          etageRdc,
+          etage1,
+          etage2,
           Object.assign(Schema.emptyUnit("appartement"), {
             label: "Appartement RDC",
             floor: "RDC",
             lot_number: "1",
-            parent_id: immeuble.id,
+            parent_id: etageRdc.id,
             transaction: "location",
             loue: true,
             loyer_reel: 580,
@@ -828,12 +930,14 @@
             nb_sdb: 1,
             nb_wc: 1,
             nb_cuisines: 1,
+            type_bail: "Nu (loi 89)",
+            locataire_nom: "Martin",
           }),
           Object.assign(Schema.emptyUnit("appartement"), {
             label: "Appartement 1er",
             floor: "1",
             lot_number: "2",
-            parent_id: immeuble.id,
+            parent_id: etage1.id,
             transaction: "location",
             loue: true,
             loyer_reel: 640,
@@ -843,12 +947,14 @@
             nb_sdb: 1,
             nb_wc: 1,
             nb_cuisines: 1,
+            type_bail: "Meublé",
+            locataire_nom: "Bernard",
           }),
           Object.assign(Schema.emptyUnit("appartement"), {
             label: "Appartement 2e",
             floor: "2",
             lot_number: "3",
-            parent_id: immeuble.id,
+            parent_id: etage2.id,
             transaction: "vente",
             nb_pieces: 3,
             nb_chambres: 2,
@@ -856,6 +962,11 @@
             nb_wc: 1,
             nb_cuisines: 1,
             loyer_previsionnel: 720,
+          }),
+          Object.assign(Schema.emptyUnit("dependance"), {
+            label: "Cave / local technique",
+            parent_id: immeuble.id,
+            surface_m2: 12,
           }),
         ];
         prop.is_parent_dossier = true;

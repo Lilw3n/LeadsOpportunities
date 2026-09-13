@@ -20,7 +20,9 @@ window.CrmImmoSchema = (function () {
 
   var UNIT_TYPES = [
     { id: "terrain", label: "Terrain / parcelle" },
+    { id: "immeuble", label: "Immeuble / enveloppe" },
     { id: "maison", label: "Maison / bâti" },
+    { id: "etage", label: "Étage" },
     { id: "appartement", label: "Appartement / lot" },
     { id: "local", label: "Local pro" },
     { id: "dependance", label: "Dépendance" },
@@ -79,7 +81,7 @@ window.CrmImmoSchema = (function () {
     {
       id: "composition",
       label: "Composition",
-      hint: "Chaque lot a sa barre noire (loyers, pièces, bail…). Totaux agrégés en haut de cette vue.",
+      hint: "Schéma hiérarchique : terrain → immeuble/maison → étage → appart. Chaque nœud a sa barre noire ; totaux globaux et par branche.",
       showIf: { types: ["maison", "terrain", "immeuble", "complexe", "local"] },
       special: "units",
     },
