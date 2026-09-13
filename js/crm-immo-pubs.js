@@ -920,7 +920,13 @@
     document.getElementById("chPrivate").checked = channels.indexOf("private") !== -1 || (!property && true);
     fillTourGate(ad, p);
     document.getElementById("formTitle").textContent = p.id ? "Éditer l'annonce" : "Nouvelle annonce";
-    document.getElementById("btnDeleteAd").hidden = !p.id;
+    var marketOn = !p.id ? true : AdLib.isMarketVisible ? AdLib.isMarketVisible(p) : p.market_visible !== false;
+    var hideBtn = document.getElementById("btnHideAd");
+    var showBtn = document.getElementById("btnShowAd");
+    var delBtn = document.getElementById("btnDeleteAd");
+    if (hideBtn) hideBtn.hidden = !p.id || !marketOn;
+    if (showBtn) showBtn.hidden = !p.id || marketOn;
+    if (delBtn) delBtn.hidden = !p.id;
     currentId = p.id || "";
 
     var rawPhotos = ad.photos && ad.photos.length ? ad.photos : p.photos_json || p.photos || [];
@@ -989,7 +995,12 @@
 
   function listAds() {
     var props = Store.listProperties({}).filter(function (p) {
-      return AdLib.isPublicMandateAd(p) || AdLib.isPrivateDemoAd(p);
+      return (
+        AdLib.isPublicMandateAd(p) ||
+        AdLib.isPrivateDemoAd(p) ||
+        p.market_visible === false ||
+        (AdLib.isMarketVisible && !AdLib.isMarketVisible(p))
+      );
     });
     var box = document.getElementById("adList");
     if (!props.length) {
@@ -1000,6 +1011,7 @@
       .map(function (p) {
         var bag = AdLib.getAdMeta(p);
         var channels = AdLib.channelsOf(bag.ad);
+        var marketOn = AdLib.isMarketVisible ? AdLib.isMarketVisible(p) : p.market_visible !== false;
         var acc = Access && Access.getAccess ? Access.getAccess(bag.ad) : { emails: [], phones: [] };
         var mediaBits = [];
         var photos = (bag.ad.photos && bag.ad.photos.length) || (p.photos_json && p.photos_json.length) || 0;
@@ -1010,18 +1022,20 @@
         if (acc.emails.length) mediaBits.push(acc.emails.length + " e-mail" + (acc.emails.length > 1 ? "s" : ""));
         if (acc.phones.length) mediaBits.push(acc.phones.length + " tél.");
         var tags = "";
-        if (channels.indexOf("public") !== -1) tags += '<span class="pub">Public mandat</span>';
+        if (!marketOn) tags += '<span class="priv">Masqué marché</span>';
+        else if (channels.indexOf("public") !== -1) tags += '<span class="pub">Public mandat</span>';
         if (channels.indexOf("private") !== -1) tags += '<span class="priv">Démo privée</span>';
-        var hl = p.id === highlightId || p.id === currentId;
         return (
           '<article class="pub-item' +
           (p.id === currentId ? " is-active" : "") +
           (p.id === highlightId ? " is-highlight" : "") +
+          (!marketOn ? " is-hidden-market" : "") +
           '" data-id="' +
           esc(p.id) +
           '"><h3>' +
           esc(p.title || "Sans titre") +
           (p.id === highlightId ? " · créée" : "") +
+          (!marketOn ? " · masqué" : "") +
           "</h3><p>" +
           esc(p.city || "") +
           (p.price_fai ? " · " + Number(p.price_fai).toLocaleString("fr-FR") + " €" : "") +
@@ -1359,12 +1373,45 @@
     }
   };
 
+  document.getElementById("btnHideAd").onclick = function () {
+    if (!currentId) return;
+    if (
+      !confirm(
+        "Masquer ce bien du marché public (/immobilier/marche.html) ?\n\nLes infos, photos et documents restent dans le CRM. Vous pourrez le remettre en vitrine."
+      )
+    ) {
+      return;
+    }
+    var saved = Store.setMarketVisible(currentId, false);
+    if (saved) fillForm(saved);
+    listAds();
+    msg("Bien masqué du marché — fiche et docs conservés.", true);
+  };
+
+  document.getElementById("btnShowAd").onclick = function () {
+    if (!currentId) return;
+    var saved = Store.setMarketVisible(currentId, true);
+    if (saved) {
+      var ch = document.getElementById("chPublic");
+      if (ch) ch.checked = true;
+      fillForm(saved);
+    }
+    listAds();
+    msg("Bien remis en vitrine publique.", true);
+  };
+
   document.getElementById("btnDeleteAd").onclick = function () {
     if (!currentId) return;
-    if (!confirm("Supprimer ce bien / cette annonce ?")) return;
+    if (
+      !confirm(
+        "Suppression DÉFINITIVE du bien (documents inclus).\n\nPour un doublon, préférez « Masquer du marché ».\n\nTaper OK uniquement si vous voulez vraiment tout effacer."
+      )
+    ) {
+      return;
+    }
     Store.deleteProperty(currentId);
     resetForm();
-    msg("Supprimé.", true);
+    msg("Supprimé définitivement.", true);
   };
 
   if (window.CrmImmoTourRequests) {

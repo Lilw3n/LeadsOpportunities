@@ -82,6 +82,48 @@ var okPublic = AdLib.applyAdToProperty(
 );
 assert(AdLib.isPublicMandateAd(okPublic), "mandat + public → vitrine OK");
 
+assert(typeof AdLib.isMarketVisible === "function", "isMarketVisible exposé");
+assert(typeof AdLib.setMarketVisible === "function", "setMarketVisible exposé");
+var hideDup = AdLib.setMarketVisible(
+  AdLib.applyAdToProperty(
+    { id: "dup_hide", status: "mandat", title: "Doublon", city: "Dombasle", metadata: {} },
+    { channel_public: true, title: "Doublon", city: "Dombasle" }
+  ),
+  false
+);
+assert(hideDup.market_visible === false, "market_visible false après masquage");
+assert(hideDup.metadata && hideDup.metadata.market_visible === false, "flag persisté dans metadata");
+assert(!AdLib.isMarketVisible(hideDup), "isMarketVisible false");
+assert(!AdLib.isPublicMandateAd(hideDup), "masqué → hors vitrine publique");
+assert(AdLib.filterPublicAds([okPublic, hideDup]).length === 1, "filterPublicAds ignore les masqués");
+var Dossier = require("../js/crm-immo-dossier-lib.js");
+var packedHide = Dossier.packMetadata(hideDup);
+assert(packedHide.market_visible === false, "packMetadata conserve market_visible");
+var hydHide = Dossier.hydrateProperty({
+  id: hideDup.id,
+  title: hideDup.title,
+  city: hideDup.city,
+  status: hideDup.status,
+  metadata_json: JSON.stringify(packedHide),
+});
+assert(hydHide.market_visible === false, "hydrateProperty remonte market_visible");
+assert(!AdLib.isMarketVisible(hydHide), "après sync Neon le bien reste masqué");
+var showAgain = AdLib.setMarketVisible(hydHide, true);
+assert(AdLib.isPublicMandateAd(showAgain), "remettre en vitrine");
+assert(showAgain.metadata.market_visible === true, "flag true après réaffichage");
+
+var pubsHtml = read("crm-immo-pubs.html");
+assert(pubsHtml.indexOf('id="btnHideAd"') !== -1, "CRM : bouton Masquer du marché");
+assert(pubsHtml.indexOf('id="btnShowAd"') !== -1, "CRM : bouton Remettre en vitrine");
+var pubsJs = read("js/crm-immo-pubs.js");
+assert(pubsJs.indexOf("setMarketVisible") !== -1, "CRM JS : setMarketVisible");
+assert(pubsJs.indexOf("Masquer ce bien du marché") !== -1, "CRM JS : confirm soft-hide");
+var listingsApi = read("api/_lib/routes/public-immo-listings.js");
+assert(listingsApi.indexOf("isMarketVisible") !== -1, "API immo-listings filtre market_visible");
+var contactTour = read("js/crm-contact-tour.js");
+assert(contactTour.indexOf("data-hide-interest") !== -1, "fiche contact : Masquer ici");
+assert(contactTour.indexOf("data-hide-market") !== -1, "fiche contact : Masquer marché");
+
 var files = [
   "crm-immo-pubs.html",
   "js/crm-immo-pubs.js",

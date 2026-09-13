@@ -180,6 +180,22 @@ window.CrmImmoStore = (function () {
     deleteRemote("property", id);
   }
 
+  /** Masque le bien du marché public sans toucher aux docs / parties / infos. */
+  function setMarketVisible(id, visible) {
+    var p = getProperty(id);
+    if (!p) return null;
+    var AdLib = typeof window !== "undefined" ? window.ImmoAdListings : null;
+    var next = Object.assign({}, p);
+    if (AdLib && AdLib.setMarketVisible) next = AdLib.setMarketVisible(next, visible);
+    else {
+      next.market_visible = visible !== false;
+      if (visible === false && String(next.status || "").toLowerCase() !== "sold") {
+        /* keep status for CRM filters; visibility flag is enough */
+      }
+    }
+    return upsertProperty(next);
+  }
+
   function listCriteria() {
     return loadLocal().criteria.slice().sort(function (a, b) {
       return String(b.updated_at || "").localeCompare(String(a.updated_at || ""));
@@ -433,6 +449,7 @@ window.CrmImmoStore = (function () {
     getProperty: getProperty,
     upsertProperty: upsertProperty,
     deleteProperty: deleteProperty,
+    setMarketVisible: setMarketVisible,
     listCriteria: listCriteria,
     getCriteria: getCriteria,
     upsertCriteria: upsertCriteria,

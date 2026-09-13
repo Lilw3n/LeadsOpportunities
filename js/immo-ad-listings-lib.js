@@ -286,13 +286,59 @@
     return channelsOf(bag.ad).indexOf(channel) !== -1;
   }
 
-  /** Visibilité publique = case CRM cochée (choix conseiller), indépendamment du statut mandat. */
+  /** Soft-hide marché : infos + docs restent, la vitrine publique ignore le bien. */
+  function isMarketVisible(property) {
+    if (!property) return false;
+    if (property.market_visible === false) return false;
+    var meta = property.metadata;
+    if (typeof meta === "string") {
+      try {
+        meta = JSON.parse(meta);
+      } catch (e) {
+        meta = null;
+      }
+    }
+    if (meta && meta.market_visible === false) return false;
+    if (String(property.status || "").toLowerCase() === "hidden") return false;
+    return true;
+  }
+
+  /** Visibilité publique = case CRM cochée + pas masqué (doublon / retrait vitrine). */
   function isPublicMandateAd(property) {
-    return hasChannel(property, "public");
+    return isMarketVisible(property) && hasChannel(property, "public");
   }
 
   function isPrivateDemoAd(property) {
     return hasChannel(property, "private");
+  }
+
+  /** Masquer / réafficher sur le marché sans supprimer docs ni fiche. */
+  function setMarketVisible(property, visible) {
+    var p = property && typeof property === "object" ? property : {};
+    var bag = getAdMeta(p);
+    var ad = Object.assign({}, bag.ad || {});
+    var channels = channelsOf(ad).slice();
+    var on = visible !== false;
+    p.market_visible = on;
+    if (on) {
+      if (channels.indexOf("public") === -1) channels.push("public");
+      if (String(p.status || "").toLowerCase() === "hidden") p.status = "active";
+      ad.channels = channels;
+      ad.publish_public = true;
+    } else {
+      ad.channels = channels.filter(function (c) {
+        return c !== "public";
+      });
+      ad.publish_public = false;
+      // Ne force pas status=hidden si le bien a encore une démo privée utile.
+      if (!ad.channels.length) {
+        /* ok : plus aucun canal public */
+      }
+    }
+    p.metadata = Object.assign({}, p.metadata || {}, { ad: ad, market_visible: on });
+    p.metadata_json = p.metadata;
+    p.seo_published = on && ad.channels.indexOf("public") !== -1;
+    return p;
   }
 
   function toAdListing(raw, opts) {
@@ -595,8 +641,10 @@
     sellDossierToCriteria: sellDossierToCriteria,
     channelsOf: channelsOf,
     hasChannel: hasChannel,
+    isMarketVisible: isMarketVisible,
     isPublicMandateAd: isPublicMandateAd,
     isPrivateDemoAd: isPrivateDemoAd,
+    setMarketVisible: setMarketVisible,
     toAdListing: toAdListing,
     applyAdToProperty: applyAdToProperty,
     findByShareToken: findByShareToken,
