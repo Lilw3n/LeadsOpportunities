@@ -3,7 +3,7 @@
 var assert = require("assert");
 var { spawnSync } = require("child_process");
 var path = require("path");
-var { isPlaceholderActuItem } = require("./blog-actu-lib.cjs");
+var { isPlaceholderActuItem, isLowLeadIntentActu, hasLeadIntentKeywords, isEnglishHeavyTitle } = require("./blog-actu-lib.cjs");
 
 assert.strictEqual(
   isPlaceholderActuItem({
@@ -22,6 +22,51 @@ assert.strictEqual(
   }),
   false,
   "vrai titre conservé"
+);
+
+assert.strictEqual(
+  isLowLeadIntentActu({ title: "Avant le premier concert de Céline Dion, Emmanuel Grégoire s’époumone" }),
+  true,
+  "people Céline Dion ignoré"
+);
+assert.strictEqual(
+  isEnglishHeavyTitle("HSBC Continental Europe Enters Into a Memorandum of Understanding Regarding Potential Sale"),
+  true,
+  "titre anglais corporate ignoré"
+);
+assert.strictEqual(
+  hasLeadIntentKeywords({ title: "Assurance habitation : primes et sinistres, bilan 2025" }),
+  true,
+  "intent habitation"
+);
+assert.strictEqual(
+  hasLeadIntentKeywords({ title: "La choucroute alsacienne victime de la sécheresse" }),
+  false,
+  "sécheresse agricole sans assurance"
+);
+assert.strictEqual(
+  hasLeadIntentKeywords({ title: "Camionnettes de prostitution, trafic de drogue, zombies à Lyon" }),
+  false,
+  "faits divers sans assurance"
+);
+assert.strictEqual(
+  isLowLeadIntentActu({ title: "Emprunteur : Allianz France et Magnolia créent un contrat pour les gros capitaux" }),
+  false,
+  "emprunteur conservé"
+);
+assert.strictEqual(
+  hasLeadIntentKeywords({
+    title: "Coupe du monde 2026 - On n'a pas peur : deux ans après, les Bleus sont prêtes pour une revanche",
+  }),
+  false,
+  "sport sans mot assurance ignoré"
+);
+assert.strictEqual(
+  isEnglishHeavyTitle(
+    "HSBC Continental Europe Enters Into a Memorandum of Understanding Regarding Potential Sale of HSBC Assurances Vie (France) to Matmut Société d’Assurance Mutuelle"
+  ),
+  true,
+  "HSBC EN + Mutuelle toujours anglais"
 );
 
 var root = path.join(__dirname, "..");
