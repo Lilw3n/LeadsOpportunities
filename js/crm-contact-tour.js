@@ -148,7 +148,7 @@
         '<option value="hours">Heures</option>' +
         '<option value="days" selected>Jours</option>' +
         "</select></label></div>" +
-        '<label>Utilisations max (0 = illimité)<input id="ctTourMaxViews" type="number" min="0" step="1" value="1" /></label>' +
+        '<label>Utilisations max (0 = illimité pour tous)<input id="ctTourMaxViews" type="number" min="0" step="1" value="0" title="0 = consultations illimitées" /></label>' +
         '<label>La durée commence<select id="ctTourDurationStart">' +
         '<option value="first_view" selected>À la première consultation du lien</option>' +
         '<option value="created">Dès la création du lien</option>' +
@@ -504,7 +504,8 @@
         tour_duration_unit: durationUnit,
         tour_duration_start: durationStart,
         tour_max_views: maxViews,
-        tour_max_per_contact: 8,
+        // 0 utilisations max = illimité ; accès libre = pas de plafond caché à 8
+        tour_max_per_contact: Number(maxViews) === 0 || verify === "none" ? 0 : 8,
         tour_allow_emails: allow ? emails : "",
         tour_allow_phones: allow ? phones : "",
         tour_bind_site: true,
