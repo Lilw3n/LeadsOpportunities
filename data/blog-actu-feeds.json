@@ -1,11 +1,14 @@
 {
-  "updated": "2026-06-17",
+  "updated": "2026-09-13",
   "maxPerFeed": 5,
   "quotas": {
     "cafeyn": 20,
     "edge": 12,
     "firefox": 15,
-    "aggregator": 30
+    "google": 25,
+    "bing": 10,
+    "yahoo": 10,
+    "aggregator": 15
   },
   "feeds": [
     {
@@ -468,6 +471,76 @@
       "name": "Edge — Bing Coupe du monde 2026",
       "sourceType": "edge",
       "url": "https://www.bing.com/news/search?q=coupe+du+monde+2026+france&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-france",
+      "name": "Bing News — actualites France",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=actualites+france+aujourd%27hui&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-assurance",
+      "name": "Bing News — assurance France",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=assurance+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-immobilier",
+      "name": "Bing News — immobilier France",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=immobilier+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-mutuelle",
+      "name": "Bing News — mutuelle sante",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=mutuelle+sante+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-emprunteur",
+      "name": "Bing News — pret immobilier",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=pret+immobilier+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-sinistre",
+      "name": "Bing News — sinistre assurance",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=sinistre+assurance+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-actualites",
+      "name": "Yahoo Actualites — une",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-france",
+      "name": "Yahoo Actualites — France",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/france/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance",
+      "name": "Yahoo Finance — une",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance-top",
+      "name": "Yahoo Finance — top stories",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/topstories",
       "enabled": true
     }
   ],

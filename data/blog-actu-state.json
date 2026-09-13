@@ -1,10 +1,15 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T09:14:19.029Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sports/basket/basket-une-premiere-finale-mondiale-et-une-revanche-contre-les-americaines-pour-les-bleues-20260913",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6696a5b5e4fb483bca89ce785ab73&url=https%3a%2f%2fwww.sudouest.fr%2fsport%2fbasket%2fbasket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026-30565495.php&c=895359205782988041&mkt=en-us",
+    "https://www.franceinfo.fr/sports/basket/l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-equipe-de-france-peuvent-elles-renverser-les-americaines-pour-leur-premiere-finale-mondiale_8188259.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6696aa2ff4440a83de32cba57c39f&url=https%3a%2f%2fwww.lemonde.fr%2fmutuelle-sante-bien-choisir-sa-couverture%2farticle%2f2026%2f09%2f01%2fmutuelle-sante-groupama-le-choix-d-un-reseau-de-soins-de-proximite_6763469_687.html&c=17859496535951517203&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T09:14:20.927Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +22,44 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T09:14:20.927Z",
+      "count": 5,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "basket-une-premiere-finale-mondiale-et-une-revanche-contre-les-americain.html",
+          "title": "Basket : une première finale mondiale et une revanche contre les Américaines pour les B… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Le Figaro flash",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "basket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026.html",
+          "title": "Basket – Le parcours de l’équipe de France féminine en Coupe du monde 2026 : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-.html",
+          "title": "\"L'opportunité d'écrire l'histoire du sport français\" : Gabby Williams et l'équipe de F… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Firefox — France Info titres",
+          "sourceType": "firefox"
+        },
+        {
+          "file": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+          "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "google"
+        },
+        {
+          "file": "mutuelle-sante-groupama-le-choix-d-un-reseau-de-soins-de-proximite.html",
+          "title": "Mutuelle santé Groupama : le choix d’un réseau de soins de proximité : mutuelle et remboursements — que faire ?",
+          "source": "Bing News — mutuelle sante",
+          "sourceType": "bing"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
