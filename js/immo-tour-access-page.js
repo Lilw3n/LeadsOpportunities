@@ -56,6 +56,7 @@
     var firstWrap = el("tourFirstWrap");
     var requestBtn = el("tourRequest");
     var openNone = el("tourOpenNone");
+    var directActions = el("tourDirectActions");
     var askStep = el("tourAskStep");
     var codes = el("tourCodes");
     var emailCodeWrap = el("tourEmailCodeWrap");
@@ -68,6 +69,7 @@
     if (codes) codes.hidden = mode === "none";
     if (emailCodeWrap) emailCodeWrap.hidden = mode === "none" || mode === "sms";
     if (smsHint) smsHint.hidden = mode !== "sms";
+    if (directActions) directActions.hidden = mode !== "none";
     if (openNone) openNone.hidden = mode !== "none";
   }
 
@@ -128,12 +130,14 @@
     var important = el("tourImportant");
     var askStep = el("tourAskStep");
     var codes = el("tourCodes");
+    var directActions = el("tourDirectActions");
     var openNone = el("tourOpenNone");
     if (important) important.hidden = !on;
     if (on) {
       if (askStep) askStep.classList.add("tour-step--direct-hidden");
       if (codes) codes.classList.add("tour-step--direct-hidden");
-      if (openNone) openNone.hidden = true;
+      if (directActions) directActions.hidden = false;
+      if (openNone) openNone.hidden = false;
     } else {
       if (askStep) askStep.classList.remove("tour-step--direct-hidden");
       if (codes) codes.classList.remove("tour-step--direct-hidden");
@@ -215,7 +219,9 @@
                 true
               );
               if (res.d.skip_otp) {
+                var direct = el("tourDirectActions");
                 var open = el("tourOpenNone");
+                if (direct) direct.hidden = false;
                 if (open) open.hidden = false;
                 return;
               }
@@ -348,6 +354,10 @@
     if (gate) gate.hidden = false;
     var terms = el("tourTerms");
     if (terms) terms.checked = true;
+    var directActions = el("tourDirectActions");
+    var openNone = el("tourOpenNone");
+    if (directActions) directActions.hidden = false;
+    if (openNone) openNone.hidden = false;
     setMsg("Ouverture directe de la visite…", true);
     var payload = payloadBase(token);
     payload.action = "verify_access";
@@ -362,12 +372,20 @@
           } catch (e) {}
           openTour(token, res.d.grant, res.d.listing || null);
         } else {
-          setMsg((res.d && res.d.error) || "Impossible d’ouvrir la visite en accès direct.", false);
+          setMsg(
+            (res.d && res.d.error) ||
+              "Impossible d’ouvrir automatiquement. Cliquez sur « Voir la visite ».",
+            false
+          );
           if (gate) gate.hidden = false;
+          if (directActions) directActions.hidden = false;
+          if (openNone) openNone.hidden = false;
         }
       })
       .catch(function () {
-        setMsg("Erreur réseau.", false);
+        setMsg("Erreur réseau. Cliquez sur « Voir la visite ».", false);
+        if (directActions) directActions.hidden = false;
+        if (openNone) openNone.hidden = false;
       });
   }
 

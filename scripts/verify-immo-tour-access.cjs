@@ -228,10 +228,12 @@ assert(html.indexOf("tourRedirect") !== -1, "redirection Wendy si lien usé");
 assert(html.indexOf("immo-tour-access-page.js") !== -1, "script page");
 assert(html.indexOf("tourStage") !== -1 && html.indexOf("tourImportant") !== -1, "layout stage + infos importantes");
 assert(html.indexOf("Informations importantes") !== -1, "bandeau infos importantes");
+assert(html.indexOf("tourDirectActions") !== -1 && html.indexOf("tourOpenNone") !== -1, "bouton Voir la visite accès direct");
 var pageJsDirect = read("js/immo-tour-access-page.js");
 assert(pageJsDirect.indexOf("immo-tour-page--direct") !== -1, "page : classe layout direct");
 assert(pageJsDirect.indexOf("openDirectAccess") !== -1, "page : ouverture auto accès libre");
 assert(pageJsDirect.indexOf("setDirectLayout") !== -1, "page : panneau latéral infos");
+assert(pageJsDirect.indexOf("tourDirectActions") !== -1, "page : actions directes hors étapes OTP");
 var cssDirect = read("css/immo-ad-listings.css");
 assert(cssDirect.indexOf("tour-direct-layout") !== -1, "css : layout accès direct");
 
@@ -303,6 +305,8 @@ assert(api.indexOf("crm_immo_tour_requests") !== -1, "API : table file d’atten
 assert(api.indexOf("en attente de validation") !== -1 || api.indexOf("va la valider ou la décliner") !== -1, "API : pas de code auto");
 assert(api.indexOf("sendVisitorOtpEmail") !== -1, "API : code seulement après validation Wendy");
 assert(api.indexOf("accepted_terms") !== -1 && api.indexOf("isAllowlisted") !== -1, "API : droits + allowlist");
+assert(api.indexOf("!Tour.needsOtp(info.access) && !Tour.isAllowlisted") === -1, "API : accès libre non bloqué par allowlist");
+assert(api.indexOf("Accès libre (verify_mode none)") !== -1, "API : commentaire accès libre public");
 assert(api.indexOf("Cette visite est réservée à une liste") === -1, "API : liste ne bloque plus la demande");
 assert(api.indexOf("onAllowlist") !== -1 && api.indexOf("Hors liste prévue") !== -1, "API : demande hors liste quand même");
 assert(api.indexOf("acheteur_immo") !== -1, "lead vertical acquéreur");

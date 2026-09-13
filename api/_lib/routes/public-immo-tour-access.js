@@ -943,13 +943,8 @@ module.exports = async function immoTourAccess(req, res) {
         error: "Cochez l’acceptation des droits d’auteur (usage unique et personnel).",
       });
     }
-    if (!Tour.needsOtp(info.access) && !Tour.isAllowlisted(info.access, emailV, phoneV)) {
-      return res.status(403).json({
-        ok: false,
-        error: "Vous n’êtes pas sur la liste autorisée. Contactez Wendy BUCHET.",
-        contact: { name: Tour.AUTHOR.name, href: Tour.AUTHOR.contact_path, email: Tour.AUTHOR.email },
-      });
-    }
+    // Accès libre (verify_mode none) : lien public (LBC/site) — la allowlist ne bloque pas.
+    // Elle ne s’applique qu’aux modes e-mail / SMS (OTP).
     if (Tour.needsEmail(info.access) && !emailV) {
       return res.status(400).json({ ok: false, error: "E-mail requis." });
     }

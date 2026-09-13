@@ -7,7 +7,7 @@
   <meta name="description" content="Visite virtuelle protégée : usage unique et personnel, Wendy BUCHET, mandataire immobilier ORIAS 15005935." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="stylesheet" href="../main.css" />
-  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260913direct" />
+  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260913direct2" />
 </head>
 <body class="immo-ad-page immo-ad-page--listing immo-tour-page">
   <div class="immo-ad-private-banner">
@@ -68,7 +68,6 @@
             <p>Vous n’avez pas encore d’accès : Wendy BUCHET <strong>validera ou déclinera</strong> votre demande, même si ce lien était réservé à une liste. Si elle accepte, vous recevrez un code par e-mail.</p>
             <div class="gate-actions">
               <button type="button" class="btn btn-primary" id="tourRequest">Demander l’accès</button>
-              <button type="button" class="btn btn-primary" id="tourOpenNone" hidden>Voir la visite</button>
             </div>
           </div>
           <div class="tour-step" id="tourCodes">
@@ -82,6 +81,12 @@
             </label>
             <div class="gate-actions">
               <button type="button" class="btn btn-primary" id="tourVerify">Valider le code et voir la visite</button>
+            </div>
+          </div>
+          <div class="tour-step tour-direct-actions" id="tourDirectActions" hidden>
+            <p>Lien en accès direct : la visite s’ouvre après acceptation des droits d’auteur.</p>
+            <div class="gate-actions">
+              <button type="button" class="btn btn-primary" id="tourOpenNone">Voir la visite</button>
             </div>
           </div>
           <p class="gate-msg" id="tourMsg"></p>
