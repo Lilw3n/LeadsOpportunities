@@ -2,6 +2,7 @@
  * Enrichissement intelligent par niche assurance (sans IA).
  */
 const { matchTopic, ctaWithUtm, monthLabel, relatedForSection } = require("./blog-actu-lib.cjs");
+const { sourceLabel } = require("./blog-actu-sources.cjs");
 
 var ANGLES = {
   sante: {
@@ -122,7 +123,7 @@ function enrichFromCandidate(candidate) {
   var slug = title.slice(0, 40);
   var file = candidate.suggestedFile;
   if (!file) return null;
-  var platform = platformLabel(candidate.sourceType || candidate.source);
+  var platform = sourceLabel(candidate.sourceType || candidate.source);
 
   return {
     file: file.endsWith(".html") ? file : file + ".html",
@@ -190,19 +191,6 @@ function shortTitle(t) {
 
 function escapeHtml(s) {
   return String(s).replace(/</g, "").replace(/>/g, "");
-}
-
-function platformLabel(sourceType) {
-  var t = String(sourceType || "").toLowerCase();
-  if (t === "cafeyn" || t.indexOf("cafeyn") !== -1) return "Cafeyn (presse partenaire)";
-  if (t === "google" || t.indexOf("google") !== -1 || t.indexOf("gnews") !== -1) return "Google News";
-  if (t === "bing" || t.indexOf("bing") !== -1) return "Bing News";
-  if (t === "yahoo" || t.indexOf("yahoo") !== -1) return "Yahoo Actualites";
-  if (t === "edge" || t.indexOf("edge") !== -1 || t.indexOf("msn") !== -1) return "Microsoft Edge / MSN";
-  if (t === "firefox" || t.indexOf("firefox") !== -1 || t.indexOf("pocket") !== -1) {
-    return "Mozilla Firefox / Pocket";
-  }
-  return "l'actualite du jour";
 }
 
 function isSportActu(text) {

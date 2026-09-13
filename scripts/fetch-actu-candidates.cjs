@@ -211,9 +211,12 @@ async function main() {
       .join(" ")
   );
   if (deduped.length) {
+    var rankedPreview = deduped.slice().sort(function (a, b) {
+      return b.leadScore - a.leadScore;
+    });
     console.log("Top 3:");
-    deduped.slice(0, 3).forEach(function (c, i) {
-      console.log(" ", i + 1 + ".", c.title.slice(0, 70));
+    rankedPreview.slice(0, 3).forEach(function (c, i) {
+      console.log(" ", i + 1 + ".", "[" + c.leadScore + "/100]", c.title.slice(0, 70));
     });
   }
 }

@@ -6,6 +6,7 @@
 const { generateWithFallback } = require("../api/_lib/ai-provider-router.js");
 const { ctaWithUtm, monthLabel, relatedForSection, matchTopic, slugify, uniqueFile } = require("./blog-actu-lib.cjs");
 const { isSportActu } = require("./blog-actu-enrich.cjs");
+const { sourceLabel } = require("./blog-actu-sources.cjs");
 
 function arg(name) {
   var m = process.argv.find(function (a) {
@@ -17,7 +18,7 @@ function arg(name) {
 function buildPrompt(candidate) {
   var topic = matchTopic(candidate.title + " " + (candidate.summary || ""));
   var need = candidate.need || topic.need;
-  var platform = candidate.sourceType || candidate.source || "actu";
+  var platform = sourceLabel(candidate.sourceType || candidate.source || "actu");
   var sportBlock = "";
   if (isSportActu(candidate.title + " " + (candidate.summary || ""))) {
     need = "sante";
@@ -36,7 +37,7 @@ function buildPrompt(candidate) {
     (candidate.summary || "") +
     "\nPlateforme source: " +
     platform +
-    " (Cafeyn, Edge ou Firefox)\nNeed questionnaire: " +
+    " (Cafeyn, Edge/MSN, Firefox/Pocket, Google News, Bing News, Yahoo ou autre source publique)\nNeed questionnaire: " +
     need +
     sportBlock +
     "\n" +

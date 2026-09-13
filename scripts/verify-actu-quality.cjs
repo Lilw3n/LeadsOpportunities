@@ -54,15 +54,24 @@ function validateArticle(article) {
 function main() {
   var file = arg("file");
   var articles = [];
+  var shouldReadPending = false;
 
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
   } else if (!process.stdin.isTTY) {
     var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
+    if (stdin.trim()) {
+      var parsed = JSON.parse(stdin);
+      articles = Array.isArray(parsed) ? parsed : [parsed];
+    } else {
+      shouldReadPending = true;
+    }
   } else {
+    shouldReadPending = true;
+  }
+
+  if (shouldReadPending) {
     var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
     try {
       var data = JSON.parse(fs.readFileSync(pending, "utf8"));
