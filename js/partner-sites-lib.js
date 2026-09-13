@@ -13,6 +13,33 @@
   var DATA_URL = "./data/partner-sites.json";
   var API_URL = "/api/partner-sites";
 
+  /** Catalogue métier élargi — utiliséé par le CRM (liste déroulante) + seed. */
+  var DEFAULT_CATEGORIES = [
+    { id: "batiment", label: "Bâtiment & construction", order: 10, icon: "🏗️" },
+    { id: "immobilier", label: "Immobilier", order: 20, icon: "🏠" },
+    { id: "services", label: "Services aux pros", order: 30, icon: "🛠️" },
+    { id: "commerce", label: "Commerce & local", order: 40, icon: "🏪" },
+    { id: "artisanat", label: "Artisanat", order: 45, icon: "🪵" },
+    { id: "agriculture", label: "Agriculture & alimentaire", order: 50, icon: "🥬" },
+    { id: "restauration", label: "Restauration & food", order: 55, icon: "🍽️" },
+    { id: "tourisme", label: "Tourisme & voyage", order: 60, icon: "✈️" },
+    { id: "outre-mer", label: "Outre-mer & DOM-TOM", order: 65, icon: "🌴" },
+    { id: "associatif", label: "Associatif & solidarité", order: 70, icon: "🤝" },
+    { id: "annuaire", label: "Annuaire & portail local", order: 75, icon: "📇" },
+    { id: "assurance", label: "Assurance", order: 80, icon: "🛡️" },
+    { id: "sante", label: "Santé & bien-être", order: 85, icon: "🩺" },
+    { id: "formation", label: "Formation & éducation", order: 90, icon: "🎓" },
+    { id: "digital", label: "Web & digital", order: 95, icon: "💻" },
+    { id: "auto", label: "Auto & mobilité", order: 100, icon: "🚗" },
+    { id: "beaute", label: "Beauté & mode", order: 105, icon: "💅" },
+    { id: "sport", label: "Sport & loisirs", order: 110, icon: "⚽" },
+    { id: "culture", label: "Culture & médias", order: 115, icon: "🎭" },
+    { id: "juridique", label: "Juridique & admin", order: 120, icon: "⚖️" },
+    { id: "finance", label: "Banque & finance", order: 125, icon: "💶" },
+    { id: "industrie", label: "Industrie & tech", order: 130, icon: "⚙️" },
+    { id: "autre", label: "Autre", order: 200, icon: "📦" },
+  ];
+
   function esc(s) {
     return String(s == null ? "" : s)
       .replace(/&/g, "&amp;")
@@ -200,10 +227,31 @@
       });
   }
 
+  /** Fusionne les catégories manquantes du catalogue élargi (sans écraser les labels custom). */
+  function mergeDefaultCategories(catalog) {
+    var cat = normalizeCatalog(catalog);
+    if (!cat.categories.length) {
+      cat.categories = DEFAULT_CATEGORIES.slice();
+      return cat;
+    }
+    var known = {};
+    cat.categories.forEach(function (c) {
+      known[c.id] = true;
+    });
+    DEFAULT_CATEGORIES.forEach(function (c) {
+      if (!known[c.id]) cat.categories.push(c);
+    });
+    cat.categories.sort(function (a, b) {
+      return a.order - b.order;
+    });
+    return cat;
+  }
+
   return {
     STORAGE_KEY: STORAGE_KEY,
     DATA_URL: DATA_URL,
     API_URL: API_URL,
+    DEFAULT_CATEGORIES: DEFAULT_CATEGORIES,
     esc: esc,
     isHttpUrl: isHttpUrl,
     slugify: slugify,
@@ -215,5 +263,6 @@
     clearLocal: clearLocal,
     fetchCatalog: fetchCatalog,
     sitesByCategory: sitesByCategory,
+    mergeDefaultCategories: mergeDefaultCategories,
   };
 });

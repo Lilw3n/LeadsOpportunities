@@ -38,6 +38,12 @@ ok(exists("api/_lib/routes/public-partner-sites.js"), "route publique");
 var data = JSON.parse(read("data/partner-sites.json"));
 var cat = Lib.normalizeCatalog(data);
 ok(cat.categories.some(function (c) { return c.id === "batiment"; }), "catégorie bâtiment");
+ok(cat.categories.some(function (c) { return c.id === "outre-mer"; }), "catégorie outre-mer");
+ok(cat.categories.some(function (c) { return c.id === "associatif"; }), "catégorie associatif");
+ok(cat.categories.some(function (c) { return c.id === "annuaire"; }), "catégorie annuaire");
+ok(cat.categories.some(function (c) { return c.id === "agriculture"; }), "catégorie agriculture");
+ok(Lib.DEFAULT_CATEGORIES && Lib.DEFAULT_CATEGORIES.length >= 20, "DEFAULT_CATEGORIES élargi (≥20)");
+ok(typeof Lib.mergeDefaultCategories === "function", "mergeDefaultCategories");
 ok(cat.sites.some(function (s) { return s.category === "batiment"; }), "site bâtiment");
 
 var withPhoto = Lib.normalizeSite({
