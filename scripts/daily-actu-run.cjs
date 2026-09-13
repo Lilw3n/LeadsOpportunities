@@ -5,6 +5,7 @@
  */
 const { execSync } = require("child_process");
 const { readJson, writeJson, rankCandidates } = require("./blog-actu-lib.cjs");
+const { PRIMARY_SOURCE_TYPES, normalizeSourceType, resolveSourceTypeFromText } = require("./blog-actu-sources.cjs");
 
 function arg(name, def) {
   var m = process.argv.find(function (a) {
@@ -25,13 +26,17 @@ function main() {
   }
 
   var candidates = readJson("blog-actu-candidates.json", { candidates: [] }).candidates || [];
+  var sourceCounts = readJson("blog-actu-candidates.json", { bySource: {} }).bySource || {};
   var ranked = rankCandidates(candidates);
   var picks = ranked.slice(0, count);
+  var topBySource = bestBySource(candidates);
 
   writeJson("blog-actu-daily-pick.json", {
     date: new Date().toISOString().slice(0, 10),
     instruction:
       "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+    sourceCounts: sourceCounts,
+    topBySource: topBySource,
     picks: picks,
   });
 
@@ -41,6 +46,22 @@ function main() {
   });
   console.log("\nDétail: data/blog-actu-daily-pick.json");
   console.log("Étape agent: enrichir pending → npm run blog:actu:publish → PR");
+}
+
+function bestBySource(candidates) {
+  var ranked = rankCandidates(candidates);
+  return PRIMARY_SOURCE_TYPES.reduce(function (acc, type) {
+    var best = ranked.find(function (c) {
+      return candidateSourceType(c) === type;
+    });
+    if (best) acc[type] = best;
+    return acc;
+  }, {});
+}
+
+function candidateSourceType(candidate) {
+  if (candidate.sourceType) return normalizeSourceType(candidate.sourceType);
+  return resolveSourceTypeFromText(candidate.source || candidate.feedName || candidate.feedId);
 }
 
 main();

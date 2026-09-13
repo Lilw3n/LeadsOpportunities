@@ -2,6 +2,7 @@
  * Enrichissement intelligent par niche assurance (sans IA).
  */
 const { matchTopic, ctaWithUtm, monthLabel, relatedForSection } = require("./blog-actu-lib.cjs");
+const { sourceLabel } = require("./blog-actu-sources.cjs");
 
 var ANGLES = {
   sante: {
@@ -17,7 +18,7 @@ var ANGLES = {
       "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS.",
   },
   habitation: {
-    hook: "Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge.",
+    hook: "Un sinistre habitation mal couvert peut couter des dizaines de milliers d'euros a votre charge.",
     checklist: [
       "Capital mobilier vs valeur reelle du contenu",
       "Degats des eaux, tempete, catastrophes naturelles",
@@ -149,7 +150,7 @@ function enrichFromCandidate(candidate) {
       {
         type: "p",
         text:
-          "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure.",
+          "Avant de reagir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure.",
       },
       { type: "h2", text: "Checklist pratique (5 minutes)" },
       { type: "ul", items: angle.checklist },
@@ -193,15 +194,7 @@ function escapeHtml(s) {
 }
 
 function platformLabel(sourceType) {
-  var t = String(sourceType || "").toLowerCase();
-  if (t === "cafeyn" || t.indexOf("cafeyn") !== -1) return "Cafeyn (presse partenaire)";
-  if (t === "edge" || t.indexOf("edge") !== -1 || t.indexOf("msn") !== -1 || t.indexOf("bing") !== -1) {
-    return "Microsoft Edge / Bing actu";
-  }
-  if (t === "firefox" || t.indexOf("firefox") !== -1 || t.indexOf("pocket") !== -1) {
-    return "Mozilla Firefox / Pocket";
-  }
-  return "l'actualite du jour";
+  return sourceLabel(sourceType);
 }
 
 function isSportActu(text) {

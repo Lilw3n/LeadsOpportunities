@@ -1,6 +1,6 @@
 /**
  * POST /api?action=blog-actu-ingest
- * Ajoute un article Cafeyn/Edge/Firefox à la file (Neon).
+ * Ajoute un article actu multi-source à la file (Neon).
  * Header: Authorization: Bearer <BLOG_ACTU_INGEST_SECRET>
  */
 const { getSql } = require("../db");
