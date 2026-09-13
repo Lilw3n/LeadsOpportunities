@@ -118,10 +118,41 @@
     showWendy(text, contact);
   }
 
+  function isDirectAccess(meta) {
+    var m = meta || lastMeta;
+    return !!(m && (m.verify_mode === "none" || m.require_otp === false));
+  }
+
+  function setDirectLayout(on) {
+    document.body.classList.toggle("immo-tour-page--direct", !!on);
+    var important = el("tourImportant");
+    var askStep = el("tourAskStep");
+    var codes = el("tourCodes");
+    var openNone = el("tourOpenNone");
+    if (important) important.hidden = !on;
+    if (on) {
+      if (askStep) askStep.classList.add("tour-step--direct-hidden");
+      if (codes) codes.classList.add("tour-step--direct-hidden");
+      if (openNone) openNone.hidden = true;
+    } else {
+      if (askStep) askStep.classList.remove("tour-step--direct-hidden");
+      if (codes) codes.classList.remove("tour-step--direct-hidden");
+    }
+  }
+
   function showPlayer(embedUrl, listing) {
     var gate = el("tourGate");
     var player = el("tourPlayer");
-    if (gate) gate.hidden = true;
+    var direct = isDirectAccess(lastMeta);
+    if (gate) {
+      if (direct) {
+        setDirectLayout(true);
+        gate.hidden = false;
+      } else {
+        setDirectLayout(false);
+        gate.hidden = true;
+      }
+    }
     if (!player) return;
     player.hidden = false;
     var head = listing
@@ -290,11 +321,17 @@
         }
         paintMeta(meta);
         if (admin && saved) {
+          if (isDirectAccess(meta)) setDirectLayout(true);
           openTour(token, saved, null);
           return;
         }
         if (saved) {
+          if (isDirectAccess(meta)) setDirectLayout(true);
           openTour(token, saved, null);
+          return;
+        }
+        if (isDirectAccess(meta)) {
+          openDirectAccess(token);
           return;
         }
         var gate = el("tourGate");
@@ -302,6 +339,35 @@
       })
       .catch(function () {
         showError("Impossible de vérifier ce lien pour le moment.");
+      });
+  }
+
+  function openDirectAccess(token) {
+    setDirectLayout(true);
+    var gate = el("tourGate");
+    if (gate) gate.hidden = false;
+    var terms = el("tourTerms");
+    if (terms) terms.checked = true;
+    setMsg("Ouverture directe de la visite…", true);
+    var payload = payloadBase(token);
+    payload.action = "verify_access";
+    payload.accepted_terms = true;
+    payload.email_code = "";
+    payload.phone_code = "";
+    post(payload)
+      .then(function (res) {
+        if (res.d && res.d.ok && res.d.grant) {
+          try {
+            sessionStorage.setItem(grantKey(token), res.d.grant);
+          } catch (e) {}
+          openTour(token, res.d.grant, res.d.listing || null);
+        } else {
+          setMsg((res.d && res.d.error) || "Impossible d’ouvrir la visite en accès direct.", false);
+          if (gate) gate.hidden = false;
+        }
+      })
+      .catch(function () {
+        setMsg("Erreur réseau.", false);
       });
   }
 

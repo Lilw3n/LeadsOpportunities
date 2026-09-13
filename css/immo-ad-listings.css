@@ -752,3 +752,77 @@ body.lbc-lightbox-open { overflow: hidden; }
 .immo-ad-card:nth-child(2) { animation-delay: 0.06s; }
 .immo-ad-card:nth-child(3) { animation-delay: 0.12s; }
 .immo-ad-card:nth-child(4) { animation-delay: 0.18s; }
+
+
+/* tour-direct-layout — accès libre : visionnage + infos importantes à côté */
+.tour-stage {
+  display: block;
+  margin: 8px 0 24px;
+}
+.tour-stage-main { min-width: 0; }
+.tour-stage-side { min-width: 0; }
+.tour-important {
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #f59e0b;
+  background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+  color: #78350f;
+}
+.tour-important-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #b45309;
+}
+.tour-important h2 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  color: #92400e;
+}
+.tour-important p { margin: 0; font-size: 0.88rem; line-height: 1.45; }
+
+body.immo-tour-page--direct .tour-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.85fr);
+  gap: 18px;
+  align-items: start;
+}
+body.immo-tour-page--direct .tour-stage-side {
+  position: sticky;
+  top: 12px;
+}
+body.immo-tour-page--direct #tourGate {
+  max-width: none;
+  margin: 0;
+}
+body.immo-tour-page--direct #tourGate h2 {
+  font-size: 1.05rem;
+}
+body.immo-tour-page--direct .tour-step--direct-hidden {
+  display: none !important;
+}
+body.immo-tour-page--direct .tour-frame-wrap {
+  min-height: 480px;
+}
+body.immo-tour-page--direct .tour-frame-wrap iframe {
+  height: min(72vh, 720px);
+}
+body.immo-tour-page--direct .tour-legal {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 900px) {
+  body.immo-tour-page--direct .tour-stage {
+    grid-template-columns: 1fr;
+  }
+  body.immo-tour-page--direct .tour-stage-side {
+    position: static;
+    order: 2;
+  }
+  body.immo-tour-page--direct .tour-stage-main {
+    order: 1;
+  }
+}

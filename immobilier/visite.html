@@ -7,7 +7,7 @@
   <meta name="description" content="Visite virtuelle protégée : usage unique et personnel, Wendy BUCHET, mandataire immobilier ORIAS 15005935." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="stylesheet" href="../main.css" />
-  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260908tour4" />
+  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260913direct" />
 </head>
 <body class="immo-ad-page immo-ad-page--listing immo-tour-page">
   <div class="immo-ad-private-banner">
@@ -34,50 +34,60 @@
       </div>
     </div>
 
-    <div id="tourGate" class="immo-ad-gate" hidden>
-      <h2>Accéder à la visite 3D</h2>
-      <p>
-        Un même lien peut être collé sur le <strong>site</strong>, <strong>Leboncoin</strong>, SeLoger, Meta…
-        Il reste la propriété de <strong>Wendy BUCHET</strong>, mandataire immobilier.
-      </p>
-      <label id="tourFirstWrap">Prénom
-        <input id="tourFirst" type="text" autocomplete="given-name" placeholder="Votre prénom" />
-      </label>
-      <label id="tourEmailWrap">E-mail
-        <input id="tourEmail" type="email" autocomplete="email" placeholder="vous@exemple.fr" />
-      </label>
-      <label id="tourPhoneWrap">Téléphone
-        <input id="tourPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78" />
-      </label>
-      <label class="tour-copyright-check">
-        <input type="checkbox" id="tourTerms" />
-        <span>J’accepte un usage <strong>unique et personnel</strong> (sauf visibilité publique d’un mandat exclusif en cours). Toute revente ou reprise du lien sans autorisation est passible de poursuites. Je serai redirigé(e) vers Wendy BUCHET, mandataire immobilier.</span>
-      </label>
-      <div class="tour-step" id="tourAskStep">
-        <h3>1. Demander l’accès</h3>
-        <p>Vous n’avez pas encore d’accès : Wendy BUCHET <strong>validera ou déclinera</strong> votre demande, même si ce lien était réservé à une liste. Si elle accepte, vous recevrez un code par e-mail.</p>
-        <div class="gate-actions">
-          <button type="button" class="btn btn-primary" id="tourRequest">Demander l’accès</button>
-          <button type="button" class="btn btn-primary" id="tourOpenNone" hidden>Voir la visite</button>
-        </div>
+    <div class="tour-stage" id="tourStage">
+      <div class="tour-stage-main">
+        <div id="tourPlayer" class="tour-player" hidden></div>
       </div>
-      <div class="tour-step" id="tourCodes">
-        <h3>2. Valider le code</h3>
-        <p>Si Wendy a accepté, saisissez le code reçu par e-mail (ou donné par le mandataire).</p>
-        <label id="tourEmailCodeWrap">Code à 6 chiffres
-          <input id="tourEmailCode" type="text" inputmode="numeric" maxlength="6" placeholder="••••••" autocomplete="one-time-code" />
-        </label>
-        <label id="tourSmsHint" hidden>Code reçu par SMS
-          <input id="tourPhoneCode" type="text" inputmode="numeric" maxlength="6" placeholder="••••••" />
-        </label>
-        <div class="gate-actions">
-          <button type="button" class="btn btn-primary" id="tourVerify">Valider le code et voir la visite</button>
+      <aside class="tour-stage-side" id="tourSide">
+        <div id="tourImportant" class="tour-important" hidden>
+          <p class="tour-important-kicker">À lire attentivement</p>
+          <h2>Informations importantes</h2>
+          <p>Ces règles protègent la visite et le mandat. Même en accès direct, elles restent obligatoires.</p>
         </div>
-      </div>
-      <p class="gate-msg" id="tourMsg"></p>
+        <div id="tourGate" class="immo-ad-gate" hidden>
+          <h2>Accéder à la visite 3D</h2>
+          <p>
+            Un même lien peut être collé sur le <strong>site</strong>, <strong>Leboncoin</strong>, SeLoger, Meta…
+            Il reste la propriété de <strong>Wendy BUCHET</strong>, mandataire immobilier.
+          </p>
+          <label id="tourFirstWrap">Prénom
+            <input id="tourFirst" type="text" autocomplete="given-name" placeholder="Votre prénom" />
+          </label>
+          <label id="tourEmailWrap">E-mail
+            <input id="tourEmail" type="email" autocomplete="email" placeholder="vous@exemple.fr" />
+          </label>
+          <label id="tourPhoneWrap">Téléphone
+            <input id="tourPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78" />
+          </label>
+          <label class="tour-copyright-check">
+            <input type="checkbox" id="tourTerms" />
+            <span>J’accepte un usage <strong>unique et personnel</strong> (sauf visibilité publique d’un mandat exclusif en cours). Toute revente ou reprise du lien sans autorisation est passible de poursuites. Je serai redirigé(e) vers Wendy BUCHET, mandataire immobilier.</span>
+          </label>
+          <div class="tour-step" id="tourAskStep">
+            <h3>1. Demander l’accès</h3>
+            <p>Vous n’avez pas encore d’accès : Wendy BUCHET <strong>validera ou déclinera</strong> votre demande, même si ce lien était réservé à une liste. Si elle accepte, vous recevrez un code par e-mail.</p>
+            <div class="gate-actions">
+              <button type="button" class="btn btn-primary" id="tourRequest">Demander l’accès</button>
+              <button type="button" class="btn btn-primary" id="tourOpenNone" hidden>Voir la visite</button>
+            </div>
+          </div>
+          <div class="tour-step" id="tourCodes">
+            <h3>2. Valider le code</h3>
+            <p>Si Wendy a accepté, saisissez le code reçu par e-mail (ou donné par le mandataire).</p>
+            <label id="tourEmailCodeWrap">Code à 6 chiffres
+              <input id="tourEmailCode" type="text" inputmode="numeric" maxlength="6" placeholder="••••••" autocomplete="one-time-code" />
+            </label>
+            <label id="tourSmsHint" hidden>Code reçu par SMS
+              <input id="tourPhoneCode" type="text" inputmode="numeric" maxlength="6" placeholder="••••••" />
+            </label>
+            <div class="gate-actions">
+              <button type="button" class="btn btn-primary" id="tourVerify">Valider le code et voir la visite</button>
+            </div>
+          </div>
+          <p class="gate-msg" id="tourMsg"></p>
+        </div>
+      </aside>
     </div>
-
-    <div id="tourPlayer" class="tour-player" hidden></div>
 
     <aside class="tour-legal" id="tourLegal">
       <h3>Droits d’auteur — Wendy BUCHET</h3>

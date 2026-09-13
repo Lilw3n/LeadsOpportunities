@@ -226,6 +226,15 @@ assert(html.indexOf("usage unique et personnel") !== -1, "bandeau visite respect
 assert(html.indexOf("outil de pub") === -1 && html.indexOf("ou le propriétaire") === -1, "bandeau sans viser le propriétaire");
 assert(html.indexOf("tourRedirect") !== -1, "redirection Wendy si lien usé");
 assert(html.indexOf("immo-tour-access-page.js") !== -1, "script page");
+assert(html.indexOf("tourStage") !== -1 && html.indexOf("tourImportant") !== -1, "layout stage + infos importantes");
+assert(html.indexOf("Informations importantes") !== -1, "bandeau infos importantes");
+var pageJsDirect = read("js/immo-tour-access-page.js");
+assert(pageJsDirect.indexOf("immo-tour-page--direct") !== -1, "page : classe layout direct");
+assert(pageJsDirect.indexOf("openDirectAccess") !== -1, "page : ouverture auto accès libre");
+assert(pageJsDirect.indexOf("setDirectLayout") !== -1, "page : panneau latéral infos");
+var cssDirect = read("css/immo-ad-listings.css");
+assert(cssDirect.indexOf("tour-direct-layout") !== -1, "css : layout accès direct");
+
 
 var crm = read("crm-immo-pubs.html");
 assert(crm.indexOf("chTourGate") !== -1 && crm.indexOf("adTourDuration") !== -1, "CRM : durée libre");
