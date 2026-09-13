@@ -229,6 +229,8 @@ assert(html.indexOf("immo-tour-access-page.js") !== -1, "script page");
 assert(html.indexOf("tourStage") !== -1 && html.indexOf("tourImportant") !== -1, "layout stage + infos importantes");
 assert(html.indexOf("tourContact") !== -1 && html.indexOf("Contacter Wendy BUCHET") !== -1, "page : formulaire contact");
 assert(html.indexOf("tourContactForm") !== -1 && html.indexOf("tourContactSubmit") !== -1, "page : champs contact");
+assert(html.indexOf("tourContactCol") !== -1 && html.indexOf("tour-stage-contact") !== -1, "page : contact colonne gauche");
+assert(html.indexOf("tour-contact-pulse") !== -1, "page : pastille rouge contact");
 assert(html.indexOf("Informations importantes") !== -1, "bandeau infos importantes");
 assert(html.indexOf("tourDirectActions") !== -1 && html.indexOf("tourOpenNone") !== -1, "bouton Voir la visite accès direct");
 var pageJsDirect = read("js/immo-tour-access-page.js");
@@ -244,6 +246,8 @@ assert(cssDirect.indexOf("tour-direct-layout") !== -1, "css : layout accès dire
 assert(cssDirect.indexOf("Visite élargie") !== -1, "css : visite élargie");
 assert(cssDirect.indexOf("1680px") !== -1 && cssDirect.indexOf("82vh") !== -1, "css : player large");
 assert(cssDirect.indexOf("tour-contact") !== -1, "css : bloc contact visite");
+assert(cssDirect.indexOf("tour-contact-pulse") !== -1 && cssDirect.indexOf("#b91c1c") !== -1, "css : pastille rouge contact");
+assert(cssDirect.indexOf("minmax(260px, 320px) minmax(0, 1fr)") !== -1, "css : contact à gauche du player");
 
 
 var crm = read("crm-immo-pubs.html");
