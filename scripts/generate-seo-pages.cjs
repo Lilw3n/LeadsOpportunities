@@ -26,6 +26,7 @@ const {
 } = require("./seo-geo-lib.cjs");
 const { NICHE_PAGES, getNicheSitemapEntries } = require("./niche-pages.cjs");
 const { buildVtcLongtailPages, getVtcLongtailSitemapEntries } = require("./niche-vtc-pages.cjs");
+const { buildTaxiHubPage, buildTaxiLongtailPages, getTaxiLongtailSitemapEntries } = require("./niche-taxi-pages.cjs");
 const { buildVtcIdfPages, getVtcIdfSitemapEntries } = require("./seo-vtc-idf-pages.cjs");
 const { buildImmoDestinationPages, getImmoDestinationSitemapEntries } = require("./seo-immo-destinations.cjs");
 const nancyBassin = require("./nancy-bassin-pret-lib.cjs");
@@ -739,11 +740,19 @@ function renderPage(p) {
   const faq = p.faq || [];
   const ctaHref = hrefPath(prefix, p.cta.href);
   const isVtcTheme = theme === "vtc" || String(p.file || "").indexOf("assurance-vtc") === 0;
+  const isTaxiTheme = theme === "taxi" || String(p.file || "").indexOf("assurance-taxi") === 0;
   var ctaPrimaryHref = ctaHref;
   if (isVtcTheme && /landings\/vtc\.html/i.test(ctaHref) && ctaHref.indexOf("#") < 0) {
     ctaPrimaryHref = ctaHref + "#demande";
   }
-  const ctaExpressHref = isVtcTheme ? hrefPath(prefix, "/landings/devis-rapide.html?need=vtc") : null;
+  if (isTaxiTheme && /landings\/taxi\.html/i.test(ctaHref) && ctaHref.indexOf("#") < 0) {
+    ctaPrimaryHref = ctaHref + "#demande";
+  }
+  const ctaExpressHref = isVtcTheme
+    ? hrefPath(prefix, "/landings/devis-rapide.html?need=vtc")
+    : isTaxiTheme
+      ? hrefPath(prefix, "/landings/devis-rapide.html?need=taxi")
+      : null;
 
   const breadcrumbLd = {
     "@context": "https://schema.org",
@@ -773,7 +782,7 @@ function renderPage(p) {
       : { "@type": "Country", name: "France" },
     url: canonical,
   };
-  var heroAsset = theme === "vtc" ? SeoImg.pickVtcHero(p) : null;
+  var heroAsset = theme === "vtc" || theme === "taxi" ? SeoImg.pickVtcHero(p) : null;
   var ogFile = SeoImg.ogFileFor(Object.assign({ theme: theme }, p));
   var ogUrl = ogFile ? BASE + SeoImg.publicPath(ogFile) : BASE + "/og-default.svg";
   if (heroAsset && heroAsset.file) {
@@ -829,6 +838,7 @@ function renderPage(p) {
   }).join("");
 
   const navVtc = hrefPath(prefix, "/assurance-vtc/");
+  const navTaxi = hrefPath(prefix, "/assurance-taxi/");
   const navSante = hrefPath(prefix, "/assurance-sante/");
   const navAnimaux = hrefPath(prefix, "/assurance-animaux/");
   const navCredit = hrefPath(prefix, "/credit-immo/");
@@ -956,6 +966,7 @@ function renderPage(p) {
       ${seoLogoBlock(prefix)}
       <nav class="seo-nav" aria-label="Navigation principale">
         <a href="${navVtc}">VTC</a>
+        <a href="${navTaxi}">Taxi</a>
         <a href="${navSante}">Sante</a>
         <a href="${navAnimaux}">Animaux</a>
         <a href="${navCredit}">Credit immo</a>
@@ -1043,6 +1054,8 @@ function renderPage(p) {
 }
 
 const VTC_LONGTAIL_PAGES = buildVtcLongtailPages(page);
+const TAXI_HUB_PAGE = buildTaxiHubPage(page);
+const TAXI_LONGTAIL_PAGES = buildTaxiLongtailPages(page);
 const VTC_IDF_PAGES = buildVtcIdfPages(page);
 const IMMO_DEST_PAGES = buildImmoDestinationPages(page, CITIES).concat(nancyBassin.buildHubPages(page));
 var idfHub = VTC_IDF_PAGES.filter(function (p) {
@@ -1073,6 +1086,8 @@ if (idfHub) {
 const ALL_PAGES = PAGES.concat(
   NICHE_PAGES,
   VTC_LONGTAIL_PAGES,
+  TAXI_HUB_PAGE,
+  TAXI_LONGTAIL_PAGES,
   VTC_IDF_PAGES,
   IMMO_DEST_PAGES,
   buildPillarPageConfigs(page),
@@ -1113,6 +1128,7 @@ const mainUrls = allUrls
   })
   .concat(getNicheSitemapEntries(BASE))
   .concat(getVtcLongtailSitemapEntries(BASE))
+  .concat(getTaxiLongtailSitemapEntries(BASE))
   .concat(getVtcIdfSitemapEntries(BASE))
   .concat(getImmoDestinationSitemapEntries(BASE))
   .concat(nancyBassin.sitemapEntries(BASE));

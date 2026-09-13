@@ -75,7 +75,7 @@ function pickVtcHero(page) {
 
 function ogFileFor(page) {
   if (page && page.ogImage) return page.ogImage;
-  if (page && page.theme === "vtc") return VTC_ASSETS.og.file;
+  if (page && (page.theme === "vtc" || page.theme === "taxi")) return VTC_ASSETS.og.file;
   return null;
 }
 
