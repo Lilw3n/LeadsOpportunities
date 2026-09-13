@@ -21,6 +21,12 @@ function writeJson(file, data) {
   fs.writeFileSync(path.join(DATA, file), JSON.stringify(data, null, 2) + "\n");
 }
 
+function isUnusableActuTitle(title) {
+  var t = String(title || "").trim();
+  if (!t || t.length < 12) return true;
+  return /collez ici|placeholder|lorem ipsum|\[titre\]|TODO|FIXME|à preciser|a preciser/i.test(t);
+}
+
 function slugify(text) {
   return String(text || "")
     .normalize("NFD")
@@ -130,6 +136,8 @@ function scoreLeadPotential(candidate) {
   }
 
   score += franceLeadScoreAdjust(candidate);
+
+  if (isUnusableActuTitle(title)) score -= 80;
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
@@ -268,6 +276,7 @@ function relatedForSection(section, need) {
     finance: [
       { href: "./assurance-emprunteur-loi-lemoine-2026.html", label: "Loi Lemoine" },
       { href: "../assurance-emprunteur/", label: "Assurance emprunteur" },
+      { href: "../pret-immobilier/nancy-metropole/", label: "Prêt immobilier Nancy métropole" },
     ],
     prevoyance: [
       { href: "./prevoyance-independants-guide.html", label: "Prevoyance independants" },
@@ -351,4 +360,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isUnusableActuTitle: isUnusableActuTitle,
 };

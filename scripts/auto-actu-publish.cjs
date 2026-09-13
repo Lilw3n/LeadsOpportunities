@@ -10,7 +10,7 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, isUnusableActuTitle } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -49,6 +49,67 @@ function normalizeTitle(t) {
     .trim();
 }
 
+function significantWords(title) {
+  var stop = {
+    pour: 1,
+    dans: 1,
+    avec: 1,
+    cette: 1,
+    plus: 1,
+    moins: 1,
+    entre: 1,
+    face: 1,
+    selon: 1,
+    apres: 1,
+    avant: 1,
+    chez: 1,
+    leurs: 1,
+    votre: 1,
+    notre: 1,
+    une: 1,
+    des: 1,
+    les: 1,
+    sur: 1,
+    par: 1,
+    que: 1,
+    qui: 1,
+    est: 1,
+    pas: 1,
+    aux: 1,
+    une: 1,
+    suite: 1,
+    direct: 1,
+    suivez: 1,
+  };
+  return String(title || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter(function (w) {
+      return w.length > 3 && !stop[w];
+    });
+}
+
+function titlesTooClose(a, b) {
+  var wa = significantWords(a);
+  var wb = significantWords(b);
+  if (!wa.length || !wb.length) return false;
+  var setB = new Set(wb);
+  var shared = wa.filter(function (w) {
+    return setB.has(w);
+  }).length;
+  var denom = Math.min(wa.length, wb.length);
+  return shared >= 3 && shared / denom >= 0.55;
+}
+
+function tooCloseToPicks(picks, title) {
+  return picks.some(function (p) {
+    return titlesTooClose(p.title, title);
+  });
+}
+
 function loadPublishedTitleKeys() {
   var keys = new Set();
   var pub = readJson("blog-actu-published.json", { articles: [] });
@@ -79,7 +140,7 @@ function bestFromPlatform(available, platform, feedMap, used) {
   var list = available
     .filter(function (c) {
       var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      return candidateSourceType(c, feedMap) === platform && !used.has(k) && !isUnusableActuTitle(c.title);
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
@@ -95,6 +156,7 @@ function pickCandidates(candidates, count, state) {
 
   var available = ranked.filter(function (c) {
     if (c.url && processed.has(c.url)) return false;
+    if (isUnusableActuTitle(c.title)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
@@ -113,6 +175,7 @@ function pickCandidates(candidates, count, state) {
     .slice(0, count)
     .forEach(function (c) {
       if (picks.length >= count) return;
+      if (tooCloseToPicks(picks, c.title)) return;
       picks.push(c);
       used.add(c.url || c.title);
     });
@@ -121,7 +184,7 @@ function pickCandidates(candidates, count, state) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
       var pick = bestFromPlatform(available, platform, feedMap, used);
-      if (pick) {
+      if (pick && !tooCloseToPicks(picks, pick.title)) {
         picks.push(pick);
         used.add(pick.url || pick.title);
       }
@@ -132,7 +195,7 @@ function pickCandidates(candidates, count, state) {
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
       var rotated = bestFromPlatform(available, platform, feedMap, used);
-      if (rotated) {
+      if (rotated && !tooCloseToPicks(picks, rotated.title)) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
       }
@@ -148,6 +211,7 @@ function pickCandidates(candidates, count, state) {
       if (picks.length >= count) return;
       var k = c.url || c.title;
       if (used.has(k)) return;
+      if (tooCloseToPicks(picks, c.title)) return;
       picks.push(c);
       used.add(k);
     });
@@ -156,6 +220,7 @@ function pickCandidates(candidates, count, state) {
     if (picks.length >= count) return;
     var k = c.url || c.title;
     if (used.has(k)) return;
+    if (tooCloseToPicks(picks, c.title)) return;
     picks.push(c);
     used.add(k);
   });

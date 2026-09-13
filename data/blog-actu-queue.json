@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-09-13T19:02:21.685Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -29,12 +29,39 @@
       "addedAt": "2026-06-17T08:00:00.000Z"
     },
     {
+      "id": "actu-2026-09-13-vol-cuivre-habitation",
+      "title": "Vols de câbles en cuivre : sinistres habitation et locaux en 2026",
+      "url": "https://www.ladepeche.fr/2026/09/13/11-000-euros-par-vol-de-cuivre-65-attaques-en-2026-et-plus-dun-demi-million-deuros-de-degats-pour-orange-dans-le-tarn-et-garonne-lun-des-departements-13548824.php",
+      "source": "cafeyn",
+      "note": "Angle vol, dommages électriques, franchise habitation et locaux professionnels",
+      "status": "published",
+      "addedAt": "2026-09-13T19:05:00.000Z"
+    },
+    {
+      "id": "actu-2026-09-13-habitation-primes",
+      "title": "Assurance habitation 2026 : primes en hausse, un ménage sur dix réduit ses garanties",
+      "url": "",
+      "source": "edge",
+      "note": "Angle comparer avant de sous-assurer, loi Hamon, questionnaire habitation",
+      "status": "published",
+      "addedAt": "2026-09-13T19:05:00.000Z"
+    },
+    {
+      "id": "actu-2026-09-13-emprunteur-taux",
+      "title": "Prêt immobilier plus cher en 2026 : déléguez l'assurance emprunteur",
+      "url": "",
+      "source": "firefox",
+      "note": "Angle Lemoine, coût du crédit, bassin Nancy métropole",
+      "status": "published",
+      "addedAt": "2026-09-13T19:05:00.000Z"
+    },
+    {
       "id": "cafeyn-pending-template",
       "title": "COLLEZ ICI le titre de la une Cafeyn (Le Figaro, Le Parisien…)",
       "url": "",
       "source": "cafeyn",
-      "note": "Angle assurance a preciser",
-      "status": "pending",
+      "note": "Modele inbox — ne pas publier. Remplacer par un vrai titre Cafeyn.",
+      "status": "template",
       "addedAt": "2026-06-17T08:00:00.000Z"
     }
   ]
