@@ -74,7 +74,7 @@ function hasLeadIntent(c) {
   if (LEAD_INTENT_RE.test(hay)) return true;
   return (
     /coupe du monde|équipe de france|equipe de france|les bleus/i.test(hay) &&
-    /voyage|supporter|d[eé]placement|etranger|étranger|mutuelle|assurance|sante|santé/i.test(hay)
+    /voyage|d[eé]placement|etranger|étranger|mutuelle|assurance|sante|santé|rapatriement/i.test(hay)
   );
 }
 
