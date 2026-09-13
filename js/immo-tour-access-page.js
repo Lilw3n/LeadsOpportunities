@@ -49,8 +49,15 @@
     });
   }
 
+  function resolveVerifyMode(meta) {
+    if (!meta) return "email";
+    // require_otp === false (API) prime sur verify_mode pour éviter une gate e-mail fantôme
+    if (meta.require_otp === false || meta.approval_required === false) return "none";
+    return meta.verify_mode || "email";
+  }
+
   function applyVerifyMode(meta) {
-    var mode = (meta && meta.verify_mode) || "email";
+    var mode = resolveVerifyMode(meta);
     var emailWrap = el("tourEmailWrap");
     var phoneWrap = el("tourPhoneWrap");
     var firstWrap = el("tourFirstWrap");
@@ -65,6 +72,8 @@
     if (phoneWrap) phoneWrap.hidden = mode === "none" || mode === "email";
     if (firstWrap) firstWrap.hidden = mode === "none";
     if (requestBtn) requestBtn.hidden = mode === "none";
+    // Ne pas masquer tout le bloc si le bouton direct est dedans (ancien HTML) :
+    // on masque seulement le libellé « Demander l’accès », pas les actions directes.
     if (askStep) askStep.hidden = mode === "none";
     if (codes) codes.hidden = mode === "none";
     if (emailCodeWrap) emailCodeWrap.hidden = mode === "none" || mode === "sms";
@@ -121,8 +130,7 @@
   }
 
   function isDirectAccess(meta) {
-    var m = meta || lastMeta;
-    return !!(m && (m.verify_mode === "none" || m.require_otp === false));
+    return resolveVerifyMode(meta || lastMeta) === "none";
   }
 
   function setDirectLayout(on) {
@@ -242,7 +250,7 @@
         setMsg("Cochez l’acceptation des droits d’auteur.");
         return;
       }
-      var mode = (lastMeta && lastMeta.verify_mode) || "email";
+      var mode = resolveVerifyMode(lastMeta);
       if (mode !== "none") {
         var typed =
           (el("tourEmailCode") && el("tourEmailCode").value.trim()) ||

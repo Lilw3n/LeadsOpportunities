@@ -234,6 +234,8 @@ assert(pageJsDirect.indexOf("immo-tour-page--direct") !== -1, "page : classe lay
 assert(pageJsDirect.indexOf("openDirectAccess") !== -1, "page : ouverture auto accès libre");
 assert(pageJsDirect.indexOf("setDirectLayout") !== -1, "page : panneau latéral infos");
 assert(pageJsDirect.indexOf("tourDirectActions") !== -1, "page : actions directes hors étapes OTP");
+assert(pageJsDirect.indexOf("resolveVerifyMode") !== -1, "page : mode dérivé de require_otp");
+assert(html.indexOf("immo-tour-access-page.js?v=") !== -1, "page : cache-bust script visite");
 var cssDirect = read("css/immo-ad-listings.css");
 assert(cssDirect.indexOf("tour-direct-layout") !== -1, "css : layout accès direct");
 
