@@ -94,6 +94,32 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** Titres inbox / templates à ne jamais publier (ex. « COLLEZ ICI… »). */
+function isPlaceholderActuTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return true;
+  if (/^collez ici\b/i.test(t)) return true;
+  if (/^\[.*(titre|title|une).*\]$/i.test(t)) return true;
+  if (/^TODO\b/i.test(t)) return true;
+  if (/^exemple\b/i.test(t)) return true;
+  return false;
+}
+
+var SKIP_QUEUE_STATUSES = {
+  published: true,
+  rejected: true,
+  template: true,
+  draft: true,
+};
+
+function isActionableQueueItem(item) {
+  if (!item) return false;
+  var status = String(item.status || "").toLowerCase();
+  if (SKIP_QUEUE_STATUSES[status]) return false;
+  if (isPlaceholderActuTitle(item.title)) return false;
+  return true;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -351,4 +377,6 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderActuTitle: isPlaceholderActuTitle,
+  isActionableQueueItem: isActionableQueueItem,
 };
