@@ -142,6 +142,16 @@ function scoreLeadPotential(candidate) {
   return Math.min(100, Math.max(0, score));
 }
 
+/** Titres modèles (file Cafeyn) — ne jamais publier. */
+function isPlaceholderActuItem(item) {
+  var title = String((item && item.title) || "");
+  var id = String((item && item.id) || "");
+  if (id === "cafeyn-pending-template") return true;
+  if (/collez ici/i.test(title)) return true;
+  if (/titre de la une/i.test(title)) return true;
+  return false;
+}
+
 function rankCandidates(candidates) {
   return candidates
     .map(function (c) {
@@ -348,6 +358,7 @@ module.exports = {
   parseRssItems: parseRssItems,
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
+  isPlaceholderActuItem: isPlaceholderActuItem,
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
