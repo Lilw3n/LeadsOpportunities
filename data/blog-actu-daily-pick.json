@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro",
+      "title": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains - Foot National",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNMF8ycnNZQ0tHSlNMb1RWdjktUmdaeWU4czFjYU41ZTc1Y3loV1Zka0lZbjFwRktURFRuaWd6Mkk3M3Fob1dIRVlwZUtFeWxxcEJpTm5BeF9SbGVVWjh0NDJ0ck5OM0NvRDl5TWtZZnFRN0xqb3pDSzJOYm8wUHVqelpCUUE3Ym45MG14MWxId09SQ0xTVzA3bVdZSFk1Q0RYNWhUeUI1MUhrRjBJUHFPM1hRTzZpemM5SUlSSWQ2UVZ6X3l2UjBmYw?oc=5",
+      "summary": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains Foot National",
+      "pubDate": "Mon, 07 Sep 2026 07:00:00 GMT",
+      "feedId": "google-news-supporters",
+      "feedName": "Google News — supporters France foot",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-2026-l-equipe-de-france-sereine-face-a-la-chine-90-61-dir",
+      "title": "Coupe du Monde 2026 : l’Équipe de France sereine face à la Chine (90-61), direction les demi-finales",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa660d59a3546bd9d6aadeec0e041f8&url=https%3a%2f%2ftrashtalk.co%2f2026%2f09%2f10%2fcoupe-du-monde-2026-lequipe-de-france-sereine-face-a-la-chine-90-61-direction-les-demi-finales%2f&c=10868914696096513994&mkt=en-us",
+      "summary": "L'Équipe de France a livré une très belle performance face à la Chine (90-61). Les Bleues sont en demi-finales de Coupe du Monde.",
+      "pubDate": "Thu, 10 Sep 2026 09:09:00 GMT",
+      "feedId": "source-edge-bing-cdm",
+      "feedName": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "suggestedFile": "coupe-du-monde-2026-l-equipe-de-france-sereine-face-a-la-chine-90-61-dir.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-basket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026",
+      "title": "Basket – Le parcours de l’équipe de France féminine en Coupe du monde 2026",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa660d59a3546bd9d6aadeec0e041f8&url=https%3a%2f%2fwww.sudouest.fr%2fsport%2fbasket%2fbasket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026-30565495.php&c=895359205782988041&mkt=en-us",
+      "summary": "PORTFOLIO - L’équipe de France de basket féminin s’est qualifiée pour la demi-finale de la Coupe du monde à Berlin en Allemagne. Elle affrontera l’Allemagne le 12 septembre. Retour en images sur son p ...",
+      "pubDate": "Sat, 12 Sep 2026 00:01:00 GMT",
+      "feedId": "source-edge-bing-cdm",
+      "feedName": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "suggestedFile": "basket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-",
+      "title": "\"L'opportunité d'écrire l'histoire du sport français\" : Gabby Williams et l'équipe de France peuvent-elles renverser les Américaines pour leur première finale mondiale ?",
+      "url": "https://www.franceinfo.fr/sports/basket/l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-equipe-de-france-peuvent-elles-renverser-les-americaines-pour-leur-premiere-finale-mondiale_8188259.html#xtor=RSS-3-[lestitres]",
+      "summary": "Tombeuses de l'Allemagne en demies, les Bleues vont jouer leur première finale de Coupe du monde, dimanche. Elles y retrouveront les Etats-Unis, qui les avaient privées de l'or olympique à Paris, en 2024.",
+      "pubDate": "Sun, 13 Sep 2026 09:11:58 +0200",
+      "feedId": "source-firefox-franceinfo",
+      "feedName": "Firefox — France Info titres",
+      "sourceType": "firefox",
+      "suggestedFile": "l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}
