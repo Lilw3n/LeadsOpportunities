@@ -110,6 +110,26 @@
       width:100%; padding:7px 8px; border-radius:8px; border:1px solid var(--line); background:#fff; font:inherit;
     }
     .pieces-editor-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+    .occ-toggle {
+      display:inline-flex; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff;
+    }
+    .occ-opt {
+      display:flex; align-items:center; gap:6px; padding:8px 14px; margin:0; cursor:pointer;
+      font-size:.84rem; font-weight:700; color:#64748b; background:#fff; font-style:normal;
+    }
+    .occ-opt + .occ-opt { border-left:1px solid var(--line); }
+    .occ-opt input { margin:0; }
+    .occ-opt.is-on.is-loue,
+    .occ-opt.is-on:has(input[value="loue"]) { background:#dcfce7; color:#166534; }
+    .occ-opt.is-on:has(input[value="vide"]) { background:#e2e8f0; color:#0f172a; }
+    .occ-opt.is-on { background:#e2e8f0; color:#0f172a; }
+    .occ-badge {
+      display:inline-block; margin-left:8px; font-size:.65rem; font-weight:800; letter-spacing:.03em;
+      text-transform:uppercase; border-radius:999px; padding:2px 8px; vertical-align:middle;
+    }
+    .occ-badge.is-loue { background:#dcfce7; color:#166534; }
+    .occ-badge.is-vide { background:#e2e8f0; color:#475569; }
+    .side-unit-tag .occ-badge { margin-left:6px; }
     .dossier-main { background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 18px; min-height:420px; }
     .dossier-main h3 { margin:0 0 6px; color:var(--immo-blue); }
     .dossier-hint { color:var(--muted); font-size:.82rem; margin:0 0 14px; }

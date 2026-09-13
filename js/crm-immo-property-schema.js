@@ -771,14 +771,15 @@ window.CrmImmoSchema = (function () {
         { id: "cadastre_ref", label: "Réf. cadastrale", type: "text" },
         { id: "floor", label: "Étage", type: "text" },
         { id: "transaction", label: "Transaction", type: "unit_transaction" },
-        { id: "loue", label: "Loué actuellement", type: "checkbox" },
+        { id: "occupation", label: "Occupation", type: "occupation", important: true },
       ],
     },
     {
       id: "loyers",
       label: "Loyers & valeur",
-      hint: "Loyer réel / prévisionnel — agrégé dans les totaux composition.",
+      hint: "Occupation, loyer réel / prévisionnel — agrégé dans les totaux composition.",
       fields: [
+        { id: "occupation", label: "Occupation", type: "occupation", important: true },
         { id: "surface_m2", label: "Surface", type: "number", unit: "m²" },
         { id: "price", label: "Prix / valeur", type: "number", unit: "€" },
         { id: "loyer_reel", label: "Loyer réel", type: "number", unit: "€", important: true },

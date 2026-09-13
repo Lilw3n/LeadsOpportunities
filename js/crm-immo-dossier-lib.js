@@ -58,7 +58,15 @@
     u.type = u.type || "appartement";
     u.label = u.label || "";
     u.transaction = u.transaction || "vente";
-    u.loue = !!u.loue;
+    if (u.occupation === "loue" || u.occupation === "vide") {
+      u.loue = u.occupation === "loue";
+    } else if (u.loue != null) {
+      u.occupation = u.loue ? "loue" : "vide";
+      u.loue = !!u.loue;
+    } else {
+      u.occupation = u.transaction === "location" ? "loue" : "vide";
+      u.loue = u.occupation === "loue";
+    }
     u.surface_m2 = u.surface_m2 != null ? u.surface_m2 : "";
     u.rooms = u.rooms != null ? u.rooms : "";
     u.bedrooms = u.bedrooms != null ? u.bedrooms : "";

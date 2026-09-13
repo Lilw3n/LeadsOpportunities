@@ -248,7 +248,13 @@
         }
         nav.innerHTML =
           '<button type="button" class="side-back" id="btnBackComposition"><span>← Composition</span></button>' +
-          '<div class="side-unit-tag">' + esc(unitLabel(unit)) + "</div>" +
+          '<div class="side-unit-tag">' +
+          esc(unitLabel(unit)) +
+          '<span class="occ-badge ' +
+          (unit.occupation === "loue" || unit.loue ? "is-loue" : "is-vide") +
+          '">' +
+          (unit.occupation === "loue" || unit.loue ? "loué" : "vide") +
+          "</span></div>" +
           unitSecs
             .map(function (s) {
               return (
@@ -435,7 +441,9 @@
     var Dossier = window.CrmImmoDossier;
     body.querySelectorAll("[data-uk]").forEach(function (el) {
       var k = el.getAttribute("data-uk");
-      if (el.type === "checkbox") unit[k] = el.checked;
+      if (el.type === "radio") {
+        if (el.checked) unit[k] = el.value;
+      } else if (el.type === "checkbox") unit[k] = el.checked;
       else if (k === "photos") {
         unit.photos = Dossier
           ? Dossier.normalizePhotoList(el.value)
@@ -448,6 +456,9 @@
         unit.parent_id = el.value || null;
       } else unit[k] = el.value;
     });
+    if (unit.occupation === "loue" || unit.occupation === "vide") {
+      unit.loue = unit.occupation === "loue";
+    }
     if (body.querySelector("[data-pieces-editor]")) {
       unit.pieces_list = collectPiecesEditor(body);
       if (Dossier && Dossier.syncCountersFromPieces) Dossier.syncCountersFromPieces(unit);
@@ -631,12 +642,48 @@
     }
   }
 
+  function bindOccupationToggle(root) {
+    var box = (root || document).querySelector("[data-uk-occupation]");
+    if (!box) return;
+    box.querySelectorAll('input[type="radio"]').forEach(function (input) {
+      input.onchange = function () {
+        box.querySelectorAll(".occ-opt").forEach(function (lab) {
+          lab.classList.toggle("is-on", !!(lab.querySelector("input") && lab.querySelector("input").checked));
+        });
+        var unit = findUnit(state.activeUnitId);
+        if (!unit) return;
+        unit.occupation = input.value;
+        unit.loue = input.value === "loue";
+        renderSide();
+      };
+    });
+  }
+
   function unitFieldHtml(field, unit) {
     if (field.type === "pieces_editor") return piecesEditorHtml(unit);
     var val = unit[field.id];
     if (field.id === "photos") val = photoUrlsText(unit);
     var ctrl = "";
-    if (field.type === "checkbox") {
+    if (field.type === "occupation") {
+      var occ = unit.occupation === "loue" || unit.loue ? "loue" : "vide";
+      ctrl =
+        '<div class="occ-toggle" data-uk-occupation>' +
+        '<label class="occ-opt' +
+        (occ === "loue" ? " is-on" : "") +
+        '"><input type="radio" name="occ_' +
+        esc(unit.id) +
+        '" data-uk="occupation" value="loue"' +
+        (occ === "loue" ? " checked" : "") +
+        " /> Loué</label>" +
+        '<label class="occ-opt' +
+        (occ === "vide" ? " is-on" : "") +
+        '"><input type="radio" name="occ_' +
+        esc(unit.id) +
+        '" data-uk="occupation" value="vide"' +
+        (occ === "vide" ? " checked" : "") +
+        " /> Vide</label>" +
+        "</div>";
+    } else if (field.type === "checkbox") {
       ctrl = '<input type="checkbox" data-uk="' + esc(field.id) + '"' + (unit[field.id] ? " checked" : "") + " />";
     } else if (field.type === "unit_type") {
       ctrl =
@@ -781,7 +828,9 @@
       '<div class="comp-meta">' +
       (u.floor ? "Étage " + esc(u.floor) + " · " : "") +
       (u.lot_number ? "lot " + esc(u.lot_number) + " · " : "") +
-      (u.loue || u.transaction === "location" ? "loué · " : "") +
+      (u.occupation === "loue" || u.loue
+        ? '<span class="occ-badge is-loue">loué</span> · '
+        : '<span class="occ-badge is-vide">vide</span> · ') +
       (u.locataire_nom ? esc(u.locataire_nom) + " · " : "") +
       esc(u.surface_m2 || "—") +
       " m²</div>";
@@ -1188,6 +1237,7 @@
         var back2 = document.getElementById("btnBackComposition2");
         if (back2) back2.onclick = leaveUnitMode;
         bindPiecesEditor(body);
+        bindOccupationToggle(body);
         return;
       }
     }
