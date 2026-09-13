@@ -77,14 +77,110 @@
     u.nb_cuisines = u.nb_cuisines != null ? u.nb_cuisines : "";
     u.pieces_list = normalizePiecesList(u.pieces_list || u.rooms_list || []);
     if (u.pieces_list.length) syncCountersFromPieces(u);
+
+    // Surfaces
+    u.surface_m2 = u.surface_m2 != null ? u.surface_m2 : "";
+    u.surface_carrez = u.surface_carrez != null ? u.surface_carrez : "";
+    u.surface_non_carrez = u.surface_non_carrez != null ? u.surface_non_carrez : "";
+    u.surface_utile = u.surface_utile != null ? u.surface_utile : "";
+
+    // Cadastre / lots / tantièmes
+    u.cadastre_section = u.cadastre_section || "";
+    u.cadastre_numero = u.cadastre_numero || "";
+    u.cadastre_ref = u.cadastre_ref || "";
+    u.lot_propriete = u.lot_propriete || u.lot_number || "";
+    u.lot_number = u.lot_number || u.lot_propriete || "";
+    u.milliemes_privatifs = u.milliemes_privatifs != null ? u.milliemes_privatifs : "";
+    u.milliemes_communs = u.milliemes_communs != null ? u.milliemes_communs : "";
+    u.parties_communes = u.parties_communes || "";
+
+    // Loyers HC / CC — loyer_reel = valeur affichée/agrégée selon le mode
+    u.loyer_mode = u.loyer_mode === "CC" || u.loyer_mode === "HC" ? u.loyer_mode : "HC";
+    u.loyer_hc = u.loyer_hc != null && u.loyer_hc !== "" ? u.loyer_hc : "";
+    u.loyer_cc = u.loyer_cc != null && u.loyer_cc !== "" ? u.loyer_cc : "";
+    u.charges_locatives = u.charges_locatives != null ? u.charges_locatives : "";
+    u.charges_type = u.charges_type || "";
+    if ((u.loyer_hc === "" || u.loyer_hc == null) && u.loyer_reel !== "" && u.loyer_reel != null && u.loyer_mode === "HC") {
+      u.loyer_hc = u.loyer_reel;
+    }
+    if ((u.loyer_cc === "" || u.loyer_cc == null) && u.loyer_reel !== "" && u.loyer_reel != null && u.loyer_mode === "CC") {
+      u.loyer_cc = u.loyer_reel;
+    }
+    if ((u.loyer_hc === "" || u.loyer_hc == null) && u.loyer !== "" && u.loyer != null && u.loyer_mode === "HC") {
+      u.loyer_hc = u.loyer;
+    }
+    if ((u.loyer_cc === "" || u.loyer_cc == null) && u.loyer !== "" && u.loyer != null && u.loyer_mode === "CC") {
+      u.loyer_cc = u.loyer;
+    }
+    var fromMode = u.loyer_mode === "CC" ? u.loyer_cc : u.loyer_hc;
+    if (fromMode !== "" && fromMode != null) {
+      u.loyer_reel = fromMode;
+      u.loyer = fromMode;
+    } else if (u.loyer_reel == null || u.loyer_reel === "") {
+      u.loyer_reel = u.loyer != null ? u.loyer : "";
+    }
+
+    // Confort / équipements
+    u.type_chauffage = u.type_chauffage || "";
+    u.energie_chauffage = u.energie_chauffage || "";
+    u.pompe_chaleur = !!u.pompe_chaleur;
+    u.chaudiere = u.chaudiere || "";
+    u.cheminee = !!u.cheminee;
+    u.climatisation = !!u.climatisation;
+    u.mezzanine = !!u.mezzanine;
+    u.balcon = !!u.balcon;
+    u.terrasse = !!u.terrasse;
+    u.veranda = !!u.veranda;
+    u.plateau_nu = !!u.plateau_nu;
+    u.cave = !!u.cave;
+    u.parking = !!u.parking;
+    u.equipements_notes = u.equipements_notes || "";
+
+    // Locataire / investisseur
+    u.locataire_prenom = u.locataire_prenom || "";
+    u.locataire_tel = u.locataire_tel || "";
+    u.locataire_email = u.locataire_email || "";
+    u.locataire_employeur = u.locataire_employeur || "";
+    u.locataire_revenus = u.locataire_revenus != null ? u.locataire_revenus : "";
+    u.garant_nom = u.garant_nom || "";
+    u.rendement_brut = u.rendement_brut != null ? u.rendement_brut : "";
+    u.rendement_net = u.rendement_net != null ? u.rendement_net : "";
+    u.vacance_locative_jours = u.vacance_locative_jours != null ? u.vacance_locative_jours : "";
+    u.taxe_fonciere = u.taxe_fonciere != null ? u.taxe_fonciere : "";
+    u.assurance_pno = u.assurance_pno != null ? u.assurance_pno : "";
+    u.frais_gestion = u.frais_gestion != null ? u.frais_gestion : "";
+    u.cashflow_mensuel = u.cashflow_mensuel != null ? u.cashflow_mensuel : "";
+    u.investor_notes = u.investor_notes || "";
+
+    // Syndic / copro
+    u.syndic_nom = u.syndic_nom || "";
+    u.syndic_contact = u.syndic_contact || "";
+    u.syndic_tel = u.syndic_tel || "";
+    u.syndic_email = u.syndic_email || "";
+    u.charges_copro = u.charges_copro != null ? u.charges_copro : "";
+    u.travaux_copro = u.travaux_copro || "";
+    u.travaux_prevus = u.travaux_prevus || "";
+    u.procedure_en_cours = !!u.procedure_en_cours;
+    u.procedure_details = u.procedure_details || "";
+    u.fonds_travaux = u.fonds_travaux != null ? u.fonds_travaux : "";
+    u.nb_lots_copro = u.nb_lots_copro != null ? u.nb_lots_copro : "";
+
+    // Propriétaire
+    u.proprietaire_nom = u.proprietaire_nom || "";
+    u.proprietaire_prenom = u.proprietaire_prenom || "";
+    u.proprietaire_tel = u.proprietaire_tel || "";
+    u.proprietaire_email = u.proprietaire_email || "";
+    u.regime_matrimonial = u.regime_matrimonial || "";
+    u.origine_propriete = u.origine_propriete || "";
+    u.date_acquisition = u.date_acquisition || "";
+    u.prix_acquisition = u.prix_acquisition != null ? u.prix_acquisition : "";
+    u.notaire_nom = u.notaire_nom || "";
+    u.proprietaire_notes = u.proprietaire_notes || "";
+
     u.floor = u.floor != null ? u.floor : "";
-    u.lot_number = u.lot_number != null ? u.lot_number : "";
-    u.cadastre_ref = u.cadastre_ref != null ? u.cadastre_ref : "";
     u.price = u.price != null ? u.price : "";
     u.loyer = u.loyer != null ? u.loyer : "";
-    u.loyer_reel = u.loyer_reel != null && u.loyer_reel !== "" ? u.loyer_reel : u.loyer;
     u.loyer_previsionnel = u.loyer_previsionnel != null ? u.loyer_previsionnel : "";
-    u.charges_locatives = u.charges_locatives != null ? u.charges_locatives : "";
     u.depot_garantie = u.depot_garantie != null ? u.depot_garantie : "";
     u.type_bail = u.type_bail || "";
     u.locataire_nom = u.locataire_nom || "";
@@ -112,12 +208,27 @@
     { id: "cellier", label: "Cellier / buanderie", counter: null },
     { id: "entree", label: "Entrée", counter: null },
     { id: "couloir", label: "Couloir", counter: null },
+    { id: "mezzanine", label: "Mezzanine", counter: null },
     { id: "balcon", label: "Balcon", counter: null },
     { id: "terrasse", label: "Terrasse", counter: null },
+    { id: "veranda", label: "Véranda", counter: null },
+    { id: "plateau_nu", label: "Plateau nu", counter: null },
     { id: "cave", label: "Cave", counter: null },
     { id: "garage", label: "Garage", counter: null },
     { id: "parking", label: "Parking", counter: null },
     { id: "autre", label: "Autre", counter: null },
+  ];
+
+  /** Attributs optionnels par pièce (cheminée, etc.). */
+  var ROOM_ATTRS = [
+    { id: "cheminee", label: "Cheminée" },
+    { id: "mezzanine", label: "Mezzanine" },
+    { id: "balcon", label: "Balcon" },
+    { id: "terrasse", label: "Terrasse" },
+    { id: "veranda", label: "Véranda" },
+    { id: "plateau_nu", label: "Plateau nu" },
+    { id: "climatisation", label: "Clim" },
+    { id: "placards", label: "Placards" },
   ];
 
   function emptyPiece(type) {
@@ -125,13 +236,18 @@
     var meta = ROOM_TYPES.find(function (t) {
       return t.id === type;
     });
-    return {
+    var row = {
       id: "piece_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 6),
       type: type,
       label: meta ? meta.label : "",
       qty: 1,
       surface_m2: "",
+      notes: "",
     };
+    ROOM_ATTRS.forEach(function (a) {
+      row[a.id] = false;
+    });
+    return row;
   }
 
   function normalizePiece(p) {
@@ -147,6 +263,10 @@
     var q = Number(p.qty);
     p.qty = isNaN(q) || q < 1 ? 1 : Math.round(q);
     p.surface_m2 = p.surface_m2 != null && p.surface_m2 !== "" ? numOrEmpty(p.surface_m2) : "";
+    p.notes = p.notes || "";
+    ROOM_ATTRS.forEach(function (a) {
+      p[a.id] = !!p[a.id];
+    });
     return p;
   }
 
@@ -298,17 +418,21 @@
     }, 0);
   }
 
-  /** Totaux composition : loyers, pièces, surfaces, baux actifs. */
+  /** Totaux composition : loyers HC/CC, Carrez, pièces, baux actifs. */
   function unitTotals(units) {
     units = (Array.isArray(units) ? units : []).map(normalizeUnit);
     var loues = units.filter(function (u) {
-      return u.loue || u.transaction === "location";
+      return u.occupation === "loue" || u.loue || u.transaction === "location";
     });
     return {
       units: units.length,
       loues: loues.length,
       surface_m2: sumField(units, "surface_m2"),
+      surface_carrez: sumField(units, "surface_carrez"),
+      surface_non_carrez: sumField(units, "surface_non_carrez"),
       loyer_reel: sumField(units, "loyer_reel"),
+      loyer_hc: sumField(units, "loyer_hc"),
+      loyer_cc: sumField(units, "loyer_cc"),
       loyer_previsionnel: sumField(units, "loyer_previsionnel"),
       charges_locatives: sumField(units, "charges_locatives"),
       nb_pieces: sumField(units, "nb_pieces"),
@@ -409,6 +533,7 @@
     subtreeTotals: subtreeTotals,
     COMPOSITION_LEVELS: COMPOSITION_LEVELS,
     ROOM_TYPES: ROOM_TYPES,
+    ROOM_ATTRS: ROOM_ATTRS,
     emptyPiece: emptyPiece,
     normalizePiece: normalizePiece,
     normalizePiecesList: normalizePiecesList,

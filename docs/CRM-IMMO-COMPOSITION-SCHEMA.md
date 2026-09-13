@@ -76,8 +76,23 @@ Terrain 420 m²
 
 - `buildCompositionTree(units)` — arbre parent→enfants
 - `subtreeTotals(units, rootId, includeRoot)` — totaux d’une branche
-- `unitTotals(units)` — totaux globaux
+- `unitTotals(units)` — totaux globaux (loyers HC/CC, Carrez, pièces, baux)
 - `COMPOSITION_LEVELS` — rôles métier (foncier / bâti / niveau / lot / annexe)
+- `ROOM_TYPES` / `ROOM_ATTRS` — catalogue pièces + attributs (cheminée, balcon, véranda, plateau nu…)
+
+## Barre noire d’un lot (`UNIT_SECTIONS`)
+
+| Section | Contenu |
+|---------|---------|
+| Identité | type, cadastre (section/n°), lot propriété, millièmes privatifs/communs, parties communes, occupation loué/vide |
+| Loyers & surfaces | mode HC/CC, loyer HC, loyer CC, charges, Carrez / hors Carrez / utile |
+| Chauffage & annexes | type/énergie, PAC, chaudière, cheminée, mezzanine, balcon, terrasse, véranda, plateau nu… |
+| Pièces | liste libre + attributs par pièce |
+| Bail & locataire | identité locataire, revenus, garant, type/dates de bail |
+| Investisseur | rendements brut/net, cash-flow, vacance, taxe foncière, PNO, gestion |
+| Syndic & copro | syndic, charges, fonds travaux, travaux, procédures |
+| Propriétaire | coordonnées, régime matrimonial, origine (achat/donation/héritage…), notaire |
+| Photos & visite | médias du lot |
 
 ## Variantes courantes
 

@@ -201,6 +201,20 @@
     .immo-cloud-table { width:100%; border-collapse:collapse; font-size:.84rem; }
     .immo-cloud-table th, .immo-cloud-table td { padding:8px; border-bottom:1px solid #eef2f7; text-align:left; }
     .immo-cloud-table th { color:var(--muted); font-size:.72rem; }
+
+    .piece-row { display:flex; flex-direction:column; gap:6px; padding:10px; border:1px solid var(--line); border-radius:10px; background:#f8fafc; }
+    .piece-row-main {
+      display:grid; grid-template-columns:minmax(110px,140px) 1fr minmax(64px,72px) minmax(72px,88px) auto;
+      gap:6px; align-items:center;
+    }
+    @media (max-width:700px){
+      .piece-row-main { grid-template-columns:1fr 1fr; }
+      .piece-row-main [data-pk="label"] { grid-column:1 / -1; }
+    }
+    .piece-attrs { display:flex; flex-wrap:wrap; gap:8px 12px; }
+    .piece-attr { display:inline-flex; align-items:center; gap:4px; font-size:.75rem; font-weight:700; color:#475569; font-style:normal; }
+    .piece-attr input { margin:0; }
+    .piece-notes { width:100%; padding:7px 8px; border-radius:8px; border:1px solid var(--line); background:#fff; font:inherit; }
   </style>
 </head>
 <body class="crm-subpage">
