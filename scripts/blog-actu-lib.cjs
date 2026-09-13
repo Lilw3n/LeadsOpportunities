@@ -89,9 +89,59 @@ function uniqueFile(baseSlug) {
 }
 
 function monthLabel() {
-  var months = ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"];
+  var months = [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre",
+  ];
   var d = new Date();
   return months[d.getMonth()] + " " + d.getFullYear();
+}
+
+/** File inbox / modèle Cafeyn — ne jamais publier tel quel. */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var id = String(item.id || "");
+  var title = String(item.title || "");
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "draft-template") return true;
+  if (id.indexOf("pending-template") !== -1) return true;
+  if (/collez ici|à préciser|a preciser|todo titre|titre de la une/i.test(title)) return true;
+  return false;
+}
+
+/** Sujets qui convertissent vers un questionnaire (pas people / sport TV / M&A). */
+function hasLeadConversionAngle(candidate) {
+  if (isPlaceholderActuItem(candidate)) return false;
+  var title = String(candidate.title || "");
+  var hay = (title + " " + String(candidate.summary || "")).toLowerCase();
+  if (/memorandum of understanding|enters into a|business wire|devis avec mutuelle\.fr/i.test(hay)) {
+    return false;
+  }
+  if (/le comparateur assurance|obtenez un devis|ce qu.il faut retenir des match|mutuelle sant[eé] groupama/i.test(title)) {
+    return false;
+  }
+  if (
+    !/[àâäéèêëïîôùûüçœ]/i.test(title) &&
+    /\b(the|into|regarding|advantages|what you need|retirees face|health insurance in|money talk)\b/i.test(title)
+  ) {
+    return false;
+  }
+  if (/concert|karaok|c[eé]line dion|kardashian|clip de rap/i.test(hay) && !/assurance|mutuelle|sinistre/.test(hay)) {
+    return false;
+  }
+  return /assurance|mutuelle|emprunteur|sinistre|habitation|pr[eê]t immobilier|loi lemoine|pr[eé]voyance|canicule|incendie|inondation|relogement|catastrophe naturelle|cat[- ]?nat|\bvtc\b|rc pro|d[eé]g[aâ]ts des eaux|s[eé]cheresse|franchise m[eé]dicale|ticket mod[eé]rateur|reste [aà] charge/.test(
+    hay
+  );
 }
 
 /** Score 0–100 : potentiel lead questionnaire */
@@ -348,6 +398,8 @@ module.exports = {
   parseRssItems: parseRssItems,
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
+  isPlaceholderActuItem: isPlaceholderActuItem,
+  hasLeadConversionAngle: hasLeadConversionAngle,
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,

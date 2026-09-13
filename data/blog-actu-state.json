@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T16:50:54.452Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6d46d1cc5405fbd7a66f7b80df488&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsante%2fg%25C3%25A9n%25C3%25A9ral%2fmutuelle-sant%25C3%25A9-modulable-%25C3%25A0-la-retraite-comment-ajuster-ses-garanties-par-poste%2far-AA2bTd3J&c=15243153648960819155&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMiuAJBVV95cUxPLVA0aFZHWVhKVjdzRjVYTnk4cjh5YnpLb1pHZHZfT29LRU9YeVN2ejQtcnVBQ1NvSk9iVWVIQ3FMTXFEZzZ0T3laenZTajhTeTEyU2lvVGxUUFNNRXo1a2hvVlU5MXlVck9fM1JyeGJJTXRqM1Z4Y1o3dkZaeXdoZS0yUDZieEpONUcwX2tLU01RVHJCX3pzRzl4a09wTzNRS3lVTFJ6bHVnQUhSUHh4dlI1dF9XcnJGMEpuY29GZ29RdlQ1SmRlNVNGTDJZa3JPTDBfTjBzZmdiN3o5aHRuTGRvXzhBeTVXNzVYVkhnSDk1cjN0cmpyREpwZkEzUjNOV3lrWDlEMUVwazBrM1Z5LWE4LUtVYlE1RmViUnE2QWVGQkFQdXhnN0lScFJBTEgxakNYSUh6Wi0?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T16:50:56.515Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T16:50:56.515Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+          "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par.html",
+          "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "emprunteur-allianz-france-et-magnolia-creent-un-contrat-specialement-con.html",
+          "title": "Emprunteur : Allianz France et Magnolia créent un contrat spécialement conçu pour les c… : pret et assurance emprunteur — que faire ?",
+          "source": "Google News — assurance emprunteur",
+          "sourceType": "aggregator"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
