@@ -19,15 +19,13 @@
   var API = "/api/crm/partner-sites";
   var canPublish = false;
 
-  var DEFAULT_CATEGORIES = [
-    { id: "batiment", label: "Bâtiment & construction", order: 10, icon: "" },
-    { id: "immobilier", label: "Immobilier", order: 20, icon: "" },
-    { id: "services", label: "Services aux pros", order: 30, icon: "" },
-    { id: "commerce", label: "Commerce & local", order: 40, icon: "" },
-    { id: "assurance", label: "Assurance", order: 50, icon: "" },
-    { id: "sante", label: "Santé", order: 60, icon: "" },
-    { id: "formation", label: "Formation", order: 70, icon: "" },
-    { id: "autre", label: "Autre", order: 90, icon: "" },
+  var DEFAULT_CATEGORIES = Lib.DEFAULT_CATEGORIES || [
+    { id: "batiment", label: "Bâtiment & construction", order: 10, icon: "🏗️" },
+    { id: "outre-mer", label: "Outre-mer & DOM-TOM", order: 65, icon: "🌴" },
+    { id: "associatif", label: "Associatif & solidarité", order: 70, icon: "🤝" },
+    { id: "annuaire", label: "Annuaire & portail local", order: 75, icon: "📇" },
+    { id: "agriculture", label: "Agriculture & alimentaire", order: 50, icon: "🥬" },
+    { id: "autre", label: "Autre", order: 200, icon: "📦" },
   ];
 
   var CATEGORY_ALIASES = { btp: "batiment" };
@@ -99,6 +97,10 @@
   }
 
   function ensureCategories(data) {
+    if (Lib.mergeDefaultCategories) {
+      catalog = Lib.mergeDefaultCategories(data);
+      return;
+    }
     catalog = Lib.normalizeCatalog(data);
     if (!catalog.categories.length) {
       catalog.categories = DEFAULT_CATEGORIES.slice();
@@ -122,8 +124,9 @@
     var current = sel.value;
     sel.innerHTML = catalog.categories
       .map(function (c) {
+        var label = (c.icon ? c.icon + " " : "") + c.label;
         return (
-          '<option value="' + Lib.esc(c.id) + '">' + Lib.esc(c.label) + "</option>"
+          '<option value="' + Lib.esc(c.id) + '">' + Lib.esc(label) + "</option>"
         );
       })
       .join("");

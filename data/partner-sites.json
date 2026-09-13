@@ -1,13 +1,32 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-05",
+  "updatedAt": "2026-09-13",
   "title": "Sites partenaires",
-  "lead": "Des entreprises locales que nous accompagnons — aperçu de leur vitrine, par métier.",
+  "lead": "Des entreprises et projets locaux que nous accompagnons — aperçu de leur vitrine, par métier.",
   "categories": [
     { "id": "batiment", "label": "Bâtiment & construction", "order": 10, "icon": "🏗️" },
     { "id": "immobilier", "label": "Immobilier", "order": 20, "icon": "🏠" },
     { "id": "services", "label": "Services aux pros", "order": 30, "icon": "🛠️" },
-    { "id": "commerce", "label": "Commerce & local", "order": 40, "icon": "🏪" }
+    { "id": "commerce", "label": "Commerce & local", "order": 40, "icon": "🏪" },
+    { "id": "artisanat", "label": "Artisanat", "order": 45, "icon": "🪵" },
+    { "id": "agriculture", "label": "Agriculture & alimentaire", "order": 50, "icon": "🥬" },
+    { "id": "restauration", "label": "Restauration & food", "order": 55, "icon": "🍽️" },
+    { "id": "tourisme", "label": "Tourisme & voyage", "order": 60, "icon": "✈️" },
+    { "id": "outre-mer", "label": "Outre-mer & DOM-TOM", "order": 65, "icon": "🌴" },
+    { "id": "associatif", "label": "Associatif & solidarité", "order": 70, "icon": "🤝" },
+    { "id": "annuaire", "label": "Annuaire & portail local", "order": 75, "icon": "📇" },
+    { "id": "assurance", "label": "Assurance", "order": 80, "icon": "🛡️" },
+    { "id": "sante", "label": "Santé & bien-être", "order": 85, "icon": "🩺" },
+    { "id": "formation", "label": "Formation & éducation", "order": 90, "icon": "🎓" },
+    { "id": "digital", "label": "Web & digital", "order": 95, "icon": "💻" },
+    { "id": "auto", "label": "Auto & mobilité", "order": 100, "icon": "🚗" },
+    { "id": "beaute", "label": "Beauté & mode", "order": 105, "icon": "💅" },
+    { "id": "sport", "label": "Sport & loisirs", "order": 110, "icon": "⚽" },
+    { "id": "culture", "label": "Culture & médias", "order": 115, "icon": "🎭" },
+    { "id": "juridique", "label": "Juridique & admin", "order": 120, "icon": "⚖️" },
+    { "id": "finance", "label": "Banque & finance", "order": 125, "icon": "💶" },
+    { "id": "industrie", "label": "Industrie & tech", "order": 130, "icon": "⚙️" },
+    { "id": "autre", "label": "Autre", "order": 200, "icon": "📦" }
   ],
   "sites": [
     {
