@@ -103,11 +103,29 @@ function scoreLeadPotential(candidate) {
   if (candidate.status === "queued") score += 25;
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
+  } else if (candidate.sourceType === "google" || candidate.sourceType === "bing" || candidate.sourceType === "yahoo") {
+    score += 6;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
 
-  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
+  [
+    "assurance",
+    "mutuelle",
+    "emprunteur",
+    "sinistre",
+    "pret",
+    "prêt",
+    "rembours",
+    "garantie",
+    "logement",
+    "habitation",
+    "location",
+    "proprietaire",
+    "propriétaire",
+    "travaux",
+    "loyer",
+  ].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
 
@@ -132,11 +150,18 @@ function scoreLeadPotential(candidate) {
   score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
+  if (/businesswire|globenewswire|pr newswire|communique|communiqué|mou\b|partnership/.test(title)) score -= 25;
+  if (looksMostlyEnglish(title) && !isFranceMarketTopic(hay)) score -= 18;
+  if (!hasLeadIntent(hay)) score -= 18;
+  if (!hasLeadIntent(title)) score -= 14;
+  if (isSoftEntertainmentOrSport(title) && !hasCoverageAngle(hay)) score -= 26;
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 45 * 86400000) score -= 20;
+    else if (age > 14 * 86400000) score -= 8;
   }
 
   return Math.min(100, Math.max(0, score));
@@ -297,14 +322,18 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: cleanRssText(title),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: cleanRssText(desc || "").slice(0, 400),
         pubDate: pub || "",
       });
     }
   }
   return items;
+}
+
+function cleanRssText(value) {
+  return stripHtml(decodeEntities(value)).replace(/\s+/g, " ").trim();
 }
 
 function extractTag(block, tag) {
@@ -319,6 +348,7 @@ function stripHtml(s) {
 
 function decodeEntities(s) {
   return String(s)
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
       return String.fromCharCode(parseInt(hex, 16));
     })
@@ -331,7 +361,82 @@ function decodeEntities(s) {
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&apos;/g, "'")
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
+    .replace(/&nbsp;/g, " ");
+}
+
+function looksMostlyEnglish(text) {
+  var hay = String(text || "").toLowerCase();
+  var hits = 0;
+  [
+    "the ",
+    " and ",
+    " with ",
+    " after ",
+    " before ",
+    " says ",
+    " report",
+    " market",
+    "global",
+    "launches",
+    "announces",
+  ].forEach(function (kw) {
+    if (hay.indexOf(kw) !== -1) hits += 1;
+  });
+  return hits >= 2;
+}
+
+function hasLeadIntent(text) {
+  var hay = String(text || "").toLowerCase();
+  return [
+    "assurance",
+    "mutuelle",
+    "santé",
+    "sante",
+    "rembours",
+    "sinistre",
+    "habitation",
+    "logement",
+    "loyer",
+    "location",
+    "proprietaire",
+    "propriétaire",
+    "travaux",
+    "immobilier",
+    "crédit",
+    "credit",
+    "prêt",
+    "pret",
+    "emprunteur",
+    "auto",
+    "voiture",
+    "vehicule",
+    "véhicule",
+    "transport",
+    "train",
+    "voyage",
+    "billet",
+    "annulation",
+    "vtc",
+    "retraite",
+    "prévoyance",
+    "prevoyance",
+    "animal",
+    "animaux",
+    "chien",
+    "chat",
+  ].some(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  });
+}
+
+function hasCoverageAngle(text) {
+  var hay = String(text || "").toLowerCase();
+  return /assurance|mutuelle|sant[eé]|voyage|billet|annulation|supporter|supporters|coupe du monde|mondial|[eé]quipe de france|deplacement|déplacement/.test(hay);
+}
+
+function isSoftEntertainmentOrSport(text) {
+  var hay = String(text || "").toLowerCase();
+  return /psg|football|basket|match|concert|c[eé]line dion|fans?|people|joueur|joueuse|stade|bleus/.test(hay);
 }
 
 module.exports = {
@@ -346,6 +451,8 @@ module.exports = {
   loadPendingArticles: loadPendingArticles,
   appendPendingArticle: appendPendingArticle,
   parseRssItems: parseRssItems,
+  cleanRssText: cleanRssText,
+  hasLeadIntent: hasLeadIntent,
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,

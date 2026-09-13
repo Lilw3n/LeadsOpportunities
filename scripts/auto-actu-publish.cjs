@@ -14,6 +14,12 @@ const { readJson, writeJson, rankCandidates, appendPendingArticle } = require(".
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
+const {
+  PLATFORM_TYPES,
+  PRIORITY_PLATFORM_TYPES,
+  normalizeSourceType,
+  sourceTypeFromText,
+} = require("./blog-actu-sources.cjs");
 
 var ROOT = path.join(__dirname, "..");
 
@@ -37,7 +43,7 @@ function loadFeedSourceMap() {
   var feedsCfg = readJson("blog-actu-feeds.json", { feeds: [] });
   var map = {};
   (feedsCfg.feeds || []).forEach(function (f) {
-    map[f.id] = f.sourceType || "aggregator";
+    map[f.id] = normalizeSourceType(f.sourceType || sourceTypeFromText(f.name || f.id));
   });
   return map;
 }
@@ -64,14 +70,15 @@ function loadPublishedTitleKeys() {
   return keys;
 }
 
-var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
-
 function candidateSourceType(c, feedMap) {
-  if (c.sourceType) return c.sourceType;
+  if (c.sourceType) return normalizeSourceType(c.sourceType);
   var src = String(c.source || "").toLowerCase();
   if (src.indexOf("cafeyn") !== -1) return "cafeyn";
-  if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
+  if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1) return "edge";
   if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
+  if (src.indexOf("google") !== -1) return "google";
+  if (src.indexOf("bing") !== -1) return "bing";
+  if (src.indexOf("yahoo") !== -1) return "yahoo";
   return feedMap[c.feedId] || "aggregator";
 }
 
@@ -118,7 +125,7 @@ function pickCandidates(candidates, count, state) {
     });
 
   if (count >= 3) {
-    PLATFORM_TYPES.forEach(function (platform) {
+    PRIORITY_PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
       var pick = bestFromPlatform(available, platform, feedMap, used);
       if (pick) {
@@ -126,7 +133,16 @@ function pickCandidates(candidates, count, state) {
         used.add(pick.url || pick.title);
       }
     });
-    state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
+    PLATFORM_TYPES.forEach(function (platform) {
+      if (picks.length >= count) return;
+      if (PRIORITY_PLATFORM_TYPES.indexOf(platform) !== -1) return;
+      var pick = bestFromPlatform(available, platform, feedMap, used);
+      if (pick) {
+        picks.push(pick);
+        used.add(pick.url || pick.title);
+      }
+    });
+    state._nextPlatformRotation = ((state.platformRotationIndex || 0) + picks.length) % PLATFORM_TYPES.length;
   } else {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {

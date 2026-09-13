@@ -42,13 +42,16 @@ Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 | Plateforme | Flux utilisés |
 |------------|---------------|
 | **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Sud Ouest, Midi Libre, La Dépêche, Nice-Matin, DNA, Le Progrès, Le Monde, L'Express, Capital… |
-| **Edge** | Bing News : France, actu, économie, assurance, mutuelle, immobilier, santé |
-| **Firefox** | France Info (titres/santé/éco), France 24, Mediapart, RFI, BFMTV, Europe 1, HuffPost, Courrier international + Pocket |
+| **Edge / MSN** | Bing News RSS : France, actu, économie, assurance, mutuelle, immobilier, santé |
+| **Firefox** | France Info (titres/santé/éco), 20 Minutes, France 24, Mediapart, RFI, BFMTV, Europe 1, HuffPost, Courrier international + Pocket |
 | **Google News** | 20+ requêtes assurance + **Coupe du monde 2026** (matchs, Bleus, Mbappé, supporters, voyage) |
+| **Bing News** | Flux dédiés Bing France / assurance / immobilier / santé |
+| **Yahoo** | Yahoo Actualités France + Yahoo Finance |
 
 **Sélection** :
-- `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
-- `--count=1` → rotation automatique (cafeyn → edge → firefox) sur les 5 crons/jour
+- `--count=3` → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
+- `--count=4` ou `--count=5` → ajoute Google News puis Bing/Yahoo selon les meilleurs scores disponibles
+- `--count=1` → rotation automatique multi-sources (Cafeyn → Edge → Firefox → Google → Bing → Yahoo)
 
 Les candidats Google News restent en secours, mais ne remplacent plus les 3 plateformes.
 
@@ -90,22 +93,25 @@ Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance p
 | Ce que vous lisez | Ce que le bot utilise |
 |-------------------|------------------------|
 | **Cafeyn** (Figaro, Parisien, Libé, Ouest-France…) | RSS publics des **mêmes journaux** (`sourceType: cafeyn`) |
-| **Edge** (MSN actu) | `https://www.msn.com/fr-fr/news/rss` |
+| **Edge** (MSN actu) | Bing News RSS publics (`https://www.bing.com/news/search?...&format=rss`) |
 | **Firefox** (France Info, 20 Minutes) | RSS Franceinfo + 20 Minutes |
+| **Google News** | Google News RSS France et recherches assurance |
+| **Bing** | Bing News RSS France / assurance / immobilier / santé |
+| **Yahoo** | Yahoo Actualités + Yahoo Finance RSS |
 | **Pocket** (sauvegardes) | API Pocket si tokens configurés |
 
 **Ne communiquez jamais vos login Cafeyn** : CGU, risque compte, et blocage technique.
 
-Configuration des flux : **`data/blog-actu-feeds.json`** (~55 sources testées).
+Configuration des flux : **`data/blog-actu-feeds.json`** (Cafeyn, Edge/MSN, Firefox, Google News, Bing, Yahoo et agrégateurs publics).
 
 ## Pipeline détaillé
 
 ```
 RSS + queue manuelle + Pocket
         ↓
-blog-actu-candidates.json (score leadScore)
+blog-actu-candidates.json (score leadScore + repartition bySource)
         ↓
-auto-actu-publish (rotation cafeyn → edge → firefox → aggregator)
+auto-actu-publish (rotation cafeyn → edge → firefox → google → bing → yahoo)
         ↓
 blog-actu-pending.json → blog:build → blog/*.html
         ↓

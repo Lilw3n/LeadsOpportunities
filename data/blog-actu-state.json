@@ -1,10 +1,15 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T12:18:47.437Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.ouest-france.fr/societe/logement/logement-en-location-votre-proprietaire-peut-il-vous-imposer-des-travaux-et-vous-les-faire-payer-176ef860-ac36-11f1-8801-66f16947434c?utm_source=fluxpublicactu&utm_medium=fluxrss&utm_campaign=banquedecontenu",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa694a59c6240d3995a7ea799175404&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsante%2fg%25C3%25A9n%25C3%25A9ral%2fmutuelle-sant%25C3%25A9-modulable-%25C3%25A0-la-retraite-comment-ajuster-ses-garanties-par-poste%2far-AA2bTd3J&c=15243153648960819155&mkt=en-us",
+    "https://www.europe1.fr/sante/on-ne-peut-pas-etre-en-bonne-sante-generale-sans-bonne-sante-dentaire-rappelle-christophe-lequart-1074638?at_medium=RSS%20feeds&amp;at_campaign=Flux%20Generique",
+    "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa694a6698b44599ffa57e040f8db8c&url=https%3a%2f%2fwww.sudouest.fr%2fgironde%2fcadillac%2f1-671-adherents-6-500-nouvelles-demandes-ou-en-est-la-mutuelle-girondine-lancee-en-2025-30595822.php&c=12039217946709282782&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T12:18:49.160Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +22,44 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T12:18:49.160Z",
+      "count": 5,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "logement-en-location-votre-proprietaire-peut-il-vous-imposer-des-travaux.html",
+          "title": "Logement en location : votre propriétaire peut-il vous imposer des travaux et vous les … : assurance habitation — que faire ?",
+          "source": "Cafeyn — Ouest-France",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par.html",
+          "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "on-ne-peut-pas-etre-en-bonne-sante-generale-sans-bonne-sante-dentaire-ra.html",
+          "title": "«On ne peut pas être en bonne santé générale sans bonne santé dentaire», rappelle Chris… : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — Europe 1",
+          "sourceType": "firefox"
+        },
+        {
+          "file": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+          "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "google"
+        },
+        {
+          "file": "1-671-adherents-6-500-nouvelles-demandes-ou-en-est-la-mutuelle-girondine.html",
+          "title": "1 671 adhérents, 6 500 nouvelles demandes, où en est la Mutuelle Girondine lancée en 20… : mutuelle et remboursements — que faire ?",
+          "source": "Bing News — santé France",
+          "sourceType": "bing"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 5
 }
