@@ -142,10 +142,23 @@ function scoreLeadPotential(candidate) {
   return Math.min(100, Math.max(0, score));
 }
 
+function isPlaceholderActuItem(item) {
+  var title = String((item && item.title) || "").trim();
+  var id = String((item && item.id) || "").toLowerCase();
+  var status = String((item && item.status) || "").toLowerCase();
+  if (status === "template") return true;
+  if (!title) return true;
+  if (id.indexOf("template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  return /collez ici|titre de la une|placeholder|à préciser|a preciser|\bxxx\b/i.test(title);
+}
+
 function rankCandidates(candidates) {
   return candidates
     .map(function (c) {
       return Object.assign({}, c, { leadScore: scoreLeadPotential(c) });
+    })
+    .filter(function (c) {
+      return !isPlaceholderActuItem(c);
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
@@ -349,6 +362,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuItem: isPlaceholderActuItem,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
