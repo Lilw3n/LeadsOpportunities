@@ -1,10 +1,15 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T15:26:03.319Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.liberation.fr/culture/logement-a-bobigny-les-artistes-du-wonder-ont-trouve-le-bon-bail-20260913_GFUTAU42TVC7JPNQDVDPOHYAOY/",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6c0891e4b41d2af303cd89ef5a8a3&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsante%2fg%25C3%25A9n%25C3%25A9ral%2fmutuelle-sant%25C3%25A9-modulable-%25C3%25A0-la-retraite-comment-ajuster-ses-garanties-par-poste%2far-AA2bTd3J&c=15243153648960819155&mkt=en-us",
+    "https://www.franceinfo.fr/replay-radio/c-est-ma-sante-conseils/quelles-sont-les-idees-recues-sur-la-consommation-de-drogue_8177582.html#xtor=RSS-3-%5Bgeneral%5D",
+    "https://news.google.com/rss/articles/CBMipAJBVV95cUxQdUJHQmpIR3JzZXZwRXhTSWFlbWZpNTVQTGdaNWJNWkRuMTNXdGZtODVTcUkwSjlPa1pDQzM3QnhRYzY5dTVPMU91eG5iQnNkc3BWTXNiM3Q5YWdFZWJWZWVkMVEtRWVMNk1PTWFKRWlpSG5wdTd4cUs3YVc0WlowRGNsUFhoaWgycjRHNG1oN1d5aFdKVnp0RE9RbDE5eW4ybDlldWd1TEk0ckh1R0dSWkxBTk5ZOEoyTW94TF9KWC1IWUFIdVppcXIyeU9MdmJ1Vk1QaEFaRU82WGRraWZSTHExOVotUEozd2F6cmVvZWRFclpOSERKQklvbGJwTGxZbERwbGx4T0RsNUt6d0kwTVRTc0pzOVZmbDBlUWlhcUdnRXIt?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6c08a8c9949c283ff062b0b5120f5&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2fque-couvre-vraiment-une-assurance-habitation-le-guide-simple-pour-tout-comprendre-12-09-2026-ECIAOOD2HREMXFKAXGM3H4ZP7A.php&c=809358229542824849&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T15:26:05.163Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +22,44 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T15:26:05.163Z",
+      "count": 5,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "logement-a-bobigny-les-artistes-du-wonder-ont-trouve-le-bon-bail.html",
+          "title": "Logement : à Bobigny, les artistes du Wonder ont trouvé le bon bail : assurance habitation — que faire ?",
+          "source": "Cafeyn — Libération",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par.html",
+          "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "quelles-sont-les-idees-recues-sur-la-consommation-de-drogue.html",
+          "title": "Quelles sont les idées reçues sur la consommation de drogue ? : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        },
+        {
+          "file": "alors-que-le-risque-incendie-etait-maximal-en-juillet-ils-ont-mis-le-feu.html",
+          "title": "Alors que le risque incendie était maximal en juillet, ils ont mis le feu à une voiture… : assurance habitation — que faire ?",
+          "source": "Google News — assurance",
+          "sourceType": "google"
+        },
+        {
+          "file": "que-couvre-vraiment-une-assurance-habitation-le-guide-simple-pour-tout-c.html",
+          "title": "Que couvre vraiment une assurance habitation ? Le guide simple pour tout comprendre : assurance habitation — que faire ?",
+          "source": "Bing News — sinistres assurance",
+          "sourceType": "bing"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
