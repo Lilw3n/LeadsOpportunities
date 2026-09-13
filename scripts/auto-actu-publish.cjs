@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Pipeline 100 % auto : fetch (RSS Cafeyn/Edge/Firefox + Pocket) → rédaction → publish.
+ * Pipeline 100 % auto : fetch (RSS Cafeyn/Edge/Firefox/Google/Bing/Yahoo + Pocket)
+ * → rédaction → publish.
  *
  * Usage:
  *   npm run blog:actu:auto
@@ -10,10 +11,17 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  appendPendingArticle,
+  isAutopublishLeadCandidate,
+} = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
+const { PRIMARY_SOURCE_TYPES, resolveSourceType } = require("./blog-actu-sources.cjs");
 
 var ROOT = path.join(__dirname, "..");
 
@@ -37,7 +45,7 @@ function loadFeedSourceMap() {
   var feedsCfg = readJson("blog-actu-feeds.json", { feeds: [] });
   var map = {};
   (feedsCfg.feeds || []).forEach(function (f) {
-    map[f.id] = f.sourceType || "aggregator";
+    map[f.id] = resolveSourceType([f.id, f.name, f.sourceType].join(" "), f.sourceType || "aggregator");
   });
   return map;
 }
@@ -64,14 +72,15 @@ function loadPublishedTitleKeys() {
   return keys;
 }
 
-var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var PLATFORM_TYPES = PRIMARY_SOURCE_TYPES;
 
 function candidateSourceType(c, feedMap) {
-  if (c.sourceType) return c.sourceType;
+  if (c.sourceType) return resolveSourceType(c.sourceType, c.sourceType);
   var src = String(c.source || "").toLowerCase();
-  if (src.indexOf("cafeyn") !== -1) return "cafeyn";
-  if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
-  if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
+  if (src) {
+    var fromSource = resolveSourceType(src, "");
+    if (fromSource) return fromSource;
+  }
   return feedMap[c.feedId] || "aggregator";
 }
 
@@ -80,6 +89,19 @@ function bestFromPlatform(available, platform, feedMap, used) {
     .filter(function (c) {
       var k = c.url || c.title;
       return candidateSourceType(c, feedMap) === platform && !used.has(k);
+    })
+    .sort(function (a, b) {
+      return b.leadScore - a.leadScore;
+    });
+  return list[0] || null;
+}
+
+function bestLeadCandidate(available, platform, feedMap, used) {
+  var pick = bestFromPlatform(available, platform, feedMap, used);
+  if (pick) return pick;
+  var list = available
+    .filter(function (c) {
+      return !used.has(c.url || c.title);
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
@@ -105,6 +127,7 @@ function pickCandidates(candidates, count, state) {
 
   var picks = [];
   var used = new Set();
+  var leadAvailable = available.filter(isAutopublishLeadCandidate);
 
   available
     .filter(function (c) {
@@ -120,7 +143,7 @@ function pickCandidates(candidates, count, state) {
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used);
+      var pick = bestLeadCandidate(leadAvailable, platform, feedMap, used);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
@@ -131,7 +154,7 @@ function pickCandidates(candidates, count, state) {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
-      var rotated = bestFromPlatform(available, platform, feedMap, used);
+      var rotated = bestLeadCandidate(leadAvailable, platform, feedMap, used);
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
@@ -140,19 +163,7 @@ function pickCandidates(candidates, count, state) {
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
   }
 
-  available
-    .filter(function (c) {
-      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
-    })
-    .forEach(function (c) {
-      if (picks.length >= count) return;
-      var k = c.url || c.title;
-      if (used.has(k)) return;
-      picks.push(c);
-      used.add(k);
-    });
-
-  available.forEach(function (c) {
+  leadAvailable.forEach(function (c) {
     if (picks.length >= count) return;
     var k = c.url || c.title;
     if (used.has(k)) return;

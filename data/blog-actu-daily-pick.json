@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-comparatif-assurance-habitation-les-criteres-qui-comptent-vraiment-pour-",
+      "title": "Comparatif assurance habitation : les critères qui comptent vraiment pour bien choisir",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6d846eab34afebb790ee1b7d4667e&url=https%3a%2f%2fwww.lefigaro.fr%2fcomparatif-assurance-habitation-les-criteres-qui-comptent-vraiment-pour-bien-choisir-20260911&c=9000830959255714399&mkt=fr-fr",
+      "summary": "Comparer des assurances habitation ne consiste pas à repérer la cotisation annuelle la plus basse. Deux offres au même tarif peuvent protéger très différemment une fois le sinistre survenu. Garanties, ...",
+      "pubDate": "Fri, 11 Sep 2026 03:22:00 GMT",
+      "feedId": "source-edge-bing-assurance",
+      "feedName": "Edge — Bing assurance",
+      "sourceType": "edge",
+      "suggestedFile": "comparatif-assurance-habitation-les-criteres-qui-comptent-vraiment-pour-.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-credit-immobilier-combien-pouvez-vous-economiser-avec-une-assurance-de-p",
+      "title": "Crédit immobilier : combien pouvez-vous économiser avec une assurance de prêt individuelle ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6d8478cb147f79cd1ff7b112dee81&url=https%3a%2f%2fwww.quechoisir.org%2fconseils-credit-immobilier-combien-pouvez-vous-economiser-avec-une-assurance-de-pret-individuelle-n177966%2f&c=12697894176744871342&mkt=fr-fr",
+      "summary": "Souscrire une assurance emprunteur individuelle permet de réaliser des économies significatives, sans perte de protection. Une démarche simplifiée depuis 2022. Pourtant, la majorité des emprunteurs pa ...",
+      "pubDate": "Thu, 27 Aug 2026 16:00:00 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "credit-immobilier-combien-pouvez-vous-economiser-avec-une-assurance-de-p.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-changer-peut-vous-faire-economiser-mais-pas-dans-to",
+      "title": "Assurance emprunteur : changer peut vous faire économiser, mais pas dans tous les cas",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6d8478cb147f79cd1ff7b112dee81&url=https%3a%2f%2fwww.actual-immo.fr%2fchanger-assurance-emprunteur-economies-2026%2f&c=3728307069346405635&mkt=fr-fr",
+      "summary": "Changer d’assurance emprunteur peut réduire le coût de votre crédit. Découvrez quels profils économisent vraiment et les règles applicables en 2026.",
+      "pubDate": "Fri, 11 Sep 2026 04:45:00 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-changer-peut-vous-faire-economiser-mais-pas-dans-to.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-incendie-les-garanties-a-verifier-absolument-dans-votre-assurance-habita",
+      "title": "Incendie : les garanties à vérifier absolument dans votre assurance habitation",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6d84737c34dbeac5a43a6d8732998&url=https%3a%2f%2fwww.actual-immo.fr%2fassurance-habitation-incendie-garanties-indemnisation%2f&c=6354342976929073260&mkt=fr-fr",
+      "summary": "Incendie, mobilier, franchises, valeur à neuf : découvrez les points à vérifier pour éviter une mauvaise surprise avec votre assurance habitation.",
+      "pubDate": "Sat, 12 Sep 2026 04:45:00 GMT",
+      "feedId": "source-bing-sinistres",
+      "feedName": "Bing News — sinistres assurance",
+      "sourceType": "bing",
+      "suggestedFile": "incendie-les-garanties-a-verifier-absolument-dans-votre-assurance-habita.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    }
+  ]
+}

@@ -94,6 +94,47 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+var LEAD_INTENT_RE =
+  /assurance|mutuelle|emprunteur|\bsinistre|habitation|pr[eê]t immobilier|cr[eé]dit immo|pr[eé]voyance|\bvtc\b|rembours|franchise|loi lemoine|hospitalisation|optique|dentaire|incendie|canicule|inondation|s[eé]cheresse|d[eé]g[aâ]ts? des eaux|v[eé]t[eé]rinaire|rc pro|catastrophe naturelle|catnat/i;
+
+var LOW_INTENT_RE =
+  /c[eé]line dion|karaok[eé]|concert de |kardashian|miss france|t[eé]l[eé]r[eé]alit[eé]|people|netflix s[eé]rie|star academy|bardella|marine le pen/i;
+
+function isEnglishHeavyTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return false;
+  var words = t.split(/\s+/).filter(Boolean);
+  if (words.length < 6) return false;
+  var stop = /^(the|of|and|into|a|an|for|regarding|potential|sale|enters|memorandum|understanding|advantages|getting|with|from|this|that|has|signed)$/i;
+  var hits = words.filter(function (w) {
+    return stop.test(w);
+  }).length;
+  var frenchHits = words.filter(function (w) {
+    return /[àâäéèêëïîôöùûüç]|mutuelle|emprunteur|habitation|sinistre|français|france/i.test(w);
+  }).length;
+  return hits >= 3 && frenchHits <= 2;
+}
+
+function hasLeadIntentKeywords(item) {
+  var title = String((item && item.title) || "");
+  var hay = title + " " + String((item && item.summary) || "");
+  if (LEAD_INTENT_RE.test(title)) return true;
+  return (
+    /coupe du monde|équipe de france|equipe de france|les bleus/i.test(hay) &&
+    /voyage|d[eé]placement|etranger|étranger|mutuelle|assurance|\bsant[eé]\b|rapatriement/i.test(hay)
+  );
+}
+
+function isLowLeadIntentActu(item) {
+  if (isEnglishHeavyTitle(item && item.title)) return true;
+  if (hasLeadIntentKeywords(item)) return false;
+  return LOW_INTENT_RE.test(String((item && item.title) || "") + " " + String((item && item.summary) || ""));
+}
+
+function isAutopublishLeadCandidate(item) {
+  return hasLeadIntentKeywords(item) && !isLowLeadIntentActu(item);
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -101,7 +142,7 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (["cafeyn", "edge", "firefox", "google", "bing", "yahoo"].indexOf(candidate.sourceType) !== -1) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
@@ -137,6 +178,9 @@ function scoreLeadPotential(candidate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 365 * 86400000) score -= 50;
+    else if (age > 180 * 86400000) score -= 35;
+    else if (age > 30 * 86400000) score -= 15;
   }
 
   return Math.min(100, Math.max(0, score));
@@ -297,9 +341,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: cleanRssText(title),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: cleanRssText(desc || "").slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -317,6 +361,10 @@ function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+function cleanRssText(s) {
+  return stripHtml(decodeEntities(s));
+}
+
 function decodeEntities(s) {
   return String(s)
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
@@ -326,6 +374,7 @@ function decodeEntities(s) {
       return String.fromCharCode(parseInt(num, 10));
     })
     .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
@@ -351,4 +400,8 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  hasLeadIntentKeywords: hasLeadIntentKeywords,
+  isEnglishHeavyTitle: isEnglishHeavyTitle,
+  isLowLeadIntentActu: isLowLeadIntentActu,
+  isAutopublishLeadCandidate: isAutopublishLeadCandidate,
 };

@@ -4,7 +4,7 @@
  * Usage: npm run blog:actu:daily [-- --count=3]
  */
 const { execSync } = require("child_process");
-const { readJson, writeJson, rankCandidates } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, isAutopublishLeadCandidate } = require("./blog-actu-lib.cjs");
 
 function arg(name, def) {
   var m = process.argv.find(function (a) {
@@ -26,7 +26,8 @@ function main() {
 
   var candidates = readJson("blog-actu-candidates.json", { candidates: [] }).candidates || [];
   var ranked = rankCandidates(candidates);
-  var picks = ranked.slice(0, count);
+  var leadRanked = ranked.filter(isAutopublishLeadCandidate);
+  var picks = (leadRanked.length ? leadRanked : ranked).slice(0, count);
 
   writeJson("blog-actu-daily-pick.json", {
     date: new Date().toISOString().slice(0, 10),
