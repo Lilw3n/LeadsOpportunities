@@ -227,6 +227,8 @@ assert(html.indexOf("outil de pub") === -1 && html.indexOf("ou le propriétaire"
 assert(html.indexOf("tourRedirect") !== -1, "redirection Wendy si lien usé");
 assert(html.indexOf("immo-tour-access-page.js") !== -1, "script page");
 assert(html.indexOf("tourStage") !== -1 && html.indexOf("tourImportant") !== -1, "layout stage + infos importantes");
+assert(html.indexOf("tourContact") !== -1 && html.indexOf("Contacter Wendy BUCHET") !== -1, "page : formulaire contact");
+assert(html.indexOf("tourContactForm") !== -1 && html.indexOf("tourContactSubmit") !== -1, "page : champs contact");
 assert(html.indexOf("Informations importantes") !== -1, "bandeau infos importantes");
 assert(html.indexOf("tourDirectActions") !== -1 && html.indexOf("tourOpenNone") !== -1, "bouton Voir la visite accès direct");
 var pageJsDirect = read("js/immo-tour-access-page.js");
@@ -235,11 +237,13 @@ assert(pageJsDirect.indexOf("openDirectAccess") !== -1, "page : ouverture auto a
 assert(pageJsDirect.indexOf("setDirectLayout") !== -1, "page : panneau latéral infos");
 assert(pageJsDirect.indexOf("tourDirectActions") !== -1, "page : actions directes hors étapes OTP");
 assert(pageJsDirect.indexOf("resolveVerifyMode") !== -1, "page : mode dérivé de require_otp");
+assert(pageJsDirect.indexOf("bindContactForm") !== -1 && pageJsDirect.indexOf("/api/lead") !== -1, "page : envoi lead contact");
 assert(html.indexOf("immo-tour-access-page.js?v=") !== -1, "page : cache-bust script visite");
 var cssDirect = read("css/immo-ad-listings.css");
 assert(cssDirect.indexOf("tour-direct-layout") !== -1, "css : layout accès direct");
 assert(cssDirect.indexOf("Visite élargie") !== -1, "css : visite élargie");
 assert(cssDirect.indexOf("1680px") !== -1 && cssDirect.indexOf("82vh") !== -1, "css : player large");
+assert(cssDirect.indexOf("tour-contact") !== -1, "css : bloc contact visite");
 
 
 var crm = read("crm-immo-pubs.html");

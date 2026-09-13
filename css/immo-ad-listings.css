@@ -843,6 +843,75 @@ body.immo-tour-page--direct .tour-legal {
   font-size: 0.82rem;
 }
 
+/* Formulaire contact visite — toujours visible, prioritaire */
+.tour-contact {
+  margin: 14px 0 0;
+  padding: 14px;
+  border-radius: 12px;
+  border: 2px solid #0f766e;
+  background: linear-gradient(180deg, #f0fdfa 0%, #ccfbf1 100%);
+  color: #134e4a;
+}
+.tour-contact-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0f766e;
+}
+.tour-contact h2 {
+  margin: 0 0 6px;
+  font-size: 1.08rem;
+  color: #115e59;
+}
+.tour-contact-lead {
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #115e59;
+}
+.tour-contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0f766e;
+}
+.tour-contact-form input,
+.tour-contact-form textarea {
+  border: 1px solid #99f6e4;
+  border-radius: 8px;
+  padding: 9px 10px;
+  font: inherit;
+  color: #0f172a;
+  background: #fff;
+}
+.tour-contact-form input:focus,
+.tour-contact-form textarea:focus {
+  outline: 2px solid #14b8a6;
+  outline-offset: 1px;
+}
+.tour-contact-hp {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.tour-contact-alt {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  color: #0f766e;
+}
+.tour-contact-alt a { color: #0f766e; font-weight: 700; }
+body.immo-tour-page--direct .tour-contact {
+  margin-top: 12px;
+}
+
 @media (max-width: 900px) {
   body.immo-tour-page--direct #tourProtect.container {
     width: min(1200px, 94vw);
@@ -863,5 +932,8 @@ body.immo-tour-page--direct .tour-legal {
   }
   body.immo-tour-page--direct .tour-frame-wrap iframe {
     height: min(68vh, 640px);
+  }
+  .tour-contact {
+    order: 3;
   }
 }
