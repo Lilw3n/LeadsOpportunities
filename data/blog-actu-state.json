@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T15:27:58.680Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.franceinfo.fr/replay-jt/franceinfo/21h-minuit/23-heures/franchise-medicale-le-plafond-annuel-passera-a-140-euros_8190482.html#xtor=RSS-3-%5Bgeneral%5D",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6c0fc226e4e0cb2715ceffef97dfc&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsante%2fg%25C3%25A9n%25C3%25A9ral%2fmutuelle-sant%25C3%25A9-modulable-%25C3%25A0-la-retraite-comment-ajuster-ses-garanties-par-poste%2far-AA2bTd3J&c=15243153648960819155&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6c0fc226e4e0cb2715ceffef97dfc&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsante%2fg%25C3%25A9n%25C3%25A9ral%2fune-mutuelle-compl%25C3%25A9mentaire-confi%25C3%25A9e-%25C3%25A0-la-s%25C3%25A9cu-pourrait-permettre-d-%25C3%25A9conomiser-8-milliards-par-an-selon-une-p%25C3%25A9tition%2far-AA2bNsEs&c=16240229127538431064&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T15:28:00.651Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,39 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T15:26:18.087Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "franchise-medicale-le-plafond-annuel-passera-a-140-euros.html",
+          "title": "Franchise médicale : le plafond annuel passera à 140 euros : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-13T15:28:00.651Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par.html",
+          "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "une-mutuelle-complementaire-confiee-a-la-secu-pourrait-permettre-d-econo.html",
+          "title": "Une mutuelle complémentaire confiée à la Sécu pourrait permettre d’économiser 8 milliar… : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 2
 }
