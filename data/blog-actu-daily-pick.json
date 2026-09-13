@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro",
+      "title": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains - Foot National",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNMF8ycnNZQ0tHSlNMb1RWdjktUmdaeWU4czFjYU41ZTc1Y3loV1Zka0lZbjFwRktURFRuaWd6Mkk3M3Fob1dIRVlwZUtFeWxxcEJpTm5BeF9SbGVVWjh0NDJ0ck5OM0NvRDl5TWtZZnFRN0xqb3pDSzJOYm8wUHVqelpCUUE3Ym45MG14MWxId09SQ0xTVzA3bVdZSFk1Q0RYNWhUeUI1MUhrRjBJUHFPM1hRTzZpemM5SUlSSWQ2UVZ6X3l2UjBmYw?oc=5",
+      "summary": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains Foot National",
+      "pubDate": "Mon, 07 Sep 2026 07:00:00 GMT",
+      "feedId": "google-news-supporters",
+      "feedName": "Google News — supporters France foot",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-reglement-itinerant-des-sinistres-dans-le-zou-afg-assurance-mise-sur-la-",
+      "title": "Règlement itinérant des sinistres dans le Zou : AFG Assurance mise sur la proximité et la transparence",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa669593b444b0cba2dfedb05f1021b&url=https%3a%2f%2fwww.msn.com%2ffr-xl%2ffinance%2fg%25C3%25A9n%25C3%25A9ral%2fr%25C3%25A8glement-itin%25C3%25A9rant-des-sinistres-dans-le-zou-afg-assurance-mise-sur-la-proximit%25C3%25A9-et-la-transparence%2far-AA2bWSV1&c=15049426672240278066&mkt=en-us",
+      "summary": "Depuis le lundi 7 septembre 2026, une équipe de l’AFG Assurance-Bénin, conduite par le Directeur des sinistres, séjourne à Bohicon pour dix jours de consultations. Cette première édition du règlement ...",
+      "pubDate": "Thu, 10 Sep 2026 06:01:53 GMT",
+      "feedId": "source-bing-sinistre",
+      "feedName": "Bing News — sinistre assurance",
+      "sourceType": "bing",
+      "suggestedFile": "reglement-itinerant-des-sinistres-dans-le-zou-afg-assurance-mise-sur-la-.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 99,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-",
+      "title": "\"L'opportunité d'écrire l'histoire du sport français\" : Gabby Williams et l'équipe de France peuvent-elles renverser les Américaines pour leur première finale mondiale ?",
+      "url": "https://www.franceinfo.fr/sports/basket/l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-equipe-de-france-peuvent-elles-renverser-les-americaines-pour-leur-premiere-finale-mondiale_8188259.html#xtor=RSS-3-[lestitres]",
+      "summary": "Tombeuses de l'Allemagne en demies, les Bleues vont jouer leur première finale de Coupe du monde, dimanche. Elles y retrouveront les Etats-Unis, qui les avaient privées de l'or olympique à Paris, en 2024.",
+      "pubDate": "Sun, 13 Sep 2026 09:11:58 +0200",
+      "feedId": "source-firefox-franceinfo",
+      "feedName": "Firefox — France Info titres",
+      "sourceType": "firefox",
+      "suggestedFile": "l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-videos-mondial-feminin-de-basket-la-france-qualifiee-pour-sa-premiere-fi",
+      "title": "VIDÉOS. Mondial féminin de basket : la France qualifiée pour sa première finale de coupe du monde, vers une revanche des JO de Paris - Centre Presse Aveyron",
+      "url": "https://news.google.com/rss/articles/CBMilgJBVV95cUxNS252NS0wZVpPNDdkYmhqZmpJSmpFNUx4T0g0LTJObEVfMVduc2dFa3oydUpMQm9CQmV1ZVZSVFVMd293R2hTWTZpV19JVjJtY2pvRTZSd1N4aDJZemNLdXNLWmtUVWJaVEU5bW1nSlNWWVJDNldCemt0S2xLaXN4VHd3NE1OUUNNUW10cGFwVXZMTXRya0xtdnNTdmU2Q1I1cXdpSkVQT0szUkpBckRkYTExeWEtbG9Lak5lLUlNNkZhNUdDdXhrY3RkYkJYZWNNcEZsQVE2YXVxU3Azc2tONm9OYnhwUEI3aHdVN0VydEpQZHQ4ZGF1dDRsdjJTbkJuUlBZelJGMXMtMDZ1NmxJSlVqU2x1Zw?oc=5",
+      "summary": "VIDÉOS. Mondial féminin de basket : la France qualifiée pour sa première finale de coupe du monde, vers une revanche des JO de Paris Centre Presse Aveyron",
+      "pubDate": "Sat, 12 Sep 2026 16:57:00 GMT",
+      "feedId": "google-news-sport",
+      "feedName": "Google News — sport France",
+      "sourceType": "google",
+      "suggestedFile": "videos-mondial-feminin-de-basket-la-france-qualifiee-pour-sa-premiere-fi.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}

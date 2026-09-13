@@ -2,6 +2,7 @@
  * Enrichissement intelligent par niche assurance (sans IA).
  */
 const { matchTopic, ctaWithUtm, monthLabel, relatedForSection } = require("./blog-actu-lib.cjs");
+const { sourceLabel } = require("./blog-actu-sources.cjs");
 
 var ANGLES = {
   sante: {
@@ -193,15 +194,7 @@ function escapeHtml(s) {
 }
 
 function platformLabel(sourceType) {
-  var t = String(sourceType || "").toLowerCase();
-  if (t === "cafeyn" || t.indexOf("cafeyn") !== -1) return "Cafeyn (presse partenaire)";
-  if (t === "edge" || t.indexOf("edge") !== -1 || t.indexOf("msn") !== -1 || t.indexOf("bing") !== -1) {
-    return "Microsoft Edge / Bing actu";
-  }
-  if (t === "firefox" || t.indexOf("firefox") !== -1 || t.indexOf("pocket") !== -1) {
-    return "Mozilla Firefox / Pocket";
-  }
-  return "l'actualite du jour";
+  return sourceLabel(sourceType);
 }
 
 function isSportActu(text) {
