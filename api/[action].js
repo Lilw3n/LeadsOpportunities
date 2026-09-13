@@ -14,6 +14,7 @@ const ROUTES = {
   "immo-ads": () => require("./_lib/routes/public-immo-ads"),
   "immo-ad-demo-access": () => require("./_lib/routes/public-immo-ad-demo-access"),
   "immo-tour-access": () => require("./_lib/routes/public-immo-tour-access"),
+  "immo-tour-og": () => require("./_lib/routes/public-immo-tour-og"),
   "immo-tour-player": () => require("./_lib/routes/public-immo-tour-player"),
   "immo-listing-submit": () => require("./_lib/routes/public-immo-listing-submit"),
   "immo-listing-draft": () => require("./_lib/routes/public-immo-listing-draft"),
