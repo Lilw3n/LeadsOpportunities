@@ -224,6 +224,8 @@ assert(schema.indexOf("loyer_hc") !== -1 && schema.indexOf("loyer_cc") !== -1, "
 assert(schema.indexOf("surface_carrez") !== -1 && schema.indexOf("surface_non_carrez") !== -1, "schema surfaces Carrez");
 assert(schema.indexOf("type_chauffage") !== -1 && schema.indexOf("pompe_chaleur") !== -1, "schema chauffage / PAC");
 assert(schema.indexOf("cheminee") !== -1 && schema.indexOf("plateau_nu") !== -1, "schema cheminée / plateau nu");
+assert(schema.indexOf("digicode") !== -1 && schema.indexOf("porte_numero") !== -1, "schema digicode / n° porte");
+assert(schema.indexOf("parking_numero") !== -1 && schema.indexOf("garage_numero") !== -1, "schema n° parking / garage");
 assert(schema.indexOf("investisseur") !== -1 && schema.indexOf("rendement_brut") !== -1, "schema investisseur");
 assert(schema.indexOf("copro_syndic") !== -1 && schema.indexOf("procedure_en_cours") !== -1, "schema syndic/copro");
 assert(schema.indexOf("regime_matrimonial") !== -1 && schema.indexOf("origine_propriete") !== -1, "schema propriétaire");

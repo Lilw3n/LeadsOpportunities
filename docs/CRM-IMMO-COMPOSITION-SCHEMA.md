@@ -86,7 +86,7 @@ Terrain 420 m²
 |---------|---------|
 | Identité | type, cadastre (section/n°), lot propriété, millièmes privatifs/communs, parties communes, occupation loué/vide |
 | Loyers & surfaces | mode HC/CC, loyer HC, loyer CC, charges, Carrez / hors Carrez / utile |
-| Chauffage & annexes | type/énergie, PAC, chaudière, cheminée, mezzanine, balcon, terrasse, véranda, plateau nu… |
+| Chauffage & annexes | type/énergie, PAC, chaudière, cheminée, mezzanine, balcon, terrasse, véranda, plateau nu, digicode, n° porte / parking / garage… |
 | Pièces | liste libre + attributs par pièce |
 | Bail & locataire | identité locataire, revenus, garant, type/dates de bail |
 | Investisseur | rendements brut/net, cash-flow, vacance, taxe foncière, PNO, gestion |

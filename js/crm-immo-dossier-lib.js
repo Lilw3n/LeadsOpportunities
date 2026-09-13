@@ -134,6 +134,10 @@
     u.plateau_nu = !!u.plateau_nu;
     u.cave = !!u.cave;
     u.parking = !!u.parking;
+    u.digicode = u.digicode || "";
+    u.porte_numero = u.porte_numero || "";
+    u.parking_numero = u.parking_numero || "";
+    u.garage_numero = u.garage_numero || "";
     u.equipements_notes = u.equipements_notes || "";
 
     // Locataire / investisseur
