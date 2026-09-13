@@ -395,6 +395,18 @@ var sample = Og.buildPayload(
 assert(sample.title.indexOf("Visite 3D") === 0, "OG titre accrocheur");
 assert(sample.description.indexOf("3D") !== -1, "OG description");
 assert(sample.image.indexOf("https://") === 0, "OG image absolue");
+assert(ogLib.indexOf("drive-storage") !== -1 && ogLib.indexOf("isBlockedForSocial") !== -1, "OG ignore Drive privé");
+var driveBlocked = Og.pickImage({
+  photos: [
+    { url: "https://lh3.googleusercontent.com/drive-storage/AJQWtBNfake=s1200" },
+    { url: "https://img.leboncoin.fr/api/v1/lbcpb1/images/aa/bb/cc/demo.jpg?rule=ad-large" },
+  ],
+});
+assert(driveBlocked.indexOf("img.leboncoin.fr") !== -1, "OG préfère Leboncoin à Drive");
+var onlyDrive = Og.pickImage({
+  photos: [{ url: "https://lh3.googleusercontent.com/drive-storage/AJQWtBNonly=s1200" }],
+});
+assert(onlyDrive.indexOf("leadsopportunities.fr") !== -1, "OG fallback si seulement Drive");
 assert(html.indexOf('property="og:image"') !== -1, "page : og:image fallback");
 
 var pkg = JSON.parse(read("package.json"));
