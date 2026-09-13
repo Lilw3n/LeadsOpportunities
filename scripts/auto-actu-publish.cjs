@@ -11,7 +11,13 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  appendPendingArticle,
+  isAutopublishLeadCandidate,
+} = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -90,6 +96,19 @@ function bestFromPlatform(available, platform, feedMap, used) {
   return list[0] || null;
 }
 
+function bestLeadCandidate(available, platform, feedMap, used) {
+  var pick = bestFromPlatform(available, platform, feedMap, used);
+  if (pick) return pick;
+  var list = available
+    .filter(function (c) {
+      return !used.has(c.url || c.title);
+    })
+    .sort(function (a, b) {
+      return b.leadScore - a.leadScore;
+    });
+  return list[0] || null;
+}
+
 function pickCandidates(candidates, count, state) {
   var feedMap = loadFeedSourceMap();
   var processed = new Set(state.processedUrls || []);
@@ -108,6 +127,7 @@ function pickCandidates(candidates, count, state) {
 
   var picks = [];
   var used = new Set();
+  var leadAvailable = available.filter(isAutopublishLeadCandidate);
 
   available
     .filter(function (c) {
@@ -123,7 +143,7 @@ function pickCandidates(candidates, count, state) {
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used);
+      var pick = bestLeadCandidate(leadAvailable, platform, feedMap, used);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
@@ -134,7 +154,7 @@ function pickCandidates(candidates, count, state) {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
-      var rotated = bestFromPlatform(available, platform, feedMap, used);
+      var rotated = bestLeadCandidate(leadAvailable, platform, feedMap, used);
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
@@ -143,19 +163,7 @@ function pickCandidates(candidates, count, state) {
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
   }
 
-  available
-    .filter(function (c) {
-      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
-    })
-    .forEach(function (c) {
-      if (picks.length >= count) return;
-      var k = c.url || c.title;
-      if (used.has(k)) return;
-      picks.push(c);
-      used.add(k);
-    });
-
-  available.forEach(function (c) {
+  leadAvailable.forEach(function (c) {
     if (picks.length >= count) return;
     var k = c.url || c.title;
     if (used.has(k)) return;
