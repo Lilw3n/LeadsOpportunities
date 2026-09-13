@@ -381,6 +381,20 @@ assert(routes.indexOf("immo-tour-access") !== -1, "route enregistrée");
 
 var vercel = read("vercel.json");
 assert(vercel.indexOf("/immobilier/visite") !== -1, "rewrite Vercel");
+assert(vercel.indexOf("/api/immo-tour-og") !== -1, "rewrite OG crawlers sociaux");
+assert(read("api/[action].js").indexOf("immo-tour-og") !== -1, "route OG enregistrée");
+var ogLib = read("js/immo-tour-og-lib.js");
+assert(ogLib.indexOf("og:title") !== -1 && ogLib.indexOf("summary_large_image") !== -1, "lib OG visite");
+var Og = require("../js/immo-tour-og-lib.js");
+var sample = Og.buildPayload(
+  { city: "DOMBASLE SUR MEURTHE", type_label: "Maison", price_fai: 154000, surface_m2: 84, rooms: 3, dpe: "C", photos: [{ url: "https://cdn.example/photo.jpg" }] },
+  { name: "Visite virtuelle" },
+  "https://www.leadsopportunities.fr/immobilier/visite.html?t=vt_test"
+);
+assert(sample.title.indexOf("Visite 3D") === 0, "OG titre accrocheur");
+assert(sample.description.indexOf("3D") !== -1, "OG description");
+assert(sample.image.indexOf("https://") === 0, "OG image absolue");
+assert(html.indexOf('property="og:image"') !== -1, "page : og:image fallback");
 
 var pkg = JSON.parse(read("package.json"));
 assert(pkg.scripts["verify:immo-tour-access"], "script npm");

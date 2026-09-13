@@ -108,6 +108,39 @@
       "destination": "/immobilier/syndic/index.html"
     },
     {
+      "source": "/immobilier/visite.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i)(facebookexternalhit|facebot|meta-externalagent|whatsapp|twitterbot|linkedinbot|slackbot|discordbot|telegrambot)"
+        }
+      ],
+      "destination": "/api/immo-tour-og"
+    },
+    {
+      "source": "/immobilier/visite",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i)(facebookexternalhit|facebot|meta-externalagent|whatsapp|twitterbot|linkedinbot|slackbot|discordbot|telegrambot)"
+        }
+      ],
+      "destination": "/api/immo-tour-og"
+    },
+    {
+      "source": "/immobilier/visite/",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i)(facebookexternalhit|facebot|meta-externalagent|whatsapp|twitterbot|linkedinbot|slackbot|discordbot|telegrambot)"
+        }
+      ],
+      "destination": "/api/immo-tour-og"
+    },
+    {
       "source": "/immobilier/visite",
       "destination": "/immobilier/visite.html"
     },
