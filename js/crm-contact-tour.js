@@ -22,9 +22,36 @@
     parties.forEach(function (pt) {
       if (pt.contact_id === contactId && pt.property_id) partyIds[pt.property_id] = true;
     });
+    var seen = {};
     return all.filter(function (p) {
-      return p.owner_contact_id === contactId || p.buyer_contact_id === contactId || partyIds[p.id];
+      if (!p || !p.id || seen[p.id]) return false;
+      var ok = p.owner_contact_id === contactId || p.buyer_contact_id === contactId || partyIds[p.id];
+      if (!ok) return false;
+      seen[p.id] = true;
+      return true;
     });
+  }
+
+  function interestHideKey(contactId) {
+    return "lo_ct_interest_hide_" + String(contactId || "");
+  }
+
+  function loadInterestHidden(contactId) {
+    try {
+      var raw = localStorage.getItem(interestHideKey(contactId));
+      var arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr.map(String) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveInterestHidden(contactId, ids) {
+    try {
+      localStorage.setItem(interestHideKey(contactId), JSON.stringify(ids || []));
+    } catch (e) {
+      /* quota / mode privé */
+    }
   }
 
   function publicUrl(token, utm) {
@@ -62,11 +89,16 @@
           if (p) list.push(p);
         }
       });
+      var hiddenIds = loadInterestHidden(contact.id);
+      var visibleList = list.filter(function (p) {
+        return hiddenIds.indexOf(String(p.id)) === -1;
+      });
       var options =
         '<option value="">— Choisir un bien —</option>' +
         list
           .map(function (p) {
-            return '<option value="' + esc(p.id) + '">' + esc(p.title || p.city || p.id) + "</option>";
+            var hid = hiddenIds.indexOf(String(p.id)) !== -1 ? " (masqué liste)" : "";
+            return '<option value="' + esc(p.id) + '">' + esc(p.title || p.city || p.id) + hid + "</option>";
           })
           .join("") +
         '<option value="__new__">Créer un bien de test pour ce contact</option>';
@@ -79,18 +111,20 @@
         if (ta && ta.token) existingTour = { property: p, ta: ta };
       });
 
-      var interestHtml = list.length
+      var interestHtml = visibleList.length
         ? '<div class="tour-req-card tour-req-pending" id="ctTourInterest">' +
           "<strong>Biens intéressés</strong>" +
-          '<p class="pub-hint" style="margin:4px 0 8px">Là où ce prospect a demandé un code — tu pourras lui proposer d’autres liens.</p>' +
-          list
+          '<p class="pub-hint" style="margin:4px 0 8px">Là où ce prospect a demandé un code — tu pourras lui proposer d’autres liens. Masquer retire de cette liste (infos &amp; docs gardés).</p>' +
+          visibleList
             .map(function (p) {
+              var marketOn = AdLib.isMarketVisible ? AdLib.isMarketVisible(p) : p.market_visible !== false;
               return (
                 '<div class="tour-req-meta" style="margin-top:8px">' +
                 "<strong>" +
                 esc(p.title || p.city || p.id) +
                 "</strong>" +
                 (p.city ? " · " + esc(p.city) : "") +
+                (!marketOn ? ' · <span class="priv">hors marché</span>' : "") +
                 '<div class="pub-media-actions">' +
                 '<button type="button" class="btn btn-primary btn-sm" data-pick-prop="' +
                 esc(p.id) +
@@ -98,12 +132,33 @@
                 '<a class="btn btn-ghost btn-sm" href="./crm-immo-pubs.html?property=' +
                 encodeURIComponent(p.id) +
                 '">Fiche pub</a>' +
+                '<button type="button" class="btn btn-ghost btn-sm" data-hide-interest="' +
+                esc(p.id) +
+                '" title="Retirer de cette liste uniquement">Masquer ici</button>' +
+                (marketOn
+                  ? '<button type="button" class="btn btn-ghost btn-sm" data-hide-market="' +
+                    esc(p.id) +
+                    '" title="Retire du marché public — fiche et docs conservés">Masquer marché</button>'
+                  : '<button type="button" class="btn btn-ghost btn-sm" data-show-market="' +
+                    esc(p.id) +
+                    '">Remettre marché</button>') +
                 "</div></div>"
               );
             })
             .join("") +
+          (hiddenIds.length
+            ? '<p class="pub-hint" style="margin-top:10px"><button type="button" class="btn btn-ghost btn-sm" id="ctTourInterestRestore">Réafficher ' +
+              hiddenIds.length +
+              " bien(s) masqué(s) ici</button></p>"
+            : "") +
           "</div>"
-        : '<p class="pub-hint" id="ctTourInterest">Aucun bien intéressé pour l’instant — dès qu’il demandera un code, le bien apparaîtra ici.</p>';
+        : '<p class="pub-hint" id="ctTourInterest">Aucun bien intéressé pour l’instant — dès qu’il demandera un code, le bien apparaîtra ici.' +
+          (hiddenIds.length
+            ? ' <button type="button" class="btn btn-ghost btn-sm" id="ctTourInterestRestore">Réafficher ' +
+              hiddenIds.length +
+              " masqué(s)</button>"
+            : "") +
+          "</p>";
 
       root.innerHTML =
         '<div class="panel-head"><h2>Visite virtuelle (test avec ce contact)</h2>' +
@@ -273,6 +328,46 @@
           sel && sel.scrollIntoView({ behavior: "smooth", block: "center" });
         };
       });
+      root.querySelectorAll("[data-hide-interest]").forEach(function (btn) {
+        btn.onclick = function () {
+          var id = String(btn.getAttribute("data-hide-interest") || "");
+          if (!id) return;
+          var ids = loadInterestHidden(contact.id);
+          if (ids.indexOf(id) === -1) ids.push(id);
+          saveInterestHidden(contact.id, ids);
+          paint("Bien retiré de cette liste — fiche et docs inchangés.", true);
+        };
+      });
+      root.querySelectorAll("[data-hide-market]").forEach(function (btn) {
+        btn.onclick = function () {
+          var id = String(btn.getAttribute("data-hide-market") || "");
+          if (!id || !Store.setMarketVisible) return;
+          if (
+            !confirm(
+              "Masquer ce bien du marché public ?\n\nLes infos, photos et documents restent. Vous pourrez le remettre en vitrine."
+            )
+          ) {
+            return;
+          }
+          Store.setMarketVisible(id, false);
+          paint("Bien masqué du marché — infos et docs conservés.", true);
+        };
+      });
+      root.querySelectorAll("[data-show-market]").forEach(function (btn) {
+        btn.onclick = function () {
+          var id = String(btn.getAttribute("data-show-market") || "");
+          if (!id || !Store.setMarketVisible) return;
+          Store.setMarketVisible(id, true);
+          paint("Bien remis en vitrine marché.", true);
+        };
+      });
+      var restoreBtn = root.querySelector("#ctTourInterestRestore");
+      if (restoreBtn) {
+        restoreBtn.onclick = function () {
+          saveInterestHidden(contact.id, []);
+          paint("Biens réaffichés dans la liste.", true);
+        };
+      }
     }
 
     function showLinks(ta, prop, ad) {

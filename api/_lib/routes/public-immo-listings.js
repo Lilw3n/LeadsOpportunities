@@ -6,6 +6,7 @@ const { applyApiGuards, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
 const Lib = require("../../../js/immo-public-listings-lib.js");
 const Matcher = require("../../../js/crm-immo-matcher.js");
+const AdLib = require("../../../js/immo-ad-listings-lib.js");
 
 function queryFromReq(req) {
   var q = req.query || {};
@@ -28,6 +29,8 @@ async function loadCrmListings() {
   var db = await store.loadAll(sql);
   return (db.properties || [])
     .filter(function (p) {
+      // Soft-hide marché (doublons) : infos/docs restent, hors vitrine publique.
+      if (AdLib.isMarketVisible && !AdLib.isMarketVisible(p)) return false;
       return Matcher.isMatchableStatus(p.status);
     })
     .map(function (p) {

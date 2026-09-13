@@ -11,6 +11,7 @@ Le **crédit immobilier** (prêt / courtage) est relié depuis les barèmes via 
 | Page | Rôle |
 |------|------|
 | `/immobilier/marche.html` | **Marché public** : recherche + dépôt → leads (référence type place d’annonces) |
+| `/crm-immo-pubs.html` | **Pubs / vitrine** : publier, **masquer du marché** (doublons) sans supprimer infos ni docs, ou supprimer définitivement |
 | `/crm-immo-utilisateurs.html` | **Super-admin** : annuaire contactable + e-mail groupé Resend / mailto BCC |
 | `/landings/acheteur-immo.html` | **Vitrine publique** : casquettes acquéreur / vendeur / les deux, dépôt **manuel ou URL**, photos + description + capture |
 | `/crm-immo-properties.html` | **Piges** : panneau filtres (Recherche / Où / Qui / Quoi / Quand) + barre d’actions (SMS, suivi, affecter, export, print) |

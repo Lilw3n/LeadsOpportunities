@@ -111,6 +111,29 @@ assert(marche.indexOf("data-immo-search") >= 0, "marché : moteur de recherche")
 assert(marche.indexOf("acheteur-immo.html?role=vendeur") >= 0, "marché : CTA dépôt");
 assert(marche.indexOf("Leads Opportunities") >= 0, "marché : marque hero");
 
+var listingsRoute = read("api/_lib/routes/public-immo-listings.js");
+assert(listingsRoute.indexOf("immo-ad-listings-lib") >= 0, "listings : AdLib pour soft-hide");
+assert(listingsRoute.indexOf("isMarketVisible") >= 0, "listings : filtre isMarketVisible");
+var AdLib = require("../js/immo-ad-listings-lib.js");
+var visible = {
+  id: "m1",
+  status: "mandat",
+  city: "Nancy",
+  market_visible: true,
+  metadata: { ad: { channels: ["public"] }, market_visible: true },
+};
+var hidden = AdLib.setMarketVisible(
+  {
+    id: "m2",
+    status: "mandat",
+    city: "Nancy",
+    metadata: { ad: { channels: ["public"] } },
+  },
+  false
+);
+assert(AdLib.isMarketVisible(visible), "bien visible marché");
+assert(!AdLib.isMarketVisible(hidden), "doublon masqué hors marché");
+
 var crmPage = read("crm-immo-utilisateurs.html");
 assert(crmPage.indexOf("imuSendAll") >= 0, "CRM : envoi filtre");
 assert(crmPage.indexOf("CONTACTER TOUS") >= 0, "CRM : phrase confirmation");

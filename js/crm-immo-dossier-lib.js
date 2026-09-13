@@ -92,6 +92,11 @@
     if (Array.isArray(item.history)) meta.history = item.history;
     if (item.transaction) meta.transaction = item.transaction;
     if (item.is_parent_dossier != null) meta.is_parent_dossier = !!item.is_parent_dossier;
+    // Soft-hide marché : flag persisté dans metadata (pas de colonne SQL).
+    if (item.market_visible != null) meta.market_visible = item.market_visible !== false;
+    else if (meta.market_visible == null && item.metadata && item.metadata.market_visible != null) {
+      meta.market_visible = item.metadata.market_visible !== false;
+    }
     return meta;
   }
 
@@ -101,6 +106,9 @@
     var prop = Object.assign({}, row);
     var meta = parseMeta(prop.metadata_json != null ? prop.metadata_json : prop.metadata);
     prop.metadata = meta;
+    if (prop.market_visible == null && meta.market_visible != null) {
+      prop.market_visible = meta.market_visible !== false;
+    }
     if (!prop.details || typeof prop.details !== "object") {
       prop.details = meta.details && typeof meta.details === "object" ? meta.details : {};
     }
