@@ -33,13 +33,22 @@
           if (res.paid) {
             title.textContent = "Paiement confirme";
             var euros = res.amountTotal != null ? (res.amountTotal / 100).toFixed(2) : "";
-            detail.textContent =
-              "Votre acompte" +
-              (euros ? " de " + euros + " EUR" : "") +
-              " a bien ete enregistre." +
-              (res.referenceId && res.referenceId !== "none"
-                ? " Reference devis : " + res.referenceId
-                : "");
+            var kind = new URLSearchParams(location.search).get("kind");
+            if (kind === "subscription" || res.mode === "subscription") {
+              title.textContent = "Abonnement active";
+              detail.textContent =
+                "Votre abonnement" +
+                (euros ? " (" + euros + " EUR)" : "") +
+                " est bien enregistre. Un e-mail de confirmation Stripe va arriver.";
+            } else {
+              detail.textContent =
+                "Votre acompte" +
+                (euros ? " de " + euros + " EUR" : "") +
+                " a bien ete enregistre." +
+                (res.referenceId && res.referenceId !== "none"
+                  ? " Reference devis : " + res.referenceId
+                  : "");
+            }
           } else {
             title.textContent = "Paiement en cours de traitement";
             detail.textContent =

@@ -35,7 +35,7 @@ Pack commercial type : **Starter** (leads + CRM) · **Courtier** (+ prêts / ass
 - Staff voit toute la base (seul l’apporteur est scopé)
 - Marque / domaine / ORIAS / pixels souvent hardcodés
 - Beaucoup de métier encore en `localStorage` (`lo_*`)
-- Stripe = checkout devis, pas abonnement siège / plan
+- Stripe = checkout devis + **grille abonnements** (`/abonnements/`, CRM formules)
 - Une boîte mail / un Drive / un compte Meta par déploiement
 
 ---
@@ -86,7 +86,7 @@ Prix de vente réaliste dès cette phase : **licence annuelle + setup**, sans pa
 1. Créer `config/tenant-brand.json` + chargeur unique (shell CRM, devis, mails).
 2. Feature flags modules : `MODULES=prets,assurance,patrimoine,banque,baremes`.
 3. Ajouter `organizations` + `users.org_id` (même si une seule org « LO » au début).
-4. Abonnement Stripe `price_saas_*` + page « Mon plan ».
+4. ~~Abonnement Stripe + page plans~~ → **fait** : `/abonnements/` + CRM formules adaptables (`docs/ABONNEMENTS-STRIPE.md`).
 5. Playbook commercial PDF (hors repo) : positionnement courtier 360° / patrimoine.
 
 ---

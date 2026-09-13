@@ -87,3 +87,10 @@ Dans Vercel > Settings > Environment Variables, ajouter en Production:
 - brancher webhook -> CRM / base client
 - ajouter mapping paiement -> dossier devis
 - ajouter remboursement/annulation si besoin
+
+
+## 7) Formules d’abonnement (grille publique)
+- Page : `/abonnements/`
+- CRM : `/crm-subscription-plans.html`
+- Checkout : `POST /api/stripe/create-subscription-checkout`
+- Doc : `docs/ABONNEMENTS-STRIPE.md`

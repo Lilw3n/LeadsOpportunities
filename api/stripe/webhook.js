@@ -11,6 +11,7 @@ const {
   handlePaymentLinkPaid,
   saveAgentPaymentSplit,
 } = require("../_lib/stripe-payment-store");
+const { markSubscriptionCheckoutPaid } = require("../_lib/subscription-plans-store");
 
 module.exports.config = {
   api: {
@@ -137,7 +138,15 @@ module.exports = async (req, res) => {
       const referenceId = meta.referenceId;
       const email = session.customer_details?.email || session.customer_email;
 
-      if (meta.expectedAmountCents && session.amount_total != null) {
+      const isSubscriptionPlan =
+        session.mode === "subscription" || meta.appContext === "subscription-plans";
+
+      // Essai Stripe : amount_total peut être 0 — ne pas bloquer le webhook.
+      if (
+        meta.expectedAmountCents &&
+        session.amount_total != null &&
+        !(isSubscriptionPlan && Number(session.amount_total) === 0)
+      ) {
         if (String(session.amount_total) !== String(meta.expectedAmountCents)) {
           console.error("[stripe/webhook] metadata amount mismatch", session.id);
           return res.status(200).json({ received: true, warning: "amount_mismatch" });
@@ -158,7 +167,7 @@ module.exports = async (req, res) => {
           customerEmail: email,
           amountEur,
           paymentKind: meta.paymentKind || meta.requestType,
-          label: meta.label,
+          label: meta.label || meta.planName,
           referenceId: referenceId,
           appContext: meta.appContext,
           metadata: meta,
@@ -170,12 +179,24 @@ module.exports = async (req, res) => {
         await handlePaymentLinkPaid(paymentLink);
       }
 
+      if (isSubscriptionPlan) {
+        try {
+          await markSubscriptionCheckoutPaid(session.id, {
+            subscriptionId: session.subscription || null,
+            customerEmail: email,
+          });
+        } catch (subErr) {
+          console.warn("[stripe/webhook] subscription plans", subErr.message);
+        }
+      }
+
       console.log("Stripe checkout complete:", {
         sessionId: session.id,
         customerEmail: email,
         referenceId: referenceId,
         quoteUpdated: !!updated,
         paymentLinkUpdated: !!paymentLink,
+        subscriptionPlan: isSubscriptionPlan,
       });
     }
 

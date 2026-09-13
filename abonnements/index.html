@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abonnements | Leads Opportunities</title>
+  <meta name="description" content="Formules d'abonnement Leads Opportunities — paiement sécurisé Stripe, mensuel ou annuel." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/abonnements/" />
+  <link rel="stylesheet" href="../main.css" />
+  <link rel="stylesheet" href="../css/subscription-plans.css?v=20260913abo1" />
+</head>
+<body class="plans-page">
+  <header class="topbar">
+    <div class="container nav">
+      <a class="logo" href="../index.html">
+        <span class="logo-text">
+          <span class="logo-name">Leads Opportunities</span>
+          <span class="logo-tagline">Abonnements</span>
+        </span>
+      </a>
+      <nav>
+        <a href="../immobilier/">Immobilier</a>
+        <a href="../paiements/">Paiements</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container section plans-wrap">
+    <p class="plans-back"><a href="../index.html">← Accueil</a></p>
+    <header class="plans-hero">
+      <h1 id="plansTitle">Choisissez votre formule</h1>
+      <p id="plansSubtitle" class="plans-sub"></p>
+      <div id="plansBilling" class="plans-billing" hidden>
+        <button type="button" class="plans-billing-btn is-active" data-interval="month">Mensuel</button>
+        <button type="button" class="plans-billing-btn" data-interval="year">Annuel</button>
+      </div>
+      <p id="plansNotice" class="plans-notice" hidden></p>
+    </header>
+
+    <div id="plansGrid" class="plans-grid" aria-live="polite">
+      <p class="plans-loading">Chargement des formules…</p>
+    </div>
+
+    <form id="plansEmailRow" class="plans-email-row" hidden>
+      <label for="plansEmail">E-mail pour le reçu Stripe (optionnel)</label>
+      <input id="plansEmail" type="email" placeholder="vous@exemple.fr" autocomplete="email" />
+    </form>
+
+    <p id="plansFootnote" class="plans-footnote"></p>
+    <p id="plansError" class="plans-error" role="alert" hidden></p>
+  </main>
+
+  <script src="../js/subscription-plans-page.js?v=20260913abo1"></script>
+</body>
+</html>
