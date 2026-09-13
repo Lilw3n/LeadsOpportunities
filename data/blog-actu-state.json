@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T13:26:15.359Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sports/basket/basket-pourquoi-macron-n-assistera-pas-a-la-finale-de-coupe-du-monde-entre-la-france-et-les-etats-unis-20260913",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6a477e660496ebe5af9153909d121&url=https%3a%2f%2fwww.sudouest.fr%2fsport%2fbasket%2fbasket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026-30565495.php&c=895359205782988041&mkt=en-us",
+    "https://www.europe1.fr/politique/baisse-du-remboursement-des-frais-bucco-dentaires-cest-a-letat-de-se-serrer-la-ceinture-et-non-aux-francais-souligne-matthieu-hocque-1074671?at_medium=RSS%20feeds&amp;at_campaign=Flux%20Generique"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T13:26:17.314Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T13:26:17.314Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "basket-pourquoi-macron-n-assistera-pas-a-la-finale-de-coupe-du-monde-ent.html",
+          "title": "Basket : pourquoi Macron n’assistera pas à la finale de Coupe du monde entre la France … : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Le Figaro flash",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "basket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026.html",
+          "title": "Basket – Le parcours de l’équipe de France féminine en Coupe du monde 2026 : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "baisse-du-remboursement-des-frais-bucco-dentaires-c-est-a-l-etat-de-se-s.html",
+          "title": "Baisse du remboursement des frais bucco-dentaires : «C’est à l’État de se serrer la cei… : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — Europe 1",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
