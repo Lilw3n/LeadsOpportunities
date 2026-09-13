@@ -74,6 +74,19 @@ ok(crm.indexOf("btnSelectAllPublic") !== -1, "CRM : tout public");
 ok(crm.indexOf("btnSelectNonePublic") !== -1, "CRM : rien en public");
 ok(crm.indexOf("sitePublished") !== -1, "CRM : case Afficher en public");
 ok(crm.indexOf("Publier sur le site") !== -1, "CRM : libellé publication");
+ok(crm.indexOf("font-size: 16px") !== -1, "CRM : inputs mobile (anti-zoom iOS)");
+
+var hub = read("sites-partenaires/index.html");
+ok(hub.indexOf("width=device-width") !== -1, "hub : viewport mobile");
+ok(hub.indexOf("hamburger") !== -1, "hub : menu hamburger");
+ok(hub.indexOf("G-JX8E35693F") !== -1, "hub : GA4");
+ok(hub.indexOf("x7yqp46fj9") !== -1, "hub : Clarity");
+ok(hub.indexOf("data-partner-sites") !== -1, "hub : montage");
+
+var css = read("css/partner-sites.css");
+ok(css.indexOf("overflow-x: auto") !== -1, "css : filtres scroll mobile");
+ok(css.indexOf("@media (max-width: 900px)") !== -1, "css : breakpoint mobile");
+ok(css.indexOf("partner-hub-nav") !== -1, "css : nav hub mobile");
 
 var crmJs = read("js/crm-partner-sites.js");
 ok(crmJs.indexOf("/api/crm/partner-sites") !== -1, "CRM JS : API publish");

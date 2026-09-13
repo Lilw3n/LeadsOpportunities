@@ -26,6 +26,25 @@ Sur **toutes les pages** (accueil, landings, blog, SEO), chaque clic envoie des 
 
 Clarity détecte aussi nativement **rage clicks** et **dead clicks** dans le tableau de bord.
 
+## Onglet « Google Analytics » vide dans Clarity
+
+L’écran Clarity **Tableau de bord → Google Analytics** (`/gadashboard`) n’affiche **pas** les enregistrements Clarity. C’est un **miroir de GA4** : s’il est vide, le problème est côté **liaison / données GA4**, pas le tag Clarity.
+
+### Causes fréquentes
+
+1. **Propriété GA4 non reliée** (ou mauvaise propriété) dans Clarity → *Paramètres → Configuration → Google Analytics*.
+2. **Peu ou pas de trafic GA4** sur `G-JX8E35693F` (filtre pays, consentement « essentiels uniquement », SPA sans pageview…).
+3. **Délai** : la synchro Clarity ↔ GA4 peut prendre plusieurs heures.
+4. **Confusion d’onglet** : pour voir sessions / heatmaps Clarity, ouvrir **Tableau de bord** / **Enregistrements** / **Cartes thermiques**, pas l’onglet Google Analytics.
+
+### Vérifier rapidement
+
+1. Clarity → **Enregistrements** : y a-t-il des sessions récentes ?
+2. GA4 → Rapports temps réel / acquisition pour `G-JX8E35693F`.
+3. Sur le site : accepter les cookies (pas « essentiels uniquement »), recharger, puis retester.
+
+Le projet Clarity du site est **`x7yqp46fj9`** (script `js/clarity-init.js`).
+
 ## Voir où les gens cliquent (heatmaps)
 
 1. [clarity.microsoft.com](https://clarity.microsoft.com) → projet **x7yqp46fj9**
