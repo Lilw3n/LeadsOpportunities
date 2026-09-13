@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-13",
   "sections": [
     "actu",
     "animaux",
@@ -1964,6 +1964,45 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "assurance-habitation-primes-et-sinistres-bilan-2025.html",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=assurance-habitation-primes-et-sinistr",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par.html",
+      "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=mutuelle-sante-modulable-a-la-retraite",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "franchise-medicale-le-plafond-annuel-passera-a-140-euros.html",
+      "title": "Franchise médicale : le plafond annuel passera à 140 euros : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=franchise-medicale-le-plafond-annuel-p",
       "matchedRule": "mutuelle",
       "species": null
     }

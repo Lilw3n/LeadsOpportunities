@@ -1,6 +1,33 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-09-13T07:57:44.680Z",
   "items": [
+    {
+      "id": "firefox-franchise-medicale-140-2026",
+      "title": "Franchise médicale : le plafond annuel passera à 140 euros",
+      "url": "https://www.franceinfo.fr/replay-jt/franceinfo/21h-minuit/23-heures/franchise-medicale-le-plafond-annuel-passera-a-140-euros_8190482.html",
+      "source": "firefox",
+      "note": "Angle mutuelle : reste à charge, dépassements, comparatif garanties",
+      "status": "published",
+      "addedAt": "2026-09-13T07:56:00.000Z"
+    },
+    {
+      "id": "edge-mutuelle-retraite-modulable-2026",
+      "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste",
+      "url": "https://www.msn.com/fr-fr/actualite/other/mutuelle-sant%C3%A9-modulable-%C3%A0-la-retraite-comment-ajuster-ses-garanties-par-poste/ar-AA2bTd3J",
+      "source": "edge",
+      "note": "Angle mutuelle senior : optique, dentaire, hospitalisation, budget",
+      "status": "published",
+      "addedAt": "2026-09-13T07:56:00.000Z"
+    },
+    {
+      "id": "google-habitation-primes-sinistres-2025",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025",
+      "url": "https://www.meilleurtaux.com/assurance/assurance-habitation/",
+      "source": "aggregator",
+      "note": "Angle habitation : primes 2025, sinistres climat, comparatif garanties Nancy-métropole",
+      "status": "published",
+      "addedAt": "2026-09-13T07:56:00.000Z"
+    },
     {
       "id": "edge-world-cup-iran-2026",
       "title": "Coupe du monde : fan flag et deplacement USA",

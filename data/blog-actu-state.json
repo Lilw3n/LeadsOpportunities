@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T07:57:42.924Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.meilleurtaux.com/assurance/assurance-habitation/",
+    "https://www.msn.com/fr-fr/actualite/other/mutuelle-sant%C3%A9-modulable-%C3%A0-la-retraite-comment-ajuster-ses-garanties-par-poste/ar-AA2bTd3J",
+    "https://www.franceinfo.fr/replay-jt/franceinfo/21h-minuit/23-heures/franchise-medicale-le-plafond-annuel-passera-a-140-euros_8190482.html"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T07:57:44.680Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T07:57:44.680Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-habitation-primes-et-sinistres-bilan-2025.html",
+          "title": "Assurance habitation : primes et sinistres, bilan 2025 : assurance habitation — que faire ?",
+          "source": "aggregator",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par.html",
+          "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste : mutuelle et remboursements — que faire ?",
+          "source": "edge",
+          "sourceType": "edge"
+        },
+        {
+          "file": "franchise-medicale-le-plafond-annuel-passera-a-140-euros.html",
+          "title": "Franchise médicale : le plafond annuel passera à 140 euros : mutuelle et remboursements — que faire ?",
+          "source": "firefox",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
