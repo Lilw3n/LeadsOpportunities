@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-coupe-du-monde-2026-on-n-a-pas-peur-deux-ans-apres-les-bleus-sont-pretes",
+      "title": "Coupe du monde 2026 - \"On n'a pas peur\" : deux ans après, les Bleus sont prêtes pour une revanche contre les Américaines en finale",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa647b6329d4bf6be7185f6a25ccf42&url=https%3a%2f%2fwww.eurosport.fr%2fbasketball%2fcoupe-du-monde%2f2026%2fcoupe-du-monde-2026-on-na-pas-peur-deux-ans-apres-les-bleus-sont-pretes-pour-une-revanche-contre-les-americaines-en-finale_sto23336826%2fstory.shtml&c=17847626562665372908&mkt=en-us",
+      "summary": "Les Bleues se sont qualifiées pour la première finale mondiale de l'histoire du basket tricolore, une sorte de revanche des JO 2024 face aux États-Unis.",
+      "pubDate": "Sat, 12 Sep 2026 16:45:00 GMT",
+      "feedId": "source-edge-bing-cdm",
+      "feedName": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "suggestedFile": "coupe-du-monde-2026-on-n-a-pas-peur-deux-ans-apres-les-bleus-sont-pretes.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-zinedine-zidane-en-equipe-de-france-ce-que-kylian-mbappe-a-refuse-de-fai",
+      "title": "Zinedine Zidane en équipe de France : Ce que Kylian Mbappé a refusé de faire «par respect pour Didier Deschamps - Le10Sport",
+      "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxOXy1hQm5MLTVacDg4LU5kbXB3TmhNdy1YNTJJTzRUdHR0RDJxSVZsQXFfNmI0alV5d2d1Wnl6TjQ3WDBvLUp6b1dFVE52NzVESVNRSVQ0TlU4Umc5cjN0NjhsaHROc055N0lMem8xNWpNZEFzbHFnM1B5QzU0WFU3LXprYVVpQ1A1bEFra0lMcF9sSnhLZ3JHS3lJUUJPVk52UGhRTFdSbTNqSi1ackdIMjBVWG11alZvY0t0aGROX192MVhzM2gwbWJWSE03RHBQTWU2TEdhdlBfNWhodnpqdl9UNVQ2cEdBaWY1bEo0N0stOVZ3TVE?oc=5",
+      "summary": "Zinedine Zidane en équipe de France : Ce que Kylian Mbappé a refusé de faire «par respect pour Didier Deschamps Le10Sport",
+      "pubDate": "Sat, 12 Sep 2026 14:00:53 GMT",
+      "feedId": "google-news-equipe-france",
+      "feedName": "Google News — équipe de France football",
+      "sourceType": "google",
+      "suggestedFile": "zinedine-zidane-en-equipe-de-france-ce-que-kylian-mbappe-a-refuse-de-fai.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro",
+      "title": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains - foot-national.com",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNMF8ycnNZQ0tHSlNMb1RWdjktUmdaeWU4czFjYU41ZTc1Y3loV1Zka0lZbjFwRktURFRuaWd6Mkk3M3Fob1dIRVlwZUtFeWxxcEJpTm5BeF9SbGVVWjh0NDJ0ck5OM0NvRDl5TWtZZnFRN0xqb3pDSzJOYm8wUHVqelpCUUE3Ym45MG14MWxId09SQ0xTVzA3bVdZSFk1Q0RYNWhUeUI1MUhrRjBJUHFPM1hRTzZpemM5SUlSSWQ2UVZ6X3l2UjBmYw?oc=5",
+      "summary": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains foot-national.com",
+      "pubDate": "Mon, 07 Sep 2026 07:00:00 GMT",
+      "feedId": "google-news-supporters",
+      "feedName": "Google News — supporters France foot",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-un-cout-a-ne-pas-negliger-dans-son-credit-immobilie",
+      "title": "Assurance emprunteur : un coût à ne pas négliger dans son crédit immobilier",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa647b6f9c14baa85459c62f1d96f54&url=https%3a%2f%2fwww.msn.com%2ffr-xl%2factualite%2fother%2fassurance-emprunteur-un-co%25C3%25BBt-%25C3%25A0-ne-pas-n%25C3%25A9gliger-dans-son-cr%25C3%25A9dit-immobilier%2far-AA2bOnp6&c=2750108151652696439&mkt=en-us",
+      "summary": "Lorsqu’on achète un logement à crédit, le taux d’intérêt concentre souvent toute l’attention. Pourtant, l’assurance emprunteur peut elle aussi représenter plusieurs milliers d’euros sur la durée du fi ...",
+      "pubDate": "Tue, 08 Sep 2026 05:27:47 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-un-cout-a-ne-pas-negliger-dans-son-credit-immobilie.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    }
+  ]
+}
