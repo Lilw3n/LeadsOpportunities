@@ -51,22 +51,41 @@ function validateArticle(article) {
   return errors;
 }
 
+function loadArticlesFromValue(raw) {
+  if (Array.isArray(raw)) return raw;
+  if (raw && Array.isArray(raw.articles)) return raw.articles;
+  if (raw && raw.title) return [raw];
+  return [];
+}
+
+function loadPendingFile() {
+  var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+  var data = JSON.parse(fs.readFileSync(pending, "utf8"));
+  return data.articles || [];
+}
+
 function main() {
   var file = arg("file");
   var articles = [];
 
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
-    articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
+    articles = loadArticlesFromValue(raw);
   } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
+    var stdin = fs.readFileSync(0, "utf8").trim();
+    if (stdin) {
+      articles = loadArticlesFromValue(JSON.parse(stdin));
+    } else {
+      try {
+        articles = loadPendingFile();
+      } catch (e) {
+        console.error("Lecture pending:", e.message);
+        process.exit(1);
+      }
+    }
   } else {
-    var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
     try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
+      articles = loadPendingFile();
     } catch (e) {
       console.error("Lecture pending:", e.message);
       process.exit(1);
