@@ -142,10 +142,81 @@ function scoreLeadPotential(candidate) {
   return Math.min(100, Math.max(0, score));
 }
 
+function isPlaceholderActuItem(item) {
+  var title = String((item && item.title) || "").trim();
+  var id = String((item && item.id) || "").toLowerCase();
+  var status = String((item && item.status) || "").toLowerCase();
+  if (status === "template") return true;
+  if (!title) return true;
+  if (id.indexOf("template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  return /collez ici|titre de la une|placeholder|à préciser|a preciser|\bxxx\b/i.test(title);
+}
+
+var EN_STOP = {
+  the: 1,
+  and: 1,
+  into: 1,
+  regarding: 1,
+  potential: 1,
+  sale: 1,
+  of: 1,
+  to: 1,
+  for: 1,
+  with: 1,
+  from: 1,
+  this: 1,
+  that: 1,
+  what: 1,
+  you: 1,
+  need: 1,
+  know: 1,
+  about: 1,
+  enters: 1,
+  memorandum: 1,
+  understanding: 1,
+  health: 1,
+  insurance: 1,
+  europe: 1,
+  signed: 1,
+  announcement: 1,
+  press: 1,
+  release: 1,
+};
+
+function isEnglishHeavyTitle(title) {
+  var t = String(title || "");
+  if (
+    /\b(memorandum of understanding|enters into|what you need to know|health insurance in france|retirees face)\b/i.test(
+      t
+    )
+  ) {
+    return true;
+  }
+  var words = t
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .split(/[^a-z0-9']+/)
+    .filter(Boolean);
+  if (words.length < 6) return false;
+  var en = 0;
+  words.forEach(function (w) {
+    if (EN_STOP[w]) en += 1;
+  });
+  return en >= 4;
+}
+
+function isUnusableActuCandidate(item) {
+  return isPlaceholderActuItem(item) || isEnglishHeavyTitle((item && item.title) || "");
+}
+
 function rankCandidates(candidates) {
   return candidates
     .map(function (c) {
       return Object.assign({}, c, { leadScore: scoreLeadPotential(c) });
+    })
+    .filter(function (c) {
+      return !isUnusableActuCandidate(c);
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
@@ -349,6 +420,9 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuItem: isPlaceholderActuItem,
+  isEnglishHeavyTitle: isEnglishHeavyTitle,
+  isUnusableActuCandidate: isUnusableActuCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };

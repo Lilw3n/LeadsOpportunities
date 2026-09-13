@@ -10,7 +10,7 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, isUnusableActuCandidate } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -66,6 +66,18 @@ function loadPublishedTitleKeys() {
 
 var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
 
+var LEAD_INTENT_RE =
+  /assurance|mutuelle|emprunteur|sinistre|habitation|pr[eê]t immobilier|cr[eé]dit immo|pr[eé]voyance|vtc\b|rembours|franchise|lemoine|incendie|canicule|inondation|s[eé]cheresse|d[eé]g[aâ]ts? des eaux|v[eé]t[eé]rinaire|rc pro|catastrophe naturelle/i;
+
+function hasLeadIntent(c) {
+  var hay = String((c && c.title) || "") + " " + String((c && c.summary) || "");
+  if (LEAD_INTENT_RE.test(hay)) return true;
+  return (
+    /coupe du monde|équipe de france|equipe de france|les bleus/i.test(hay) &&
+    /voyage|d[eé]placement|etranger|étranger|mutuelle|assurance|sante|santé|rapatriement/i.test(hay)
+  );
+}
+
 function candidateSourceType(c, feedMap) {
   if (c.sourceType) return c.sourceType;
   var src = String(c.source || "").toLowerCase();
@@ -75,11 +87,29 @@ function candidateSourceType(c, feedMap) {
   return feedMap[c.feedId] || "aggregator";
 }
 
-function bestFromPlatform(available, platform, feedMap, used) {
+function bestFromPlatform(available, platform, feedMap, used, leadOnly) {
   var list = available
     .filter(function (c) {
       var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      if (candidateSourceType(c, feedMap) !== platform || used.has(k)) return false;
+      if (leadOnly && !hasLeadIntent(c)) return false;
+      return true;
+    })
+    .sort(function (a, b) {
+      return b.leadScore - a.leadScore;
+    });
+  return list[0] || null;
+}
+
+function bestLeadIntent(available, used, feedMap, platform) {
+  if (platform) {
+    var fromPlatform = bestFromPlatform(available, platform, feedMap, used, true);
+    if (fromPlatform) return fromPlatform;
+  }
+  var list = available
+    .filter(function (c) {
+      var k = c.url || c.title;
+      return hasLeadIntent(c) && !used.has(k);
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
@@ -98,6 +128,7 @@ function pickCandidates(candidates, count, state) {
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
+    if (isUnusableActuCandidate(c)) return false;
     return true;
   });
 
@@ -120,7 +151,7 @@ function pickCandidates(candidates, count, state) {
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used);
+      var pick = bestLeadIntent(available, used, feedMap, platform);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
@@ -131,7 +162,7 @@ function pickCandidates(candidates, count, state) {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
-      var rotated = bestFromPlatform(available, platform, feedMap, used);
+      var rotated = bestLeadIntent(available, used, feedMap, platform);
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
@@ -141,9 +172,7 @@ function pickCandidates(candidates, count, state) {
   }
 
   available
-    .filter(function (c) {
-      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
-    })
+    .filter(hasLeadIntent)
     .forEach(function (c) {
       if (picks.length >= count) return;
       var k = c.url || c.title;
@@ -279,7 +308,10 @@ async function main() {
     if (process.env.STRICT_ACTU_QUALITY === "1" || process.argv.indexOf("--strict-quality") !== -1) {
       console.log("\n=== Contrôle qualité ===");
       try {
-        execSync("node scripts/verify-actu-quality.cjs", { stdio: "inherit", cwd: ROOT });
+        execSync("node scripts/verify-actu-quality.cjs --file=data/blog-actu-pending.json", {
+          stdio: "inherit",
+          cwd: ROOT,
+        });
       } catch (e) {
         console.error("Qualité insuffisante — publication annulée. Utilisez Cursor pour enrichir.");
         process.exit(1);
