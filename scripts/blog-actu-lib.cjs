@@ -88,6 +88,16 @@ function uniqueFile(baseSlug) {
   return slug + ".html";
 }
 
+/** Titres d’exemple / TODO — ne jamais publier. */
+function isPlaceholderActuTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return true;
+  if (/collez ici/i.test(t)) return true;
+  if (/^TODO\b/i.test(t)) return true;
+  if (/\[titre\]/i.test(t)) return true;
+  return false;
+}
+
 function monthLabel() {
   var months = ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"];
   var d = new Date();
@@ -340,6 +350,7 @@ module.exports = {
   slugify: slugify,
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
+  isPlaceholderActuTitle: isPlaceholderActuTitle,
   matchTopic: matchTopic,
   scaffoldArticle: scaffoldArticle,
   stripForManifest: stripForManifest,

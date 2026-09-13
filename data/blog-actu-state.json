@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T05:38:07.261Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.ouest-france.fr/sport/volley/equipe-de-france/eurovolley-a-quelle-heure-et-sur-quelle-chaine-suivre-le-3e-match-de-lequipe-de-france-face-a-la-lettonie-13973a68-aea7-11f1-b773-22a20d9d91fa?utm_source=fluxpublicactu&utm_medium=fluxrss&utm_campaign=banquedecontenu",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa636bb8023422daa90fb0db0349d69&url=https%3a%2f%2fwww.businesswire.com%2fnews%2fhome%2f20241220911691%2fen%2fHSBC-Continental-Europe-Enters-Into-a-Memorandum-of-Understanding-Regarding-Potential-Sale-of-HSBC-Assurances-Vie-France-to-Matmut-Soci%25C3%25A9t%25C3%25A9-d%25E2%2580%2599Assurance-Mutuelle%2f&c=2748877479019384144&mkt=en-us",
+    "https://www.huffingtonpost.fr/sport/article/en-basket-les-bleues-iront-pour-la-premiere-fois-de-leur-histoire-en-finale-de-coupe-du-monde_323370.html"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T05:38:09.081Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T05:38:09.081Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "eurovolley-a-quelle-heure-et-sur-quelle-chaine-suivre-le-3e-match-de-l-e.html",
+          "title": "Eurovolley. À quelle heure et sur quelle chaîne suivre le 3e match de l’équipe de Franc… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Ouest-France",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "hsbc-continental-europe-enters-into-a-memorandum-of-understanding-regard.html",
+          "title": "HSBC Continental Europe Enters Into a Memorandum of Understanding Regarding Potential S… : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing assurance",
+          "sourceType": "edge"
+        },
+        {
+          "file": "en-basket-les-bleues-iront-pour-la-premiere-fois-de-leur-histoire-en-fin.html",
+          "title": "En Basket, les Bleues iront pour la première fois de leur histoire en finale de Coupe d… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Firefox — HuffPost",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
