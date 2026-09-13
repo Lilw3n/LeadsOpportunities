@@ -8,6 +8,7 @@
 }
 
 .seo-page--vtc { --seo-accent: #0d9488; --seo-accent-dark: #0f766e; --seo-soft: #ccfbf1; }
+.seo-page--taxi { --seo-accent: #d97706; --seo-accent-dark: #b45309; --seo-soft: #ffedd5; }
 .seo-page--sante { --seo-accent: #2563eb; --seo-accent-dark: #1d4ed8; --seo-soft: #dbeafe; }
 .seo-page--credit { --seo-accent: #6366f1; --seo-accent-dark: #4f46e5; --seo-soft: #e0e7ff; }
 .seo-page--auto { --seo-accent: #dc2626; --seo-accent-dark: #b91c1c; --seo-soft: #fee2e2; }

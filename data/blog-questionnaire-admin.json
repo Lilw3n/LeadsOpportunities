@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-13",
   "sections": [
     "actu",
     "animaux",
@@ -13,6 +13,7 @@
     "prevoyance",
     "pro",
     "sante",
+    "taxi",
     "vsp",
     "vtc"
   ],
@@ -1887,6 +1888,84 @@
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
       "matchedRule": "vsp-sans-permis",
+      "species": null
+    },
+    {
+      "file": "assurance-taxi-moins-cher-2026.html",
+      "title": "Assurance taxi moins cher en 2026 : 7 leviers sans sous-assurer",
+      "section": "taxi",
+      "hook": "Sans mention TPT et RC pro, un contrat taxi ne tient ni le contrôle ni le sinistre.",
+      "question": "Prêt à comparer votre assurance taxi à garanties TPT équivalentes ?",
+      "need": "taxi",
+      "landing": "../landings/taxi.html?utm_source=blog&utm_medium=article&utm_campaign=promo_taxi&utm_content=taxi-hub",
+      "express": "../landings/devis-rapide.html?need=taxi",
+      "questionnaire": "../landings/questionnaire.html?need=taxi&journey=standard",
+      "matchedRule": "taxi",
+      "species": null
+    },
+    {
+      "file": "assurance-taxi-garanties-obligatoires-tpt-2026.html",
+      "title": "Garanties obligatoires assurance taxi : RC auto TPT et RC pro (2026)",
+      "section": "taxi",
+      "hook": "Sans TPT + RC pro, le contrôle et le sinistre peuvent tomber à l'eau.",
+      "question": "Votre attestation cite-t-elle taxi / TPT ?",
+      "need": "taxi",
+      "landing": "../landings/taxi.html?utm_source=blog&utm_medium=article&utm_campaign=promo_taxi&utm_content=taxi-garanties",
+      "express": "../landings/devis-rapide.html?need=taxi",
+      "questionnaire": "../landings/questionnaire.html?need=taxi&journey=standard",
+      "matchedRule": "taxi",
+      "species": null
+    },
+    {
+      "file": "assurance-taxi-creation-activite-ads-2026.html",
+      "title": "Créer son activité taxi : assurance, ADS et checklist avant la première course",
+      "section": "taxi",
+      "hook": "La première course sans attestation TPT, c'est une non-assurance.",
+      "question": "Votre dossier création taxi est-il prêt côté assurance ?",
+      "need": "taxi",
+      "landing": "../landings/taxi.html?utm_source=blog&utm_medium=article&utm_campaign=promo_taxi&utm_content=taxi-creation",
+      "express": "../landings/devis-rapide.html?need=taxi",
+      "questionnaire": "../landings/questionnaire.html?need=taxi&journey=standard",
+      "matchedRule": "taxi",
+      "species": null
+    },
+    {
+      "file": "assurance-taxi-vehicule-relais-perte-exploitation.html",
+      "title": "Véhicule relais et perte d'exploitation taxi : protéger vos courses",
+      "section": "taxi",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre relais est-il vraiment autorisé en usage taxi ?",
+      "need": "vtc",
+      "landing": "../landings/taxi.html?utm_source=blog&utm_medium=article&utm_campaign=promo_taxi&utm_content=taxi-relais",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "changer-assurance-taxi-resiliation-2026.html",
+      "title": "Changer d'assurance taxi en 2026 : Hamon, échéance, sans trou de garantie",
+      "section": "taxi",
+      "hook": "Sans mention TPT et RC pro, un contrat taxi ne tient ni le contrôle ni le sinistre.",
+      "question": "Vous changez de contrat sans jour de trou TPT ?",
+      "need": "taxi",
+      "landing": "../landings/taxi.html?utm_source=blog&utm_medium=article&utm_campaign=promo_taxi&utm_content=taxi-resiliation",
+      "express": "../landings/devis-rapide.html?need=taxi",
+      "questionnaire": "../landings/questionnaire.html?need=taxi&journey=standard",
+      "matchedRule": "taxi",
+      "species": null
+    },
+    {
+      "file": "devis-assurance-taxi-rappel-15-min-courtier-orias.html",
+      "title": "Devis assurance taxi : rappel 15 min par un courtier ORIAS",
+      "section": "taxi",
+      "hook": "Sans mention TPT et RC pro, un contrat taxi ne tient ni le contrôle ni le sinistre.",
+      "question": "On vous rappelle pour un devis taxi sous 15 min ?",
+      "need": "taxi",
+      "landing": "../landings/taxi.html?utm_source=blog&utm_medium=article&utm_campaign=promo_taxi&utm_content=taxi-devis-rapide",
+      "express": "../landings/devis-rapide.html?need=taxi",
+      "questionnaire": "../landings/questionnaire.html?need=taxi&journey=standard",
+      "matchedRule": "taxi",
       "species": null
     },
     {

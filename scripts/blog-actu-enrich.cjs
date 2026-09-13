@@ -72,6 +72,17 @@ var ANGLES = {
     ],
     ctaLine: "Questionnaire VTC : plateforme, vehicule, anciennete.",
   },
+  taxi: {
+    hook: "Sans mention taxi / TPT et RC pro, le contrat ne tient ni le controle ni le sinistre.",
+    checklist: [
+      "Attestation RC auto avec usage TPT",
+      "RC professionnelle a jour",
+      "Bris de glace, conducteur, franchises",
+      "Vehicule relais compatible taxi",
+      "Pas de jour sans attestation au changement",
+    ],
+    ctaLine: "Questionnaire taxi : vehicule, zone, TPT.",
+  },
   animaux: {
     hook: "Une urgence veterinaire peut depasser 1 000 EUR sans assurance animaux.",
     checklist: [
@@ -178,6 +189,7 @@ function buildTitle(raw, need) {
     emprunteur: "pret et assurance emprunteur",
     prevoyance: "prevoyance et revenus",
     vtc: "assurance VTC",
+    taxi: "assurance taxi",
     animaux: "assurance animaux",
     "rc-pro": "RC Pro",
   };

@@ -343,6 +343,7 @@ a { color: var(--primary); }
   margin-bottom: 10px;
 }
 .tag-vtc { background: var(--primary-light); color: var(--primary-dark); }
+.tag-taxi { background: #fff7ed; color: #9a3412; }
 .tag-sante { background: var(--blue-light); color: #1d4ed8; }
 .tag-immo { background: var(--accent-light); color: #4338ca; }
 .tag-animaux { background: #ffedd5; color: #c2410c; }

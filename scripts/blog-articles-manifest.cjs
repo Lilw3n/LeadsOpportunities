@@ -1,6 +1,6 @@
 /**
  * Manifeste des articles blog — source pour generate-blog-articles, index et RSS.
- * section: animaux | vtc | sante | auto | habitat | prevoyance | pro | patrimoine | finance | actu | chasse | equitation
+ * section: animaux | vtc | taxi | sante | auto | habitat | prevoyance | pro | patrimoine | finance | actu | chasse | equitation
  * themes (optionnel): sujets additionnels — ex. ["canicule","seniors"] ; voir scripts/blog-themes.cjs
  */
 module.exports = {
@@ -24,6 +24,7 @@ module.exports = {
     { id: "equitation", title: "Assurance equitation & RC equestre", cta: { href: "../landings/equitation.html", label: "Devis equitation" } },
     { id: "vsp", title: "Voiture sans permis (VSP)", cta: { href: "../landings/vsp.html", label: "Devis VSP" } },
     { id: "vtc", title: "Assurance VTC & chauffeurs", cta: { href: "../landings/questionnaire.html?need=vtc&journey=standard", label: "Questionnaire VTC" } },
+    { id: "taxi", title: "Assurance taxi & TPT", cta: { href: "../landings/questionnaire.html?need=taxi&journey=standard", label: "Questionnaire taxi" } },
   ],
   articles: [
     /* —— Actu & tendances —— */
@@ -3254,6 +3255,11 @@ vendeurAcq.forEach(function (a) {
 
 const promoProduits = require("./blog-promo-produits-articles.cjs");
 promoProduits.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
+const taxiArticles = require("./blog-taxi-articles.cjs");
+taxiArticles.forEach(function (a) {
   module.exports.articles.push(a);
 });
 

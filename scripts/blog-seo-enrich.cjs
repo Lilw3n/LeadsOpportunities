@@ -126,6 +126,9 @@ function defaultKeywords(article) {
   if (tag.indexOf("vtc") >= 0 || article.section === "vtc") {
     return ["assurance vtc", "rc pro chauffeur", "uber bolt heetch", "devis vtc"].concat(base);
   }
+  if (tag.indexOf("taxi") >= 0 || article.section === "taxi") {
+    return ["assurance taxi", "rc pro taxi", "TPT taxi", "devis taxi"].concat(base);
+  }
   if (article.section === "animaux") {
     return ["assurance animaux", "assurance chien", "assurance chat", "remboursement veterinaire"].concat(base);
   }
