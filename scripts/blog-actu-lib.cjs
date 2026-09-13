@@ -95,17 +95,140 @@ function monthLabel() {
 }
 
 /** Score 0–100 : potentiel lead questionnaire */
+const LEAD_INTENT_KEYWORDS = [
+  "assurance",
+  "mutuelle",
+  "emprunteur",
+  "sinistre",
+  "pret",
+  "prêt",
+  "credit",
+  "crédit",
+  "immobilier",
+  "logement",
+  "habitation",
+  "locataire",
+  "bailleur",
+  "sante",
+  "santé",
+  "hopital",
+  "hôpital",
+  "medical",
+  "médical",
+  "rembours",
+  "franchise",
+  "auto",
+  "voiture",
+  "accident",
+  "permis",
+  "conducteur",
+  "vtc",
+  "taxi",
+  "voyage",
+  "avion",
+  "incendie",
+  "inondation",
+  "degat",
+  "dégât",
+  "catastrophe",
+  "canicule",
+  "chien",
+  "chat",
+  "veterinaire",
+  "vétérinaire",
+  "rc pro",
+  "freelance",
+  "artisan",
+  "prevoyance",
+  "prévoyance",
+  "invalidite",
+  "invalidité",
+  "deces",
+  "décès",
+  "arret de travail",
+  "arrêt de travail",
+];
+
+function normalizeSearchText(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function hasSearchTerm(hay, term) {
+  var normalized = normalizeSearchText(term).trim();
+  if (!normalized) return false;
+  var pattern = normalized
+    .split(/\s+/)
+    .map(escapeRegExp)
+    .join("[\\s-]+");
+  return new RegExp("(^|[^a-z0-9])" + pattern + "([^a-z0-9]|$)").test(hay);
+}
+
+function isLikelyEnglishTitle(value) {
+  var hay = normalizeSearchText(value);
+  var hits = 0;
+  [
+    "the",
+    "what",
+    "how",
+    "why",
+    "with",
+    "without",
+    "health",
+    "home",
+    "loan",
+    "cost",
+    "coverage",
+    "guide",
+    "retirees",
+    "bills",
+    "will",
+    "face",
+  ].forEach(function (kw) {
+    if (hasSearchTerm(hay, kw)) hits += 1;
+  });
+  return hits >= 2;
+}
+
+function leadIntentScore(candidate) {
+  var hay = normalizeSearchText(String(candidate.title || "") + " " + String(candidate.summary || ""));
+  var hits = 0;
+  LEAD_INTENT_KEYWORDS.forEach(function (kw) {
+    if (hasSearchTerm(hay, kw)) hits += 1;
+  });
+  return hits;
+}
+
+function isAutopublishLeadCandidate(candidate) {
+  if (candidate && candidate.status === "queued") return true;
+  return leadIntentScore(candidate) > 0 && !isLikelyEnglishTitle(candidate && candidate.title);
+}
+
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
   var need = candidate.need || "";
+  var intentScore = leadIntentScore(candidate);
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (["cafeyn", "edge", "firefox", "google", "bing", "yahoo"].indexOf(candidate.sourceType) !== -1) {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  if (intentScore > 0) {
+    if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
+    if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+    score += Math.min(18, intentScore * 6);
+  } else {
+    // Les flux generalistes restent candidats, mais ne dominent pas l'autopublication.
+    score -= 35;
+  }
+  if (isLikelyEnglishTitle(title)) score -= 35;
 
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
@@ -137,6 +260,9 @@ function scoreLeadPotential(candidate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 365 * 86400000) score -= 50;
+    else if (age > 180 * 86400000) score -= 35;
+    else if (age > 30 * 86400000) score -= 15;
   }
 
   return Math.min(100, Math.max(0, score));
@@ -297,9 +423,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: cleanRssText(title),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: cleanRssText(desc || "").slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -317,6 +443,10 @@ function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+function cleanRssText(s) {
+  return stripHtml(decodeEntities(s));
+}
+
 function decodeEntities(s) {
   return String(s)
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
@@ -326,6 +456,7 @@ function decodeEntities(s) {
       return String.fromCharCode(parseInt(num, 10));
     })
     .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
@@ -348,6 +479,8 @@ module.exports = {
   parseRssItems: parseRssItems,
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
+  leadIntentScore: leadIntentScore,
+  isAutopublishLeadCandidate: isAutopublishLeadCandidate,
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,

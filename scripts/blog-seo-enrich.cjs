@@ -113,11 +113,15 @@ function buildAutoBlocks(article, keywords) {
   ];
 }
 
-function estimateMeta(blocks, faq) {
+function estimateMeta(blocks, faq, existingMeta) {
   var text = JSON.stringify(blocks) + JSON.stringify(faq);
   var words = text.split(/\s+/).length;
   var min = Math.max(8, Math.min(18, Math.round(words / 180)));
-  return min + " min · Mai 2026";
+  var datePart = "";
+  if (existingMeta && String(existingMeta).indexOf("·") !== -1) {
+    datePart = String(existingMeta).split("·").slice(1).join("·").trim();
+  }
+  return min + " min · " + (datePart || "Mai 2026");
 }
 
 function defaultKeywords(article) {
@@ -157,7 +161,15 @@ function enrichArticle(article, override) {
     keywords: keywords,
     blocks: blocks,
     faq: faq,
-    meta: (override && override.meta) || estimateMeta(blocks, faq),
+    meta:
+      (override && override.meta) ||
+      estimateMeta(
+        blocks,
+        faq,
+        article.cta && String(article.cta.href || "").indexOf("utm_medium=actu_daily") !== -1
+          ? article.meta
+          : ""
+      ),
     description:
       (override && override.description) ||
       article.description +

@@ -138,8 +138,37 @@ function renderFaq(faq) {
   );
 }
 
+function actuMetaDate(meta) {
+  var match = String(meta || "").match(/·\s*([A-Za-zÀ-ÿ]+)\s+(\d{4})/);
+  if (!match) return "";
+  var months = {
+    jan: "01",
+    fev: "02",
+    fév: "02",
+    mars: "03",
+    avr: "04",
+    mai: "05",
+    juin: "06",
+    juil: "07",
+    aout: "08",
+    août: "08",
+    sept: "09",
+    oct: "10",
+    nov: "11",
+    dec: "12",
+    déc: "12",
+  };
+  var key = match[1].toLowerCase();
+  var month = months[key];
+  return month ? match[2] + "-" + month + "-01" : "";
+}
+
 function renderJsonLd(a, canonical) {
   var faq = a.faq || [];
+  var isAutoActu =
+    a.cta && String(a.cta.href || "").indexOf("utm_medium=actu_daily") !== -1;
+  var articleDate = (isAutoActu && actuMetaDate(a.meta)) || "2026-05-01";
+  var modifiedDate = isAutoActu && articleDate !== "2026-05-01" ? articleDate : "2026-05-28";
   var graph = [
     {
       "@type": "Article",
@@ -148,8 +177,8 @@ function renderJsonLd(a, canonical) {
       author: { "@type": "Organization", name: "Leads Opportunities" },
       publisher: { "@type": "Organization", name: "Leads Opportunities" },
       mainEntityOfPage: canonical,
-      datePublished: "2026-05-01",
-      dateModified: "2026-05-28",
+      datePublished: articleDate,
+      dateModified: modifiedDate,
     },
   ];
   if (faq.length) {
