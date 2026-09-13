@@ -244,10 +244,10 @@ assert(html.indexOf("immo-tour-access-page.js?v=") !== -1, "page : cache-bust sc
 var cssDirect = read("css/immo-ad-listings.css");
 assert(cssDirect.indexOf("tour-direct-layout") !== -1, "css : layout accès direct");
 assert(cssDirect.indexOf("Visite élargie") !== -1, "css : visite élargie");
-assert(cssDirect.indexOf("1680px") !== -1 && cssDirect.indexOf("82vh") !== -1, "css : player large");
+assert(cssDirect.indexOf("1920px") !== -1 && cssDirect.indexOf("90vh") !== -1, "css : player large");
 assert(cssDirect.indexOf("tour-contact") !== -1, "css : bloc contact visite");
 assert(cssDirect.indexOf("tour-contact-pulse") !== -1 && cssDirect.indexOf("#b91c1c") !== -1, "css : pastille rouge contact");
-assert(cssDirect.indexOf("minmax(260px, 320px) minmax(0, 1fr)") !== -1, "css : contact à gauche du player");
+assert(cssDirect.indexOf("minmax(180px, 220px) minmax(0, 1fr)") !== -1, "css : contact compact à gauche du player");
 
 
 var crm = read("crm-immo-pubs.html");
