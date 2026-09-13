@@ -5,6 +5,8 @@ const ROUTES = {
   "create-checkout-for-quote": () => require("../_lib/routes/stripe-create-checkout-for-quote"),
   "create-mailbox-payment-link": () =>
     require("../_lib/routes/stripe-create-mailbox-payment-link"),
+  "create-subscription-checkout": () =>
+    require("../_lib/routes/stripe-create-subscription-checkout"),
   "session-status": () => require("../_lib/routes/stripe-session-status"),
   readiness: () => require("../_lib/routes/stripe-readiness"),
 };

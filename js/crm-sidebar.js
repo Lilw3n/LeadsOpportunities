@@ -165,6 +165,7 @@ window.CrmSidebar = {
       items: [
         { type: "link", href: "./crm-financial.html", label: "Vue d'ensemble", icon: "financial" },
         { type: "link", href: "./crm-stripe.html", label: "Stripe — envoyer & payer", icon: "financial", highlight: true, desc: "Paiement unique, abonnement, acompte, page publique" },
+        { type: "link", href: "./crm-subscription-plans.html", label: "Formules d’abonnement", icon: "financial", highlight: true, desc: "Grille publique /abonnements/ · Stripe Checkout adaptable" },
         { type: "link", href: "./crm-e-signature.html", label: "Signature électronique", icon: "document", highlight: true, desc: "Lien client gratuit · canvas · PDF signé (SES)" },
         { type: "link", href: "./crm-financial-payments.html", label: "Paiements" },
         { type: "link", href: "./crm-financial-payment-new.html", label: "Nouveau paiement" },

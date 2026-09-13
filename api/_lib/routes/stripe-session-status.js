@@ -24,11 +24,13 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       ok: true,
       paid: paid,
+      mode: session.mode || null,
       paymentStatus: session.payment_status,
       amountTotal: session.amount_total,
       currency: session.currency,
       customerEmail: session.customer_details?.email || session.customer_email,
       referenceId: session.metadata?.referenceId || null,
+      planId: session.metadata?.planId || null,
     });
   } catch (error) {
     console.error("session-status error:", error);

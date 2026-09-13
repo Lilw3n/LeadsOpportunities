@@ -1,0 +1,96 @@
+{
+  "pageTitle": "Choisissez votre formule",
+  "pageSubtitle": "Accès adaptable — activez, désactivez ou modifiez chaque offre depuis le CRM. Paiement sécurisé Stripe.",
+  "currency": "eur",
+  "billingToggle": true,
+  "defaultInterval": "month",
+  "contactUrl": "/index.html#contact",
+  "successPath": "/paiement-success.html",
+  "cancelPath": "/abonnements/?canceled=1",
+  "footnote": "Sans engagement de durée au-delà de la périodicité affichée. Résiliable depuis le portail client Stripe (e-mail de reçu).",
+  "plans": [
+    {
+      "id": "decouverte",
+      "name": "Découverte",
+      "tagline": "Pour tester sans carte",
+      "badge": "",
+      "priceMonthly": 0,
+      "priceYearly": 0,
+      "ctaLabel": "Commencer gratuitement",
+      "ctaMode": "link",
+      "ctaUrl": "/immobilier/",
+      "features": [
+        "Accès vitrine biens & recherches",
+        "1 demande de contact / mois",
+        "Support e-mail standard"
+      ],
+      "highlighted": false,
+      "enabled": true,
+      "sortOrder": 10,
+      "trialDays": 0,
+      "stripePriceIdMonthly": "",
+      "stripePriceIdYearly": "",
+      "entitlements": {
+        "contactsPerMonth": 1,
+        "tourViews": 3,
+        "modules": ["vitrine"]
+      }
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "tagline": "Pour prospecter au quotidien",
+      "badge": "Recommandé",
+      "priceMonthly": 29,
+      "priceYearly": 290,
+      "ctaLabel": "S'abonner",
+      "ctaMode": "checkout",
+      "ctaUrl": "",
+      "features": [
+        "Alertes biens & matching",
+        "Visites virtuelles illimitées",
+        "Espace documents partagés",
+        "Support prioritaire"
+      ],
+      "highlighted": true,
+      "enabled": true,
+      "sortOrder": 20,
+      "trialDays": 14,
+      "stripePriceIdMonthly": "",
+      "stripePriceIdYearly": "",
+      "entitlements": {
+        "contactsPerMonth": 50,
+        "tourViews": -1,
+        "modules": ["vitrine", "matching", "tours", "docs"]
+      }
+    },
+    {
+      "id": "cabinet",
+      "name": "Cabinet",
+      "tagline": "Équipes & co-marques",
+      "badge": "",
+      "priceMonthly": 79,
+      "priceYearly": 790,
+      "ctaLabel": "Parler à un conseiller",
+      "ctaMode": "contact",
+      "ctaUrl": "/index.html#contact",
+      "features": [
+        "Tout Pro inclus",
+        "Multi-utilisateurs",
+        "Marque blanche light",
+        "Onboarding dédié"
+      ],
+      "highlighted": false,
+      "enabled": true,
+      "sortOrder": 30,
+      "trialDays": 0,
+      "stripePriceIdMonthly": "",
+      "stripePriceIdYearly": "",
+      "entitlements": {
+        "contactsPerMonth": -1,
+        "tourViews": -1,
+        "modules": ["vitrine", "matching", "tours", "docs", "team", "whitelabel"]
+      }
+    }
+  ]
+}

@@ -23,6 +23,7 @@ const ROUTES = {
   "immo-network": () => require("./_lib/routes/immo-network-dispatch"),
   "acquisition-focus": () => require("./_lib/routes/public-acquisition-focus"),
   "meta-status": () => require("./_lib/routes/public-meta-status"),
+  "subscription-plans": () => require("./_lib/routes/public-subscription-plans"),
   dashboard: () => require("./dashboard/[action].js"),
 };
 

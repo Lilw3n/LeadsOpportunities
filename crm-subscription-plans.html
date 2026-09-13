@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formules d’abonnement | CRM</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-subscription-plans.css?v=2" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Finance · Stripe</p>
+      <h2>Formules d’abonnement</h2>
+      <p>Grille adaptable (style Lybox) — prix, features, CTA, Price ID Stripe. Checkout Stripe branché.</p>
+    </div>
+    <div class="crm-action-row">
+      <a class="btn btn-primary" href="./abonnements/" target="_blank" rel="noopener">Page publique</a>
+      <a class="btn btn-ghost" href="./crm-stripe.html">Hub Stripe</a>
+      <a class="btn btn-ghost" href="./paiements/" target="_blank" rel="noopener">Hub paiements</a>
+    </div>
+  </section>
+
+  <section class="crm-page-panel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Configuration</p>
+        <h2>Éditer les offres</h2>
+        <p class="crm-muted-inline">Sans Price ID Stripe, le checkout crée le prix à la volée (price_data).</p>
+      </div>
+      <div class="crm-action-row">
+        <button type="button" class="btn btn-ghost" id="btnAddPlan">+ Ajouter</button>
+        <button type="button" class="btn btn-primary" id="btnSavePlans">Enregistrer</button>
+      </div>
+    </div>
+
+    <div class="subplans-meta">
+      <label>Titre page <input id="cfgPageTitle" class="crm-input" type="text" /></label>
+      <label>Sous-titre <input id="cfgPageSubtitle" class="crm-input" type="text" /></label>
+      <label>URL contact <input id="cfgContactUrl" class="crm-input" type="text" /></label>
+      <label>Success path <input id="cfgSuccessPath" class="crm-input" type="text" /></label>
+      <label>Cancel path <input id="cfgCancelPath" class="crm-input" type="text" /></label>
+      <label class="subplans-check"><input id="cfgBillingToggle" type="checkbox" /> Bascule mensuel / annuel</label>
+      <label>Intervalle par défaut
+        <select id="cfgDefaultInterval" class="crm-input">
+          <option value="month">Mensuel</option>
+          <option value="year">Annuel</option>
+        </select>
+      </label>
+      <label class="subplans-full">Note de bas de page <textarea id="cfgFootnote" class="crm-input" rows="2"></textarea></label>
+    </div>
+
+    <div id="plansList" class="subplans-list"></div>
+    <p id="plansStatus" class="subplans-status" role="status"></p>
+    <p class="crm-muted-inline">
+      Liens :
+      <code>/abonnements/</code> ·
+      <code>GET /api/subscription-plans</code> ·
+      <code>GET|PUT /api/crm/subscription-plans</code> ·
+      <code>POST /api/stripe/create-subscription-checkout</code>
+    </p>
+  </section>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-subscription-plans.js?v=2"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
