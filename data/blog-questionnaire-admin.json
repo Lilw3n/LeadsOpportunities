@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-13",
   "sections": [
     "actu",
     "animaux",
@@ -1965,6 +1965,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "incendies-et-assurance-declaration-de-sinistre-jusqu-au-31-aout-relogeme.html",
+      "title": "Incendies et assurance : déclaration de sinistre jusqu’au 31 août, relogement remboursé… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=incendies-et-assurance-declaration-de",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "quelle-mutuelle-sante-choisir-a-bordeaux-le-comparateur-assurance.html",
+      "title": "Quelle mutuelle santé choisir à Bordeaux ? - Le Comparateur Assurance : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=quelle-mutuelle-sante-choisir-a-bordeaux",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "emprunteur-allianz-france-et-magnolia-creent-un-contrat-specialement-con.html",
+      "title": "Emprunteur : Allianz France et Magnolia créent un contrat spécialement conçu pour les c… : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=emprunteur-allianz-france-et-magnolia",
+      "matchedRule": "emprunteur",
       "species": null
     }
   ]

@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T08:37:41.071Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sports/basket/basket-une-premiere-finale-mondiale-et-une-revanche-contre-les-americaines-pour-les-bleues-20260913",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa660d449f144d0b7ffe309c32a8a70&url=https%3a%2f%2fwww.eurosport.fr%2fbasketball%2fcoupe-du-monde%2f2026%2fcoupe-du-monde-2026-on-na-pas-peur-deux-ans-apres-les-bleus-sont-pretes-pour-une-revanche-contre-les-americaines-en-finale_sto23336826%2fstory.shtml&c=17847626562665372908&mkt=en-us",
+    "https://www.franceinfo.fr/sports/basket/l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-equipe-de-france-peuvent-elles-renverser-les-americaines-pour-leur-premiere-finale-mondiale_8188259.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMiywFBVV95cUxQcDlDZDBpLXZQVDF0cVY0TTE0WGhtekZLV3Q3eXIyTmRxTVMwNWZ2YzRVWkY2NGhJaC05V085bDVldDRrbDdTSTY1V2VVSzdPYmN6d284MDFJUkNtWllqNnBfQllyM3E3VTMxZkR5aGIyOTl5UmVHTzhGV1lkQm5qb3RRRXl4QWhWSTViMllQT29CckJRTS15MDE5OVh1RHlSaThkalNfVUlpTGpoQUlQVXd1WEIxS1JtUzRGWlJ1UkxvcnV6dGRxYU5RUQ?oc=5",
+    "https://news.google.com/rss/articles/CBMilAFBVV95cUxOb1ZaXzROWXFSaHBwLUZIRDV4Szl4MVVYdWs5NHM5Q1V2TDV2VHRDdWNkSXN4TmlhTS1OVllWakVza0JVSFp0Yk5meUo1dzJtWGg4MGktbTVOUkpNM2wwcFU3RFg4WW5OT1J3VUtrb3BwaGZiMFR5Ni1YQ29pMFZYQnBQdUpqUnY5QXRKLWVwTmNTN0hD?oc=5",
+    "https://news.google.com/rss/articles/CBMiuAJBVV95cUxPLVA0aFZHWVhKVjdzRjVYTnk4cjh5YnpLb1pHZHZfT29LRU9YeVN2ejQtcnVBQ1NvSk9iVWVIQ3FMTXFEZzZ0T3laenZTajhTeTEyU2lvVGxUUFNNRXo1a2hvVlU5MXlVck9fM1JyeGJJTXRqM1Z4Y1o3dkZaeXdoZS0yUDZieEpONUcwX2tLU01RVHJCX3pzRzl4a09wTzNRS3lVTFJ6bHVnQUhSUHh4dlI1dF9XcnJGMEpuY29GZ29RdlQ1SmRlNVNGTDJZa3JPTDBfTjBzZmdiN3o5aHRuTGRvXzhBeTVXNzVYVkhnSDk1cjN0cmpyREpwZkEzUjNOV3lrWDlEMUVwazBrM1Z5LWE4LUtVYlE1RmViUnE2QWVGQkFQdXhnN0lScFJBTEgxakNYSUh6Wi0?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T08:40:00.000Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T08:40:00.000Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "incendies-et-assurance-declaration-de-sinistre-jusqu-au-31-aout-relogeme.html",
+          "title": "Incendies et assurance : déclaration de sinistre jusqu’au 31 août, relogement remboursé… : assurance habitation — que faire ?",
+          "source": "Google News habitation",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "quelle-mutuelle-sante-choisir-a-bordeaux-le-comparateur-assurance.html",
+          "title": "Quelle mutuelle santé choisir à Bordeaux ? : mutuelle et remboursements — que faire ?",
+          "source": "Google News mutuelle",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "emprunteur-allianz-france-et-magnolia-creent-un-contrat-specialement-con.html",
+          "title": "Emprunteur : Allianz France et Magnolia créent un contrat spécialement conçu pour les c… : pret et assurance emprunteur — que faire ?",
+          "source": "Google News emprunteur",
+          "sourceType": "aggregator"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
