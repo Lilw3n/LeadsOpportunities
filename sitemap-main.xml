@@ -1914,4 +1914,16 @@
     <changefreq>weekly</changefreq>
     <priority>0.93</priority>
   </url>
+  <url>
+    <loc>https://www.leadsopportunities.fr/assurance-vtc/garanties/</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.87</priority>
+  </url>
+  <url>
+    <loc>https://www.leadsopportunities.fr/assurance-vtc/garanties-obligatoires/</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.87</priority>
+  </url>
 </urlset>
