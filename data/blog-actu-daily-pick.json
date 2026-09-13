@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-comment-un-hacker-a-utilise-claude-l-ia-d-anthropic-pour-pirater-au-moin",
+      "title": "Comment un hacker a utilisé Claude, l’IA d’Anthropic, pour pirater au moins un parti politique français et des médias",
+      "url": "https://www.lefigaro.fr/secteur/high-tech/comment-un-hacker-a-utilise-claude-l-ia-d-anthropic-pour-pirater-un-parti-politique-et-des-medias-20260911",
+      "summary": "DÉCRYPTAGE - Un rapport d’Anthropic révèle comment un pirate francophone a utilisé son IA Claude pour automatiser une série de cyberattaques contre des organisations politiques et médiatiques européennes. Au moins 42 d’entre elles ont été visées.",
+      "pubDate": "Fri, 11 Sep 2026 23:06:46 +0200",
+      "feedId": "source-cafeyn-figaro-eco",
+      "feedName": "Cafeyn — Le Figaro économie",
+      "sourceType": "cafeyn",
+      "suggestedFile": "comment-un-hacker-a-utilise-claude-l-ia-d-anthropic-pour-pirater-au-moin.html",
+      "section": "auto",
+      "need": "auto",
+      "leadScore": 69,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-2026-on-n-a-pas-peur-deux-ans-apres-les-bleus-sont-pretes",
+      "title": "Coupe du monde 2026 - \"On n'a pas peur\" : deux ans après, les Bleus sont prêtes pour une revanche contre les Américaines en finale",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa64cd27c2b478bacb57f4c63896c52&url=https%3a%2f%2fwww.eurosport.fr%2fbasketball%2fcoupe-du-monde%2f2026%2fcoupe-du-monde-2026-on-na-pas-peur-deux-ans-apres-les-bleus-sont-pretes-pour-une-revanche-contre-les-americaines-en-finale_sto23336826%2fstory.shtml&c=17847626562665372908&mkt=en-us",
+      "summary": "Les Bleues se sont qualifiées pour la première finale mondiale de l'histoire du basket tricolore, une sorte de revanche des JO 2024 face aux États-Unis.",
+      "pubDate": "Sat, 12 Sep 2026 16:45:00 GMT",
+      "feedId": "source-edge-bing-cdm",
+      "feedName": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "suggestedFile": "coupe-du-monde-2026-on-n-a-pas-peur-deux-ans-apres-les-bleus-sont-pretes.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-",
+      "title": "\"L'opportunité d'écrire l'histoire du sport français\" : Gabby Williams et l'équipe de France peuvent-elles renverser les Américaines pour leur première finale mondiale ?",
+      "url": "https://www.franceinfo.fr/sports/basket/l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-equipe-de-france-peuvent-elles-renverser-les-americaines-pour-leur-premiere-finale-mondiale_8188259.html#xtor=RSS-3-[lestitres]",
+      "summary": "Tombeuses de l'Allemagne en demies, les Bleues vont jouer leur première finale de Coupe du monde, dimanche. Elles y retrouveront les Etats-Unis, qui les avaient privées de l'or olympique à Paris, en 2024.",
+      "pubDate": "Sun, 13 Sep 2026 06:00:02 +0200",
+      "feedId": "source-firefox-franceinfo",
+      "feedName": "Firefox — France Info titres",
+      "sourceType": "firefox",
+      "suggestedFile": "l-opportunite-d-ecrire-l-histoire-du-sport-francais-gabby-williams-et-l-.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-que-couvre-vraiment-une-assurance-habitation-le-guide-simple-pour-tout-c",
+      "title": "Que couvre vraiment une assurance habitation ? Le guide simple pour tout comprendre",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa64cd2d73d441f8ba7f38cdccb5ba3&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2fque-couvre-vraiment-une-assurance-habitation-le-guide-simple-pour-tout-comprendre-12-09-2026-ECIAOOD2HREMXFKAXGM3H4ZP7A.php&c=809358229542824849&mkt=en-us",
+      "summary": "Incendie, dégât des eaux, cambriolage… Une assurance habitation protège votre logement, vos biens et votre responsabilité face à de nombreux ...",
+      "pubDate": "Sat, 12 Sep 2026 00:51:00 GMT",
+      "feedId": "source-bing-sinistres",
+      "feedName": "Bing News — sinistres assurance",
+      "sourceType": "bing",
+      "suggestedFile": "que-couvre-vraiment-une-assurance-habitation-le-guide-simple-pour-tout-c.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}

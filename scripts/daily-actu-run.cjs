@@ -5,6 +5,8 @@
  */
 const { execSync } = require("child_process");
 const { readJson, writeJson, rankCandidates } = require("./blog-actu-lib.cjs");
+const { PRIMARY_SOURCE_TYPES, resolveSourceType } = require("./blog-actu-sources.cjs");
+const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 
 function arg(name, def) {
   var m = process.argv.find(function (a) {
@@ -12,6 +14,56 @@ function arg(name, def) {
   });
   if (!m) return def;
   return m.split("=")[1];
+}
+
+function loadFeedSourceMap() {
+  var feedsCfg = readJson("blog-actu-feeds.json", { feeds: [] });
+  var map = {};
+  (feedsCfg.feeds || []).forEach(function (f) {
+    map[f.id] = resolveSourceType([f.id, f.name, f.sourceType].join(" "), f.sourceType || "aggregator");
+  });
+  return map;
+}
+
+function candidateSourceType(candidate, feedMap) {
+  if (candidate.sourceType) return resolveSourceType(candidate.sourceType, candidate.sourceType);
+  if (candidate.source) {
+    var fromSource = resolveSourceType(candidate.source, "");
+    if (fromSource) return fromSource;
+  }
+  return feedMap[candidate.feedId] || "aggregator";
+}
+
+function pickBalanced(ranked, count) {
+  var feedMap = loadFeedSourceMap();
+  var available = ranked.filter(function (candidate) {
+    var hay = String(candidate.title || "") + " " + String(candidate.summary || "");
+    return !(isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay));
+  });
+  var picks = [];
+  var used = new Set();
+
+  PRIMARY_SOURCE_TYPES.forEach(function (type) {
+    if (picks.length >= count) return;
+    var pick = available.find(function (candidate) {
+      var key = candidate.url || candidate.title;
+      return candidateSourceType(candidate, feedMap) === type && !used.has(key);
+    });
+    if (pick) {
+      picks.push(pick);
+      used.add(pick.url || pick.title);
+    }
+  });
+
+  available.forEach(function (candidate) {
+    if (picks.length >= count) return;
+    var key = candidate.url || candidate.title;
+    if (used.has(key)) return;
+    picks.push(candidate);
+    used.add(key);
+  });
+
+  return picks;
 }
 
 function main() {
@@ -26,7 +78,7 @@ function main() {
 
   var candidates = readJson("blog-actu-candidates.json", { candidates: [] }).candidates || [];
   var ranked = rankCandidates(candidates);
-  var picks = ranked.slice(0, count);
+  var picks = pickBalanced(ranked, count);
 
   writeJson("blog-actu-daily-pick.json", {
     date: new Date().toISOString().slice(0, 10),
@@ -37,7 +89,17 @@ function main() {
 
   console.log("\n--- Top " + count + " pour leads (score) ---");
   picks.forEach(function (p, i) {
-    console.log((i + 1) + ". [" + p.leadScore + "/100] [" + (p.need || "?") + "] " + p.title.slice(0, 72));
+    console.log(
+      (i + 1) +
+        ". [" +
+        p.leadScore +
+        "/100] [" +
+        (p.sourceType || "?") +
+        "] [" +
+        (p.need || "?") +
+        "] " +
+        p.title.slice(0, 72)
+    );
   });
   console.log("\nDétail: data/blog-actu-daily-pick.json");
   console.log("Étape agent: enrichir pending → npm run blog:actu:publish → PR");
