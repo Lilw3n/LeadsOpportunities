@@ -283,6 +283,24 @@ var noneMode = AdLib.applyAdToProperty(
 );
 var taNone = noneMode.metadata.ad.tour_access;
 assert(taNone.verify_mode === "none", "vérif nulle");
+assert(taNone.max_views_per_contact === 0, "accès libre : pas de plafond par contact");
+assert(Tour.contactQuotaOk(99, taNone) === true, "accès libre : quota contact ignoré");
+var unlimited = AdLib.applyAdToProperty(
+  { id: "prop_unlim", status: "mandat", title: "U", city: "Nancy" },
+  {
+    virtual_tour: "https://my.matterport.com/show/?m=u1",
+    tour_gate: true,
+    tour_verify_mode: "email",
+    tour_max_views: 0,
+    tour_max_per_contact: 8,
+  }
+);
+var taUnlim = unlimited.metadata.ad.tour_access;
+assert(taUnlim.max_views === 0, "utilisations max 0 = illimité");
+assert(taUnlim.max_views_per_contact === 0, "illimité : plafond contact forcé à 0");
+assert(Tour.contactQuotaOk(50, { max_views: 0, max_views_per_contact: 8 }) === true, "max_views 0 ignore plafond contact");
+assert(Tour.contactQuotaOk(8, { max_views: 50, max_views_per_contact: 8 }) === false, "plafond contact coupe à 8");
+assert(tourUi.indexOf("tour_max_per_contact: Number(maxViews) === 0") !== -1 || tourUi.indexOf('verify === "none" ? 0 : 8') !== -1, "contact tour : pas de 8 forcé si illimité");
 assert(taNone.period_mode === "mandate", "période mandat");
 assert(taNone.allow_emails[0] === "a@b.fr", "allowlist e-mail");
 assert(Tour.isAllowlisted(taNone, "a@b.fr", "") === true, "allowlist ok");

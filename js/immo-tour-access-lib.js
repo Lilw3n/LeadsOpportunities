@@ -260,18 +260,25 @@
     if (VISIBILITIES.indexOf(visibility) === -1) visibility = "listed";
 
     var maxViews = toInt(f && f.tour_max_views != null ? f.tour_max_views : prev.max_views, 0);
-    var maxPer = toInt(
-      f && f.tour_max_per_contact != null && f.tour_max_per_contact !== ""
-        ? f.tour_max_per_contact
-        : prev.max_views_per_contact,
-      DEFAULT_MAX_PER_CONTACT
-    );
-    if (maxPer < 0) maxPer = DEFAULT_MAX_PER_CONTACT;
-
     var verifyMode = normalizeVerifyMode(
       f && f.tour_verify_mode != null ? f.tour_verify_mode : prev.verify_mode,
       prev.verify_mode || "email"
     );
+    var maxPerDefault =
+      maxViews <= 0 || verifyMode === "none" ? 0 : DEFAULT_MAX_PER_CONTACT;
+    var maxPer = toInt(
+      f && f.tour_max_per_contact != null && f.tour_max_per_contact !== ""
+        ? f.tour_max_per_contact
+        : prev.max_views_per_contact != null
+          ? prev.max_views_per_contact
+          : maxPerDefault,
+      maxPerDefault
+    );
+    if (maxPer < 0) maxPer = maxPerDefault;
+    // Lien illimité ou accès libre public : pas de plafond caché par contact
+    if (maxViews <= 0 || (verifyMode === "none" && !(f && f.tour_max_per_contact != null && f.tour_max_per_contact !== ""))) {
+      maxPer = 0;
+    }
     var periodMode = normalizePeriodMode(
       f && f.tour_period_mode != null ? f.tour_period_mode : prev.period_mode,
       prev.period_mode || (prev.expires_at ? "limited" : "limited")
@@ -462,6 +469,11 @@
   }
 
   function contactQuotaOk(used, access) {
+    // Utilisations max du lien à 0 = illimité → pas de plafond par personne
+    if (toInt(access && access.max_views, 0) <= 0) return true;
+    // Accès libre (sans e-mail) : tous les visiteurs partagent une clé anonyme,
+    // un plafond « par contact » bloquerait tout le monde après N ouvertures.
+    if (((access && access.verify_mode) || "email") === "none") return true;
     var max = toInt(access && access.max_views_per_contact, DEFAULT_MAX_PER_CONTACT);
     if (max <= 0) return true;
     return toInt(used, 0) < max;
