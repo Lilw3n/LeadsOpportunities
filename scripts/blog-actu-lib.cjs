@@ -101,7 +101,7 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (["cafeyn", "edge", "firefox", "google", "bing", "yahoo"].indexOf(candidate.sourceType) !== -1) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
@@ -137,6 +137,9 @@ function scoreLeadPotential(candidate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 365 * 86400000) score -= 50;
+    else if (age > 180 * 86400000) score -= 35;
+    else if (age > 30 * 86400000) score -= 15;
   }
 
   return Math.min(100, Math.max(0, score));
@@ -297,9 +300,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: cleanRssText(title),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: cleanRssText(desc || "").slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -317,6 +320,10 @@ function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+function cleanRssText(s) {
+  return stripHtml(decodeEntities(s));
+}
+
 function decodeEntities(s) {
   return String(s)
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
@@ -326,6 +333,7 @@ function decodeEntities(s) {
       return String.fromCharCode(parseInt(num, 10));
     })
     .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
