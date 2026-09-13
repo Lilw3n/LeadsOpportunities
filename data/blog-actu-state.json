@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T10:16:55.600Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.leparisien.fr/sports/football/equipe-de-france-feminine/une-ronde-en-pleine-surface-limprobable-coup-tactique-gagnant-imagine-par-les-joueuses-de-lequipe-de-france-au-mondial-u20-13-09-2026-4N6MIL7RFZABRCJ24IR4KBVJK4.php",
+    "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+    "https://news.google.com/rss/articles/CBMiywFBVV95cUxQcDlDZDBpLXZQVDF0cVY0TTE0WGhtekZLV3Q3eXIyTmRxTVMwNWZ2YzRVWkY2NGhJaC05V085bDVldDRrbDdTSTY1V2VVSzdPYmN6d284MDFJUkNtWllqNnBfQllyM3E3VTMxZkR5aGIyOTl5UmVHTzhGV1lkQm5qb3RRRXl4QWhWSTViMllQT29CckJRTS15MDE5OVh1RHlSaThkalNfVUlpTGpoQUlQVXd1WEIxS1JtUzRGWlJ1UkxvcnV6dGRxYU5RUQ?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T10:18:24.636Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,39 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T10:16:57.623Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "une-ronde-en-pleine-surface-l-improbable-coup-tactique-gagnant-imagine-p.html",
+          "title": "Une ronde en pleine surface, l’improbable coup tactique gagnant imaginé par les joueuse… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Le Parisien",
+          "sourceType": "cafeyn"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-13T10:18:24.636Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+          "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "incendies-et-assurance-declaration-de-sinistre-jusqu-au-31-aout-relogeme.html",
+          "title": "Incendies et assurance : déclaration de sinistre jusqu’au 31 août, relogement remboursé… : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "aggregator"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 1
 }

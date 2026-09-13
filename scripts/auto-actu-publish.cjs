@@ -11,6 +11,13 @@
 const { execSync } = require("child_process");
 const path = require("path");
 const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderActuTitle } = require("./blog-actu-lib.cjs");
+
+function isHighIntentLeadTitle(title) {
+  var t = String(title || "").toLowerCase();
+  return /assurance|mutuelle|sinistre|emprunteur|habitation|prevoyance|vtc|incendie|inondation|secheresse|canicule/.test(
+    t
+  );
+}
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -159,6 +166,20 @@ function pickCandidates(candidates, count, state) {
     if (used.has(k)) return;
     picks.push(c);
     used.add(k);
+  });
+
+  var intentPool = available.filter(function (c) {
+    return isHighIntentLeadTitle(c.title) && c.leadScore >= 80;
+  });
+  picks.forEach(function (pick, idx) {
+    if (isHighIntentLeadTitle(pick.title)) return;
+    var better = intentPool.find(function (c) {
+      return !used.has(c.url || c.title);
+    });
+    if (!better) return;
+    used.delete(pick.url || pick.title);
+    used.add(better.url || better.title);
+    picks[idx] = better;
   });
 
   return picks;
