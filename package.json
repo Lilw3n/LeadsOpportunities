@@ -113,7 +113,8 @@
     "verify:lead-visitor-cat": "node scripts/verify-lead-visitor-category.cjs",
     "verify:laforet-fiche": "node scripts/verify-laforet-fiche.cjs",
     "academie:expand-hours": "node scripts/expand-academie-hours.cjs",
-    "academie:expand-hours-2": "node scripts/expand-academie-hours-2.cjs"
+    "academie:expand-hours-2": "node scripts/expand-academie-hours-2.cjs",
+    "verify:immo-marche-admin": "node scripts/verify-immo-marche-admin.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

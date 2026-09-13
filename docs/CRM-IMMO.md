@@ -10,6 +10,8 @@ Le **crédit immobilier** (prêt / courtage) est relié depuis les barèmes via 
 
 | Page | Rôle |
 |------|------|
+| `/immobilier/marche.html` | **Marché public** : recherche + dépôt → leads (référence type place d’annonces) |
+| `/crm-immo-utilisateurs.html` | **Super-admin** : annuaire contactable + e-mail groupé Resend / mailto BCC |
 | `/landings/acheteur-immo.html` | **Vitrine publique** : casquettes acquéreur / vendeur / les deux, dépôt **manuel ou URL**, photos + description + capture |
 | `/crm-immo-properties.html` | **Piges** : panneau filtres (Recherche / Où / Qui / Quoi / Quand) + barre d’actions (SMS, suivi, affecter, export, print) |
 | `/crm-immo-property.html?id=` | **Fiche intelligente** : sections conditionnelles + composition unités + pièces |
@@ -110,3 +112,14 @@ Prochaines étapes possibles : templates HTML/PDF (comme devis assurance), Drive
 - Scraping / login portails
 - Demande de prêt depuis barèmes (FAI/net/apport/durée préremplis) + checklist docs — `docs/FINANCEMENT-DEMANDE-PRET.md`
 - Crédit immo CRM natif étendu (évolution possible au-delà des landings)
+
+
+## Contact utilisateurs (super-admin)
+
+`GET/POST /api/crm/immo-users-contact` — agrège parties, critères, leads immo, demandes de visite et contacts CRM immo.
+
+- **GET** : annuaire dédoublonné (e-mail / téléphone), filtres `q`, `role`, `channel`
+- **POST** (site admin only) : envoi Resend jusqu’à 40 destinataires (`ids[]` ou `all:true` + confirmation `CONTACTER TOUS`)
+- Alternatives : export CSV, `mailto:` BCC
+
+Implémentation : `js/immo-marche-users-lib.js`, `crm-immo-utilisateurs.html`.

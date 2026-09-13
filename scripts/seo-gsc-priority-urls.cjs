@@ -20,6 +20,7 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/landings/syndic.html",
   "/immobilier/",
   "/immobilier/biens.html",
+  "/immobilier/marche.html",
   "/immobilier/location/",
   "/immobilier/syndic/",
   "/landings/chasseur-bien.html",
