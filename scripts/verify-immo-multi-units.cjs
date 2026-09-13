@@ -76,6 +76,8 @@ assert(page.indexOf("parent_id") !== -1, "rattachement parent");
 
 var html = read("crm-immo-property.html");
 assert(html.indexOf("crm-immo-dossier-lib.js") !== -1, "HTML charge dossier-lib");
+assert((html.match(/<style[\s>]/gi) || []).length === (html.match(/<\/style>/gi) || []).length, "balises style fermées (évite page blanche)");
+assert(html.indexOf('id="propTitle"') !== -1, "propTitle présent hors style");
 
 var clientStore = read("js/crm-immo-store.js");
 assert(clientStore.indexOf("packMetadata") !== -1, "client packMetadata");
