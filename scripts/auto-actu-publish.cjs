@@ -10,7 +10,7 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderActuTitle } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -75,6 +75,13 @@ function candidateSourceType(c, feedMap) {
   return feedMap[c.feedId] || "aggregator";
 }
 
+function isLeadIntentCandidate(c) {
+  var hay = String(c.title || "").toLowerCase() + " " + String(c.summary || "").toLowerCase();
+  return /assurance|mutuelle|emprunteur|sinistre|franchise m[eé]dicale|habitation|pr[eé]voyance|rc pro|\bvtc\b|d[eé]g[aâ]t/.test(
+    hay
+  );
+}
+
 function bestFromPlatform(available, platform, feedMap, used) {
   var list = available
     .filter(function (c) {
@@ -82,6 +89,9 @@ function bestFromPlatform(available, platform, feedMap, used) {
       return candidateSourceType(c, feedMap) === platform && !used.has(k);
     })
     .sort(function (a, b) {
+      var ai = isLeadIntentCandidate(a) ? 1 : 0;
+      var bi = isLeadIntentCandidate(b) ? 1 : 0;
+      if (bi !== ai) return bi - ai;
       return b.leadScore - a.leadScore;
     });
   return list[0] || null;
@@ -94,6 +104,7 @@ function pickCandidates(candidates, count, state) {
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
+    if (isPlaceholderActuTitle(c.title)) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
@@ -279,7 +290,10 @@ async function main() {
     if (process.env.STRICT_ACTU_QUALITY === "1" || process.argv.indexOf("--strict-quality") !== -1) {
       console.log("\n=== Contrôle qualité ===");
       try {
-        execSync("node scripts/verify-actu-quality.cjs", { stdio: "inherit", cwd: ROOT });
+        execSync("node scripts/verify-actu-quality.cjs --file=data/blog-actu-pending.json", {
+          stdio: "inherit",
+          cwd: ROOT,
+        });
       } catch (e) {
         console.error("Qualité insuffisante — publication annulée. Utilisez Cursor pour enrichir.");
         process.exit(1);
