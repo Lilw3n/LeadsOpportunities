@@ -95,6 +95,52 @@ function monthLabel() {
 }
 
 /** Score 0–100 : potentiel lead questionnaire */
+var LEAD_INTENT_RE =
+  /assurance|mutuelle|emprunteur|\bsinistre|pr[eê]t immobilier|franchise m[eé]dicale|loi lemoine|rembours|hospitalisation|optique|dentaire|rc pro|\bvtc\b|d[eé]g[aâ]ts? des eaux|catastrophe naturelle|catnat/i;
+
+var LOW_INTENT_RE =
+  /c[eé]line dion|karaok[eé]|concert de |kardashian|miss france|t[eé]l[eé]r[eé]alit[e9é]|people|netflix s[eé]rie|star academy/i;
+
+function hasLeadIntentKeywords(item) {
+  return LEAD_INTENT_RE.test(String((item && item.title) || ""));
+}
+
+function isEnglishHeavyTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return false;
+  var words = t.split(/\s+/).filter(Boolean);
+  if (words.length < 6) return false;
+  var stop = /^(the|of|and|into|a|an|for|regarding|potential|sale|enters|memorandum|understanding|advantages|getting|with|from|this|that|has|signed)$/i;
+  var hits = words.filter(function (w) {
+    return stop.test(w);
+  }).length;
+  var frenchHits = words.filter(function (w) {
+    return /[àâäéèêëïîôöùûüç]|mutuelle|emprunteur|habitation|sinistre|français/i.test(w);
+  }).length;
+  return hits >= 3 && frenchHits <= 2;
+}
+
+function isLowLeadIntentActu(item) {
+  if (isPlaceholderActuItem(item)) return true;
+  if (isEnglishHeavyTitle(item && item.title)) return true;
+  if (hasLeadIntentKeywords(item)) return false;
+  return LOW_INTENT_RE.test(String((item && item.title) || "") + " " + String((item && item.summary) || ""));
+}
+
+/** File manuelle / templates : ne jamais publier un titre « COLLEZ ICI ». */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var id = String(item.id || "").toLowerCase();
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (id === "cafeyn-pending-template" || /-pending-template$/.test(id) || id.indexOf("placeholder") !== -1) {
+    return true;
+  }
+  if (/collez ici/i.test(title)) return true;
+  if (/^\s*\[?(todo|tbd|placeholder|à completer|a completer)\]?\s*$/i.test(title)) return true;
+  return false;
+}
+
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
@@ -351,4 +397,8 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderActuItem: isPlaceholderActuItem,
+  hasLeadIntentKeywords: hasLeadIntentKeywords,
+  isEnglishHeavyTitle: isEnglishHeavyTitle,
+  isLowLeadIntentActu: isLowLeadIntentActu,
 };
