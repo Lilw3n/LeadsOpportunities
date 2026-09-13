@@ -238,6 +238,8 @@ assert(pageJsDirect.indexOf("resolveVerifyMode") !== -1, "page : mode dérivé d
 assert(html.indexOf("immo-tour-access-page.js?v=") !== -1, "page : cache-bust script visite");
 var cssDirect = read("css/immo-ad-listings.css");
 assert(cssDirect.indexOf("tour-direct-layout") !== -1, "css : layout accès direct");
+assert(cssDirect.indexOf("Visite élargie") !== -1, "css : visite élargie");
+assert(cssDirect.indexOf("1680px") !== -1 && cssDirect.indexOf("82vh") !== -1, "css : player large");
 
 
 var crm = read("crm-immo-pubs.html");
