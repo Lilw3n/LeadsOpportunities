@@ -60,18 +60,24 @@ ok(index.indexOf("partner-sites.css") !== -1, "accueil : css");
 ok(index.indexOf("public-partner-sites.js") !== -1, "accueil : js");
 
 var crm = read("crm-partner-sites.html");
+ok(crm.indexOf("crm.css") !== -1, "CRM : crm.css (pas styles.css cassé)");
+ok(crm.indexOf("dashboard.css") === -1, "CRM : pas de dashboard.css 404");
 ok(crm.indexOf("sitePreviewImage") !== -1, "CRM : champ photo");
 ok(crm.indexOf("btnPublishSites") !== -1, "CRM : bouton Publier");
-ok(crm.indexOf("btnExportJson") !== -1, "CRM : export JSON");
-ok(crm.indexOf("btnNewSite") !== -1, "CRM : nouveau site");
+ok(crm.indexOf("btnSelectAllPublic") !== -1, "CRM : tout public");
+ok(crm.indexOf("btnSelectNonePublic") !== -1, "CRM : rien en public");
+ok(crm.indexOf("sitePublished") !== -1, "CRM : case Afficher en public");
 ok(crm.indexOf("Publier sur le site") !== -1, "CRM : libellé publication");
 
 var crmJs = read("js/crm-partner-sites.js");
 ok(crmJs.indexOf("/api/crm/partner-sites") !== -1, "CRM JS : API publish");
-ok(crmJs.indexOf("btnPublishSites") !== -1, "CRM JS : handler publish");
+ok(crmJs.indexOf("toggle-public") !== -1, "CRM JS : toggle Public liste");
+ok(crmJs.indexOf("setSitePublic") !== -1, "CRM JS : setSitePublic");
+ok(crmJs.indexOf("countPublic") !== -1, "CRM JS : compte public");
 
 var publicJs = read("js/public-partner-sites.js");
-ok(publicJs.indexOf("apiUrl") !== -1 || publicJs.indexOf("API_URL") !== -1, "public JS : charge API");
+ok(publicJs.indexOf("API_URL") !== -1 || publicJs.indexOf("apiUrl") !== -1, "public JS : charge API");
+ok(publicJs.indexOf("sitesByCategory") !== -1, "public JS : filtre actifs");
 
 ok(read("api/crm/[action].js").indexOf("partner-sites") !== -1, "api/crm action");
 ok(read("api/[action].js").indexOf("partner-sites") !== -1, "api public action");
@@ -80,8 +86,16 @@ ok(read("js/crm-sidebar.js").indexOf("crm-partner-sites.html") !== -1, "sidebar 
 ok(read("sites-partenaires/index.html").indexOf("data-partner-sites") !== -1, "hub : montage");
 
 var store = require("../api/_lib/partner-sites-store.js");
-var pub = store.publicCatalog(cat);
-ok(pub.sites.every(function (s) { return s.active === undefined; }), "publicCatalog : sites actifs sans champ active");
+var mixed = Lib.normalizeCatalog({
+  categories: cat.categories,
+  sites: [
+    { id: "a", name: "A", url: "https://a.fr", active: true, category: "batiment" },
+    { id: "b", name: "B", url: "https://b.fr", active: false, category: "batiment" },
+  ],
+});
+var pub = store.publicCatalog(mixed);
+ok(pub.sites.length === 1 && pub.sites[0].id === "a", "publicCatalog : seulement sites active");
+ok(pub.sites.every(function (s) { return s.active === undefined; }), "publicCatalog : sans champ active");
 ok(store.normalizeCatalog(data).sites.length >= 1, "store normalize");
 
 var pkg = JSON.parse(read("package.json"));
