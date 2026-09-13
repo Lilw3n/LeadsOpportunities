@@ -1,6 +1,7 @@
 /**
- * CRM — sites partenaires.
- * Brouillon local + publication API → page publique /sites-partenaires/
+ * CRM — sites partenaires
+ * Brouillon local + publication API → /sites-partenaires/
+ * Flag active = visible en public (choix site par site).
  */
 (function () {
   var Lib = window.PartnerSites;
@@ -14,7 +15,7 @@
 
   var catalog = Lib.normalizeCatalog({});
   var selectedId = "";
-  var DATA = "./data/partner-sites.json";
+  var DATA = Lib.DATA_URL || "./data/partner-sites.json";
   var API = "/api/crm/partner-sites";
   var canPublish = false;
 
@@ -29,9 +30,7 @@
     { id: "autre", label: "Autre", order: 90, icon: "" },
   ];
 
-  var CATEGORY_ALIASES = {
-    btp: "batiment",
-  };
+  var CATEGORY_ALIASES = { btp: "batiment" };
 
   function $(id) {
     return document.getElementById(id);
@@ -58,26 +57,63 @@
 
   function updatePublishButton() {
     var btn = $("btnPublishSites");
-    if (!btn) return;
-    btn.disabled = !canPublish;
+    if (btn) btn.disabled = !canPublish;
+  }
+
+  function countPublic() {
+    return catalog.sites.filter(function (s) {
+      return s.active;
+    }).length;
+  }
+
+  function refreshCounts() {
+    var el = $("publicCount");
+    if (!el) return;
+    var n = countPublic();
+    var total = catalog.sites.length;
+    el.textContent =
+      total === 0
+        ? "Aucun site pour l’instant."
+        : n +
+          " / " +
+          total +
+          " site" +
+          (total > 1 ? "s" : "") +
+          " seront visibles en public après publication.";
+  }
+
+  function refreshPublishSummary() {
+    if (!canPublish) return;
+    var n = countPublic();
+    setPublishStatus(
+      n === 0
+        ? "Aucun site coché « Public » — la page publique sera vide après publication."
+        : "Prêt : " +
+            n +
+            " site" +
+            (n > 1 ? "s" : "") +
+            " public" +
+            (n > 1 ? "s" : "") +
+            " seront envoyés sur leadsopportunities.fr."
+    );
   }
 
   function ensureCategories(data) {
     catalog = Lib.normalizeCatalog(data);
     if (!catalog.categories.length) {
       catalog.categories = DEFAULT_CATEGORIES.slice();
-    } else {
-      var known = {};
-      catalog.categories.forEach(function (c) {
-        known[c.id] = true;
-      });
-      DEFAULT_CATEGORIES.forEach(function (c) {
-        if (!known[c.id]) catalog.categories.push(c);
-      });
-      catalog.categories.sort(function (a, b) {
-        return a.order - b.order;
-      });
+      return;
     }
+    var known = {};
+    catalog.categories.forEach(function (c) {
+      known[c.id] = true;
+    });
+    DEFAULT_CATEGORIES.forEach(function (c) {
+      if (!known[c.id]) catalog.categories.push(c);
+    });
+    catalog.categories.sort(function (a, b) {
+      return a.order - b.order;
+    });
   }
 
   function fillCategories() {
@@ -87,17 +123,16 @@
     sel.innerHTML = catalog.categories
       .map(function (c) {
         return (
-          '<option value="' +
-          Lib.esc(c.id) +
-          '">' +
-          Lib.esc(c.label) +
-          "</option>"
+          '<option value="' + Lib.esc(c.id) + '">' + Lib.esc(c.label) + "</option>"
         );
       })
       .join("");
-    if (current && Array.prototype.some.call(sel.options, function (o) {
-      return o.value === current;
-    })) {
+    if (
+      current &&
+      Array.prototype.some.call(sel.options, function (o) {
+        return o.value === current;
+      })
+    ) {
       sel.value = current;
     }
   }
@@ -109,9 +144,15 @@
     return found ? found.label : id || "";
   }
 
+  function persistLocal() {
+    catalog = Lib.saveLocal(catalog);
+    paintList();
+  }
+
   function paintList() {
     var box = $("sitesList");
     if (!box) return;
+    refreshCounts();
     var sites = catalog.sites.slice().sort(function (a, b) {
       return a.order - b.order;
     });
@@ -123,17 +164,27 @@
     box.innerHTML = sites
       .map(function (s) {
         var meta = categoryLabel(s.category) + (s.city ? " · " + s.city : "");
+        var badge = s.active
+          ? '<span class="ps-badge ps-badge-on">Public</span>'
+          : '<span class="ps-badge ps-badge-off">Privé</span>';
         return (
           '<article class="ps-item' +
           (s.id === selectedId ? " is-active" : "") +
+          (s.active ? "" : " is-private") +
           '" data-id="' +
           Lib.esc(s.id) +
           '"><div class="ps-item-main"><div><h3>' +
           Lib.esc(s.name) +
-          (s.active ? "" : " (hors catalogue)") +
+          " " +
+          badge +
           "</h3><p>" +
           Lib.esc(meta) +
           '</p></div><div class="ps-item-actions">' +
+          '<label class="ps-public-toggle' +
+          (s.active ? "" : " is-off") +
+          '"><input type="checkbox" data-action="toggle-public" ' +
+          (s.active ? "checked " : "") +
+          "/> Public</label>" +
           '<button type="button" class="btn btn-ghost" data-action="edit">Modifier</button>' +
           '<button type="button" class="btn btn-ghost" data-action="delete">Supprimer</button>' +
           "</div></div></article>"
@@ -143,17 +194,63 @@
 
     box.querySelectorAll(".ps-item").forEach(function (item) {
       var id = item.getAttribute("data-id");
-      item.querySelector('[data-action="edit"]').onclick = function () {
+      var toggle = item.querySelector('[data-action="toggle-public"]');
+      if (toggle) {
+        toggle.addEventListener("click", function (e) {
+          e.stopPropagation();
+        });
+        toggle.addEventListener("change", function (e) {
+          e.stopPropagation();
+          setSitePublic(id, !!toggle.checked);
+        });
+      }
+      item.querySelector('[data-action="edit"]').onclick = function (e) {
+        e.stopPropagation();
         selectSite(id);
       };
-      item.querySelector('[data-action="delete"]').onclick = function () {
+      item.querySelector('[data-action="delete"]').onclick = function (e) {
+        e.stopPropagation();
         deleteSite(id);
       };
       item.addEventListener("click", function (e) {
-        if (e.target.closest("button")) return;
+        if (e.target.closest("button") || e.target.closest("label")) return;
         selectSite(id);
       });
     });
+  }
+
+  function setSitePublic(id, isPublic) {
+    var site = catalog.sites.find(function (s) {
+      return s.id === id;
+    });
+    if (!site) return;
+    site.active = !!isPublic;
+    persistLocal();
+    if (selectedId === id && $("sitePublished")) {
+      $("sitePublished").checked = !!isPublic;
+    }
+    refreshPublishSummary();
+    setMsg(
+      isPublic
+        ? "Site marqué Public — publiez pour l’afficher en ligne."
+        : "Site retiré du public — publiez pour mettre à jour la page.",
+      true
+    );
+  }
+
+  function setAllPublic(value) {
+    catalog.sites.forEach(function (s) {
+      s.active = !!value;
+    });
+    persistLocal();
+    if (selectedId && $("sitePublished")) {
+      var cur = catalog.sites.find(function (s) {
+        return s.id === selectedId;
+      });
+      if (cur) $("sitePublished").checked = !!cur.active;
+    }
+    refreshPublishSummary();
+    setMsg(value ? "Tous les sites sont Public." : "Aucun site n’est Public.", true);
   }
 
   function paintPreview() {
@@ -176,12 +273,17 @@
     empty.hidden = true;
     img.hidden = false;
     img.alt = "Aperçu page d’accueil";
+    img.onload = function () {
+      empty.hidden = true;
+      img.hidden = false;
+    };
     img.onerror = function () {
       img.hidden = true;
       empty.hidden = false;
-      empty.textContent = "Aperçu indisponible — vérifiez l’URL ou ajoutez une image.";
+      empty.textContent =
+        "Aperçu indisponible — vérifiez l’URL ou ajoutez une image.";
     };
-    img.src = src;
+    if (img.getAttribute("src") !== src) img.src = src;
   }
 
   function setOpenSiteLink(url) {
@@ -219,7 +321,7 @@
     paintPreview();
     if (announce !== false) {
       $("siteName").focus();
-      setMsg("Nouveau site — enregistrez puis publiez pour l’afficher en ligne.", true);
+      setMsg("Nouveau site — enregistrez, cochez Public, puis publiez.", true);
     }
   }
 
@@ -237,9 +339,9 @@
     $("siteName").value = site.name;
     $("siteCategory").value = site.category;
     $("siteUrl").value = site.url;
-    $("sitePreviewImage").value = site.preview_image_url;
-    $("siteSummary").value = site.tagline;
-    $("siteCity").value = site.city;
+    $("sitePreviewImage").value = site.preview_image_url || "";
+    $("siteSummary").value = site.tagline || "";
+    $("siteCity").value = site.city || "";
     $("sitePublished").checked = !!site.active;
     $("siteFeatured").checked = Number(site.order) > 0 && Number(site.order) < 50;
     setOpenSiteLink(site.url);
@@ -257,12 +359,14 @@
     persistLocal();
     if (selectedId === id) blankSite(false);
     else paintList();
+    refreshPublishSummary();
     setMsg("Supprimé du brouillon — republiez pour mettre à jour la page publique.", true);
   }
 
   function readForm() {
     var name = $("siteName").value.trim();
-    var id = $("siteId").value.trim() || Lib.slugify(name) || "site-" + Date.now().toString(36);
+    var id =
+      $("siteId").value.trim() || Lib.slugify(name) || "site-" + Date.now().toString(36);
     var category = $("siteCategory").value;
     if (CATEGORY_ALIASES[category]) category = CATEGORY_ALIASES[category];
     var featured = $("siteFeatured").checked;
@@ -271,7 +375,9 @@
     });
     var order = existing ? existing.order : (catalog.sites.length + 1) * 10;
     if (featured) order = Math.min(order, 20);
-    else if (order < 50 && existing && Number(existing.order) < 50) order = (catalog.sites.length + 1) * 10;
+    else if (order < 50 && existing && Number(existing.order) < 50) {
+      order = (catalog.sites.length + 1) * 10;
+    }
     return Lib.normalizeSite(
       {
         id: id,
@@ -287,11 +393,6 @@
       },
       0
     );
-  }
-
-  function persistLocal() {
-    catalog = Lib.saveLocal(catalog);
-    paintList();
   }
 
   function boot(data) {
@@ -315,11 +416,11 @@
       .then(function (data) {
         canPublish = data.canEdit !== false;
         updatePublishButton();
-        setPublishStatus(
-          canPublish
-            ? "Prêt : cliquez sur « Publier sur le site » pour envoyer le catalogue sur leadsopportunities.fr."
-            : "Lecture seule — seul un admin peut publier sur le site public."
-        );
+        if (!canPublish) {
+          setPublishStatus("Lecture seule — seul un admin peut publier sur le site public.");
+        } else {
+          refreshPublishSummary();
+        }
         return data.catalog || data;
       });
   }
@@ -329,6 +430,17 @@
       setMsg("Droit admin requis pour publier.", false);
       return;
     }
+    var n = countPublic();
+    var confirmMsg =
+      n === 0
+        ? "Aucun site coché Public : la page /sites-partenaires/ sera vide. Continuer ?"
+        : "Publier " +
+          n +
+          " site" +
+          (n > 1 ? "s" : "") +
+          " en public sur leadsopportunities.fr ?\\n(Les sites non cochés resteront invisibles.)";
+    if (!confirm(confirmMsg)) return;
+
     var btn = $("btnPublishSites");
     if (btn) {
       btn.disabled = true;
@@ -357,12 +469,9 @@
           paintList();
         }
         setPublishStatus(
-          "Publié ! Visible sur /sites-partenaires/ (et sur l’accueil). Ouvrez le lien pour vérifier."
+          "Publié ! " + countPublic() + " site(s) visible(s) sur /sites-partenaires/."
         );
-        setMsg(
-          "Publié sur le site public. Ouvrez « Page publique » dans le menu pour vérifier.",
-          true
-        );
+        setMsg("Publié. Ouvrez « Page publique » pour vérifier.", true);
       })
       .catch(function () {
         setMsg("Erreur réseau pendant la publication.", false);
@@ -394,8 +503,11 @@
     selectedId = site.id;
     persistLocal();
     selectSite(site.id);
+    refreshPublishSummary();
     setMsg(
-      "Enregistré (brouillon). Cliquez sur « Publier sur le site » pour l’afficher en ligne.",
+      site.active
+        ? "Enregistré (Public). Cliquez sur « Publier sur le site » pour l’afficher en ligne."
+        : "Enregistré (Privé). Il n’apparaîtra pas en public après publication.",
       true
     );
   };
@@ -408,11 +520,24 @@
     else blankSite(false);
   };
   $("btnPublishSites").onclick = publishToServer;
+  $("btnSelectAllPublic").onclick = function () {
+    setAllPublic(true);
+  };
+  $("btnSelectNonePublic").onclick = function () {
+    setAllPublic(false);
+  };
+
+  $("sitePublished").addEventListener("change", function () {
+    if (!selectedId) return;
+    setSitePublic(selectedId, $("sitePublished").checked);
+  });
 
   $("btnReloadServer").onclick = function () {
     if (
       catalog.sites.length &&
-      !confirm("Recharger la version publiée depuis le serveur ? Le brouillon local sera remplacé.")
+      !confirm(
+        "Recharger la version publiée depuis le serveur ? Le brouillon local sera remplacé."
+      )
     ) {
       return;
     }
@@ -424,10 +549,12 @@
         setMsg("Catalogue serveur rechargé.", true);
       })
       .catch(function () {
-        Lib.fetchCatalog({ preferLocal: false, dataUrl: DATA }).then(function (data) {
-          boot(data);
-          setMsg("Serveur indisponible — fichier JSON rechargé.", false);
-        });
+        Lib.fetchCatalog({ preferLocal: false, dataUrl: DATA, skipApi: true }).then(
+          function (data) {
+            boot(data);
+            setMsg("Serveur indisponible — fichier JSON rechargé.", false);
+          }
+        );
       });
   };
 
@@ -453,7 +580,8 @@
         var data = JSON.parse(String(reader.result || "{}"));
         boot(data);
         persistLocal();
-        setMsg("Import JSON OK — publiez pour le mettre en ligne.", true);
+        refreshPublishSummary();
+        setMsg("Import JSON OK — cochez Public puis publiez.", true);
       } catch (err) {
         setMsg("Fichier JSON invalide.", false);
       }
@@ -469,13 +597,12 @@
     el.addEventListener("blur", paintPreview);
   });
 
-  // Priorité : brouillon local (si sites) → API publiée → JSON seed
   var local = Lib.loadLocal && Lib.loadLocal();
   if (local && local.sites && local.sites.length) {
     boot(local);
     loadFromServer()
       .then(function () {
-        setMsg("Brouillon local chargé — publiez pour le mettre en ligne.", true);
+        setMsg("Brouillon local chargé — cochez Public puis publiez.", true);
       })
       .catch(function () {
         canPublish = false;
