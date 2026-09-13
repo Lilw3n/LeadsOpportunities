@@ -1,6 +1,11 @@
 /**
  * Pages SEO longue traîne — silo assurance VTC
  */
+const {
+  buildVtcGarantiesPage,
+  buildVtcGarantiesObligatoiresAlias,
+} = require("./vtc-garanties-content.cjs");
+
 function buildVtcLongtailPages(page) {
   const BASE = "/assurance-vtc/";
   const LANDING = "/landings/vtc.html";
@@ -19,6 +24,7 @@ function buildVtcLongtailPages(page) {
           ],
           related: data.related || [
             { href: BASE, label: "Guide assurance VTC" },
+            { href: BASE + "garanties/", label: "Garanties VTC" },
             { href: BASE + "villes/", label: "VTC par ville" },
             { href: BASE + "tarif/", label: "Tarif VTC" },
             { href: LANDING_EXPRESS, label: "Devis express 30 sec" },
@@ -30,6 +36,8 @@ function buildVtcLongtailPages(page) {
   }
 
   return [
+    buildVtcGarantiesPage(page),
+    buildVtcGarantiesObligatoiresAlias(page),
     lt({
       file: "assurance-vtc/rc-pro/index.html",
       badge: "RC Pro",
@@ -45,6 +53,7 @@ function buildVtcLongtailPages(page) {
         { name: "RC Pro", url: BASE + "rc-pro/" },
       ],
       related: [
+        { href: BASE + "garanties/", label: "Toutes les garanties VTC" },
         { href: BASE + "creation-activite/", label: "Creer son activite VTC" },
         { href: "/blog/assurance-vtc-rc-pro-garanties.html", label: "Article RC Pro & garanties" },
       ],
@@ -136,6 +145,8 @@ function buildVtcLongtailPages(page) {
 function getVtcLongtailSitemapEntries(base) {
   const today = new Date().toISOString().slice(0, 10);
   const paths = [
+    "/assurance-vtc/garanties/",
+    "/assurance-vtc/garanties-obligatoires/",
     "/assurance-vtc/rc-pro/",
     "/assurance-vtc/creation-activite/",
     "/assurance-vtc/uber-bolt/",

@@ -97,6 +97,30 @@ const PAGES = [
         ],
       },
       {
+        h2: "Panorama des garanties VTC",
+        paragraphs: [
+          "Avant de comparer un tarif, alignez les postes : conducteur, RC auto, recours, bris de glace, vol, incendie, dommages, panne, immobilisation et RC pro.",
+          "Notre page dediee detaille chaque garantie, ce qu elle couvre, et les pieges frequents — puis un courtier ORIAS vous propose un devis a garanties equivalentes.",
+        ],
+        navGrid: [
+          { id: "conducteur", href: "/assurance-vtc/garanties/#conducteur", label: "Conducteur", hint: "Detail des garanties" },
+          { id: "rc-auto", href: "/assurance-vtc/garanties/#rc-auto", label: "RC auto", hint: "Socle legal" },
+          { id: "recours", href: "/assurance-vtc/garanties/#recours", label: "Recours", hint: "Tiers responsable" },
+          { id: "bris-de-glace", href: "/assurance-vtc/garanties/#bris-de-glace", label: "Bris de glace", hint: "Pare-brise & vitres" },
+          { id: "vol", href: "/assurance-vtc/garanties/#vol", label: "Vol", hint: "Total / partiel" },
+          { id: "incendie", href: "/assurance-vtc/garanties/#incendie", label: "Incendie", hint: "Feu & explosion" },
+          { id: "dommages", href: "/assurance-vtc/garanties/#dommages", label: "Dommages", hint: "Tous accidents" },
+          { id: "panne", href: "/assurance-vtc/garanties/#panne", label: "Panne", hint: "Assistance" },
+          { id: "immobilisation", href: "/assurance-vtc/garanties/#immobilisation", label: "Immobilisation", hint: "Perte d exploitation" },
+          { id: "rc-pro", href: "/assurance-vtc/garanties/#rc-pro", label: "RC pro", hint: "Activite pro" },
+        ],
+        list: [
+          "Guide complet : /assurance-vtc/garanties/",
+          "Socle obligatoire : /assurance-vtc/garanties-obligatoires/",
+          "Devis chauffeur : /landings/vtc.html",
+        ],
+      },
+      {
         h2: "Ce que nous verifions pour vous",
         list: [
           "Responsabilite civile professionnelle et garanties conducteur",
@@ -108,6 +132,8 @@ const PAGES = [
     ],
     related: LT.mergeUnique(
       [
+        { href: "/assurance-vtc/garanties/", label: "Garanties assurance VTC" },
+        { href: "/assurance-vtc/garanties-obligatoires/", label: "Garanties obligatoires" },
         { href: "/assurance-vtc/devis-rapide/", label: "Devis assurance VTC rapide" },
         { href: "/assurance-vtc/tarif/", label: "Comprendre le tarif VTC" },
         { href: "/assurance-vtc/villes/", label: "Assurance VTC par ville" },
@@ -596,19 +622,50 @@ function hrefPath(prefix, urlPath) {
 function renderSections(sections, prefix) {
   return (sections || [])
     .map(function (s) {
-      var html = '<section class="seo-card"><h2>' + esc(s.h2) + "</h2>";
+      var idAttr = s.id ? ' id="' + esc(s.id) + '"' : "";
+      var html = "<section class=\"seo-card\"" + idAttr + "><h2>" + esc(s.h2) + "</h2>";
       if (s.figure && s.figure.file) {
         html += SeoImg.renderFigure(s.figure, prefix, "seo-figure seo-figure--section");
       }
-      (s.paragraphs || []).forEach(function (p) {
-        html += "<p>" + esc(p) + "</p>";
+      (s.paragraphs || []).forEach(function (para) {
+        html += "<p>" + esc(para) + "</p>";
       });
+      if (s.navGrid && s.navGrid.length) {
+        html += '<nav class="seo-guarantee-grid" aria-label="Sommaire des garanties">';
+        s.navGrid.forEach(function (item) {
+          var href = item.href ? item.href : "#" + String(item.id || "");
+          html +=
+            '<a class="seo-guarantee-chip" href="' +
+            esc(href) +
+            '"><strong>' +
+            esc(item.label) +
+            "</strong>" +
+            (item.hint ? "<span>" + esc(item.hint) + "</span>" : "") +
+            "</a>";
+        });
+        html += "</nav>";
+      }
       if (s.list && s.list.length) {
         html += '<ul class="seo-list">';
         s.list.forEach(function (li) {
           html += "<li>" + esc(li) + "</li>";
         });
         html += "</ul>";
+      }
+      if (s.details && s.details.length) {
+        html += '<div class="seo-guarantee-details">';
+        s.details.forEach(function (d) {
+          html +=
+            '<details class="seo-faq"><summary>' +
+            esc(d.q) +
+            "</summary><p>" +
+            esc(d.a) +
+            "</p></details>";
+        });
+        html += "</div>";
+      }
+      if (s.callout) {
+        html += '<p class="seo-callout">' + esc(s.callout) + "</p>";
       }
       html += "</section>";
       return html;
