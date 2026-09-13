@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-coupe-du-monde-2026-on-n-a-pas-peur-deux-ans-apres-les-bleus-sont-pretes",
+      "title": "Coupe du monde 2026 - \"On n'a pas peur\" : deux ans après, les Bleus sont prêtes pour une revanche contre les Américaines en finale",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6b8fca54843c289b1ef44202389b6&url=https%3a%2f%2fwww.eurosport.fr%2fbasketball%2fcoupe-du-monde%2f2026%2fcoupe-du-monde-2026-on-na-pas-peur-deux-ans-apres-les-bleus-sont-pretes-pour-une-revanche-contre-les-americaines-en-finale_sto23336826%2fstory.shtml&c=17847626562665372908&mkt=en-us",
+      "summary": "Les Bleues se sont qualifiées pour la première finale mondiale de l'histoire du basket tricolore, une sorte de revanche des JO 2024 face aux États-Unis.",
+      "pubDate": "Sat, 12 Sep 2026 16:45:00 GMT",
+      "feedId": "source-edge-bing-cdm",
+      "feedName": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "suggestedFile": "coupe-du-monde-2026-on-n-a-pas-peur-deux-ans-apres-les-bleus-sont-pretes.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro",
+      "title": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains - Foot National",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNMF8ycnNZQ0tHSlNMb1RWdjktUmdaeWU4czFjYU41ZTc1Y3loV1Zka0lZbjFwRktURFRuaWd6Mkk3M3Fob1dIRVlwZUtFeWxxcEJpTm5BeF9SbGVVWjh0NDJ0ck5OM0NvRDl5TWtZZnFRN0xqb3pDSzJOYm8wUHVqelpCUUE3Ym45MG14MWxId09SQ0xTVzA3bVdZSFk1Q0RYNWhUeUI1MUhrRjBJUHFPM1hRTzZpemM5SUlSSWQ2UVZ6X3l2UjBmYw?oc=5",
+      "summary": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains Foot National",
+      "pubDate": "Mon, 07 Sep 2026 07:00:00 GMT",
+      "feedId": "google-news-supporters",
+      "feedName": "Google News — supporters France foot",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-direct-coupe-du-monde-feminine-de-basket-suivez-en-live-la-finale-entre-",
+      "title": "DIRECT. Coupe du monde féminine de basket: suivez en live la finale entre l'équipe de France et les Etats-Unis",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6b8fca54843c289b1ef44202389b6&url=https%3a%2f%2frmcsport.bfmtv.com%2fbasket%2ffeminin%2fdirect-coupe-du-monde-feminine-de-basket-suivez-en-live-la-finale-entre-l-equipe-de-france-et-les-etats-unis_LN-202609130144.html&c=2458250960194483115&mkt=en-us",
+      "summary": "En quête d'une première médaille d'or, l'équipe de France féminine de basket affronte Team USA dimanche soir en finale de la Coupe du monde de basket. Coup d'envoi à 20h à la Uber Arena, à Berlin, en ...",
+      "pubDate": "Sun, 13 Sep 2026 01:59:00 GMT",
+      "feedId": "source-edge-bing-cdm",
+      "feedName": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "suggestedFile": "direct-coupe-du-monde-feminine-de-basket-suivez-en-live-la-finale-entre-.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-de-basket-feminin-la-france-affrontera-les-etats-unis-en-",
+      "title": "Coupe du monde de basket féminin - La France affrontera les États-Unis en finale du Mondial 2026",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6b8fca54843c289b1ef44202389b6&url=https%3a%2f%2fwww.dhnet.be%2fdernieres-depeches%2f2026%2f09%2f12%2fcoupe-du-monde-de-basket-feminin-la-france-affrontera-les-etats-unis-en-finale-du-mondial-2026-OUS4R5XHSJDR7J3EXV7FNPFAOA%2f&c=2564719048957613668&mkt=en-us",
+      "summary": "Les basketteuses françaises se sont qualifiées pour la première fois de leur histoire pour la finale d'une Coupe du monde féminine en ...",
+      "pubDate": "Sat, 12 Sep 2026 13:34:00 GMT",
+      "feedId": "source-edge-bing-cdm",
+      "feedName": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "suggestedFile": "coupe-du-monde-de-basket-feminin-la-france-affrontera-les-etats-unis-en-.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}
