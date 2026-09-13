@@ -59,7 +59,7 @@
   function compositionTotals() {
     var D = window.CrmImmoDossier;
     if (D && D.unitTotals) return D.unitTotals(prop.units || []);
-    return { units: (prop.units || []).length, loues: 0, surface_m2: 0, loyer_reel: 0, loyer_previsionnel: 0, charges_locatives: 0, nb_pieces: 0, nb_chambres: 0, nb_sdb: 0, nb_wc: 0, nb_cuisines: 0, baux_actifs: 0 };
+    return { units: (prop.units || []).length, loues: 0, surface_m2: 0, surface_carrez: 0, surface_non_carrez: 0, loyer_reel: 0, loyer_hc: 0, loyer_cc: 0, loyer_previsionnel: 0, charges_locatives: 0, nb_pieces: 0, nb_chambres: 0, nb_sdb: 0, nb_wc: 0, nb_cuisines: 0, baux_actifs: 0 };
   }
 
   function leaveUnitMode() {
@@ -248,7 +248,13 @@
         }
         nav.innerHTML =
           '<button type="button" class="side-back" id="btnBackComposition"><span>← Composition</span></button>' +
-          '<div class="side-unit-tag">' + esc(unitLabel(unit)) + "</div>" +
+          '<div class="side-unit-tag">' +
+          esc(unitLabel(unit)) +
+          '<span class="occ-badge ' +
+          (unit.occupation === "loue" || unit.loue ? "is-loue" : "is-vide") +
+          '">' +
+          (unit.occupation === "loue" || unit.loue ? "loué" : "vide") +
+          "</span></div>" +
           unitSecs
             .map(function (s) {
               return (
@@ -417,12 +423,26 @@
   }
 
   function syncUnitDerived(obj) {
-    if (obj.loyer_reel !== "" && obj.loyer_reel != null) obj.loyer = obj.loyer_reel;
-    else if (obj.loyer !== "" && obj.loyer != null && (obj.loyer_reel === "" || obj.loyer_reel == null)) obj.loyer_reel = obj.loyer;
+    if (obj.loyer_mode !== "CC" && obj.loyer_mode !== "HC") obj.loyer_mode = "HC";
+    if (obj.loyer_mode === "CC" && obj.loyer_cc !== "" && obj.loyer_cc != null) {
+      obj.loyer_reel = obj.loyer_cc;
+      obj.loyer = obj.loyer_cc;
+    } else if (obj.loyer_mode === "HC" && obj.loyer_hc !== "" && obj.loyer_hc != null) {
+      obj.loyer_reel = obj.loyer_hc;
+      obj.loyer = obj.loyer_hc;
+    } else if (obj.loyer_reel !== "" && obj.loyer_reel != null) {
+      obj.loyer = obj.loyer_reel;
+      if (obj.loyer_mode === "HC" && (obj.loyer_hc === "" || obj.loyer_hc == null)) obj.loyer_hc = obj.loyer_reel;
+      if (obj.loyer_mode === "CC" && (obj.loyer_cc === "" || obj.loyer_cc == null)) obj.loyer_cc = obj.loyer_reel;
+    } else if (obj.loyer !== "" && obj.loyer != null) {
+      obj.loyer_reel = obj.loyer;
+    }
     if (obj.nb_pieces !== "" && obj.nb_pieces != null) obj.rooms = obj.nb_pieces;
     else if (obj.rooms !== "" && obj.rooms != null && (obj.nb_pieces === "" || obj.nb_pieces == null)) obj.nb_pieces = obj.rooms;
     if (obj.nb_chambres !== "" && obj.nb_chambres != null) obj.bedrooms = obj.nb_chambres;
     else if (obj.bedrooms !== "" && obj.bedrooms != null && (obj.nb_chambres === "" || obj.nb_chambres == null)) obj.nb_chambres = obj.bedrooms;
+    if (obj.lot_number && !obj.lot_propriete) obj.lot_propriete = obj.lot_number;
+    else if (obj.lot_propriete && !obj.lot_number) obj.lot_number = obj.lot_propriete;
     return obj;
   }
 
@@ -435,7 +455,9 @@
     var Dossier = window.CrmImmoDossier;
     body.querySelectorAll("[data-uk]").forEach(function (el) {
       var k = el.getAttribute("data-uk");
-      if (el.type === "checkbox") unit[k] = el.checked;
+      if (el.type === "radio") {
+        if (el.checked) unit[k] = el.value;
+      } else if (el.type === "checkbox") unit[k] = el.checked;
       else if (k === "photos") {
         unit.photos = Dossier
           ? Dossier.normalizePhotoList(el.value)
@@ -448,6 +470,13 @@
         unit.parent_id = el.value || null;
       } else unit[k] = el.value;
     });
+    if (unit.occupation === "loue" || unit.occupation === "vide") {
+      unit.loue = unit.occupation === "loue";
+    }
+    if (body.querySelector("[data-pieces-editor]")) {
+      unit.pieces_list = collectPiecesEditor(body);
+      if (Dossier && Dossier.syncCountersFromPieces) Dossier.syncCountersFromPieces(unit);
+    }
     syncUnitDerived(unit);
     if (Dossier && Dossier.normalizeUnit) {
       var idx = prop.units.findIndex(function (u) { return u.id === unit.id; });
@@ -455,11 +484,264 @@
     }
   }
 
+  function roomTypes() {
+    var D = window.CrmImmoDossier;
+    return (D && D.ROOM_TYPES) || [
+      { id: "chambre", label: "Chambre" },
+      { id: "cuisine", label: "Cuisine" },
+      { id: "sdb", label: "Salle de bain" },
+      { id: "wc", label: "WC" },
+      { id: "autre", label: "Autre" },
+    ];
+  }
+
+  function roomAttrs() {
+    var D = window.CrmImmoDossier;
+    return (D && D.ROOM_ATTRS) || [
+      { id: "cheminee", label: "Cheminée" },
+      { id: "mezzanine", label: "Mezzanine" },
+      { id: "balcon", label: "Balcon" },
+      { id: "terrasse", label: "Terrasse" },
+      { id: "veranda", label: "Véranda" },
+      { id: "plateau_nu", label: "Plateau nu" },
+      { id: "climatisation", label: "Clim" },
+      { id: "placards", label: "Placards" },
+    ];
+  }
+
+  function collectPiecesEditor(root) {
+    var rows = [];
+    (root || document).querySelectorAll("[data-piece-row]").forEach(function (row) {
+      var typeEl = row.querySelector("[data-pk=type]");
+      var labelEl = row.querySelector("[data-pk=label]");
+      var qtyEl = row.querySelector("[data-pk=qty]");
+      var surfEl = row.querySelector("[data-pk=surface_m2]");
+      var notesEl = row.querySelector("[data-pk=notes]");
+      var type = typeEl ? typeEl.value : "autre";
+      var meta = roomTypes().find(function (t) { return t.id === type; });
+      var rowObj = {
+        id: row.getAttribute("data-piece-row") || undefined,
+        type: type,
+        label: labelEl && labelEl.value.trim() ? labelEl.value.trim() : meta ? meta.label : "Pièce",
+        qty: qtyEl ? qtyEl.value : 1,
+        surface_m2: surfEl ? surfEl.value : "",
+        notes: notesEl ? notesEl.value : "",
+      };
+      roomAttrs().forEach(function (a) {
+        var cb = row.querySelector('[data-pk-attr="' + a.id + '"]');
+        rowObj[a.id] = !!(cb && cb.checked);
+      });
+      rows.push(rowObj);
+    });
+    var D = window.CrmImmoDossier;
+    return D && D.normalizePiecesList ? D.normalizePiecesList(rows) : rows;
+  }
+
+  function pieceRowHtml(piece) {
+    piece = piece || {};
+    var types = roomTypes();
+    var typeOpts = types
+      .map(function (t) {
+        return (
+          '<option value="' +
+          esc(t.id) +
+          '"' +
+          (piece.type === t.id ? " selected" : "") +
+          ">" +
+          esc(t.label) +
+          "</option>"
+        );
+      })
+      .join("");
+    var attrs = roomAttrs()
+      .map(function (a) {
+        return (
+          '<label class="piece-attr"><input type="checkbox" data-pk-attr="' +
+          esc(a.id) +
+          '"' +
+          (piece[a.id] ? " checked" : "") +
+          " /> " +
+          esc(a.label) +
+          "</label>"
+        );
+      })
+      .join("");
+    return (
+      '<div class="piece-row" data-piece-row="' +
+      esc(piece.id || "") +
+      '">' +
+      '<div class="piece-row-main">' +
+      '<select data-pk="type" title="Type">' +
+      typeOpts +
+      "</select>" +
+      '<input data-pk="label" type="text" value="' +
+      esc(piece.label || "") +
+      '" placeholder="Libellé (ex. Chambre parentale)" />' +
+      '<input data-pk="qty" type="number" min="1" step="1" value="' +
+      esc(piece.qty != null ? piece.qty : 1) +
+      '" title="Quantité" />' +
+      '<input data-pk="surface_m2" type="number" min="0" step="0.1" value="' +
+      esc(piece.surface_m2 || "") +
+      '" placeholder="m²" title="Surface" />' +
+      '<button type="button" class="btn btn-ghost btn-sm" data-del-piece title="Retirer">✕</button>' +
+      "</div>" +
+      '<div class="piece-attrs">' +
+      attrs +
+      "</div>" +
+      '<input data-pk="notes" type="text" class="piece-notes" value="' +
+      esc(piece.notes || "") +
+      '" placeholder="Note pièce (orientation, état…)" />' +
+      "</div>"
+    );
+  }
+
+
+
+  function piecesEditorHtml(unit) {
+    var D = window.CrmImmoDossier;
+    var list =
+      unit.pieces_list && unit.pieces_list.length
+        ? unit.pieces_list
+        : D && D.seedPiecesFromCounters
+          ? D.seedPiecesFromCounters(unit)
+          : [];
+    var summary =
+      '<div class="pieces-summary">' +
+      "Totaux dérivés : " +
+      (Number(unit.nb_chambres) || 0) +
+      " ch. · " +
+      (Number(unit.nb_sdb) || 0) +
+      " SDB · " +
+      (Number(unit.nb_wc) || 0) +
+      " WC · " +
+      (Number(unit.nb_cuisines) || 0) +
+      " cuisine(s)</div>";
+    return (
+      '<div class="field-row field-row-block"><label class="important">Pièces du lot</label><div class="field-ctrl field-ctrl-stack">' +
+      '<p class="pieces-editor-hint">Ajoute chaque pièce (type, libellé, qté, m²) et coche les attributs (cheminée, balcon, véranda, plateau nu…). Les compteurs se recalculent pour les totaux.</p>' +
+      summary +
+      '<div class="pieces-editor" data-pieces-editor>' +
+      (list.length
+        ? list.map(pieceRowHtml).join("")
+        : '<p class="pieces-empty">Aucune pièce — clique « Ajouter une pièce ».</p>') +
+      "</div>" +
+      '<div class="pieces-editor-actions">' +
+      '<button type="button" class="btn btn-primary btn-sm" id="btnAddPiece">+ Ajouter une pièce</button>' +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnAddPiecePreset">+ Chambre + SDB + WC + cuisine</button>' +
+      "</div></div></div>"
+    );
+  }
+
+  function bindPiecesEditor(root) {
+    var editor = (root || document).querySelector("[data-pieces-editor]");
+    if (!editor) return;
+    var D = window.CrmImmoDossier;
+    function refreshSummary() {
+      var unit = findUnit(state.activeUnitId);
+      if (!unit) return;
+      unit.pieces_list = collectPiecesEditor(root);
+      if (D && D.syncCountersFromPieces) D.syncCountersFromPieces(unit);
+      var box = (root || document).querySelector(".pieces-summary");
+      if (box) {
+        box.textContent =
+          "Totaux dérivés : " +
+          (Number(unit.nb_chambres) || 0) +
+          " ch. · " +
+          (Number(unit.nb_sdb) || 0) +
+          " SDB · " +
+          (Number(unit.nb_wc) || 0) +
+          " WC · " +
+          (Number(unit.nb_cuisines) || 0) +
+          " cuisine(s)";
+      }
+    }
+    function ensureNotEmptyMsg() {
+      var empty = editor.querySelector(".pieces-empty");
+      if (empty && editor.querySelector("[data-piece-row]")) empty.remove();
+    }
+    editor.querySelectorAll("[data-del-piece]").forEach(function (btn) {
+      btn.onclick = function () {
+        var row = btn.closest("[data-piece-row]");
+        if (row) row.remove();
+        if (!editor.querySelector("[data-piece-row]")) {
+          editor.innerHTML = '<p class="pieces-empty">Aucune pièce — clique « Ajouter une pièce ».</p>';
+        }
+        refreshSummary();
+      };
+    });
+    editor.querySelectorAll("[data-pk]").forEach(function (el) {
+      el.onchange = refreshSummary;
+      el.oninput = refreshSummary;
+    });
+    var addBtn = document.getElementById("btnAddPiece");
+    if (addBtn) {
+      addBtn.onclick = function () {
+        ensureNotEmptyMsg();
+        var empty = editor.querySelector(".pieces-empty");
+        if (empty) empty.remove();
+        var piece = D && D.emptyPiece ? D.emptyPiece("chambre") : { id: "piece_new", type: "chambre", label: "Chambre", qty: 1, surface_m2: "" };
+        editor.insertAdjacentHTML("beforeend", pieceRowHtml(piece));
+        bindPiecesEditor(root);
+        refreshSummary();
+      };
+    }
+    var presetBtn = document.getElementById("btnAddPiecePreset");
+    if (presetBtn) {
+      presetBtn.onclick = function () {
+        var empty = editor.querySelector(".pieces-empty");
+        if (empty) empty.remove();
+        ["chambre", "sdb", "wc", "cuisine"].forEach(function (type) {
+          var piece = D && D.emptyPiece ? D.emptyPiece(type) : { type: type, label: type, qty: 1, surface_m2: "" };
+          editor.insertAdjacentHTML("beforeend", pieceRowHtml(piece));
+        });
+        bindPiecesEditor(root);
+        refreshSummary();
+      };
+    }
+  }
+
+  function bindOccupationToggle(root) {
+    var box = (root || document).querySelector("[data-uk-occupation]");
+    if (!box) return;
+    box.querySelectorAll('input[type="radio"]').forEach(function (input) {
+      input.onchange = function () {
+        box.querySelectorAll(".occ-opt").forEach(function (lab) {
+          lab.classList.toggle("is-on", !!(lab.querySelector("input") && lab.querySelector("input").checked));
+        });
+        var unit = findUnit(state.activeUnitId);
+        if (!unit) return;
+        unit.occupation = input.value;
+        unit.loue = input.value === "loue";
+        renderSide();
+      };
+    });
+  }
+
   function unitFieldHtml(field, unit) {
+    if (field.type === "pieces_editor") return piecesEditorHtml(unit);
     var val = unit[field.id];
     if (field.id === "photos") val = photoUrlsText(unit);
     var ctrl = "";
-    if (field.type === "checkbox") {
+    if (field.type === "occupation") {
+      var occ = unit.occupation === "loue" || unit.loue ? "loue" : "vide";
+      ctrl =
+        '<div class="occ-toggle" data-uk-occupation>' +
+        '<label class="occ-opt' +
+        (occ === "loue" ? " is-on" : "") +
+        '"><input type="radio" name="occ_' +
+        esc(unit.id) +
+        '" data-uk="occupation" value="loue"' +
+        (occ === "loue" ? " checked" : "") +
+        " /> Loué</label>" +
+        '<label class="occ-opt' +
+        (occ === "vide" ? " is-on" : "") +
+        '"><input type="radio" name="occ_' +
+        esc(unit.id) +
+        '" data-uk="occupation" value="vide"' +
+        (occ === "vide" ? " checked" : "") +
+        " /> Vide</label>" +
+        "</div>";
+    } else if (field.type === "checkbox") {
       ctrl = '<input type="checkbox" data-uk="' + esc(field.id) + '"' + (unit[field.id] ? " checked" : "") + " />";
     } else if (field.type === "unit_type") {
       ctrl =
@@ -503,9 +785,10 @@
         '">' +
         (field.options || [])
           .map(function (o) {
-            var v = o == null ? "" : String(o);
+            var v = o && typeof o === "object" ? String(o.value != null ? o.value : "") : o == null ? "" : String(o);
+            var lab = o && typeof o === "object" ? String(o.label != null ? o.label : v) : v;
             return (
-              '<option value="' + esc(v) + '"' + (String(val || "") === v ? " selected" : "") + ">" + esc(v || "—") + "</option>"
+              '<option value="' + esc(v) + '"' + (String(val || "") === v ? " selected" : "") + ">" + esc(lab || "—") + "</option>"
             );
           })
           .join("") +
@@ -604,7 +887,9 @@
       '<div class="comp-meta">' +
       (u.floor ? "Étage " + esc(u.floor) + " · " : "") +
       (u.lot_number ? "lot " + esc(u.lot_number) + " · " : "") +
-      (u.loue || u.transaction === "location" ? "loué · " : "") +
+      (u.occupation === "loue" || u.loue
+        ? '<span class="occ-badge is-loue">loué</span> · '
+        : '<span class="occ-badge is-vide">vide</span> · ') +
       (u.locataire_nom ? esc(u.locataire_nom) + " · " : "") +
       esc(u.surface_m2 || "—") +
       " m²</div>";
@@ -668,7 +953,7 @@
       "<li><b>Terrain</b> — cadastre, surface foncière, viabilisation</li>" +
       "<li><b>Immeuble / maison</b> — enveloppe bâtie, lots rattachés</li>" +
       "<li><b>Étage</b> — regroupement des lots d’un niveau</li>" +
-      "<li><b>Appart / local</b> — loyer réel & prévisionnel, pièces, bail individuel</li>" +
+      "<li><b>Appart / local</b> — loyer HC/CC, Carrez, pièces (attrs), bail, investisseur, syndic, propriétaire</li>" +
       "</ol></div>";
 
     html +=
@@ -678,18 +963,26 @@
       "</strong><small>" +
       tot.loues +
       " louée(s)</small></div>" +
-      '<div class="total-card"><span class="total-label">Loyers réels</span><strong>' +
+      '<div class="total-card"><span class="total-label">Loyers réels (HC/CC)</span><strong>' +
       euro(tot.loyer_reel) +
-      "</strong><small>/ mois</small></div>" +
+      "</strong><small>HC " +
+      euro(tot.loyer_hc) +
+      " · CC " +
+      euro(tot.loyer_cc) +
+      "</small></div>" +
       '<div class="total-card"><span class="total-label">Loyers prévisionnels</span><strong>' +
       euro(tot.loyer_previsionnel) +
       "</strong><small>/ mois</small></div>" +
       '<div class="total-card"><span class="total-label">Charges locatives</span><strong>' +
       euro(tot.charges_locatives) +
       "</strong><small>/ mois</small></div>" +
-      '<div class="total-card"><span class="total-label">Surface</span><strong>' +
+      '<div class="total-card"><span class="total-label">Surface Carrez</span><strong>' +
+      (Number(tot.surface_carrez) || 0) +
+      " m²</strong><small>hors Carrez " +
+      (Number(tot.surface_non_carrez) || 0) +
+      " · annoncée " +
       (Number(tot.surface_m2) || 0) +
-      " m²</strong></div>" +
+      " m²</small></div>" +
       '<div class="total-card"><span class="total-label">Pièces / chambres</span><strong>' +
       (Number(tot.nb_pieces) || 0) +
       " / " +
@@ -1010,6 +1303,8 @@
         body.innerHTML = renderUnitSection();
         var back2 = document.getElementById("btnBackComposition2");
         if (back2) back2.onclick = leaveUnitMode;
+        bindPiecesEditor(body);
+        bindOccupationToggle(body);
         return;
       }
     }

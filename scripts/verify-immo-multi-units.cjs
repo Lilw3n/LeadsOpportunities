@@ -26,6 +26,10 @@ assert(Dossier.emptyUnit, "emptyUnit");
 assert(Dossier.packMetadata, "packMetadata");
 assert(Dossier.hydrateProperty, "hydrateProperty");
 assert(typeof Dossier.unitTotals === "function", "unitTotals exporté");
+var occ = Dossier.normalizeUnit({ type: "appartement", occupation: "loue" });
+assert(occ.loue === true && occ.occupation === "loue", "occupation loue → loue");
+var vide = Dossier.normalizeUnit({ type: "appartement", occupation: "vide" });
+assert(vide.loue === false && vide.occupation === "vide", "occupation vide");
 assert(typeof Dossier.buildCompositionTree === "function", "buildCompositionTree exporté");
 assert(typeof Dossier.subtreeTotals === "function", "subtreeTotals exporté");
 assert(Array.isArray(Dossier.COMPOSITION_LEVELS) && Dossier.COMPOSITION_LEVELS.length >= 5, "COMPOSITION_LEVELS");
@@ -146,15 +150,96 @@ assert(page.indexOf("buildCompositionTree") !== -1, "UI schéma arbre compositio
 assert(page.indexOf("subtreeTotals") !== -1, "UI totaux par branche");
 assert(page.indexOf('emptyUnit("etage")') !== -1 || page.indexOf("emptyUnit('etage')") !== -1, "preset avec étages");
 assert(page.indexOf("comp-synthesis") !== -1, "bloc synthèse modèle");
+assert(page.indexOf("pieces_editor") !== -1 || page.indexOf("piecesEditorHtml") !== -1, "UI éditeur pièces libres");
+assert(page.indexOf("btnAddPiece") !== -1, "bouton ajouter une pièce");
+assert(page.indexOf("pieces_list") !== -1, "persistance pieces_list");
+assert(page.indexOf("occupation") !== -1, "UI occupation loué/vide");
+assert(page.indexOf("occ-toggle") !== -1, "toggle Loué/Vide");
+assert(page.indexOf("is-vide") !== -1, "badge vide composition");
+assert(typeof Dossier.emptyPiece === "function", "emptyPiece exporté");
+assert(typeof Dossier.syncCountersFromPieces === "function", "syncCountersFromPieces exporté");
+assert(Array.isArray(Dossier.ROOM_TYPES) && Dossier.ROOM_TYPES.length >= 8, "ROOM_TYPES catalogue");
+var roomy = Dossier.normalizeUnit({
+  type: "appartement",
+  label: "A pieces",
+  pieces_list: [
+    Dossier.emptyPiece("chambre"),
+    Object.assign(Dossier.emptyPiece("chambre"), { qty: 1, label: "Chambre 2" }),
+    Dossier.emptyPiece("sdb"),
+    Dossier.emptyPiece("bureau"),
+  ],
+});
+assert(roomy.pieces_list.length === 4, "normalize pieces_list");
+assert(Number(roomy.nb_chambres) === 2 && Number(roomy.nb_sdb) === 1, "compteurs dérivés de la liste");
+assert(Array.isArray(Dossier.ROOM_ATTRS) && Dossier.ROOM_ATTRS.length >= 6, "ROOM_ATTRS catalogue");
+var attrPiece = Object.assign(Dossier.emptyPiece("salon"), { cheminee: true, balcon: true, surface_m2: 18 });
+var attrUnit = Dossier.normalizeUnit({
+  type: "appartement",
+  loyer_mode: "HC",
+  loyer_hc: 820,
+  charges_locatives: 90,
+  surface_carrez: 52.4,
+  surface_non_carrez: 6,
+  pompe_chaleur: true,
+  cheminee: true,
+  plateau_nu: false,
+  rendement_brut: 5.2,
+  syndic_nom: "Foncia Test",
+  procedure_en_cours: true,
+  regime_matrimonial: "Séparation de biens",
+  origine_propriete: "Donation",
+  cadastre_section: "AB",
+  cadastre_numero: "123",
+  milliemes_privatifs: 42,
+  parties_communes: "Hall, escalier",
+  pieces_list: [attrPiece],
+});
+assert(Number(attrUnit.loyer_reel) === 820 && attrUnit.loyer_mode === "HC", "HC → loyer_reel");
+assert(Number(attrUnit.surface_carrez) === 52.4, "surface Carrez persistée");
+assert(attrUnit.pompe_chaleur === true && attrUnit.cheminee === true, "équipements lot");
+assert(attrUnit.pieces_list[0].cheminee === true && attrUnit.pieces_list[0].balcon === true, "attrs pièce");
+assert(attrUnit.syndic_nom === "Foncia Test" && attrUnit.procedure_en_cours === true, "syndic / procédure");
+assert(attrUnit.origine_propriete === "Donation" && attrUnit.regime_matrimonial.indexOf("Séparation") !== -1, "propriétaire");
+var ccUnit = Dossier.normalizeUnit({ type: "appartement", loyer_mode: "CC", loyer_cc: 900 });
+assert(Number(ccUnit.loyer_reel) === 900, "CC → loyer_reel");
+var richTotals = Dossier.unitTotals([attrUnit, ccUnit]);
+assert(richTotals.loyer_hc === 820 && richTotals.loyer_cc === 900, "totaux HC + CC");
+assert(Math.abs(richTotals.surface_carrez - 52.4) < 0.01, "totaux surface Carrez");
 
 var schema = read("js/crm-immo-property-schema.js");
+assert(page.indexOf("roomAttrs") !== -1 || page.indexOf("ROOM_ATTRS") !== -1, "UI attributs pièces");
+assert(page.indexOf("loyer_mode") !== -1 && page.indexOf("loyer_hc") !== -1, "UI loyer HC/CC");
+assert(page.indexOf("surface_carrez") !== -1, "UI surface Carrez");
+assert(page.indexOf("Surface Carrez") !== -1 || page.indexOf("surface_carrez") !== -1, "totaux / champ Carrez côté UI");
+assert(page.indexOf("UNIT_SECTIONS") !== -1, "UI consomme UNIT_SECTIONS (investisseur/syndic/proprio)");
+assert(page.indexOf("field.type === \"checkbox\"") !== -1 || page.indexOf('field.type === "checkbox"') !== -1, "UI checkbox équipements");
+assert(schema.indexOf("pieces_editor") !== -1, "schema pieces_editor");
+assert(schema.indexOf("pieces_list") !== -1, "schema pieces_list");
+assert(schema.indexOf('"type": "occupation"') !== -1 || schema.indexOf("type: \"occupation\"") !== -1 || schema.indexOf("occupation") !== -1, "schema champ occupation");
 assert(schema.indexOf("UNIT_SECTIONS") !== -1, "schema UNIT_SECTIONS");
 assert(schema.indexOf("bail_unit") !== -1, "section bail par unité");
-assert(schema.indexOf("loyer_reel") !== -1, "schema loyer_reel");
+assert(schema.indexOf("loyer_reel") !== -1 || schema.indexOf("loyer_hc") !== -1, "schema loyer HC/CC ou reel");
+assert(schema.indexOf("loyer_mode") !== -1, "schema loyer_mode HC/CC");
+assert(schema.indexOf("loyer_hc") !== -1 && schema.indexOf("loyer_cc") !== -1, "schema loyer_hc + loyer_cc");
+assert(schema.indexOf("surface_carrez") !== -1 && schema.indexOf("surface_non_carrez") !== -1, "schema surfaces Carrez");
+assert(schema.indexOf("type_chauffage") !== -1 && schema.indexOf("pompe_chaleur") !== -1, "schema chauffage / PAC");
+assert(schema.indexOf("cheminee") !== -1 && schema.indexOf("plateau_nu") !== -1, "schema cheminée / plateau nu");
+assert(schema.indexOf("digicode") !== -1 && schema.indexOf("porte_numero") !== -1, "schema digicode / n° porte");
+assert(schema.indexOf("parking_numero") !== -1 && schema.indexOf("garage_numero") !== -1, "schema n° parking / garage");
+assert(schema.indexOf("investisseur") !== -1 && schema.indexOf("rendement_brut") !== -1, "schema investisseur");
+assert(schema.indexOf("copro_syndic") !== -1 && schema.indexOf("procedure_en_cours") !== -1, "schema syndic/copro");
+assert(schema.indexOf("regime_matrimonial") !== -1 && schema.indexOf("origine_propriete") !== -1, "schema propriétaire");
+assert(schema.indexOf("milliemes_privatifs") !== -1 && schema.indexOf("parties_communes") !== -1, "schema millièmes / parties communes");
+assert(schema.indexOf("cadastre_section") !== -1, "schema cadastre section");
 assert(schema.indexOf("etage") !== -1, "schema type étage");
 assert(schema.indexOf("immeuble") !== -1, "schema type immeuble");
 
 var html = read("crm-immo-property.html");
+assert(html.indexOf("piece-row") !== -1, "CSS lignes pièces");
+assert(html.indexOf("pieces-editor") !== -1, "CSS éditeur pièces");
+assert(html.indexOf("piece-attrs") !== -1, "CSS attributs pièces");
+assert(html.indexOf("occ-toggle") !== -1, "CSS toggle occupation");
+assert(html.indexOf("occ-badge") !== -1, "CSS badge occupation");
 assert(html.indexOf("crm-immo-dossier-lib.js") !== -1, "HTML charge dossier-lib");
 assert(
   (html.match(/<style[\s>]/gi) || []).length === (html.match(/<\/style>/gi) || []).length,
