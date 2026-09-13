@@ -34,11 +34,38 @@
     }).format(num);
   }
 
+  function photoUrlOf(item) {
+    if (!item) return "";
+    if (typeof item === "string") return item.trim();
+    return String(item.url || item.src || "").trim();
+  }
+
+  /** Facebook / Meta refuse souvent Drive (403) — à éviter pour og:image. */
+  function isBlockedForSocial(url) {
+    var u = String(url || "");
+    if (/drive-storage/i.test(u)) return true;
+    if (/drive\.google\.com/i.test(u)) return true;
+    if (/docs\.google\.com\/.*\/(uc|file)/i.test(u)) return true;
+    if (/^data:/i.test(u)) return true;
+    return false;
+  }
+
+  function socialImageScore(url) {
+    var u = String(url || "");
+    if (!u || isBlockedForSocial(u)) return -1;
+    if (/img\.leboncoin\.fr/i.test(u)) return 100;
+    if (/cloudinary\.com|imgix\.net|vercel-storage\.com|blob\.vercel/i.test(u)) return 90;
+    if (/leadsopportunities\.fr\/assets\//i.test(u)) return 80;
+    if (/googleusercontent\.com/i.test(u) && !/drive-storage/i.test(u)) return 40;
+    if (/^https:\/\//i.test(u)) return 50;
+    return -1;
+  }
+
   function ogImageLarge(url) {
     if (!url || typeof url !== "string") return null;
     var u = url.trim();
+    if (isBlockedForSocial(u)) return null;
     if (/\.svg(\?|$)/i.test(u)) return null;
-    if (/^data:/i.test(u)) return u.length <= 280000 ? u : null;
     if (!/^https:\/\//i.test(u)) return null;
     if (/googleusercontent\.com/i.test(u)) {
       u = u.replace(/=s\d+(-c)?(-rw)?$/i, "=s1200");
@@ -50,11 +77,23 @@
   function pickImage(listing) {
     var photos = (listing && listing.photos) || [];
     var cover = listing && listing.cover;
-    var url =
-      (cover && (cover.url || cover.src)) ||
-      (photos[0] && (photos[0].url || photos[0].src)) ||
-      "";
-    return ogImageLarge(url) || DEFAULT_IMAGE;
+    var candidates = [];
+    var coverUrl = photoUrlOf(cover);
+    if (coverUrl) candidates.push(coverUrl);
+    photos.forEach(function (p) {
+      var u = photoUrlOf(p);
+      if (u && candidates.indexOf(u) === -1) candidates.push(u);
+    });
+    var best = "";
+    var bestScore = -1;
+    candidates.forEach(function (u) {
+      var score = socialImageScore(u);
+      if (score > bestScore) {
+        bestScore = score;
+        best = u;
+      }
+    });
+    return ogImageLarge(best) || DEFAULT_IMAGE;
   }
 
   function buildPayload(listing, tourMeta, canonicalUrl) {
