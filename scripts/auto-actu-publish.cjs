@@ -10,7 +10,7 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderActuItem, hasLeadConversionAngle } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -94,6 +94,8 @@ function pickCandidates(candidates, count, state) {
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
+    if (isPlaceholderActuItem(c)) return false;
+    if (!hasLeadConversionAngle(c)) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
@@ -105,6 +107,24 @@ function pickCandidates(candidates, count, state) {
 
   var picks = [];
   var used = new Set();
+  var usedNeeds = new Set();
+
+  function take(c) {
+    if (!c || picks.length >= count) return;
+    var k = c.url || c.title;
+    if (used.has(k)) return;
+    picks.push(c);
+    used.add(k);
+    if (c.need) usedNeeds.add(String(c.need).toLowerCase());
+  }
+
+  // 1 article par tunnel (habitation, mutuelle, emprunteur…) — meilleurs scores d'abord
+  available.forEach(function (c) {
+    if (picks.length >= count) return;
+    var need = String(c.need || "").toLowerCase();
+    if (need && usedNeeds.has(need)) return;
+    take(c);
+  });
 
   available
     .filter(function (c) {
