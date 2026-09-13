@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro",
+      "title": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains - Foot National",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNMF8ycnNZQ0tHSlNMb1RWdjktUmdaeWU4czFjYU41ZTc1Y3loV1Zka0lZbjFwRktURFRuaWd6Mkk3M3Fob1dIRVlwZUtFeWxxcEJpTm5BeF9SbGVVWjh0NDJ0ck5OM0NvRDl5TWtZZnFRN0xqb3pDSzJOYm8wUHVqelpCUUE3Ym45MG14MWxId09SQ0xTVzA3bVdZSFk1Q0RYNWhUeUI1MUhrRjBJUHFPM1hRTzZpemM5SUlSSWQ2UVZ6X3l2UjBmYw?oc=5",
+      "summary": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains Foot National",
+      "pubDate": "Mon, 07 Sep 2026 07:00:00 GMT",
+      "feedId": "google-news-supporters",
+      "feedName": "Google News — supporters France foot",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-un-cout-a-ne-pas-negliger-dans-son-credit-immobilie",
+      "title": "Assurance emprunteur : un coût à ne pas négliger dans son crédit immobilier",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6c088ee9f4f6eb8df39f02bd30767&url=https%3a%2f%2fwww.msn.com%2ffr-ch%2factualite%2fother%2fassurance-emprunteur-un-co%25C3%25BBt-%25C3%25A0-ne-pas-n%25C3%25A9gliger-dans-son-cr%25C3%25A9dit-immobilier%2far-AA2bNu0S&c=3880794534977695011&mkt=en-us",
+      "summary": "Lorsqu’on achète un logement à crédit, le taux d’intérêt concentre souvent toute l’attention. Pourtant, l’assurance emprunteur peut elle aussi représenter plusieurs milliers d’euros sur la durée du fi ...",
+      "pubDate": "Tue, 08 Sep 2026 05:27:47 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-un-cout-a-ne-pas-negliger-dans-son-credit-immobilie.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-basket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026",
+      "title": "Basket – Le parcours de l’équipe de France féminine en Coupe du monde 2026 - Sud Ouest",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQODF6Yl9sUW50SVpWaGNQc2w2RXJ3OXVXVU5zMGdzdVRWdUI4UWNOSzgyOElNa2JCMXQ0R2ZJc1dNelg0UTFoQlhqTmxDMVU0bVI3MzgtTEk5VDhfUWxESEJSQlVJdk1fdkMtLXhJMFc2YjNTYlpvUDBXWDd2LWdjcDFRcVFRUldHSW96NE1ZQnFpRFVjSk1yX1Y2VGR6Rml4OVBoeVBJamM1dzFTWDFCY0N6eG5kUGhpSVNfS2doYw?oc=5",
+      "summary": "Basket – Le parcours de l’équipe de France féminine en Coupe du monde 2026 Sud Ouest",
+      "pubDate": "Sat, 12 Sep 2026 07:00:00 GMT",
+      "feedId": "google-news-cdm-2026",
+      "feedName": "Google News — Coupe du monde 2026 France",
+      "sourceType": "google",
+      "suggestedFile": "basket-le-parcours-de-l-equipe-de-france-feminine-en-coupe-du-monde-2026.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-feminine-2026-de-basket-le-calendrier-et-les-resultats-co",
+      "title": "Coupe du monde féminine 2026 de basket : le calendrier et les résultats complets de l’équipe de France - CNews",
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNNUVWUGpXQ0IxNXNkWUppX2FwN1QwLXlkQ2Vlb0hrajdXeWNxNVBOV2lxcTdpQ1FoN2JQRmVreURFU2p4RmFRR0hDRXFDWEoxaWZVVHQzb1hGUjFVQWVuT2xiM3BMeUVRbnNnNFlRV1h1RWRwM19ISDZvRm5rU3U4WDlWaTlvLWZSODVlb2ViNWh2Sy1KYWpScDJXd3dnUHJDQlNTUTJMUzYyYkdGUzJBNVVBeEI3U3JteV9J0gHAAUFVX3lxTE80RW9OZFBsTEVUYkQ1QjQ5YXZsYkd3cWhjM0F4azF5M0gyenVRSTllaTBhUmRibmhQU3cxVUpHbVZkT2FOZVdxX1BUT2d6TjVNaXR0X2lWRXNOUmJONTRsaFBvbFNVcDBtdnFKeW1wX0F1WTlyczk0TG1Xek5NMU9qUVdRbHBOX1huYWZZMk1TOUoxcUZWZUwzaEwyUFFuN2hfTGE1bmpsVC0wWVBjelZOM19ycGZnOTZDSnNfZDhKTA?oc=5",
+      "summary": "Coupe du monde féminine 2026 de basket : le calendrier et les résultats complets de l’équipe de France CNews",
+      "pubDate": "Sat, 12 Sep 2026 18:11:00 GMT",
+      "feedId": "google-news-cdm-2026",
+      "feedName": "Google News — Coupe du monde 2026 France",
+      "sourceType": "google",
+      "suggestedFile": "coupe-du-monde-feminine-2026-de-basket-le-calendrier-et-les-resultats-co.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}

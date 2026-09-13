@@ -60,9 +60,13 @@ function main() {
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
   } else if (!process.stdin.isTTY) {
     var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
-  } else {
+    if (stdin.trim()) {
+      var parsed = JSON.parse(stdin);
+      articles = Array.isArray(parsed) ? parsed : [parsed];
+    }
+  }
+
+  if (!articles.length) {
     var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
     try {
       var data = JSON.parse(fs.readFileSync(pending, "utf8"));
