@@ -382,6 +382,7 @@ assert(routes.indexOf("immo-tour-access") !== -1, "route enregistrée");
 var vercel = read("vercel.json");
 assert(vercel.indexOf("/immobilier/visite") !== -1, "rewrite Vercel");
 assert(vercel.indexOf("/api/immo-tour-og") !== -1, "rewrite OG crawlers sociaux");
+assert(read("middleware.js").indexOf("/api/immo-tour-og") !== -1, "middleware OG crawlers sociaux");
 assert(read("api/[action].js").indexOf("immo-tour-og") !== -1, "route OG enregistrée");
 var ogLib = read("js/immo-tour-og-lib.js");
 assert(ogLib.indexOf("og:title") !== -1 && ogLib.indexOf("summary_large_image") !== -1, "lib OG visite");
