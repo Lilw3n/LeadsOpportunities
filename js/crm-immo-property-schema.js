@@ -79,7 +79,7 @@ window.CrmImmoSchema = (function () {
     {
       id: "composition",
       label: "Composition",
-      hint: "Immeuble, parcelle / cadastre, lots & appartements — chaque unité a ses infos, photos et visite virtuelle.",
+      hint: "Chaque lot a sa barre noire (loyers, pièces, bail…). Totaux agrégés en haut de cette vue.",
       showIf: { types: ["maison", "terrain", "immeuble", "complexe", "local"] },
       special: "units",
     },
@@ -728,11 +728,24 @@ window.CrmImmoSchema = (function () {
       surface_m2: "",
       rooms: "",
       bedrooms: "",
+      nb_pieces: "",
+      nb_chambres: "",
+      nb_sdb: "",
+      nb_wc: "",
+      nb_cuisines: "",
       floor: "",
       lot_number: "",
       cadastre_ref: "",
       price: "",
       loyer: "",
+      loyer_reel: "",
+      loyer_previsionnel: "",
+      charges_locatives: "",
+      depot_garantie: "",
+      type_bail: "",
+      locataire_nom: "",
+      date_debut_bail: "",
+      date_fin_bail: "",
       notes: "",
       parent_id: null,
       photos: [],
@@ -741,11 +754,82 @@ window.CrmImmoSchema = (function () {
     };
   }
 
+  /** Sections de la barre noire applicables à chaque unité de composition. */
+  var UNIT_SECTIONS = [
+    {
+      id: "identite",
+      label: "Identité du lot",
+      hint: "Type, rattachement, cadastre, étage.",
+      fields: [
+        { id: "type", label: "Type", type: "unit_type" },
+        { id: "label", label: "Libellé", type: "text", important: true },
+        { id: "parent_id", label: "Rattaché à", type: "unit_parent" },
+        { id: "lot_number", label: "N° lot", type: "text" },
+        { id: "cadastre_ref", label: "Réf. cadastrale", type: "text" },
+        { id: "floor", label: "Étage", type: "text" },
+        { id: "transaction", label: "Transaction", type: "unit_transaction" },
+        { id: "loue", label: "Loué actuellement", type: "checkbox" },
+      ],
+    },
+    {
+      id: "loyers",
+      label: "Loyers & valeur",
+      hint: "Loyer réel / prévisionnel — agrégé dans les totaux composition.",
+      fields: [
+        { id: "surface_m2", label: "Surface", type: "number", unit: "m²" },
+        { id: "price", label: "Prix / valeur", type: "number", unit: "€" },
+        { id: "loyer_reel", label: "Loyer réel", type: "number", unit: "€", important: true },
+        { id: "loyer_previsionnel", label: "Loyer prévisionnel", type: "number", unit: "€", important: true },
+        { id: "charges_locatives", label: "Charges locatives", type: "number", unit: "€" },
+        { id: "depot_garantie", label: "Dépôt de garantie", type: "number", unit: "€" },
+      ],
+    },
+    {
+      id: "pieces",
+      label: "Pièces",
+      hint: "Comptage pour totaux immeuble (chambres, SDB, WC, cuisines…).",
+      fields: [
+        { id: "nb_pieces", label: "Nb pièces", type: "number", important: true },
+        { id: "nb_chambres", label: "Chambres", type: "number", important: true },
+        { id: "nb_sdb", label: "Salles de bain / eau", type: "number" },
+        { id: "nb_wc", label: "WC", type: "number" },
+        { id: "nb_cuisines", label: "Cuisines", type: "number" },
+      ],
+    },
+    {
+      id: "bail_unit",
+      label: "Bail",
+      hint: "Infos individuelles du bail de ce lot / appartement.",
+      fields: [
+        { id: "locataire_nom", label: "Locataire", type: "text", important: true },
+        {
+          id: "type_bail",
+          label: "Type de bail",
+          type: "select",
+          options: ["", "Nu (loi 89)", "Meublé", "Colocation", "Commercial", "Professionnel", "Mobilité", "Autre"],
+        },
+        { id: "date_debut_bail", label: "Début bail", type: "date" },
+        { id: "date_fin_bail", label: "Fin bail", type: "date" },
+        { id: "notes", label: "Notes bail / lot", type: "textarea" },
+      ],
+    },
+    {
+      id: "medias",
+      label: "Photos & visite",
+      hint: "Médias propres à cette unité.",
+      fields: [
+        { id: "photos", label: "Photos (URLs, une par ligne)", type: "photos" },
+        { id: "virtual_tour", label: "Visite virtuelle", type: "url" },
+      ],
+    },
+  ];
+
   return {
     TYPES: TYPES,
     TRANSACTIONS: TRANSACTIONS,
     UNIT_TYPES: UNIT_TYPES,
     SECTIONS: SECTIONS,
+    UNIT_SECTIONS: UNIT_SECTIONS,
     DOC_GROUPS: DOC_GROUPS,
     TABS: TABS,
     contextFlags: contextFlags,

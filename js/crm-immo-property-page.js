@@ -26,6 +26,8 @@
   var state = {
     tab: "description",
     sectionId: null,
+    activeUnitId: null,
+    unitSectionId: "identite",
   };
 
   function esc(s) {
@@ -34,6 +36,53 @@
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
+  }
+
+
+  function euro(n) {
+    n = Number(n) || 0;
+    return n.toLocaleString("fr-FR", { maximumFractionDigits: 0 }) + " €";
+  }
+
+  function findUnit(uid) {
+    return (prop.units || []).find(function (u) {
+      return u.id === uid;
+    }) || null;
+  }
+
+  function unitLabel(u) {
+    if (!u) return "Unité";
+    var t = (Schema.UNIT_TYPES.find(function (x) { return x.id === u.type; }) || {}).label || u.type || "Lot";
+    return (u.label || t) + (u.lot_number ? " · lot " + u.lot_number : "");
+  }
+
+  function compositionTotals() {
+    var D = window.CrmImmoDossier;
+    if (D && D.unitTotals) return D.unitTotals(prop.units || []);
+    return { units: (prop.units || []).length, loues: 0, surface_m2: 0, loyer_reel: 0, loyer_previsionnel: 0, charges_locatives: 0, nb_pieces: 0, nb_chambres: 0, nb_sdb: 0, nb_wc: 0, nb_cuisines: 0, baux_actifs: 0 };
+  }
+
+  function leaveUnitMode() {
+    collectActiveView();
+    state.activeUnitId = null;
+    state.unitSectionId = "identite";
+    state.sectionId = "composition";
+    renderAll();
+  }
+
+  function openUnit(uid) {
+    collectActiveView();
+    state.activeUnitId = uid;
+    state.unitSectionId = "identite";
+    state.tab = "description";
+    renderAll();
+  }
+
+  function collectActiveView() {
+    if (state.activeUnitId) collectUnitSection();
+    else if (state.sectionId === "composition") collectUnits();
+    else if (state.sectionId === "pieces") collectDocs();
+    else collectCurrentFields();
   }
 
   function ensureSectionBucket(secId) {
@@ -177,6 +226,7 @@
     }).join("");
     document.querySelectorAll("#topTabs [data-tab]").forEach(function (btn) {
       btn.onclick = function () {
+        collectActiveView();
         state.tab = btn.getAttribute("data-tab");
         renderAll();
       };
@@ -184,11 +234,53 @@
   }
 
   function renderSide() {
+    var nav = document.getElementById("sideNav");
+    if (!nav) return;
+
+    if (state.activeUnitId) {
+      var unit = findUnit(state.activeUnitId);
+      if (!unit) {
+        state.activeUnitId = null;
+      } else {
+        var unitSecs = Schema.UNIT_SECTIONS || [];
+        if (!state.unitSectionId || !unitSecs.some(function (s) { return s.id === state.unitSectionId; })) {
+          state.unitSectionId = unitSecs[0] ? unitSecs[0].id : "identite";
+        }
+        nav.innerHTML =
+          '<button type="button" class="side-back" id="btnBackComposition"><span>← Composition</span></button>' +
+          '<div class="side-unit-tag">' + esc(unitLabel(unit)) + "</div>" +
+          unitSecs
+            .map(function (s) {
+              return (
+                '<button type="button" data-unit-sec="' +
+                s.id +
+                '" class="' +
+                (state.unitSectionId === s.id ? "active" : "") +
+                '"><span>' +
+                esc(s.label) +
+                '</span><span class="chev">›</span></button>'
+              );
+            })
+            .join("");
+        var back = document.getElementById("btnBackComposition");
+        if (back) back.onclick = leaveUnitMode;
+        nav.querySelectorAll("[data-unit-sec]").forEach(function (btn) {
+          btn.onclick = function () {
+            collectUnitSection();
+            state.unitSectionId = btn.getAttribute("data-unit-sec");
+            renderSection();
+            renderSide();
+          };
+        });
+        return;
+      }
+    }
+
     var sections = Schema.visibleSections(prop);
     if (!state.sectionId || !sections.some(function (s) { return s.id === state.sectionId; })) {
       state.sectionId = sections[0] ? sections[0].id : null;
     }
-    document.getElementById("sideNav").innerHTML = sections
+    nav.innerHTML = sections
       .map(function (s) {
         return (
           '<button type="button" data-sec="' +
@@ -201,11 +293,10 @@
         );
       })
       .join("");
-    document.querySelectorAll("#sideNav [data-sec]").forEach(function (btn) {
+    nav.querySelectorAll("[data-sec]").forEach(function (btn) {
       btn.onclick = function () {
-        if (state.sectionId === "composition") collectUnits();
-        else if (state.sectionId === "pieces") collectDocs();
-        else collectCurrentFields();
+        collectActiveView();
+        state.activeUnitId = null;
         state.sectionId = btn.getAttribute("data-sec");
         renderSection();
         renderSide();
@@ -314,6 +405,7 @@
     });
   }
 
+
   function photoUrlsText(u) {
     var photos = (u && u.photos) || [];
     return photos
@@ -324,112 +416,246 @@
       .join("\n");
   }
 
-  function renderUnits() {
-    var html =
-      '<p class="dossier-hint">Dossier intelligent : parcelle / cadastre, immeuble, puis chaque appartement ou lot avec ses <strong>photos</strong> et sa <strong>visite virtuelle</strong>. Les personnes (vendeur, etc.) se lient à l’onglet Personnes.</p>';
-    if (!prop.units.length) {
-      html += '<p style="color:var(--muted)">Aucune unité — clique « Ajouter une unité » ou utilise un preset.</p>';
+  function syncUnitDerived(obj) {
+    if (obj.loyer_reel !== "" && obj.loyer_reel != null) obj.loyer = obj.loyer_reel;
+    else if (obj.loyer !== "" && obj.loyer != null && (obj.loyer_reel === "" || obj.loyer_reel == null)) obj.loyer_reel = obj.loyer;
+    if (obj.nb_pieces !== "" && obj.nb_pieces != null) obj.rooms = obj.nb_pieces;
+    else if (obj.rooms !== "" && obj.rooms != null && (obj.nb_pieces === "" || obj.nb_pieces == null)) obj.nb_pieces = obj.rooms;
+    if (obj.nb_chambres !== "" && obj.nb_chambres != null) obj.bedrooms = obj.nb_chambres;
+    else if (obj.bedrooms !== "" && obj.bedrooms != null && (obj.nb_chambres === "" || obj.nb_chambres == null)) obj.nb_chambres = obj.bedrooms;
+    return obj;
+  }
+
+  function collectUnitSection() {
+    if (!state.activeUnitId) return;
+    var unit = findUnit(state.activeUnitId);
+    if (!unit) return;
+    var body = document.getElementById("sectionBody");
+    if (!body) return;
+    var Dossier = window.CrmImmoDossier;
+    body.querySelectorAll("[data-uk]").forEach(function (el) {
+      var k = el.getAttribute("data-uk");
+      if (el.type === "checkbox") unit[k] = el.checked;
+      else if (k === "photos") {
+        unit.photos = Dossier
+          ? Dossier.normalizePhotoList(el.value)
+          : String(el.value || "")
+              .split(/\n+/)
+              .map(function (s) { return s.trim(); })
+              .filter(Boolean)
+              .map(function (url) { return { url: url, kind: "photo" }; });
+      } else if (k === "parent_id") {
+        unit.parent_id = el.value || null;
+      } else unit[k] = el.value;
+    });
+    syncUnitDerived(unit);
+    if (Dossier && Dossier.normalizeUnit) {
+      var idx = prop.units.findIndex(function (u) { return u.id === unit.id; });
+      if (idx >= 0) prop.units[idx] = Dossier.normalizeUnit(unit);
     }
-    html += prop.units
-      .map(function (u, idx) {
-        var parentSelect =
-          '<label>Rattaché à<select data-k="parent_id"><option value="">— Aucun (racine) —</option>' +
-          prop.units
-            .filter(function (p) {
-              return p.id !== u.id;
-            })
-            .map(function (p) {
-              return (
-                '<option value="' +
-                esc(p.id) +
-                '"' +
-                (u.parent_id === p.id ? " selected" : "") +
-                ">" +
-                esc(p.label || p.type || p.id) +
-                "</option>"
-              );
-            })
-            .join("") +
-          "</select></label>";
-        return (
-          '<div class="unit-card" data-unit="' +
-          esc(u.id) +
-          '"><h4>Unité #' +
-          (idx + 1) +
-          (u.label ? " — " + esc(u.label) : "") +
-          '</h4><div class="unit-grid">' +
-          '<label>Type<select data-k="type">' +
-          Schema.UNIT_TYPES.map(function (t) {
+  }
+
+  function unitFieldHtml(field, unit) {
+    var val = unit[field.id];
+    if (field.id === "photos") val = photoUrlsText(unit);
+    var ctrl = "";
+    if (field.type === "checkbox") {
+      ctrl = '<input type="checkbox" data-uk="' + esc(field.id) + '"' + (unit[field.id] ? " checked" : "") + " />";
+    } else if (field.type === "unit_type") {
+      ctrl =
+        '<select data-uk="type">' +
+        (Schema.UNIT_TYPES || [])
+          .map(function (t) {
+            return (
+              '<option value="' + t.id + '"' + (unit.type === t.id ? " selected" : "") + ">" + esc(t.label) + "</option>"
+            );
+          })
+          .join("") +
+        "</select>";
+    } else if (field.type === "unit_parent") {
+      ctrl =
+        '<select data-uk="parent_id"><option value="">— Aucun (racine) —</option>' +
+        (prop.units || [])
+          .filter(function (p) { return p.id !== unit.id; })
+          .map(function (p) {
             return (
               '<option value="' +
-              t.id +
+              esc(p.id) +
               '"' +
-              (u.type === t.id ? " selected" : "") +
+              (unit.parent_id === p.id ? " selected" : "") +
               ">" +
-              t.label +
+              esc(unitLabel(p)) +
               "</option>"
             );
-          }).join("") +
-          "</select></label>" +
-          '<label>Libellé<input data-k="label" value="' +
-          esc(u.label || "") +
-          '" placeholder="Appt RDC / Lot 12 / Maison…" /></label>' +
-          parentSelect +
-          '<label>N° lot / cadastre<input data-k="lot_number" value="' +
-          esc(u.lot_number || "") +
-          '" placeholder="ex. 12" /></label>' +
-          '<label>Réf. cadastrale<input data-k="cadastre_ref" value="' +
-          esc(u.cadastre_ref || "") +
-          '" placeholder="section / n°" /></label>' +
-          '<label>Étage<input data-k="floor" value="' +
-          esc(u.floor || "") +
-          '" placeholder="RDC / 1…" /></label>' +
-          '<label>Transaction<select data-k="transaction"><option value="vente"' +
-          (u.transaction === "vente" ? " selected" : "") +
-          '>Vente</option><option value="location"' +
-          (u.transaction === "location" ? " selected" : "") +
-          ">Location</option></select></label>" +
-          '<label>Loué actuellement<input type="checkbox" data-k="loue"' +
-          (u.loue ? " checked" : "") +
-          " /></label>" +
-          '<label>Surface m²<input data-k="surface_m2" type="number" value="' +
-          esc(u.surface_m2 || "") +
-          '" /></label>' +
-          '<label>Pièces<input data-k="rooms" type="number" value="' +
-          esc(u.rooms || "") +
-          '" /></label>' +
-          '<label>Chambres<input data-k="bedrooms" type="number" value="' +
-          esc(u.bedrooms || "") +
-          '" /></label>' +
-          '<label>Prix / valeur €<input data-k="price" type="number" value="' +
-          esc(u.price || "") +
-          '" /></label>' +
-          '<label>Loyer €<input data-k="loyer" type="number" value="' +
-          esc(u.loyer || "") +
-          '" /></label>' +
-          '<label style="grid-column:1/-1">Notes<input data-k="notes" value="' +
-          esc(u.notes || "") +
-          '" /></label>' +
-          '<label style="grid-column:1/-1">Photos (URLs, une par ligne)<textarea data-k="photos" rows="2" placeholder="https://…">' +
-          esc(photoUrlsText(u)) +
-          "</textarea></label>" +
-          '<label style="grid-column:1/-1">Visite virtuelle (Matterport / URL)<input data-k="virtual_tour" type="url" value="' +
-          esc(u.virtual_tour || "") +
-          '" placeholder="https://my.matterport.com/show/?m=…" /></label>' +
-          '</div><div style="margin-top:8px"><button type="button" class="btn btn-ghost btn-sm" data-del-unit="' +
-          esc(u.id) +
-          '">Retirer</button></div></div>'
-        );
-      })
-      .join("");
+          })
+          .join("") +
+        "</select>";
+    } else if (field.type === "unit_transaction") {
+      ctrl =
+        '<select data-uk="transaction">' +
+        '<option value="vente"' + (unit.transaction === "vente" ? " selected" : "") + ">Vente</option>" +
+        '<option value="location"' + (unit.transaction === "location" ? " selected" : "") + ">Location</option>" +
+        "</select>";
+    } else if (field.type === "select") {
+      ctrl =
+        '<select data-uk="' +
+        esc(field.id) +
+        '">' +
+        (field.options || [])
+          .map(function (o) {
+            var v = o == null ? "" : String(o);
+            return (
+              '<option value="' + esc(v) + '"' + (String(val || "") === v ? " selected" : "") + ">" + esc(v || "—") + "</option>"
+            );
+          })
+          .join("") +
+        "</select>";
+    } else if (field.type === "textarea" || field.type === "photos") {
+      ctrl =
+        '<textarea data-uk="' +
+        esc(field.id) +
+        '" rows="3" placeholder="Non renseigné">' +
+        esc(val || "") +
+        "</textarea>";
+    } else {
+      ctrl =
+        '<input data-uk="' +
+        esc(field.id) +
+        '" type="' +
+        (field.type === "number" ? "number" : field.type === "date" ? "date" : field.type === "url" ? "url" : "text") +
+        '" value="' +
+        esc(val || "") +
+        '" placeholder="Non renseigné" />';
+    }
+    if (field.unit) ctrl += '<span class="field-unit">' + esc(field.unit) + "</span>";
+    return (
+      '<div class="field-row"><label class="' +
+      (field.important ? "important" : "") +
+      '">' +
+      esc(field.label) +
+      '</label><div class="field-ctrl">' +
+      ctrl +
+      "</div></div>"
+    );
+  }
+
+  function renderUnitSection() {
+    var unit = findUnit(state.activeUnitId);
+    if (!unit) {
+      leaveUnitMode();
+      return "<p>Unité introuvable.</p>";
+    }
+    var sec =
+      (Schema.UNIT_SECTIONS || []).find(function (s) {
+        return s.id === state.unitSectionId;
+      }) || (Schema.UNIT_SECTIONS || [])[0];
+    if (!sec) return "<p>Aucune section unité.</p>";
+    document.getElementById("sectionTitle").textContent = unitLabel(unit) + " · " + sec.label;
+    document.getElementById("sectionHint").textContent = sec.hint || "Fiche détaillée de cette unité (barre noire à gauche).";
+    return (
+      '<div class="unit-mode-banner">' +
+      "<strong>" +
+      esc(unitLabel(unit)) +
+      "</strong> — navigation noire dédiée à ce lot. " +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnBackComposition2">← Retour composition / totaux</button>' +
+      "</div>" +
+      (sec.fields || []).map(function (f) { return unitFieldHtml(f, unit); }).join("")
+    );
+  }
+
+  function renderUnitsOverview() {
+    var tot = compositionTotals();
+    var html =
+      '<p class="dossier-hint">Chaque unité a sa <strong>propre barre noire</strong> (identité, loyers, pièces, bail, médias). Les totaux ci-dessous agrègent tous les lots.</p>';
     html +=
-      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">' +
+      '<div class="totals-grid">' +
+      '<div class="total-card"><span class="total-label">Unités</span><strong>' +
+      tot.units +
+      "</strong><small>" +
+      tot.loues +
+      " louée(s)</small></div>" +
+      '<div class="total-card"><span class="total-label">Loyers réels</span><strong>' +
+      euro(tot.loyer_reel) +
+      "</strong><small>/ mois</small></div>" +
+      '<div class="total-card"><span class="total-label">Loyers prévisionnels</span><strong>' +
+      euro(tot.loyer_previsionnel) +
+      "</strong><small>/ mois</small></div>" +
+      '<div class="total-card"><span class="total-label">Charges locatives</span><strong>' +
+      euro(tot.charges_locatives) +
+      "</strong><small>/ mois</small></div>" +
+      '<div class="total-card"><span class="total-label">Surface</span><strong>' +
+      (Number(tot.surface_m2) || 0) +
+      " m²</strong></div>" +
+      '<div class="total-card"><span class="total-label">Pièces / chambres</span><strong>' +
+      (Number(tot.nb_pieces) || 0) +
+      " / " +
+      (Number(tot.nb_chambres) || 0) +
+      "</strong></div>" +
+      '<div class="total-card"><span class="total-label">SDB / WC / cuisines</span><strong>' +
+      (Number(tot.nb_sdb) || 0) +
+      " / " +
+      (Number(tot.nb_wc) || 0) +
+      " / " +
+      (Number(tot.nb_cuisines) || 0) +
+      "</strong></div>" +
+      '<div class="total-card"><span class="total-label">Baux renseignés</span><strong>' +
+      tot.baux_actifs +
+      "</strong></div>" +
+      "</div>";
+
+    if (!prop.units.length) {
+      html += '<p style="color:var(--muted)">Aucune unité — ajoute un lot ou utilise un preset.</p>';
+    } else {
+      html += '<div class="unit-list">';
+      prop.units.forEach(function (u, idx) {
+        var parent = u.parent_id ? findUnit(u.parent_id) : null;
+        html +=
+          '<div class="unit-row">' +
+          '<div class="unit-row-main">' +
+          "<strong>#" +
+          (idx + 1) +
+          " — " +
+          esc(unitLabel(u)) +
+          "</strong>" +
+          '<div class="unit-row-meta">' +
+          esc(u.type || "") +
+          (parent ? " · rattaché à " + esc(unitLabel(parent)) : " · racine") +
+          (u.loue || u.transaction === "location" ? " · loué" : "") +
+          (u.locataire_nom ? " · " + esc(u.locataire_nom) : "") +
+          "</div>" +
+          '<div class="unit-row-stats">' +
+          "Loyer réel " +
+          euro(u.loyer_reel || u.loyer) +
+          " · prév. " +
+          euro(u.loyer_previsionnel) +
+          " · " +
+          esc(u.nb_chambres || u.bedrooms || "0") +
+          " ch. · " +
+          esc(u.nb_sdb || "0") +
+          " SDB · " +
+          esc(u.surface_m2 || "—") +
+          " m²</div></div>" +
+          '<div class="unit-row-actions">' +
+          '<button type="button" class="btn btn-primary btn-sm" data-open-unit="' +
+          esc(u.id) +
+          '">Ouvrir fiche (barre noire)</button>' +
+          '<button type="button" class="btn btn-ghost btn-sm" data-del-unit="' +
+          esc(u.id) +
+          '">Retirer</button>' +
+          "</div></div>";
+      });
+      html += "</div>";
+    }
+
+    html +=
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">' +
       '<button type="button" class="btn btn-primary btn-sm" id="btnAddUnit">+ Ajouter une unité</button>' +
       '<button type="button" class="btn btn-ghost btn-sm" id="btnPresetComplex">Preset terrain + maison + 2 appts loués</button>' +
       '<button type="button" class="btn btn-ghost btn-sm" id="btnPresetImmeuble">Preset immeuble (3 appts)</button>' +
       "</div>";
     return html;
   }
+
 
   function collectUnits() {
     var cards = document.querySelectorAll(".unit-card[data-unit]");
@@ -507,27 +733,21 @@
     });
   }
 
-  function renderSection() {
-    var sections = Schema.visibleSections(prop);
-    var section = sections.find(function (s) {
-      return s.id === state.sectionId;
-    }) || sections[0];
-    if (!section) return;
-    state.sectionId = section.id;
-    document.getElementById("sectionTitle").textContent = section.label;
-    document.getElementById("sectionHint").textContent = section.hint || "";
-    var body = document.getElementById("sectionBody");
-
-    if (section.special === "units") {
-      body.innerHTML = renderUnits();
-      document.getElementById("btnAddUnit").onclick = function () {
-        collectUnits();
+  function bindCompositionActions(body) {
+    var btnAdd = document.getElementById("btnAddUnit");
+    if (btnAdd) {
+      btnAdd.onclick = function () {
         prop.units.push(Schema.emptyUnit(prop.property_type === "terrain" ? "terrain" : "appartement"));
+        state.sectionId = "composition";
         renderSection();
         smartText();
         renderSide();
+        syncHeader();
       };
-      document.getElementById("btnPresetComplex").onclick = function () {
+    }
+    var btnComplex = document.getElementById("btnPresetComplex");
+    if (btnComplex) {
+      btnComplex.onclick = function () {
         prop.property_type = "complexe";
         document.getElementById("mType").value = "complexe";
         var terrain = Object.assign(Schema.emptyUnit("terrain"), {
@@ -549,6 +769,15 @@
             loue: true,
             parent_id: maison.id,
             floor: "RDC",
+            loyer_reel: 650,
+            loyer_previsionnel: 700,
+            nb_pieces: 3,
+            nb_chambres: 2,
+            nb_sdb: 1,
+            nb_wc: 1,
+            nb_cuisines: 1,
+            type_bail: "Nu (loi 89)",
+            locataire_nom: "",
           }),
           Object.assign(Schema.emptyUnit("appartement"), {
             label: "Appartement 2",
@@ -556,61 +785,136 @@
             loue: true,
             parent_id: maison.id,
             floor: "1",
+            loyer_reel: 750,
+            loyer_previsionnel: 800,
+            nb_pieces: 4,
+            nb_chambres: 3,
+            nb_sdb: 1,
+            nb_wc: 1,
+            nb_cuisines: 1,
+            type_bail: "Meublé",
+            locataire_nom: "",
           }),
         ];
         prop.is_parent_dossier = true;
+        state.activeUnitId = null;
+        state.sectionId = "composition";
         renderAll();
       };
-      var btnImmeuble = document.getElementById("btnPresetImmeuble");
-      if (btnImmeuble) {
-        btnImmeuble.onclick = function () {
-          prop.property_type = "immeuble";
-          document.getElementById("mType").value = "immeuble";
-          var immeuble = Object.assign(Schema.emptyUnit("maison"), {
-            label: "Immeuble (enveloppe)",
-            type: "maison",
+    }
+    var btnImmeuble = document.getElementById("btnPresetImmeuble");
+    if (btnImmeuble) {
+      btnImmeuble.onclick = function () {
+        prop.property_type = "immeuble";
+        document.getElementById("mType").value = "immeuble";
+        var immeuble = Object.assign(Schema.emptyUnit("maison"), {
+          label: "Immeuble (enveloppe)",
+          type: "maison",
+          transaction: "vente",
+        });
+        prop.units = [
+          immeuble,
+          Object.assign(Schema.emptyUnit("appartement"), {
+            label: "Appartement RDC",
+            floor: "RDC",
+            lot_number: "1",
+            parent_id: immeuble.id,
+            transaction: "location",
+            loue: true,
+            loyer_reel: 580,
+            loyer_previsionnel: 620,
+            nb_pieces: 2,
+            nb_chambres: 1,
+            nb_sdb: 1,
+            nb_wc: 1,
+            nb_cuisines: 1,
+          }),
+          Object.assign(Schema.emptyUnit("appartement"), {
+            label: "Appartement 1er",
+            floor: "1",
+            lot_number: "2",
+            parent_id: immeuble.id,
+            transaction: "location",
+            loue: true,
+            loyer_reel: 640,
+            loyer_previsionnel: 680,
+            nb_pieces: 3,
+            nb_chambres: 2,
+            nb_sdb: 1,
+            nb_wc: 1,
+            nb_cuisines: 1,
+          }),
+          Object.assign(Schema.emptyUnit("appartement"), {
+            label: "Appartement 2e",
+            floor: "2",
+            lot_number: "3",
+            parent_id: immeuble.id,
             transaction: "vente",
-          });
-          prop.units = [
-            immeuble,
-            Object.assign(Schema.emptyUnit("appartement"), {
-              label: "Appartement RDC",
-              floor: "RDC",
-              lot_number: "1",
-              parent_id: immeuble.id,
-              transaction: "vente",
-            }),
-            Object.assign(Schema.emptyUnit("appartement"), {
-              label: "Appartement 1er",
-              floor: "1",
-              lot_number: "2",
-              parent_id: immeuble.id,
-              transaction: "vente",
-            }),
-            Object.assign(Schema.emptyUnit("appartement"), {
-              label: "Appartement 2e",
-              floor: "2",
-              lot_number: "3",
-              parent_id: immeuble.id,
-              transaction: "vente",
-            }),
-          ];
-          prop.is_parent_dossier = true;
-          renderAll();
-        };
+            nb_pieces: 3,
+            nb_chambres: 2,
+            nb_sdb: 1,
+            nb_wc: 1,
+            nb_cuisines: 1,
+            loyer_previsionnel: 720,
+          }),
+        ];
+        prop.is_parent_dossier = true;
+        state.activeUnitId = null;
+        state.sectionId = "composition";
+        renderAll();
+      };
+    }
+    body.querySelectorAll("[data-open-unit]").forEach(function (btn) {
+      btn.onclick = function () {
+        openUnit(btn.getAttribute("data-open-unit"));
+      };
+    });
+    body.querySelectorAll("[data-del-unit]").forEach(function (btn) {
+      btn.onclick = function () {
+        var uid = btn.getAttribute("data-del-unit");
+        if (state.activeUnitId === uid) state.activeUnitId = null;
+        prop.units = prop.units.filter(function (u) {
+          return u.id !== uid;
+        });
+        prop.units.forEach(function (u) {
+          if (u.parent_id === uid) u.parent_id = null;
+        });
+        state.sectionId = "composition";
+        renderSection();
+        smartText();
+        renderSide();
+        syncHeader();
+      };
+    });
+  }
+
+  function renderSection() {
+    var body = document.getElementById("sectionBody");
+    if (!body) return;
+
+    if (state.activeUnitId) {
+      if (!findUnit(state.activeUnitId)) {
+        state.activeUnitId = null;
+      } else {
+        body.innerHTML = renderUnitSection();
+        var back2 = document.getElementById("btnBackComposition2");
+        if (back2) back2.onclick = leaveUnitMode;
+        return;
       }
-      body.querySelectorAll("[data-del-unit]").forEach(function (btn) {
-        btn.onclick = function () {
-          collectUnits();
-          var uid = btn.getAttribute("data-del-unit");
-          prop.units = prop.units.filter(function (u) {
-            return u.id !== uid;
-          });
-          renderSection();
-          smartText();
-          renderSide();
-        };
-      });
+    }
+
+    var sections = Schema.visibleSections(prop);
+    var section = sections.find(function (s) {
+      return s.id === state.sectionId;
+    }) || sections[0];
+    if (!section) return;
+    state.sectionId = section.id;
+    document.getElementById("sectionTitle").textContent = section.label;
+    document.getElementById("sectionHint").textContent = section.hint || "";
+
+    if (section.special === "units") {
+      body.innerHTML = renderUnitsOverview();
+      bindCompositionActions(body);
       return;
     }
 
@@ -1195,6 +1499,7 @@
       var recu = docs.filter(function (k) {
         return prop.docs_checklist[k] && prop.docs_checklist[k].recu;
       }).length;
+      var tot = compositionTotals();
       panel.innerHTML =
         "<h3>Statistiques fiche</h3><p>Complétude champs visibles : <strong>" +
         (total ? Math.round((filled / total) * 100) : 0) +
@@ -1203,8 +1508,26 @@
         "/" +
         total +
         ")</p><p>Unités : <strong>" +
-        prop.units.length +
-        "</strong></p><p>Pièces reçues cochées : <strong>" +
+        tot.units +
+        "</strong> (" +
+        tot.loues +
+        " louée(s), " +
+        tot.baux_actifs +
+        " bail(s))</p><p>Loyers réels / prévisionnels : <strong>" +
+        euro(tot.loyer_reel) +
+        "</strong> / <strong>" +
+        euro(tot.loyer_previsionnel) +
+        "</strong></p><p>Pièces totales : <strong>" +
+        (Number(tot.nb_pieces) || 0) +
+        "</strong> · chambres <strong>" +
+        (Number(tot.nb_chambres) || 0) +
+        "</strong> · SDB <strong>" +
+        (Number(tot.nb_sdb) || 0) +
+        "</strong> · WC <strong>" +
+        (Number(tot.nb_wc) || 0) +
+        "</strong> · cuisines <strong>" +
+        (Number(tot.nb_cuisines) || 0) +
+        "</strong></p><p>Pièces justificatives reçues : <strong>" +
         recu +
         "</strong></p>";
       return;
@@ -1214,9 +1537,8 @@
 
   function save() {
     readMeta();
-    collectCurrentFields();
-    collectUnits();
-    if (state.sectionId === "pieces") collectDocs();
+    collectActiveView();
+    if (state.sectionId === "pieces" && !state.activeUnitId) collectDocs();
     // sync some top-level fields from localisation / finances for piges list
     var loc = prop.details.localisation || {};
     var fin = prop.details.finances || {};
@@ -1292,6 +1614,7 @@
       renderSide();
       renderSection();
     } else {
+      if (state.activeUnitId) collectUnitSection();
       desc.hidden = true;
       other.hidden = false;
       renderOtherTab();

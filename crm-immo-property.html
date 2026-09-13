@@ -31,6 +31,38 @@
     .dossier-side button:hover { background:#3a4454; }
     .dossier-side button.active { background:var(--immo-blue); color:#fff; }
     .dossier-side button .chev { opacity:.5; }
+    .dossier-side .side-back {
+      background:#1a1f29; color:#93c5fd; margin-bottom:6px; border:1px solid #3a4454;
+      text-transform:none; letter-spacing:0; font-size:.78rem;
+    }
+    .dossier-side .side-back:hover { background:#243044; color:#fff; }
+    .dossier-side .side-unit-tag {
+      font-size:.72rem; font-weight:700; color:#94a3b8; padding:6px 12px 10px;
+      border-bottom:1px solid #3a4454; margin-bottom:6px; text-transform:none; letter-spacing:0; line-height:1.35;
+    }
+    .totals-grid {
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin:0 0 16px;
+    }
+    .total-card {
+      background:linear-gradient(160deg,#f8fafc,#eef4fb); border:1px solid #dbe4f0; border-radius:10px;
+      padding:12px; display:flex; flex-direction:column; gap:4px; min-height:78px;
+    }
+    .total-card .total-label { font-size:.68rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:#64748b; }
+    .total-card strong { font-size:1.05rem; color:#0f172a; }
+    .total-card small { color:#64748b; font-size:.72rem; }
+    .unit-list { display:flex; flex-direction:column; gap:8px; }
+    .unit-row {
+      display:flex; gap:12px; justify-content:space-between; align-items:flex-start; flex-wrap:wrap;
+      border:1px solid var(--line); border-radius:10px; padding:12px 14px; background:#f8fafc;
+    }
+    .unit-row-main { flex:1; min-width:200px; }
+    .unit-row-meta, .unit-row-stats { font-size:.8rem; color:var(--muted); margin-top:4px; }
+    .unit-row-actions { display:flex; gap:6px; flex-wrap:wrap; }
+    .unit-mode-banner {
+      background:#eff6ff; border:1px solid #bfdbfe; color:#1e3a8a; border-radius:10px;
+      padding:10px 12px; font-size:.84rem; margin-bottom:12px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+      justify-content:space-between;
+    }
     .dossier-main { background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 18px; min-height:420px; }
     .dossier-main h3 { margin:0 0 6px; color:var(--immo-blue); }
     .dossier-hint { color:var(--muted); font-size:.82rem; margin:0 0 14px; }
