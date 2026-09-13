@@ -15,7 +15,7 @@
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
+      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux immobilier", "taux credit", "taux crédit", "banque pret", "banque prêt", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
       "section": "finance",
       "need": "emprunteur",
       "tag": "Crédit & emprunteur",
@@ -114,6 +114,7 @@
         "selection francaise",
         "football"
       ],
+      "minHits": 2,
       "section": "actu",
       "need": "sante",
       "tag": "Coupe du monde 2026",

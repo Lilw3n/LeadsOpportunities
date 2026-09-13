@@ -4,7 +4,16 @@
  * Usage: npm run blog:actu:daily [-- --count=3]
  */
 const { execSync } = require("child_process");
-const { readJson, writeJson, rankCandidates } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  hasLeadAngle,
+  isPlaceholderCandidate,
+  isStaleActuCandidate,
+  looksLikeEnglishHeadline,
+} = require("./blog-actu-lib.cjs");
+const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 
 function arg(name, def) {
   var m = process.argv.find(function (a) {
@@ -25,7 +34,15 @@ function main() {
   }
 
   var candidates = readJson("blog-actu-candidates.json", { candidates: [] }).candidates || [];
-  var ranked = rankCandidates(candidates);
+  var ranked = rankCandidates(candidates).filter(function (c) {
+    if (isPlaceholderCandidate(c)) return false;
+    if (!hasLeadAngle(c)) return false;
+    if (looksLikeEnglishHeadline(c.title)) return false;
+    if (isStaleActuCandidate(c, 30)) return false;
+    var hay = String(c.title || "") + " " + String(c.summary || "");
+    if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
+    return true;
+  });
   var picks = ranked.slice(0, count);
 
   writeJson("blog-actu-daily-pick.json", {
