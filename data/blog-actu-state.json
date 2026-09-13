@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T15:49:35.661Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/politique/marine-est-geniale-mais-jordan-rassemblerait-mieux-a-henin-beaumont-fief-du-rn-le-dilemme-des-electeurs-20260913",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6c58fc18f4dfea6d4b38085983259&url=https%3a%2f%2fwww.eurosport.fr%2fbasketball%2fcoupe-du-monde%2f2026%2fcoupe-du-monde-2026-on-na-pas-peur-deux-ans-apres-les-bleus-sont-pretes-pour-une-revanche-contre-les-americaines-en-finale_sto23336826%2fstory.shtml&c=17847626562665372908&mkt=en-us",
+    "https://www.france24.com/fr/%C3%A9co-tech/20260912-les-lunettes-connect%C3%A9es-dans-le-viseur-de-l-europe-apr%C3%A8s-de-nombreuses-d%C3%A9rives",
+    "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+    "https://www.franceinfo.fr/replay-jt/franceinfo/21h-minuit/23-heures/franchise-medicale-le-plafond-annuel-passera-a-140-euros_8190482.html#xtor=RSS-3-%5Bgeneral%5D",
+    "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNMF8ycnNZQ0tHSlNMb1RWdjktUmdaeWU4czFjYU41ZTc1Y3loV1Zka0lZbjFwRktURFRuaWd6Mkk3M3Fob1dIRVlwZUtFeWxxcEJpTm5BeF9SbGVVWjh0NDJ0ck5OM0NvRDl5TWtZZnFRN0xqb3pDSzJOYm8wUHVqelpCUUE3Ym45MG14MWxId09SQ0xTVzA3bVdZSFk1Q0RYNWhUeUI1MUhrRjBJUHFPM1hRTzZpemM5SUlSSWQ2UVZ6X3l2UjBmYw?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T15:49:37.651Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,64 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T15:47:29.186Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "marine-est-geniale-mais-jordan-rassemblerait-mieux-a-henin-beaumont-fief.html",
+          "title": "«Marine est géniale, mais Jordan rassemblerait mieux» : à Hénin-Beaumont, fief du RN, l… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "coupe-du-monde-2026-on-n-a-pas-peur-deux-ans-apres-les-bleus-sont-pretes.html",
+          "title": "Coupe du monde 2026 - \"On n'a pas peur\" : deux ans après, les Bleus sont prêtes pour un… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "les-usages-pervers-des-lunettes-connectees-alimentent-la-colere-en-europ.html",
+          "title": "Les usages \"pervers\" des lunettes connectées alimentent la colère en Europe : assurance habitation — que faire ?",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-13T15:48:48.015Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+          "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "franchise-medicale-le-plafond-annuel-passera-a-140-euros.html",
+          "title": "Franchise médicale : le plafond annuel passera à 140 euros : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-13T15:49:37.651Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro.html",
+          "title": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains - Foot … : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Google News — supporters France foot",
+          "sourceType": "aggregator"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 1
 }
