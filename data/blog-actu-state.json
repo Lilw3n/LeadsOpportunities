@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T15:29:07.426Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/politique/marine-est-geniale-mais-jordan-rassemblerait-mieux-a-henin-beaumont-fief-du-rn-le-dilemme-des-electeurs-20260913",
+    "https://www.msn.com/fr-fr/sante/general/mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par-poste/ar-AA2bTd3J",
+    "https://www.franceinfo.fr/replay-jt/franceinfo/21h-minuit/23-heures/franchise-medicale-le-plafond-annuel-passera-a-140-euros_8190482.html"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T15:29:08.990Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,26 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T15:29:08.990Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par.html",
+          "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste : mutuelle et remboursements — que faire ?",
+          "source": "edge",
+          "sourceType": "edge"
+        },
+        {
+          "file": "franchise-medicale-le-plafond-annuel-passera-a-140-euros.html",
+          "title": "Franchise médicale : le plafond annuel passera à 140 euros : mutuelle et remboursements — que faire ?",
+          "source": "firefox",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

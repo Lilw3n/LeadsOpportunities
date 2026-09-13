@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-09-13T15:29:08.990Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -29,12 +29,30 @@
       "addedAt": "2026-06-17T08:00:00.000Z"
     },
     {
+      "id": "firefox-franchise-medicale-140-2026",
+      "title": "Franchise médicale : le plafond annuel passera à 140 euros",
+      "url": "https://www.franceinfo.fr/replay-jt/franceinfo/21h-minuit/23-heures/franchise-medicale-le-plafond-annuel-passera-a-140-euros_8190482.html",
+      "source": "firefox",
+      "note": "Hausse du plafond 100→140 € au 1er octobre 2026 — angle mutuelle et reste à charge",
+      "status": "published",
+      "addedAt": "2026-09-13T15:30:00.000Z"
+    },
+    {
+      "id": "edge-mutuelle-retraite-modulable-2026",
+      "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste",
+      "url": "https://www.msn.com/fr-fr/sante/general/mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par-poste/ar-AA2bTd3J",
+      "source": "edge",
+      "note": "Sortie mutuelle entreprise et retraite — questionnaire mutuelle",
+      "status": "published",
+      "addedAt": "2026-09-13T15:30:00.000Z"
+    },
+    {
       "id": "cafeyn-pending-template",
       "title": "COLLEZ ICI le titre de la une Cafeyn (Le Figaro, Le Parisien…)",
       "url": "",
       "source": "cafeyn",
-      "note": "Angle assurance a preciser",
-      "status": "pending",
+      "note": "Gabarit inbox — ne pas publier. Remplacer le titre puis passer en pending.",
+      "status": "template",
       "addedAt": "2026-06-17T08:00:00.000Z"
     }
   ]

@@ -21,6 +21,43 @@ function writeJson(file, data) {
   fs.writeFileSync(path.join(DATA, file), JSON.stringify(data, null, 2) + "\n");
 }
 
+var ACTU_LEAD_KEYWORD_RE =
+  /assurance|mutuelle|emprunteur|sinistre|franchise|rembours|garantie|pr[eê]t|habitation|logement|pr[eé]voyance|donation|retraite|s[eé]cu|m[eé]dical|h[oô]pital|pharmacie|optique|dentaire|\bvtc\b|animaux|rc pro|cat nat|s[eé]cheresse|inondation/i;
+var WEAK_ACTU_TOPIC_RE =
+  /henin-beaumont|hénin-beaumont|bardella|marine le pen|rassemblement national|m[eé]lenchon|s[eé]natoriales|c[eé]line dion|karaok[eé]|concert de|ligue 1|fief du rn|dilemme des [eé]lecteurs/i;
+
+function actuLeadHaystack(item) {
+  if (!item) return "";
+  if (typeof item === "string") return item;
+  return [item.title, item.summary, item.note].filter(Boolean).join(" ");
+}
+
+function hasActuLeadKeyword(item) {
+  return ACTU_LEAD_KEYWORD_RE.test(actuLeadHaystack(item));
+}
+
+/** Politique / people sans mot-clé assurance : mauvais CTA questionnaire. */
+function isWeakActuLeadTopic(item) {
+  var hay = actuLeadHaystack(item);
+  if (!hay.trim()) return true;
+  if (hasActuLeadKeyword(hay)) return false;
+  if (WEAK_ACTU_TOPIC_RE.test(hay)) return true;
+  if (/(politique|[eé]lecteurs|fief du|proc[eè]s|meurtre|karaok)/i.test(hay)) return true;
+  return false;
+}
+
+/** File manuelle : ignore le gabarit « COLLEZ ICI » et les statuts template. */
+function isActuQueuePlaceholder(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template") return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (/^collez ici/i.test(title)) return true;
+  if (/\[titre\]|todo titre|placeholder titre/i.test(title)) return true;
+  return false;
+}
+
 function slugify(text) {
   return String(text || "")
     .normalize("NFD")
@@ -132,6 +169,7 @@ function scoreLeadPotential(candidate) {
   score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
+  if (isWeakActuLeadTopic(candidate) || !hasActuLeadKeyword(candidate)) score -= 28;
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
@@ -337,6 +375,9 @@ function decodeEntities(s) {
 module.exports = {
   readJson: readJson,
   writeJson: writeJson,
+  isActuQueuePlaceholder: isActuQueuePlaceholder,
+  hasActuLeadKeyword: hasActuLeadKeyword,
+  isWeakActuLeadTopic: isWeakActuLeadTopic,
   slugify: slugify,
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
