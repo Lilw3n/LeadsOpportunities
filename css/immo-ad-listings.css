@@ -784,45 +784,84 @@ body.lbc-lightbox-open { overflow: hidden; }
 }
 .tour-important p { margin: 0; font-size: 0.88rem; line-height: 1.45; }
 
+/* Visite élargie : presque plein écran, sidebar étroite */
+body.immo-tour-page--direct .immo-ad-hero {
+  padding: 14px 0 10px !important;
+}
+body.immo-tour-page--direct .immo-ad-hero h1 {
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  margin-bottom: 4px;
+}
+body.immo-tour-page--direct .immo-ad-hero .lead {
+  font-size: 0.9rem;
+  margin: 0;
+}
+body.immo-tour-page--direct #tourProtect.container {
+  width: min(1680px, 98vw);
+  max-width: none;
+}
 body.immo-tour-page--direct .tour-stage {
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.85fr);
-  gap: 18px;
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+  gap: 14px;
+  align-items: stretch;
+  margin: 4px 0 16px;
 }
 body.immo-tour-page--direct .tour-stage-side {
   position: sticky;
-  top: 12px;
+  top: 8px;
+  max-height: calc(100vh - 24px);
+  overflow: auto;
 }
 body.immo-tour-page--direct #tourGate {
   max-width: none;
   margin: 0;
+  padding: 14px;
 }
 body.immo-tour-page--direct #tourGate h2 {
-  font-size: 1.05rem;
+  font-size: 1rem;
 }
 body.immo-tour-page--direct .tour-step--direct-hidden {
   display: none !important;
 }
+body.immo-tour-page--direct .tour-player {
+  margin: 0;
+}
+body.immo-tour-page--direct .tour-player-copy {
+  display: none;
+}
 body.immo-tour-page--direct .tour-frame-wrap {
-  min-height: 480px;
+  min-height: min(78vh, 820px);
+  border-radius: 10px;
 }
 body.immo-tour-page--direct .tour-frame-wrap iframe {
-  height: min(72vh, 720px);
+  height: min(82vh, 900px);
 }
 body.immo-tour-page--direct .tour-legal {
-  grid-column: 1 / -1;
+  max-width: 72ch;
+  margin-top: 8px;
+  font-size: 0.82rem;
 }
 
 @media (max-width: 900px) {
+  body.immo-tour-page--direct #tourProtect.container {
+    width: min(1200px, 94vw);
+  }
   body.immo-tour-page--direct .tour-stage {
     grid-template-columns: 1fr;
   }
   body.immo-tour-page--direct .tour-stage-side {
     position: static;
     order: 2;
+    max-height: none;
   }
   body.immo-tour-page--direct .tour-stage-main {
     order: 1;
+  }
+  body.immo-tour-page--direct .tour-frame-wrap {
+    min-height: 56vh;
+  }
+  body.immo-tour-page--direct .tour-frame-wrap iframe {
+    height: min(68vh, 640px);
   }
 }
