@@ -82,7 +82,7 @@ GitHub → repo **LeadsOpportunities** → **Settings** → **Secrets and variab
 
 Optionnel : `OPENAI_API_KEY`, `POCKET_CONSUMER_KEY`, `POCKET_ACCESS_TOKEN`
 
-Mergez la PR **#32** (workflow `.github/workflows/blog-actu-auto.yml`) sur `main`.
+Vérifiez que le workflow `.github/workflows/blog-actu-auto.yml` est présent sur `main`.
 
 ---
 
