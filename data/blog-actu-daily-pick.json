@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro",
+      "title": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains - Foot National",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNMF8ycnNZQ0tHSlNMb1RWdjktUmdaeWU4czFjYU41ZTc1Y3loV1Zka0lZbjFwRktURFRuaWd6Mkk3M3Fob1dIRVlwZUtFeWxxcEJpTm5BeF9SbGVVWjh0NDJ0ck5OM0NvRDl5TWtZZnFRN0xqb3pDSzJOYm8wUHVqelpCUUE3Ym45MG14MWxId09SQ0xTVzA3bVdZSFk1Q0RYNWhUeUI1MUhrRjBJUHFPM1hRTzZpemM5SUlSSWQ2UVZ6X3l2UjBmYw?oc=5",
+      "summary": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains Foot National",
+      "pubDate": "Mon, 07 Sep 2026 07:00:00 GMT",
+      "feedId": "google-news-supporters",
+      "feedName": "Google News — supporters France foot",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-un-cout-a-ne-pas-negliger-dans-son-credit-immobilie",
+      "title": "Assurance emprunteur : un coût à ne pas négliger dans son crédit immobilier",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6fc34d7544941a03f322d7fb76462&url=https%3a%2f%2fwww.msn.com%2ffr-ch%2factualite%2fother%2fassurance-emprunteur-un-co%25C3%25BBt-%25C3%25A0-ne-pas-n%25C3%25A9gliger-dans-son-cr%25C3%25A9dit-immobilier%2far-AA2bNu0S&c=3880794534977695011&mkt=en-us",
+      "summary": "Lorsqu’on achète un logement à crédit, le taux d’intérêt concentre souvent toute l’attention. Pourtant, l’assurance emprunteur peut elle aussi représenter plusieurs milliers d’euros sur la durée du fi ...",
+      "pubDate": "Tue, 08 Sep 2026 05:27:47 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-un-cout-a-ne-pas-negliger-dans-son-credit-immobilie.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-credit-immobilier-combien-pouvez-vous-economiser-avec-une-assurance-de-p",
+      "title": "Crédit immobilier : combien pouvez-vous économiser avec une assurance de prêt individuelle ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6fc34d7544941a03f322d7fb76462&url=https%3a%2f%2fwww.quechoisir.org%2fconseils-credit-immobilier-combien-pouvez-vous-economiser-avec-une-assurance-de-pret-individuelle-n177966%2f&c=12697894176744871342&mkt=en-us",
+      "summary": "Souscrire une assurance emprunteur individuelle permet de réaliser des économies significatives, sans perte de protection. Une démarche simplifiée depuis 2022. Pourtant, la majorité des emprunteurs pa ...",
+      "pubDate": "Thu, 27 Aug 2026 16:00:00 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "credit-immobilier-combien-pouvez-vous-economiser-avec-une-assurance-de-p.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-et-incendie-ce-qu-il-faut-savoir-avant-et-apres-un-",
+      "title": "Assurance habitation et incendie : ce qu’il faut savoir avant et après un sinistre",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6fc346e124096a084f3ceeb4565c5&url=https%3a%2f%2fwww.lavoixdunord.fr%2fimmobilier%2f1733428%2farticle%2f2026-09-01%2fassurance-habitation-et-incendie-ce-qu-il-faut-savoir-avant-et-apres-un-sinistre&c=11197794510250899110&mkt=en-us",
+      "summary": "La perte d’usage du logement doit aussi être examinée. Après un incendie, une maison ou un appartement peut devenir inhabitable pendant plusieurs jours, semaines ou mois. Certaines assurances ...",
+      "pubDate": "Tue, 01 Sep 2026 07:34:00 GMT",
+      "feedId": "source-bing-sinistres",
+      "feedName": "Bing News — sinistres assurance",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-habitation-et-incendie-ce-qu-il-faut-savoir-avant-et-apres-un-.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    }
+  ]
+}

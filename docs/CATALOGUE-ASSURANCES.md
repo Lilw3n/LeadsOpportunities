@@ -19,7 +19,7 @@ Sections blog : **actu** (présidentielles, Ligue des champions, Coupe du monde,
 
 Pour un nouvel article : ajouter une entrée dans le manifeste (avec `blocks`), puis `npm run blog:build`.
 
-**Actu automatique (Cafeyn, Edge, RSS)** : voir `docs/BLOG-ACTU-AUTOMATION.md` — `npm run blog:actu:fetch`, boîte `blog/actu-inbox.html`, automation Cursor.
+**Actu automatique (Cafeyn, Edge, Firefox, Google News, Bing, Yahoo)** : voir `docs/BLOG-ACTU-AUTOMATION.md` — `npm run blog:actu:fetch`, boîte `blog/actu-inbox.html`, automation Cursor.
 
 ## SEO emprunteur
 

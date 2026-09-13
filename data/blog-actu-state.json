@@ -1,10 +1,15 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-13T19:40:57.913Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sports/basket/en-direct-etats-unis-france-deux-ans-apres-les-jo-de-paris-les-bleues-retrouvent-les-americaines-dans-une-finale-mondiale-20260913",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6fc48c07f4fa7b5a837e7416d4219&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsante%2fg%25C3%25A9n%25C3%25A9ral%2fmutuelle-sant%25C3%25A9-modulable-%25C3%25A0-la-retraite-comment-ajuster-ses-garanties-par-poste%2far-AA2bTd3J&c=15243153648960819155&mkt=en-us",
+    "https://www.france24.com/fr/%C3%A9co-tech/20260912-les-lunettes-connect%C3%A9es-dans-le-viseur-de-l-europe-apr%C3%A8s-de-nombreuses-d%C3%A9rives",
+    "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa6fc49666047d0aef4010d3f3989c0&url=https%3a%2f%2fwww.lavoixdunord.fr%2fimmobilier%2f1733428%2farticle%2f2026-09-01%2fassurance-habitation-et-incendie-ce-qu-il-faut-savoir-avant-et-apres-un-sinistre&c=11197794510250899110&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-13T19:40:59.838Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +22,44 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-13T19:40:59.838Z",
+      "count": 5,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "en-direct-etats-unis-france-deux-ans-apres-les-jo-de-paris-les-americain.html",
+          "title": "EN DIRECT - États-Unis-France : deux ans après les JO de Paris, les Américaines s’échap… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "mutuelle-sante-modulable-a-la-retraite-comment-ajuster-ses-garanties-par.html",
+          "title": "Mutuelle santé modulable à la retraite : comment ajuster ses garanties par poste : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "les-usages-pervers-des-lunettes-connectees-alimentent-la-colere-en-europ.html",
+          "title": "Les usages \"pervers\" des lunettes connectées alimentent la colère en Europe : assurance habitation — que faire ?",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        },
+        {
+          "file": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+          "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "google"
+        },
+        {
+          "file": "assurance-habitation-et-incendie-ce-qu-il-faut-savoir-avant-et-apres-un-.html",
+          "title": "Assurance habitation et incendie : ce qu’il faut savoir avant et après un sinistre : assurance habitation — que faire ?",
+          "source": "Bing News — sinistres assurance",
+          "sourceType": "bing"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
