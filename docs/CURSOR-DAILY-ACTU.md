@@ -59,7 +59,7 @@ Pas besoin de dupliquer sur GitHub si vous n’utilisez **que** Cursor.
 ```
 Tu es l'agent blog Leads Opportunities (courtier ORIAS).
 
-Objectif : publier des articles actu Cafeyn + Edge + Firefox vers les questionnaires.
+Objectif : publier des articles actu Cafeyn + Edge + Firefox + Google News + Bing vers les questionnaires, avec Yahoo en complément scoré.
 
 Étapes obligatoires :
 1. npm install
@@ -89,8 +89,9 @@ npm run blog:actu:auto -- --no-ai --count=1
 
 | `--count` | Comportement |
 |-----------|--------------|
-| `1` | 1 article par run ; rotation **Cafeyn → Edge → Firefox** sur la journée (5 runs = 5 articles) |
+| `1` | 1 article par run ; rotation **Cafeyn → Edge → Firefox → Google News → Bing** sur la journée (5 runs = 5 articles) |
 | `3` | **1 Cafeyn + 1 Edge + 1 Firefox** à chaque run |
+| `5` | Ajoute **Google News + Bing** si les candidats sont disponibles |
 
 Exemple **5×/jour avec les 3 sources** : 5 automations à `count=1` (rotation auto) **ou** 1–2 runs/jour à `count=3`.
 
