@@ -1689,6 +1689,85 @@
     openRoot();
   }
 
+  function resolveHistoryTarget(entry) {
+    entry = entry || {};
+    var sectionId = entry.sectionId || null;
+    var tab = entry.tab || null;
+    var unitId = entry.unitId || null;
+    var text = String(entry.text || "");
+    var m = text.match(/\(([^)]+)\)\s*$/);
+    var token = m ? String(m[1] || "").trim() : "";
+    var tabIds = (Schema.TABS || []).map(function (t) {
+      return t.id;
+    });
+    var sectionIds = (Schema.SECTIONS || []).map(function (s) {
+      return s.id;
+    });
+    if (!sectionId && !tab && token) {
+      if (tabIds.indexOf(token) >= 0) tab = token;
+      else if (sectionIds.indexOf(token) >= 0) sectionId = token;
+      else {
+        var byLabel = (Schema.SECTIONS || []).find(function (s) {
+          return String(s.label || "").toLowerCase() === token.toLowerCase();
+        });
+        if (byLabel) sectionId = byLabel.id;
+      }
+    }
+    if (sectionId && !tab) tab = "description";
+    if (!tab && !sectionId) tab = "description";
+    return { sectionId: sectionId, tab: tab, unitId: unitId, token: token };
+  }
+
+  function historyTargetLabel(target) {
+    if (!target) return "";
+    if (target.sectionId) {
+      var sec = (Schema.SECTIONS || []).find(function (s) {
+        return s.id === target.sectionId;
+      });
+      return (sec && sec.label) || target.sectionId;
+    }
+    if (target.tab) {
+      var tab = (Schema.TABS || []).find(function (t) {
+        return t.id === target.tab;
+      });
+      return (tab && tab.label) || target.tab;
+    }
+    return target.token || "";
+  }
+
+  function openHistoryEntry(entry) {
+    var target = resolveHistoryTarget(entry);
+    collectActiveView();
+    if (target.unitId && findUnit(target.unitId)) {
+      state.activeUnitId = target.unitId;
+      state.tab = "description";
+      state.sectionId = "composition";
+      state.unitSectionId = target.sectionId || state.unitSectionId || "identite";
+      renderAll();
+      return;
+    }
+    state.activeUnitId = null;
+    if (target.sectionId) {
+      state.tab = "description";
+      state.sectionId = target.sectionId;
+    } else if (target.tab) {
+      state.tab = target.tab;
+      if (target.tab === "description" && !state.sectionId) {
+        var sections = Schema.visibleSections(prop);
+        state.sectionId = sections[0] ? sections[0].id : null;
+      }
+    }
+    renderAll();
+    try {
+      var active =
+        document.querySelector('#sideNav [data-sec="' + (target.sectionId || "") + '"].active') ||
+        document.querySelector('#topTabs [data-tab="' + (state.tab || "") + '"].active');
+      if (active && active.scrollIntoView) active.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      var body = document.getElementById("sectionBody") || document.getElementById("otherPanel");
+      if (body && body.scrollIntoView) body.scrollIntoView({ block: "start", behavior: "smooth" });
+    } catch (e) {}
+  }
+
   function renderOtherTab() {
     var panel = document.getElementById("otherPanel");
     if (state.tab === "vendeur") {
@@ -1884,26 +1963,61 @@
         "<h3>Historique des enregistrements</h3>" +
         "<p style='color:var(--muted);font-size:.9rem;margin:0 0 12px'>" +
         hist.length +
-        " enregistrement(s) sur cette fiche.</p>" +
+        " enregistrement(s) sur cette fiche. Clique <strong>Ouvrir</strong> pour aller à la section enregistrée.</p>" +
         (hist.length
           ? '<ol class="immo-history-timeline">' +
             hist
               .slice()
               .reverse()
               .map(function (h, i) {
+                var target = resolveHistoryTarget(h);
+                var whereLabel = historyTargetLabel(target);
                 return (
-                  '<li class="immo-history-item"><span class="immo-history-idx">#' +
+                  '<li class="immo-history-item" data-hist-idx="' +
+                  (hist.length - 1 - i) +
+                  '">' +
+                  '<span class="immo-history-idx">#' +
                   (hist.length - i) +
-                  '</span><div><strong>' +
+                  "</span>" +
+                  "<div class=\"immo-history-body\">" +
+                  "<strong>" +
                   esc(h.at || "") +
-                  "</strong><div>" +
+                  "</strong>" +
+                  "<div>" +
                   esc(h.text || "") +
-                  "</div></div></li>"
+                  "</div>" +
+                  (whereLabel
+                    ? '<div class="immo-history-target">Section : <em>' + esc(whereLabel) + "</em></div>"
+                    : "") +
+                  "</div>" +
+                  '<button type="button" class="btn btn-primary btn-sm immo-hist-open" data-hist-idx="' +
+                  (hist.length - 1 - i) +
+                  '"' +
+                  (target.sectionId || target.tab ? "" : " disabled") +
+                  ">Ouvrir</button>" +
+                  "</li>"
                 );
               })
               .join("") +
             "</ol>"
           : "<p style='color:var(--muted)'>Pas encore d’événements. Chaque enregistrement de section (localisation, finances…) apparaît ici.</p>");
+      panel.querySelectorAll(".immo-hist-open").forEach(function (btn) {
+        btn.onclick = function () {
+          var idx = Number(btn.getAttribute("data-hist-idx"));
+          var entry = hist[idx];
+          if (!entry) return;
+          openHistoryEntry(entry);
+        };
+      });
+      panel.querySelectorAll(".immo-history-item").forEach(function (row) {
+        row.onclick = function (ev) {
+          if (ev.target && ev.target.closest && ev.target.closest("button")) return;
+          var idx = Number(row.getAttribute("data-hist-idx"));
+          var entry = hist[idx];
+          if (!entry) return;
+          openHistoryEntry(entry);
+        };
+      });
       return;
     }
     if (state.tab === "stats") {
@@ -2016,7 +2130,13 @@
       }
     }
     prop.history = prop.history || [];
-    prop.history.push({ at: new Date().toLocaleString("fr-FR"), text: "Fiche enregistrée (" + (state.sectionId || state.tab) + ")" });
+    prop.history.push({
+      at: new Date().toLocaleString("fr-FR"),
+      text: "Fiche enregistrée (" + (state.sectionId || state.tab) + ")",
+      sectionId: state.sectionId || null,
+      tab: state.tab || "description",
+      unitId: state.activeUnitId || null,
+    });
     Store.upsertProperty(prop);
     syncHeader();
     smartText();
