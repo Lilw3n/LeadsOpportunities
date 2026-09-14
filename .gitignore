@@ -5,3 +5,9 @@ node_modules/
 
 demo-e-invoicing.html
 .einv-preview-demo.html
+
+# Secrets MCP locaux (ne jamais committer la clé Allo)
+.cursor/mcp.json
+.env
+.env.*
+!.env.example
