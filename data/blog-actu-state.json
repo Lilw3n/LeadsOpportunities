@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-14T14:46:54.454Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/conjoncture/flambee-des-prix-ruptures-de-stock-localisees-faut-il-craindre-une-penurie-de-carburants-en-france-20260914",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa808de864348a99dec94565ebee3f5&url=https%3a%2f%2fle10sport.com%2ffootball%2fequipe-de-france%2fzinedine-zidane-en-equipe-de-france-ce-que-kylian-mbappe-a-refuse-de-faire-par-respect-pour-didier-deschamps-790857&c=529896030096826796&mkt=en-us",
+    "https://www.europe1.fr/economie/dette-francaise-gel-des-pensions-hausse-dimpots-benoit-perrin-met-en-garde-contre-une-intervention-de-la-bce-1077218?at_medium=RSS%20feeds&amp;at_campaign=Flux%20Generique"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-14T14:46:56.596Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-14T14:46:56.596Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "flambee-des-prix-ruptures-de-stock-localisees-faut-il-craindre-une-penur.html",
+          "title": "Flambée des prix, ruptures de stock localisées… Faut-il craindre une pénurie de carbura… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "zinedine-zidane-en-equipe-de-france-ce-que-kylian-mbappe-a-refuse-de-fai.html",
+          "title": "Zinedine Zidane en équipe de France : Ce que Kylian Mbappé a refusé de faire «par respe… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing équipe de France",
+          "sourceType": "edge"
+        },
+        {
+          "file": "dette-francaise-gel-des-pensions-hausse-d-impots-benoit-perrin-met-en-ga.html",
+          "title": "Dette française : «Gel des pensions, hausse d'impôts...», Benoît Perrin met en garde co… : pret et assurance emprunteur — que faire ?",
+          "source": "Firefox — Europe 1",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

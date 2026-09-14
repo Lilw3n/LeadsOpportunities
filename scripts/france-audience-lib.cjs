@@ -29,8 +29,8 @@ const INTL_TOPIC_PATTERNS = [
 
 const FRANCE_MARKET_PATTERNS = [
   /\bfrance\b/i,
-  /\bfrançais\b/i,
-  /\bfrancais\b/i,
+  /\bfrançais(?:e|es)?\b/i,
+  /\bfrancais(?:e|es)?\b/i,
   /\bparis\b/i,
   /\blyon\b/i,
   /\bmarseille\b/i,
@@ -81,20 +81,44 @@ function textBlob(articleOrText) {
     articleOrText.description,
     articleOrText.file,
     articleOrText.tag,
+    articleOrText.summary,
   ]
     .filter(Boolean)
     .join(" ");
 }
 
+/** « France 24 » / « Franceinfo » ne doivent pas faire passer une actu étrangère pour un sujet FR. */
+function stripMediaBrandNoise(hay) {
+  return String(hay || "")
+    .replace(/\bfrance\s*24\b/gi, " ")
+    .replace(/\bfranceinfo\b/gi, " ")
+    .replace(/\bfrance[\s-]?info\b/gi, " ")
+    .replace(/\ble\s+figaro\b/gi, " ")
+    .replace(/\beurope\s*1\b/gi, " ");
+}
+
+function isWeakLeadActuTopic(input) {
+  var hay = stripMediaBrandNoise(textBlob(input)).toLowerCase();
+  if (!hay.trim()) return true;
+  if (/visite officielle/.test(hay) && !/\bfrance\b|\bparis\b|\bmacron\b/.test(hay)) return true;
+  if (
+    /\b(guinéen|guineen|ivoirien)\b/.test(hay) &&
+    !/\bfrance\b|\bassurance\b|\bmutuelle\b|\bpr[eê]t\b/.test(hay)
+  ) {
+    return true;
+  }
+  return false;
+}
+
 function isInternationalAudienceTopic(input) {
-  var hay = textBlob(input);
+  var hay = stripMediaBrandNoise(textBlob(input));
   return INTL_TOPIC_PATTERNS.some(function (re) {
     return re.test(hay);
   });
 }
 
 function isFranceMarketTopic(input) {
-  var hay = textBlob(input);
+  var hay = stripMediaBrandNoise(textBlob(input));
   return FRANCE_MARKET_PATTERNS.some(function (re) {
     return re.test(hay);
   });
@@ -119,8 +143,10 @@ function robotsMetaForArticle(article) {
 function franceLeadScoreAdjust(candidate) {
   var title = String(candidate.title || "").toLowerCase();
   var summary = String(candidate.summary || "").toLowerCase();
-  var hay = title + " " + summary;
+  var hay = stripMediaBrandNoise(title + " " + summary);
   var delta = 0;
+
+  if (isWeakLeadActuTopic(hay)) delta -= 50;
 
   if (isInternationalAudienceTopic(hay) && !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b|\béquipe de france|\bequipe de france/i.test(hay)) {
     delta -= 45;
@@ -139,6 +165,8 @@ module.exports = {
   INTL_ACTU_FILES: INTL_ACTU_FILES,
   isInternationalAudienceTopic: isInternationalAudienceTopic,
   isFranceMarketTopic: isFranceMarketTopic,
+  isWeakLeadActuTopic: isWeakLeadActuTopic,
+  stripMediaBrandNoise: stripMediaBrandNoise,
   isInternationalActuArticle: isInternationalActuArticle,
   robotsMetaForArticle: robotsMetaForArticle,
   franceLeadScoreAdjust: franceLeadScoreAdjust,
