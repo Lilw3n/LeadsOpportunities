@@ -1412,9 +1412,14 @@
             return (
               '<button type="button" class="int-drive-prop-link" data-drive-open="property" data-drive-property-id="' +
               esc(f.propertyId || "") +
-              '">Bien : ' +
-              esc(f.title || "Drive") +
-              "</button>"
+              '">Bien Drive : ' +
+              esc(f.title || "dossier") +
+              "</button>" +
+              (f.propertyId
+                ? ' <a class="int-drive-prop-link" href="./crm-immo-property.html?id=' +
+                  encodeURIComponent(f.propertyId) +
+                  '">Fiche CRM</a>'
+                : "")
             );
           })
           .join("");

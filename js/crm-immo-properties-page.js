@@ -187,6 +187,31 @@
               esc(p.listing_url) +
               '" target="_blank" rel="noopener">Voir l’annonce</a></div>'
             : "") +
+          (function () {
+            var bits = [];
+            if (p.owner_contact_id) {
+              bits.push(
+                '<a href="./crm-contact.html?id=' +
+                  encodeURIComponent(p.owner_contact_id) +
+                  '">Vendeur</a>'
+              );
+            }
+            if (p.buyer_contact_id) {
+              bits.push(
+                '<a href="./crm-contact.html?id=' +
+                  encodeURIComponent(p.buyer_contact_id) +
+                  '">Acquéreur</a>'
+              );
+            }
+            if (p.lead_id) {
+              bits.push(
+                '<a href="./crm-lead-detail.html?id=' +
+                  encodeURIComponent(p.lead_id) +
+                  '">Lead</a>'
+              );
+            }
+            return bits.length ? '<div class="immo-meta">' + bits.join(" · ") + "</div>" : "";
+          })() +
           '<div class="immo-tags">' +
           tags
             .map(function (t) {
@@ -216,6 +241,65 @@
         selected[chk.getAttribute("data-id")] = chk.checked;
       };
     });
+  }
+
+  function crmEntityHref(id) {
+    var raw = String(id || "").trim();
+    if (!raw) return null;
+    if (/^(contact_|ct_)/i.test(raw)) {
+      return "./crm-contact.html?id=" + encodeURIComponent(raw);
+    }
+    if (/^(lead_|ld_)/i.test(raw) || /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(raw)) {
+      return "./crm-lead-detail.html?id=" + encodeURIComponent(raw);
+    }
+    if (/^(prop_|property_)/i.test(raw)) {
+      return "./crm-immo-property.html?id=" + encodeURIComponent(raw);
+    }
+    // IDs contacts historiques sans préfixe strict → page contact par défaut
+    if (/^ct_/i.test(raw) || raw.indexOf("contact") === 0) {
+      return "./crm-contact.html?id=" + encodeURIComponent(raw);
+    }
+    return "./crm-contact.html?id=" + encodeURIComponent(raw);
+  }
+
+  function syncIdOpenLink(inputId, linkId, hrefFn) {
+    var input = document.getElementById(inputId);
+    var link = document.getElementById(linkId);
+    if (!input || !link) return;
+    var href = hrefFn ? hrefFn(input.value) : crmEntityHref(input.value);
+    if (href) {
+      link.href = href;
+      link.hidden = false;
+    } else {
+      link.removeAttribute("href");
+      link.hidden = true;
+    }
+  }
+
+  function syncFormIdLinks() {
+    syncIdOpenLink("pOwner", "pOwnerOpen", function (v) {
+      v = String(v || "").trim();
+      return v ? "./crm-contact.html?id=" + encodeURIComponent(v) : null;
+    });
+    syncIdOpenLink("pBuyer", "pBuyerOpen", function (v) {
+      v = String(v || "").trim();
+      return v ? "./crm-contact.html?id=" + encodeURIComponent(v) : null;
+    });
+    syncIdOpenLink("pLead", "pLeadOpen", function (v) {
+      v = String(v || "").trim();
+      return v ? "./crm-lead-detail.html?id=" + encodeURIComponent(v) : null;
+    });
+    var propId = (document.getElementById("pId").value || "").trim();
+    var propOpen = document.getElementById("pPropOpen");
+    var fiche = document.getElementById("pFicheLinks");
+    if (propOpen && fiche) {
+      if (propId) {
+        propOpen.href = "./crm-immo-property.html?id=" + encodeURIComponent(propId);
+        fiche.hidden = false;
+      } else {
+        fiche.hidden = true;
+      }
+    }
   }
 
   function openForm(p) {
@@ -259,6 +343,7 @@
     document.getElementById("pPool").checked = !!p.has_pool;
     document.getElementById("pDesc").value = p.description || "";
     document.getElementById("pNotes").value = p.notes || "";
+    syncFormIdLinks();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -513,6 +598,12 @@
 
   fillSelects();
   bindUrlAutodetect(document.getElementById("pUrl"), document.getElementById("pSource"));
+  ["pOwner", "pBuyer", "pLead"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", syncFormIdLinks);
+    el.addEventListener("change", syncFormIdLinks);
+  });
   Store.seedDemoIfEmpty();
   Store.syncFromApi().then(renderList).catch(renderList);
 })();
