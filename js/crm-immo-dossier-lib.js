@@ -88,6 +88,8 @@
     u.cadastre_section = u.cadastre_section || "";
     u.cadastre_numero = u.cadastre_numero || "";
     u.cadastre_ref = u.cadastre_ref || "";
+    u.cadastre_lieu_dit = u.cadastre_lieu_dit || "";
+    u.cadastre_contenance = u.cadastre_contenance || "";
     u.lot_propriete = u.lot_propriete || u.lot_number || "";
     u.lot_number = u.lot_number || u.lot_propriete || "";
     u.milliemes_privatifs = u.milliemes_privatifs != null ? u.milliemes_privatifs : "";
@@ -522,11 +524,54 @@
     { id: "dependance", label: "Dépendance", role: "annexe", aggregates: ["surface_m2", "medias"] },
   ];
 
+
+  /**
+   * Préremplit cadastre / digicode d’un lot depuis Localisation (ou Mandat) si vide.
+   * Les champs restent saisisibles aux deux endroits — jamais d’écrasement.
+   */
+  function seedUnitCadastreFromProperty(unit, prop) {
+    if (!unit || !prop) return unit;
+    var details = prop.details || {};
+    var loc = details.localisation || {};
+    var mandat = details.mandat || {};
+    function pick() {
+      for (var i = 0; i < arguments.length; i++) {
+        var v = arguments[i];
+        if (v != null && String(v).trim() !== "") return v;
+      }
+      return "";
+    }
+    if (!unit.cadastre_section) {
+      unit.cadastre_section = pick(loc.section_cadastrale, mandat.section_cadastrale);
+    }
+    if (!unit.cadastre_numero) {
+      unit.cadastre_numero = pick(loc.numero_cadastre, mandat.numero_cadastre);
+    }
+    if (!unit.cadastre_lieu_dit) {
+      unit.cadastre_lieu_dit = pick(loc.lieu_dit_cadastre, mandat.lieu_dit_cadastre);
+    }
+    if (!unit.cadastre_contenance) {
+      unit.cadastre_contenance = pick(loc.contenance_cadastre, mandat.contenance_cadastre);
+    }
+    if (!unit.cadastre_ref) {
+      unit.cadastre_ref = pick(
+        loc.cadastre_ref_immeuble,
+        mandat.cadastre_ref_immeuble,
+        [unit.cadastre_section, unit.cadastre_numero].filter(Boolean).join(" ")
+      );
+    }
+    if (!unit.digicode) {
+      unit.digicode = pick(loc.digicode, prop.digicode);
+    }
+    return unit;
+  }
+
   return {
     parseMeta: parseMeta,
     normalizePhotoList: normalizePhotoList,
     normalizeUnit: normalizeUnit,
     emptyUnit: emptyUnit,
+    seedUnitCadastreFromProperty: seedUnitCadastreFromProperty,
     packMetadata: packMetadata,
     hydrateProperty: hydrateProperty,
     unitSummary: unitSummary,

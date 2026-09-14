@@ -79,6 +79,11 @@
     state.activeUnitId = uid;
     state.unitSectionId = "identite";
     state.tab = "description";
+    var unit = findUnit(uid);
+    var Dossier = window.CrmImmoDossier;
+    if (unit && Dossier && Dossier.seedUnitCadastreFromProperty) {
+      Dossier.seedUnitCadastreFromProperty(unit, prop);
+    }
     renderAll();
   }
 
@@ -1110,7 +1115,11 @@
     var btnAdd = document.getElementById("btnAddUnit");
     if (btnAdd) {
       btnAdd.onclick = function () {
-        prop.units.push(Schema.emptyUnit(prop.property_type === "terrain" ? "terrain" : "appartement"));
+        var nu = Schema.emptyUnit(prop.property_type === "terrain" ? "terrain" : "appartement");
+        if (Dossier && Dossier.seedUnitCadastreFromProperty) {
+          Dossier.seedUnitCadastreFromProperty(nu, prop);
+        }
+        prop.units.push(nu);
         state.sectionId = "composition";
         renderSection();
         smartText();

@@ -84,7 +84,7 @@ Terrain 420 m²
 
 | Section | Contenu |
 |---------|---------|
-| Identité | type, cadastre (section/n°), lot propriété, millièmes privatifs/communs, parties communes, occupation loué/vide |
+| Identité | type, **cadastre** (section/n°/réf/lieu-dit/contenance — aussi en Localisation & Mandat), digicode lot, lot propriété, millièmes, occupation |
 | Loyers & surfaces | mode HC/CC, loyer HC, loyer CC, charges, Carrez / hors Carrez / utile |
 | Chauffage & annexes | type/énergie, PAC, chaudière, cheminée, mezzanine, balcon, terrasse, véranda, plateau nu, digicode, n° porte / parking / garage… |
 | Pièces | liste libre + attributs par pièce |
@@ -93,6 +93,15 @@ Terrain 420 m²
 | Syndic & copro | syndic, charges, fonds travaux, travaux, procédures |
 | Propriétaire | coordonnées, régime matrimonial, origine (achat/donation/héritage…), notaire |
 | Photos & visite | médias du lot |
+
+### Cadastre multi-endroits (volontaire)
+
+Les champs cadastraux sont saisisibles :
+- **Localisation** (fiche) — `section_cadastrale`, `numero_cadastre`, …
+- **Mandat** (mêmes clés)
+- **Composition → Identité du lot** — `cadastre_section`, `cadastre_numero`, …
+
+Ce n’est **pas** un doublon de stockage parasite : chaque lot peut avoir sa propre réf. ; à la création d’un lot, les valeurs fiche (Localisation) **préremplissent** le lot si vide (`seedUnitCadastreFromProperty`), sans écraser une saisie existante.
 
 ## Variantes courantes
 
