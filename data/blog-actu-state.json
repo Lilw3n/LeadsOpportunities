@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-14T12:43:54.563Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/international/guerre-en-ukraine-jean-noel-barrot-denonce-la-frappe-inacceptable-contre-un-train-qui-vise-a-desunir-les-allies-de-kiev-20260914",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa7ec06fbd14db68e843cdcc2550f18&url=https%3a%2f%2frmcsport.bfmtv.com%2fbasket%2ffeminin%2fdirect-coupe-du-monde-feminine-de-basket-suivez-en-live-la-finale-entre-l-equipe-de-france-et-les-etats-unis_LN-202609130144.html&c=2458250960194483115&mkt=en-us",
+    "https://www.france24.com/fr/france/20260914-apres-des-mois-de-pol%C3%A9miques-directeur-maison-argentine-paris-d%C3%A9mission-javier-milei"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-14T12:43:56.405Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-14T12:43:56.405Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "guerre-en-ukraine-poutine-veut-desunir-l-europe-accusent-plusieurs-minis.html",
+          "title": "Guerre en Ukraine : Poutine veut «désunir» l’Europe, accusent plusieurs ministres europ… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "usa-france-grosse-deception-pour-les-bleues-surclassees-en-finale-du-mon.html",
+          "title": "USA-France: grosse déception pour les Bleues, surclassées en finale du Mondial : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing actu France",
+          "sourceType": "edge"
+        },
+        {
+          "file": "apres-des-mois-de-polemiques-le-directeur-de-la-maison-de-l-argentine-a-.html",
+          "title": "Après des mois de polémiques, le directeur de la Maison de l'Argentine à Paris quitte s… : assurance habitation — que faire ?",
+          "source": "Firefox — France 24",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

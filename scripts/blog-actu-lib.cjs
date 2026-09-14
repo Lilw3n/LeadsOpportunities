@@ -95,6 +95,19 @@ function monthLabel() {
 }
 
 /** Score 0–100 : potentiel lead questionnaire */
+/** File manuelle : gabarit Cafeyn / consignes, pas une vraie actu. */
+function isPlaceholderCandidate(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "placeholder") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (/collez ici|à coller ici|a coller ici|\bTODO\b|\bplaceholder\b/i.test(title)) return true;
+  return false;
+}
+
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
@@ -351,4 +364,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
 };
