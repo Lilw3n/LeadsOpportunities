@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-14",
   "sections": [
     "actu",
     "animaux",
@@ -1965,6 +1965,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "flambee-des-prix-ruptures-de-stock-localisees-faut-il-craindre-une-penur.html",
+      "title": "Flambée des prix, ruptures de stock localisées… Faut-il craindre une pénurie de carbura… : assurance auto — que faire ?",
+      "section": "auto",
+      "hook": "Bonus-malus, tiers ou tous risques : le mauvais choix se paie au sinistre.",
+      "question": "Et si vous compariez votre assurance auto à garanties équivalentes ?",
+      "need": "auto",
+      "landing": "../landings/devis.html?need=auto",
+      "express": "../landings/devis-express.html?need=auto",
+      "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=auto&utm_content=flambee-des-prix-ruptures-de-stock-loca",
+      "matchedRule": "auto",
+      "species": null
+    },
+    {
+      "file": "assurance-affinitaire-metlife-france-change-d-echelle-apres-un-appel-d-o.html",
+      "title": "Assurance affinitaire : MetLife France change d’échelle après un appel d’offres majeur … : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-affinitaire-metlife-france-c",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "carburants-a-qui-profite-vraiment-la-hausse-des-prix-a-la-pompe.html",
+      "title": "Carburants : à qui profite vraiment la hausse des prix à la pompe ? : assurance auto — que faire ?",
+      "section": "auto",
+      "hook": "Bonus-malus, tiers ou tous risques : le mauvais choix se paie au sinistre.",
+      "question": "Et si vous compariez votre assurance auto à garanties équivalentes ?",
+      "need": "auto",
+      "landing": "../landings/devis.html?need=auto",
+      "express": "../landings/devis-express.html?need=auto",
+      "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=auto&utm_content=carburants-a-qui-profite-vraiment-la-h",
+      "matchedRule": "auto",
       "species": null
     }
   ]

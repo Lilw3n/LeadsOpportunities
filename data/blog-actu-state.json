@@ -1,10 +1,12 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-14T15:21:52.982Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/conjoncture/flambee-des-prix-ruptures-de-stock-localisees-faut-il-craindre-une-penurie-de-carburants-en-france-20260914",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa810db3f3949e085af9b109235460b&url=https%3a%2f%2fwww.argusdelassurance.com%2fassurance-dommages%2fassurance-affinitaire%2fassurance-affinitaire-metlife-france-change-dechelle-apres-un-appel-doffres-majeur-dans-lenergie.LQODZSNYRRFKTEUHNI3PFJANUM.html&c=7535131321410552369&mkt=en-us",
+    "https://www.franceinfo.fr/economie/automobile/essence/carburants-a-qui-profite-vraiment-la-hausse-des-prix-a-la-pompe_8192048.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +19,40 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-14T15:21:04.315Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "flambee-des-prix-ruptures-de-stock-localisees-faut-il-craindre-une-penur.html",
+          "title": "Flambée des prix, ruptures de stock localisées… Faut-il craindre une pénurie de carbura… : assurance auto — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "assurance-affinitaire-metlife-france-change-d-echelle-apres-un-appel-d-o.html",
+          "title": "Assurance affinitaire : MetLife France change d’échelle après un appel d’offres majeur … : pret et assurance emprunteur — que faire ?",
+          "source": "Edge — Bing assurance",
+          "sourceType": "edge"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-14T15:21:54.630Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "carburants-a-qui-profite-vraiment-la-hausse-des-prix-a-la-pompe.html",
+          "title": "Carburants : à qui profite vraiment la hausse des prix à la pompe ? : assurance auto — que faire ?",
+          "source": "Firefox — Franceinfo économie",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0,
+  "lastAutoRun": "2026-09-14T15:21:54.630Z"
 }
