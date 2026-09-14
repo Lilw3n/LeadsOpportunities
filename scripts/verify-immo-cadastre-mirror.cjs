@@ -28,6 +28,9 @@ ok(dossier.indexOf("cadastre_lieu_dit") >= 0, "normalize lieu-dit");
 
 var page = read("js/crm-immo-property-page.js");
 ok(page.indexOf("seedUnitCadastreFromProperty") >= 0, "page appelle seed");
+ok(page.indexOf("unitCadastreLabel") >= 0, "libellé cadastre sur nœuds composition");
+ok(page.indexOf("comp-immeuble-cadastre") >= 0, "bandeau cadastre immeuble en composition");
+ok(page.indexOf("Cadastre ") >= 0 && page.indexOf("cadastreLbl") >= 0, "meta cadastre dans arbre");
 
 var docs = read("docs/CRM-IMMO-COMPOSITION-SCHEMA.md");
 ok(docs.indexOf("Cadastre multi-endroits") >= 0, "doc multi-endroits");
