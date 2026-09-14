@@ -69,6 +69,111 @@
     }, 1500);
   }
 
+  var contactLabelCache = {};
+  var contactFetchQueued = {};
+  var Links = window.CrmImmoContactLinks;
+
+  function authHeaders() {
+    return { Authorization: "Bearer " + (localStorage.getItem("lo_token") || "") };
+  }
+
+  function ensureContactLabel(id) {
+    id = String(id || "").trim();
+    if (!id) return Promise.resolve(null);
+    if (contactLabelCache[id]) return Promise.resolve(contactLabelCache[id]);
+    if (contactFetchQueued[id]) return contactFetchQueued[id];
+    contactFetchQueued[id] = fetch("/api/crm/contact?id=" + encodeURIComponent(id), {
+      headers: authHeaders(),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (data) {
+        var c = (data && (data.contact || data)) || null;
+        var label =
+          (Links && Links.contactDisplayName(c)) ||
+          (c && ((c.first_name || "") + " " + (c.last_name || "")).trim()) ||
+          (Links ? Links.shortId(id) : id);
+        contactLabelCache[id] = {
+          label: label,
+          phone: (c && (c.phone || c.mobile)) || "",
+          missing: !(c && c.id),
+        };
+        return contactLabelCache[id];
+      })
+      .catch(function () {
+        contactLabelCache[id] = {
+          label: Links ? Links.shortId(id) : id,
+          phone: "",
+          missing: true,
+        };
+        return contactLabelCache[id];
+      });
+    return contactFetchQueued[id];
+  }
+
+  function prospectBlockHtml(p) {
+    var links = Links ? Links.linksForProperty(p, Store, Matcher) : [];
+    var parts = [];
+    links.forEach(function (row) {
+      var label = row.name || "";
+      if (row.contact_id && contactLabelCache[row.contact_id]) {
+        label = contactLabelCache[row.contact_id].label || label;
+      }
+      if (row.contact_id) {
+        parts.push(
+          "<strong>" +
+            esc(row.role_label || row.role) +
+            "</strong> : " +
+            '<a href="./crm-contact.html?id=' +
+            encodeURIComponent(row.contact_id) +
+            '">' +
+            esc(label || (Links ? Links.shortId(row.contact_id) : row.contact_id)) +
+            "</a>"
+        );
+      } else if (label) {
+        parts.push("<strong>" + esc(row.role_label || row.role) + "</strong> : " + esc(label));
+      } else if (row.phone) {
+        parts.push(
+          "<strong>" +
+            esc(row.role_label || "Prospect") +
+            "</strong> : ☎ " +
+            esc(row.phone) +
+            ' <span class="immo-prospect-hint">(pas encore lié à une fiche contact)</span>'
+        );
+      }
+    });
+    if (!parts.length) {
+      parts.push(
+        '<span class="immo-prospect-empty">Aucun prospect / client lié — renseignez le contact vendeur (Éditer) ou Personnes sur la fiche</span>'
+      );
+    }
+    return (
+      '<div class="immo-prospect" data-prop-prospect="' +
+      esc(p.id) +
+      '">' +
+      parts.join(" · ") +
+      "</div>"
+    );
+  }
+
+  function hydrateContactLabels(list) {
+    if (!Links) return;
+    var ids = {};
+    (list || []).forEach(function (p) {
+      Links.linksForProperty(p, Store, Matcher).forEach(function (row) {
+        if (row.contact_id) ids[row.contact_id] = true;
+      });
+    });
+    var pending = Object.keys(ids).filter(function (id) {
+      return !contactLabelCache[id];
+    });
+    if (!pending.length) return;
+    Promise.all(pending.map(ensureContactLabel)).then(function () {
+      renderList(true);
+    });
+  }
+
   function switchOn(el, on) {
     el.dataset.on = on ? "1" : "0";
     el.classList.toggle("on", !!on);
@@ -169,7 +274,7 @@
     });
   }
 
-  function renderList() {
+  function renderList(skipHydrate) {
     var list = Store.listProperties(queryFromForm());
     var mount = document.getElementById("listMount");
     document.getElementById("listCount").textContent = list.length + " bien(s)";
@@ -241,6 +346,7 @@
                 : "") +
               "</div>"
             : "") +
+          prospectBlockHtml(p) +
           '<div class="immo-tags">' +
           tags
             .map(function (t) {
@@ -270,6 +376,7 @@
         selected[chk.getAttribute("data-id")] = chk.checked;
       };
     });
+    if (!skipHydrate) hydrateContactLabels(list);
   }
 
   function openForm(p) {

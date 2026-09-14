@@ -156,6 +156,15 @@
       line-height: 1.45;
     }
     .immo-when { color: #475569; font-size: .78rem; }
+    .immo-prospect {
+      margin: 6px 0 4px;
+      font-size: .9rem;
+      line-height: 1.45;
+      color: #1e3a5f;
+    }
+    .immo-prospect a { color: #0b5cab; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+    .immo-prospect-empty { color: #8a6d3b; font-style: italic; }
+    .immo-prospect-hint { color: #64748b; font-size: .82rem; font-weight: 500; }
     .piges-main-top {
       display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
       align-items: center; margin-bottom: 10px;
@@ -324,11 +333,9 @@
         <button type="button" data-act="print">Imprimer listing</button>
       </div>
 
-      <p class="piges-hint" id="pigesHint">
-        Les fiches intelligentes s’enregistrent sur <strong>la même fiche</strong> (pas une copie).
-        Liste triée par dernière modification — ouvrez <em>Historique</em> dans une fiche pour voir vos enregistrements.
-        « Inventaire fiches » exporte id + dates pour retrouver une saisie d’hier.
-      </p>
+      <p class="piges-hint" id="pigesHint">Chaque carte montre le <strong>prospect / client lié</strong> (vendeur, acquéreur, personnes).
+        Cliquez le nom pour ouvrir l’interlocuteur. Sur la fiche contact, la section « Biens / piges CRM » liste les fiches liées.
+        Tri par dernière modification · « Inventaire fiches » exporte id + dates.</p>
       <div class="piges-main-top">
         <div class="piges-count" id="listCount">0 bien(s)</div>
         <label style="font-size:.8rem;font-weight:600;color:var(--muted)">
@@ -406,6 +413,7 @@
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-dossier-lib.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-contact-links.js"></script>
   <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-immo-properties-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>

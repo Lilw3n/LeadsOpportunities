@@ -14,6 +14,19 @@
   <link rel="stylesheet" href="./css/admin-nav.css" />
   <link rel="stylesheet" href="./css/devis-documents.css" />
   <link rel="stylesheet" href="./css/lo-document-gallery.css?v=20260826docs1" />
+
+  <style>
+    .immo-linked-list { display:flex; flex-direction:column; gap:10px; }
+    .immo-linked-card {
+      display:flex; gap:12px; justify-content:space-between; align-items:flex-start; flex-wrap:wrap;
+      border:1px solid var(--line, #e2e8f0); border-radius:10px; padding:12px 14px; background:#f8fafc;
+    }
+    .immo-linked-card h3 { margin:0 0 4px; font-size:1rem; }
+    .immo-linked-meta { color:var(--muted,#64748b); font-size:.84rem; line-height:1.4; }
+    .immo-linked-actions { display:flex; gap:6px; flex-wrap:wrap; }
+    .immo-linked-soft { border-left:4px solid #f59e0b; background:#fffbeb; }
+    .immo-linked-empty { color:var(--muted,#64748b); margin:0; }
+  </style>
 </head>
 
   <div id="contactLoading" class="contact-loading">Chargement de la fiche...</div>
@@ -57,6 +70,13 @@
     </div>
     <div id="questionnaireToolbarMount"></div>
     <div id="dossierMount"></div>
+    <section class="panel" id="immoLinkedPropertiesPanel">
+      <div class="panel-head">
+        <h2>Biens / piges CRM</h2>
+        <a class="btn btn-ghost btn-sm" href="./crm-immo-properties.html">Toutes les piges</a>
+      </div>
+      <div id="immoLinkedPropertiesMount"><p style="color:var(--muted)">Chargement des fiches liées…</p></div>
+    </section>
     <section class="panel pub-tour-box" id="contactTourMount"></section>
     <section class="panel" id="contactDocumentsPanel" data-crm-section="documents">
       <div class="panel-head">
@@ -251,6 +271,7 @@
   <script src="./js/immo-ad-listings-lib.js"></script>
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-contact-links.js"></script>
   <script src="./js/crm-immo-tour-requests.js"></script>
   <script src="./js/crm-contact-tour.js"></script>
   <script src="./js/crm-contact-actions.js"></script>
