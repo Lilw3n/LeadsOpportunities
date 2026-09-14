@@ -451,6 +451,9 @@ var MAP = {
   "emprunteur-non-residents-investissement-immobilier-2026.html": { hero: "maisonFamille", figure: "signaturePret" },
   "trump-politique-us-taux-pret-assurance-emprunteur.html": { hero: "politique", figure: "creditCles" },
   "gta-6-pret-immobilier-budget-gaming.html": { hero: "creditCles", figure: "budgetFam" },
+  "leonida-vice-gta-6-compte-a-rebours-budget-france.html": { hero: "budgetFam", figure: "creditCles" },
+  "leonida-vice-communaute-gta-6-assurance-setup-france.html": { hero: "retroGaming", figure: "appartLoc" },
+  "leonida-vice-vice-city-immobilier-pret-nancy-metropole.html": { hero: "maisonFamille", figure: "creditCles" },
 
   /* Prevoyance & patrimoine */
   "assurance-deces-obseques-prevoyance.html": { hero: "obseques", figure: "famProtect" },

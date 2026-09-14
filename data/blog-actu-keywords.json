@@ -127,6 +127,27 @@
       "tagClass": "tag-actu"
     },
     {
+      "keywords": [
+        "gta 6",
+        "gta vi",
+        "gta6",
+        "leonida vice",
+        "leonida",
+        "vice city",
+        "rockstar games",
+        "précommande gta",
+        "precommande gta",
+        "ps5 pro",
+        "setup gaming",
+        "matériel gaming",
+        "materiel gaming"
+      ],
+      "section": "actu",
+      "need": "conso",
+      "tag": "GTA 6 & budget",
+      "tagClass": "tag-actu"
+    },
+    {
       "keywords": ["élection", "election", "président", "president", "politique", "trump", "macron", "budget"],
       "section": "actu",
       "need": "prevoyance",
@@ -148,6 +169,7 @@
     "animaux": { "href": "../landings/questionnaire.html?need=animaux&journey=standard", "label": "Questionnaire animaux (3 min)" },
     "emprunteur": { "href": "../landings/questionnaire.html?need=emprunteur&journey=standard", "label": "Questionnaire emprunteur (3 min)" },
     "prevoyance": { "href": "../landings/questionnaire.html?need=prevoyance&journey=standard", "label": "Questionnaire prévoyance (3 min)" },
-    "rc-pro": { "href": "../landings/questionnaire.html?need=rc-pro&journey=standard", "label": "Questionnaire RC Pro (3 min)" }
+    "rc-pro": { "href": "../landings/questionnaire.html?need=rc-pro&journey=standard", "label": "Questionnaire RC Pro (3 min)" },
+    "conso": { "href": "../landings/questionnaire.html?need=conso&journey=standard", "label": "Questionnaire crédit conso (3 min)" }
   }
 }

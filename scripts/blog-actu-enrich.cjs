@@ -94,6 +94,19 @@ var ANGLES = {
     ],
     ctaLine: "Questionnaire RC Pro : activite et chiffre d'affaires.",
   },
+  conso: {
+    hook:
+      "Un credit conso mal calibre (TAEG, duree, 3x sans fiche) alourdit l'endettement — et peut faire basculer un futur pret immobilier.",
+    checklist: [
+      "Montant reel du panier (jeu + console + accessoires), pas le teaser",
+      "TAEG, duree et cout total du credit — pas seulement la mensualite",
+      "Retractation 14 jours a distance (Code de la consommation)",
+      "Impact sur un pret immo dans les 12 mois (taux d'effort HCSF)",
+      "Apres livraison : plafonds mobilier habitation (vol, degat des eaux)",
+    ],
+    ctaLine:
+      "Le questionnaire credit conso (3 min) estime montant, duree et compatibilite avec vos charges — sans engagement.",
+  },
   sport: {
     hook:
       "Coupe du monde, deplacements supporters ou sejour a l'etranger : sans bonnes garanties, un accident, une annulation ou un cambriolage pendant l'absence peut couter tres cher.",
@@ -118,6 +131,11 @@ function enrichFromCandidate(candidate) {
   if (isSportActu(title)) {
     need = "sante";
     topic = Object.assign({}, topic, { tag: "Coupe du monde 2026", section: "actu", tagClass: "tag-actu" });
+    angle = ANGLES.sport;
+  } else if (isGamingActu(title + " " + (candidate.summary || ""))) {
+    need = "conso";
+    topic = Object.assign({}, topic, { tag: "GTA 6 & budget", section: "actu", tagClass: "tag-actu" });
+    angle = ANGLES.conso;
   }
   var slug = title.slice(0, 40);
   var file = candidate.suggestedFile;
@@ -171,6 +189,9 @@ function buildTitle(raw, need) {
   if (isSportActu(raw)) {
     return short + " : assurance voyage, mutuelle etranger et habitation — guide supporters";
   }
+  if (isGamingActu(raw)) {
+    return short + " : credit conso, budget gaming et assurance habitation — guide France";
+  }
   var suffix = {
     sante: "mutuelle et remboursements",
     habitation: "assurance habitation",
@@ -180,6 +201,7 @@ function buildTitle(raw, need) {
     vtc: "assurance VTC",
     animaux: "assurance animaux",
     "rc-pro": "RC Pro",
+    conso: "credit conso et budget",
   };
   return short + " : " + (suffix[need] || "assurance") + " — que faire ?";
 }
@@ -202,6 +224,26 @@ function platformLabel(sourceType) {
     return "Mozilla Firefox / Pocket";
   }
   return "l'actualite du jour";
+}
+
+function isGamingActu(text) {
+  var hay = String(text || "").toLowerCase();
+  return [
+    "gta 6",
+    "gta vi",
+    "gta6",
+    "leonida vice",
+    "leonida",
+    "vice city",
+    "ps5 pro",
+    "précommande gta",
+    "precommande gta",
+    "setup gaming",
+    "matériel gaming",
+    "materiel gaming",
+  ].some(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  });
 }
 
 function isSportActu(text) {
@@ -238,4 +280,8 @@ function isSportActu(text) {
   });
 }
 
-module.exports = { enrichFromCandidate: enrichFromCandidate, isSportActu: isSportActu };
+module.exports = {
+  enrichFromCandidate: enrichFromCandidate,
+  isSportActu: isSportActu,
+  isGamingActu: isGamingActu,
+};

@@ -44,7 +44,7 @@ Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 | **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Sud Ouest, Midi Libre, La Dépêche, Nice-Matin, DNA, Le Progrès, Le Monde, L'Express, Capital… |
 | **Edge** | Bing News : France, actu, économie, assurance, mutuelle, immobilier, santé |
 | **Firefox** | France Info (titres/santé/éco), France 24, Mediapart, RFI, BFMTV, Europe 1, HuffPost, Courrier international + Pocket |
-| **Google News** | 20+ requêtes assurance + **Coupe du monde 2026** (matchs, Bleus, Mbappé, supporters, voyage) |
+| **Google News** | 20+ requêtes assurance + **Coupe du monde 2026** + **GTA 6 / Leonida Vice (FR)** |
 
 **Sélection** :
 - `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
@@ -147,7 +147,11 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 
 1. **CTA questionnaire** — bloc `{ type: "bridge" }` + `ctaWithUtm` → `utm_medium=actu_daily`
 2. **Clarity + GA4** — déjà en place sur le blog
-3. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, VTC, animaux
+3. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, VTC, animaux, **crédit conso GTA 6 / Leonida Vice** (angle France uniquement)
+
+### Partenaire Leonida Vice
+
+Le hub [leonida-vice.com](https://leonida-vice.com) (GTA VI) est listé dans `data/partner-sites.json`. Les articles evergreen `/blog/leonida-vice-*.html` envoient vers les questionnaires (`utm_campaign=leonida_vice`). Les flux RSS GTA 6 **France** dans `data/blog-actu-feeds.json` alimentent `blog:actu:auto` (pas de sujet US/gaming sans angle FR).
 
 ## Limites légales
 
