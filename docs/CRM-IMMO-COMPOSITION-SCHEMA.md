@@ -103,6 +103,8 @@ Les champs cadastraux sont saisisibles :
 
 Ce n’est **pas** un doublon de stockage parasite : chaque lot peut avoir sa propre réf. ; à la création d’un lot, les valeurs fiche (Localisation) **préremplissent** le lot si vide (`seedUnitCadastreFromProperty`), sans écraser une saisie existante.
 
+Sur la **vue Composition**, le cadastre immeuble (Localisation/Mandat) est rappelé en bandeau, et chaque nœud affiche sa réf. lot quand elle est renseignée.
+
 ## Variantes courantes
 
 - **Maison sur terrain** : terrain → maison → (évent. dépendances) — pas d’étages

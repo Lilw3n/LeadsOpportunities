@@ -871,6 +871,13 @@
     return hit ? hit.role : "lot";
   }
 
+  function unitCadastreLabel(u) {
+    if (!u) return "";
+    var ref = String(u.cadastre_ref || "").trim();
+    if (ref) return ref;
+    return [u.cadastre_section, u.cadastre_numero].filter(Boolean).join(" ").trim();
+  }
+
   function renderCompositionNode(node, depth) {
     var u = node.unit;
     var D = window.CrmImmoDossier;
@@ -880,6 +887,7 @@
         : { units: node.children.length, loyer_reel: 0, loyer_previsionnel: 0, nb_pieces: 0, nb_chambres: 0 };
     var role = levelRole(u.type);
     var isLot = role === "lot" || role === "annexe";
+    var cadastreLbl = unitCadastreLabel(u);
     var html =
       '<div class="comp-node role-' +
       esc(role) +
@@ -894,6 +902,7 @@
       esc(unitLabel(u)) +
       "</strong>" +
       '<div class="comp-meta">' +
+      (cadastreLbl ? "Cadastre " + esc(cadastreLbl) + " · " : "") +
       (u.floor ? "Étage " + esc(u.floor) + " · " : "") +
       (u.lot_number ? "lot " + esc(u.lot_number) + " · " : "") +
       (u.occupation === "loue" || u.loue
@@ -951,6 +960,14 @@
     var tot = compositionTotals();
     var D = window.CrmImmoDossier;
     var tree = D && D.buildCompositionTree ? D.buildCompositionTree(prop.units || []) : [];
+    var loc = (prop.details && prop.details.localisation) || {};
+    var mandat = (prop.details && prop.details.mandat) || {};
+    var immeubleCadastre =
+      loc.cadastre_ref_immeuble ||
+      mandat.cadastre_ref_immeuble ||
+      [loc.section_cadastrale || mandat.section_cadastrale, loc.numero_cadastre || mandat.numero_cadastre]
+        .filter(Boolean)
+        .join(" ");
     var html =
       '<div class="comp-synthesis">' +
       "<strong>Synthèse du modèle</strong>" +
@@ -958,11 +975,22 @@
       "<em>terrain / parcelle</em> → <em>immeuble ou maison</em> → <em>étage</em> → <em>appartement / local</em> " +
       "(+ dépendances). Chaque nœud ouvre sa propre barre noire (loyers, pièces, bail, médias). " +
       "Les totaux globaux et par branche remontent automatiquement.</p>" +
+      (immeubleCadastre
+        ? '<p class="comp-immeuble-cadastre"><b>Cadastre immeuble / parcelle</b> (aussi en Localisation &amp; Mandat) : ' +
+          esc(immeubleCadastre) +
+          (loc.lieu_dit_cadastre || mandat.lieu_dit_cadastre
+            ? " · lieu-dit " + esc(loc.lieu_dit_cadastre || mandat.lieu_dit_cadastre)
+            : "") +
+          (loc.contenance_cadastre || mandat.contenance_cadastre
+            ? " · contenance " + esc(loc.contenance_cadastre || mandat.contenance_cadastre)
+            : "") +
+          "</p>"
+        : '<p class="comp-immeuble-cadastre muted">Cadastre immeuble : non renseigné — saisissable en <b>Localisation</b> (et Mandat) ; chaque lot a aussi ses champs cadastre dans <b>Identité</b> (volontaire, pas un doublon à supprimer).</p>') +
       '<ol class="comp-levels">' +
       "<li><b>Terrain</b> — cadastre, surface foncière, viabilisation</li>" +
       "<li><b>Immeuble / maison</b> — enveloppe bâtie, lots rattachés</li>" +
       "<li><b>Étage</b> — regroupement des lots d’un niveau</li>" +
-      "<li><b>Appart / local</b> — loyer HC/CC, Carrez, pièces (attrs), bail, investisseur, syndic, propriétaire</li>" +
+      "<li><b>Appart / local</b> — cadastre lot, loyer HC/CC, Carrez, pièces, bail, investisseur, syndic, propriétaire</li>" +
       "</ol></div>";
 
     html +=
