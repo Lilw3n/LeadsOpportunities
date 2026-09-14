@@ -88,6 +88,7 @@ window.CrmImmoSchema = (function () {
     {
       id: "localisation",
       label: "Localisation",
+      hint: "Adresse + cadastre aussi saisisibles ici (mêmes champs que Mandat / Composition — pas de doublon de données).",
       fields: [
         f("adresse", "Adresse", "text", { important: true }),
         f("complement", "Complément d'adresse"),
@@ -101,6 +102,13 @@ window.CrmImmoSchema = (function () {
         f("etage", "Étage", "text", { showIf: { types: ["appartement"] } }),
         tri("ascenseur", "Ascenseur", { showIf: { types: ["appartement", "immeuble"] } }),
         area("acces", "Accès / itinéraire"),
+        /* Cadastre : mêmes clés que Mandat — aussi dans Composition (lots). */
+        num("nb_refs_cadastrales", "Nombre de références cadastrales"),
+        f("section_cadastrale", "Cadastre — section", "text", { important: true }),
+        f("numero_cadastre", "Cadastre — n°", "text", { important: true }),
+        f("lieu_dit_cadastre", "Lieu-dit cadastre"),
+        f("contenance_cadastre", "Contenance cadastrale"),
+        f("cadastre_ref_immeuble", "Réf. cadastrale complète (immeuble / parcelle)"),
       ],
     },
     {
@@ -762,19 +770,22 @@ window.CrmImmoSchema = (function () {
     {
       id: "identite",
       label: "Identité du lot",
-      hint: "Type, cadastre, lot de propriété, tantièmes.",
+      hint: "Type, cadastre (aussi en Localisation / Mandat), lot de propriété, tantièmes.",
       fields: [
         { id: "type", label: "Type", type: "unit_type" },
         { id: "label", label: "Libellé", type: "text", important: true },
         { id: "parent_id", label: "Rattaché à", type: "unit_parent" },
         { id: "lot_number", label: "N° lot / propriété", type: "text", important: true },
-        { id: "cadastre_section", label: "Cadastre — section", type: "text" },
-        { id: "cadastre_numero", label: "Cadastre — n°", type: "text" },
-        { id: "cadastre_ref", label: "Réf. cadastrale complète", type: "text" },
+        { id: "cadastre_section", label: "Cadastre — section", type: "text", important: true },
+        { id: "cadastre_numero", label: "Cadastre — n°", type: "text", important: true },
+        { id: "cadastre_ref", label: "Réf. cadastrale complète", type: "text", important: true },
+        { id: "cadastre_lieu_dit", label: "Lieu-dit cadastre", type: "text" },
+        { id: "cadastre_contenance", label: "Contenance cadastrale", type: "text" },
         { id: "floor", label: "Étage", type: "text" },
         { id: "milliemes_privatifs", label: "Tantièmes privatifs", type: "number", unit: "/1000", important: true },
         { id: "milliemes_communs", label: "Tantièmes parties communes", type: "number", unit: "/1000" },
         { id: "parties_communes", label: "Parties communes (couloirs, hall…)", type: "textarea" },
+        { id: "digicode", label: "Digicode (accès lot)", type: "text" },
         { id: "transaction", label: "Transaction", type: "unit_transaction" },
         { id: "occupation", label: "Occupation", type: "occupation", important: true },
       ],
