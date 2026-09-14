@@ -74,6 +74,7 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matched: bestScore > 0,
   };
 }
 
@@ -98,14 +99,20 @@ function monthLabel() {
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
-  var need = candidate.need || "";
+  var summary = String(candidate.summary || "").toLowerCase();
+  var topic = matchTopic(title + " " + summary + " " + String(candidate.note || ""));
+  var need = candidate.need || topic.need;
 
   if (candidate.status === "queued") score += 25;
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  if (topic.matched) {
+    if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
+    if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  } else {
+    score -= 10;
+  }
 
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
@@ -140,6 +147,17 @@ function scoreLeadPotential(candidate) {
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+function isPlaceholderQueueItem(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "example") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  var title = String(item.title || "");
+  if (/collez ici/i.test(title)) return true;
+  return false;
 }
 
 function rankCandidates(candidates) {
@@ -268,6 +286,7 @@ function relatedForSection(section, need) {
     finance: [
       { href: "./assurance-emprunteur-loi-lemoine-2026.html", label: "Loi Lemoine" },
       { href: "../assurance-emprunteur/", label: "Assurance emprunteur" },
+      { href: "../pret-immobilier/nancy-metropole/", label: "Prêt immobilier Nancy, Jarville, Varangéville" },
     ],
     prevoyance: [
       { href: "./prevoyance-independants-guide.html", label: "Prevoyance independants" },
@@ -349,6 +368,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
