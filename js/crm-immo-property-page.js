@@ -23,8 +23,12 @@
   prop.images = Array.isArray(prop.images) ? prop.images : [];
   prop.history = Array.isArray(prop.history) ? prop.history : [];
 
+  var tabFromUrl = String(params.get("tab") || "").trim();
+  var allowedTabs = (Schema.TABS || []).map(function (t) {
+    return t.id;
+  });
   var state = {
-    tab: "description",
+    tab: allowedTabs.indexOf(tabFromUrl) >= 0 ? tabFromUrl : "description",
     sectionId: null,
     activeUnitId: null,
     unitSectionId: "identite",
@@ -1875,19 +1879,31 @@
       return;
     }
     if (state.tab === "historique") {
+      var hist = Array.isArray(prop.history) ? prop.history : [];
       panel.innerHTML =
-        "<h3>Historique</h3>" +
-        (prop.history.length
-          ? "<ul>" +
-            prop.history
+        "<h3>Historique des enregistrements</h3>" +
+        "<p style='color:var(--muted);font-size:.9rem;margin:0 0 12px'>" +
+        hist.length +
+        " enregistrement(s) sur cette fiche.</p>" +
+        (hist.length
+          ? '<ol class="immo-history-timeline">' +
+            hist
               .slice()
               .reverse()
-              .map(function (h) {
-                return "<li><strong>" + esc(h.at) + "</strong> — " + esc(h.text) + "</li>";
+              .map(function (h, i) {
+                return (
+                  '<li class="immo-history-item"><span class="immo-history-idx">#' +
+                  (hist.length - i) +
+                  '</span><div><strong>' +
+                  esc(h.at || "") +
+                  "</strong><div>" +
+                  esc(h.text || "") +
+                  "</div></div></li>"
+                );
               })
               .join("") +
-            "</ul>"
-          : "<p style='color:var(--muted)'>Pas encore d’événements.</p>");
+            "</ol>"
+          : "<p style='color:var(--muted)'>Pas encore d’événements. Chaque enregistrement de section (localisation, finances…) apparaît ici.</p>");
       return;
     }
     if (state.tab === "stats") {
@@ -2070,5 +2086,24 @@
   var com = ensureSectionBucket("commentaires");
   if (!com.url_fiche && prop.listing_url) com.url_fiche = prop.listing_url;
 
-  renderAll();
+  function refreshFromStore() {
+    var latest = Store.getProperty(prop.id);
+    if (latest) {
+      prop = latest;
+      prop.details = prop.details || Schema.emptyDetails();
+      prop.units = Array.isArray(prop.units) ? prop.units : [];
+      prop.docs_checklist = prop.docs_checklist || {};
+      prop.images = Array.isArray(prop.images) ? prop.images : [];
+      prop.history = Array.isArray(prop.history) ? prop.history : [];
+    }
+    renderAll();
+  }
+
+  if (Store.syncFromApi) {
+    Store.syncFromApi().then(refreshFromStore).catch(function () {
+      renderAll();
+    });
+  } else {
+    renderAll();
+  }
 })();

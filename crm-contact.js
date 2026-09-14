@@ -1950,12 +1950,48 @@
                 escImmo(row.how === "phone" || row.how === "party_phone" ? "téléphone" : "e-mail") +
                 " — pas encore lié en base</div>"
               : '<div class="immo-linked-meta">Rôle : ' + escImmo(row.role_label || row.role) + "</div>";
+            var hist = Array.isArray(p.history) ? p.history : [];
+            var histBlock =
+              hist.length
+                ? '<div class="immo-linked-meta"><button type="button" class="immo-hist-toggle" data-hist-prop="' +
+                  escImmo(p.id) +
+                  '">' +
+                  hist.length +
+                  " enreg. — afficher</button>" +
+                  '<ol class="immo-history-timeline immo-history-inline" hidden data-hist-list="' +
+                  escImmo(p.id) +
+                  '">' +
+                  hist
+                    .slice()
+                    .reverse()
+                    .map(function (h, i) {
+                      return (
+                        "<li><strong>" +
+                        escImmo(h.at || "") +
+                        "</strong> — " +
+                        escImmo(h.text || "") +
+                        (i === 0 ? " <em>(dernier)</em>" : "") +
+                        "</li>"
+                      );
+                    })
+                    .join("") +
+                  "</ol></div>"
+                : '<div class="immo-linked-meta">Aucun enregistrement encore</div>';
+            var listPigesHref =
+              "./crm-immo-properties.html?contact_id=" +
+              encodeURIComponent(contact.id || contactId || "") +
+              "&linked_only=1";
             var actions =
               '<div class="immo-linked-actions">' +
               '<a class="btn btn-ghost btn-sm" href="./crm-immo-property.html?id=' +
               encodeURIComponent(p.id) +
               '">Ouvrir fiche</a>' +
-              '<a class="btn btn-ghost btn-sm" href="./crm-immo-properties.html">Liste piges</a>' +
+              '<a class="btn btn-ghost btn-sm" href="./crm-immo-property.html?id=' +
+              encodeURIComponent(p.id) +
+              '&tab=historique">Historique</a>' +
+              '<a class="btn btn-ghost btn-sm" href="' +
+              listPigesHref +
+              '">Liste piges</a>' +
               (row.soft
                 ? '<button type="button" class="btn btn-primary btn-sm immo-link-owner" data-prop-id="' +
                   escImmo(p.id) +
@@ -1977,6 +2013,7 @@
               (p.phone ? " · ☎ " + escImmo(p.phone) : "") +
               "</div>" +
               soft +
+              histBlock +
               "</div>" +
               actions +
               "</article>"
@@ -2003,6 +2040,22 @@
           }
           Links.linkAsOwner(Store, prop, data.contact);
           renderImmoLinkedProperties();
+        };
+      });
+      mount.querySelectorAll(".immo-hist-toggle").forEach(function (btn) {
+        btn.onclick = function (ev) {
+          if (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+          }
+          var pid = btn.getAttribute("data-hist-prop");
+          var listEl = mount.querySelector('[data-hist-list="' + pid + '"]');
+          if (!listEl) return;
+          var open = listEl.hidden;
+          listEl.hidden = !open;
+          btn.textContent = open
+            ? String((Store.getProperty(pid) || {}).history || []).length + " enreg. — masquer"
+            : String((Store.getProperty(pid) || {}).history || []).length + " enreg. — afficher";
         };
       });
     }

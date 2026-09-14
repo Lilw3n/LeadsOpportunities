@@ -375,8 +375,8 @@
     if (!Array.isArray(prop.images)) {
       prop.images = Array.isArray(meta.images) ? meta.images : [];
     }
-    if (!Array.isArray(prop.history)) {
-      prop.history = Array.isArray(meta.history) ? meta.history : [];
+    if (!Array.isArray(prop.history) || (!prop.history.length && Array.isArray(meta.history) && meta.history.length)) {
+      prop.history = Array.isArray(meta.history) ? meta.history.slice() : [];
     }
     if (!prop.transaction && meta.transaction) prop.transaction = meta.transaction;
     if (prop.is_parent_dossier == null && meta.is_parent_dossier != null) {

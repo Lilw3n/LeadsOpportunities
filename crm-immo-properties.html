@@ -156,6 +156,48 @@
       line-height: 1.45;
     }
     .immo-when { color: #475569; font-size: .78rem; }
+    .immo-hist-toggle {
+      border: 0;
+      background: transparent;
+      color: #0b5cab;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+      padding: 0;
+    }
+    .immo-history-timeline {
+      margin: 8px 0 0;
+      padding: 0 0 0 18px;
+      color: #334155;
+      font-size: .82rem;
+      line-height: 1.45;
+    }
+    .immo-history-timeline li { margin: 0 0 6px; }
+    .immo-history-inline {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 8px 8px 24px;
+      margin-top: 8px;
+    }
+    .immo-history-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px;
+      margin: 0 0 10px;
+      list-style: none;
+    }
+    .immo-history-idx {
+      font-size: .72rem;
+      font-weight: 800;
+      color: #0369a1;
+      background: #e0f2fe;
+      border-radius: 999px;
+      padding: 2px 8px;
+      height: fit-content;
+    }
     .immo-prospect {
       margin: 6px 0 4px;
       font-size: .9rem;
@@ -232,6 +274,7 @@
         <div class="piges-row"><span>Classif. projet</span><input type="checkbox" id="fClassif" /></div>
         <div class="piges-row"><span>À contacter</span><button type="button" class="piges-switch" id="swContact" data-on="0" aria-pressed="false"><i></i></button></div>
         <div class="piges-row"><span>Contact connu</span><button type="button" class="piges-switch" id="swKnown" data-on="0" aria-pressed="false"><i></i></button></div>
+        <div class="piges-row"><span>Liées à un prospect</span><button type="button" class="piges-switch on" id="swLinkedOnly" data-on="1" aria-pressed="true" title="N’afficher que les piges liées à un interlocuteur"><i></i></button></div>
         <div class="piges-row">
           <span>Téléphone</span>
           <div class="piges-tri" data-tri="fPhone">
@@ -338,9 +381,9 @@
         <button type="button" data-act="print">Imprimer listing</button>
       </div>
 
-      <p class="piges-hint" id="pigesHint">Chaque carte montre le <strong>prospect / client lié</strong> (vendeur, acquéreur, personnes).
-        Cliquez le nom pour ouvrir l’interlocuteur. Sur la fiche contact, la section « Biens / piges CRM » liste les fiches liées.
-        Tri par dernière modification · « Inventaire fiches » exporte id + dates.</p>
+      <p class="piges-hint" id="pigesHint">Par défaut : <strong>uniquement les piges liées à un prospect</strong> (vendeur, acquéreur, personnes).
+        Cliquez <em>N enreg.</em> pour dérouler l’historique, ou <strong>Historique</strong> sur la fiche.
+        Sur l’interlocuteur, « Liste piges » n’ouvre que ses biens liés.</p>
       <div class="piges-main-top">
         <div class="piges-count" id="listCount">0 bien(s)</div>
         <label style="font-size:.8rem;font-weight:600;color:var(--muted)">

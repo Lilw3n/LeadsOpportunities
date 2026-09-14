@@ -9,6 +9,10 @@
 
   var triState = { fPhone: "any", fGeo: "any" };
   var selected = {};
+  var pageParams = new URLSearchParams(location.search);
+  var filterContactId = String(pageParams.get("contact_id") || "").trim();
+  var linkedOnlyDefault =
+    pageParams.get("linked_only") === "1" || !!filterContactId || pageParams.get("linked_only") !== "0";
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -240,6 +244,82 @@
       .join("");
   }
 
+  function propertyHistory(p) {
+    if (!p) return [];
+    if (Array.isArray(p.history) && p.history.length) return p.history;
+    var meta = p.metadata || p.metadata_json;
+    if (typeof meta === "string") {
+      try {
+        meta = JSON.parse(meta);
+      } catch (e) {
+        meta = null;
+      }
+    }
+    if (meta && Array.isArray(meta.history)) return meta.history;
+    return Array.isArray(p.history) ? p.history : [];
+  }
+
+  function propertyHasLinkedProspect(p) {
+    if (!p) return false;
+    if (p.owner_contact_id || p.buyer_contact_id || p.lead_id) return true;
+    if (Links && Links.linksForProperty) {
+      return Links.linksForProperty(p, Store, Matcher).length > 0;
+    }
+    return false;
+  }
+
+  function historyBlockHtml(p) {
+    var hist = propertyHistory(p);
+    if (!hist.length) return "";
+    return (
+      '<div class="immo-meta immo-when">Modifié le ' +
+      esc(formatWhen(p.updated_at || p.created_at)) +
+      ' · <button type="button" class="immo-hist-toggle" data-hist-prop="' +
+      esc(p.id) +
+      '">' +
+      hist.length +
+      " enreg. — afficher</button></div>" +
+      '<ol class="immo-history-timeline immo-history-inline" hidden data-hist-list="' +
+      esc(p.id) +
+      '">' +
+      hist
+        .slice()
+        .reverse()
+        .map(function (h, i) {
+          return (
+            "<li><strong>" +
+            esc(h.at || "") +
+            "</strong> — " +
+            esc(h.text || "") +
+            (i === 0 ? " <em>(dernier)</em>" : "") +
+            "</li>"
+          );
+        })
+        .join("") +
+      "</ol>" +
+      '<div class="immo-meta"><a href="./crm-immo-property.html?id=' +
+      encodeURIComponent(p.id) +
+      '&tab=historique">Voir l’historique complet</a></div>'
+    );
+  }
+
+  function applyProspectFilters(list) {
+    var linkedOnly = document.getElementById("swLinkedOnly");
+    var wantLinked = linkedOnly ? linkedOnly.dataset.on === "1" : linkedOnlyDefault;
+    var out = list.slice();
+    if (filterContactId && Links) {
+      var fakeContact = { id: filterContactId };
+      out = out.filter(function (p) {
+        return Links.propertyTouchesContact(p, fakeContact, Store).hit;
+      });
+      return out;
+    }
+    if (wantLinked) {
+      out = out.filter(propertyHasLinkedProspect);
+    }
+    return out;
+  }
+
   function queryFromForm() {
     return {
       q: document.getElementById("q").value,
@@ -275,13 +355,26 @@
   }
 
   function renderList(skipHydrate) {
-    var list = Store.listProperties(queryFromForm());
+    var list = applyProspectFilters(Store.listProperties(queryFromForm()));
     var mount = document.getElementById("listMount");
-    document.getElementById("listCount").textContent = list.length + " bien(s)";
+    var countLabel = list.length + " bien(s)";
+    if (filterContactId) countLabel += " liés au prospect";
+    else if (document.getElementById("swLinkedOnly") && document.getElementById("swLinkedOnly").dataset.on === "1") {
+      countLabel += " avec prospect lié";
+    }
+    document.getElementById("listCount").textContent = countLabel;
     fillCityList();
+    var hint = document.getElementById("pigesHint");
+    if (hint && filterContactId) {
+      hint.innerHTML =
+        "Filtre actif : piges liées au prospect <code>" +
+        esc(filterContactId) +
+        '</code>. <a href="./crm-immo-properties.html?linked_only=1">Voir toutes les piges avec prospect</a> · ' +
+        '<a href="./crm-immo-properties.html?linked_only=0">Voir tout l’inventaire</a>.';
+    }
     if (!list.length) {
       mount.innerHTML =
-        '<p class="panel" style="color:var(--muted)">Aucune pige — ajuste les filtres ou crée un bien (URL Leboncoin / SeLoger…).</p>';
+        '<p class="panel" style="color:var(--muted)">Aucune pige liée à un prospect — désactive « Liées à un prospect » ou crée / lie un bien.</p>';
       return;
     }
     mount.innerHTML = list
@@ -305,6 +398,13 @@
           (Matcher.LISTING_SOURCES.find(function (s) {
             return s.id === p.listing_source;
           }) || {}).label || p.listing_source;
+        var whenBlock = propertyHistory(p).length
+          ? historyBlockHtml(p)
+          : formatWhen(p.updated_at || p.created_at)
+            ? '<div class="immo-meta immo-when">Modifié le ' +
+              esc(formatWhen(p.updated_at || p.created_at)) +
+              " · 0 enreg.</div>"
+            : "";
         return (
           '<article class="immo-card js-card-nav" data-id="' +
           esc(p.id) +
@@ -340,14 +440,7 @@
               esc(p.listing_url) +
               '" target="_blank" rel="noopener">Voir l’annonce</a></div>'
             : "") +
-          (formatWhen(p.updated_at || p.created_at)
-            ? '<div class="immo-meta immo-when">Modifié le ' +
-              esc(formatWhen(p.updated_at || p.created_at)) +
-              (Array.isArray(p.history) && p.history.length
-                ? " · " + p.history.length + " enreg."
-                : "") +
-              "</div>"
-            : "") +
+          whenBlock +
           prospectBlockHtml(p) +
           '<div class="immo-tags">' +
           tags
@@ -360,6 +453,9 @@
           '<a class="btn btn-ghost btn-sm" href="./crm-immo-property.html?id=' +
           encodeURIComponent(p.id) +
           '">Fiche</a>' +
+          '<a class="btn btn-ghost btn-sm" href="./crm-immo-property.html?id=' +
+          encodeURIComponent(p.id) +
+          '&tab=historique">Historique</a>' +
           '<button type="button" class="btn btn-ghost btn-sm" data-edit="' +
           esc(p.id) +
           '">Éditer</button>' +
@@ -376,6 +472,27 @@
     mount.querySelectorAll(".row-chk").forEach(function (chk) {
       chk.onchange = function () {
         selected[chk.getAttribute("data-id")] = chk.checked;
+      };
+    });
+    mount.querySelectorAll(".immo-hist-toggle").forEach(function (btn) {
+      btn.onclick = function (ev) {
+        if (ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+        }
+        var pid = btn.getAttribute("data-hist-prop");
+        var listEl = mount.querySelector('[data-hist-list="' + pid + '"]');
+        if (!listEl) return;
+        var open = listEl.hidden;
+        listEl.hidden = !open;
+        var n = propertyHistory(Store.getProperty(pid) || { id: pid }).length;
+        if (!n) {
+          var card = list.find(function (x) {
+            return x.id === pid;
+          });
+          n = propertyHistory(card || {}).length;
+        }
+        btn.textContent = open ? n + " enreg. — masquer" : n + " enreg. — afficher";
       };
     });
     if (!skipHydrate) hydrateContactLabels(list);
@@ -681,6 +798,24 @@
 
   fillSelects();
   bindUrlAutodetect(document.getElementById("pUrl"), document.getElementById("pSource"));
+  var swLinked = document.getElementById("swLinkedOnly");
+  if (swLinked) {
+    var on = linkedOnlyDefault && pageParams.get("linked_only") !== "0";
+    if (filterContactId) on = true;
+    swLinked.dataset.on = on ? "1" : "0";
+    swLinked.classList.toggle("on", on);
+    swLinked.setAttribute("aria-pressed", on ? "true" : "false");
+    swLinked.onclick = function () {
+      var next = swLinked.dataset.on !== "1";
+      switchOn(swLinked, next);
+      if (!filterContactId) {
+        var url = new URL(location.href);
+        url.searchParams.set("linked_only", next ? "1" : "0");
+        history.replaceState({}, "", url.toString());
+      }
+      renderList();
+    };
+  }
   Store.seedDemoIfEmpty();
   Store.syncFromApi().then(renderList).catch(renderList);
 })();

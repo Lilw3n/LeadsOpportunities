@@ -215,7 +215,31 @@
     .piece-attr { display:inline-flex; align-items:center; gap:4px; font-size:.75rem; font-weight:700; color:#475569; font-style:normal; }
     .piece-attr input { margin:0; }
     .piece-notes { width:100%; padding:7px 8px; border-radius:8px; border:1px solid var(--line); background:#fff; font:inherit; }
-  </style>
+    .immo-history-timeline {
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .immo-history-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+  }
+  .immo-history-idx {
+    font-size: .72rem;
+    font-weight: 800;
+    color: #0369a1;
+    background: #e0f2fe;
+    border-radius: 999px;
+    padding: 2px 8px;
+    height: fit-content;
+  }
+</style>
 </head>
 <body class="crm-subpage">
   <div class="dossier-head">
