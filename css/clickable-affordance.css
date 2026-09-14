@@ -258,6 +258,13 @@ a.partner-card-link:focus-visible .partner-card {
   outline-offset: 2px;
 }
 
+/* Cartes article avec navigation JS (data-card-href) */
+article.service-card.js-card-nav,
+article.service-card[data-card-href],
+.js-card-nav[data-card-href] {
+  cursor: pointer;
+}
+
 /* Boutons — curseur explicite */
 .btn,
 button:not(:disabled),
@@ -267,4 +274,14 @@ button:not(:disabled),
 
 button:disabled {
   cursor: not-allowed;
+}
+
+/* Bandeau cookies : texte non cliquable (seuls boutons / liens) */
+#cookie-banner-lo,
+#cookie-banner-lo .cookie-banner-inner {
+  cursor: default;
+}
+#cookie-banner-lo a,
+#cookie-banner-lo button {
+  cursor: pointer;
 }

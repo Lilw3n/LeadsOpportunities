@@ -26,6 +26,18 @@ Sur **toutes les pages** (accueil, landings, blog, SEO), chaque clic envoie des 
 
 Clarity détecte aussi nativement **rage clicks** et **dead clicks** dans le tableau de bord.
 
+## Dead clicks — qu’est-ce que c’est ?
+
+Un **dead click** (clic mort) est un clic utilisateur **sans réaction** de la page : pas de navigation, pas d’ouverture de menu, pas de changement visible. Clarity le détecte nativement (rapport hebdo) ; le script site envoie aussi l’événement custom `dead_click`.
+
+Causes fréquentes corrigées ici :
+1. Cartes qui **ont l’air cliquables** (ombre / hover) mais ne le sont pas → navigation via `data-card-href` / `.js-card-nav`
+2. Liens `href="#"` (ex. partenaires sans URL) → redirection vers le catalogue
+3. Témoignages / blocs info avec hover « lift » → curseur et hover neutres
+
+Filtrer dans Clarity : **Événements** → `dead_click` ou balise `dead_click_zone`.
+
+
 ## Onglet « Google Analytics » vide dans Clarity
 
 L’écran Clarity **Tableau de bord → Google Analytics** (`/gadashboard`) n’affiche **pas** les enregistrements Clarity. C’est un **miroir de GA4** : s’il est vide, le problème est côté **liaison / données GA4**, pas le tag Clarity.

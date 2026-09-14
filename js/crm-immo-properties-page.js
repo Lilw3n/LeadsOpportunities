@@ -306,8 +306,10 @@
             return s.id === p.listing_source;
           }) || {}).label || p.listing_source;
         return (
-          '<article class="immo-card" data-id="' +
+          '<article class="immo-card js-card-nav" data-id="' +
           esc(p.id) +
+          '" data-card-href="./crm-immo-property.html?id=' +
+          encodeURIComponent(p.id) +
           '">' +
           '<div><input type="checkbox" class="row-chk" data-id="' +
           esc(p.id) +

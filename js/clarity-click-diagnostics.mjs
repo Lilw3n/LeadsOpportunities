@@ -90,7 +90,7 @@ function clickZone(el) {
 function resolveClickTarget(target) {
   var el =
     target.closest(
-      "a[href], button, input, select, textarea, summary, label, [role='button'], [data-clarity-label], .btn, .blog-card, .hero-floating-card"
+      "a[href], button, input, select, textarea, summary, label, [role='button'], [data-clarity-label], [data-card-href], .btn, .blog-card, .hero-floating-card, .js-card-nav, .immo-card"
     ) || target;
   return el;
 }
@@ -107,7 +107,38 @@ function clickType(el) {
 
 function isActionable(el) {
   return !!el.closest(
-    "a[href], button, input, select, textarea, summary, label, [role='button'], [onclick], [data-clarity-label], .btn"
+    "a[href]:not([href='#']):not([href='']), button, input, select, textarea, summary, label, [role='button'], [onclick], [data-clarity-label], [data-card-href], .btn, .js-card-nav"
+  );
+}
+
+/** Clic sur une carte « visuelle » → suit le CTA principal (évite dead clicks Clarity). */
+function bindCardPrimaryClicks() {
+  document.addEventListener(
+    "click",
+    function (ev) {
+      var t = ev.target;
+      if (!t || !t.closest) return;
+      if (t.closest("a[href], button, input, select, textarea, summary, label, [role='button']")) return;
+
+      var card = t.closest("[data-card-href], .js-card-nav");
+      if (!card) return;
+
+      var href = card.getAttribute("data-card-href");
+      if (!href) {
+        var primary =
+          card.querySelector("a.btn[href], .btn-primary[href], a.service-cta[href], a[href]:not([href='#'])");
+        href = primary ? primary.getAttribute("href") : "";
+      }
+      if (!href || href === "#") return;
+
+      ev.preventDefault();
+      if (/^https?:\/\//i.test(href) || href.indexOf("//") === 0) {
+        window.location.href = href;
+      } else {
+        window.location.href = href;
+      }
+    },
+    false
   );
 }
 
@@ -121,6 +152,7 @@ function safeEventName(s) {
 
 export function bindClickDiagnostics() {
   var rageMap = {};
+  bindCardPrimaryClicks();
 
   function trackClick(target) {
     if (!window.clarity && !window.loClarity) return;
