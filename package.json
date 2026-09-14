@@ -97,6 +97,7 @@
     "verify:achat-perennite": "node scripts/verify-achat-perennite.cjs",
     "verify:vente-3d": "node scripts/verify-vente-3d.cjs",
     "verify:blog-lead-intent": "node scripts/verify-blog-lead-intent.cjs",
+    "verify:blog-actu-auto": "node scripts/verify-blog-actu-auto.cjs",
     "verify:nancy-bassin-pret": "node scripts/verify-nancy-bassin-pret.cjs",
     "verify:seo-long-terme": "node scripts/verify-seo-long-terme.cjs",
     "verify:contact-pair": "node scripts/verify-contact-pair.cjs",

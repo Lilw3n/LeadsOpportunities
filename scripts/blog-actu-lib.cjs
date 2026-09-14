@@ -152,6 +152,22 @@ function rankCandidates(candidates) {
     });
 }
 
+var PLACEHOLDER_TITLE_RE =
+  /collez ici|\bplaceholder\b|\btodo\b|titre de la une|lorem ipsum|\[titre\]|à remplacer|a remplacer/i;
+
+function isUnusableActuCandidate(candidate) {
+  if (!candidate) return true;
+  var status = String(candidate.status || "").toLowerCase();
+  if (status === "published" || status === "rejected" || status === "template" || status === "draft" || status === "ignored") {
+    return true;
+  }
+  var id = String(candidate.id || "").toLowerCase();
+  if (id.indexOf("pending-template") !== -1) return true;
+  var title = String(candidate.title || "").trim();
+  if (!title || title.length < 12) return true;
+  return PLACEHOLDER_TITLE_RE.test(title);
+}
+
 function ctaWithUtm(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
@@ -349,6 +365,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isUnusableActuCandidate: isUnusableActuCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
