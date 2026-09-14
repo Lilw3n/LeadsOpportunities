@@ -524,6 +524,22 @@
     { id: "dependance", label: "Dépendance", role: "annexe", aggregates: ["surface_m2", "medias"] },
   ];
 
+  function levelRole(typeId) {
+    var hit = COMPOSITION_LEVELS.find(function (l) {
+      return l.id === typeId;
+    });
+    return hit ? hit.role : "lot";
+  }
+
+  function unitLabel(u) {
+    if (!u) return "Unité";
+    var t = COMPOSITION_LEVELS.find(function (l) {
+      return l.id === u.type;
+    });
+    var base = u.label || (t && t.label) || u.type || "Lot";
+    return u.lot_number ? base + " · lot " + u.lot_number : base;
+  }
+
 
   /**
    * Préremplit cadastre / digicode d’un lot depuis Localisation (ou Mandat) si vide.
@@ -581,6 +597,8 @@
     collectSubtreeUnits: collectSubtreeUnits,
     subtreeTotals: subtreeTotals,
     COMPOSITION_LEVELS: COMPOSITION_LEVELS,
+    levelRole: levelRole,
+    unitLabel: unitLabel,
     ROOM_TYPES: ROOM_TYPES,
     ROOM_ATTRS: ROOM_ATTRS,
     emptyPiece: emptyPiece,

@@ -265,38 +265,68 @@
     border-radius: 999px;
     padding: 2px 8px;
     height: fit-content;
-
-    .synthese-totale {
-      background: linear-gradient(160deg, #ecfdf5 0%, #eff6ff 55%, #f8fafc 100%);
-      border: 1px solid #bfdbfe;
-      border-radius: 14px;
-      padding: 14px 16px 8px;
-      margin: 0 0 16px;
-      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
-    }
-    .synthese-totale-head {
-      display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 10px;
-    }
-    .synthese-totale-title {
-      margin: 0; font-size: 1.15rem; color: #0f172a; font-weight: 800;
-    }
-    .synthese-totale-sub {
-      margin: 4px 0 0; font-size: .84rem; color: #334155; line-height: 1.4; max-width: 52ch;
-    }
-    .synthese-strip {
-      display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center;
-      margin-top: 10px; padding: 8px 12px; border-radius: 10px;
-      background: linear-gradient(90deg, #ecfdf5, #eff6ff); border: 1px solid #bfdbfe;
-      font-size: .82rem; color: #1e3a5f;
-    }
-    .synthese-strip strong { color: #0f172a; }
-    .dossier-side .side-synthese {
-      background: #12324f; color: #e0f2fe; border: 1px solid #1d4f7a; font-weight: 700;
-    }
-    .dossier-side .side-synthese:hover { background: #16466d; }
-    .dossier-side .side-synthese.active { background: var(--immo-blue); color: #fff; border-color: transparent; }
   }
+
+  .synthese-totale {
+    background: linear-gradient(160deg, #ecfdf5 0%, #eff6ff 55%, #f8fafc 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 14px;
+    padding: 14px 16px 8px;
+    margin: 0 0 16px;
+    box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
+  }
+  .synthese-totale-head {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .synthese-totale-title { margin: 0; font-size: 1.15rem; color: #0f172a; font-weight: 800; }
+  .synthese-totale-sub { margin: 4px 0 0; font-size: .84rem; color: #334155; line-height: 1.4; max-width: 52ch; }
+  .synthese-strip {
+    display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center;
+    margin-top: 10px; padding: 8px 12px; border-radius: 10px;
+    background: linear-gradient(90deg, #ecfdf5, #eff6ff); border: 1px solid #bfdbfe;
+    font-size: .82rem; color: #1e3a5f;
+  }
+  .synthese-strip strong { color: #0f172a; }
+  .dossier-side .side-synthese {
+    background: #12324f; color: #e0f2fe; border: 1px solid #1d4f7a; font-weight: 700;
+  }
+  .dossier-side .side-synthese:hover { background: #16466d; }
+  .dossier-side .side-synthese.active { background: var(--immo-blue); color: #fff; border-color: transparent; }
+
+  .synthese-courte, .synthese-longue-block, .comp-draw-section, .comp-share-box {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px 16px; margin: 0 0 14px;
+  }
+  .synthese-courte {
+    background: linear-gradient(160deg, #ecfdf5 0%, #eff6ff 60%, #fff 100%);
+    border-color: #bfdbfe;
+  }
+  .synthese-courte-head, .comp-draw-head {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;
+  }
+  .synthese-courte h3, .synthese-longue-block h3, .comp-draw-section h3, .comp-share-box h3 {
+    margin: 0 0 4px; font-size: 1.05rem; color: #0f172a;
+  }
+  .synthese-lede { margin: 0; color: #334155; font-size: .9rem; line-height: 1.45; max-width: 62ch; }
+  .synthese-courte-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip-agent, .chip-user {
+    display: inline-flex; align-items: center; gap: 4px; font-size: .75rem; font-weight: 800;
+    padding: 1px 8px; border-radius: 999px;
+  }
+  .chip-agent { background: #ccfbf1; color: #115e59; }
+  .chip-user { background: #ffedd5; color: #9a3412; }
+  .comp-share-ok { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; padding: 8px 10px; border-radius: 8px; font-size: .84rem; }
+  .comp-share-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .comp-draw-wrap { overflow-x: auto; margin-top: 8px; }
+  .comp-draw-legend { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .comp-draw-legend .leg { font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; border: 1px solid #cbd5e1; }
+  .comp-draw-legend .leg.foncier { background: #dcfce7; color: #14532d; }
+  .comp-draw-legend .leg.bati { background: #e0f2fe; color: #0c4a6e; }
+  .comp-draw-legend .leg.niveau { background: #f3e8ff; color: #4c1d95; }
+  .comp-draw-legend .leg.lot { background: #ffedd5; color: #7c2d12; }
+  .comp-draw-legend .leg.annexe { background: #f1f5f9; color: #334155; }
+  .comp-draw-svg { display: block; max-width: 100%; height: auto; }
+
 </style>
 </head>
 <body class="crm-subpage">
@@ -359,6 +389,8 @@
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-immo-property-schema.js"></script>
+  <script src="./js/crm-immo-composition-draw.js"></script>
+  <script src="./js/crm-immo-composition-share-lib.js"></script>
   <script src="./js/crm-immo-cloud.js"></script>
   <script src="./js/finance-deep-link.js"></script>
   <script src="./js/crm-immo-property-page.js"></script>
