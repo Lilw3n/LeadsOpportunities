@@ -354,14 +354,55 @@
     });
   }
 
+  function matchesKeyword(p, q) {
+    q = String(q || "")
+      .toLowerCase()
+      .trim();
+    if (!q) return true;
+    var bits = [
+      p.title,
+      p.city,
+      p.postal_code,
+      p.address,
+      p.listing_url,
+      p.description,
+      p.notes,
+      p.agence,
+      p.suivi_par,
+      p.phone,
+      Matcher.propertyProspectHay ? Matcher.propertyProspectHay(p) : "",
+    ];
+    if (Store.listParties) {
+      (Store.listParties(p.id) || []).forEach(function (party) {
+        if (!party) return;
+        bits.push(party.name, party.phone, party.email, party.contact_id, party.role);
+      });
+    }
+    if (Links && Links.linksForProperty) {
+      Links.linksForProperty(p, Store, Matcher).forEach(function (row) {
+        bits.push(row.name, row.phone, row.email, row.contact_id, row.role);
+        if (row.contact_id && contactLabelCache[row.contact_id]) {
+          bits.push(contactLabelCache[row.contact_id].label);
+        }
+      });
+    }
+    return bits.join(" ").toLowerCase().indexOf(q) !== -1;
+  }
+
   function renderList(skipHydrate) {
-    var list = applyProspectFilters(Store.listProperties(queryFromForm()));
+    var query = queryFromForm();
+    var q = query.q;
+    var baseQuery = Object.assign({}, query, { q: "" });
+    var list = applyProspectFilters(Store.listProperties(baseQuery)).filter(function (p) {
+      return matchesKeyword(p, q);
+    });
     var mount = document.getElementById("listMount");
     var countLabel = list.length + " bien(s)";
     if (filterContactId) countLabel += " liés au prospect";
     else if (document.getElementById("swLinkedOnly") && document.getElementById("swLinkedOnly").dataset.on === "1") {
       countLabel += " avec prospect lié";
     }
+    if (q) countLabel += ' pour « ' + q.trim() + ' »';
     document.getElementById("listCount").textContent = countLabel;
     fillCityList();
     var hint = document.getElementById("pigesHint");
@@ -374,7 +415,13 @@
     }
     if (!list.length) {
       mount.innerHTML =
-        '<p class="panel" style="color:var(--muted)">Aucune pige liée à un prospect — désactive « Liées à un prospect » ou crée / lie un bien.</p>';
+        '<p class="panel" style="color:var(--muted)">' +
+        (q
+          ? "Aucun résultat pour « " +
+            esc(q.trim()) +
+            " » — la recherche couvre titres, villes, téléphones et <strong>noms de prospects / vendeurs</strong>."
+          : "Aucune pige liée à un prospect — désactive « Liées à un prospect » ou crée / lie un bien.") +
+        "</p>";
       return;
     }
     mount.innerHTML = list

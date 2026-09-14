@@ -425,6 +425,43 @@
     };
   }
 
+  function propertyProspectHay(raw) {
+    var bits = [];
+    var meta = parseJson(raw && (raw.metadata != null ? raw.metadata : raw.metadata_json), null);
+    if (meta && typeof meta === "object") {
+      if (meta.seller) {
+        bits.push(meta.seller.name, meta.seller.phone, meta.seller.email, meta.seller.agency);
+      }
+      if (meta.buyer) {
+        bits.push(meta.buyer.firstName, meta.buyer.lastName, meta.buyer.name, meta.buyer.email, meta.buyer.phone);
+      }
+      if (meta.sellDossier && typeof meta.sellDossier === "object") {
+        var sd = meta.sellDossier;
+        bits.push(sd.sellerName, sd.sellerPhone, sd.sellerEmail, sd.sellerAgency, sd.ownerAddedBy);
+        if (Array.isArray(sd.owners)) {
+          sd.owners.forEach(function (o) {
+            if (!o) return;
+            bits.push(o.lastName, o.birthName, o.firstName, o.phone, o.email);
+          });
+        }
+      }
+      if (Array.isArray(meta.parties)) {
+        meta.parties.forEach(function (party) {
+          if (!party) return;
+          bits.push(party.name, party.phone, party.email, party.role);
+        });
+      }
+    }
+    bits.push(raw.owner_contact_id, raw.buyer_contact_id, raw.lead_id, raw.contact_name, raw.owner_name, raw.buyer_name);
+    if (Array.isArray(raw.parties)) {
+      raw.parties.forEach(function (party) {
+        if (!party) return;
+        bits.push(party.name, party.phone, party.email, party.contact_id, party.role);
+      });
+    }
+    return bits.filter(Boolean).join(" ");
+  }
+
   function filterProperties(properties, query) {
     var q = (query || {}).q ? String(query.q).toLowerCase().trim() : "";
     var type = query.property_type || "";
@@ -495,6 +532,7 @@
           raw.agence,
           raw.suivi_par,
           raw.phone,
+          propertyProspectHay(raw),
         ]
           .join(" ")
           .toLowerCase();
@@ -514,6 +552,7 @@
     normalizePropertyStatus: normalizePropertyStatus,
     propertyStatusLabel: propertyStatusLabel,
     isMatchableStatus: isMatchableStatus,
+    propertyProspectHay: propertyProspectHay,
     normalizeCriteria: normalizeCriteria,
     scorePropertyAgainstCriteria: scorePropertyAgainstCriteria,
     matchPropertiesToBuyer: matchPropertiesToBuyer,
