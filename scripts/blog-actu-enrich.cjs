@@ -159,7 +159,9 @@ function enrichFromCandidate(candidate) {
       {
         type: "p",
         text:
-          "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement.",
+          need === "emprunteur"
+            ? "Projet dans le 54 ? Le hub <a href=\"../pret-immobilier/nancy-metropole/\">prêt immobilier Nancy métropole</a> couvre Nancy, Jarville et <strong>Varangéville</strong> (courtier ORIAS sur place) — simulation et assurance emprunteur."
+            : "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement.",
       },
     ],
     related: relatedForSection(topic.section, need),

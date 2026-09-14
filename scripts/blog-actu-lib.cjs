@@ -94,24 +94,56 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** Inbox Cafeyn / consignes — ne jamais publier comme une une. */
+function isPlaceholderQueueItem(item) {
+  var title = String((item && item.title) || "");
+  var id = String((item && item.id) || "");
+  if (/collez ici|titre de la une cafeyn|placeholder/i.test(title)) return true;
+  if (/pending-template|placeholder|template/i.test(id) && !(item && item.url)) return true;
+  return false;
+}
+
+function isLowLeadNews(title, summary) {
+  var hay = (String(title || "") + " " + String(summary || "")).toLowerCase();
+  var geo = /\bguerre\b|ukraine|frappes?|missile|otan|poutine|g[eé]opolit/;
+  var insurance =
+    /assurance|mutuelle|emprunteur|sinistre|pr[eê]t|taux|cr[eé]dit|rembours|garantie|habitation|logement|mutuelle/;
+  return geo.test(hay) && !insurance.test(hay);
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
+  if (isPlaceholderQueueItem(candidate)) return 0;
+
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
   var need = candidate.need || "";
+  var section = candidate.section || "";
+  var summary = String(candidate.summary || "").toLowerCase();
 
   if (candidate.status === "queued") score += 25;
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  var matchedNiche = section && section !== "actu";
+  if (matchedNiche && (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto")) {
+    score += 20;
+  } else if (matchedNiche && (need === "vtc" || need === "animaux" || need === "prevoyance")) {
+    score += 15;
+  } else if (!matchedNiche && (need === "sante" || need === "emprunteur") && /mutuelle|emprunteur|taux|pr[eê]t|cr[eé]dit/.test(title)) {
+    score += 18;
+  }
 
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
 
-  var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  if (isLowLeadNews(title, summary)) score -= 35;
+  if (/drogue|cannabis|coca[iï]ne|stup[eé]fiant|dealers?/.test(title) && !/assurance|mutuelle/.test(title)) {
+    score -= 40;
+  }
+
+  var hay = title + " " + summary;
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",
@@ -268,6 +300,7 @@ function relatedForSection(section, need) {
     finance: [
       { href: "./assurance-emprunteur-loi-lemoine-2026.html", label: "Loi Lemoine" },
       { href: "../assurance-emprunteur/", label: "Assurance emprunteur" },
+      { href: "../pret-immobilier/nancy-metropole/", label: "Prêt Nancy, Jarville, Varangéville" },
     ],
     prevoyance: [
       { href: "./prevoyance-independants-guide.html", label: "Prevoyance independants" },
@@ -351,4 +384,6 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
+  isLowLeadNews: isLowLeadNews,
 };

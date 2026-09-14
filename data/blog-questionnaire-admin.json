@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-14",
   "sections": [
     "actu",
     "animaux",
@@ -1965,6 +1965,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "les-taux-francais-a-10-ans-passent-le-seuil-des-4-5-au-plus-haut-depuis-.html",
+      "title": "Les taux français à 10 ans passent le seuil des 4,5%, au plus haut depuis plus de 18 ans : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=les-taux-francais-a-10-ans-passent-le-se",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "zinedine-zidane-en-equipe-de-france-ce-que-kylian-mbappe-a-refuse-de-fai.html",
+      "title": "Zinedine Zidane en équipe de France : Ce que Kylian Mbappé a refusé de faire «par respe… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=zinedine-zidane-en-equipe-de-france-ce",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "automobile-c-est-le-moment-d-acheter-le-marche-de-la-voiture-electrique-.html",
+      "title": "Automobile. « C'est le moment d'acheter » : le marché de la voiture électrique d’occasi… : assurance auto — que faire ?",
+      "section": "auto",
+      "hook": "Bonus-malus, tiers ou tous risques : le mauvais choix se paie au sinistre.",
+      "question": "Et si vous compariez votre assurance auto à garanties équivalentes ?",
+      "need": "auto",
+      "landing": "../landings/devis.html?need=auto",
+      "express": "../landings/devis-express.html?need=auto",
+      "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=auto&utm_content=automobile-c-est-le-moment-d-acheter",
+      "matchedRule": "auto",
       "species": null
     }
   ]

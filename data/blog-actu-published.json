@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-09-14T13:34:21.879Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,224 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "les-taux-francais-a-10-ans-passent-le-seuil-des-4-5-au-plus-haut-depuis-.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Les taux français à 10 ans passent le seuil des 4,5%, au plus haut depuis plus de 18 ans : pret et assurance emprunteur — que faire ?",
+      "description": "Les taux français à 10 ans passent le seuil des 4,5%, au plus haut depuis plus de 18 ans — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Les taux français à 10 ans passent le seuil des 4,5%, au plus haut depuis plus de 18 ans — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=les-taux-francais-a-10-ans-passent-le-se",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Cafeyn (presse partenaire)</strong> (<strong>Les taux français à 10 ans passent le seuil des 4,5%, au plus haut depuis plus de 18 ans</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Projet dans le 54 ? Le hub <a href=\"../pret-immobilier/nancy-metropole/\">prêt immobilier Nancy métropole</a> couvre Nancy, Jarville et <strong>Varangéville</strong> (courtier ORIAS sur place) — simulation et assurance emprunteur."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        },
+        {
+          "href": "../pret-immobilier/nancy-metropole/",
+          "label": "Prêt Nancy, Jarville, Varangéville"
+        }
+      ]
+    },
+    {
+      "file": "zinedine-zidane-en-equipe-de-france-ce-que-kylian-mbappe-a-refuse-de-fai.html",
+      "section": "actu",
+      "tag": "Coupe du monde 2026",
+      "tagClass": "tag-actu",
+      "title": "Zinedine Zidane en équipe de France : Ce que Kylian Mbappé a refusé de faire «par respe… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "description": "Zinedine Zidane en équipe de France : Ce que Kylian Mbappé a refusé de faire «par respect pour Didier Deschamps» — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Zinedine Zidane en équipe de France : Ce que Kylian Mbappé a refusé de faire «par respect pour Didier Deschamp — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=zinedine-zidane-en-equipe-de-france-ce",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Microsoft Edge / Bing actu</strong> (<strong>Zinedine Zidane en équipe de France : Ce que Kylian Mbappé a refusé de faire «par respe…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Coupe du monde, deplacements supporters ou sejour a l'etranger : sans bonnes garanties, un accident, une annulation ou un cambriolage pendant l'absence peut couter tres cher."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Mutuelle : hospitalisation et pharmacie USA / Mexique / Canada (CDM 2026)",
+            "Assistance rapatriement et frais medicaux a l'etranger",
+            "Assurance voyage : annulation transport ou hebergement",
+            "Habitation : logement vide pendant le match ou le deplacement",
+            "Auto : stationnement longue duree — vol, bris de glace, assistance",
+            "Prevoyance : arret maladie si blessure ou epuisement (supporters, deplacements pro)"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Avant le coup d'envoi : questionnaire mutuelle / sante pour verifier la couverture a l'etranger et le reste a charge."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ]
+    },
+    {
+      "file": "automobile-c-est-le-moment-d-acheter-le-marche-de-la-voiture-electrique-.html",
+      "section": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto",
+      "title": "Automobile. « C'est le moment d'acheter » : le marché de la voiture électrique d’occasi… : assurance auto — que faire ?",
+      "description": "Automobile. « C'est le moment d'acheter » : le marché de la voiture électrique d’occasion démarre en France — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Automobile. « C'est le moment d'acheter » : le marché de la voiture électrique d’occasion démarre en France — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=auto&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=auto&utm_content=automobile-c-est-le-moment-d-acheter",
+        "label": "Questionnaire auto (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Cafeyn (presse partenaire)</strong> (<strong>Automobile. « C'est le moment d'acheter » : le marché de la voiture électrique d’occasi…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Le mauvais niveau de garantie auto se paie au premier sinistre responsable."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Tiers simple vs tiers etendu vs tous risques",
+            "Bonus-malus et coefficient actuel",
+            "Franchise et vehicule de remplacement",
+            "Conducteurs declares au contrat",
+            "Options assistance et protection juridique"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire auto : profil conducteur et usage en 3 minutes."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-auto-bonus-malus.html",
+          "label": "Bonus-malus"
+        },
+        {
+          "href": "../assurance-auto/",
+          "label": "Assurance auto"
         }
       ]
     }
