@@ -168,6 +168,37 @@
     .doc-group { margin-bottom:18px; }
     .doc-group h4 { margin:0 0 8px; color:#b91c1c; font-size:.9rem; }
     .doc-table { width:100%; border-collapse:collapse; font-size:.84rem; }
+    .doc-row-suggest { background:#fff7ed; }
+    .doc-sug-tag {
+      display:inline-block; margin-left:6px; font-size:.65rem; font-weight:800; text-transform:uppercase;
+      letter-spacing:.03em; color:#9a3412; background:#ffedd5; padding:2px 6px; border-radius:4px;
+    }
+    .immo-suggest-panel {
+      margin:0 0 16px; padding:14px 16px; border-radius:12px;
+      border:1px solid #fed7aa; background:linear-gradient(165deg,#fffbeb 0%,#fff 55%,#f8fafc 100%);
+    }
+    .immo-suggest-panel.is-ok { border-color:#a7f3d0; background:linear-gradient(165deg,#ecfdf5,#fff); }
+    .immo-suggest-panel.is-ok p { margin:6px 0 0; color:var(--muted); font-size:.84rem; }
+    .immo-suggest-head { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:baseline; justify-content:space-between; }
+    .immo-suggest-counts { font-size:.78rem; font-weight:700; color:#9a3412; }
+    .immo-suggest-intro { margin:6px 0 10px; font-size:.8rem; color:var(--muted); }
+    .immo-suggest-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+    .immo-suggest-item {
+      display:grid; grid-template-columns:88px 1fr; gap:10px; align-items:start;
+      padding:10px 12px; border-radius:10px; border:1px solid #e2e8f0; background:#fff;
+    }
+    .immo-suggest-item:hover { border-color:#fb923c; box-shadow:0 1px 0 rgba(154,52,18,.06); }
+    .immo-suggest-badge {
+      display:inline-block; font-size:.65rem; font-weight:800; text-transform:uppercase; letter-spacing:.04em;
+      padding:4px 8px; border-radius:6px; text-align:center; width:fit-content;
+    }
+    .immo-suggest-item.prio-1 .immo-suggest-badge { background:#fee2e2; color:#991b1b; }
+    .immo-suggest-item.prio-2 .immo-suggest-badge { background:#ffedd5; color:#9a3412; }
+    .immo-suggest-item.prio-3 .immo-suggest-badge,
+    .immo-suggest-item.prio-4 .immo-suggest-badge { background:#e2e8f0; color:#334155; }
+    .immo-suggest-item strong { display:block; font-size:.88rem; color:#0f172a; }
+    .immo-suggest-item .why { margin:4px 0 0; font-size:.78rem; color:#475569; line-height:1.35; }
+    .immo-suggest-item .action { margin:4px 0 0; font-size:.75rem; font-weight:700; color:#b45309; }
     .doc-table th, .doc-table td { padding:7px 8px; border-bottom:1px solid #eef2f7; text-align:left; }
     .doc-table th { color:var(--muted); font-size:.72rem; }
     .meta-bar { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; margin-bottom:12px; }
@@ -325,6 +356,13 @@
   .comp-draw-legend .leg.niveau { background: #f3e8ff; color: #4c1d95; }
   .comp-draw-legend .leg.lot { background: #ffedd5; color: #7c2d12; }
   .comp-draw-legend .leg.annexe { background: #f1f5f9; color: #334155; }
+  .comp-draw-legend .leg.piece { background: #fff7ed; color: #9a3412; border-color: #fdba74; }
+  .comp-draw-hint {
+    margin: 0 0 10px; padding: 8px 12px; border-radius: 8px;
+    background: #fffbeb; border: 1px solid #fcd34d; color: #92400e;
+    font-size: .78rem; line-height: 1.35;
+  }
+  .comp-draw-empty { padding: 16px; color: var(--muted); font-size: .86rem; }
   .comp-draw-svg { display: block; max-width: 100%; height: auto; }
 
 </style>
@@ -389,6 +427,7 @@
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-immo-property-schema.js"></script>
+  <script src="./js/crm-immo-suggestions-lib.js"></script>
   <script src="./js/crm-immo-composition-draw.js"></script>
   <script src="./js/crm-immo-composition-share-lib.js"></script>
   <script src="./js/crm-immo-cloud.js"></script>

@@ -96,6 +96,11 @@ window.CrmImmoSchema = (function () {
         f("ville", "Ville", "text", { important: true }),
         f("quartier", "Quartier / secteur"),
         f("departement", "Département"),
+        num("annee_construction", "Année de construction", "", {
+          important: true,
+          hint: "Déclenche plomb (<1949), amiante (<1997), âge installations — suggestions auto",
+          showIf: { types: ["appartement", "maison", "immeuble", "complexe", "local"] },
+        }),
         num("lat", "Latitude"),
         num("lng", "Longitude"),
         f("digicode", "Digicode"),
@@ -367,6 +372,12 @@ window.CrmImmoSchema = (function () {
       label: "Diagnostics",
       fields: [
         f("orga_diagnostics", "Organisation diagnostics"),
+        num("annee_installation_gaz", "Année installation gaz", "", {
+          hint: "Si > 15 ans → diagnostic gaz obligatoire",
+        }),
+        num("annee_installation_elec", "Année installation électrique", "", {
+          hint: "Si > 15 ans → diagnostic électricité obligatoire",
+        }),
         date("date_audit_energetique", "Audit énergétique"),
         tri("erp", "État des Risques et Pollutions (ERP)"),
         date("date_erp", "Date ERP"),
@@ -693,6 +704,18 @@ window.CrmImmoSchema = (function () {
   }
 
   function suggestedRequired(item, property) {
+    var Sug =
+      (typeof window !== "undefined" && window.CrmImmoSuggestions) ||
+      (typeof require === "function"
+        ? (function () {
+            try {
+              return require("./crm-immo-suggestions-lib.js");
+            } catch (e) {
+              return null;
+            }
+          })()
+        : null);
+    if (Sug && Sug.isDocSuggestedRequired && Sug.isDocSuggestedRequired(item.id, property)) return true;
     var ctx = contextFlags(property);
     if (item.id === "carrez" && (ctx.type === "appartement" || ctx.type === "immeuble")) return true;
     if (item.id === "dpe" && ctx.type !== "terrain" && ctx.type !== "parking") return true;

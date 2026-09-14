@@ -50,8 +50,37 @@ var tree = Dossier.buildCompositionTree([
   { id: "t1", type: "terrain", label: "Terrain", parent_id: null },
   { id: "a1", type: "appartement", label: "A1", parent_id: "t1", occupation: "loue", loyer_reel: 500, surface_carrez: 40 },
 ]);
-var svg = Draw.renderSvg(tree);
+var svg = Draw.renderSvg(tree, { Dossier: Dossier });
 ok(svg.indexOf("<svg") >= 0 || svg.indexOf("comp-draw") >= 0, "SVG généré");
+ok(svg.indexOf("comp-draw-hint") >= 0 || svg.indexOf("immeuble") >= 0, "hint hiérarchie si plat");
+
+var nested = Dossier.buildCompositionTree([
+  { id: "t", type: "terrain", label: "Parc", parent_id: null },
+  { id: "i", type: "immeuble", label: "Bât A", parent_id: "t" },
+  { id: "e", type: "etage", label: "R+1", parent_id: "i" },
+  {
+    id: "a",
+    type: "appartement",
+    label: "A12",
+    parent_id: "e",
+    occupation: "loue",
+    surface_carrez: 48,
+    pieces_list: [
+      { type: "salon", qty: 1, surface_m2: 20 },
+      { type: "chambre", qty: 2 },
+      { type: "cuisine", qty: 1 },
+    ],
+  },
+]);
+var nestedSvg = Draw.renderSvg(nested, { Dossier: Dossier });
+ok(nestedSvg.indexOf('data-role="foncier"') >= 0, "niveau terrain");
+ok(nestedSvg.indexOf('data-role="bati"') >= 0, "niveau bâti");
+ok(nestedSvg.indexOf('data-role="niveau"') >= 0, "niveau étage");
+ok(nestedSvg.indexOf('data-role="lot"') >= 0, "niveau lot");
+ok(nestedSvg.indexOf("comp-draw-piece") >= 0, "pièces dans le lot");
+ok(draw.indexOf("terrain →") >= 0 || draw.indexOf("mesureForest") >= 0 || draw.indexOf("measureForest") >= 0, "layout imbriqué");
+ok(html.indexOf("leg.piece") >= 0 || html.indexOf(".leg.piece") >= 0, "légende pièce CSS");
+ok(page.indexOf("lot → pièces") >= 0 || page.indexOf("étage → lot") >= 0, "sous-titre hiérarchie");
 
 global.localStorage = {
   _d: {},
