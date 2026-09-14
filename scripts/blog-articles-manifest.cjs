@@ -3247,6 +3247,11 @@ gta6NetflixImmo.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const leonidaVice = require("./blog-leonida-vice-articles.cjs");
+leonidaVice.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const vendeurAcq = require("./blog-vendeur-acquereur-seo-articles.cjs");
 vendeurAcq.forEach(function (a) {
   module.exports.articles.push(a);

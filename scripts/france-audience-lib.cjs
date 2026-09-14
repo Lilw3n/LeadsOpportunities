@@ -34,6 +34,9 @@ const FRANCE_MARKET_PATTERNS = [
   /\bparis\b/i,
   /\blyon\b/i,
   /\bmarseille\b/i,
+  /\bnancy\b/i,
+  /\bvarang[eé]ville\b/i,
+  /\bjarville\b/i,
   /\bmutuelle\b/i,
   /\bassurance\b/i,
   /\bhabitation\b/i,
@@ -122,7 +125,10 @@ function franceLeadScoreAdjust(candidate) {
   var hay = title + " " + summary;
   var delta = 0;
 
-  if (isInternationalAudienceTopic(hay) && !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b|\béquipe de france|\bequipe de france/i.test(hay)) {
+  if (
+    isInternationalAudienceTopic(hay) &&
+    !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b|\bnancy\b|\béquipe de france|\bequipe de france|\bcr[eé]dit|\bassurance/i.test(hay)
+  ) {
     delta -= 45;
   }
 

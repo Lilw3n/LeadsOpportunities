@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-17",
+  "updated": "2026-09-14",
   "maxPerFeed": 5,
   "quotas": {
     "cafeyn": 20,
@@ -469,11 +469,39 @@
       "sourceType": "edge",
       "url": "https://www.bing.com/news/search?q=coupe+du+monde+2026+france&format=rss",
       "enabled": true
+    },
+    {
+      "id": "google-news-gta6-france",
+      "name": "Google News — GTA 6 / GTA VI France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=GTA+6+OR+GTA+VI+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-gta-precommande",
+      "name": "Google News — précommande GTA 6 PS5 France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=precommande+GTA+6+OR+PS5+Pro+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-leonida-vice",
+      "name": "Google News — Leonida Vice / Vice City",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=Leonida+Vice+OR+%22Vice+City%22+GTA+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-gta6",
+      "name": "Edge — Bing GTA 6 France",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=GTA+6+france&format=rss",
+      "enabled": true
     }
   ],
   "pocket": {
     "enabled": true,
     "note": "Firefox Pocket — POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN"
   },
-  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
+  "notes": "CDM 2026 : flux dédiés matchs, supporters, joueurs. GTA 6 / Leonida Vice : flux FR uniquement (précommande, budget, Vice City) → CTA crédit conso / habitation via blog-actu-keywords + enrich gaming. Angle assurance via blog-actu-keywords + enrich sport."
 }

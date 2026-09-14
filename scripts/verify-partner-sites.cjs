@@ -44,7 +44,15 @@ ok(cat.categories.some(function (c) { return c.id === "annuaire"; }), "catégori
 ok(cat.categories.some(function (c) { return c.id === "agriculture"; }), "catégorie agriculture");
 ok(Lib.DEFAULT_CATEGORIES && Lib.DEFAULT_CATEGORIES.length >= 20, "DEFAULT_CATEGORIES élargi (≥20)");
 ok(typeof Lib.mergeDefaultCategories === "function", "mergeDefaultCategories");
-ok(cat.sites.some(function (s) { return s.category === "batiment"; }), "site bâtiment");
+ok(cat.categories.some(function (c) { return c.id === "culture"; }), "catégorie culture");
+ok(cat.sites.some(function (s) { return s.id === "leonida-vice"; }), "Leonida Vice dans le catalogue");
+ok(cat.sites.some(function (s) { return s.id === "leonida-vice" && s.category === "culture"; }), "Leonida Vice catégorie culture");
+ok(
+  cat.sites.some(function (s) {
+    return s.id === "leonida-vice" && String(s.url).indexOf("utm_campaign=leonida_vice") !== -1;
+  }),
+  "Leonida Vice UTM leads"
+);
 
 var withPhoto = Lib.normalizeSite({
   name: "Test BTP",

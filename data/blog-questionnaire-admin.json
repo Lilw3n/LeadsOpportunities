@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-14",
   "sections": [
     "actu",
     "animaux",
@@ -1731,6 +1731,45 @@
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
       "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "leonida-vice-gta-6-compte-a-rebours-budget-france.html",
+      "title": "Leonida Vice : compte à rebours GTA 6, budget et crédit conso en France",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=leonida_vice",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "leonida-vice-communaute-gta-6-assurance-setup-france.html",
+      "title": "Communauté Leonida Vice : assurer son setup GTA 6, sa coloc et sa RC",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=leonida_vice",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "leonida-vice-vice-city-immobilier-pret-nancy-metropole.html",
+      "title": "Vice City vs vrai toit : prêt immobilier Nancy, Jarville, Varangéville",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html?utm_source=blog&utm_medium=article&utm_campaign=leonida_vice",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
       "species": null
     },
     {

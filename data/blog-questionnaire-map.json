@@ -610,6 +610,42 @@
       "landingLabel": "Etude credit consommation",
       "expressLabel": "Rappel credit conso"
     },
+    "leonida-vice-gta-6-compte-a-rebours-budget-france.html": {
+      "need": "conso",
+      "hook": "Compte à rebours GTA 6 : un crédit conso mal calibré pèse sur un futur prêt immobilier.",
+      "question": "Vous voulez simuler un crédit conso avant le day-one GTA 6 ?",
+      "questionnaire": "/landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=leonida_vice",
+      "landing": "/landings/questionnaire.html?need=conso&journey=standard",
+      "express": "/landings/devis-express.html?need=conso",
+      "primaryLabel": "Simuler un crédit conso",
+      "questionnaireLabel": "Questionnaire crédit conso (3 min)",
+      "landingLabel": "Étude crédit consommation",
+      "expressLabel": "Rappel crédit conso"
+    },
+    "leonida-vice-communaute-gta-6-assurance-setup-france.html": {
+      "need": "habitation",
+      "hook": "Setup GTA 6, coloc, stream : les plafonds MRH de base suffisent rarement.",
+      "question": "Votre habitation couvre-t-elle vraiment console, PC et écran ?",
+      "questionnaire": "/landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=leonida_vice",
+      "landing": "/landings/questionnaire.html?need=habitation&journey=standard",
+      "express": "/landings/devis-express.html?need=habitation",
+      "primaryLabel": "Calibrer mon habitation",
+      "questionnaireLabel": "Questionnaire habitation (3 min)",
+      "landingLabel": "Devis habitation",
+      "expressLabel": "Rappel habitation"
+    },
+    "leonida-vice-vice-city-immobilier-pret-nancy-metropole.html": {
+      "need": "emprunteur",
+      "hook": "Vice City n’est pas un compromis : à Nancy, Jarville et Varangéville on calcule apport et mensualité.",
+      "question": "Votre projet d’achat dans le 54 mérite une étude de prêt ?",
+      "questionnaire": "/landings/questionnaire.html?need=credit-immo&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=leonida_vice",
+      "landing": "/landings/credit-immo.html?utm_source=blog&utm_medium=article&utm_campaign=leonida_vice",
+      "express": "/landings/devis-express.html?need=emprunteur",
+      "primaryLabel": "Étude prêt immobilier",
+      "questionnaireLabel": "Questionnaire crédit immo",
+      "landingLabel": "Landing crédit immo",
+      "expressLabel": "Rappel prêt"
+    },
     "incendies-gironde-feux-foret-assurance-habitation-2026.html": {
       "section": "habitat",
       "hook": "Feux de forêt Gironde : relisez incendie, Cat Nat et dépendances avant le prochain pic."

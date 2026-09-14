@@ -105,9 +105,9 @@ function scoreLeadPotential(candidate) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  if (need === "vtc" || need === "animaux" || need === "prevoyance" || need === "conso" || need === "rc-pro") score += 15;
 
-  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
+  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie", "crédit", "credit"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
 
@@ -126,6 +126,12 @@ function scoreLeadPotential(candidate) {
       "les bleus",
     ].forEach(function (kw) {
       if (title.indexOf(kw) !== -1) score += 14;
+    });
+  }
+
+  if (isFranceMarketTopic(hay) || /\bfrance\b|\bcrédit|\bcredit|\bassurance|\bnancy\b/i.test(hay)) {
+    ["gta 6", "gta vi", "leonida", "vice city", "ps5 pro", "précommande", "precommande"].forEach(function (kw) {
+      if (hay.indexOf(kw) !== -1) score += 12;
     });
   }
 

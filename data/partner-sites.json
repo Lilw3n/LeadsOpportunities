@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-13",
+  "updatedAt": "2026-09-14",
   "title": "Sites partenaires",
   "lead": "Des entreprises et projets locaux que nous accompagnons — aperçu de leur vitrine, par métier.",
   "categories": [
@@ -29,6 +29,18 @@
     { "id": "autre", "label": "Autre", "order": 200, "icon": "📦" }
   ],
   "sites": [
+    {
+      "id": "leonida-vice",
+      "category": "culture",
+      "name": "Leonida Vice",
+      "url": "https://leonida-vice.com/?utm_source=leadsopportunities&utm_medium=sites_partenaires&utm_campaign=leonida_vice",
+      "preview_image_url": "https://leonida-vice.com/media/cover.jpg",
+      "tagline": "Hub GTA VI — compte à rebours, actu, blog, fans & boutique",
+      "city": "",
+      "active": true,
+      "order": 5,
+      "notes": "Site média / communauté GTA VI (FR · EN · ES). Articles leads : /blog/leonida-vice-*.html — UTM utm_campaign=leonida_vice."
+    },
     {
       "id": "exemple-batiment-54",
       "category": "batiment",
