@@ -1,10 +1,11 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-14T04:40:19.776Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.midilibre.fr/2026/09/13/mondial-feminin-de-basket-malgre-un-grand-debut-de-match-les-bleues-manquent-lexploit-et-subissent-a-nouveau-la-loi-des-americaines-en-finale-13549398.php"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-14T04:40:21.725Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +18,20 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-14T04:40:21.725Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "mondial-feminin-de-basket-malgre-un-grand-debut-de-match-les-bleues-manq.html",
+          "title": "Mondial féminin de basket : malgré un grand début de match, les Bleues manquent l’explo… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Midi Libre",
+          "sourceType": "cafeyn"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 1
 }
