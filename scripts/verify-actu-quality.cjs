@@ -51,6 +51,21 @@ function validateArticle(article) {
   return errors;
 }
 
+function hasFlag(name) {
+  return process.argv.indexOf("--" + name) !== -1;
+}
+
+function loadPendingArticles() {
+  var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+  try {
+    var data = JSON.parse(fs.readFileSync(pending, "utf8"));
+    return data.articles || [];
+  } catch (e) {
+    console.error("Lecture pending:", e.message);
+    process.exit(1);
+  }
+}
+
 function main() {
   var file = arg("file");
   var articles = [];
@@ -58,19 +73,17 @@ function main() {
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
+  } else if (hasFlag("stdin")) {
     var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
-  } else {
-    var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
-    try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
-    } catch (e) {
-      console.error("Lecture pending:", e.message);
+    if (!String(stdin).trim()) {
+      console.error("stdin vide — passez un JSON d'articles ou omettez --stdin.");
       process.exit(1);
     }
+    var parsed = JSON.parse(stdin);
+    articles = Array.isArray(parsed) ? parsed : parsed.articles || [parsed];
+  } else {
+    // Défaut : pending.json (y compris en CI où stdin n'est pas un TTY).
+    articles = loadPendingArticles();
   }
 
   if (!articles.length) {

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-14",
   "sections": [
     "actu",
     "animaux",
@@ -1965,6 +1965,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "guerre-en-ukraine-poutine-veut-desunir-l-europe-accusent-plusieurs-minis.html",
+      "title": "Guerre en Ukraine : Poutine veut «désunir» l’Europe, accusent plusieurs ministres europ… : assurance habitation — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=guerre-en-ukraine-poutine-veut-desuni",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "usa-france-grosse-deception-pour-les-bleues-surclassees-en-finale-du-mon.html",
+      "title": "USA-France: grosse déception pour les Bleues, surclassées en finale du Mondial : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=usa-france-grosse-deception-pour-les-bl",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "apres-des-mois-de-polemiques-le-directeur-de-la-maison-de-l-argentine-a-.html",
+      "title": "Après des mois de polémiques, le directeur de la Maison de l'Argentine à Paris quitte s… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=apres-des-mois-de-polemiques-le-directe",
+      "matchedRule": "habitation",
       "species": null
     }
   ]
