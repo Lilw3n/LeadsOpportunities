@@ -347,6 +347,19 @@
     if (ctx.type === "terrain" || ctx.type === "complexe") bits.push("Sections Terrain / urbanisme / viabilisation prioritaires.");
     if (ctx.type === "local") bits.push("Mode professionnel : surfaces utiles & bail commercial possibles.");
     if (ctx.transaction === "location") bits.push("Mode location : loyers / dépôt / bail mis en avant.");
+    var Sug = window.CrmImmoSuggestions;
+    if (Sug && Sug.summary) {
+      var sum = Sug.summary(prop);
+      if (sum.total) {
+        bits.push(
+          "Suggestions : <strong>" +
+            sum.critique +
+            "</strong> critique(s), <strong>" +
+            sum.important +
+            "</strong> important(s) — voir Composition ou Pièces."
+        );
+      }
+    }
     document.getElementById("smartBanner").innerHTML = bits.join(" ");
   }
 
@@ -1125,6 +1138,7 @@
 
     /* 1) Synthèse courte */
     var html =
+      suggestionsPanelHtml(10) +
       '<section class="synthese-courte" id="synthese-courte">' +
       '<div class="synthese-courte-head">' +
       "<div>" +
@@ -1260,8 +1274,33 @@
     if (cards.length) prop.units = next;
   }
 
+  function bindSuggestPanel(root) {
+    if (!root) return;
+    root.querySelectorAll(".immo-suggest-item[data-section]").forEach(function (el) {
+      el.style.cursor = "pointer";
+      el.onclick = function () {
+        var sec = el.getAttribute("data-section");
+        if (!sec) return;
+        collectActiveView();
+        state.activeUnitId = null;
+        state.sectionId = sec;
+        renderSection();
+        renderSide();
+        smartText();
+      };
+    });
+  }
+
+  function suggestionsPanelHtml(limit) {
+    var Sug = window.CrmImmoSuggestions;
+    if (!Sug || !Sug.renderPanelHtml) return "";
+    return Sug.renderPanelHtml(prop, { limit: limit || 14 });
+  }
+
   function renderDocs() {
-    var html = '<p class="dossier-hint">Checklist intelligente : les groupes s’adaptent au type / vente-location / unités louées. Coche Requis / Reçu.</p>';
+    var html =
+      suggestionsPanelHtml(16) +
+      '<p class="dossier-hint">Checklist intelligente : les groupes s’adaptent au type / vente-location / unités louées. Coche Requis / Reçu. Les cases « Requis » suivent aussi les suggestions (année, Carrez, plomb…).</p>';
     Schema.DOC_GROUPS.forEach(function (group) {
       var items = group.items.filter(function (it) {
         return Schema.documentApplies(it, prop);
@@ -1274,9 +1313,13 @@
         var st = prop.docs_checklist[it.id] || {};
         var req = st.requis != null ? !!st.requis : Schema.suggestedRequired(it, prop);
         var rec = !!st.recu;
+        var sugReq = Schema.suggestedRequired(it, prop);
         html +=
-          "<tr><td>" +
+          "<tr" +
+          (sugReq && !rec ? ' class="doc-row-suggest"' : "") +
+          "><td>" +
           esc(it.label) +
+          (sugReq ? ' <span class="doc-sug-tag">suggéré</span>' : "") +
           '</td><td><input type="checkbox" data-doc="' +
           esc(it.id) +
           '" data-flag="requis"' +
@@ -1585,11 +1628,12 @@
     if (section.special === "units") {
       body.innerHTML = renderUnitsOverview();
       bindCompositionActions(body);
+      bindSuggestPanel(body);
       return;
     }
-
     if (section.special === "documents") {
       body.innerHTML = renderDocs();
+      bindSuggestPanel(body);
       return;
     }
 
