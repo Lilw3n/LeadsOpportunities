@@ -10,7 +10,7 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderQueueItem, matchTopic } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -80,10 +80,14 @@ function bestFromPlatform(available, platform, feedMap, used) {
     .filter(function (c) {
       var k = c.url || c.title;
       return candidateSourceType(c, feedMap) === platform && !used.has(k);
-    })
-    .sort(function (a, b) {
-      return b.leadScore - a.leadScore;
     });
+  var matched = list.filter(function (c) {
+    return matchTopic(String(c.title || "") + " " + String(c.summary || "")).matched;
+  });
+  if (matched.length) list = matched;
+  list.sort(function (a, b) {
+    return b.leadScore - a.leadScore;
+  });
   return list[0] || null;
 }
 
@@ -94,6 +98,7 @@ function pickCandidates(candidates, count, state) {
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
+    if (isPlaceholderQueueItem(c)) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");

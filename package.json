@@ -38,6 +38,7 @@
     "blog:actu:archive": "node scripts/archive-actu-pending.cjs",
     "blog:actu:auto": "node scripts/auto-actu-publish.cjs",
     "blog:actu:verify-quality": "node scripts/verify-actu-quality.cjs",
+    "verify:actu-pipeline": "node scripts/verify-actu-pipeline.cjs",
     "build:clarity": "node scripts/bundle-clarity.cjs",
     "verify:clarity": "node scripts/verify-clarity.cjs",
     "verify:gsc": "node scripts/verify-gsc-readiness.cjs",

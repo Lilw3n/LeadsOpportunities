@@ -19,6 +19,7 @@ function arg(name) {
 function validateArticle(article) {
   var errors = [];
   if (!article || !article.title) errors.push("titre manquant");
+  else if (/collez ici/i.test(article.title)) errors.push("titre placeholder");
   if (!article.file) errors.push("file manquant");
   if (!article.blocks || !article.blocks.length) {
     errors.push("blocks vides");
@@ -51,25 +52,47 @@ function validateArticle(article) {
   return errors;
 }
 
+function loadPendingArticles() {
+  var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+  try {
+    var data = JSON.parse(fs.readFileSync(pending, "utf8"));
+    return data.articles || [];
+  } catch (e) {
+    console.error("Lecture pending:", e.message);
+    process.exit(1);
+  }
+}
+
+function parseArticlePayload(raw) {
+  if (!raw || !String(raw).trim()) return null;
+  var parsed = JSON.parse(raw);
+  if (Array.isArray(parsed)) return parsed;
+  if (parsed && parsed.articles) return parsed.articles;
+  return [parsed];
+}
+
 function main() {
   var file = arg("file");
+  var forceStdin = process.argv.indexOf("--stdin") !== -1;
   var articles = [];
 
   if (file) {
-    var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
-    articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
+    var raw = fs.readFileSync(path.resolve(file), "utf8");
+    articles = parseArticlePayload(raw) || [];
   } else {
-    var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
-    try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
-    } catch (e) {
-      console.error("Lecture pending:", e.message);
-      process.exit(1);
+    var stdin = "";
+    if (forceStdin || !process.stdin.isTTY) {
+      try {
+        stdin = fs.readFileSync(0, "utf8");
+      } catch (e) {
+        stdin = "";
+      }
+    }
+    var fromStdin = parseArticlePayload(stdin);
+    if (fromStdin && fromStdin.length) {
+      articles = fromStdin;
+    } else {
+      articles = loadPendingArticles();
     }
   }
 
