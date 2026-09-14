@@ -304,8 +304,31 @@
       description: document.getElementById("pDesc").value,
       notes: document.getElementById("pNotes").value,
     };
-    Store.upsertProperty(item);
+    var isNew = !item.id;
+    if (isNew) {
+      item.details = item.details || {};
+      var Ops = window.CrmImmoOps;
+      var Dossier = window.CrmImmoDossier;
+      if (Ops && Ops.seedUnitsForCreate) {
+        item.units = Ops.seedUnitsForCreate(item.property_type, item.transaction, Dossier);
+      } else if (Dossier && Dossier.emptyUnit) {
+        var u = Dossier.emptyUnit(item.property_type === "maison" ? "maison" : "appartement");
+        u.label = "Lot principal";
+        u.transaction = item.transaction;
+        item.units = [u];
+      }
+      if (item.transaction === "location" && Ops && Ops.ensureLocationOpsOnProperty) {
+        Ops.ensureLocationOpsOnProperty(item);
+        if (item.surface_m2) item.details.location_ops.remuneration.surface_m2 = item.surface_m2;
+      }
+      if (Ops && Ops.ensureEstimationMandatOnProperty) Ops.ensureEstimationMandatOnProperty(item);
+    }
+    var saved = Store.upsertProperty(item);
     document.getElementById("formPanel").hidden = true;
+    if (isNew && saved && saved.id) {
+      location.href = "./crm-immo-property.html?id=" + encodeURIComponent(saved.id) + "&wizard=1";
+      return;
+    }
     renderList();
   };
 

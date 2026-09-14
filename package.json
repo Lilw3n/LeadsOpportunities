@@ -92,6 +92,7 @@
     "verify:chasseur-bien": "node scripts/verify-chasseur-bien.cjs",
     "verify:immo-location-syndic": "node scripts/verify-immo-location-syndic.cjs",
     "verify:immo-multi-units": "node scripts/verify-immo-multi-units.cjs",
+    "verify:immo-ops-pipeline": "node scripts/verify-immo-ops-pipeline.cjs",
     "verify:client-value": "node scripts/verify-client-value.cjs",
     "verify:pret-risks": "node scripts/verify-pret-risks.cjs",
     "verify:achat-perennite": "node scripts/verify-achat-perennite.cjs",

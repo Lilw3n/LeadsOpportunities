@@ -81,8 +81,8 @@ window.CrmImmoSchema = (function () {
     {
       id: "composition",
       label: "Composition",
-      hint: "Schéma hiérarchique : terrain → immeuble/maison → étage → appart. Chaque nœud a sa barre noire ; totaux globaux et par branche.",
-      showIf: { types: ["maison", "terrain", "immeuble", "complexe", "local"] },
+      hint: "Schéma hiérarchique : terrain → immeuble/maison → étage → appart. Chaque nœud a sa barre noire (fiches riches) ; totaux globaux et par branche. Créé dès l’ouverture du bien.",
+      showIf: { types: ["appartement", "maison", "terrain", "immeuble", "complexe", "local", "parking"] },
       special: "units",
     },
     {
@@ -235,6 +235,13 @@ window.CrmImmoSchema = (function () {
         area("info_terrain", "Informations complémentaires", { important: true }),
         area("descriptif_terrain", "Descriptif terrain", { important: true }),
       ],
+    },
+    {
+      id: "location_pipeline",
+      label: "Location — dossier / visite / bail",
+      hint: "Pipeline pour préparer ta rémunération : dossiers locataires, visites, baux, honoraires (barème).",
+      showIf: { anyOf: ["location", "has_rented_unit"] },
+      special: "location_pipeline",
     },
     {
       id: "bail",
@@ -477,8 +484,14 @@ window.CrmImmoSchema = (function () {
       ],
     },
     {
+      id: "estimation_mandat",
+      label: "Estimation & mandat",
+      hint: "Estimation personnelle + projet de mandat : formulaire en ligne → PDF (honoraires calculés).",
+      special: "estimation_mandat",
+    },
+    {
       id: "estimation",
-      label: "Rapport d'estimation",
+      label: "Rapport d'estimation (détail)",
       fields: [
         num("valeur_terrain", "Valeur du terrain", "€"),
         num("valeur_m2_construction", "Valeur du m² à la construction", "€"),

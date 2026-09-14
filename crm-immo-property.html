@@ -215,6 +215,28 @@
     .piece-attr { display:inline-flex; align-items:center; gap:4px; font-size:.75rem; font-weight:700; color:#475569; font-style:normal; }
     .piece-attr input { margin:0; }
     .piece-notes { width:100%; padding:7px 8px; border-radius:8px; border:1px solid var(--line); background:#fff; font:inherit; }
+
+    .ops-banner, .ops-box {
+      background:linear-gradient(145deg,#f8fafc,#eef6ff); border:1px solid #dbe4f0; border-radius:12px;
+      padding:12px 14px; margin-bottom:14px; font-size:.84rem; color:#1e3a5f; line-height:1.45;
+    }
+    .ops-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:8px; margin:8px 0; }
+    .ops-grid label, .ops-full { display:flex; flex-direction:column; gap:4px; font-size:.72rem; font-weight:700; color:#64748b; }
+    .ops-grid input, .ops-grid select, .ops-full textarea, .ops-full input {
+      padding:7px 9px; border-radius:8px; border:1px solid var(--line); background:#fff; font:inherit; font-weight:500; color:#0f172a;
+    }
+    .ops-kpis { display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px; margin:10px 0; }
+    .ops-kpi { background:#fff; border:1px solid #dbe4f0; border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:2px; }
+    .ops-kpi span { font-size:.65rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:#64748b; }
+    .ops-kpi strong { font-size:1rem; color:#0f172a; }
+    .ops-kpi small { color:#64748b; font-size:.7rem; }
+    .ops-kpi.highlight { background:#ecfdf5; border-color:#a7f3d0; }
+    .ops-card { border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:10px; background:#f8fafc; }
+    .ops-card-head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; font-size:.84rem; }
+    .ops-checks { display:flex; flex-wrap:wrap; gap:8px 12px; margin:8px 0; }
+    .ops-check { display:inline-flex; align-items:center; gap:4px; font-size:.75rem; font-weight:700; color:#475569; }
+    .ops-empty { color:var(--muted); font-size:.82rem; }
+    .ops-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
   </style>
 </head>
 <body class="crm-subpage">
@@ -273,6 +295,9 @@
   <script src="./js/crm-people-relations-lib.js"></script>
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-dossier-lib.js"></script>
+  <script src="./js/bareme-honoraires-lib.js"></script>
+  <script src="./js/crm-immo-ops-lib.js"></script>
+  <script src="./js/crm-immo-ops-ui.js"></script>
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-immo-property-schema.js"></script>

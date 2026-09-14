@@ -13,22 +13,27 @@ Description · Pièces · Images · Immo cloud · Vendeur · Historique · Stati
 5. Intérieur / Extérieur (selon type)
 6. Copropriété (appart / immeuble)
 7. Terrain (terrain / maison / complexe)
-8. Bail (location ou unité louée)
-9. Mandat
-10. Diagnostics
-11. Visites
-12. Commentaires
-13. Gestion
-14. Travaux
-15. Rapport d’estimation
-16. Pièces justificatives (checklist Requis / Reçu, conditionnelle)
+8. **Location — dossier / visite / bail** (si location) — pipeline rémunération (barème + part agent), PDF dossier / bon de visite / projet de bail
+9. Bail (champs juridiques)
+10. Mandat
+11. Diagnostics
+12. Visites (accès / consignes)
+13. Commentaires
+14. Gestion
+15. Travaux
+16. **Estimation & mandat** — formulaire honoraires → PDF estimation / projet de mandat (aussi `/estimation-mandat.html`)
+17. Rapport d’estimation (détail)
+18. Pièces justificatives (checklist Requis / Reçu, conditionnelle)
+
+## Création de bien
+Depuis **Piges → + Bien** : seed automatique de la composition (lots) + ouverture de la fiche intelligente (`?wizard=1`). En location, ouverture directe du pipeline dossier/visite/bail.
 
 ## Intelligence
 - Affichage des sections/champs selon `property_type` + `transaction`
 - Type `complexe` + unités pour multi-strates
 - Checklist docs adaptée (maison / copro / terrain / financement / loué)
 - Sync champs clés vers la liste Piges (ville, prix, surface, DPE…)
-
+- Libs : `js/crm-immo-ops-lib.js` + `js/crm-immo-ops-ui.js` · vérif `npm run verify:immo-ops-pipeline`
 ## Statuts pipeline
 1 Prospection · 2 Estimation · 3 Mandat en cours · 4 Suspendu · 5 Sous offre · 6 Réservé - SRU · 7 Compromis · 8 Vendu / Loué · 10 Archivé · 11 A supprimer
 

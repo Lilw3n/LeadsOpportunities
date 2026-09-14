@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estimation & mandat | Leads Opportunities</title>
+  <meta name="description" content="Formulaire d'estimation personnelle et projet de mandat — PDF immédiat." />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    :root { --em-ink:#0f172a; --em-muted:#64748b; --em-line:#dbe4f0; --em-accent:#1e4f8a; }
+    body { margin:0; font-family:"Segoe UI", system-ui, sans-serif; color:var(--em-ink); background:#f4f7fb; }
+    .em-wrap { max-width:880px; margin:0 auto; padding:24px 16px 64px; }
+    .em-hero {
+      background:linear-gradient(145deg,#0b3a6e,#1e4f8a 55%,#3b82f6);
+      color:#fff; border-radius:18px; padding:28px 24px; margin-bottom:18px;
+    }
+    .em-hero h1 { margin:0 0 8px; font-size:1.6rem; }
+    .em-hero p { margin:0; opacity:.92; line-height:1.45; }
+    .em-card { background:#fff; border:1px solid var(--em-line); border-radius:14px; padding:18px; margin-bottom:14px; }
+    .em-card h2 { margin:0 0 12px; font-size:1.05rem; color:var(--em-accent); }
+    .em-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; }
+    label { display:flex; flex-direction:column; gap:4px; font-size:.75rem; font-weight:700; color:var(--em-muted); }
+    input, select, textarea {
+      padding:9px 10px; border-radius:8px; border:1px solid var(--em-line); font:inherit; font-weight:500; color:var(--em-ink); background:#f8fafc;
+    }
+    .em-full { grid-column:1 / -1; }
+    .em-kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px; }
+    @media (max-width:640px){ .em-kpis { grid-template-columns:1fr; } }
+    .em-kpi { background:#f8fafc; border:1px solid var(--em-line); border-radius:10px; padding:12px; }
+    .em-kpi span { display:block; font-size:.68rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:var(--em-muted); }
+    .em-kpi strong { font-size:1.15rem; }
+    .em-kpi.ok { background:#ecfdf5; border-color:#a7f3d0; }
+    .em-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+    .btn { border:0; border-radius:10px; padding:10px 14px; font-weight:700; cursor:pointer; }
+    .btn-primary { background:var(--em-accent); color:#fff; }
+    .btn-ghost { background:#e2e8f0; color:#0f172a; }
+    .em-note { font-size:.8rem; color:var(--em-muted); margin-top:10px; line-height:1.4; }
+  </style>
+</head>
+<body>
+  <div class="em-wrap">
+    <header class="em-hero">
+      <h1>Estimation & mandat</h1>
+      <p>Remplis le formulaire en ligne, calcule tes honoraires, exporte le PDF d’estimation ou le projet de mandat.</p>
+    </header>
+
+    <form id="emForm" class="em-card">
+      <h2>Client & bien</h2>
+      <div class="em-grid">
+        <label>Nom<input name="client_nom" required /></label>
+        <label>Prénom<input name="client_prenom" /></label>
+        <label>Téléphone<input name="client_tel" /></label>
+        <label>E-mail<input type="email" name="client_email" /></label>
+        <label class="em-full">Adresse du bien<input name="bien_adresse" required /></label>
+        <label>CP<input name="bien_cp" /></label>
+        <label>Ville<input name="bien_ville" required /></label>
+        <label>Type
+          <select name="bien_type">
+            <option value="appartement">Appartement</option>
+            <option value="maison">Maison</option>
+            <option value="terrain">Terrain</option>
+            <option value="immeuble">Immeuble</option>
+            <option value="local">Local</option>
+          </select>
+        </label>
+        <label>Surface m²<input type="number" name="bien_surface" min="0" step="0.1" /></label>
+        <label>Pièces<input type="number" name="bien_pieces" min="0" /></label>
+        <label>Transaction
+          <select name="transaction" id="emTx">
+            <option value="vente">Vente</option>
+            <option value="location">Location</option>
+          </select>
+        </label>
+        <label>Type de mandat
+          <select name="type_mandat">
+            <option value="simple">Simple</option>
+            <option value="exclusif">Exclusif</option>
+            <option value="semi-exclusif">Semi-exclusif</option>
+            <option value="recherche">Recherche</option>
+            <option value="gestion">Gestion</option>
+          </select>
+        </label>
+      </div>
+    </form>
+
+    <div class="em-card">
+      <h2>Valeurs & honoraires</h2>
+      <div class="em-grid" id="emValues">
+        <label>Valeur basse €<input type="number" name="valeur_estimee_basse" form="emForm" /></label>
+        <label>Valeur estimée €<input type="number" name="valeur_estimee" form="emForm" /></label>
+        <label>Valeur haute €<input type="number" name="valeur_estimee_haute" form="emForm" /></label>
+        <label>Prix souhaité €<input type="number" name="prix_souhaite" form="emForm" /></label>
+        <label>Loyer estimé €<input type="number" name="loyer_estime" form="emForm" /></label>
+        <label>Mode honoraires
+          <select name="honoraires_mode" form="emForm">
+            <option value="pourcent">Pourcentage</option>
+            <option value="forfait">Forfait</option>
+          </select>
+        </label>
+        <label>% honoraires<input type="number" step="0.1" name="honoraires_pct" form="emForm" value="5" /></label>
+        <label>Forfait TTC<input type="number" name="honoraires_forfait" form="emForm" /></label>
+        <label>À charge
+          <select name="charge_honoraires" form="emForm">
+            <option value="vendeur">Vendeur</option>
+            <option value="acquereur">Acquéreur</option>
+            <option value="partage">Partagés</option>
+            <option value="bailleur">Bailleur</option>
+            <option value="locataire">Locataire</option>
+          </select>
+        </label>
+        <label>Durée mandat (mois)<input type="number" name="duree_mandat_mois" form="emForm" value="3" /></label>
+        <label class="em-full">Comparables<textarea name="comparables" form="emForm" rows="2"></textarea></label>
+        <label class="em-full">Recommandation<textarea name="recommandation" form="emForm" rows="2"></textarea></label>
+      </div>
+      <div class="em-kpis" id="emKpis">
+        <div class="em-kpi"><span>Base</span><strong id="kBase">—</strong></div>
+        <div class="em-kpi"><span>Honoraires HT</span><strong id="kHt">—</strong></div>
+        <div class="em-kpi ok"><span>Honoraires TTC</span><strong id="kTtc">—</strong></div>
+      </div>
+      <div class="em-actions">
+        <button type="button" class="btn btn-primary" id="btnPdfEst">PDF estimation</button>
+        <button type="button" class="btn btn-ghost" id="btnPdfMandat">PDF projet de mandat</button>
+        <a class="btn btn-ghost" href="./crm-immo-properties.html">Ouvrir CRM piges</a>
+      </div>
+      <p class="em-note">Les PDF s’ouvrent via Impression navigateur (Enregistrer en PDF). Projet de mandat non signé — signature selon ton process (SES / notaire).</p>
+    </div>
+  </div>
+
+  <script src="./js/crm-immo-ops-lib.js"></script>
+  <script src="./js/print-document-lib.js"></script>
+  <script src="./js/estimation-mandat-form.js"></script>
+</body>
+</html>

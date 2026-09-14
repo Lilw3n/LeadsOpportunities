@@ -384,6 +384,14 @@
     var body = document.getElementById("sectionBody");
     if (!body || !state.sectionId) return;
     if (state.sectionId === "composition" || state.sectionId === "pieces") return;
+    if (state.sectionId === "location_pipeline" && window.CrmImmoOpsUi) {
+      window.CrmImmoOpsUi.collectLocationPipeline(body, prop);
+      return;
+    }
+    if (state.sectionId === "estimation_mandat" && window.CrmImmoOpsUi) {
+      window.CrmImmoOpsUi.collectEstimationMandat(body, prop);
+      return;
+    }
     var bucket = ensureSectionBucket(state.sectionId);
     body.querySelectorAll("[data-field]").forEach(function (el) {
       var fid = el.getAttribute("data-field");
@@ -1329,6 +1337,28 @@
       return;
     }
 
+    if (section.special === "location_pipeline") {
+      var OpsUi = window.CrmImmoOpsUi;
+      body.innerHTML = OpsUi ? OpsUi.renderLocationPipeline(prop) : "<p>Module ops UI manquant.</p>";
+      if (OpsUi) {
+        OpsUi.bindLocationPipeline(body, prop, function () {
+          renderSection();
+        });
+      }
+      return;
+    }
+
+    if (section.special === "estimation_mandat") {
+      var OpsUi2 = window.CrmImmoOpsUi;
+      body.innerHTML = OpsUi2 ? OpsUi2.renderEstimationMandat(prop) : "<p>Module ops UI manquant.</p>";
+      if (OpsUi2) {
+        OpsUi2.bindEstimationMandat(body, prop, function () {
+          renderSection();
+        });
+      }
+      return;
+    }
+
     var bucket = ensureSectionBucket(section.id);
     var fields = Schema.visibleFields(section, prop);
     body.innerHTML = fields.map(function (field) {
@@ -2047,6 +2077,43 @@
   document.getElementById("btnSave2").onclick = save;
 
   fillMeta();
+
+  (function bootstrapWizard() {
+    var params = new URLSearchParams(location.search);
+    if (params.get("wizard") !== "1") return;
+    if (!prop.units || !prop.units.length) {
+      var Ops = window.CrmImmoOps;
+      var Dossier = window.CrmImmoDossier;
+      if (Ops && Ops.seedUnitsForCreate) {
+        prop.units = Ops.seedUnitsForCreate(prop.property_type, prop.transaction, Dossier);
+      }
+    }
+    if (prop.transaction === "location" && window.CrmImmoOps) {
+      window.CrmImmoOps.ensureLocationOpsOnProperty(prop);
+      state.sectionId = "location_pipeline";
+    } else {
+      state.sectionId = "composition";
+    }
+    if (window.CrmImmoOps) window.CrmImmoOps.ensureEstimationMandatOnProperty(prop);
+    var banner = document.getElementById("smartBanner");
+    if (banner) {
+      banner.innerHTML =
+        "<strong>Création guidée</strong> — la fiche riche est déjà ouverte. " +
+        (prop.transaction === "location"
+          ? "Renseigne le pipeline <em>dossier → visite → bail → rémunération</em>, puis la composition des lots."
+          : "Complète la composition (lots), puis <em>Estimation & mandat</em> pour préparer ton PDF.") +
+        ' <button type="button" class="btn btn-ghost btn-sm" id="btnDismissWizard">OK</button>';
+      banner.hidden = false;
+      var dismiss = document.getElementById("btnDismissWizard");
+      if (dismiss) {
+        dismiss.onclick = function () {
+          banner.hidden = true;
+          history.replaceState({}, "", "./crm-immo-property.html?id=" + encodeURIComponent(prop.id));
+        };
+      }
+    }
+  })();
+
   (function bindUrlDetect() {
     var urlEl = document.getElementById("mUrl");
     var srcEl = document.getElementById("mSource");
