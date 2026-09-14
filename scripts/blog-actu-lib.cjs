@@ -152,6 +152,17 @@ function rankCandidates(candidates) {
     });
 }
 
+/** File / titre d'exemple inbox — ne jamais publier. */
+function isPlaceholderActuItem(item) {
+  var title = String((item && item.title) || "").trim();
+  var id = String((item && item.id) || "").toLowerCase();
+  if (!title) return true;
+  if (/collez ici/i.test(title)) return true;
+  if (id.indexOf("pending-template") !== -1) return true;
+  if (/^\[?\s*(titre|title|exemple)\s*\]?$/i.test(title)) return true;
+  return false;
+}
+
 function ctaWithUtm(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
@@ -349,6 +360,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuItem: isPlaceholderActuItem,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
