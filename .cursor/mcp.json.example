@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "Allo": {
+      "url": "https://mcp.withallo.com/mcp",
+      "headers": {
+        "Authorization": "YOUR_ALLO_API_KEY"
+      }
+    }
+  }
+}

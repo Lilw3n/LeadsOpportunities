@@ -63,9 +63,9 @@ Implémentation : `api/_lib/lead-post-ingest.js` → `notifySlack()`.
 
 ---
 
-## Phase 2 — WithAllo (quand le volume augmente)
+## Phase 2 — WithAllo (appels)
 
-Site WithAllo : [https://web.withallo.com/](https://web.withallo.com/)
+Site WithAllo : [https://web.withallo.com/](https://web.withallo.com/) · MCP : [docs/ALLO-MCP-APPELS.md](./ALLO-MCP-APPELS.md)
 
 ### Déjà câblé dans le projet
 
@@ -76,15 +76,17 @@ Site WithAllo : [https://web.withallo.com/](https://web.withallo.com/)
 | Header | `Authorization: Bearer {WITHALLO_WEBHOOK_SECRET}` |
 | CRM | Source `withallo` dans pipeline + dashboard |
 | Matching VSP | `crm-private-offer-matching.html` reconnaît `withallo` |
+| MCP Cursor (appels) | `.cursor/mcp.json.example` → copier en `.cursor/mcp.json` (gitignoré) |
 
-### Configuration WithAllo (quand vous souscrivez)
+### Configuration WithAllo
 
 1. Générer un secret fort → Vercel `WITHALLO_WEBHOOK_SECRET`
 2. Dans WithAllo : webhook vers l’URL ci-dessus
 3. **Redeploy** Vercel
 4. Les événements Allo (appels, leads) arrivent dans le **même CRM** que Meta et le site
+5. Pour piloter les appels depuis Cursor : clé API Allo dans `.cursor/mcp.json` (voir `docs/ALLO-MCP-APPELS.md`)
 
-Doc technique : `docs/automation-make-n8n.md` (section WithAllo), `docs/CRM-AUTOMATIONS.md`.
+Doc technique : `docs/automation-make-n8n.md` (section WithAllo), `docs/CRM-AUTOMATIONS.md`, `docs/ALLO-MCP-APPELS.md`.
 
 ---
 

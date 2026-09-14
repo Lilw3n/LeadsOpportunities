@@ -29,7 +29,7 @@ Estimation · Visite · Signature mandat · Compromis · RDV · Appel · Email �
 | Module | Statut | Hook prévu |
 |--------|--------|------------|
 | **Stripe** | Déjà quotes / acomptes | RDV « rappel paiement » après checkout |
-| **WithAllo** (`withallo.com`) | Webhook `meeting_booked` → `crm_events` | Appeler `syncCrmEventToGoogle` après insert |
+| **WithAllo** (`withallo.com`) | Webhook appels/RDV → `crm_events` + MCP Cursor (`docs/ALLO-MCP-APPELS.md`) | Appeler `syncCrmEventToGoogle` après insert |
 | **Compta gratuite** | À choisir | Candidats FR : [Indy](https://www.indy.fr) (auto-entrepreneur), [Pennylane](https://www.pennylane.com) (essai), [Axonaut](https://axonaut.com), export FEC / CSV vers logiciel local |
 
 Ne pas bloquer l’agenda sur ces intégrations : les points d’ancrage existent (`crm_events`, webhooks, Stripe quote).

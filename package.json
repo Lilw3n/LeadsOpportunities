@@ -122,7 +122,8 @@
     "verify:dead-clicks": "node scripts/verify-dead-clicks.cjs",
     "verify:immo-cadastre-mirror": "node scripts/verify-immo-cadastre-mirror.cjs",
     "verify:immo-history-delete": "node scripts/verify-immo-history-delete.cjs",
-    "verify:immo-synthese-totale": "node scripts/verify-immo-synthese-totale.cjs"
+    "verify:immo-synthese-totale": "node scripts/verify-immo-synthese-totale.cjs",
+    "verify:allo-mcp-appels": "node scripts/verify-allo-mcp-appels.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",
