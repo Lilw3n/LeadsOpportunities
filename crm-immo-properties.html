@@ -35,12 +35,51 @@
       max-height: calc(100vh - 40px);
       overflow: auto;
     }
+    .immo-id-field .immo-id-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .immo-id-field .immo-id-row input { flex: 1; min-width: 0; }
+    .immo-id-open {
+      flex-shrink: 0;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--piges-blue, #1e4f8a);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .immo-id-open:hover { text-decoration: underline; }
+    .immo-id-fiche { margin-top: 4px; }
     .piges-side h1 {
       margin: 0 0 12px;
       font-size: 1.15rem;
       letter-spacing: .04em;
       color: var(--piges-blue);
       text-transform: uppercase;
+    }
+    .immo-prospect {
+      margin: 6px 0 4px;
+      font-size: .9rem;
+      line-height: 1.45;
+      color: #1e3a5f;
+    }
+    .immo-prospect strong {
+      color: #0f2744;
+      font-weight: 700;
+    }
+    .immo-prospect a {
+      color: #0b5cab;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .immo-prospect a:hover {
+      color: #084a8a;
+    }
+    .immo-prospect-empty {
+      color: #8a6d3b;
+      font-style: italic;
     }
     .piges-sec {
       border-top: 2px solid var(--piges-blue);
@@ -357,9 +396,27 @@
           <label>Agence<input id="pAgence" /></label>
           <label>Suivi par<input id="pSuivi" /></label>
           <label>Téléphone contact<input id="pPhone" /></label>
-          <label>Contact vendeur (id)<input id="pOwner" placeholder="contact_…" /></label>
-          <label>Contact acquéreur (id)<input id="pBuyer" placeholder="contact_…" /></label>
-          <label>Lead lié (id)<input id="pLead" placeholder="lead_…" /></label>
+          <label class="immo-id-field">Contact vendeur (id)
+            <span class="immo-id-row">
+              <input id="pOwner" placeholder="contact_… / ct_…" />
+              <a class="immo-id-open" id="pOwnerOpen" href="#" hidden target="_blank" rel="noopener">Ouvrir</a>
+            </span>
+          </label>
+          <label class="immo-id-field">Contact acquéreur (id)
+            <span class="immo-id-row">
+              <input id="pBuyer" placeholder="contact_… / ct_…" />
+              <a class="immo-id-open" id="pBuyerOpen" href="#" hidden target="_blank" rel="noopener">Ouvrir</a>
+            </span>
+          </label>
+          <label class="immo-id-field">Lead lié (id)
+            <span class="immo-id-row">
+              <input id="pLead" placeholder="lead_…" />
+              <a class="immo-id-open" id="pLeadOpen" href="#" hidden target="_blank" rel="noopener">Ouvrir</a>
+            </span>
+          </label>
+          <p class="immo-id-fiche" id="pFicheLinks" hidden style="grid-column:1/-1;margin:0">
+            <a class="immo-id-open" id="pPropOpen" href="#" target="_blank" rel="noopener">Ouvrir la fiche bien</a>
+          </p>
           <div class="immo-check" style="grid-column:1/-1">
             <label><input type="checkbox" id="pAContacter" /> À contacter</label>
             <label><input type="checkbox" id="pContactConnu" /> Contact connu</label>

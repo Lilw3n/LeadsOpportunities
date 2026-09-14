@@ -37,6 +37,29 @@
     if (!list.length) sel.innerHTML = '<option value="">Aucune fiche</option>';
   }
 
+  function syncCritIdLinks() {
+    var contact = (document.getElementById("cContact").value || "").trim();
+    var lead = (document.getElementById("cLead").value || "").trim();
+    var cOpen = document.getElementById("cContactOpen");
+    var lOpen = document.getElementById("cLeadOpen");
+    if (cOpen) {
+      if (contact) {
+        cOpen.href = "./crm-contact.html?id=" + encodeURIComponent(contact);
+        cOpen.hidden = false;
+      } else {
+        cOpen.hidden = true;
+      }
+    }
+    if (lOpen) {
+      if (lead) {
+        lOpen.href = "./crm-lead-detail.html?id=" + encodeURIComponent(lead);
+        lOpen.hidden = false;
+      } else {
+        lOpen.hidden = true;
+      }
+    }
+  }
+
   function openForm(c) {
     c = c || {};
     document.getElementById("critFormPanel").hidden = false;
@@ -65,6 +88,7 @@
     document.getElementById("cElev").checked = !!c.want_elevator;
     document.getElementById("cPool").checked = !!c.want_pool;
     document.getElementById("cNotes").value = c.notes || "";
+    syncCritIdLinks();
   }
 
   function runMatch() {
@@ -181,6 +205,12 @@
   };
   document.getElementById("btnRunMatch").onclick = runMatch;
   document.getElementById("critSelect").onchange = runMatch;
+  ["cContact", "cLead"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", syncCritIdLinks);
+    el.addEventListener("change", syncCritIdLinks);
+  });
 
   Store.seedDemoIfEmpty();
   Store.syncFromApi()

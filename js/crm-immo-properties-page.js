@@ -9,6 +9,9 @@
 
   var triState = { fPhone: "any", fGeo: "any" };
   var selected = {};
+  /** Cache id contact → { label, phone, contact_type } */
+  var contactLabelCache = {};
+  var contactFetchQueued = {};
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -16,6 +19,178 @@
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
+  }
+
+  function authHeaders() {
+    return { Authorization: "Bearer " + (localStorage.getItem("lo_token") || "") };
+  }
+
+  function contactDisplayName(c) {
+    if (!c) return "";
+    var first = c.first_name || c.firstName || "";
+    var last = c.last_name || c.lastName || "";
+    var name = [first, last].filter(Boolean).join(" ").trim();
+    if (name) return name;
+    if (c.company) return String(c.company);
+    if (c.email) return String(c.email);
+    if (c.phone) return String(c.phone);
+    return "";
+  }
+
+  function roleLabel(roleId) {
+    var hit = (Matcher.PARTY_ROLES || []).find(function (r) {
+      return r.id === roleId;
+    });
+    return (hit && hit.label) || roleId || "Contact";
+  }
+
+  function shortId(id) {
+    var s = String(id || "");
+    return s.length > 18 ? s.slice(0, 14) + "…" : s;
+  }
+
+  function ensureContactLabel(id) {
+    id = String(id || "").trim();
+    if (!id) return Promise.resolve(null);
+    if (contactLabelCache[id]) return Promise.resolve(contactLabelCache[id]);
+    if (contactFetchQueued[id]) return contactFetchQueued[id];
+    contactFetchQueued[id] = fetch("/api/crm/contact?id=" + encodeURIComponent(id), {
+      headers: authHeaders(),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (data) {
+        var c = (data && (data.contact || data)) || null;
+        if (!c || !c.id) {
+          contactLabelCache[id] = { label: shortId(id), phone: "", missing: true };
+        } else {
+          contactLabelCache[id] = {
+            label: contactDisplayName(c) || shortId(id),
+            phone: c.phone || "",
+            contact_type: c.contact_type || c.type || "",
+            missing: false,
+          };
+        }
+        return contactLabelCache[id];
+      })
+      .catch(function () {
+        contactLabelCache[id] = { label: shortId(id), phone: "", missing: true };
+        return contactLabelCache[id];
+      })
+      .finally(function () {
+        delete contactFetchQueued[id];
+      });
+    return contactFetchQueued[id];
+  }
+
+  /**
+   * Ligne « qui est derrière ce bien » : parties dossier, contacts CRM, tél. pige.
+   */
+  function prospectBlockHtml(p) {
+    var bits = [];
+    var parties = Store.listParties(p.id) || [];
+    var seenContact = {};
+
+    parties.forEach(function (party) {
+      if (!party || (!party.name && !party.contact_id && !party.phone)) return;
+      var role = roleLabel(party.role);
+      var label = party.name || (party.contact_id && contactLabelCache[party.contact_id]
+        ? contactLabelCache[party.contact_id].label
+        : "") || party.phone || shortId(party.contact_id);
+      var html =
+        "<strong>" +
+        esc(role) +
+        "</strong> " +
+        (party.contact_id
+          ? '<a href="./crm-contact.html?id=' +
+            encodeURIComponent(party.contact_id) +
+            '">' +
+            esc(label) +
+            "</a>"
+          : esc(label));
+      if (party.phone && party.name) html += " · ☎ " + esc(party.phone);
+      bits.push(html);
+      if (party.contact_id) seenContact[party.contact_id] = true;
+    });
+
+    function pushContact(id, role) {
+      id = String(id || "").trim();
+      if (!id || seenContact[id]) return;
+      seenContact[id] = true;
+      var cached = contactLabelCache[id];
+      var label = (cached && cached.label) || shortId(id);
+      var typeHint =
+        cached && cached.contact_type
+          ? " (" + esc(cached.contact_type) + ")"
+          : "";
+      bits.push(
+        "<strong>" +
+          esc(role) +
+          "</strong> <a href=\"./crm-contact.html?id=" +
+          encodeURIComponent(id) +
+          '">' +
+          esc(label) +
+          "</a>" +
+          typeHint
+      );
+    }
+
+    pushContact(p.owner_contact_id, "Vendeur / proprio");
+    pushContact(p.buyer_contact_id, "Acquéreur");
+
+    if (p.lead_id) {
+      bits.push(
+        '<strong>Lead</strong> <a href="./crm-lead-detail.html?id=' +
+          encodeURIComponent(p.lead_id) +
+          '">' +
+          esc(shortId(p.lead_id)) +
+          "</a>"
+      );
+    }
+
+    if (!bits.length && p.phone) {
+      bits.push(
+        "<strong>Prospect</strong> ☎ " +
+          esc(p.phone) +
+          ' <span class="immo-prospect-hint">(pas encore lié à une fiche contact)</span>'
+      );
+    } else if (!bits.length) {
+      bits.push(
+        '<span class="immo-prospect-empty">Aucun prospect / client lié — renseignez le contact vendeur ou une personne dans la fiche</span>'
+      );
+    }
+
+    return (
+      '<div class="immo-prospect" data-prop-prospect="' +
+      esc(p.id) +
+      '">' +
+      bits.join("<br>") +
+      "</div>"
+    );
+  }
+
+  function collectContactIds(list) {
+    var ids = {};
+    (list || []).forEach(function (p) {
+      if (p.owner_contact_id) ids[p.owner_contact_id] = true;
+      if (p.buyer_contact_id) ids[p.buyer_contact_id] = true;
+      (Store.listParties(p.id) || []).forEach(function (party) {
+        if (party && party.contact_id) ids[party.contact_id] = true;
+      });
+    });
+    return Object.keys(ids);
+  }
+
+  function hydrateContactLabels(list) {
+    var ids = collectContactIds(list).filter(function (id) {
+      return !contactLabelCache[id];
+    });
+    if (!ids.length) return;
+    var pending = ids.map(ensureContactLabel);
+    Promise.all(pending).then(function () {
+      renderList(true);
+    });
   }
 
   function euro(n) {
@@ -123,7 +298,7 @@
     });
   }
 
-  function renderList() {
+  function renderList(skipHydrate) {
     var list = Store.listProperties(queryFromForm());
     var mount = document.getElementById("listMount");
     document.getElementById("listCount").textContent = list.length + " bien(s)";
@@ -187,6 +362,7 @@
               esc(p.listing_url) +
               '" target="_blank" rel="noopener">Voir l’annonce</a></div>'
             : "") +
+          prospectBlockHtml(p) +
           '<div class="immo-tags">' +
           tags
             .map(function (t) {
@@ -216,6 +392,66 @@
         selected[chk.getAttribute("data-id")] = chk.checked;
       };
     });
+    if (!skipHydrate) hydrateContactLabels(list);
+  }
+
+  function crmEntityHref(id) {
+    var raw = String(id || "").trim();
+    if (!raw) return null;
+    if (/^(contact_|ct_)/i.test(raw)) {
+      return "./crm-contact.html?id=" + encodeURIComponent(raw);
+    }
+    if (/^(lead_|ld_)/i.test(raw) || /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(raw)) {
+      return "./crm-lead-detail.html?id=" + encodeURIComponent(raw);
+    }
+    if (/^(prop_|property_)/i.test(raw)) {
+      return "./crm-immo-property.html?id=" + encodeURIComponent(raw);
+    }
+    // IDs contacts historiques sans préfixe strict → page contact par défaut
+    if (/^ct_/i.test(raw) || raw.indexOf("contact") === 0) {
+      return "./crm-contact.html?id=" + encodeURIComponent(raw);
+    }
+    return "./crm-contact.html?id=" + encodeURIComponent(raw);
+  }
+
+  function syncIdOpenLink(inputId, linkId, hrefFn) {
+    var input = document.getElementById(inputId);
+    var link = document.getElementById(linkId);
+    if (!input || !link) return;
+    var href = hrefFn ? hrefFn(input.value) : crmEntityHref(input.value);
+    if (href) {
+      link.href = href;
+      link.hidden = false;
+    } else {
+      link.removeAttribute("href");
+      link.hidden = true;
+    }
+  }
+
+  function syncFormIdLinks() {
+    syncIdOpenLink("pOwner", "pOwnerOpen", function (v) {
+      v = String(v || "").trim();
+      return v ? "./crm-contact.html?id=" + encodeURIComponent(v) : null;
+    });
+    syncIdOpenLink("pBuyer", "pBuyerOpen", function (v) {
+      v = String(v || "").trim();
+      return v ? "./crm-contact.html?id=" + encodeURIComponent(v) : null;
+    });
+    syncIdOpenLink("pLead", "pLeadOpen", function (v) {
+      v = String(v || "").trim();
+      return v ? "./crm-lead-detail.html?id=" + encodeURIComponent(v) : null;
+    });
+    var propId = (document.getElementById("pId").value || "").trim();
+    var propOpen = document.getElementById("pPropOpen");
+    var fiche = document.getElementById("pFicheLinks");
+    if (propOpen && fiche) {
+      if (propId) {
+        propOpen.href = "./crm-immo-property.html?id=" + encodeURIComponent(propId);
+        fiche.hidden = false;
+      } else {
+        fiche.hidden = true;
+      }
+    }
   }
 
   function openForm(p) {
@@ -259,6 +495,7 @@
     document.getElementById("pPool").checked = !!p.has_pool;
     document.getElementById("pDesc").value = p.description || "";
     document.getElementById("pNotes").value = p.notes || "";
+    syncFormIdLinks();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -513,6 +750,12 @@
 
   fillSelects();
   bindUrlAutodetect(document.getElementById("pUrl"), document.getElementById("pSource"));
+  ["pOwner", "pBuyer", "pLead"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", syncFormIdLinks);
+    el.addEventListener("change", syncFormIdLinks);
+  });
   Store.seedDemoIfEmpty();
   Store.syncFromApi().then(renderList).catch(renderList);
 })();

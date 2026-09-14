@@ -13,6 +13,10 @@
     .immo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
     .immo-grid label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:var(--muted); }
     .immo-grid input, .immo-grid select, .immo-grid textarea { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
+    .immo-id-field .immo-id-row { display:flex; align-items:center; gap:8px; }
+    .immo-id-field .immo-id-row input { flex:1; min-width:0; }
+    .immo-id-open { flex-shrink:0; font-size:.82rem; font-weight:700; color:#1e4f8a; text-decoration:none; white-space:nowrap; }
+    .immo-id-open:hover { text-decoration:underline; }
     .immo-check { display:flex; flex-wrap:wrap; gap:10px; }
     .immo-check label { flex-direction:row; align-items:center; gap:6px; font-weight:600; }
     .match-row {
@@ -56,8 +60,18 @@
     <form id="critForm" class="immo-grid">
       <input type="hidden" id="cId" />
       <label>Libellé<input id="cLabel" required placeholder="Famille Strasbourg…" /></label>
-      <label>Contact CRM id<input id="cContact" placeholder="contact_…" /></label>
-      <label>Lead id<input id="cLead" placeholder="lead_…" /></label>
+      <label class="immo-id-field">Contact CRM id
+        <span class="immo-id-row">
+          <input id="cContact" placeholder="contact_… / ct_…" />
+          <a class="immo-id-open" id="cContactOpen" href="#" hidden target="_blank" rel="noopener">Ouvrir</a>
+        </span>
+      </label>
+      <label class="immo-id-field">Lead id
+        <span class="immo-id-row">
+          <input id="cLead" placeholder="lead_…" />
+          <a class="immo-id-open" id="cLeadOpen" href="#" hidden target="_blank" rel="noopener">Ouvrir</a>
+        </span>
+      </label>
       <label>Types (virgules)<input id="cTypes" placeholder="appartement,maison" /></label>
       <label>Villes (virgules)<input id="cCities" placeholder="Strasbourg,Illkirch" /></label>
       <label>CP (virgules)<input id="cCp" placeholder="67000,67400" /></label>
