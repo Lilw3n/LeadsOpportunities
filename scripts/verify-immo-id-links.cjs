@@ -30,7 +30,11 @@ assert(js.indexOf("syncFormIdLinks") >= 0, "syncFormIdLinks");
 assert(js.indexOf("crm-contact.html?id=") >= 0, "href contact");
 assert(js.indexOf("crm-lead-detail.html?id=") >= 0, "href lead");
 assert(js.indexOf("crm-immo-property.html?id=") >= 0, "href fiche bien");
-assert(js.indexOf('addEventListener("input", syncFormIdLinks)') >= 0, "écoute input IDs");
+assert(js.indexOf("prospectBlockHtml") >= 0, "bloc prospect sur liste");
+assert(js.indexOf("hydrateContactLabels") >= 0, "hydratation noms contacts");
+assert(js.indexOf("immo-prospect") >= 0, "classe CSS prospect");
+assert(js.indexOf("/api/crm/contact?id=") >= 0, "fetch contact par id");
+assert(html.indexOf(".immo-prospect") >= 0, "styles prospect dans page");
 
 var matchHtml = read("crm-immo-matching.html");
 assert(matchHtml.indexOf("cContactOpen") >= 0 && matchHtml.indexOf("cLeadOpen") >= 0, "matching : liens ID");
