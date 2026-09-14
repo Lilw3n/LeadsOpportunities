@@ -1904,6 +1904,116 @@
     };
   }
 
+
+  function escImmo(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function euroImmo(n) {
+    if (n == null || n === "") return "—";
+    return Number(n).toLocaleString("fr-FR") + " €";
+  }
+
+  function renderImmoLinkedProperties() {
+    var mount = document.getElementById("immoLinkedPropertiesMount");
+    if (!mount) return;
+    var Store = window.CrmImmoStore;
+    var Matcher = window.CrmImmoMatcher;
+    var Links = window.CrmImmoContactLinks;
+    if (!Store || !Links || !data || !data.contact) {
+      mount.innerHTML =
+        '<p class="immo-linked-empty">Module immo indisponible sur cette page.</p>';
+      return;
+    }
+
+    function paint() {
+      var contact = data.contact;
+      var rows = Links.propertiesForContact(contact, Store, Matcher);
+      if (!rows.length) {
+        mount.innerHTML =
+          '<p class="immo-linked-empty">Aucune pige CRM liée pour l’instant. ' +
+          "Ouvrez une pige et renseignez l’ID contact vendeur, ou liez une correspondance téléphone ci-dessous après création du bien. " +
+          '<a href="./crm-immo-properties.html">Voir les piges</a></p>';
+        return;
+      }
+      mount.innerHTML =
+        '<div class="immo-linked-list">' +
+        rows
+          .map(function (row) {
+            var p = row.property;
+            var soft = row.soft
+              ? '<div class="immo-linked-meta">Rapprochement par ' +
+                escImmo(row.how === "phone" || row.how === "party_phone" ? "téléphone" : "e-mail") +
+                " — pas encore lié en base</div>"
+              : '<div class="immo-linked-meta">Rôle : ' + escImmo(row.role_label || row.role) + "</div>";
+            var actions =
+              '<div class="immo-linked-actions">' +
+              '<a class="btn btn-ghost btn-sm" href="./crm-immo-property.html?id=' +
+              encodeURIComponent(p.id) +
+              '">Ouvrir fiche</a>' +
+              '<a class="btn btn-ghost btn-sm" href="./crm-immo-properties.html">Liste piges</a>' +
+              (row.soft
+                ? '<button type="button" class="btn btn-primary btn-sm immo-link-owner" data-prop-id="' +
+                  escImmo(p.id) +
+                  '">Lier comme vendeur</button>'
+                : "") +
+              "</div>";
+            return (
+              '<article class="immo-linked-card' +
+              (row.soft ? " immo-linked-soft" : "") +
+              '"><div><h3>' +
+              escImmo(p.title || "Bien") +
+              "</h3>" +
+              '<div class="immo-linked-meta">' +
+              escImmo(p.city || "—") +
+              " " +
+              escImmo(p.postal_code || "") +
+              " · " +
+              euroImmo(p.price_fai != null ? p.price_fai : p.price_net) +
+              (p.phone ? " · ☎ " + escImmo(p.phone) : "") +
+              "</div>" +
+              soft +
+              "</div>" +
+              actions +
+              "</article>"
+            );
+          })
+          .join("") +
+        "</div>";
+
+      mount.querySelectorAll(".immo-link-owner").forEach(function (btn) {
+        btn.onclick = function () {
+          var id = btn.getAttribute("data-prop-id");
+          var prop = Store.getProperty(id);
+          if (!prop) return;
+          if (
+            !confirm(
+              "Lier « " +
+                (prop.title || id) +
+                " » à " +
+                (Links.contactDisplayName(data.contact) || contactId) +
+                " comme vendeur ?"
+            )
+          ) {
+            return;
+          }
+          Links.linkAsOwner(Store, prop, data.contact);
+          renderImmoLinkedProperties();
+        };
+      });
+    }
+
+    mount.innerHTML = "<p style=\"color:var(--muted)\">Synchronisation des piges…</p>";
+    var sync = Store.syncFromApi ? Store.syncFromApi() : Promise.resolve();
+    Promise.resolve(sync)
+      .then(paint)
+      .catch(paint);
+  }
+
   function render() {
     renderSimulateBanner();
     if (window.CrmContactActions) {
