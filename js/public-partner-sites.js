@@ -28,14 +28,18 @@
       : img
         ? '<span class="partner-site-badge">Aperçu site</span>'
         : "";
-    var href = site.url && Lib.isHttpUrl(site.url) ? site.url : "#";
-    var external = href !== "#";
+    var href = site.url && Lib.isHttpUrl(site.url) ? site.url : "";
+    var external = !!href;
+    /* Pas de href="#" : Clarity compte ça en dead click (aucune navigation réelle). */
+    var openTag = external
+      ? '<a class="partner-site-card" href="' +
+        Lib.esc(href) +
+        '" target="_blank" rel="noopener noreferrer">'
+      : '<a class="partner-site-card partner-site-card--hub" href="./sites-partenaires/" title="Voir le catalogue partenaires">';
+    var closeTag = "</a>";
     return (
-      '<a class="partner-site-card" href="' +
-      Lib.esc(href) +
-      '"' +
-      (external ? ' target="_blank" rel="noopener noreferrer"' : "") +
-      '><div class="partner-site-preview">' +
+      openTag +
+      '<div class="partner-site-preview">' +
       badge +
       previewInner +
       '</div><div class="partner-site-body"><strong>' +
@@ -44,8 +48,9 @@
       (site.tagline ? '<p class="partner-site-tagline">' + Lib.esc(site.tagline) + "</p>" : "") +
       '<span class="partner-site-meta">' +
       (site.city ? Lib.esc(site.city) + " · " : "") +
-      (external ? Lib.esc(hostLabel(site.url)) + " ↗" : "Lien à venir") +
-      "</span></div></a>"
+      (external ? Lib.esc(hostLabel(site.url)) + " ↗" : "Voir le catalogue →") +
+      "</span></div>" +
+      closeTag
     );
   }
 

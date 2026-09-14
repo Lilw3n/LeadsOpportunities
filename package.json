@@ -118,7 +118,8 @@
     "verify:immo-marche-admin": "node scripts/verify-immo-marche-admin.cjs",
     "verify:taxi-garanties": "node scripts/verify-taxi-garanties.cjs",
     "verify:immo-fiches-retrouver": "node scripts/verify-immo-fiches-retrouver.cjs",
-    "verify:immo-lien-prospect": "node scripts/verify-immo-lien-prospect.cjs"
+    "verify:immo-lien-prospect": "node scripts/verify-immo-lien-prospect.cjs",
+    "verify:dead-clicks": "node scripts/verify-dead-clicks.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

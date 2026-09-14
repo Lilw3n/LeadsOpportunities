@@ -586,9 +586,30 @@ h1 {
   box-shadow: var(--shadow-lg);
   transform: translateY(-4px);
 }
+/* Seules les vraies cartes-lien lèvent au survol (évite fausse affordance → dead clicks) */
+article.service-card:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+  border-color: var(--line);
+}
+a.service-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
 article.service-card {
   color: inherit;
   cursor: default;
+}
+article.service-card.js-card-nav,
+article.service-card[data-card-href] {
+  cursor: pointer;
+}
+article.service-card.js-card-nav:hover,
+article.service-card[data-card-href]:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md, var(--shadow));
+  transform: translateY(-2px);
 }
 article.service-card h3 {
   margin: 0;
@@ -1004,11 +1025,12 @@ article.service-card p {
   border-radius: var(--radius);
   padding: 28px 24px;
   box-shadow: var(--shadow-sm);
-  transition: all .3s ease;
+  /* Pas de hover « lift » : témoignage non cliquable (sinon dead clicks Clarity) */
+  cursor: default;
 }
 .testimonial-card:hover {
-  box-shadow: var(--shadow);
-  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+  transform: none;
 }
 .testimonial-stars {
   display: flex;
