@@ -23,6 +23,52 @@
     return Number(n).toLocaleString("fr-FR") + " €";
   }
 
+  function formatWhen(iso) {
+    if (!iso) return "";
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleString("fr-FR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  function exportInventory() {
+    var rows = Store.listProperties({}).map(function (p) {
+      var hist = Array.isArray(p.history) ? p.history.length : 0;
+      return {
+        id: p.id,
+        title: p.title || "",
+        city: p.city || "",
+        postal_code: p.postal_code || "",
+        price_fai: p.price_fai,
+        price_net: p.price_net,
+        status: p.status || "",
+        listing_source: p.listing_source || "",
+        created_at: p.created_at || "",
+        updated_at: p.updated_at || "",
+        history_saves: hist,
+        owner_contact_id: p.owner_contact_id || "",
+        buyer_contact_id: p.buyer_contact_id || "",
+        lead_id: p.lead_id || "",
+      };
+    });
+    var blob = new Blob(
+      [JSON.stringify({ exportedAt: new Date().toISOString(), count: rows.length, properties: rows }, null, 2)],
+      { type: "application/json" }
+    );
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "inventaire-piges-" + new Date().toISOString().slice(0, 10) + ".json";
+    a.click();
+    setTimeout(function () {
+      URL.revokeObjectURL(a.href);
+    }, 1500);
+  }
+
   function switchOn(el, on) {
     el.dataset.on = on ? "1" : "0";
     el.classList.toggle("on", !!on);
@@ -186,6 +232,14 @@
             ? '<div class="immo-meta"><a href="' +
               esc(p.listing_url) +
               '" target="_blank" rel="noopener">Voir l’annonce</a></div>'
+            : "") +
+          (formatWhen(p.updated_at || p.created_at)
+            ? '<div class="immo-meta immo-when">Modifié le ' +
+              esc(formatWhen(p.updated_at || p.created_at)) +
+              (Array.isArray(p.history) && p.history.length
+                ? " · " + p.history.length + " enreg."
+                : "") +
+              "</div>"
             : "") +
           '<div class="immo-tags">' +
           tags
@@ -363,6 +417,11 @@
     var list = ids.map(function (id) {
       return Store.getProperty(id);
     }).filter(Boolean);
+
+    if (act === "inventory") {
+      exportInventory();
+      return;
+    }
 
     if (act === "export") {
       var rows = Store.listProperties(queryFromForm());

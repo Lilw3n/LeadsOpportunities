@@ -145,6 +145,17 @@
     .piges-toolbar button:hover,
     .piges-toolbar a.piges-act:hover { background: #16304f; }
     .piges-toolbar button:disabled { opacity: .45; cursor: not-allowed; }
+    .piges-hint {
+      margin: 0 0 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      font-size: .82rem;
+      line-height: 1.45;
+    }
+    .immo-when { color: #475569; font-size: .78rem; }
     .piges-main-top {
       display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
       align-items: center; margin-bottom: 10px;
@@ -308,10 +319,16 @@
         <button type="button" data-act="delete">Supprimer</button>
         <button type="button" data-act="assign">Affecter</button>
         <button type="button" data-act="phone">Prospection téléphonique</button>
+        <button type="button" data-act="inventory">Inventaire fiches</button>
         <button type="button" data-act="export">Export CSV</button>
         <button type="button" data-act="print">Imprimer listing</button>
       </div>
 
+      <p class="piges-hint" id="pigesHint">
+        Les fiches intelligentes s’enregistrent sur <strong>la même fiche</strong> (pas une copie).
+        Liste triée par dernière modification — ouvrez <em>Historique</em> dans une fiche pour voir vos enregistrements.
+        « Inventaire fiches » exporte id + dates pour retrouver une saisie d’hier.
+      </p>
       <div class="piges-main-top">
         <div class="piges-count" id="listCount">0 bien(s)</div>
         <label style="font-size:.8rem;font-weight:600;color:var(--muted)">

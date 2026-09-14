@@ -73,18 +73,60 @@ window.CrmImmoStore = (function () {
     return data;
   }
 
+  function entityStamp(item) {
+    return String((item && (item.updated_at || item.created_at)) || "");
+  }
+
+  /** Fusionne listes : conserve la version la plus récente et les fiches locales absentes du serveur. */
+  function mergeEntityLists(localList, remoteList, pushKind) {
+    var map = {};
+    (remoteList || []).forEach(function (item) {
+      if (item && item.id) map[item.id] = item;
+    });
+    (localList || []).forEach(function (local) {
+      if (!local || !local.id) return;
+      var remote = map[local.id];
+      if (!remote) {
+        map[local.id] = local;
+        if (pushKind) pushEntity(pushKind, local);
+        return;
+      }
+      if (entityStamp(local) > entityStamp(remote)) {
+        map[local.id] = local;
+        if (pushKind) pushEntity(pushKind, local);
+      }
+    });
+    return Object.keys(map).map(function (id) {
+      return map[id];
+    });
+  }
+
   async function syncFromApi() {
     try {
       var data = await api("GET", "/api/crm/immo?entity=all");
       if (data && data.db) {
+        var local = loadLocal();
         var Dossier = window.CrmImmoDossier;
         if (Dossier && Array.isArray(data.db.properties)) {
           data.db.properties = data.db.properties.map(function (p) {
             return Dossier.hydrateProperty(p);
           });
         }
-        saveLocal(data.db);
-        return data.db;
+        var merged = {
+          version: data.db.version || local.version || 1,
+          properties: mergeEntityLists(local.properties, data.db.properties, "property"),
+          criteria: mergeEntityLists(local.criteria, data.db.criteria, "criteria"),
+          parties: mergeEntityLists(local.parties, data.db.parties, "party"),
+          documents: mergeEntityLists(local.documents, data.db.documents, "document"),
+          updatedAt: new Date().toISOString(),
+        };
+        if (Dossier && Array.isArray(merged.properties)) {
+          merged.properties = merged.properties.map(function (p) {
+            return Dossier.hydrateProperty(p);
+          });
+        }
+        saveLocal(merged);
+        return merged;
       }
     } catch (e) {
       /* offline / pas de Neon → local */
