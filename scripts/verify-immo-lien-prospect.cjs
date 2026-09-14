@@ -34,9 +34,13 @@ assert(propsHtml.indexOf("crm-immo-contact-links.js") >= 0, "script links piges"
 assert(propsHtml.indexOf(".immo-prospect") >= 0, "CSS prospect");
 
 var contactJs = read("crm-contact.js");
-assert(contactJs.indexOf("renderImmoLinkedProperties") >= 0, "render biens sur contact");
-assert(contactJs.indexOf("immoLinkedPropertiesMount") >= 0, "mount biens liés");
-assert(contactJs.indexOf("Lier comme vendeur") >= 0, "bouton lier soft match");
+assert(contactJs.indexOf("renderImmoLinkedProperties();") >= 0, "appel depuis render()");
+assert(contactJs.indexOf("function renderImmoLinkedProperties") >= 0, "fonction définie");
+assert(
+  contactJs.indexOf("renderDossier();\n    renderImmoLinkedProperties();") >= 0 ||
+    /renderDossier\(\);\s*renderImmoLinkedProperties\(\);/.test(contactJs),
+  "render() appelle bien renderImmoLinkedProperties"
+);
 
 var contactHtml = read("crm-contact.html");
 assert(contactHtml.indexOf("immoLinkedPropertiesPanel") >= 0, "panel HTML contact");

@@ -2007,11 +2007,23 @@
       });
     }
 
-    mount.innerHTML = "<p style=\"color:var(--muted)\">Synchronisation des piges…</p>";
-    var sync = Store.syncFromApi ? Store.syncFromApi() : Promise.resolve();
-    Promise.resolve(sync)
-      .then(paint)
-      .catch(paint);
+    // Affiche d’abord le local (évite un « Chargement… » bloqué si l’API pend).
+    try {
+      paint();
+    } catch (e) {
+      mount.innerHTML =
+        '<p class="immo-linked-empty">Impossible d’afficher les piges liées. ' +
+        '<a href="./crm-immo-properties.html">Voir les piges</a></p>';
+    }
+    if (Store.syncFromApi) {
+      Promise.resolve(Store.syncFromApi())
+        .then(function () {
+          try {
+            paint();
+          } catch (e2) {}
+        })
+        .catch(function () {});
+    }
   }
 
   function render() {
@@ -2024,6 +2036,7 @@
     }
     renderHeader();
     renderDossier();
+    renderImmoLinkedProperties();
     if (window.CrmContactTour) {
       window.CrmContactTour.mount(document.getElementById("contactTourMount"), data.contact, data);
     }
