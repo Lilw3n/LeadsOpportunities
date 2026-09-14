@@ -88,6 +88,18 @@ function uniqueFile(baseSlug) {
   return slug + ".html";
 }
 
+/** File inbox / titres d'exemple — ne jamais publier comme article lead. */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "draft" || status === "example") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  return /collez ici|ins[eé]rez ici|titre de la une|\[titre\]|placeholder|lorem ipsum/i.test(title);
+}
+
 function monthLabel() {
   var months = ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"];
   var d = new Date();
@@ -351,4 +363,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderActuItem: isPlaceholderActuItem,
 };

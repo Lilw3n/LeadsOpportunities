@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-14T07:06:10.652Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.ouest-france.fr/sport/basket/coupe-du-monde/coupe-du-monde-de-basket-gabby-williams-dans-lequipe-type-lamericaine-breanna-stewart-elue-mvp-b2a6d6fe-b000-11f1-8483-804bbf8224d2?utm_source=fluxpublicactu&utm_medium=fluxrss&utm_campaign=banquedecontenu",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa79ce0a0be4cfc93875f4c8d0e29e9&url=https%3a%2f%2frmcsport.bfmtv.com%2fbasket%2ffeminin%2fdirect-coupe-du-monde-feminine-de-basket-suivez-en-live-la-finale-entre-l-equipe-de-france-et-les-etats-unis_LN-202609130144.html&c=2458250960194483115&mkt=en-us",
+    "https://www.france24.com/fr/%C3%A9co-tech/20260912-les-lunettes-connect%C3%A9es-dans-le-viseur-de-l-europe-apr%C3%A8s-de-nombreuses-d%C3%A9rives"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-14T07:06:12.819Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-14T07:06:12.819Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "coupe-du-monde-de-basket-gabby-williams-dans-l-equipe-type-l-americaine-.html",
+          "title": "Coupe du monde de basket. Gabby Williams dans l’équipe type, l’Américaine Breanna Stewa… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Ouest-France",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "usa-france-grosse-deception-pour-les-bleues-surclassees-en-finale-du-mon.html",
+          "title": "USA-France: grosse déception pour les Bleues, surclassées en finale du Mondial : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing actu France",
+          "sourceType": "edge"
+        },
+        {
+          "file": "les-usages-pervers-des-lunettes-connectees-alimentent-la-colere-en-europ.html",
+          "title": "Les usages \"pervers\" des lunettes connectées alimentent la colère en Europe : assurance habitation — que faire ?",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
