@@ -1097,6 +1097,8 @@
   function renderUnitsOverview() {
     var tot = compositionTotals();
     var D = window.CrmImmoDossier;
+    var Draw = window.CrmImmoCompositionDraw;
+    var Share = window.CrmImmoCompositionShare;
     var tree = D && D.buildCompositionTree ? D.buildCompositionTree(prop.units || []) : [];
     var loc = (prop.details && prop.details.localisation) || {};
     var mandat = (prop.details && prop.details.mandat) || {};
@@ -1107,38 +1109,100 @@
         .filter(Boolean)
         .join(" ");
 
-    /* Synthèse totale en premier — point d’entrée pour s’orienter. */
-    var html = syntheseTotaleBlockHtml(tot, { showJump: true });
+    var snapLite = {
+      title: prop.title,
+      city: prop.city || loc.ville || "",
+      localisation_public: {
+        ville: loc.ville || prop.city || "",
+        code_postal: loc.code_postal || prop.postal_code || "",
+        quartier: loc.quartier || "",
+        section_cadastrale: loc.section_cadastrale || "",
+        numero_cadastre: loc.numero_cadastre || "",
+        cadastre_ref_immeuble: immeubleCadastre || "",
+      },
+      published_by: prop.composition_share && prop.composition_share.published_by,
+    };
 
+    /* 1) Synthèse courte */
+    var html =
+      '<section class="synthese-courte" id="synthese-courte">' +
+      '<div class="synthese-courte-head">' +
+      "<div>" +
+      "<h3>Synthèse courte</h3>" +
+      "<p class=\"synthese-lede\">" +
+      esc(
+        Share
+          ? Share.shortSynthesisText(tot, snapLite)
+          : (prop.title || "Bien") + " — " + tot.units + " unité(s), " + tot.loues + " louée(s)."
+      ) +
+      "</p></div>" +
+      '<div class="synthese-courte-actions">' +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnJumpLongue">Synthèse longue ↓</button>' +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnJumpDraw">Dessin ↓</button>' +
+      "</div></div>" +
+      syntheseTotaleCardsHtml(tot) +
+      "</section>";
+
+    /* 2) Synthèse longue */
     html +=
+      '<section class="synthese-longue-block" id="synthese-longue">' +
+      "<h3>Synthèse longue</h3>" +
+      (Share
+        ? Share.longSynthesisHtml(tot, snapLite, {})
+        : "<p>Détail agrégé de tous les lots du dossier.</p>") +
       '<div class="comp-synthesis" id="comp-schema-help">' +
       "<strong>Comment lire la composition</strong>" +
       "<p>La composition empile les infos du plus large au plus fin : " +
       "<em>terrain / parcelle</em> → <em>immeuble ou maison</em> → <em>étage</em> → <em>appartement / local</em> " +
-      "(+ dépendances). Chaque nœud ouvre sa propre barre noire (loyers, pièces, bail, médias). " +
-      "Les totaux de la <b>synthèse totale</b> (ci-dessus) agrègent tous les lots.</p>" +
+      "(+ dépendances). Objectif : montrer que le bien a été renseigné <b>le plus précisément possible</b>.</p>" +
       (immeubleCadastre
-        ? '<p class="comp-immeuble-cadastre"><b>Cadastre immeuble / parcelle</b> (aussi en Localisation &amp; Mandat) : ' +
-          esc(immeubleCadastre) +
-          (loc.lieu_dit_cadastre || mandat.lieu_dit_cadastre
-            ? " · lieu-dit " + esc(loc.lieu_dit_cadastre || mandat.lieu_dit_cadastre)
-            : "") +
-          (loc.contenance_cadastre || mandat.contenance_cadastre
-            ? " · contenance " + esc(loc.contenance_cadastre || mandat.contenance_cadastre)
-            : "") +
-          "</p>"
-        : '<p class="comp-immeuble-cadastre muted">Cadastre immeuble : non renseigné — saisissable en <b>Localisation</b> (et Mandat) ; chaque lot a aussi ses champs cadastre dans <b>Identité</b> (volontaire, pas un doublon à supprimer).</p>') +
-      '<ol class="comp-levels">' +
-      "<li><b>Terrain</b> — cadastre, surface foncière, viabilisation</li>" +
-      "<li><b>Immeuble / maison</b> — enveloppe bâtie, lots rattachés</li>" +
-      "<li><b>Étage</b> — regroupement des lots d’un niveau</li>" +
-      "<li><b>Appart / local</b> — cadastre lot, loyer HC/CC, Carrez, pièces, bail, investisseur, syndic, propriétaire</li>" +
-      "</ol></div>";
+        ? '<p class="comp-immeuble-cadastre"><b>Cadastre immeuble / parcelle</b> : ' + esc(immeubleCadastre) + "</p>"
+        : '<p class="comp-immeuble-cadastre muted">Cadastre immeuble : non renseigné — saisissable en Localisation.</p>') +
+      "</div></section>";
 
+    /* 3) Dessin intelligent */
+    html +=
+      '<section class="comp-draw-section" id="comp-draw">' +
+      '<div class="comp-draw-head"><h3>Dessin intelligent</h3>' +
+      "<p>Schéma visuel du bien (terrain → bâti → lots).</p></div>" +
+      (Draw && Draw.renderSvg
+        ? Draw.renderSvg(tree, { Dossier: D, Schema: Schema })
+        : "<p class=\"muted\">Module de dessin indisponible.</p>") +
+      "</section>";
+
+    /* 4) Partage public / forks */
+    var share = prop.composition_share || {};
+    var shareUrl =
+      share.enabled && share.token
+        ? location.origin + "/immo-composition-partage.html?token=" + encodeURIComponent(share.token)
+        : "";
+    html +=
+      '<section class="comp-share-box" id="comp-share">' +
+      "<h3>Partage client (lecture + copie)</h3>" +
+      "<p>Un utilisateur <b>connecté</b> peut voir cette synthèse publique, puis <b>sauvegarder sa propre copie</b> " +
+      "(nouvelle sauvegarde). Les infos saisies par vous restent en <span class=\"chip-agent\">vert mandataire</span> ; " +
+      "ses modifications apparaissent en <span class=\"chip-user\">orange utilisateur</span>.</p>" +
+      (share.enabled
+        ? '<p class="comp-share-ok">Publié · token <code>' +
+          esc(share.token) +
+          "</code><br/><a href=\"" +
+          esc(shareUrl) +
+          '" target="_blank" rel="noopener">Ouvrir la vue publique</a></p>' +
+          '<div class="comp-share-actions">' +
+          '<button type="button" class="btn btn-primary btn-sm" id="btnCopyShareLink">Copier le lien</button>' +
+          '<button type="button" class="btn btn-ghost btn-sm" id="btnRefreshShare">Republier (maj snapshot)</button>' +
+          '<button type="button" class="btn btn-ghost btn-sm" id="btnUnpublishShare">Retirer du public</button>' +
+          "</div>"
+        : '<div class="comp-share-actions">' +
+          '<button type="button" class="btn btn-primary btn-sm" id="btnPublishShare">Rendre la synthèse publique</button>' +
+          "</div>") +
+      "</section>";
+
+    /* 5) Schéma liste */
     if (!prop.units.length) {
       html += '<p style="color:var(--muted)">Aucune unité — ajoute un lot ou utilise un preset.</p>';
     } else {
-      html += '<h4 class="comp-tree-title" id="schema-composition">Schéma de composition</h4><div class="comp-tree">';
+      html += '<h4 class="comp-tree-title" id="schema-composition">Schéma de composition (détail)</h4><div class="comp-tree">';
       if (tree.length) {
         tree.forEach(function (root) {
           html += renderCompositionNode(root, 0);
@@ -1436,6 +1500,60 @@
         syncHeader();
       };
     });
+
+    function jumpTo(id) {
+      var el = document.getElementById(id);
+      if (el && el.scrollIntoView) el.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+    var jumpLongue = document.getElementById("btnJumpLongue");
+    if (jumpLongue) jumpLongue.onclick = function () { jumpTo("synthese-longue"); };
+    var jumpDraw = document.getElementById("btnJumpDraw");
+    if (jumpDraw) jumpDraw.onclick = function () { jumpTo("comp-draw"); };
+
+    var ShareLib = window.CrmImmoCompositionShare;
+    function persistShareAndRefresh() {
+      Store.upsertProperty(prop);
+      state.sectionId = "composition";
+      renderSection();
+      syncHeader();
+    }
+    var btnPub = document.getElementById("btnPublishShare");
+    if (btnPub && ShareLib) {
+      btnPub.onclick = function () {
+        ShareLib.publish(prop);
+        persistShareAndRefresh();
+        alert("Synthèse publiée. Copiez le lien pour le client connecté.");
+      };
+    }
+    var btnRefresh = document.getElementById("btnRefreshShare");
+    if (btnRefresh && ShareLib) {
+      btnRefresh.onclick = function () {
+        ShareLib.publish(prop);
+        persistShareAndRefresh();
+      };
+    }
+    var btnUnpub = document.getElementById("btnUnpublishShare");
+    if (btnUnpub && ShareLib) {
+      btnUnpub.onclick = function () {
+        if (!confirm("Retirer la synthèse du partage public ?")) return;
+        ShareLib.unpublish(prop);
+        persistShareAndRefresh();
+      };
+    }
+    var btnCopy = document.getElementById("btnCopyShareLink");
+    if (btnCopy) {
+      btnCopy.onclick = function () {
+        var sh = prop.composition_share || {};
+        if (!sh.enabled || !sh.token) return;
+        var url = location.origin + "/immo-composition-partage.html?token=" + encodeURIComponent(sh.token);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(
+            function () { alert("Lien copié"); },
+            function () { prompt("Copiez ce lien :", url); }
+          );
+        } else prompt("Copiez ce lien :", url);
+      };
+    }
   }
 
   function renderSection() {
