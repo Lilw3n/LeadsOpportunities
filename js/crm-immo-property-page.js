@@ -63,7 +63,130 @@
   function compositionTotals() {
     var D = window.CrmImmoDossier;
     if (D && D.unitTotals) return D.unitTotals(prop.units || []);
-    return { units: (prop.units || []).length, loues: 0, surface_m2: 0, surface_carrez: 0, surface_non_carrez: 0, loyer_reel: 0, loyer_hc: 0, loyer_cc: 0, loyer_previsionnel: 0, charges_locatives: 0, nb_pieces: 0, nb_chambres: 0, nb_sdb: 0, nb_wc: 0, nb_cuisines: 0, baux_actifs: 0 };
+    return {
+      units: (prop.units || []).length,
+      loues: 0,
+      surface_m2: 0,
+      surface_carrez: 0,
+      surface_non_carrez: 0,
+      loyer_reel: 0,
+      loyer_hc: 0,
+      loyer_cc: 0,
+      loyer_previsionnel: 0,
+      charges_locatives: 0,
+      nb_pieces: 0,
+      nb_chambres: 0,
+      nb_sdb: 0,
+      nb_wc: 0,
+      nb_cuisines: 0,
+      baux_actifs: 0,
+    };
+  }
+
+  /** Cartes KPI — point d’ancrage pour s’y retrouver sur un dossier multi-lots. */
+  function syntheseTotaleCardsHtml(tot) {
+    tot = tot || compositionTotals();
+    return (
+      '<div class="totals-grid" id="syntheseTotaleCards">' +
+      '<div class="total-card"><span class="total-label">Unités</span><strong>' +
+      tot.units +
+      "</strong><small>" +
+      tot.loues +
+      " louée(s)</small></div>" +
+      '<div class="total-card"><span class="total-label">Loyers réels (HC/CC)</span><strong>' +
+      euro(tot.loyer_reel) +
+      "</strong><small>HC " +
+      euro(tot.loyer_hc) +
+      " · CC " +
+      euro(tot.loyer_cc) +
+      "</small></div>" +
+      '<div class="total-card"><span class="total-label">Loyers prévisionnels</span><strong>' +
+      euro(tot.loyer_previsionnel) +
+      "</strong><small>/ mois</small></div>" +
+      '<div class="total-card"><span class="total-label">Charges locatives</span><strong>' +
+      euro(tot.charges_locatives) +
+      "</strong><small>/ mois</small></div>" +
+      '<div class="total-card"><span class="total-label">Surface Carrez</span><strong>' +
+      (Number(tot.surface_carrez) || 0) +
+      " m²</strong><small>hors Carrez " +
+      (Number(tot.surface_non_carrez) || 0) +
+      " · annoncée " +
+      (Number(tot.surface_m2) || 0) +
+      " m²</small></div>" +
+      '<div class="total-card"><span class="total-label">Pièces / chambres</span><strong>' +
+      (Number(tot.nb_pieces) || 0) +
+      " / " +
+      (Number(tot.nb_chambres) || 0) +
+      "</strong></div>" +
+      '<div class="total-card"><span class="total-label">SDB / WC / cuisines</span><strong>' +
+      (Number(tot.nb_sdb) || 0) +
+      " / " +
+      (Number(tot.nb_wc) || 0) +
+      " / " +
+      (Number(tot.nb_cuisines) || 0) +
+      "</strong></div>" +
+      '<div class="total-card"><span class="total-label">Baux renseignés</span><strong>' +
+      tot.baux_actifs +
+      "</strong></div>" +
+      "</div>"
+    );
+  }
+
+  function syntheseTotaleBlockHtml(tot, opts) {
+    opts = opts || {};
+    tot = tot || compositionTotals();
+    return (
+      '<section class="synthese-totale" id="synthese-totale">' +
+      '<div class="synthese-totale-head">' +
+      "<div>" +
+      "<h3 class=\"synthese-totale-title\">Synthèse totale</h3>" +
+      "<p class=\"synthese-totale-sub\">Vue d’ensemble du dossier (tous les lots) — pour s’y retrouver avant de descendre dans le détail.</p>" +
+      "</div>" +
+      (opts.showJump
+        ? '<button type="button" class="btn btn-ghost btn-sm" id="btnJumpSchema">Voir le schéma ↓</button>'
+        : "") +
+      "</div>" +
+      syntheseTotaleCardsHtml(tot) +
+      "</section>"
+    );
+  }
+
+  function syntheseTotaleStripHtml(tot) {
+    tot = tot || compositionTotals();
+    if (!tot.units) return "";
+    return (
+      '<div class="synthese-strip" id="syntheseStrip" role="status">' +
+      "<strong>Synthèse totale</strong>" +
+      "<span>" +
+      tot.units +
+      " unité(s) · " +
+      tot.loues +
+      " louée(s)</span>" +
+      "<span>Réels " +
+      euro(tot.loyer_reel) +
+      " · Prév. " +
+      euro(tot.loyer_previsionnel) +
+      "/mois</span>" +
+      "<span>Carrez " +
+      (Number(tot.surface_carrez) || 0) +
+      " m² · " +
+      (Number(tot.nb_chambres) || 0) +
+      " ch.</span>" +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnOpenSyntheseTotale">Ouvrir</button>' +
+      "</div>"
+    );
+  }
+
+  function goToSyntheseTotale() {
+    if (typeof collectActiveView === "function") collectActiveView();
+    state.activeUnitId = null;
+    state.tab = "description";
+    state.sectionId = "composition";
+    renderAll();
+    setTimeout(function () {
+      var el = document.getElementById("synthese-totale");
+      if (el && el.scrollIntoView) el.scrollIntoView({ block: "start", behavior: "smooth" });
+    }, 40);
   }
 
   function leaveUnitMode() {
@@ -158,6 +281,12 @@
       qs.set("priceMode", prop.price_fai ? "fai" : "net_vendeur");
       qs.set("propertyId", prop.id);
       fin.href = "./crm-agency-fees.html?" + qs.toString();
+    }
+    var stripHost = document.getElementById("syntheseStripHost");
+    if (stripHost) {
+      stripHost.innerHTML = syntheseTotaleStripHtml(compositionTotals());
+      var openBtn = document.getElementById("btnOpenSyntheseTotale");
+      if (openBtn) openBtn.onclick = goToSyntheseTotale;
     }
   }
 
@@ -257,6 +386,7 @@
         }
         nav.innerHTML =
           '<button type="button" class="side-back" id="btnBackComposition"><span>← Composition</span></button>' +
+          '<button type="button" class="side-synthese" id="btnUnitSyntheseTotale"><span>Synthèse totale</span><span class="chev">›</span></button>' +
           '<div class="side-unit-tag">' +
           esc(unitLabel(unit)) +
           '<span class="occ-badge ' +
@@ -279,6 +409,8 @@
             .join("");
         var back = document.getElementById("btnBackComposition");
         if (back) back.onclick = leaveUnitMode;
+        var unitSyn = document.getElementById("btnUnitSyntheseTotale");
+        if (unitSyn) unitSyn.onclick = goToSyntheseTotale;
         nav.querySelectorAll("[data-unit-sec]").forEach(function (btn) {
           btn.onclick = function () {
             collectUnitSection();
@@ -295,19 +427,25 @@
     if (!state.sectionId || !sections.some(function (s) { return s.id === state.sectionId; })) {
       state.sectionId = sections[0] ? sections[0].id : null;
     }
-    nav.innerHTML = sections
-      .map(function (s) {
-        return (
-          '<button type="button" data-sec="' +
-          s.id +
-          '" class="' +
-          (state.sectionId === s.id ? "active" : "") +
-          '"><span>' +
-          esc(s.label) +
-          '</span><span class="chev">›</span></button>'
-        );
-      })
-      .join("");
+    nav.innerHTML =
+      '<button type="button" class="side-synthese' +
+      (state.sectionId === "composition" && !state.activeUnitId ? " active" : "") +
+      '" id="btnNavSyntheseTotale"><span>Synthèse totale</span><span class="chev">›</span></button>' +
+      sections
+        .map(function (s) {
+          return (
+            '<button type="button" data-sec="' +
+            s.id +
+            '" class="' +
+            (state.sectionId === s.id ? "active" : "") +
+            '"><span>' +
+            esc(s.label) +
+            '</span><span class="chev">›</span></button>'
+          );
+        })
+        .join("");
+    var navSyn = document.getElementById("btnNavSyntheseTotale");
+    if (navSyn) navSyn.onclick = goToSyntheseTotale;
     nav.querySelectorAll("[data-sec]").forEach(function (btn) {
       btn.onclick = function () {
         collectActiveView();
@@ -968,13 +1106,17 @@
       [loc.section_cadastrale || mandat.section_cadastrale, loc.numero_cadastre || mandat.numero_cadastre]
         .filter(Boolean)
         .join(" ");
-    var html =
-      '<div class="comp-synthesis">' +
-      "<strong>Synthèse du modèle</strong>" +
+
+    /* Synthèse totale en premier — point d’entrée pour s’orienter. */
+    var html = syntheseTotaleBlockHtml(tot, { showJump: true });
+
+    html +=
+      '<div class="comp-synthesis" id="comp-schema-help">' +
+      "<strong>Comment lire la composition</strong>" +
       "<p>La composition empile les infos du plus large au plus fin : " +
       "<em>terrain / parcelle</em> → <em>immeuble ou maison</em> → <em>étage</em> → <em>appartement / local</em> " +
       "(+ dépendances). Chaque nœud ouvre sa propre barre noire (loyers, pièces, bail, médias). " +
-      "Les totaux globaux et par branche remontent automatiquement.</p>" +
+      "Les totaux de la <b>synthèse totale</b> (ci-dessus) agrègent tous les lots.</p>" +
       (immeubleCadastre
         ? '<p class="comp-immeuble-cadastre"><b>Cadastre immeuble / parcelle</b> (aussi en Localisation &amp; Mandat) : ' +
           esc(immeubleCadastre) +
@@ -993,54 +1135,10 @@
       "<li><b>Appart / local</b> — cadastre lot, loyer HC/CC, Carrez, pièces, bail, investisseur, syndic, propriétaire</li>" +
       "</ol></div>";
 
-    html +=
-      '<div class="totals-grid">' +
-      '<div class="total-card"><span class="total-label">Unités</span><strong>' +
-      tot.units +
-      "</strong><small>" +
-      tot.loues +
-      " louée(s)</small></div>" +
-      '<div class="total-card"><span class="total-label">Loyers réels (HC/CC)</span><strong>' +
-      euro(tot.loyer_reel) +
-      "</strong><small>HC " +
-      euro(tot.loyer_hc) +
-      " · CC " +
-      euro(tot.loyer_cc) +
-      "</small></div>" +
-      '<div class="total-card"><span class="total-label">Loyers prévisionnels</span><strong>' +
-      euro(tot.loyer_previsionnel) +
-      "</strong><small>/ mois</small></div>" +
-      '<div class="total-card"><span class="total-label">Charges locatives</span><strong>' +
-      euro(tot.charges_locatives) +
-      "</strong><small>/ mois</small></div>" +
-      '<div class="total-card"><span class="total-label">Surface Carrez</span><strong>' +
-      (Number(tot.surface_carrez) || 0) +
-      " m²</strong><small>hors Carrez " +
-      (Number(tot.surface_non_carrez) || 0) +
-      " · annoncée " +
-      (Number(tot.surface_m2) || 0) +
-      " m²</small></div>" +
-      '<div class="total-card"><span class="total-label">Pièces / chambres</span><strong>' +
-      (Number(tot.nb_pieces) || 0) +
-      " / " +
-      (Number(tot.nb_chambres) || 0) +
-      "</strong></div>" +
-      '<div class="total-card"><span class="total-label">SDB / WC / cuisines</span><strong>' +
-      (Number(tot.nb_sdb) || 0) +
-      " / " +
-      (Number(tot.nb_wc) || 0) +
-      " / " +
-      (Number(tot.nb_cuisines) || 0) +
-      "</strong></div>" +
-      '<div class="total-card"><span class="total-label">Baux renseignés</span><strong>' +
-      tot.baux_actifs +
-      "</strong></div>" +
-      "</div>";
-
     if (!prop.units.length) {
       html += '<p style="color:var(--muted)">Aucune unité — ajoute un lot ou utilise un preset.</p>';
     } else {
-      html += '<h4 class="comp-tree-title">Schéma de composition</h4><div class="comp-tree">';
+      html += '<h4 class="comp-tree-title" id="schema-composition">Schéma de composition</h4><div class="comp-tree">';
       if (tree.length) {
         tree.forEach(function (root) {
           html += renderCompositionNode(root, 0);
@@ -1140,6 +1238,13 @@
   }
 
   function bindCompositionActions(body) {
+    var jump = document.getElementById("btnJumpSchema");
+    if (jump) {
+      jump.onclick = function () {
+        var el = document.getElementById("schema-composition");
+        if (el && el.scrollIntoView) el.scrollIntoView({ block: "start", behavior: "smooth" });
+      };
+    }
     var btnAdd = document.getElementById("btnAddUnit");
     if (btnAdd) {
       btnAdd.onclick = function () {

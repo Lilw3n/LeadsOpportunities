@@ -265,6 +265,37 @@
     border-radius: 999px;
     padding: 2px 8px;
     height: fit-content;
+
+    .synthese-totale {
+      background: linear-gradient(160deg, #ecfdf5 0%, #eff6ff 55%, #f8fafc 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 14px 16px 8px;
+      margin: 0 0 16px;
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
+    }
+    .synthese-totale-head {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .synthese-totale-title {
+      margin: 0; font-size: 1.15rem; color: #0f172a; font-weight: 800;
+    }
+    .synthese-totale-sub {
+      margin: 4px 0 0; font-size: .84rem; color: #334155; line-height: 1.4; max-width: 52ch;
+    }
+    .synthese-strip {
+      display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center;
+      margin-top: 10px; padding: 8px 12px; border-radius: 10px;
+      background: linear-gradient(90deg, #ecfdf5, #eff6ff); border: 1px solid #bfdbfe;
+      font-size: .82rem; color: #1e3a5f;
+    }
+    .synthese-strip strong { color: #0f172a; }
+    .dossier-side .side-synthese {
+      background: #12324f; color: #e0f2fe; border: 1px solid #1d4f7a; font-weight: 700;
+    }
+    .dossier-side .side-synthese:hover { background: #16466d; }
+    .dossier-side .side-synthese.active { background: var(--immo-blue); color: #fff; border-color: transparent; }
   }
 </style>
 </head>
@@ -274,6 +305,7 @@
       <p class="crm-eyebrow">Immobilier · fiche intelligente</p>
       <h2 id="propTitle">Bien</h2>
       <p id="propSub" style="color:var(--muted);margin:0"></p>
+      <div id="syntheseStripHost"></div>
     </div>
     <div class="crm-action-row">
       <a href="./crm-immo-properties.html" class="btn btn-ghost">← Piges</a>
