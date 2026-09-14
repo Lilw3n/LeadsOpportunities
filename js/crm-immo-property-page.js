@@ -2000,18 +2000,22 @@
         "<h3>Historique des enregistrements</h3>" +
         "<p style='color:var(--muted);font-size:.9rem;margin:0 0 12px'>" +
         hist.length +
-        " enregistrement(s) sur cette fiche. Clique <strong>Ouvrir</strong> pour aller à la section enregistrée.</p>" +
+        " enregistrement(s) sur cette fiche. <strong>Ouvrir</strong> pour aller à la section · <strong>Supprimer</strong> pour retirer une ligne.</p>" +
         (hist.length
-          ? '<ol class="immo-history-timeline">' +
+          ? '<div class="immo-history-toolbar">' +
+            '<button type="button" class="btn btn-ghost btn-sm" id="btnHistClearAll">Tout supprimer</button>' +
+            "</div>" +
+            '<ol class="immo-history-timeline">' +
             hist
               .slice()
               .reverse()
               .map(function (h, i) {
                 var target = resolveHistoryTarget(h);
                 var whereLabel = historyTargetLabel(target);
+                var idx = hist.length - 1 - i;
                 return (
                   '<li class="immo-history-item" data-hist-idx="' +
-                  (hist.length - 1 - i) +
+                  idx +
                   '">' +
                   '<span class="immo-history-idx">#' +
                   (hist.length - i) +
@@ -2027,17 +2031,28 @@
                     ? '<div class="immo-history-target">Section : <em>' + esc(whereLabel) + "</em></div>"
                     : "") +
                   "</div>" +
+                  '<div class="immo-history-actions">' +
                   '<button type="button" class="btn btn-primary btn-sm immo-hist-open" data-hist-idx="' +
-                  (hist.length - 1 - i) +
+                  idx +
                   '"' +
                   (target.sectionId || target.tab ? "" : " disabled") +
                   ">Ouvrir</button>" +
+                  '<button type="button" class="btn btn-ghost btn-sm immo-hist-del" data-hist-idx="' +
+                  idx +
+                  '" title="Supprimer cet enregistrement">Supprimer</button>' +
+                  "</div>" +
                   "</li>"
                 );
               })
               .join("") +
             "</ol>"
           : "<p style='color:var(--muted)'>Pas encore d’événements. Chaque enregistrement de section (localisation, finances…) apparaît ici.</p>");
+      function persistHistoryAndRerender() {
+        prop.history = hist;
+        prop.updated_at = new Date().toISOString();
+        Store.upsertProperty(prop);
+        renderAll();
+      }
       panel.querySelectorAll(".immo-hist-open").forEach(function (btn) {
         btn.onclick = function () {
           var idx = Number(btn.getAttribute("data-hist-idx"));
@@ -2046,6 +2061,33 @@
           openHistoryEntry(entry);
         };
       });
+      panel.querySelectorAll(".immo-hist-del").forEach(function (btn) {
+        btn.onclick = function (ev) {
+          if (ev && ev.stopPropagation) ev.stopPropagation();
+          var idx = Number(btn.getAttribute("data-hist-idx"));
+          if (idx < 0 || idx >= hist.length) return;
+          var entry = hist[idx];
+          var label = (entry && (entry.at || entry.text)) || "#" + (idx + 1);
+          if (!confirm("Supprimer cet enregistrement ?\n" + label)) return;
+          hist.splice(idx, 1);
+          persistHistoryAndRerender();
+        };
+      });
+      var clearAll = document.getElementById("btnHistClearAll");
+      if (clearAll) {
+        clearAll.onclick = function () {
+          if (!hist.length) return;
+          if (
+            !confirm(
+              "Supprimer les " + hist.length + " enregistrement(s) de cet historique ?\nCette action est définitive."
+            )
+          ) {
+            return;
+          }
+          hist.length = 0;
+          persistHistoryAndRerender();
+        };
+      }
       panel.querySelectorAll(".immo-history-item").forEach(function (row) {
         row.onclick = function (ev) {
           if (ev.target && ev.target.closest && ev.target.closest("button")) return;
