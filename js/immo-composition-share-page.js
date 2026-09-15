@@ -109,7 +109,7 @@
       '<div class="panel"><h2>Synthèse longue</h2>' +
       Share.longSynthesisHtml(tot, snap, {}) +
       "</div>" +
-      '<div class="panel"><h2>Dessin intelligent</h2>' +
+      '<div class="panel"><h2>Dessin du bâtiment</h2><p class="muted">Terrain → immeuble/maison → étage → lot → pièces</p>' +
       (Draw && Draw.renderSvg ? Draw.renderSvg(tree, { Dossier: Dossier }) : "") +
       "</div>" +
       '<div class="panel"><h2>Lots</h2>' +

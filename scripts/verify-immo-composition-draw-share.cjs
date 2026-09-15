@@ -53,6 +53,79 @@ var tree = Dossier.buildCompositionTree([
 var svg = Draw.renderSvg(tree);
 ok(svg.indexOf("<svg") >= 0 || svg.indexOf("comp-draw") >= 0, "SVG généré");
 
+var fullUnits = [
+  { id: "t1", type: "terrain", label: "Parcelle rue Stanislas", parent_id: null },
+  { id: "b1", type: "immeuble", label: "Immeuble A", parent_id: "t1" },
+  { id: "e0", type: "etage", label: "RDC", parent_id: "b1" },
+  { id: "e1", type: "etage", label: "R+1", parent_id: "b1" },
+  {
+    id: "a1",
+    type: "appartement",
+    label: "Apt 1",
+    parent_id: "e0",
+    occupation: "loue",
+    surface_carrez: 45,
+    pieces_list: [
+      { type: "salon", label: "Salon" },
+      { type: "chambre", label: "Ch.1" },
+      { type: "cuisine", label: "Cuisine" },
+    ],
+  },
+  {
+    id: "a2",
+    type: "appartement",
+    label: "Apt 2",
+    parent_id: "e1",
+    occupation: "vide",
+    pieces_list: [{ type: "salon", label: "Séjour" }, { type: "chambre", label: "Chambre" }],
+  },
+  { id: "c1", type: "cave", label: "Cave 1", parent_id: "b1" },
+];
+var fullTree = Dossier.buildCompositionTree(fullUnits);
+var fullSvg = Draw.renderSvg(fullTree, { Dossier: Dossier });
+ok(fullSvg.indexOf('data-role="foncier"') >= 0, "dessin terrain");
+ok(fullSvg.indexOf('data-role="bati"') >= 0, "dessin immeuble");
+ok(fullSvg.indexOf('data-role="niveau"') >= 0, "dessin étages");
+ok(fullSvg.indexOf('data-role="lot"') >= 0, "dessin lots");
+ok(fullSvg.indexOf("comp-draw-piece") >= 0, "dessin pièces");
+ok(fullSvg.indexOf('data-role="annexe"') >= 0, "dessin cave/annexe");
+ok(fullSvg.indexOf("leg piece") >= 0, "légende pièce");
+ok(fullSvg.indexOf("<path d=") >= 0 || fullSvg.indexOf("circle cx=") >= 0, "toit / acrotère architectural");
+
+/* Empilement façade : R+1 au-dessus du RDC (y croissant vers le bas). */
+var floorYs = [];
+var floorRe = /transform="translate\(([\d.]+) ([\d.]+)\) rotate\(-90\)"[^>]*>([^<]+)</g;
+var fm;
+while ((fm = floorRe.exec(fullSvg))) {
+  floorYs.push({ y: Number(fm[2]), lab: fm[3] });
+}
+floorYs.sort(function (a, b) {
+  return a.y - b.y;
+});
+var labsTopDown = floorYs.map(function (f) {
+  return f.lab;
+});
+ok(
+  labsTopDown.indexOf("R+1") >= 0 &&
+    labsTopDown.indexOf("RDC") >= 0 &&
+    labsTopDown.indexOf("R+1") < labsTopDown.indexOf("RDC"),
+  "étages empilés R+1 au-dessus du RDC"
+);
+
+var maisonTree = Dossier.buildCompositionTree([
+  { id: "m1", type: "maison", label: "Pavillon", parent_id: null },
+  {
+    id: "lot1",
+    type: "appartement",
+    label: "Habitation",
+    parent_id: "m1",
+    pieces_list: [{ type: "salon", label: "Salon" }, { type: "chambre", label: "Chambre" }],
+  },
+]);
+var maisonSvg = Draw.renderSvg(maisonTree, { Dossier: Dossier });
+ok(maisonSvg.indexOf("Maison —") >= 0, "toit maison (libellé)");
+ok(maisonSvg.indexOf("comp-draw-piece") >= 0, "pièces dans maison");
+
 global.localStorage = {
   _d: {},
   getItem: function (k) {
