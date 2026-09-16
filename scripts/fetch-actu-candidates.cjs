@@ -24,15 +24,29 @@ function resolveQueueSourceType(source) {
 
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
+  var seen = new Set();
   sourceTypes().forEach(function (type) {
     var cap = quotas[type] || 0;
     var list = (buckets[type] || []).slice();
     list.sort(function (a, b) {
       return b.leadScore - a.leadScore;
     });
-    merged = merged.concat(list.slice(0, cap));
+    list.some(function (candidate) {
+      if (merged.filter(function (c) { return c.sourceType === type; }).length >= cap) return true;
+      var key = candidateDedupeKey(candidate);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      merged.push(candidate);
+      return false;
+    });
   });
   return merged;
+}
+
+function candidateDedupeKey(candidate) {
+  return String(candidate.suggestedFile || candidate.url || candidate.title || "")
+    .toLowerCase()
+    .trim();
 }
 
 function ingestQueueItem(item, buckets, processed) {
