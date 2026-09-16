@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-16",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - Meilleurtaux",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 Meilleurtaux",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-pourquoi-elle-pese-tant-dans-un-credit",
+      "title": "Assurance emprunteur : pourquoi elle pèse tant dans un crédit ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aaa9e2490cc42b2920ad8af9d179195&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fassurance-emprunteur-pourquoi-elle-pese-tant-dans-un-credit-1530110&c=3698400232288588636&mkt=en-us",
+      "summary": "Souvent reléguée au second plan derrière le taux du prêt immobilier, l’assurance emprunteur représente pourtant une part conséquente du coût total d’un crédit. Selon le profil de l’emprunteur et la du ...",
+      "pubDate": "Mon, 14 Sep 2026 00:36:00 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-pourquoi-elle-pese-tant-dans-un-credit.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro",
+      "title": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains - Foot National",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNMF8ycnNZQ0tHSlNMb1RWdjktUmdaeWU4czFjYU41ZTc1Y3loV1Zka0lZbjFwRktURFRuaWd6Mkk3M3Fob1dIRVlwZUtFeWxxcEJpTm5BeF9SbGVVWjh0NDJ0ck5OM0NvRDl5TWtZZnFRN0xqb3pDSzJOYm8wUHVqelpCUUE3Ym45MG14MWxId09SQ0xTVzA3bVdZSFk1Q0RYNWhUeUI1MUhrRjBJUHFPM1hRTzZpemM5SUlSSWQ2UVZ6X3l2UjBmYw?oc=5",
+      "summary": "Équipe de France : les Bleus dérangés dans la nuit par des supporters marocains Foot National",
+      "pubDate": "Mon, 07 Sep 2026 07:00:00 GMT",
+      "feedId": "google-news-supporters",
+      "feedName": "Google News — supporters France foot",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-les-bleus-deranges-dans-la-nuit-par-des-supporters-maro.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 99,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-feminine-2026-de-basket-l-equipe-de-france-surclassee-par",
+      "title": "Coupe du monde féminine 2026 de basket : l'équipe de France surclassée par les Etats-Unis en finale (97-79) - CNews",
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOX1hwanIxN28tbUk3QXRMSEhTMm5pcmxyLXF5dHhKNGdQTHRqU3R4WEJHQU1odjRZLU52dkx0ZFR4LXVSRGMwM1FnVXQyWldYb2Juc3NRQUQ5V0RObXNpOFRWRFVjWnd3SmQxY1VfUXlrT1dwZWJRUVgteFFjVXJ1MU5TdEpfLXE1U3g1TFpKVGVDb001NU5IdzJPNXNyTGc3LU9CcXlGNlZELTJxSUpqRF9kdmY4QjJtQk400gHAAUFVX3lxTFBCRDV4em4xMzA2alJtM0tMSDlzbk5lTWw1OFZoVDZFb0RHY1J5aTFyN1M3dmo0UFZjWXo5NnJsczIzbEtQY1B3YTI0bjMwai13azNZSXhvVWFZNHk2T2YtbGJTOWxIQnBKMTJGRUdjTDJ5ekZpWnBqcDJBNTJmeGJZczg0YThSMFYxNTJBWU5LaFVLWndGVlNIX1ZvLUJJclN1bTN2QjJpczNuVnNXUDBtbTRhaXNWa1p6alZieDJPNQ?oc=5",
+      "summary": "Coupe du monde féminine 2026 de basket : l'équipe de France surclassée par les Etats-Unis en finale (97-79) CNews",
+      "pubDate": "Sun, 13 Sep 2026 19:44:27 GMT",
+      "feedId": "google-news-cdm-2026",
+      "feedName": "Google News — Coupe du monde 2026 France",
+      "sourceType": "google",
+      "suggestedFile": "coupe-du-monde-feminine-2026-de-basket-l-equipe-de-france-surclassee-par.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-les-tensions-entre-kylian-mbappe-et-ousmane-dembele-fra",
+      "title": "Equipe de France : les tensions entre Kylian Mbappé et Ousmane Dembélé fracturent le vestiaire des Bleus - Foot Mercato",
+      "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNVHB5VWtJXy1IU2F6VzBSRkhJM3BMNTBRbW1rZ3Q1djF4cTlLNGd5bjI5RjNuaVV4cWhLcUdmTHF0SDNfTk1WWlhWOWthQTRWSGFYdC1DbThxdzBmb2ZnOFQ2T0I1RnBZbm9DLUNNSFJpYS1tdTMzb1YwaVk3ODJsRzF1aXQ0d2VzTnFnSmd3MTdPdkEwV1E3ekFlLUMzZWQ4NU9uQTgxX1draUpnWUtnZkhUOERBdVotdGtIUWlpSWhjU3pIVnUycmxDWTNQQVQ1UmJHag?oc=5",
+      "summary": "Equipe de France : les tensions entre Kylian Mbappé et Ousmane Dembélé fracturent le vestiaire des Bleus Foot Mercato",
+      "pubDate": "Mon, 14 Sep 2026 17:21:09 GMT",
+      "feedId": "google-news-equipe-france",
+      "feedName": "Google News — équipe de France football",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-les-tensions-entre-kylian-mbappe-et-ousmane-dembele-fra.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}
