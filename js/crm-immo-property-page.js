@@ -1163,8 +1163,8 @@
     /* 3) Dessin intelligent */
     html +=
       '<section class="comp-draw-section" id="comp-draw">' +
-      '<div class="comp-draw-head"><h3>Dessin intelligent</h3>' +
-      "<p>Schéma visuel du bien (terrain → bâti → lots).</p></div>" +
+      '<div class="comp-draw-head"><h3>Dessin du bâtiment</h3>' +
+      "<p>Dessin du bâtiment : terrain → immeuble/maison → étage → lot → pièces.</p></div>" +
       (Draw && Draw.renderSvg
         ? Draw.renderSvg(tree, { Dossier: D, Schema: Schema })
         : "<p class=\"muted\">Module de dessin indisponible.</p>") +
