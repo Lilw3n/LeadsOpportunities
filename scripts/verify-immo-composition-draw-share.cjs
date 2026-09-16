@@ -126,6 +126,26 @@ var maisonSvg = Draw.renderSvg(maisonTree, { Dossier: Dossier });
 ok(maisonSvg.indexOf("Maison —") >= 0, "toit maison (libellé)");
 ok(maisonSvg.indexOf("comp-draw-piece") >= 0, "pièces dans maison");
 
+/* Groupement par champ Étage (sans nœuds etage) + cave -1 */
+var floorUnits = [
+  { id: "t1", type: "terrain", label: "Terrain / parcelle", parent_id: null },
+  { id: "a3", type: "appartement", label: "Apt 3", parent_id: "t1", floor: "3", occupation: "loue", pieces_list: [{ type: "chambre", label: "Chambre" }] },
+  { id: "a2", type: "appartement", label: "Apt 2", parent_id: "t1", floor: "2", pieces_list: [{ type: "chambre", label: "Chambre" }] },
+  { id: "a1", type: "appartement", label: "Apt 1", parent_id: "t1", floor: "1", pieces_list: [{ type: "chambre", label: "Chambre" }] },
+  { id: "a0", type: "appartement", label: "Apt RDC", parent_id: "t1", floor: "0", pieces_list: [{ type: "salon", label: "Salon" }] },
+  { id: "c1", type: "dependance", label: "Cave", parent_id: "t1", floor: "-1" },
+];
+var floorSvg = Draw.renderSvg(Dossier.buildCompositionTree(floorUnits), { Dossier: Dossier });
+var floorLabs = [];
+var floorLabRe = /data-floor="([^"]+)"/g;
+var flm;
+while ((flm = floorLabRe.exec(floorSvg))) floorLabs.push(flm[1]);
+ok(floorLabs.indexOf("R+3") >= 0 && floorLabs.indexOf("R+2") >= 0 && floorLabs.indexOf("R+1") >= 0, "floor-field grouping R+1..3");
+ok(floorLabs.indexOf("RDC") >= 0, "floor-field grouping RDC");
+ok(floorLabs.some(function (l) { return /cave|-1/i.test(l); }), "floor-field cave -1");
+ok(floorLabs.indexOf("R+3") < floorLabs.indexOf("RDC") && floorLabs.indexOf("RDC") < floorLabs.findIndex(function (l) { return /cave|-1/i.test(l); }), "stack R+3 > RDC > cave");
+
+
 global.localStorage = {
   _d: {},
   getItem: function (k) {
