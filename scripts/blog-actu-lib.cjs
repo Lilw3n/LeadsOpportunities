@@ -94,6 +94,19 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** File manuelle / inbox : ne jamais publier le gabarit « COLLEZ ICI ». */
+function isPlaceholderActuItem(item) {
+  var title = String((item && item.title) || "").trim();
+  var id = String((item && item.id) || "").toLowerCase();
+  var status = String((item && item.status) || "").toLowerCase();
+  if (!title) return true;
+  if (status === "template") return true;
+  if (id === "cafeyn-pending-template" || id.indexOf("-template") !== -1) return true;
+  if (/collez ici|\[titre\]|placeholder|\ba coller\b|\bà coller\b/i.test(title)) return true;
+  if (/^TODO\b/i.test(title)) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -351,4 +364,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderActuItem: isPlaceholderActuItem,
 };
