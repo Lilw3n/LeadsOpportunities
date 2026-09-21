@@ -2,8 +2,14 @@
 # Clone les dépôts frères (multi-repos) à côté de LeadsOpportunities.
 # Utile en Cloud si repositoryDependencies a élargi le token, ou en local.
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-PARENT="$(dirname "$ROOT")"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+# En Cloud Agent le workspace est souvent /workspace — clones frères à côté.
+if [ "$(basename "$ROOT")" = "workspace" ] || [ "$ROOT" = "/workspace" ]; then
+  PARENT="/home/ubuntu/repos"
+else
+  PARENT="$(dirname "$ROOT")"
+fi
+mkdir -p "$PARENT"
 REPOS=(
   DiddyImmo
   ShopIA
