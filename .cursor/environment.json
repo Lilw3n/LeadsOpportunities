@@ -1,0 +1,12 @@
+{
+  "install": "npm install --prefer-offline --no-audit --no-fund",
+  "repositoryDependencies": [
+    "github.com/Lilw3n/DiddyImmo",
+    "github.com/Lilw3n/ShopIA",
+    "github.com/Lilw3n/NewIA",
+    "github.com/Lilw3n/multisite-platform",
+    "github.com/Lilw3n/location-vehicules-reunion",
+    "github.com/Lilw3n/db-sols-et-peintures",
+    "github.com/Lilw3n/GTAVI"
+  ]
+}
