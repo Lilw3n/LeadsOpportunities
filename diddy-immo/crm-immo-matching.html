@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Matching acquéreurs | CRM Immobilier</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .immo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
+    .immo-grid label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:var(--muted); }
+    .immo-grid input, .immo-grid select, .immo-grid textarea { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
+    .immo-check { display:flex; flex-wrap:wrap; gap:10px; }
+    .immo-check label { flex-direction:row; align-items:center; gap:6px; font-weight:600; }
+    .match-row {
+      display:grid; grid-template-columns:70px 1fr auto; gap:12px; align-items:center;
+      padding:12px 14px; border:1px solid var(--line); border-radius:12px; margin-bottom:8px; background:var(--card);
+    }
+    .match-score { font-size:1.4rem; font-weight:800; text-align:center; }
+    .match-score.excellent { color:#166534; }
+    .match-score.bon { color:#0369a1; }
+    .match-score.partiel { color:#92400e; }
+    .match-score.faible { color:#991b1b; }
+    .match-bits { font-size:.8rem; color:var(--muted); }
+    .match-bits .ok { color:#166534; }
+    .match-bits .gap { color:#991b1b; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier · matching</p>
+      <h2>Ce que cherche l’acquéreur</h2>
+      <p>Score intelligent : géographie, surface, pièces, budget FAI/net, dépendances (garage, cave, jardin…).</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-immo-properties.html" class="btn btn-ghost">Inventaire</a>
+      <button type="button" class="btn btn-primary" id="btnNewCrit">+ Fiche recherche</button>
+    </div>
+  </section>
+
+  <div class="crm-toolbar" style="gap:10px;flex-wrap:wrap;margin-bottom:12px">
+    <label>Fiche recherche
+      <select id="critSelect" class="crm-input"></select>
+    </label>
+    <button type="button" class="btn btn-primary btn-sm" id="btnRunMatch">Lancer le matching</button>
+    <button type="button" class="btn btn-ghost btn-sm" id="btnEditCrit">Éditer critères</button>
+    <button type="button" class="btn btn-ghost btn-sm" id="btnDelCrit">Supprimer</button>
+  </div>
+
+  <section class="panel" id="critFormPanel" hidden>
+    <h3>Critères acquéreur</h3>
+    <form id="critForm" class="immo-grid">
+      <input type="hidden" id="cId" />
+      <label>Libellé<input id="cLabel" required placeholder="Famille Strasbourg…" /></label>
+      <label>Contact CRM id<input id="cContact" placeholder="contact_…" /></label>
+      <label>Lead id<input id="cLead" placeholder="lead_…" /></label>
+      <label>Types (virgules)<input id="cTypes" placeholder="appartement,maison" /></label>
+      <label>Villes (virgules)<input id="cCities" placeholder="Strasbourg,Illkirch" /></label>
+      <label>CP (virgules)<input id="cCp" placeholder="67000,67400" /></label>
+      <label>Départements<input id="cDept" placeholder="67" /></label>
+      <label>Surface min<input id="cSurfMin" type="number" /></label>
+      <label>Surface max<input id="cSurfMax" type="number" /></label>
+      <label>Pièces min<input id="cRooms" type="number" step="0.5" /></label>
+      <label>Chambres min<input id="cBed" type="number" step="0.5" /></label>
+      <label>Budget min €<input id="cBudMin" type="number" /></label>
+      <label>Budget max €<input id="cBudMax" type="number" /></label>
+      <label>Prix de référence
+        <select id="cPriceMode">
+          <option value="fai">FAI</option>
+          <option value="net_vendeur">Net vendeur</option>
+        </select>
+      </label>
+      <label>Rayon km<input id="cRadius" type="number" step="1" /></label>
+      <div class="immo-check" style="grid-column:1/-1">
+        <label><input type="checkbox" id="cGarage" /> Garage</label>
+        <label><input type="checkbox" id="cParking" /> Parking</label>
+        <label><input type="checkbox" id="cCave" /> Cave</label>
+        <label><input type="checkbox" id="cGarden" /> Jardin</label>
+        <label><input type="checkbox" id="cTerrace" /> Terrasse</label>
+        <label><input type="checkbox" id="cBalcony" /> Balcon</label>
+        <label><input type="checkbox" id="cElev" /> Ascenseur</label>
+        <label><input type="checkbox" id="cPool" /> Piscine</label>
+      </div>
+      <label style="grid-column:1/-1">Notes<textarea id="cNotes" rows="2"></textarea></label>
+      <div style="grid-column:1/-1;display:flex;gap:8px">
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <button type="button" class="btn btn-ghost" id="btnCancelCrit">Fermer</button>
+      </div>
+    </form>
+  </section>
+
+  <div id="matchMount" style="margin-top:14px"></div>
+
+  <script src="./js/crm-immo-matcher.js"></script>
+  <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-matching-page.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

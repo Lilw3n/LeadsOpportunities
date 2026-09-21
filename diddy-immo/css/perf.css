@@ -1,0 +1,38 @@
+/* Performance — chargement differe images, contenu above-the-fold */
+img[loading="lazy"],
+iframe[loading="lazy"] {
+  content-visibility: auto;
+}
+
+.hero-section img,
+.logo-icon svg {
+  loading: eager;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

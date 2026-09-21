@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pubs mandats &amp; démo vendeur | CRM Immobilier</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .pub-immo-grid { display:grid; grid-template-columns:1.1fr 0.9fr; gap:16px; align-items:start; }
+    @media (max-width:980px){ .pub-immo-grid { grid-template-columns:1fr; } }
+    .pub-immo-form label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:10px; }
+    .pub-immo-form input, .pub-immo-form select, .pub-immo-form textarea {
+      padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; background:#f8fafc;
+    }
+    .pub-immo-form textarea { min-height:88px; }
+    .pub-immo-form .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    @media (max-width:600px){ .pub-immo-form .row2 { grid-template-columns:1fr; } }
+    .pub-checks { display:flex; flex-wrap:wrap; gap:12px; margin:8px 0 14px; }
+    .pub-checks label { flex-direction:row; align-items:center; gap:8px; font-size:.88rem; color:#0f172a; font-weight:600; }
+    .pub-list { display:flex; flex-direction:column; gap:10px; max-height:640px; overflow:auto; }
+    .pub-item {
+      border:1px solid var(--line); border-radius:10px; padding:12px; background:#fff; cursor:pointer;
+    }
+    .pub-item:hover, .pub-item.is-active { border-color:#1e4f8a; background:#f0f7ff; }
+    .pub-item h3 { margin:0 0 4px; font-size:.95rem; }
+    .pub-item p { margin:0; font-size:.8rem; color:var(--muted); }
+    .pub-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+    .pub-tags span {
+      font-size:.68rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+      background:#e2e8f0; color:#334155; padding:3px 7px; border-radius:999px;
+    }
+    .pub-tags .pub { background:#dcfce7; color:#166534; }
+    .pub-tags .priv { background:#ffedd5; color:#9a3412; }
+    .pub-preview-links { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .pub-hint { font-size:.82rem; color:var(--muted); margin:0 0 12px; line-height:1.45; }
+    .pub-media-block {
+      border:1px dashed var(--line); border-radius:10px; padding:12px; background:#f8fafc; margin-bottom:12px;
+    }
+    .pub-media-block h4 { margin:0 0 6px; font-size:.88rem; color:#1e4f8a; }
+    .pub-media-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:8px 0; }
+    .pub-thumbs { display:grid; grid-template-columns:repeat(auto-fill,minmax(88px,1fr)); gap:8px; margin-top:8px; }
+    .pub-thumb {
+      position:relative; aspect-ratio:1; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:#fff;
+    }
+    .pub-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .pub-thumb button {
+      position:absolute; top:4px; right:4px; width:24px; height:24px; border:0; border-radius:6px;
+      background:rgba(15,23,42,.75); color:#fff; cursor:pointer; font-weight:800; line-height:1;
+    }
+    .pub-thumb .ord { position:absolute; left:4px; bottom:4px; background:rgba(15,23,42,.7); color:#fff; font-size:.65rem; padding:2px 5px; border-radius:4px; }
+    .pub-video-list { list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; }
+    .pub-video-list li {
+      display:flex; gap:8px; align-items:center; justify-content:space-between;
+      background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-size:.8rem;
+    }
+    .pub-video-list a { color:#1e4f8a; word-break:break-all; }
+    .pub-tour-box {
+      background:#ecfdf5; border:1px solid #99f6e4; border-radius:12px; padding:14px 16px; margin-top:10px;
+    }
+    .pub-tour-box label { margin-bottom:8px; }
+    .pub-tour-url {
+      font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.8rem; word-break:break-all;
+      background:#fff; border:1px dashed #99f6e4; border-radius:8px; padding:8px 10px; margin:8px 0;
+    }
+    .tour-channel-list { display:flex; flex-direction:column; gap:6px; margin:8px 0; font-size:.78rem; }
+    .pub-create-box {
+      background:#0f2744; color:#fff; border-radius:12px; padding:14px 16px; margin:0 0 16px;
+      display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;
+    }
+    .pub-create-box strong { display:block; font-size:1rem; margin-bottom:4px; }
+    .pub-create-box code {
+      display:inline-block; margin-top:6px; background:rgba(255,255,255,.12); padding:6px 10px;
+      border-radius:8px; font-size:.78rem; word-break:break-all;
+    }
+    .pub-created-banner {
+      display:none; margin:0 0 14px; padding:14px 16px; border-radius:12px;
+      background:#ecfdf5; border:2px solid #34d399; color:#065f46;
+    }
+    .pub-created-banner.is-visible { display:block; animation: pubPulse 0.7s ease; }
+    .pub-created-banner h3 { margin:0 0 6px; font-size:1rem; }
+    .pub-created-banner .links { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    .pub-item.is-highlight {
+      border-color:#059669 !important; background:#ecfdf5 !important;
+      box-shadow:0 0 0 3px rgba(16,185,129,.25); animation: pubPulse 0.8s ease;
+    }
+    @keyframes pubPulse {
+      from { transform: scale(0.98); opacity: 0.7; }
+      to { transform: none; opacity: 1; }
+    }
+    .pub-code-box {
+      margin-top:8px; padding:10px; background:#fff7ed; border:1px solid #fdba74; border-radius:8px;
+      font-size:.85rem; color:#9a3412;
+    }
+    .pub-code-box strong { font-size:1.25rem; letter-spacing:.12em; }
+    .tour-req-badge { display:inline-block; font-size:.72rem; font-weight:800; letter-spacing:.03em; text-transform:uppercase; color:#64748b; background:#f1f5f9; border-radius:999px; padding:4px 10px; }
+    .tour-req-badge.is-hot { color:#9a3412; background:#ffedd5; }
+    .tour-req-card { background:#fff; border:1px solid #dbe3ee; border-radius:10px; padding:12px 14px; margin:10px 0 0; }
+    .tour-req-card.tour-req-pending { border-color:#fdba74; background:#fff7ed; }
+    .tour-req-card.tour-req-approved { border-color:#86efac; background:#f0fdf4; }
+    .tour-req-card.tour-req-declined { border-color:#fecaca; background:#fef2f2; }
+    .tour-req-head { display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
+    .tour-req-st { font-size:.75rem; font-weight:800; text-transform:uppercase; letter-spacing:.04em; color:#9a3412; }
+    .tour-req-approved .tour-req-st { color:#166534; }
+    .tour-req-declined .tour-req-st { color:#991b1b; }
+    .tour-req-meta { margin:4px 0 0; color:#64748b; font-size:.82rem; }
+    .tour-req-inbox { margin:0 0 16px; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier · Publicité</p>
+      <h2>Pubs mandats &amp; démo vendeur</h2>
+      <p>Saisie type Leboncoin. Démo privée : accès lié à des e-mails (code par mail) et/ou téléphones (code SMS ou code CRM).</p>
+    </div>
+    <div class="crm-action-row">
+      <a class="btn btn-primary" href="./crm-immo-pubs.html?new=1" id="btnCreateLinkTop">Créer une pub / démo</a>
+      <a class="btn btn-ghost" href="./immobilier/biens.html" target="_blank" rel="noopener">Hub biens &amp; visites</a>
+      <a class="btn btn-primary" href="./crm-immo-tour-requests.html">Demandes de visite</a>
+      <a class="btn btn-ghost" href="./crm-immo-properties.html">Piges &amp; biens</a>
+      <a class="btn btn-ghost" href="./crm-pubs.html">Gestion pubs Ads</a>
+    </div>
+  </section>
+
+  <div class="pub-create-box" id="createLinkBox">
+    <div>
+      <strong>Lien pour créer une pub / démo</strong>
+      <span style="opacity:.85;font-size:.85rem">Ouvrez ce lien (ou partagez-le en interne) pour démarrer une nouvelle annonce.</span>
+      <code id="createLinkUrl"></code>
+    </div>
+    <div class="crm-action-row">
+      <button type="button" class="btn btn-primary" id="btnNewAd">Créer maintenant</button>
+      <button type="button" class="btn btn-ghost" id="btnCopyCreateLink" style="background:rgba(255,255,255,.12);color:#fff;border-color:transparent">Copier le lien</button>
+    </div>
+  </div>
+
+  <div class="pub-created-banner" id="createdBanner" aria-live="polite"></div>
+
+  <section class="panel tour-req-inbox pub-tour-box" id="tourRequestInbox"></section>
+
+  <div class="pub-immo-grid">
+    <section class="panel">
+      <h3 id="formTitle">Nouvelle annonce</h3>
+      <p class="pub-hint">Renseignez le bien comme sur Leboncoin. Pour la démo privée, indiquez les e-mails / tél. autorisés à visualiser.</p>
+      <form class="pub-immo-form" id="adForm">
+        <input type="hidden" id="adId" value="" />
+        <div class="pub-media-block" id="lbcImportBox" style="margin-bottom:16px">
+          <h4>Reprendre depuis Leboncoin (vos annonces)</h4>
+          <p class="pub-hint" style="margin:0">Leboncoin bloque souvent la lecture automatique. Méthode simple : ouvrez <strong>votre</strong> annonce → clic droit sur une photo → <strong>Copier l’adresse de l’image</strong> → collez dans le champ Photos (une URL par ligne). Vous pouvez aussi coller le HTML de la galerie, ou ajouter les photos par fichier plus bas.</p>
+          <label style="margin:8px 0 0">Lien Leboncoin (ou autre portail)
+            <input id="adListingUrl" type="url" placeholder="https://www.leboncoin.fr/ad/ventes_immobilieres/…" />
+          </label>
+          <label style="margin:8px 0 0">Texte de l’annonce (copié depuis Leboncoin)
+            <textarea id="adListingPaste" rows="5" placeholder="Appartement T3…&#10;147 000 €&#10;65 m² · 3 pièces · Varangéville 54110&#10;Classe énergie D…"></textarea>
+          </label>
+          <label style="margin:8px 0 0">Photos (liens images — une URL par ligne)
+            <textarea id="adListingPhotoUrls" rows="3" placeholder="https://img.leboncoin.fr/…&#10;Ou collez le HTML de la galerie : les images sont détectées automatiquement."></textarea>
+          </label>
+          <div class="pub-media-actions" style="margin-top:8px">
+            <button type="button" class="btn btn-primary btn-sm" id="btnImportListing">Reprendre les infos + photos</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnFetchListingPhotos">Essayer depuis le lien</button>
+            <a class="btn btn-ghost btn-sm" id="btnOpenListingUrl" href="#" target="_blank" rel="noopener" hidden>Ouvrir l’annonce</a>
+          </div>
+          <p class="pub-hint" id="adImportStatus" style="margin:8px 0 0" role="status"></p>
+        </div>
+        <label>Titre
+          <input id="adTitle" required maxlength="120" placeholder="T3 lumineux Nancy centre — 68 m²" />
+        </label>
+        <label>Titre pub (optionnel)
+          <input id="adHeadline" maxlength="120" placeholder="Si vide = titre" />
+        </label>
+        <div class="row2">
+          <label>Type
+            <select id="adType">
+              <option value="appartement">Appartement</option>
+              <option value="maison">Maison</option>
+              <option value="terrain">Terrain</option>
+              <option value="local">Local</option>
+              <option value="immeuble">Immeuble</option>
+              <option value="parking">Parking</option>
+              <option value="autre">Autre</option>
+            </select>
+          </label>
+          <label>Statut CRM
+            <select id="adStatus">
+              <option value="estimation">Estimation / prospect</option>
+              <option value="prospection">Prospection</option>
+              <option value="mandat" selected>Mandat en cours</option>
+              <option value="sous_offre">Sous offre</option>
+              <option value="reserve_sru">Réservé SRU</option>
+            </select>
+          </label>
+        </div>
+        <div class="row2">
+          <label>Ville<input id="adCity" required placeholder="Nancy" /></label>
+          <label>Code postal<input id="adPostal" maxlength="5" placeholder="54000" /></label>
+        </div>
+        <div class="row2">
+          <label>Prix FAI (€)<input id="adPrice" type="number" min="0" step="1000" placeholder="265000" /></label>
+          <label>Surface (m²)<input id="adSurface" type="number" min="0" step="1" placeholder="68" /></label>
+        </div>
+        <div class="row2">
+          <label>Pièces<input id="adRooms" type="number" min="0" step="1" placeholder="3" /></label>
+          <label>Chambres<input id="adBedrooms" type="number" min="0" step="1" placeholder="2" /></label>
+        </div>
+        <div class="row2">
+          <label>Étage<input id="adFloor" placeholder="ex. 2" /></label>
+          <label>Chauffage<input id="adHeating" placeholder="Gaz / électrique…" /></label>
+        </div>
+        <div class="row2">
+          <label>DPE
+            <select id="adDpe">
+              <option value="">Non renseigné</option>
+              <option>A</option><option>B</option><option>C</option><option>D</option>
+              <option>E</option><option>F</option><option>G</option>
+            </select>
+          </label>
+          <label>GES
+            <select id="adGes">
+              <option value="">Non renseigné</option>
+              <option>A</option><option>B</option><option>C</option><option>D</option>
+              <option>E</option><option>F</option><option>G</option>
+            </select>
+          </label>
+        </div>
+        <div class="row2">
+          <label>Charges / an (€)<input id="adCharges" type="number" min="0" step="50" /></label>
+          <label>Coût énergie estimé / an (€)<input id="adEnergyCost" type="number" min="0" step="50" placeholder="Ex. 1200" /></label>
+        </div>
+        <div class="row2">
+          <label>Année construction<input id="adYear" type="number" min="1800" max="2100" step="1" /></label>
+          <label>&nbsp;</label>
+        </div>
+        <p class="pub-hint" style="margin:0 0 12px">Ces critères (pièces, DPE, chauffage, médias…) apparaissent sur la démo vendeur. Les champs vides peuvent aussi être complétés via le <strong>questionnaire fiche interlocuteur</strong>.</p>
+        <div class="pub-checks" style="margin-bottom:12px">
+          <label><input type="checkbox" id="adElevator" /> Ascenseur</label>
+          <label><input type="checkbox" id="adParking" /> Parking</label>
+          <label><input type="checkbox" id="adGarage" /> Garage</label>
+          <label><input type="checkbox" id="adCave" /> Cave</label>
+          <label><input type="checkbox" id="adBalcony" /> Balcon</label>
+          <label><input type="checkbox" id="adTerrace" /> Terrasse</label>
+          <label><input type="checkbox" id="adGarden" /> Jardin</label>
+          <label><input type="checkbox" id="adFurnished" /> Meublé</label>
+        </div>
+        <label>Description
+          <textarea id="adDescription" required placeholder="Points forts, quartier, prestations… (sans téléphone ni e-mail)"></textarea>
+        </label>
+
+        <div class="pub-media-block">
+          <h4>Photos (comme Leboncoin)</h4>
+          <p class="pub-hint" style="margin:0">Façade, séjour, cuisine, chambres… Max 12. Upload depuis l’ordinateur ou collage d’URLs.</p>
+          <div class="pub-media-actions">
+            <label class="btn btn-primary btn-sm">Ajouter des photos
+              <input type="file" id="adPhotoFiles" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden />
+            </label>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnAddPhotoUrl">+ URL photo</button>
+          </div>
+          <div class="pub-thumbs" id="adPhotoThumbs" aria-live="polite"></div>
+          <textarea id="adPhotos" hidden></textarea>
+        </div>
+
+        <div class="pub-media-block">
+          <h4>Vidéos</h4>
+          <p class="pub-hint" style="margin:0">Liens YouTube, Vimeo ou fichier hébergé (https). Comme sur une annonce portail.</p>
+          <div class="pub-media-actions">
+            <input id="adVideoInput" type="url" placeholder="https://www.youtube.com/watch?v=…" style="flex:1;min-width:180px" />
+            <button type="button" class="btn btn-primary btn-sm" id="btnAddVideo">Ajouter la vidéo</button>
+          </div>
+          <ul class="pub-video-list" id="adVideoList"></ul>
+          <textarea id="adVideos" hidden></textarea>
+        </div>
+
+        <div class="pub-media-block">
+          <h4>Visite virtuelle</h4>
+          <p class="pub-hint" style="margin:0">Le lien Matterport / Nodalview reste <strong>privé</strong>. Sur Leboncoin tu colles uniquement le lien de <strong>ton site</strong>. Compte Matterport : voir <a href="./crm-settings.html">Paramètres</a> / <a href="./crm-users-internal.html">co-admins</a> (ex. wendy.buchet.pro@gmail.com). Tu peux créer plusieurs liens publics indépendants.</p>
+          <p class="pub-hint" id="adTourMasked" style="margin:0 0 8px">Aucun lien 3D enregistré.</p>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnEditTourUrl">Coller / remplacer le lien 3D (reste privé)</button>
+          <label id="adTourLabel" style="margin:8px 0 0" hidden>Nouveau lien 3D (privé, jamais publié)
+            <input id="adTour" type="url" autocomplete="off" placeholder="https://…" />
+          </label>
+          <div class="pub-tour-box">
+            <label class="pub-checks" style="margin:0 0 8px"><input type="checkbox" id="chTourGate" checked /> Activer le lien visite (site + portails, droits d’auteur Wendy BUCHET)</label>
+            <p class="pub-hint" style="margin:0 0 8px">Tu peux changer durée, disponibilité et visibilité <strong>sans changer l’URL</strong> déjà collée sur Leboncoin. «&nbsp;Renouveler&nbsp;» est le seul bouton qui casse l’ancien lien.</p>
+            <label style="margin:0 0 8px">Lien à régler
+              <select id="adTourLinkSelect">
+                <option value="">— Lien principal —</option>
+              </select>
+            </label>
+            <label style="margin:0 0 8px">Nom du lien
+              <input id="adTourName" type="text" maxlength="80" placeholder="ex. Leboncoin Dombasle, Site vitrine, Test Michèle" />
+            </label>
+            <input type="hidden" id="adTourLinkId" value="" />
+            <div class="pub-media-actions" style="align-items:flex-end">
+              <label style="margin:0;flex:1">Disponibilité
+                <select id="adTourAvailability">
+                  <option value="active" selected>Actif (le lien fonctionne)</option>
+                  <option value="paused">En pause (URL inchangée, accès coupé)</option>
+                </select>
+              </label>
+              <label style="margin:0;flex:1">Visibilité
+                <select id="adTourVisibility">
+                  <option value="listed" selected>Visible sur le site</option>
+                  <option value="unlisted">Masqué sur le site (Leboncoin / URL directe OK)</option>
+                </select>
+              </label>
+            </div>
+            <p class="pub-hint" id="adTourMandateHint" style="margin:0 0 8px"></p>
+            <label style="margin:0 0 8px">Vérification avant accès
+              <select id="adTourVerify">
+                <option value="none">Aucune (droits d’auteur seulement)</option>
+                <option value="email" selected>E-mail (Wendy valide, puis code gratuit)</option>
+                <option value="sms">SMS (Twilio prêt, désactivé — payant)</option>
+                <option value="both">E-mail + SMS (SMS désactivé, e-mail seul)</option>
+              </select>
+            </label>
+            <label style="margin:0 0 8px">Période de validité
+              <select id="adTourPeriod">
+                <option value="limited" selected>Limitée (durée ci-dessous)</option>
+                <option value="unlimited">Illimitée (quotas possibles)</option>
+                <option value="mandate">Liée au mandat exclusif (invalide dès la fin du mandat)</option>
+              </select>
+            </label>
+            <div class="pub-media-actions" style="align-items:flex-end">
+              <label style="margin:0;flex:1">Durée (vide = conserver)
+                <input id="adTourDuration" type="number" min="0" step="1" value="30" placeholder="ex. 2, 12, 30" />
+              </label>
+              <label style="margin:0;flex:1">Unité
+                <select id="adTourDurationUnit">
+                  <option value="hours">Heures</option>
+                  <option value="days" selected>Jours</option>
+                </select>
+              </label>
+              <input type="hidden" id="adTourDays" value="30" />
+              <label style="margin:0;flex:1">Utilisations max (lien, 0 = illimité)
+                <input id="adTourMaxViews" type="number" min="0" step="1" value="50" />
+              </label>
+              <label style="margin:0;flex:1">Max / personne (0 = illimité)
+                <input id="adTourMaxPer" type="number" min="0" step="1" value="8" />
+              </label>
+            </div>
+            <label style="margin:0 0 8px">La durée commence
+              <select id="adTourDurationStart">
+                <option value="first_view" selected>À la première consultation du lien</option>
+                <option value="created">Dès la création du lien</option>
+              </select>
+            </label>
+            <p class="pub-hint" style="margin:0 0 8px">Exemples : 6 heures · 2 jours · 1 seule utilisation. Tu peux combiner durée + nombre d’ouvertures. E-mails / tél. autorisés : les champs plus bas (une ligne = une personne).</p>
+            <p class="pub-hint" style="margin:8px 0 4px">Lier ce lien à :</p>
+            <div class="pub-checks">
+              <label><input type="checkbox" id="chTourBindSite" checked /> Bien du site</label>
+              <label><input type="checkbox" id="chTourBindLbc" checked /> Leboncoin</label>
+              <label><input type="checkbox" id="chTourBindSeloger" checked /> SeLoger / portails</label>
+              <label><input type="checkbox" id="chTourBindMeta" checked /> Meta</label>
+              <label><input type="checkbox" id="chTourBindOther" checked /> Autre</label>
+            </div>
+            <label>Annonces portails déjà en ligne (une URL par ligne)
+              <textarea id="adTourPortalUrls" placeholder="https://www.leboncoin.fr/ventes_immobilieres/…&#10;https://www.seloger.com/…"></textarea>
+            </label>
+            <label>Personnes autorisées — e-mails (vide = tout le monde qui passe la vérif)
+              <textarea id="adTourAllowEmails" placeholder="acheteur@exemple.fr"></textarea>
+            </label>
+            <label>Personnes autorisées — téléphones (ajoutez / retirez puis enregistrez)
+              <textarea id="adTourAllowPhones" placeholder="06 12 34 56 78"></textarea>
+            </label>
+            <p class="pub-tour-url" id="adTourPublicUrl">Enregistrez pour générer les liens à coller.</p>
+            <div class="tour-channel-list" id="adTourChannelLinks"></div>
+            <div class="pub-media-actions">
+              <button type="button" class="btn btn-primary btn-sm" id="btnCopyTourLink">Copier le lien Leboncoin</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnCopyTourSite">Copier le lien site</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnNewNamedTourLink">Créer un autre lien nommé</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnDeleteTourLink">Supprimer CE lien</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnRotateTourLink">Renouveler CE lien (invalide l’ancien)</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnPreviewTour">Prévisualiser (CRM)</button>
+            </div>
+          </div>
+        </div>
+        <label>Plateformes diffusées
+          <input id="adPlatforms" value="Meta, Google, Leboncoin, SeLoger" />
+        </label>
+        <label>Libellé démo privée
+          <input id="adDemoLabel" value="Capacité de diffusion" />
+        </label>
+        <div class="pub-checks">
+          <label><input type="checkbox" id="chPublic" /> Vitrine publique — hub /immobilier/biens.html (vous choisissez)</label>
+          <label><input type="checkbox" id="chPrivate" checked /> Démo privée vendeur</label>
+        </div>
+        <p class="pub-hint" style="margin:0">La vitrine publique dépend uniquement de cette case (avec ou sans mandat). Les visites virtuelles gardent la vérification d’accès déjà en place.</p>
+
+        <div class="pub-media-block" id="accessBlock">
+          <h4>Qui peut voir la démo privée ?</h4>
+          <p class="pub-hint" style="margin:0">Liez la visualisation à des e-mails (code reçu par mail) et/ou des téléphones (code SMS si Twilio, sinon code à transmettre depuis le CRM).</p>
+          <label>E-mails autorisés (un par ligne)
+            <textarea id="adAccessEmails" placeholder="vendeur@exemple.fr&#10;coproprio@exemple.fr"></textarea>
+          </label>
+          <label>Téléphones autorisés (un par ligne)
+            <textarea id="adAccessPhones" placeholder="06 12 34 56 78"></textarea>
+          </label>
+          <div id="phoneCodePanel" class="pub-code-box" hidden></div>
+        </div>
+
+        <div class="crm-action-row">
+          <button type="submit" class="btn btn-primary" id="btnSaveAd">Enregistrer la pub</button>
+          <button type="button" class="btn btn-ghost" id="btnHideAd" hidden title="Retire de la vitrine marché — infos et docs conservés">Masquer du marché</button>
+          <button type="button" class="btn btn-ghost" id="btnShowAd" hidden title="Remettre en vitrine publique">Remettre en vitrine</button>
+          <button type="button" class="btn btn-ghost" id="btnDeleteAd" hidden title="Suppression définitive (docs inclus) — préférer Masquer">Supprimer définitivement</button>
+        </div>
+        <p class="pub-hint" id="adStatusMsg"></p>
+        <div class="pub-preview-links" id="previewLinks"></div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h3>Pubs créées</h3>
+      <p class="pub-hint">Liste mise en évidence après chaque enregistrement. Cliquez pour éditer.</p>
+      <div class="pub-list" id="adList"></div>
+    </section>
+  </div>
+
+  <script src="./js/crm-immo-matcher.js"></script>
+  <script src="./js/immo-public-listings-lib.js"></script>
+  <script src="./js/immo-listing-portals-lib.js"></script>
+  <script src="./js/immo-listing-paste-lib.js"></script>
+  <script src="./js/immo-photo-compress-lib.js"></script>
+  <script src="./js/immo-ad-demo-access-lib.js"></script>
+  <script src="./js/immo-mandate-acl-lib.js"></script>
+  <script src="./js/immo-tour-access-lib.js"></script>
+  <script src="./js/immo-ad-listings-lib.js"></script>
+  <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-tour-requests.js"></script>
+  <script src="./js/crm-immo-pubs.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+</body>
+</html>

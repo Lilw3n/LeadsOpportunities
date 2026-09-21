@@ -1,0 +1,16 @@
+{
+  "name": "buchet-immobilier-diddy-immo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pack CRM immobilier Buchet / DiddyImmo (extrait de Leads Opportunities)",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "jsonwebtoken": "^9.0.3"
+  },
+  "scripts": {
+    "verify:pack": "node scripts/verify-pack.cjs"
+  }
+}
