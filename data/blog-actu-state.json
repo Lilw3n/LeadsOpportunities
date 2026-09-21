@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-21T11:34:46.426Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/societes/auto-habitation-pourquoi-les-tarifs-d-assurance-risquent-encore-d-augmenter-jusqu-a-7-5-en-2027-20260921",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab116563bdf4bc99f7b2d5752397816&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsport%2fother%2fcoupe-du-monde-2026-france-espagne-kylian-mbapp%25C3%25A9-accuse-didier-deschamps%2far-AA2ctSo3&c=7730428786510799831&mkt=en-us",
+    "https://www.franceinfo.fr/sante/pret-pour-la-vasectomie_8199206.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-21T11:34:48.391Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-21T11:34:48.391Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "auto-habitation-pourquoi-les-tarifs-d-assurance-risquent-encore-d-augmen.html",
+          "title": "Auto, habitation : pourquoi les tarifs d’assurance risquent encore d’augmenter jusqu’à … : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "coupe-du-monde-2026-france-espagne-kylian-mbappe-accuse-didier-deschamps.html",
+          "title": "Coupe du monde 2026 : France-Espagne, Kylian Mbappé accuse Didier Deschamps : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "pret-pour-la-vasectomie.html",
+          "title": "Prêt pour la vasectomie ? : assurance habitation — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
