@@ -3,7 +3,18 @@
  * Affiche l'état du pipeline actu blog.
  */
 const { readJson, loadPendingArticles } = require("./blog-actu-lib.cjs");
+const { SOURCE_TYPES, SOURCE_LABELS } = require("./blog-actu-sources.cjs");
 const MANIFEST = require("./blog-articles-manifest.cjs");
+
+function isPlaceholderQueueItem(item) {
+  var id = String(item.id || "").toLowerCase();
+  var title = String(item.title || "").toLowerCase();
+  return (
+    id.indexOf("pending-template") !== -1 ||
+    title.indexOf("collez ici") !== -1 ||
+    title.indexOf("titre de la une cafeyn") !== -1
+  );
+}
 
 function main() {
   var queue = readJson("blog-actu-queue.json", { items: [] });
@@ -14,9 +25,16 @@ function main() {
   console.log("=== Pipeline blog actu ===\n");
   console.log("Articles manifeste:", MANIFEST.articles.length);
   console.log("File manuelle (queue):", (queue.items || []).filter(function (i) {
-    return i.status !== "published";
+    return i.status !== "published" && !isPlaceholderQueueItem(i);
   }).length);
   console.log("Candidats RSS:", (candidates.candidates || []).length);
+  if (candidates.bySource) {
+    console.log("Candidats par source:");
+    SOURCE_TYPES.forEach(function (type) {
+      if (candidates.bySource[type] === undefined) return;
+      console.log(" - " + SOURCE_LABELS[type] + ":", candidates.bySource[type]);
+    });
+  }
   console.log("Articles pending (brouillon):", pending.length);
   console.log("Dernier fetch:", state.lastFetch || "jamais");
   console.log("URLs traitées:", (state.processedUrls || []).length);

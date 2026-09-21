@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-21",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-coupe-du-monde-2026-france-espagne-kylian-mbappe-accuse-didier-deschamps",
+      "title": "Coupe du monde 2026 : France-Espagne, Kylian Mbappé accuse Didier Deschamps",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab10f02842f4bc98397a8321b869c25&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsport%2fother%2fcoupe-du-monde-2026-france-espagne-kylian-mbapp%25C3%25A9-accuse-didier-deschamps%2far-AA2ctSo3&c=7730428786510799831&mkt=en-us",
+      "summary": "Invité à revenir sur la défaite des Bleus face à l'Espagne en demi-finale de la Coupe du monde, Kylian Mbappé a pointé du doigt la responsabilité de Didier Deschamps.",
+      "pubDate": "Fri, 18 Sep 2026 02:25:36 GMT",
+      "feedId": "source-edge-bing-cdm",
+      "feedName": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "suggestedFile": "coupe-du-monde-2026-france-espagne-kylian-mbappe-accuse-didier-deschamps.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-envolee-des-prix-de-l-essence-changez-d-assurance-emprunteur-et-economis",
+      "title": "Envolée des prix de l'essence : changez d'assurance emprunteur et économisez 2 pleins par mois - Magnolia.fr",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNOU9RRGFZczczMWI3czU2NWlNOXpSZXdfc1dQdHlqUDVxcXloSjdMWG9PYzhFZ2N1eG16Sm5rdlFtY3Y4QlYxOGdxTmZGVVRjQ0VkS21TQ1ZmanBvY1drTlNUZ0liQ3dRLWE2OFdyNllpNlhjUTJvM0tfakNKcUdDN05YTW9GNWExSW5NWnI1bDVheFppYXJkbUg4V3pKNU9Ea1FFMllrUWJpWjVqUHc?oc=5",
+      "summary": "Envolée des prix de l'essence : changez d'assurance emprunteur et économisez 2 pleins par mois Magnolia.fr",
+      "pubDate": "Mon, 21 Sep 2026 05:07:06 GMT",
+      "feedId": "google-news-immobilier",
+      "feedName": "Google News — prêt immo emprunteur",
+      "sourceType": "google",
+      "suggestedFile": "envolee-des-prix-de-l-essence-changez-d-assurance-emprunteur-et-economis.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-les-sinistres-sont-plus-frequents-plus-severes-et-leur-cout-augmente-les",
+      "title": "\"Les sinistres sont plus fréquents, plus sévères et leur coût augmente\": les tarifs des assurances habitation et automobile vont encore grimper en 2027, jusqu'à 7% selon ...",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab10f02ee0a451a9a389c0a4a8af930&url=https%3a%2f%2fwww.bfmtv.com%2feconomie%2fentreprises%2fassurance-banque%2fles-sinistres-sont-plus-frequents-plus-severes-et-leur-cout-augmente-les-tarifs-des-assurances-habitation-et-automobile-vont-encore-grimper-en-2027-jusqu-a-7-selon-les-estimations_AD-202609210417.html&c=2811257424740760853&mkt=en-us",
+      "summary": "Selon France Assureurs, le lobby des compagnies d'assurance, cette hausse s'explique par des sinistres plus coûteux, \"notamment sous l'effet de la hausse du prix des matériaux, des réparations et des ...",
+      "pubDate": "Mon, 21 Sep 2026 03:22:00 GMT",
+      "feedId": "source-bing-news-assurance",
+      "feedName": "Bing News — assurance France",
+      "sourceType": "bing",
+      "suggestedFile": "les-sinistres-sont-plus-frequents-plus-severes-et-leur-cout-augmente-les.html",
+      "section": "auto",
+      "need": "auto",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurances-les-tarifs-des-contrats-auto-et-habitation-devraient-encore-a",
+      "title": "Assurances : les tarifs des contrats auto et habitation devraient encore augmenter en 2027",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab10f02ee0a451a9a389c0a4a8af930&url=https%3a%2f%2fwww.sudouest.fr%2feconomie%2fassurances-les-tarifs-des-contrats-auto-et-habitation-devraient-encore-augmenter-en-2027-30720856.php&c=9949933848575966857&mkt=en-us",
+      "summary": "Les tarifs des contrats d’assurance devraient augmenter l’an prochain à un rythme supérieur à l’inflation, portés par la multiplication des sinistres et la hausse des coûts de réparation ...",
+      "pubDate": "Mon, 21 Sep 2026 01:49:00 GMT",
+      "feedId": "source-bing-news-assurance",
+      "feedName": "Bing News — assurance France",
+      "sourceType": "bing",
+      "suggestedFile": "assurances-les-tarifs-des-contrats-auto-et-habitation-devraient-encore-a.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-auto-habitation-pourquoi-les-tarifs-d-assurance-risquent-encore-d-augmen",
+      "title": "Auto, habitation : pourquoi les tarifs d’assurance risquent encore d’augmenter jusqu’à 7,5 % en 2027",
+      "url": "https://www.lefigaro.fr/societes/auto-habitation-pourquoi-les-tarifs-d-assurance-risquent-encore-d-augmenter-jusqu-a-7-5-en-2027-20260921",
+      "summary": "DÉCRYPTAGE - La hausse des primes restera supérieure à l’inflation. Mais, en assurance-auto, elle sera un peu plus modérée que les années précédentes. Et ce pour plusieurs raisons.",
+      "pubDate": "Mon, 21 Sep 2026 10:00:00 +0200",
+      "feedId": "source-cafeyn-figaro-eco",
+      "feedName": "Cafeyn — Le Figaro économie",
+      "sourceType": "cafeyn",
+      "suggestedFile": "auto-habitation-pourquoi-les-tarifs-d-assurance-risquent-encore-d-augmen.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}
