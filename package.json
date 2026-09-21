@@ -98,6 +98,7 @@
     "verify:vente-3d": "node scripts/verify-vente-3d.cjs",
     "verify:blog-lead-intent": "node scripts/verify-blog-lead-intent.cjs",
     "verify:nancy-bassin-pret": "node scripts/verify-nancy-bassin-pret.cjs",
+    "verify:nancy-bassin-acquereur": "node scripts/verify-nancy-bassin-acquereur.cjs",
     "verify:seo-long-terme": "node scripts/verify-seo-long-terme.cjs",
     "verify:contact-pair": "node scripts/verify-contact-pair.cjs",
     "verify:laforet-fees": "node scripts/verify-laforet-network-fees.cjs",

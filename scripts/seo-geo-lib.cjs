@@ -274,15 +274,17 @@ const GEO_PRODUCTS = [
     hubDeptUrl: "/recherche-bien/departements/",
     landing: "/landings/acheteur-immo.html",
     landingForCity: function (city) {
-      return "/landings/acheteur-immo.html?ville=" + encodeURIComponent(city.name);
+      return "/landings/acheteur-immo.html?ville=" + encodeURIComponent(city.name) + "#demande";
     },
     ctaLabel: function (city) {
-      return "Chercher un bien a " + city.name;
+      return "Déposer ma recherche — " + city.name;
     },
     title: function (city) {
+      if (nancyBassin.isBassinCity(city)) return nancyBassin.rechercheTitle(city);
       return "Recherche de bien " + city.name + " | Achat immobilier " + city.region;
     },
     description: function (city) {
+      if (nancyBassin.isBassinCity(city)) return nancyBassin.rechercheDescription(city);
       return (
         "Recherche de bien a " +
         city.name +
@@ -290,9 +292,13 @@ const GEO_PRODUCTS = [
       );
     },
     h1: function (city) {
+      if (nancyBassin.isBassinCity(city)) {
+        return "Recherche de bien à " + (nancyBassin.getCommune(city) || city).name + " (54)";
+      }
       return "Recherche de bien a " + city.name;
     },
     intro: function (city) {
+      if (nancyBassin.isBassinCity(city)) return nancyBassin.rechercheIntro(city);
       var p = immoLib.profile(city);
       return (
         "Trouver un bien a " +
@@ -304,8 +310,16 @@ const GEO_PRODUCTS = [
         "."
       );
     },
-    sections: immoLib.rechercheCitySections,
-    faq: immoLib.rechercheCityFaq,
+    sections: function (city) {
+      if (nancyBassin.isBassinCity(city)) return nancyBassin.rechercheCitySections(city);
+      return immoLib.rechercheCitySections(city);
+    },
+    faq: function (city) {
+      if (nancyBassin.isBassinCity(city)) {
+        return contentLib.defaultCityFaq(city, "Recherche de bien").concat(nancyBassin.rechercheCityFaq(city));
+      }
+      return immoLib.rechercheCityFaq(city);
+    },
     geoSteps: [
       { title: "Criteres", text: "Ville, type, budget, usage." },
       { title: "Enveloppe pret", text: "Mensualite cible avant les visites." },
@@ -1095,15 +1109,30 @@ function buildGeoPageConfigs(cities, pageFn) {
       if (product.extraRelated) {
         related = related.concat(product.extraRelated);
       }
-      if (nancyBassin.isBassinCity(city) && (product.key === "pret" || product.key === "credit")) {
+      if (
+        nancyBassin.isBassinCity(city) &&
+        (product.key === "pret" || product.key === "credit" || product.key === "recherche")
+      ) {
         related = [
           { href: "/" + product.dir + "/nancy-metropole/", label: "Hub Nancy metropole (54)" },
-          { href: "/landings/credit-immo.html?ville=" + encodeURIComponent(city.name), label: "Simulation pret " + city.name },
+          product.key === "recherche"
+            ? {
+                href:
+                  "/landings/acheteur-immo.html?ville=" +
+                  encodeURIComponent(city.name) +
+                  "&utm_content=seo-bassin#demande",
+                label: "Déposer ma recherche — " + city.name,
+              }
+            : {
+                href: "/landings/credit-immo.html?ville=" + encodeURIComponent(city.name),
+                label: "Simulation pret " + city.name,
+              },
         ].concat(related);
       }
       related = related.concat(crossLinksForCity(product, city));
       var nearbyList =
-        nancyBassin.isBassinCity(city) && (product.key === "pret" || product.key === "credit")
+        nancyBassin.isBassinCity(city) &&
+        (product.key === "pret" || product.key === "credit" || product.key === "recherche")
           ? nancyBassin.nearbyLinks(city, product.dir)
           : contentLib.nearbyLinks(city, cities, product.dir, 8);
       related = related.concat(nearbyList);
@@ -1111,7 +1140,11 @@ function buildGeoPageConfigs(cities, pageFn) {
           var geoPage = {
           file: product.dir + "/" + city.slug + "/index.html",
           theme: product.theme,
-          badge: city.region,
+          badge:
+            nancyBassin.isBassinCity(city) &&
+            (product.key === "pret" || product.key === "credit" || product.key === "recherche")
+              ? "Nancy métropole · 54"
+              : city.region,
           title: product.title(city),
           description: product.description(city),
           h1: product.h1(city),
@@ -1135,7 +1168,8 @@ function buildGeoPageConfigs(cities, pageFn) {
           sections: sections,
           related: related,
           nearbyCities:
-            nancyBassin.isBassinCity(city) && (product.key === "pret" || product.key === "credit")
+            nancyBassin.isBassinCity(city) &&
+            (product.key === "pret" || product.key === "credit" || product.key === "recherche")
               ? nancyBassin.nearbyLinks(city, product.dir)
               : contentLib.nearbyLinks(city, cities, product.dir, 12),
           faq: faq,

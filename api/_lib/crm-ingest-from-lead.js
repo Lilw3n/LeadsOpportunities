@@ -191,11 +191,20 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
     }
   }
 
+  try {
+    const { upsertBuyerCriteriaFromLead } = require("./buyer-criteria-from-lead");
+    var criteriaId = await upsertBuyerCriteriaFromLead(sql, body, leadId, contactId);
+    if (criteriaId) body._buyerCriteriaId = criteriaId;
+  } catch (critErr) {
+    console.warn("[crm-ingest] buyer criteria", critErr && critErr.message);
+  }
+
   const reqId = "req_" + crypto.randomUUID();
   const vertical = body.vertical || body.need || "";
   const skipInsurance =
     vertical === "vendeur_immo" ||
     vertical === "acheteur_vendeur_immo" ||
+    vertical === "acheteur_immo" ||
     vertical === "acheteur-immo" ||
     vertical === "vendeur-immo" ||
     String(body.source || "").indexOf("listing") >= 0;

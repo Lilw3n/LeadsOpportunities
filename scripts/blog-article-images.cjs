@@ -444,6 +444,8 @@ var MAP = {
   "cession-local-commercial-bail-fonds-commerce-2026.html": { hero: "bailleur", figure: "artisan" },
   "signalement-maison-a-vendre-chasseur-bien-prime.html": { hero: "maisonFamille", figure: "artisan" },
   "acheter-terrain-nancy-metropole-54-2026.html": { hero: "maisonFamille", figure: "creditCles" },
+  "acheter-maison-appartement-nancy-metropole-54-2026.html": { hero: "maisonFamille", figure: "creditCles" },
+  "recherche-bien-nancy-54-deposer-criteres-2026.html": { hero: "creditCles", figure: "maisonFamille" },
   "rentree-2026-investissement-locatif-encore-rentable.html": { hero: "appartLoc", figure: "signaturePret" },
   "succession-maison-vide-heritiers-eloignes-demarches.html": { hero: "maisonFamille", figure: "appartLoc" },
   "taux-credit-immobilier-2026-frais-dossier.html": { hero: "creditCles", figure: "budgetFam" },
