@@ -8,6 +8,7 @@ const ROOT = path.join(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const { loadPendingArticles, appendPendingArticle, stripForManifest } = require("./blog-actu-pending.cjs");
 const { franceLeadScoreAdjust, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const { normalizeSourceType } = require("./blog-actu-sources.cjs");
 
 function readJson(file, fallback) {
   try {
@@ -99,10 +100,14 @@ function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
   var need = candidate.need || "";
+  var sourceType = normalizeSourceType(candidate.sourceType || candidate.source || candidate.feedName);
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (sourceType === "cafeyn" || sourceType === "edge" || sourceType === "firefox") {
     score += 12;
+  }
+  if (sourceType === "google" || sourceType === "bing" || sourceType === "yahoo") {
+    score += 8;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
@@ -137,7 +142,11 @@ function scoreLeadPotential(candidate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 30 * 86400000) score -= 20;
   }
+
+  if (looksLikeCorporateWire(title + " " + String(candidate.summary || "").toLowerCase())) score -= 18;
+  if (looksMostlyEnglish(title)) score -= 12;
 
   return Math.min(100, Math.max(0, score));
 }
@@ -297,9 +306,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: decodeEntities(stripHtml(decodeEntities(title))),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: decodeEntities(stripHtml(decodeEntities(desc || ""))).slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -319,6 +328,7 @@ function stripHtml(s) {
 
 function decodeEntities(s) {
   return String(s)
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
       return String.fromCharCode(parseInt(hex, 16));
     })
@@ -331,7 +341,44 @@ function decodeEntities(s) {
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&apos;/g, "'")
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
+    .replace(/&nbsp;/g, " ");
+}
+
+function looksLikeCorporateWire(text) {
+  return [
+    "business wire",
+    "globenewswire",
+    "pr newswire",
+    "communique de presse",
+    "communiqué de presse",
+    "announces",
+    "annonce ses resultats",
+    "annonce ses résultats",
+    "memorandum of understanding",
+  ].some(function (kw) {
+    return String(text || "").toLowerCase().indexOf(kw) !== -1;
+  }) || /\bmou\b/i.test(String(text || ""));
+}
+
+function looksMostlyEnglish(text) {
+  var hay = String(text || "").toLowerCase();
+  var englishHits = [
+    " the ",
+    " and ",
+    " with ",
+    " for ",
+    " launches ",
+    " announces ",
+    " report ",
+    " market ",
+    " global ",
+  ].filter(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  }).length;
+  var frenchHits = [" le ", " la ", " les ", " des ", " une ", " avec ", " pour ", " france "].filter(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  }).length;
+  return englishHits >= 2 && englishHits > frenchHits;
 }
 
 module.exports = {

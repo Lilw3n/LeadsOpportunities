@@ -13,21 +13,33 @@ const {
   existingFiles,
   scoreLeadPotential,
 } = require("./blog-actu-lib.cjs");
+const {
+  SOURCE_TYPES,
+  DEFAULT_QUOTAS,
+  normalizeSourceType,
+  activeSourceTypes,
+  emptyBuckets,
+} = require("./blog-actu-sources.cjs");
 
 const MAX_PER_FEED = 8;
-const DEFAULT_QUOTAS = { cafeyn: 20, edge: 12, firefox: 15, aggregator: 30 };
 
 function resolveQueueSourceType(source) {
-  var s = String(source || "").toLowerCase();
-  if (s.indexOf("cafeyn") !== -1) return "cafeyn";
-  if (s.indexOf("edge") !== -1 || s.indexOf("msn") !== -1 || s.indexOf("bing") !== -1) return "edge";
-  if (s.indexOf("firefox") !== -1 || s.indexOf("pocket") !== -1) return "firefox";
-  return "aggregator";
+  return normalizeSourceType(source);
+}
+
+function isPlaceholderQueueItem(item) {
+  var id = String(item.id || "").toLowerCase();
+  var title = String(item.title || "").toLowerCase();
+  return (
+    id.indexOf("pending-template") !== -1 ||
+    title.indexOf("collez ici") !== -1 ||
+    title.indexOf("titre de la une cafeyn") !== -1
+  );
 }
 
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  activeSourceTypes(quotas).forEach(function (type) {
     var cap = quotas[type] || 0;
     var list = (buckets[type] || []).slice();
     list.sort(function (a, b) {
@@ -38,8 +50,33 @@ function mergeWithQuotas(buckets, quotas) {
   return merged;
 }
 
+function normalizedCandidateKey(candidate) {
+  var file = String(candidate.suggestedFile || "").toLowerCase();
+  if (file) return "file:" + file;
+  return (
+    "title:" +
+    String(candidate.title || "")
+      .toLowerCase()
+      .replace(/\s+-\s+[^-]+$/, "")
+      .replace(/[^a-z0-9\u00c0-\u017f]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+  );
+}
+
+function dedupeMergedCandidates(candidates) {
+  var seen = new Set();
+  return candidates.filter(function (candidate) {
+    var key = normalizedCandidateKey(candidate);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected") return;
+  if (isPlaceholderQueueItem(item)) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
@@ -79,7 +116,7 @@ async function fetchText(url) {
 }
 
 async function processFeed(feed, buckets, processed, maxPerFeed) {
-  var sourceType = feed.sourceType || "aggregator";
+  var sourceType = normalizeSourceType([feed.sourceType, feed.name, feed.id].join(" "));
   if (!buckets[sourceType]) buckets[sourceType] = [];
   try {
     var xml = await fetchText(feed.url);
@@ -150,7 +187,7 @@ async function main() {
     console.warn("DB queue:", e.message);
   }
   var processed = new Set(state.processedUrls || []);
-  var buckets = { cafeyn: [], edge: [], firefox: [], aggregator: [] };
+  var buckets = emptyBuckets();
 
   await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
 
@@ -162,7 +199,7 @@ async function main() {
   });
 
   var files = existingFiles();
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  SOURCE_TYPES.forEach(function (type) {
     buckets[type] = (buckets[type] || []).filter(function (c) {
       var f = c.suggestedFile || "";
       if (!f.endsWith(".html")) f += ".html";
@@ -170,7 +207,7 @@ async function main() {
     });
   });
 
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  SOURCE_TYPES.forEach(function (type) {
     var seen = new Set();
     buckets[type] = (buckets[type] || []).filter(function (c) {
       var k = (c.url || c.title).toLowerCase();
@@ -183,26 +220,30 @@ async function main() {
     });
   });
 
-  var deduped = mergeWithQuotas(buckets, quotas);
+  var deduped = dedupeMergedCandidates(mergeWithQuotas(buckets, quotas));
+  var bySource = {};
+  SOURCE_TYPES.forEach(function (type) {
+    bySource[type] = (buckets[type] || []).length;
+  });
 
   writeJson("blog-actu-candidates.json", {
     updated: new Date().toISOString(),
     quotas: quotas,
-    bySource: {
-      cafeyn: (buckets.cafeyn || []).length,
-      edge: (buckets.edge || []).length,
-      firefox: (buckets.firefox || []).length,
-      aggregator: (buckets.aggregator || []).length,
-    },
+    bySource: bySource,
     candidates: deduped,
   });
 
   state.lastFetch = new Date().toISOString();
   writeJson("blog-actu-state.json", state);
 
-  console.log("Candidates:", deduped.length, "— cafeyn/edge/firefox/aggr:",
-    (buckets.cafeyn || []).length + "/" + (buckets.edge || []).length + "/" +
-    (buckets.firefox || []).length + "/" + (buckets.aggregator || []).length);
+  console.log(
+    "Candidates:",
+    deduped.length,
+    "—",
+    SOURCE_TYPES.map(function (type) {
+      return type + ":" + (buckets[type] || []).length;
+    }).join(" ")
+  );
   if (deduped.length) {
     console.log("Top 3:");
     deduped.slice(0, 3).forEach(function (c, i) {
