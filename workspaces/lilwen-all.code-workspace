@@ -1,0 +1,26 @@
+{
+  "folders": [
+    { "name": "LeadsOpportunities", "path": "../" },
+    { "name": "DiddyImmo", "path": "../../DiddyImmo" },
+    { "name": "ShopIA", "path": "../../ShopIA" },
+    { "name": "NewIA", "path": "../../NewIA" },
+    { "name": "multisite-platform", "path": "../../multisite-platform" },
+    { "name": "location-vehicules-reunion", "path": "../../location-vehicules-reunion" },
+    { "name": "db-sols-et-peintures", "path": "../../db-sols-et-peintures" },
+    { "name": "GTAVI", "path": "../../GTAVI" }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true,
+      "**/.git/objects": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true,
+      "**/.vercel": true
+    }
+  }
+}
