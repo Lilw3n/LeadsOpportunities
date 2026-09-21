@@ -44,5 +44,11 @@ assert(read("seo/seo-pages.css").indexOf("logo-mark.png") !== -1, "seo CSS logo"
 
 var tenant = JSON.parse(read("config/tenant-brand.json"));
 assert(tenant.branding.logoBannerPath.indexOf("logo-banner") !== -1, "tenant banner path");
+assert(tenant.contact.phone === "0651366222", "numéro pro national");
+assert(tenant.contact.phoneE164 === "+33651366222", "numéro pro E.164");
+assert(index.indexOf("tel:+33651366222") !== -1, "accueil lien tel");
+assert(index.indexOf("06 51 36 62 22") !== -1, "accueil affichage numéro");
+assert(index.indexOf("+33695820866") === -1, "ancien numéro absent de l'accueil");
+assert(read("mentions-legales.html").indexOf("06 51 36 62 22") !== -1, "mentions légales numéro pro");
 
 console.log("\nMarque logo / bannière : OK.");
