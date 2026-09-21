@@ -13,7 +13,9 @@
   },
   "contact": {
     "email": "contact@leadsopportunities.fr",
-    "phone": "",
+    "phone": "0651366222",
+    "phoneDisplay": "06 51 36 62 22",
+    "phoneE164": "+33651366222",
     "orias": "15005935",
     "dpoEmail": "contact@leadsopportunities.fr"
   },

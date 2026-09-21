@@ -95,6 +95,12 @@ function googleSiteVerificationMeta() {
   return '<meta name="google-site-verification" content="' + GOOGLE_SITE_VERIFICATION + '" />';
 }
 
+/** Numéro professionnel officiel leadsopportunities.fr */
+const PHONE_NATIONAL = "0651366222";
+const PHONE_DISPLAY = "06 51 36 62 22";
+const PHONE_E164 = "+33651366222";
+const PHONE_TEL = "tel:+33651366222";
+
 const HOME_TITLE = "Courtier assurance, mutuelle & credit | Nancy — Leads Opportunities";
 const HOME_DESCRIPTION =
   "Courtier ORIAS : mutuelle sante, assurance, credit immobilier et pret. Devis gratuit. Nancy et ses alentours (metropole / bassin nanceien, 54) — dossiers partout en France.";
@@ -112,4 +118,8 @@ module.exports = {
   LOGO_BANNER_SRC: LOGO_BANNER_SRC,
   HOME_TITLE: HOME_TITLE,
   HOME_DESCRIPTION: HOME_DESCRIPTION,
+  PHONE_NATIONAL: PHONE_NATIONAL,
+  PHONE_DISPLAY: PHONE_DISPLAY,
+  PHONE_E164: PHONE_E164,
+  PHONE_TEL: PHONE_TEL,
 };
