@@ -317,6 +317,18 @@ function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+function isPlaceholderActuTitle(title) {
+  var t = String(title || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!t) return true;
+  if (t.indexOf("collez ici") !== -1) return true;
+  if (t.indexOf("titre de la une") !== -1 && t.indexOf("cafeyn") !== -1) return true;
+  if (t.indexOf("angle assurance a preciser") !== -1) return true;
+  return false;
+}
+
 function decodeEntities(s) {
   return String(s)
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
@@ -349,6 +361,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuTitle: isPlaceholderActuTitle,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };

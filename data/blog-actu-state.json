@@ -1,10 +1,12 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-22T17:31:58.169Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab2bafa91234c4f85b929af4d907465&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffrais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-en-2027-21-09-2026-FJNY25GPRJFPRJM2C47QLSKYGY.php&c=17203564814959830423&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-22T17:31:58.197Z",
+  "platformRotationIndex": 1,
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -15,6 +17,19 @@
           "file": "lieu-de-r-xe9-sidence-intoxication-chronique-analyse-d-urine-cinq-questi.html",
           "title": "Lieu de r&#xE9;sidence, intoxication chronique, analyse d'urine... Cinq questions sur l… : mutuelle et remboursements — que faire ?",
           "source": "Firefox — France Info titres"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-22T17:31:58.197Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "frais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-.html",
+          "title": "Frais dentaires 2027 : mutuelle, reste à charge et hausse des cotisations",
+          "source": "edge",
+          "sourceType": "edge"
         }
       ]
     }
