@@ -7,6 +7,7 @@ const { SITE_ORIGIN: base } = require("./site-url.cjs");
 const { resolveBridge, renderBridgeHtml } = require("./blog-questionnaire-bridge.cjs");
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
 const { franceMetaBlock, blogLogoBlock, googleSiteVerificationMeta, brandIconsMeta, LOGO_BANNER_SRC } = require("./france-brand.cjs");
+const { AUTHOR, ORG } = require("./seo-org-schema.cjs");
 const { robotsMetaForArticle } = require("./france-audience-lib.cjs");
 const { applyArticleImages } = require("./blog-article-images.cjs");
 const { clusterForBlogArticle, moneyLinksHtml } = require("./seo-keywords-lib.cjs");
@@ -145,11 +146,16 @@ function renderJsonLd(a, canonical) {
       "@type": "Article",
       headline: a.title,
       description: a.description,
-      author: { "@type": "Organization", name: "Leads Opportunities" },
-      publisher: { "@type": "Organization", name: "Leads Opportunities" },
+      author: AUTHOR,
+      publisher: {
+        "@type": "Organization",
+        name: ORG.name,
+        logo: { "@type": "ImageObject", url: ORG.logo },
+      },
       mainEntityOfPage: canonical,
-      datePublished: "2026-05-01",
-      dateModified: "2026-05-28",
+      datePublished: a.datePublished || "2026-05-01",
+      dateModified: a.dateModified || "2026-09-22",
+      about: a.section || "assurance",
     },
   ];
   if (faq.length) {

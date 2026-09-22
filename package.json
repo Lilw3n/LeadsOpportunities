@@ -7,6 +7,7 @@
     "seo:build": "node scripts/build-france-cities-json.cjs && node scripts/generate-assurances-niches-page.cjs && node scripts/generate-forum.cjs && node scripts/generate-seo-pages.cjs",
     "forum:build": "node scripts/generate-forum.cjs",
     "verify:forum-seo": "node scripts/verify-forum-seo.cjs",
+    "verify:google-seo-starter": "node scripts/verify-google-seo-starter.cjs",
     "seo:images": "node scripts/download-seo-images.cjs",
     "verify:seo-vtc-idf": "node scripts/verify-seo-vtc-idf.cjs",
     "verify:vtc-garanties": "node scripts/verify-vtc-garanties.cjs",
