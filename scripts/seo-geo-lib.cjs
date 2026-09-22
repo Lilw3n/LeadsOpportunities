@@ -1754,6 +1754,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/nos-services.html", priority: "0.95", changefreq: "weekly" },
     { loc: base + "/methode.html", priority: "0.88", changefreq: "monthly" },
     { loc: base + "/academie/", priority: "0.93", changefreq: "weekly" },
+    { loc: base + "/forum/", priority: "0.92", changefreq: "daily" },
     { loc: base + "/academie/assurance/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/academie/immobilier/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/academie/pret/", priority: "0.9", changefreq: "weekly" },

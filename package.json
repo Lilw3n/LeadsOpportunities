@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "description": "Leads Opportunities website with Stripe serverless integration",
   "scripts": {
-    "seo:build": "node scripts/build-france-cities-json.cjs && node scripts/generate-assurances-niches-page.cjs && node scripts/generate-seo-pages.cjs",
+    "seo:build": "node scripts/build-france-cities-json.cjs && node scripts/generate-assurances-niches-page.cjs && node scripts/generate-forum.cjs && node scripts/generate-seo-pages.cjs",
+    "forum:build": "node scripts/generate-forum.cjs",
+    "verify:forum-seo": "node scripts/verify-forum-seo.cjs",
     "seo:images": "node scripts/download-seo-images.cjs",
     "verify:seo-vtc-idf": "node scripts/verify-seo-vtc-idf.cjs",
     "verify:vtc-garanties": "node scripts/verify-vtc-garanties.cjs",

@@ -1,0 +1,301 @@
+{
+  "version": 1,
+  "note": "Forum public SEO — thèmes + fils seed (questions longue traîne Google/Facebook). Les nouvelles demandes passent par POST /api/lead (source=forum).",
+  "contactEmail": "contact@leadsopportunities.fr",
+  "phoneDisplay": "06 51 36 62 22",
+  "phoneE164": "+33651366222",
+  "seoPhrases": [
+    "comment comparer sans se tromper",
+    "combien ça coûte vraiment en 2026",
+    "est-ce que ça vaut le coup de changer",
+    "quel est le meilleur choix pour mon profil",
+    "où trouver un courtier ORIAS fiable",
+    "que regarder avant de signer",
+    "quels documents préparer pour un devis",
+    "peut-on résilier en cours d'année",
+    "quelle différence entre prix affiché et reste à charge",
+    "comment obtenir une réponse rapide sans engagement"
+  ],
+  "facebookHooks": [
+    "Vous aussi vous vous posez la question ?",
+    "Partagez votre expérience en commentaire — ou posez la vôtre ici.",
+    "Utile pour un proche qui compare en ce moment : envoyez-lui le lien.",
+    "Réponse de courtier ORIAS, devis gratuit, sans engagement."
+  ],
+  "themes": [
+    {
+      "id": "mutuelle-sante",
+      "slug": "mutuelle-sante",
+      "title": "Forum mutuelle santé",
+      "navLabel": "Mutuelle",
+      "tagline": "Questions, devis et retours d’expérience sur la complémentaire santé.",
+      "need": "sante",
+      "landing": "/landings/sante.html",
+      "questionnaire": "/landings/questionnaire.html?need=sante&journey=standard",
+      "ogImage": "/assets/piliers/pilier-assurance.jpg",
+      "keywords": [
+        "forum mutuelle santé",
+        "question mutuelle",
+        "devis mutuelle sans engagement",
+        "comparatif complémentaire santé",
+        "courtier mutuelle",
+        "reste à charge optique dentaire"
+      ],
+      "intro": "Ici on parle mutuelle comme on en parle sur Facebook : « combien ça coûte ? », « mon opticien est-il bien remboursé ? », « je change d’employeur, je garde quelle couverture ? ». Chaque fil est indexable ; chaque demande peut devenir un devis courtier.",
+      "threads": [
+        {
+          "slug": "combien-coute-vraiment-une-bonne-mutuelle-en-2026",
+          "question": "Combien coûte vraiment une bonne mutuelle santé en 2026 ?",
+          "excerpt": "Prix affiché vs reste à charge : optique, dentaire, hospitalisation — ce qu’il faut comparer.",
+          "answer": "Le tarif mensuel ne dit presque rien tout seul. Une mutuelle à 40 € peut laisser 700 € sur des lunettes, une autre à 55 € presque rien. Comparez à postes équivalents : hospitalisation (chambre particulière), optique (verres complexes), dentaire (prothèses), délais de carence, et le régime (général / Alsace-Moselle). Un courtier ORIAS aligne plusieurs organismes sur le même tableau — devis gratuit, sans engagement.",
+          "phrases": [
+            "quelle mutuelle choisir pour une famille",
+            "mutuelle pas chère mais qui rembourse bien",
+            "surcomplémentaire après mutuelle d’entreprise",
+            "délai de carence mutuelle dentaire"
+          ]
+        },
+        {
+          "slug": "comment-obtenir-un-devis-mutuelle-en-ligne-sans-engagement",
+          "question": "Comment obtenir un devis mutuelle santé en ligne sans engagement ?",
+          "excerpt": "Étapes, documents utiles, et ce qu’un devis « sans engagement » signifie vraiment.",
+          "answer": "Sans engagement = aucune cotisation tant que vous n’avez pas signé. Préparez âge / foyer, priorités (optique, dentaire, hospit) et idéalement l’avis d’échéance actuel. Ensuite : questionnaire en ligne, e-mail à contact@leadsopportunities.fr, ou formulaire ci-dessous. Méfiez-vous des sites qui demandent une CB juste pour « voir le prix ».",
+          "phrases": [
+            "devis mutuelle gratuit immédiat",
+            "comparer complémentaire santé sans souscrire",
+            "résiliation mutuelle loi Chatel",
+            "documents pour devis mutuelle"
+          ]
+        },
+        {
+          "slug": "courtier-mutuelle-nancy-ca-change-quoi",
+          "question": "Courtier mutuelle à Nancy : ça change quoi par rapport à un comparateur ?",
+          "excerpt": "Grand Nancy, 54 : pourquoi un humain ORIAS évite les mauvaises surprises sur les plafonds.",
+          "answer": "Le comparateur affiche un prix. Le courtier vérifie plafonds, exclusions et cohérence avec vos soins prévus (orthodontie, lentilles, chirurgie). Sur Nancy Métropole et le bassin 54, on traite aussi les demandes en distanciel pour toute la France. Contact : contact@leadsopportunities.fr · 06 51 36 62 22.",
+          "phrases": [
+            "courtier assurance mutuelle santé Nancy",
+            "mutuelle Meurthe-et-Moselle",
+            "meilleur courtier mutuelle Lorraine",
+            "devis mutuelle Nancy gratuit"
+          ]
+        },
+        {
+          "slug": "faut-il-changer-de-mutuelle-avant-le-renouvellement",
+          "question": "Faut-il changer de mutuelle avant le renouvellement ?",
+          "excerpt": "Hausse de cotisation, soins prévus, loi Chatel : quand comparer vraiment.",
+          "answer": "Oui si vos besoins ont changé (lunettes, implants, famille) ou si la cotisation a grimpé sans améliorer les postes. Faites le comparatif 1 à 2 mois avant l’échéance, ou utilisez la résiliation infra-annuelle quand elle s’applique. Gardez une attestation de radiation pour éviter le trou de couverture.",
+          "phrases": [
+            "augmenter mutuelle trop chère",
+            "changer mutuelle en cours d’année",
+            "avis échéance mutuelle que faire",
+            "portabilité mutuelle licenciement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "assurance-vtc",
+      "slug": "assurance-vtc",
+      "title": "Forum assurance VTC",
+      "navLabel": "VTC",
+      "tagline": "Chauffeurs indépendants : RC Pro, véhicule, franchises, Uber / Bolt / Heetch.",
+      "need": "vtc",
+      "landing": "/landings/vtc.html",
+      "questionnaire": "/landings/questionnaire.html?need=vtc&journey=standard",
+      "ogImage": "/assets/piliers/pilier-assurance.jpg",
+      "keywords": [
+        "forum assurance VTC",
+        "comparatif assurance VTC chauffeur indépendant",
+        "RC Pro chauffeur VTC",
+        "assurance Uber Bolt Heetch",
+        "franchise assurance VTC"
+      ],
+      "intro": "Les discussions Facebook VTC tournent toujours autour du même trio : prix, franchise, attestation plateforme. Ici on structure ça en fils SEO + réponses courtier, pour que Google et Meta indexent les vraies questions des indépendants.",
+      "threads": [
+        {
+          "slug": "comparatif-assurance-vtc-chauffeur-independant-criteres",
+          "question": "Comparatif assurance VTC chauffeur indépendant : quels critères vraiment ?",
+          "excerpt": "RC Pro, usage déclaré, assistance 0 km, plafonds — pas seulement Zéphir vs Solly Azar.",
+          "answer": "Alignez les mêmes postes : RC Pro passagers, garantie véhicule (tous risques / valeur), franchises, assistance, et mention d’activité VTC sur l’attestation. Un tarif bas avec mauvais plafond RC peut coûter cher après sinistre. Demandez un tableau comparatif à contact@leadsopportunities.fr.",
+          "phrases": [
+            "assurance VTC moins chère sans mauvaises surprises",
+            "attestation VTC pour Uber",
+            "tous risques VTC ou tiers",
+            "combien coûte l’assurance VTC par mois"
+          ]
+        },
+        {
+          "slug": "puis-je-assurer-mon-vtc-avec-une-auto-classique",
+          "question": "Puis-je assurer mon VTC avec une assurance auto classique ?",
+          "excerpt": "Usage transport de personnes : le piège qui fait sauter la garantie.",
+          "answer": "Non. L’usage doit être déclaré VTC / transport de personnes. Une auto « trajets domicile-travail » ou « tous déplacements » classique expose à un refus de garantie. Les plateformes exigent aussi une attestation à jour avec l’activité mentionnée.",
+          "phrases": [
+            "refus de garantie sinistre VTC",
+            "changer d’assurance VTC loi Hamon",
+            "documents pour devis VTC",
+            "assurance véhicule électrique VTC"
+          ]
+        },
+        {
+          "slug": "quelle-franchise-choisir-en-vtc",
+          "question": "Quelle franchise choisir en assurance VTC ?",
+          "excerpt": "Franchise basse vs prime : comment arbitrer selon le kilométrage.",
+          "answer": "Plus la franchise est basse, plus la prime grimpe. Sur un fort kilométrage urbain (IDF, aéroports), une franchise trop haute peut plomber la trésorerie au premier accrochage. Comparez le coût annuel = prime + franchise × sinistres probables, pas la seule mensualité.",
+          "phrases": [
+            "franchise assurance VTC trop élevée",
+            "sinistre VTC que faire",
+            "assurance VTC temps partiel",
+            "RC Pro chauffeur indépendant prix"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "credit-immobilier",
+      "slug": "credit-immobilier",
+      "title": "Forum crédit immobilier",
+      "navLabel": "Crédit immo",
+      "tagline": "Dossier banque, apport, endettement, assurance emprunteur — questions de parcours.",
+      "need": "credit-immo",
+      "landing": "/landings/credit-immo.html",
+      "questionnaire": "/landings/questionnaire.html?need=credit-immo&journey=standard",
+      "ogImage": "/assets/piliers/pilier-immobilier.jpg",
+      "keywords": [
+        "forum crédit immobilier",
+        "comment obtenir un crédit immobilier rapidement",
+        "dossier prêt immobilier",
+        "taux endettement 35%",
+        "assurance emprunteur"
+      ],
+      "intro": "Sur Facebook, les posts « mon dossier bloque » et « comment avoir un accord vite » explosent. Ici on transforme ces tournures en pages indexables + contact courtier (assurance emprunteur, mutuelle liée au projet).",
+      "threads": [
+        {
+          "slug": "comment-obtenir-un-credit-immobilier-rapidement",
+          "question": "Comment obtenir un crédit immobilier rapidement ?",
+          "excerpt": "Dossier complet > raccourcis. Accords de principe, délais réalistes, pièges.",
+          "answer": "Le vrai accélérateur, c’est un pack documents nickel ( salaires, avis d’impôt, relevés, apport, plan de financement). Un accord de principe peut arriver en quelques jours ; l’offre de prêt prend souvent 2 à 4 semaines. Lancez l’assurance emprunteur en parallèle (loi Lemoine) pour ne pas bloquer. Étude : contact@leadsopportunities.fr.",
+          "phrases": [
+            "prêt immobilier rapide documents",
+            "accord de principe banque délai",
+            "apport personnel minimum 2026",
+            "taux d’endettement 35 % reste à vivre"
+          ]
+        },
+        {
+          "slug": "mon-pret-est-refuse-que-faire",
+          "question": "Mon prêt immobilier est refusé : que faire ensuite ?",
+          "excerpt": "Délai, co-emprunteur, rachat conso, bien moins cher — pistes concrètes.",
+          "answer": "Lisez le motif (endettement, reste à vivre, type de bien, revenus variables). Options : allonger la durée, renforcer l’apport, co-emprunteur, traiter les crédits conso, ou viser un bien moins cher. Relancez avec un dossier retravaillé plutôt que 10 banques le même jour. Voir aussi nos guides prêt refusé sur le blog.",
+          "phrases": [
+            "refus de prêt immobilier solutions",
+            "rachat crédits pour passer le dossier",
+            "primo-accédant PTZ refusé",
+            "investissement locatif endettement"
+          ]
+        },
+        {
+          "slug": "assurance-emprunteur-loi-lemoine-ca-sert-a-quoi",
+          "question": "Assurance emprunteur et loi Lemoine : ça sert à quoi concrètement ?",
+          "excerpt": "Changer d’assureur sans attendre l’échéance, baisser le TAEG assurance.",
+          "answer": "La loi Lemoine permet souvent de résilier l’assurance emprunteur à tout moment (sous conditions d’équivalence de garanties). Utile si vous avez souscrit il y a 2 ans à un tarif élevé. Un courtier compare le coût sur la durée restante du prêt — pas seulement le mois 1.",
+          "phrases": [
+            "changer assurance emprunteur rapidement",
+            "délégation assurance prêt immobilier",
+            "TAEG assurance trop élevé",
+            "questionnaire de santé emprunteur"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "habitation",
+      "slug": "habitation",
+      "title": "Forum assurance habitation",
+      "navLabel": "Habitation",
+      "tagline": "Locataires, propriétaires, PNO, sous-assurance — questions du quotidien.",
+      "need": "habitation",
+      "landing": "/landings/questionnaire.html?need=habitation&journey=standard",
+      "questionnaire": "/landings/questionnaire.html?need=habitation&journey=standard",
+      "ogImage": "/assets/piliers/pilier-immobilier.jpg",
+      "keywords": [
+        "forum assurance habitation",
+        "assurance locataire propriétaire",
+        "PNO propriétaire non occupant",
+        "sous-assurance sinistre",
+        "multirisque habitation"
+      ],
+      "intro": "Dégât des eaux, cambriolage, coloc, PNO : les posts Facebook habitation sont des mines de SEO. On les reformule en questions claires + réponses actionnables.",
+      "threads": [
+        {
+          "slug": "locataire-ou-proprietaire-quelle-assurance-habitation",
+          "question": "Locataire ou propriétaire : quelle assurance habitation choisir ?",
+          "excerpt": "Obligations, garanties minimales, options vraiment utiles.",
+          "answer": "Locataire : assurance risques locatifs souvent exigée par le bail. Propriétaire occupant : multirisque adaptée à la valeur du bien et du mobilier. Propriétaire bailleur : pensez PNO. Vérifiez plafonds vol, dégât des eaux, responsabilité civile vie privée, et le risque de sous-assurance.",
+          "phrases": [
+            "assurance habitation pas chère mais complète",
+            "attestation assurance location",
+            "PNO est-elle obligatoire",
+            "valeur à neuf mobilier"
+          ]
+        },
+        {
+          "slug": "sous-assurance-que-se-passe-t-il-en-sinistre",
+          "question": "Sous-assurance : que se passe-t-il en cas de sinistre ?",
+          "excerpt": "Capital déclaré trop bas = indemnisation réduite. Comment éviter.",
+          "answer": "Si le capital mobilier déclaré est inférieur à la réalité, l’assureur peut appliquer la règle proportionnelle. Refaites un inventaire (électroménager, hi-fi, bijoux) et ajustez le contrat. Un devis de mise à jour est gratuit chez un courtier.",
+          "phrases": [
+            "règle proportionnelle assurance",
+            "réévaluer capital mobilier",
+            "sinistre dégât des eaux franchise",
+            "assurance colocation responsabilités"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nancy-local",
+      "slug": "nancy-54",
+      "title": "Forum local Nancy & bassin 54",
+      "navLabel": "Nancy 54",
+      "tagline": "Mutuelle, crédit, VTC, immo — questions ancrées Grand Nancy / Varangéville.",
+      "need": "sante",
+      "landing": "/nancy-54/",
+      "questionnaire": "/landings/questionnaire.html?need=sante&journey=standard",
+      "ogImage": "/assets/team/wendy-buchet.jpg",
+      "keywords": [
+        "courtier Nancy 54",
+        "mutuelle Nancy",
+        "crédit immobilier Nancy Métropole",
+        "assurance Varangéville",
+        "Wendy Buchet courtier"
+      ],
+      "intro": "Facebook local (groupes Nancy, Jarville, Laxou…) = intentions d’achat ultra chaudes. Ce thème regroupe les formulations géolocalisées + contact direct du cabinet.",
+      "threads": [
+        {
+          "slug": "ou-trouver-un-courtier-assurance-a-nancy",
+          "question": "Où trouver un courtier assurance à Nancy (mutuelle, VTC, emprunteur) ?",
+          "excerpt": "ORIAS, devis gratuit, bassin nancéien et distanciel France.",
+          "answer": "Leads Opportunities — Wendy Buchet, ORIAS 15005935, ancré Varangéville / Nancy Métropole. Mutuelle, VTC, emprunteur, habitation. Écrivez à contact@leadsopportunities.fr ou appelez le 06 51 36 62 22. Devis sans engagement.",
+          "phrases": [
+            "courtier assurance Nancy avis",
+            "mutuelle santé Nancy devis",
+            "prêt immobilier Nancy Métropole",
+            "assurance Varangéville 54110"
+          ]
+        },
+        {
+          "slug": "credit-immo-nancy-metropole-par-ou-commencer",
+          "question": "Crédit immo sur Nancy Métropole : par où commencer ?",
+          "excerpt": "Apport, notaire, assurance emprunteur, communes du bassin.",
+          "answer": "Cadrez budget + apport, listez les communes (Nancy, Vandœuvre, Laxou, Jarville, Varangéville…). Montez le dossier documents avant les visites intensives. Pour l’assurance emprunteur et la mutuelle liées au projet : contact@leadsopportunities.fr. Hub local : /nancy-54/ et /pret-immobilier/nancy-metropole/.",
+          "phrases": [
+            "taux prêt immobilier Nancy 2026",
+            "acheter maison bassin nancéien",
+            "courtier crédit Meurthe-et-Moselle",
+            "frais de notaire estimation 54"
+          ]
+        }
+      ]
+    }
+  ]
+}
