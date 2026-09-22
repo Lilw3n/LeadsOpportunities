@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-09-22T17:27:46.616Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -373,6 +373,207 @@
         {
           "type": "p",
           "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation et chirurgie : plafonds honoraires",
+            "Pharmacie et medicaments nouvellement rembourses",
+            "Optique / dentaire si consommation annuelle",
+            "Delais de carence avant changement de contrat",
+            "Tiers payant et teletransmission"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "prix-des-carburants-extension-de-l-aide-grands-rouleurs-bonus-ruralite-v.html",
+      "section": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto",
+      "title": "Prix des carburants : extension de l’aide grands rouleurs, bonus \"ruralité\"… Voici les … : assurance auto — que faire ?",
+      "description": "Prix des carburants : extension de l’aide grands rouleurs, bonus \"ruralité\"… Voici les nouvelles mesures annoncées par le gouvernement — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · 22 Septembre 2026",
+      "cardExcerpt": "Prix des carburants : extension de l’aide grands rouleurs, bonus \"ruralité\"… Voici les nouvelles mesures annon — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=auto&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=auto&utm_content=prix-des-carburants-extension-de-l-aid",
+        "label": "Questionnaire auto (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Cafeyn (presse partenaire)</strong> (<strong>Prix des carburants : extension de l’aide grands rouleurs, bonus \"ruralité\"… Voici les …</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Le mauvais niveau de garantie auto se paie au premier sinistre responsable."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de reagir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Tiers simple vs tiers etendu vs tous risques",
+            "Bonus-malus et coefficient actuel",
+            "Franchise et vehicule de remplacement",
+            "Conducteurs declares au contrat",
+            "Options assistance et protection juridique"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire auto : profil conducteur et usage en 3 minutes."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-auto-bonus-malus.html",
+          "label": "Bonus-malus"
+        },
+        {
+          "href": "../assurance-auto/",
+          "label": "Assurance auto"
+        }
+      ]
+    },
+    {
+      "file": "frais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ? : mutuelle et remboursements — que faire ?",
+      "description": "Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ? — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · 22 Septembre 2026",
+      "cardExcerpt": "Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ? — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=frais-dentaires-moins-rembourses-vers",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Microsoft Edge / Bing actu</strong> (<strong>Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ?</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Le reste a charge sante peut exploser si votre mutuelle n'est pas calibree sur vos vrais besoins."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de reagir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation et chirurgie : plafonds honoraires",
+            "Pharmacie et medicaments nouvellement rembourses",
+            "Optique / dentaire si consommation annuelle",
+            "Delais de carence avant changement de contrat",
+            "Tiers payant et teletransmission"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "mutuelles-les-tarifs-devraient-augmenter-en-2027-les-frais-de-sante-expl.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Mutuelles : les tarifs devraient augmenter en 2027, les frais de santé explosent pour l… : mutuelle et remboursements — que faire ?",
+      "description": "Mutuelles : les tarifs devraient augmenter en 2027, les frais de santé explosent pour les Français — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · 22 Septembre 2026",
+      "cardExcerpt": "Mutuelles : les tarifs devraient augmenter en 2027, les frais de santé explosent pour les Français — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=mutuelles-les-tarifs-devraient-augment",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Microsoft Edge / Bing actu</strong> (<strong>Mutuelles : les tarifs devraient augmenter en 2027, les frais de santé explosent pour l…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Le reste a charge sante peut exploser si votre mutuelle n'est pas calibree sur vos vrais besoins."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de reagir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
         },
         {
           "type": "h2",

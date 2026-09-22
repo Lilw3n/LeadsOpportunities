@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-22T17:27:44.969Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.midilibre.fr/2026/09/22/prix-des-carburants-prolongation-de-laide-grands-rouleurs-bonus-ruralite-decouvrez-les-nouvelles-mesures-annoncees-par-le-gouvernement-13563571.php",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab2ba8dba224185a68a458de68d4ca8&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffrais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-en-2027-21-09-2026-FJNY25GPRJFPRJM2C47QLSKYGY.php&c=17203564814959830423&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab2ba8dba224185a68a458de68d4ca8&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2factualite%2fother%2fmutuelles-les-tarifs-devraient-augmenter-en-2027-les-frais-de-sant%25C3%25A9-explosent-pour-les-fran%25C3%25A7ais%2far-AA2cKPXq&c=995603223332707572&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-22T17:27:46.621Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-22T17:27:46.621Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "prix-des-carburants-extension-de-l-aide-grands-rouleurs-bonus-ruralite-v.html",
+          "title": "Prix des carburants : extension de l’aide grands rouleurs, bonus \"ruralité\"… Voici les … : assurance auto — que faire ?",
+          "source": "Cafeyn — Midi Libre",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "frais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-.html",
+          "title": "Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "mutuelles-les-tarifs-devraient-augmenter-en-2027-les-frais-de-sante-expl.html",
+          "title": "Mutuelles : les tarifs devraient augmenter en 2027, les frais de santé explosent pour l… : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

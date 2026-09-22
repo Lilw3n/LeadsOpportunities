@@ -38,8 +38,17 @@ function mergeWithQuotas(buckets, quotas) {
   return merged;
 }
 
+function isQueuePlaceholder(item) {
+  var title = String(item.title || "").trim().toLowerCase();
+  var id = String(item.id || "");
+  if (id === "cafeyn-pending-template" || id.indexOf("pending-template") !== -1) return true;
+  if (title.indexOf("collez ici") === 0) return true;
+  return false;
+}
+
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected") return;
+  if (isQueuePlaceholder(item)) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);

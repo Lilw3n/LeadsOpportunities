@@ -62,6 +62,7 @@ var MONTHS = {
   aout: 8,
   août: 8,
   septembre: 9,
+  sept: 9,
   octobre: 10,
   novembre: 11,
   decembre: 12,
@@ -91,10 +92,11 @@ function resolveThemes(article) {
 
 function parseArticleDate(meta) {
   if (!meta) return 0;
-  var m = meta.match(/·\s*([A-Za-zéû]+)\s+(\d{4})/);
+  var m = meta.match(/·\s*(?:(\d{1,2})\s+)?([A-Za-zéû]+)\s+(\d{4})/);
   if (!m) return 0;
-  var month = MONTHS[m[1].toLowerCase()] || 0;
-  return parseInt(m[2], 10) * 100 + month;
+  var day = m[1] ? parseInt(m[1], 10) : 0;
+  var month = MONTHS[m[2].toLowerCase()] || 0;
+  return parseInt(m[3], 10) * 10000 + month * 100 + day;
 }
 
 function themeChipsHtml(themeIds) {
