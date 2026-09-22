@@ -3,6 +3,9 @@
  * section: animaux | vtc | sante | auto | habitat | prevoyance | pro | patrimoine | finance | actu | chasse | equitation
  * themes (optionnel): sujets additionnels — ex. ["canicule","seniors"] ; voir scripts/blog-themes.cjs
  */
+const seoIntentSep2026 = require("./blog-articles-seo-intent-sep2026.cjs");
+const leadsSep2026 = require("./blog-articles-leads-sep2026.cjs");
+
 module.exports = {
   sections: [
     {
@@ -3256,6 +3259,9 @@ const promoProduits = require("./blog-promo-produits-articles.cjs");
 promoProduits.forEach(function (a) {
   module.exports.articles.push(a);
 });
+
+/* Leads sep 2026 (emprunteur, hausse 2027, mutuelle retraite) puis SEO intent */
+module.exports.articles = leadsSep2026.concat(seoIntentSep2026).concat(module.exports.articles);
 
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();

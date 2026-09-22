@@ -898,6 +898,173 @@ var DEEP = {
       ]),
     ],
   },
+  "courtier-assurance-mutuelle-sante-nancy.html": {
+    keywords: [
+      "courtier assurance mutuelle santé Nancy",
+      "mutuelle santé Nancy",
+      "courtier mutuelle Nancy 54",
+      "complémentaire santé Meurthe-et-Moselle",
+      "devis mutuelle Nancy",
+      "mutuelle hospitalisation optique dentaire",
+      "courtier ORIAS Nancy",
+      "comparatif mutuelle santé Lorraine",
+      "surcomplémentaire santé",
+      "mutuelle TNS Nancy",
+      "contact@leadsopportunities.fr",
+    ],
+    extraBlocks: [
+      h2("Mutuelle collective vs individuelle à Nancy"),
+      p(
+        "Salarié du Grand Nancy : votre employeur propose déjà une mutuelle ANI. Un courtier évalue si une <strong>surcomplémentaire</strong> est utile (optique, dentaire, chambre). TNS ou sans mutuelle d’entreprise : on part d’une <strong>individuelle</strong> calibrée sur vos postes prioritaires."
+      ),
+      h2("Contact courtier — Nancy & bassin 54"),
+      p(
+        "Écrivez à <a href=\"mailto:contact@leadsopportunities.fr\"><strong>contact@leadsopportunities.fr</strong></a> avec votre code postal (54xxx) et votre avis d’échéance. Réponse humaine, devis sans engagement."
+      ),
+    ],
+    faq: [
+      {
+        q: "Un courtier mutuelle à Nancy est-il payant pour moi ?",
+        a: "Le devis et le conseil sont gratuits pour l’assuré. La rémunération du courtier vient des partenaires assureurs, sans surcoût affiché au client dans la plupart des cas.",
+      },
+      {
+        q: "Intervenez-vous hors Nancy ?",
+        a: "Oui sur toute la France en distanciel ; le bassin nancéien (métropole, 54) est notre ancrage local.",
+      },
+    ],
+  },
+  "devis-mutuelle-sante-en-ligne-sans-engagement.html": {
+    keywords: [
+      "devis mutuelle santé en ligne sans engagement",
+      "devis mutuelle gratuit",
+      "comparatif complémentaire santé",
+      "mutuelle santé devis immédiat",
+      "souscrire mutuelle sans engagement",
+      "courtier mutuelle ORIAS",
+      "remboursement optique dentaire",
+      "résiliation mutuelle",
+      "contact@leadsopportunities.fr",
+    ],
+    extraBlocks: [
+      h2("Sans engagement : ce que ça veut dire juridiquement"),
+      p(
+        "Tant que vous n’avez pas signé le bulletin d’adhésion (ou validé la souscription électronique), <strong>aucune cotisation n’est due</strong>. Le devis est une proposition commerciale, pas un contrat."
+      ),
+      h2("Demander votre devis par e-mail"),
+      p(
+        "Envoyez votre besoin à <a href=\"mailto:contact@leadsopportunities.fr?subject=Devis%20mutuelle%20sans%20engagement\"><strong>contact@leadsopportunities.fr</strong></a> — idéalement avec âge, foyer et priorités (optique / dentaire / hospit)."
+      ),
+    ],
+    faq: [
+      {
+        q: "Le devis mutuelle en ligne engage-t-il mon RIB ?",
+        a: "Non. Aucun prélèvement sans souscription validée. Méfiez-vous des sites qui demandent une CB uniquement pour « voir le prix ».",
+      },
+    ],
+  },
+  "comparatif-assurance-vtc-chauffeur-independant.html": {
+    keywords: [
+      "comparatif assurance VTC chauffeur indépendant",
+      "assurance VTC indépendant",
+      "RC Pro chauffeur VTC",
+      "assurance Uber Bolt Heetch",
+      "franchise assurance VTC",
+      "devis assurance VTC",
+      "assurance véhicule VTC tous risques",
+      "courtier assurance VTC ORIAS",
+      "contact@leadsopportunities.fr",
+    ],
+    extraBlocks: [
+      h2("Indépendant vs salarié de société VTC"),
+      p(
+        "En <strong>indépendant</strong>, vous êtes souscripteur du contrat. En salarié d’une société, vérifiez qui assure le véhicule et la RC — et ce qui reste à votre charge en cas de sinistre."
+      ),
+      h2("Recevoir un comparatif VTC par mail"),
+      p(
+        "Décrivez véhicule, immatriculation, zone et plateformes à <a href=\"mailto:contact@leadsopportunities.fr\"><strong>contact@leadsopportunities.fr</strong></a> pour un tableau à postes équivalents."
+      ),
+    ],
+    faq: [
+      {
+        q: "Puis-je assurer mon VTC avec une auto classique ?",
+        a: "Non : l’usage transport de personnes / VTC doit être déclaré. Sinon, risque de nullité de garantie après sinistre.",
+      },
+    ],
+  },
+  "comment-obtenir-un-credit-immobilier-rapidement.html": {
+    keywords: [
+      "comment obtenir un crédit immobilier rapidement",
+      "prêt immobilier rapide",
+      "dossier crédit immobilier",
+      "taux endettement 35%",
+      "apport personnel prêt immo",
+      "assurance emprunteur",
+      "courtier crédit immobilier",
+      "accord de principe banque",
+      "contact@leadsopportunities.fr",
+    ],
+    extraBlocks: [
+      h2("Délais réalistes (ordre de grandeur)"),
+      ul([
+        "<strong>Accord de principe</strong> : quelques jours si dossier complet",
+        "<strong>Offre de prêt</strong> : souvent 2 à 4 semaines selon banque et complexité",
+        "<strong>Assurance emprunteur</strong> : devis en parallèle pour ne pas bloquer",
+      ]),
+      h2("Nous écrire pour accélérer le volet assurance / étude"),
+      p(
+        "Projet en cours (compromis daté) : <a href=\"mailto:contact@leadsopportunities.fr?subject=Cr%C3%A9dit%20immobilier%20rapide\"><strong>contact@leadsopportunities.fr</strong></a> — on priorise les dossiers avec échéance notaire."
+      ),
+    ],
+    faq: [
+      {
+        q: "Un crédit immobilier en 48 h, c’est possible ?",
+        a: "Rarement pour un primo-accédant classique. En revanche, un dossier nickel + courtier peut éviter des semaines de va-et-vient.",
+      },
+      {
+        q: "Leads Opportunities fait-il le prêt bancaire ?",
+        a: "Nous accompagnons surtout assurances (emprunteur, mutuelle, habitation) liées au projet. Pour le montage banque, on oriente et on sécurise le volet assurance.",
+      },
+    ],
+  },
+  "assurance-emprunteur-prix-baisse-2026.html": {
+    meta: "9 min · Septembre 2026",
+    faq: [
+      {
+        q: "Puis-je changer d’assurance emprunteur à tout moment ?",
+        a: "Oui dans la plupart des cas depuis la loi Lemoine, si le nouveau contrat présente des garanties au moins équivalentes et que la banque accepte la substitution. Ne résiliez pas l’ancien contrat avant cette acceptation.",
+      },
+      {
+        q: "Une baisse de cotisation est-elle garantie ?",
+        a: "Non. Elle dépend de l’âge, du capital restant dû, du tabac, de la profession et des garanties. Le devis sert à le vérifier, pas à l’annoncer d’avance.",
+      },
+    ],
+  },
+  "hausse-assurances-auto-habitation-mutuelle-2027.html": {
+    meta: "8 min · Septembre 2026",
+    faq: [
+      {
+        q: "Faut-il tout résilier parce que les primes montent en 2027 ?",
+        a: "Non. Comparez d’abord à garanties équivalentes. Une cotisation plus basse avec une franchise plus haute ou un plafond plus bas peut coûter plus cher au sinistre.",
+      },
+      {
+        q: "Par quel contrat commencer ?",
+        a: "Celui dont l’avis d’échéance arrive en premier, ou celui où le reste à charge vous inquiète (souvent la mutuelle ou l’emprunteur).",
+      },
+    ],
+  },
+  "mutuelle-retraite-femmes-seniors-priorites.html": {
+    meta: "8 min · Septembre 2026",
+    faq: [
+      {
+        q: "La mutuelle d’entreprise continue-t-elle à la retraite ?",
+        a: "En général non, hors période de portabilité. Il faut une individuelle ou un contrat senior calibré sur hospitalisation, audition, dentaire et optique.",
+      },
+      {
+        q: "Le 100 % santé suffit-il ?",
+        a: "Il couvre un panier optique, dentaire et auditif. Hors panier (verres complexes, implants, certains appareils), les plafonds de la mutuelle font la différence.",
+      },
+    ],
+  },
 };
 
 function getOverride(file) {
