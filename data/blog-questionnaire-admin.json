@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-22",
   "sections": [
     "actu",
     "animaux",
@@ -1964,6 +1964,45 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "prix-des-carburants-extension-de-l-aide-grands-rouleurs-bonus-ruralite-v.html",
+      "title": "Prix des carburants : extension de l’aide grands rouleurs, bonus \"ruralité\"… Voici les … : assurance auto — que faire ?",
+      "section": "auto",
+      "hook": "Bonus-malus, tiers ou tous risques : le mauvais choix se paie au sinistre.",
+      "question": "Et si vous compariez votre assurance auto à garanties équivalentes ?",
+      "need": "auto",
+      "landing": "../landings/devis.html?need=auto",
+      "express": "../landings/devis-express.html?need=auto",
+      "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=auto&utm_content=prix-des-carburants-extension-de-l-aid",
+      "matchedRule": "auto",
+      "species": null
+    },
+    {
+      "file": "frais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-.html",
+      "title": "Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ? : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=frais-dentaires-moins-rembourses-vers",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "mutuelles-les-tarifs-devraient-augmenter-en-2027-les-frais-de-sante-expl.html",
+      "title": "Mutuelles : les tarifs devraient augmenter en 2027, les frais de santé explosent pour l… : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=mutuelles-les-tarifs-devraient-augment",
       "matchedRule": "mutuelle",
       "species": null
     }
