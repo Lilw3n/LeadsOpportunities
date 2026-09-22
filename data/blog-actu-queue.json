@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-09-22T17:40:00.000Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -33,9 +33,18 @@
       "title": "COLLEZ ICI le titre de la une Cafeyn (Le Figaro, Le Parisien…)",
       "url": "",
       "source": "cafeyn",
-      "note": "Angle assurance a preciser",
-      "status": "pending",
+      "note": "Modele inbox — ne pas publier",
+      "status": "rejected",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "edge-mutuelle-dentaire-2027",
+      "title": "Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab2bafa91234c4f85b929af4d907465&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffrais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-en-2027-21-09-2026-FJNY25GPRJFPRJM2C47QLSKYGY.php&c=17203564814959830423&mkt=en-us",
+      "source": "edge",
+      "note": "Des janvier 2027, l'Assurance maladie reduit sa part sur certains soins dentaires. Les mutuelles absorbent davantage : risque de hausse de cotisations. Questionnaire mutuelle.",
+      "status": "published",
+      "addedAt": "2026-09-22T17:35:00.000Z"
     }
   ]
 }

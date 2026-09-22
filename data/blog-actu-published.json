@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-09-22T17:40:00.000Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -408,6 +408,116 @@
         {
           "href": "./mutuelle-sante-5-criteres.html",
           "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "frais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Frais dentaires 2027 : mutuelle, reste à charge et hausse des cotisations",
+      "description": "Dès janvier 2027, l'Assurance maladie réduit sa part sur certains soins dentaires. Comment relire sa mutuelle, le plafond dentaire et le reste à charge avant le renouvellement.",
+      "meta": "8 min · Sept 2026",
+      "cardExcerpt": "Soins dentaires moins pris en charge par la Sécu en 2027 : ce qu'il faut vérifier sur votre mutuelle avant la hausse des cotisations.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=frais-dentaires-moins-rembourses-vers",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "L'actualité santé de cette semaine est concrète pour le budget des foyers : <strong>à partir de janvier 2027, l'Assurance maladie réduit sa participation sur certains soins dentaires</strong>. La part qui n'est plus prise en charge par la Sécu se reporte sur la mutuelle — et, si le contrat est trop juste, sur votre reste à charge. Les complémentaires préparent déjà leurs tarifs 2027. Le bon réflexe n'est pas de résilier dans l'urgence, c'est de <strong>relire le poste dentaire</strong> avant l'échéance."
+        },
+        {
+          "type": "h2",
+          "text": "Ce qui change pour une couronne, un bridge ou un soin"
+        },
+        {
+          "type": "p",
+          "text": "Un soin dentaire est remboursé en trois couches : la base Sécurité sociale, le complément de la mutuelle (souvent exprimé en pourcentage de la base de remboursement), puis ce qui reste à payer. Quand la Sécu baisse sa part, <strong>le même pourcentage mutuelle ne couvre plus la même somme</strong>. Une garantie « 100 % » ou « 150 % » qui semblait confortable en 2026 peut laisser un reste à charge plus élevé en 2027, surtout sur les prothèses, les inlays-onlays et les actes hors panier 100 % Santé."
+        },
+        {
+          "type": "p",
+          "text": "Les implants, certains bridges et l'orthodontie adulte sont déjà peu ou pas pris en charge par l'Assurance maladie. Ce sont ces postes, plus les plafonds annuels, qui font la différence entre deux mutuelles au même prix."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi la cotisation peut monter au renouvellement"
+        },
+        {
+          "type": "p",
+          "text": "Si les mutuelles absorbent une plus grande part des frais dentaires, elles répercutent ce coût au moment du renouvellement. Plusieurs titres annoncent déjà une <strong>hausse des tarifs santé en 2027</strong>, dentaire compris. Ce n'est pas une raison pour accepter la première lettre d'échéance : à garanties équivalentes, les écarts de prix restent larges. Comparer avant la date limite de résiliation (souvent fin d'année, parfois avec un préavis) évite de subir le tarif sans avoir regardé ailleurs."
+        },
+        {
+          "type": "h2",
+          "text": "Les lignes à vérifier dans le tableau de garanties"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "<strong>Soins courants</strong> (détartrage, caries) : reste à charge réel, pas seulement le pourcentage affiché",
+            "<strong>Prothèses</strong> : couronnes, bridges, dentiers — panier 100 % Santé et hors panier",
+            "<strong>Plafond annuel dentaire</strong> : un gros soin peut épuiser l'enveloppe dès le premier semestre",
+            "<strong>Implants et orthodontie adulte</strong> : souvent exclus ou plafonnés très bas",
+            "<strong>Délai de carence</strong> : un changement de contrat trop tardif ne couvre pas un soin déjà programmé",
+            "<strong>Médecin traitant et parcours de soins</strong> : un hors-parcours augmente aussi le reste à charge"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Que faire avant 2027, sans changer pour changer"
+        },
+        {
+          "type": "p",
+          "text": "Listez les soins dentaires prévus sur 12 mois (vous, conjoint, enfants). Si une couronne ou un appareil est déjà planifié, <strong>ne résiliez pas avant d'avoir vérifié le délai de carence</strong> du nouveau contrat : vous pourriez perdre la prise en charge du soin en cours. Si aucun acte lourd n'est prévu, le renouvellement 2027 est le bon moment pour monter le poste dentaire ou, à l'inverse, pour ne pas payer une option inutile."
+        },
+        {
+          "type": "p",
+          "text": "Gardez le tableau de garanties actuel sous les yeux et comparez <strong>à niveau équivalent</strong> : hospitalisation, optique et dentaire ensemble. Une mutuelle moins chère qui écrase le dentaire coûte plus cher le jour de la couronne."
+        },
+        {
+          "type": "h2",
+          "text": "Le questionnaire mutuelle, pour chiffrer votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire gratuit (environ 3 minutes) situe le niveau utile — soins courants, prothèses, famille — sans engagement. Leads Opportunities, courtier ORIAS, compare ensuite des contrats du marché (April, AXA, Allianz, Generali, Zephir et d'autres) selon votre profil. <strong>100 % gratuit</strong>."
+        }
+      ],
+      "faq": [
+        {
+          "q": "La Sécurité sociale rembourse-t-elle moins les soins dentaires en 2027 ?",
+          "a": "Oui pour certains actes : à compter de janvier 2027, l'Assurance maladie réduit sa participation. La différence se reporte sur la mutuelle ou sur votre reste à charge si le contrat est insuffisant."
+        },
+        {
+          "q": "Ma mutuelle va-t-elle forcément augmenter ?",
+          "a": "Les complémentaires révisent leurs tarifs quand elles paient une plus grande part des soins. Une hausse est annoncée pour 2027, mais le montant dépend du contrat, de l'âge et des garanties. Comparer à garanties équivalentes reste le seul moyen de savoir si votre tarif est encore cohérent."
+        },
+        {
+          "q": "Faut-il changer de mutuelle tout de suite ?",
+          "a": "Pas si un soin est déjà programmé : un nouveau contrat peut appliquer un délai de carence. Relisez d'abord le plafond dentaire et la date de renouvellement, puis comparez avant l'échéance."
+        },
+        {
+          "q": "Quel niveau dentaire viser ?",
+          "a": "Cela dépend des actes prévus. Les soins courants et le 100 % Santé ne demandent pas le même contrat qu'une couronne hors panier, un implant ou une orthodontie adulte. Le questionnaire mutuelle sert à cadrer ce niveau avant de demander des devis."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 critères pour choisir une mutuelle"
+        },
+        {
+          "href": "./mutuelle-remboursement-optique-dentaire-2026.html",
+          "label": "Remboursement optique et dentaire"
         },
         {
           "href": "../assurance-sante/comparatif/",
