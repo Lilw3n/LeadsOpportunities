@@ -3,6 +3,8 @@
  * section: animaux | vtc | sante | auto | habitat | prevoyance | pro | patrimoine | finance | actu | chasse | equitation
  * themes (optionnel): sujets additionnels — ex. ["canicule","seniors"] ; voir scripts/blog-themes.cjs
  */
+const seoIntentSep2026 = require("./blog-articles-seo-intent-sep2026.cjs");
+
 module.exports = {
   sections: [
     {
@@ -3256,6 +3258,9 @@ const promoProduits = require("./blog-promo-produits-articles.cjs");
 promoProduits.forEach(function (a) {
   module.exports.articles.push(a);
 });
+
+/* SEO intent volumes (mutuelle Nancy, devis sans engagement, VTC indépendant, crédit rapide) */
+module.exports.articles = seoIntentSep2026.concat(module.exports.articles);
 
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();

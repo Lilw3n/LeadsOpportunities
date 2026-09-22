@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-22",
   "sections": [
     "actu",
     "animaux",
@@ -17,6 +17,58 @@
     "vtc"
   ],
   "rows": [
+    {
+      "file": "courtier-assurance-mutuelle-sante-nancy.html",
+      "title": "Courtier assurance mutuelle santé Nancy : comment bien choisir",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Courtier%20mutuelle%20sant%C3%A9%20Nancy",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "devis-mutuelle-sante-en-ligne-sans-engagement.html",
+      "title": "Devis mutuelle santé en ligne sans engagement : mode d’emploi 2026",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Devis%20mutuelle%20sant%C3%A9%20sans%20engagement",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "comparatif-assurance-vtc-chauffeur-independant.html",
+      "title": "Comparatif assurance VTC chauffeur indépendant : critères 2026",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Comparatif%20assurance%20VTC%20ind%C3%A9pendant",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "comment-obtenir-un-credit-immobilier-rapidement.html",
+      "title": "Comment obtenir un crédit immobilier rapidement : les étapes qui comptent",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=%C3%89tude%20cr%C3%A9dit%20immobilier%20rapide",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
     {
       "file": "elections-presidentielles-prevoyance-patrimoine.html",
       "title": "Elections presidentielles : prevoyance, patrimoine et credit immo",
