@@ -503,6 +503,33 @@
       "hook": "Cotisation en hausse : comparez à garanties équivalentes avant de résilier.",
       "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?"
     },
+    "assurance-emprunteur-prix-baisse-2026.html": {
+      "need": "emprunteur",
+      "section": "finance",
+      "questionnaire": "/landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur_baisse_2026",
+      "landing": "/landings/credit-immo.html#formules",
+      "hook": "L’assurance emprunteur est souvent le seul poste qui peut encore baisser.",
+      "question": "Votre contrat bancaire est-il encore compétitif depuis la loi Lemoine ?",
+      "questionnaireLabel": "Questionnaire emprunteur (3 min)",
+      "landingLabel": "Étude assurance du prêt"
+    },
+    "hausse-assurances-auto-habitation-mutuelle-2027.html": {
+      "need": "sante",
+      "section": "sante",
+      "questionnaire": "/landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=hausse_assurances_2027",
+      "hook": "Auto, habitation, mutuelle : préparez l’échéance avant la hausse 2027.",
+      "question": "Quel contrat voulez-vous faire vérifier en premier ?",
+      "questionnaireLabel": "Questionnaire mutuelle (3 min)",
+      "landingLabel": "Écrire au courtier"
+    },
+    "mutuelle-retraite-femmes-seniors-priorites.html": {
+      "need": "sante",
+      "section": "sante",
+      "questionnaire": "/landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=mutuelle_retraite_seniors",
+      "hook": "À la retraite, hospitalisation, audition et dentaire pèsent plus que le petit risque.",
+      "question": "Votre mutuelle retraite suit-elle encore vos soins réels ?",
+      "questionnaireLabel": "Questionnaire mutuelle (3 min)"
+    },
     "elections-presidentielles-prevoyance-patrimoine.html": {
       "section": "prevoyance",
       "question": "Vos revenus et votre patrimoine sont-ils protégés en période d'incertitude ?"

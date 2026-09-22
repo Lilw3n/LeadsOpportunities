@@ -1026,6 +1026,45 @@ var DEEP = {
       },
     ],
   },
+  "assurance-emprunteur-prix-baisse-2026.html": {
+    meta: "9 min · Septembre 2026",
+    faq: [
+      {
+        q: "Puis-je changer d’assurance emprunteur à tout moment ?",
+        a: "Oui dans la plupart des cas depuis la loi Lemoine, si le nouveau contrat présente des garanties au moins équivalentes et que la banque accepte la substitution. Ne résiliez pas l’ancien contrat avant cette acceptation.",
+      },
+      {
+        q: "Une baisse de cotisation est-elle garantie ?",
+        a: "Non. Elle dépend de l’âge, du capital restant dû, du tabac, de la profession et des garanties. Le devis sert à le vérifier, pas à l’annoncer d’avance.",
+      },
+    ],
+  },
+  "hausse-assurances-auto-habitation-mutuelle-2027.html": {
+    meta: "8 min · Septembre 2026",
+    faq: [
+      {
+        q: "Faut-il tout résilier parce que les primes montent en 2027 ?",
+        a: "Non. Comparez d’abord à garanties équivalentes. Une cotisation plus basse avec une franchise plus haute ou un plafond plus bas peut coûter plus cher au sinistre.",
+      },
+      {
+        q: "Par quel contrat commencer ?",
+        a: "Celui dont l’avis d’échéance arrive en premier, ou celui où le reste à charge vous inquiète (souvent la mutuelle ou l’emprunteur).",
+      },
+    ],
+  },
+  "mutuelle-retraite-femmes-seniors-priorites.html": {
+    meta: "8 min · Septembre 2026",
+    faq: [
+      {
+        q: "La mutuelle d’entreprise continue-t-elle à la retraite ?",
+        a: "En général non, hors période de portabilité. Il faut une individuelle ou un contrat senior calibré sur hospitalisation, audition, dentaire et optique.",
+      },
+      {
+        q: "Le 100 % santé suffit-il ?",
+        a: "Il couvre un panier optique, dentaire et auditif. Hors panier (verres complexes, implants, certains appareils), les plafonds de la mutuelle font la différence.",
+      },
+    ],
+  },
 };
 
 function getOverride(file) {

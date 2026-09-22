@@ -18,6 +18,45 @@
   ],
   "rows": [
     {
+      "file": "assurance-emprunteur-prix-baisse-2026.html",
+      "title": "Assurance emprunteur : pourquoi son prix baisse quand le reste augmente",
+      "section": "finance",
+      "hook": "L’assurance emprunteur est souvent le seul poste qui peut encore baisser.",
+      "question": "Votre contrat bancaire est-il encore compétitif depuis la loi Lemoine ?",
+      "need": "emprunteur",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Assurance%20emprunteur%20%E2%80%94%20mon%20pr%C3%AAt",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur_baisse_2026",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "hausse-assurances-auto-habitation-mutuelle-2027.html",
+      "title": "Hausse des assurances en 2027 : auto, habitation et mutuelle, que faire avant l’échéance",
+      "section": "sante",
+      "hook": "Auto, habitation, mutuelle : préparez l’échéance avant la hausse 2027.",
+      "question": "Quel contrat voulez-vous faire vérifier en premier ?",
+      "need": "sante",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Hausse%20assurances%202027%20%E2%80%94%20comparer%20mes%20contrats",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=hausse_assurances_2027",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "mutuelle-retraite-femmes-seniors-priorites.html",
+      "title": "Mutuelle santé à la retraite : priorités pour les femmes seniors",
+      "section": "sante",
+      "hook": "À la retraite, hospitalisation, audition et dentaire pèsent plus que le petit risque.",
+      "question": "Votre mutuelle retraite suit-elle encore vos soins réels ?",
+      "need": "sante",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Mutuelle%20retraite%20senior",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=mutuelle_retraite_seniors",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
       "file": "courtier-assurance-mutuelle-sante-nancy.html",
       "title": "Courtier assurance mutuelle santé Nancy : comment bien choisir",
       "section": "sante",

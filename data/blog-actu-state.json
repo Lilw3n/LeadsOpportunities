@@ -1,10 +1,11 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-22T15:01:21.858Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.ouest-france.fr/economie/budget/assurances-pourquoi-le-prix-des-assurances-emprunteurs-est-il-le-seul-a-baisser-6c6a8ef6-a52a-11f0-a483-88b21a3890bd"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-22T15:06:45.356Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +18,39 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-22T15:06:45.356Z",
+      "count": 3,
+      "usedAi": false,
+      "note": "Rédaction éditoriale leads (pas de copie RSS) : emprunteur, hausse 2027, mutuelle retraite.",
+      "articles": [
+        {
+          "file": "assurance-emprunteur-prix-baisse-2026.html",
+          "title": "Assurance emprunteur : pourquoi son prix baisse quand le reste augmente",
+          "sourceType": "edge"
+        },
+        {
+          "file": "hausse-assurances-auto-habitation-mutuelle-2027.html",
+          "title": "Hausse des assurances en 2027 : auto, habitation et mutuelle, que faire avant l’échéance",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "mutuelle-retraite-femmes-seniors-priorites.html",
+          "title": "Mutuelle santé à la retraite : priorités pour les femmes seniors",
+          "sourceType": "edge"
+        }
+      ]
     }
+  ],
+  "consumedTitles": [
+    "Assurances : pourquoi le prix des assurances emprunteurs est-il le seul à baisser ?",
+    "Mutuelle santé à la retraite : 6 priorités pour les femmes seniors selon leurs besoins",
+    "Auto, habitation, santé : toutes les assurances vont encore augmenter en 2027 - Ouest-France",
+    "Pouvoir d'achat : les assurances auto et habitation vont encore augmenter en 2027, bien au-delà de l'inflation - CNews",
+    "France: nouvelle hausse des assurances auto et habitation en 2027 - Zonebourse",
+    "Les assurances auto et habitation devraient encore augmenter en 2027 - Journal Spécial des Sociétés",
+    "Assurances: face aux sinistres plus fréquents et plus coûteux, les tarifs grimpent - France 24",
+    "Assurance auto et habitation : les raisons de la hausse des prix en 2025"
   ]
 }

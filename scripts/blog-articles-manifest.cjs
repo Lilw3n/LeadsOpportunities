@@ -4,6 +4,7 @@
  * themes (optionnel): sujets additionnels — ex. ["canicule","seniors"] ; voir scripts/blog-themes.cjs
  */
 const seoIntentSep2026 = require("./blog-articles-seo-intent-sep2026.cjs");
+const leadsSep2026 = require("./blog-articles-leads-sep2026.cjs");
 
 module.exports = {
   sections: [
@@ -3259,8 +3260,8 @@ promoProduits.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
-/* SEO intent volumes (mutuelle Nancy, devis sans engagement, VTC indépendant, crédit rapide) */
-module.exports.articles = seoIntentSep2026.concat(module.exports.articles);
+/* Leads sep 2026 (emprunteur, hausse 2027, mutuelle retraite) puis SEO intent */
+module.exports.articles = leadsSep2026.concat(seoIntentSep2026).concat(module.exports.articles);
 
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();
