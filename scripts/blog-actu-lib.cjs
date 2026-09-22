@@ -74,6 +74,7 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matched: bestScore > 0,
   };
 }
 
@@ -89,9 +90,22 @@ function uniqueFile(baseSlug) {
 }
 
 function monthLabel() {
-  var months = ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"];
+  var months = [
+    "Janvier",
+    "Fevrier",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Aout",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Decembre",
+  ];
   var d = new Date();
-  return months[d.getMonth()] + " " + d.getFullYear();
+  return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
 }
 
 /** Score 0–100 : potentiel lead questionnaire */
@@ -104,8 +118,11 @@ function scoreLeadPotential(candidate) {
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  var topic = matchTopic(title + " " + String(candidate.summary || ""));
+  if (topic.matched) {
+    if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
+    if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  }
 
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
@@ -135,8 +152,12 @@ function scoreLeadPotential(candidate) {
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
-    if (age < 3 * 86400000) score += 12;
-    else if (age < 7 * 86400000) score += 6;
+    if (!isNaN(age)) {
+      if (age < 3 * 86400000) score += 12;
+      else if (age < 7 * 86400000) score += 6;
+      else if (age > 45 * 86400000) score -= 45;
+      else if (age > 14 * 86400000) score -= 18;
+    }
   }
 
   return Math.min(100, Math.max(0, score));

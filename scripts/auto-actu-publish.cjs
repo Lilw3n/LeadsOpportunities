@@ -75,16 +75,107 @@ function candidateSourceType(c, feedMap) {
   return feedMap[c.feedId] || "aggregator";
 }
 
-function bestFromPlatform(available, platform, feedMap, used) {
+function insuranceTitleWeight(c) {
+  var title = String(c.title || "").toLowerCase();
+  var n = 0;
+  ["mutuelle", "assurance", "sinistre", "emprunteur", "habitation", "prévoyance", "prevoyance"].forEach(function (kw) {
+    if (title.indexOf(kw) !== -1) n += 1;
+  });
+  return n;
+}
+
+function compareLeadRank(a, b) {
+  var score = b.leadScore - a.leadScore;
+  if (score) return score;
+  var db = Date.parse(b.pubDate || "") || 0;
+  var da = Date.parse(a.pubDate || "") || 0;
+  if (db !== da) return db - da;
+  return insuranceTitleWeight(b) - insuranceTitleWeight(a);
+}
+
+function isUnsuitableActu(c) {
+  var hay = (String(c.title || "") + " " + String(c.summary || "")).toLowerCase();
+  if (hay.indexOf("collez ici") !== -1) return true;
+  if (/sans (leur|son) consentement|violence sexuelle|agression sexuelle|\bviol\b/.test(hay)) return true;
+  if (/\bivg\b|avortement/.test(hay)) return true;
+  return false;
+}
+
+function isDirectProductLead(c) {
+  var hay = (String(c.title || "") + " " + String(c.summary || "")).toLowerCase();
+  return /mutuelle|assurance|sinistre|emprunteur|carburant|automobil|arr[eê]ts? maladie|dentaire|rembours|pr[eê]t immobilier|inondation|incendie/.test(
+    hay
+  );
+}
+
+function storyTokens(title) {
+  var stop = {
+    le: 1, la: 1, les: 1, de: 1, des: 1, du: 1, un: 1, une: 1, et: 1, en: 1, au: 1, aux: 1,
+    pour: 1, par: 1, sur: 1, dans: 1, que: 1, qui: 1, est: 1, avec: 1, plus: 1, pas: 1, cette: 1,
+  };
+  return String(title || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9 ]/g, " ")
+    .split(/\s+/)
+    .filter(function (w) {
+      return w.length > 3 && !stop[w];
+    });
+}
+
+function storyBigrams(title) {
+  var tokens = storyTokens(title);
+  var grams = [];
+  for (var i = 0; i < tokens.length - 1; i++) grams.push(tokens[i] + " " + tokens[i + 1]);
+  return grams;
+}
+
+function isSameStory(a, b) {
+  var ba = storyBigrams(a && a.title);
+  var bb = {};
+  storyBigrams(b && b.title).forEach(function (g) {
+    bb[g] = 1;
+  });
+  var specific = ba.filter(function (g) {
+    if (!bb[g]) return false;
+    var parts = g.split(" ");
+    return parts[0].length > 4 && parts[1].length > 4;
+  });
+  if (specific.length) return true;
+  var ta = storyTokens(a && a.title);
+  var tb = storyTokens(b && b.title);
+  if (ta.length < 3 || tb.length < 3) return false;
+  var setB = {};
+  tb.forEach(function (t) {
+    setB[t] = 1;
+  });
+  var inter = 0;
+  ta.forEach(function (t) {
+    if (setB[t]) inter += 1;
+  });
+  var union = {};
+  ta.concat(tb).forEach(function (t) {
+    union[t] = 1;
+  });
+  var unionSize = Object.keys(union).length;
+  return unionSize > 0 && inter / unionSize >= 0.45;
+}
+
+function bestFromPlatform(available, platform, feedMap, used, picks) {
   var list = available
     .filter(function (c) {
       var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      if (candidateSourceType(c, feedMap) !== platform || used.has(k)) return false;
+      return !(picks || []).some(function (p) {
+        return isSameStory(p, c);
+      });
     })
-    .sort(function (a, b) {
-      return b.leadScore - a.leadScore;
-    });
-  return list[0] || null;
+    .sort(compareLeadRank);
+  var direct = list.filter(function (c) {
+    return isDirectProductLead(c) && c.leadScore >= 55;
+  });
+  return direct[0] || null;
 }
 
 function pickCandidates(candidates, count, state) {
@@ -98,6 +189,7 @@ function pickCandidates(candidates, count, state) {
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
+    if (isUnsuitableActu(c)) return false;
     return true;
   });
 
@@ -120,7 +212,7 @@ function pickCandidates(candidates, count, state) {
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used);
+      var pick = bestFromPlatform(available, platform, feedMap, used, picks);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
@@ -131,7 +223,7 @@ function pickCandidates(candidates, count, state) {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
-      var rotated = bestFromPlatform(available, platform, feedMap, used);
+      var rotated = bestFromPlatform(available, platform, feedMap, used, picks);
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
@@ -142,15 +234,23 @@ function pickCandidates(candidates, count, state) {
 
   available
     .filter(function (c) {
-      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
+      return isDirectProductLead(c) && c.leadScore >= 55;
     })
     .forEach(function (c) {
       if (picks.length >= count) return;
       var k = c.url || c.title;
       if (used.has(k)) return;
+      if (
+        picks.some(function (p) {
+          return isSameStory(p, c);
+        })
+      )
+        return;
       picks.push(c);
       used.add(k);
     });
+
+  if (picks.length) return picks;
 
   available.forEach(function (c) {
     if (picks.length >= count) return;
