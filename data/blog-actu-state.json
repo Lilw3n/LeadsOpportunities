@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-15T09:57:06.369Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/flash-eco/canadiens-chinois-mexicains-comment-les-visiteurs-etrangers-ont-sauve-la-saison-touristique-2026-en-france-20260915",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa9166f441347068f5bd1df5dafc270&url=https%3a%2f%2fwww.france24.com%2ffr%2f%25C3%25A9missions%2fsports%2f20260515-%25C3%25A9quipe-de-france-didier-deschamps-d%25C3%25A9voile-sa-liste-pour-la-coupe-du-monde-2026&c=1859530772915579181&mkt=en-us",
+    "https://www.franceinfo.fr/economie/greve/direct-mobilisations-en-france-les-pecheurs-bloquent-un-depot-petrolier-a-fos-sur-mer-des-policiers-s-appretent-a-manifester-a-paris_8193098.html#xtor=RSS-3-[lestitres]"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-15T09:57:08.343Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-15T09:57:08.343Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "canadiens-chinois-mexicains-comment-les-visiteurs-etrangers-ont-sauve-la.html",
+          "title": "Canadiens, Chinois, Mexicains... Comment les visiteurs étrangers ont sauvé la saison to… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "equipe-de-france-didier-deschamps-devoile-sa-liste-pour-la-coupe-du-mond.html",
+          "title": "Équipe de France : Didier Deschamps dévoile sa liste pour la Coupe du monde 2026 : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing actu France",
+          "sourceType": "edge"
+        },
+        {
+          "file": "mobilisations-en-france-les-policiers-manifestent-a-paris-les-electricie.html",
+          "title": "Mobilisations en France : les policiers manifestent à Paris, les électriciens et gazier… : assurance habitation — que faire ?",
+          "source": "Firefox — France Info titres",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
