@@ -106,6 +106,20 @@ En plus des heatmaps natives, le blog envoie des **Smart events** et **tags** fi
 
 Complémentaire à GA4 : GA4 = chiffres agrégés ; Clarity = vision qualitative.
 
+## CRM — stats concrètes sur le site
+
+Page CRM : **`/crm-blog-stats.html`** (sidebar → *Stats blog & forum*).
+
+API : `GET /api/crm/blog-stats?days=30` (auth CRM).
+
+Données affichées :
+- pages vues `/blog` et `/forum` (`journey_events.page_view`)
+- clics CTA / lectures 100 % (`blog_cta_click`, `blog_read_complete` — miroir first-party depuis `js/blog-reading-analytics.js`)
+- leads CRM dont landing/UTM touche blog ou forum
+- inventaire d’articles publiés + liens GA4 / Clarity / Search Console
+
+Vérif : `npm run verify:blog-stats-crm`
+
 ## Regénérer les articles après modification
 
 ```bash
@@ -116,8 +130,10 @@ Puis déployer sur Vercel.
 
 ## Fichiers concernés
 
-- `js/blog-reading-analytics.js` — logique de tracking GA4  
-- `js/clarity-source.mjs` + `js/clarity-init.js` — package `@microsoft/clarity` (rebuild : `npm run build:clarity`)  
-- `google-config.js` — charge Clarity si `CLARITY_PROJECT_ID` est défini  
-- `scripts/generate-blog-articles.cjs` — injection script + `data-blog-*` sur `<body>`  
+- `js/blog-reading-analytics.js` — tracking GA4 + miroir Neon (`/api/journey-event`)
+- `crm-blog-stats.html` / `crm-blog-stats.js` — dashboard CRM
+- `api/_lib/blog-stats.js` + `api/_lib/routes/crm-blog-stats.js`
+- `js/clarity-source.mjs` + `js/clarity-init.js` — package `@microsoft/clarity` (rebuild : `npm run build:clarity`)
+- `google-config.js` — charge Clarity si `CLARITY_PROJECT_ID` est défini
+- `scripts/generate-blog-articles.cjs` — injection script + `data-blog-*` sur `<body>`
 - `scripts/generate-blog-index.cjs` — tracking sur l’index blog

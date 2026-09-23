@@ -43,6 +43,7 @@ const ROUTES = {
   "leads-sources": () => require("../_lib/routes/crm-leads-sources"),
   "traffic-stats": () => require("../_lib/routes/crm-traffic-stats"),
   "traffic-alert-test": () => require("../_lib/routes/crm-traffic-alert-test"),
+  "blog-stats": () => require("../_lib/routes/crm-blog-stats"),
   "markets-presence": () => require("../_lib/routes/crm-markets-presence"),
   "pubs-hub": () => require("../_lib/routes/crm-pubs-hub"),
   "test-slack": () => require("../_lib/routes/crm-test-slack"),

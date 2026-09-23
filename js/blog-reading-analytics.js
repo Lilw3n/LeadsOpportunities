@@ -79,8 +79,72 @@
     } catch (e) {}
   }
 
+  function visitorId() {
+    try {
+      if (window.getAttributionPayload) {
+        var a = window.getAttributionPayload() || {};
+        if (a.visitor_id) return a.visitor_id;
+      }
+      var key = "lo_visitor_id";
+      var id = localStorage.getItem(key);
+      if (!id) {
+        id = "v_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 10);
+        localStorage.setItem(key, id);
+      }
+      return id;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function sessionId() {
+    try {
+      var key = "lo_session_id";
+      var id = sessionStorage.getItem(key);
+      if (!id) {
+        id = "s_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+        sessionStorage.setItem(key, id);
+      }
+      return id;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /** Miroir first-party → Neon (CRM Stats blog). Évite le flood scroll. */
+  function mirrorJourney(eventName, params) {
+    var allow =
+      eventName === "blog_article_view" ||
+      eventName === "blog_cta_click" ||
+      eventName === "blog_card_click" ||
+      eventName === "blog_link_click" ||
+      eventName === "blog_read_complete" ||
+      eventName === "blog_faq_open" ||
+      (eventName === "blog_scroll_depth" &&
+        (params.percent_scrolled === 50 || params.percent_scrolled === 100));
+    if (!allow) return;
+    var base = meta();
+    var body = {
+      event_type: eventName,
+      visitor_id: visitorId(),
+      session_id: sessionId(),
+      page_path: location.pathname,
+      step_name: (params && (params.link_zone || params.section_name)) || null,
+      vertical: base.article_section || null,
+      source: "blog",
+      meta: Object.assign({}, base, params || {}),
+    };
+    try {
+      fetch("/api/journey-event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        keepalive: true,
+      }).catch(function () {});
+    } catch (e) {}
+  }
+
   function track(eventName, params) {
-    if (typeof window.gtag !== "function") return;
     var base = meta();
     var payload = Object.assign(
       {
@@ -92,8 +156,11 @@
       base,
       params || {}
     );
-    window.gtag("event", eventName, payload);
+    if (typeof window.gtag === "function") {
+      window.gtag("event", eventName, payload);
+    }
     mirrorClarity(eventName, params);
+    mirrorJourney(eventName, params);
     try {
       window.dispatchEvent(new CustomEvent("lo:blog_analytics", { detail: { event: eventName, payload: payload } }));
     } catch (e) {}
