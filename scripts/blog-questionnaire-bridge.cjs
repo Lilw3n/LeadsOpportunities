@@ -1,8 +1,10 @@
 /**
  * Pont intelligent blog → questionnaire / landing / express
+ * Articles GTA → leonida-vice.com (hub partenaire).
  */
 const fs = require("fs");
 const path = require("path");
+const { isGtaArticleFile, leonidaBridge } = require("./leonida-vice-lib.cjs");
 
 let _map = null;
 
@@ -48,6 +50,10 @@ function blogHref(href) {
 }
 
 function resolveBridge(article) {
+  if (isGtaArticleFile(article && article.file)) {
+    return leonidaBridge(article.file);
+  }
+
   var map = loadMap();
   var section = map.sections[article.section] || map.sections.actu;
   var fileKey = article.file;
@@ -126,6 +132,12 @@ function renderBridgeHtml(bridge, opts) {
   var mid = opts.variant === "mid";
   var tag = mid ? "aside" : "div";
   var cls = mid ? "article-bridge article-bridge--mid" : "article-bridge article-bridge--footer";
+  var isLeonida = bridge.partner === "leonida-vice" || /leonida-vice\.com/i.test(String(bridge.questionnaire || ""));
+  var kicker = mid
+    ? "💡 À retenir"
+    : isLeonida
+      ? "Suite sur Leonida Vice"
+      : "🛡️ Et maintenant ?";
   return (
     "      <" +
     tag +
@@ -135,9 +147,10 @@ function renderBridgeHtml(bridge, opts) {
     esc(bridge.need) +
     '"' +
     (bridge.species ? ' data-species="' + esc(bridge.species) + '"' : "") +
+    (isLeonida ? ' data-partner="leonida-vice"' : "") +
     ">\n" +
     '        <p class="article-bridge-kicker">' +
-    (mid ? "💡 À retenir" : "🛡️ Et maintenant ?") +
+    kicker +
     "</p>\n" +
     '        <p class="article-bridge-hook">' +
     esc(bridge.hook) +
@@ -148,12 +161,16 @@ function renderBridgeHtml(bridge, opts) {
     '        <div class="article-bridge-actions">\n' +
     '          <a class="btn btn-primary" href="' +
     esc(bridge.questionnaire) +
-    '">' +
+    '"' +
+    (isLeonida ? ' rel="noopener noreferrer" target="_blank"' : "") +
+    ">" +
     esc(bridge.questionnaireLabel || "Questionnaire personnalisé") +
     "</a>\n" +
     '          <a class="btn btn-outline" href="' +
     esc(bridge.landing) +
-    '">' +
+    '"' +
+    (isLeonida ? ' rel="noopener noreferrer" target="_blank"' : "") +
+    ">" +
     esc(bridge.landingLabel || bridge.primaryLabel) +
     "</a>\n" +
     (bridge.express

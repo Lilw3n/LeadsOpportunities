@@ -3273,3 +3273,7 @@ pendingActu.forEach(function (a) {
   existingFiles[a.file] = true;
   module.exports.articles.push(a);
 });
+
+/* Articles GTA → CTAs / related vers leonida-vice.com */
+const { applyLeonidaToArticle } = require("./leonida-vice-lib.cjs");
+module.exports.articles.forEach(applyLeonidaToArticle);

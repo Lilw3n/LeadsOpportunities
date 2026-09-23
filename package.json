@@ -73,6 +73,7 @@
     "verify:immo-ad-pubs": "node scripts/verify-immo-ad-pubs.cjs",
     "verify:immo-tour-access": "node scripts/verify-immo-tour-access.cjs",
     "verify:partner-sites": "node scripts/verify-partner-sites.cjs",
+    "verify:leonida-gta": "node scripts/verify-leonida-gta.cjs",
     "verify:devis-docs": "node scripts/verify-devis-documents.cjs",
     "verify:listing-urls": "node scripts/verify-immo-listing-urls.cjs",
     "verify:listing-paste": "node scripts/verify-immo-listing-paste.cjs",
