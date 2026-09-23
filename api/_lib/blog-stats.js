@@ -105,12 +105,51 @@ function leadLandingPath(row) {
   return "";
 }
 
+function parseDateFromHtml(html) {
+  if (!html) return { datePublished: null, dateModified: null };
+  var pub = html.match(/"datePublished"\s*:\s*"([^"]+)"/);
+  var mod = html.match(/"dateModified"\s*:\s*"([^"]+)"/);
+  return {
+    datePublished: pub ? pub[1].slice(0, 10) : null,
+    dateModified: mod ? mod[1].slice(0, 10) : null,
+  };
+}
+
+function metaToDateLabel(meta) {
+  if (!meta) return "";
+  var m = String(meta).match(/·\s*(.+)$/);
+  return m ? m[1].trim() : String(meta).trim();
+}
+
+function loadQuestionnaireByFile() {
+  var map = {};
+  try {
+    var admin = require("../../data/blog-questionnaire-admin.json");
+    (admin.rows || []).forEach(function (r) {
+      if (!r || !r.file) return;
+      map[r.file] = {
+        need: r.need || "",
+        question: r.question || "",
+        questionnaire: r.questionnaire || "",
+        landing: r.landing || "",
+        express: r.express || "",
+        matchedRule: r.matchedRule || "",
+        section: r.section || "",
+      };
+    });
+  } catch (e) {
+    /* optional */
+  }
+  return map;
+}
+
 function loadArticleInventory() {
   var root = path.join(__dirname, "..", "..");
   var blogDir = path.join(root, "blog");
   var forumDir = path.join(root, "forum");
   var articles = [];
   var byFile = {};
+  var questionnaires = loadQuestionnaireByFile();
 
   try {
     var manifest = require("../../scripts/blog-articles-manifest.cjs");
@@ -123,6 +162,10 @@ function loadArticleInventory() {
         title: a.title || a.file,
         section: a.section || "",
         tag: a.tag || "",
+        meta: a.meta || "",
+        date_label: metaToDateLabel(a.meta),
+        date_published: a.datePublished || null,
+        date_modified: a.dateModified || null,
         path: "/blog/" + a.file,
         kind: "blog",
       };
@@ -137,41 +180,99 @@ function loadArticleInventory() {
         return /\.html$/i.test(f) && f !== "index.html" && f !== "actu-inbox.html";
       })
       .forEach(function (f) {
-        if (byFile[f]) {
-          articles.push(byFile[f]);
-          return;
+        var abs = path.join(blogDir, f);
+        var html = "";
+        try {
+          html = fs.readFileSync(abs, "utf8");
+        } catch (e) {
+          html = "";
         }
-        articles.push({
+        var dates = parseDateFromHtml(html);
+        var mtime = null;
+        try {
+          mtime = fs.statSync(abs).mtime.toISOString().slice(0, 10);
+        } catch (e2) {
+          mtime = null;
+        }
+        var base = byFile[f] || {
           file: f,
           slug: f.replace(/\.html$/i, ""),
           title: f.replace(/\.html$/i, "").replace(/-/g, " "),
           section: "",
           tag: "",
+          meta: "",
+          date_label: "",
+          date_published: null,
+          date_modified: null,
           path: "/blog/" + f,
           kind: "blog",
-        });
+        };
+        base.date_published = base.date_published || dates.datePublished || mtime;
+        base.date_modified = base.date_modified || dates.dateModified || mtime;
+        if (!base.date_label && base.date_published) {
+          base.date_label = base.date_published;
+        }
+        var q = questionnaires[f];
+        if (q) {
+          base.questionnaire_need = q.need;
+          base.questionnaire_question = q.question;
+          base.questionnaire_url = q.questionnaire;
+          base.questionnaire_landing = q.landing;
+          base.questionnaire_rule = q.matchedRule;
+          if (!base.section && q.section) base.section = q.section;
+        }
+        base.questionnaires_admin_url =
+          "/blog-questionnaires.html?q=" + encodeURIComponent(base.slug || f.replace(/\.html$/i, ""));
+        articles.push(base);
       });
   }
 
-  if (fs.existsSync(forumDir)) {
-    fs.readdirSync(forumDir)
-      .filter(function (f) {
-        return /\.html$/i.test(f) && f !== "index.html";
-      })
-      .forEach(function (f) {
-        articles.push({
-          file: f,
-          slug: "forum:" + f.replace(/\.html$/i, ""),
-          title: f.replace(/\.html$/i, "").replace(/-/g, " "),
-          section: "forum",
-          tag: "Forum",
-          path: "/forum/" + f,
-          kind: "forum",
-        });
+  function walkForum(dir, urlPrefix) {
+    if (!fs.existsSync(dir)) return;
+    fs.readdirSync(dir).forEach(function (f) {
+      var abs = path.join(dir, f);
+      var st;
+      try {
+        st = fs.statSync(abs);
+      } catch (e) {
+        return;
+      }
+      if (st.isDirectory()) {
+        walkForum(abs, urlPrefix + f + "/");
+        return;
+      }
+      if (!/\.html$/i.test(f) || f === "index.html") return;
+      var rel = urlPrefix + f;
+      var slug = "forum:" + rel.replace(/\.html$/i, "").replace(/\//g, ":");
+      var html = "";
+      try {
+        html = fs.readFileSync(abs, "utf8");
+      } catch (e2) {
+        html = "";
+      }
+      var dates = parseDateFromHtml(html);
+      articles.push({
+        file: rel,
+        slug: slug,
+        title: f.replace(/\.html$/i, "").replace(/-/g, " "),
+        section: "forum",
+        tag: "Forum",
+        meta: "",
+        date_label: dates.datePublished || st.mtime.toISOString().slice(0, 10),
+        date_published: dates.datePublished || st.mtime.toISOString().slice(0, 10),
+        date_modified: dates.dateModified || st.mtime.toISOString().slice(0, 10),
+        path: "/forum/" + rel,
+        kind: "forum",
+        questionnaires_admin_url: "/blog-questionnaires.html",
       });
+    });
   }
+  walkForum(forumDir, "");
 
   articles.sort(function (a, b) {
+    var da = a.date_published || "";
+    var db = b.date_published || "";
+    if (da !== db) return db.localeCompare(da);
     return String(a.slug).localeCompare(String(b.slug));
   });
 
@@ -353,9 +454,12 @@ async function buildBlogStats(options) {
   });
 
   var titleBySlug = {};
+  var invBySlug = {};
   inventory.articles.forEach(function (a) {
     titleBySlug[a.slug] = a.title;
     titleBySlug[a.file] = a.title;
+    invBySlug[a.slug] = a;
+    if (a.file) invBySlug[String(a.file).replace(/\.html$/i, "")] = a;
   });
 
   var leadRows = [];
@@ -412,20 +516,79 @@ async function buildBlogStats(options) {
   var articlesTable = Object.keys(bySlug)
     .map(function (slug) {
       var row = bySlug[slug];
+      var inv = invBySlug[slug] || {};
       return Object.assign({}, row, {
-        title: titleBySlug[slug] || titleBySlug[slug + ".html"] || slug,
+        title: inv.title || titleBySlug[slug] || titleBySlug[slug + ".html"] || slug,
         path:
-          slug.indexOf("forum:") === 0
-            ? "/forum/" + slug.replace(/^forum:/, "") + ".html"
+          inv.path ||
+          (slug.indexOf("forum:") === 0
+            ? "/forum/" + slug.replace(/^forum:/, "").replace(/:/g, "/") + ".html"
             : slug === "index"
               ? "/blog/"
-              : "/blog/" + slug + ".html",
+              : "/blog/" + slug + ".html"),
+        file: inv.file || (slug.indexOf("forum:") === 0 ? null : slug + ".html"),
+        section: inv.section || "",
+        date_published: inv.date_published || null,
+        date_modified: inv.date_modified || null,
+        date_label: inv.date_label || inv.date_published || null,
+        meta: inv.meta || "",
+        questionnaire_need: inv.questionnaire_need || null,
+        questionnaire_question: inv.questionnaire_question || null,
+        questionnaire_url: inv.questionnaire_url || null,
+        questionnaires_admin_url:
+          inv.questionnaires_admin_url ||
+          (slug.indexOf("forum:") === 0
+            ? "/blog-questionnaires.html"
+            : "/blog-questionnaires.html?q=" + encodeURIComponent(slug)),
       });
+    });
+
+  /* Inclure aussi le catalogue (0 vue) pour date + clic + questionnaire */
+  inventory.articles.forEach(function (inv) {
+    if (bySlug[inv.slug]) return;
+    articlesTable.push({
+      slug: inv.slug,
+      views: 0,
+      visitors: 0,
+      cta_clicks: 0,
+      link_clicks: 0,
+      card_clicks: 0,
+      reads_complete: 0,
+      scroll_50: 0,
+      scroll_100: 0,
+      leads: 0,
+      title: inv.title,
+      path: inv.path,
+      file: inv.file,
+      section: inv.section || "",
+      date_published: inv.date_published || null,
+      date_modified: inv.date_modified || null,
+      date_label: inv.date_label || inv.date_published || null,
+      meta: inv.meta || "",
+      questionnaire_need: inv.questionnaire_need || null,
+      questionnaire_question: inv.questionnaire_question || null,
+      questionnaire_url: inv.questionnaire_url || null,
+      questionnaires_admin_url: inv.questionnaires_admin_url || "/blog-questionnaires.html",
+      kind: inv.kind,
+    });
+  });
+
+  articlesTable.sort(function (a, b) {
+    var scoreA = (b.views || 0) + (b.cta_clicks || 0) * 3 + (b.leads || 0) * 10;
+    var scoreB = (a.views || 0) + (a.cta_clicks || 0) * 3 + (a.leads || 0) * 10;
+    if (scoreA !== scoreB) return scoreA - scoreB;
+    return String(b.date_published || "").localeCompare(String(a.date_published || ""));
+  });
+  /* Garder le top trafic + les 40 plus récents sans trafic pour la lisibilité */
+  var withTraffic = articlesTable.filter(function (r) {
+    return (r.views || 0) + (r.cta_clicks || 0) + (r.leads || 0) > 0;
+  });
+  var withoutTraffic = articlesTable
+    .filter(function (r) {
+      return (r.views || 0) + (r.cta_clicks || 0) + (r.leads || 0) === 0;
     })
-    .sort(function (a, b) {
-      return b.views + b.cta_clicks * 3 + b.leads * 10 - (a.views + a.cta_clicks * 3 + a.leads * 10);
-    })
-    .slice(0, 50);
+    .slice(0, 40);
+  articlesTable = withTraffic.concat(withoutTraffic).slice(0, 80);
 
   var topCtas = Object.keys(ctaByLabel)
     .map(function (label) {
@@ -534,4 +697,6 @@ module.exports = {
   isBlogOrForumPath,
   slugFromPath,
   BLOG_EVENT_TYPES,
+  parseDateFromHtml,
+  metaToDateLabel,
 };
