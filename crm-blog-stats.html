@@ -66,6 +66,10 @@
     .blog-stats-table-wrap th,
     .blog-stats-table-wrap td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
     .blog-stats-table-wrap th { color: var(--muted); font-weight: 600; font-size: 0.75rem; }
+    .blog-stats-article-link { color: inherit; text-decoration: none; font-weight: 700; }
+    .blog-stats-article-link:hover { color: #0284c7; text-decoration: underline; }
+    .blog-stats-date { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+    .blog-stats-q-link { font-size: 0.75rem; }
   </style>
 </head>
 <body class="crm-subpage">
@@ -78,6 +82,7 @@
     <div class="crm-action-row">
       <a href="./crm-trafic.html" class="btn btn-ghost">Trafic global</a>
       <a href="./crm-sources.html" class="btn btn-ghost">Origine leads</a>
+      <a href="./blog-questionnaires.html" class="btn btn-ghost">Blog → questionnaires</a>
       <a href="./blog/" class="btn btn-ghost" target="_blank" rel="noopener">Ouvrir le blog ↗</a>
       <button type="button" class="btn btn-primary" id="btnBlogStatsRefresh">Actualiser</button>
     </div>
@@ -91,6 +96,9 @@
         <option value="60">60 jours</option>
         <option value="90">90 jours</option>
       </select>
+    </label>
+    <label>Recherche article
+      <input type="search" id="blogStatsSearch" class="crm-input" placeholder="titre, slug, mutuelle, VTC…" style="min-width:200px" />
     </label>
     <span class="acq-badge muted" id="blogStatsInventory">—</span>
   </div>
@@ -110,7 +118,8 @@
 
   <div class="src-grid">
     <section class="panel">
-      <h2>Articles — vues &amp; clics</h2>
+      <h2>Articles — date, vues &amp; clics</h2>
+      <p style="color:var(--muted);margin-top:0;font-size:0.85rem">Cliquez le titre pour ouvrir l’article. Colonne Questionnaire → mapping <a href="./blog-questionnaires.html">blog-questionnaires</a>.</p>
       <div class="blog-stats-table-wrap" id="blogStatsArticles"></div>
     </section>
     <section class="panel">

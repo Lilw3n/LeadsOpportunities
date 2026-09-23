@@ -34,15 +34,21 @@
     }
     tbody.innerHTML = rows
       .map(function (r) {
+        var slug = String(r.file || "").replace(/\.html$/i, "");
+        var statsUrl = "./crm-blog-stats.html#article=" + encodeURIComponent(slug);
         return (
-          "<tr>" +
+          "<tr id=\"bq-" +
+          esc(slug) +
+          "\">" +
           '<td><a href="./blog/' +
           esc(r.file) +
           '" target="_blank" rel="noopener"><strong>' +
           esc(r.title) +
           "</strong></a><br><code style='font-size:.7rem'>" +
           esc(r.file) +
-          "</code></td>" +
+          '</code><br><a href="' +
+          esc(statsUrl) +
+          '" style="font-size:.75rem">Stats CRM</a></td>' +
           "<td>" +
           esc(r.section) +
           (r.species ? ' <span class="bq-badge">' + esc(r.species) + "</span>" : "") +
@@ -68,6 +74,14 @@
         );
       })
       .join("");
+  }
+
+  function queryParam(name) {
+    try {
+      return new URLSearchParams(location.search).get(name) || "";
+    } catch (e) {
+      return "";
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -103,7 +117,19 @@
         }
         document.getElementById("bqSearch").addEventListener("input", apply);
         sel.addEventListener("change", apply);
-        renderRows(allRows);
+        var prefill = queryParam("q") || queryParam("article") || queryParam("file");
+        if (prefill) {
+          document.getElementById("bqSearch").value = prefill.replace(/\.html$/i, "");
+        }
+        apply();
+        if (prefill) {
+          var slug = prefill.replace(/\.html$/i, "");
+          var row = document.getElementById("bq-" + slug);
+          if (row) {
+            row.scrollIntoView({ behavior: "smooth", block: "center" });
+            row.style.outline = "2px solid #0ea5e9";
+          }
+        }
       })
       .catch(function () {
         renderRows([]);

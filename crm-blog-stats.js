@@ -123,27 +123,84 @@
       .join("");
   }
 
+  var articlesCache = [];
+
+  function articleUrl(r) {
+    if (r.path && r.path.indexOf("http") === 0) return r.path;
+    return "https://www.leadsopportunities.fr" + (r.path || "/blog/");
+  }
+
+  function formatDate(r) {
+    if (r.date_published) return r.date_published;
+    if (r.date_label) return r.date_label;
+    return "—";
+  }
+
   function renderArticles(rows) {
     var el = document.getElementById("blogStatsArticles");
-    if (!rows || !rows.length) {
+    var q = ((document.getElementById("blogStatsSearch") || {}).value || "").trim().toLowerCase();
+    var filtered = (rows || []).filter(function (r) {
+      if (!q) return true;
+      return [r.title, r.slug, r.section, r.questionnaire_need, r.date_published, r.meta]
+        .join(" ")
+        .toLowerCase()
+        .indexOf(q) !== -1;
+    });
+    if (!filtered.length) {
       el.innerHTML =
-        '<p style="color:var(--muted)">Aucun événement blog encore agrégé. Ouvrez un article en prod pour générer des vues.</p>';
+        '<p style="color:var(--muted)">Aucun article. Ouvrez un article en prod ou élargissez la recherche.</p>';
       return;
     }
     el.innerHTML =
-      "<table><thead><tr><th>Article</th><th>Vues</th><th>CTA</th><th>Lecture 100%</th><th>Leads</th><th></th></tr></thead><tbody>" +
-      rows
+      "<table><thead><tr><th>Date</th><th>Article</th><th>Questionnaire</th><th>Vues</th><th>CTA</th><th>Lecture 100%</th><th>Leads</th></tr></thead><tbody>" +
+      filtered
         .map(function (r) {
-          var url =
-            r.path && r.path.indexOf("http") === 0
-              ? r.path
-              : "https://www.leadsopportunities.fr" + (r.path || "/blog/");
+          var url = articleUrl(r);
+          var qAdmin =
+            r.questionnaires_admin_url ||
+            "./blog-questionnaires.html?q=" + encodeURIComponent(r.slug || "");
+          if (qAdmin.indexOf("http") !== 0 && qAdmin.charAt(0) === "/") {
+            qAdmin = "." + qAdmin;
+          }
+          var qLabel = r.questionnaire_need
+            ? "need=" + r.questionnaire_need
+            : "Mapping";
+          var qLive = r.questionnaire_url || "";
+          if (qLive && qLive.indexOf("http") !== 0 && qLive.indexOf("mailto:") !== 0) {
+            qLive = qLive.replace(/^\.\.\//, "./").replace(/^\//, "./");
+            if (qLive.indexOf("./") !== 0 && qLive.indexOf("landings/") === 0) {
+              qLive = "./" + qLive;
+            }
+          }
           return (
-            "<tr><td><strong>" +
+            "<tr><td class=\"blog-stats-date\">" +
+            esc(formatDate(r)) +
+            (r.date_label && r.date_label !== r.date_published
+              ? "<br><span style=\"font-size:0.7rem\">" + esc(r.date_label) + "</span>"
+              : "") +
+            '</td><td><a class="blog-stats-article-link" href="' +
+            esc(url) +
+            '" target="_blank" rel="noopener">' +
             esc(r.title || r.slug) +
-            "</strong><br><code style=\"font-size:0.7rem\">" +
+            "</a><br><code style=\"font-size:0.7rem\">" +
             esc(r.slug) +
-            "</code></td><td><strong>" +
+            "</code>" +
+            (r.section
+              ? ' <span class="acq-badge muted" style="font-size:0.65rem">' +
+                esc(r.section) +
+                "</span>"
+              : "") +
+            '</td><td class="blog-stats-q-link"><a href="' +
+            esc(qAdmin) +
+            '">' +
+            esc(qLabel) +
+            "</a>" +
+            (qLive
+              ? '<br><a href="' +
+                esc(qLive) +
+                '" target="_blank" rel="noopener">Ouvrir devis</a>'
+              : "") +
+            "</td><td><strong>" +
             (r.views || 0) +
             "</strong></td><td>" +
             (r.cta_clicks || 0) +
@@ -151,9 +208,7 @@
             (r.reads_complete || r.scroll_100 || 0) +
             "</td><td>" +
             (r.leads || 0) +
-            '</td><td><a class="btn btn-ghost btn-sm" href="' +
-            esc(url) +
-            '" target="_blank" rel="noopener">Ouvrir ↗</a></td></tr>'
+            "</td></tr>"
           );
         })
         .join("") +
@@ -193,10 +248,16 @@
       pages
         .slice(0, 15)
         .map(function (p) {
+          var url =
+            p.path && p.path.indexOf("http") === 0
+              ? p.path
+              : "https://www.leadsopportunities.fr" + (p.path || "/");
           return (
-            "<tr><td><code>" +
+            '<tr><td><a class="blog-stats-article-link" href="' +
+            esc(url) +
+            '" target="_blank" rel="noopener"><code>' +
             esc(p.path) +
-            "</code></td><td><strong>" +
+            "</code></a></td><td><strong>" +
             p.views +
             "</strong></td><td>" +
             p.visitors +
@@ -265,10 +326,11 @@
       })
       .then(function (res) {
         if (!res.ok) throw new Error(res.error || "Erreur");
+        articlesCache = res.articles || [];
         renderSummary(res.comparison || {}, res.inventory || {}, res.leads_total);
         renderCompare(res.comparison || {});
         renderChart(res.trend);
-        renderArticles(res.articles);
+        renderArticles(articlesCache);
         renderCtas(res.top_ctas);
         renderTopPages(res.top_pages);
         renderLeads(res.leads);
@@ -283,5 +345,18 @@
 
   document.getElementById("btnBlogStatsRefresh").onclick = load;
   document.getElementById("blogStatsDays").onchange = load;
+  var searchEl = document.getElementById("blogStatsSearch");
+  if (searchEl) {
+    searchEl.addEventListener("input", function () {
+      renderArticles(articlesCache);
+    });
+    try {
+      var hash = (location.hash || "").replace(/^#/, "");
+      var params = new URLSearchParams(hash.indexOf("=") !== -1 ? hash : location.search);
+      var pre = params.get("article") || params.get("q") || "";
+      if (!pre && hash.indexOf("article=") === 0) pre = decodeURIComponent(hash.split("=")[1] || "");
+      if (pre) searchEl.value = pre.replace(/\.html$/i, "");
+    } catch (e) {}
+  }
   load();
 })();
