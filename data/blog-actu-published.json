@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-09-23T10:15:10.745Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,872 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "une-plainte-deposee-a-paris-contre-l-armee-israelienne-apres-l-arrachage.html",
+      "section": "actu",
+      "tag": "Actu",
+      "tagClass": "tag-actu",
+      "title": "Une plainte déposée à Paris contre l’armée israélienne, après l’arrachage d’oliviers ce… : assurance habitation — que faire ?",
+      "description": "Une plainte déposée à Paris contre l’armée israélienne, après l’arrachage d’oliviers centenaires au Liban — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Une plainte déposée à Paris contre l’armée israélienne, après l’arrachage d’oliviers centenaires au Liban — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=une-plainte-deposee-a-paris-contre-l-arm",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Cafeyn (presse partenaire)</strong> (<strong>Une plainte déposée à Paris contre l’armée israélienne, après l’arrachage d’oliviers ce…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ]
+    },
+    {
+      "file": "frais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ? : mutuelle et remboursements — que faire ?",
+      "description": "Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ? — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ? — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=frais-dentaires-moins-rembourses-vers",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Microsoft Edge / Bing actu</strong> (<strong>Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ?</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Le reste a charge sante peut exploser si votre mutuelle n'est pas calibree sur vos vrais besoins."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation et chirurgie : plafonds honoraires",
+            "Pharmacie et medicaments nouvellement rembourses",
+            "Optique / dentaire si consommation annuelle",
+            "Delais de carence avant changement de contrat",
+            "Tiers payant et teletransmission"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "ou-en-est-la-loi-francaise-sur-l-aide-a-mourir.html",
+      "section": "actu",
+      "tag": "Lois & réformes",
+      "tagClass": "tag-actu",
+      "title": "Où en est la loi française sur l’aide à mourir ? : prevoyance et revenus — que faire ?",
+      "description": "Où en est la loi française sur l’aide à mourir ? — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Où en est la loi française sur l’aide à mourir ? — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=prevoyance&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=prevoyance&utm_content=ou-en-est-la-loi-francaise-sur-l-aide-a",
+        "label": "Questionnaire prévoyance (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Mozilla Firefox / Pocket</strong> (<strong>Où en est la loi française sur l’aide à mourir ?</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Sans prevoyance solide, un arret de travail fait chuter les revenus du foyer."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Maintien de salaire et franchise ITT",
+            "Invalidite et rente education",
+            "Deces et capital pour les proches",
+            "Statut salarie vs TNS",
+            "Coordination avec mutuelle et PER"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire prevoyance : securiser revenus et charges fixes."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ]
+    },
+    {
+      "file": "coupe-du-monde-2026-france-espagne-kylian-mbappe-accuse-didier-deschamps.html",
+      "section": "actu",
+      "tag": "Coupe du monde 2026",
+      "tagClass": "tag-actu",
+      "title": "Coupe du monde 2026 : France-Espagne, Kylian Mbappé accuse Didier Deschamps : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "description": "Coupe du monde 2026 : France-Espagne, Kylian Mbappé accuse Didier Deschamps — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Coupe du monde 2026 : France-Espagne, Kylian Mbappé accuse Didier Deschamps — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=coupe-du-monde-2026-france-espagne-ky",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Microsoft Edge / Bing actu</strong> (<strong>Coupe du monde 2026 : France-Espagne, Kylian Mbappé accuse Didier Deschamps</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Coupe du monde, deplacements supporters ou sejour a l'etranger : sans bonnes garanties, un accident, une annulation ou un cambriolage pendant l'absence peut couter tres cher."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Mutuelle : hospitalisation et pharmacie USA / Mexique / Canada (CDM 2026)",
+            "Assistance rapatriement et frais medicaux a l'etranger",
+            "Assurance voyage : annulation transport ou hebergement",
+            "Habitation : logement vide pendant le match ou le deplacement",
+            "Auto : stationnement longue duree — vol, bris de glace, assistance",
+            "Prevoyance : arret maladie si blessure ou epuisement (supporters, deplacements pro)"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Avant le coup d'envoi : questionnaire mutuelle / sante pour verifier la couverture a l'etranger et le reste a charge."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ]
+    },
+    {
+      "file": "coupe-du-monde-2026-france-espagne-lamine-yamal-se-lache-sur-les-bleus.html",
+      "section": "actu",
+      "tag": "Coupe du monde 2026",
+      "tagClass": "tag-actu",
+      "title": "Coupe du monde 2026 : France-Espagne, Lamine Yamal se lâche sur les Bleus : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "description": "Coupe du monde 2026 : France-Espagne, Lamine Yamal se lâche sur les Bleus — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Coupe du monde 2026 : France-Espagne, Lamine Yamal se lâche sur les Bleus — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=coupe-du-monde-2026-france-espagne-la",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Microsoft Edge / Bing actu</strong> (<strong>Coupe du monde 2026 : France-Espagne, Lamine Yamal se lâche sur les Bleus</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Coupe du monde, deplacements supporters ou sejour a l'etranger : sans bonnes garanties, un accident, une annulation ou un cambriolage pendant l'absence peut couter tres cher."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Mutuelle : hospitalisation et pharmacie USA / Mexique / Canada (CDM 2026)",
+            "Assistance rapatriement et frais medicaux a l'etranger",
+            "Assurance voyage : annulation transport ou hebergement",
+            "Habitation : logement vide pendant le match ou le deplacement",
+            "Auto : stationnement longue duree — vol, bris de glace, assistance",
+            "Prevoyance : arret maladie si blessure ou epuisement (supporters, deplacements pro)"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Avant le coup d'envoi : questionnaire mutuelle / sante pour verifier la couverture a l'etranger et le reste a charge."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ]
+    },
+    {
+      "file": "tartuffe-hypocrisie-mauvais-comedien-la-gauche-denonce-l-hypocrisie-des-.html",
+      "section": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto",
+      "title": "«Tartuffe», «hypocrisie», «mauvais comédien»… La gauche dénonce l’«hypocrisie» des prop… : assurance auto — que faire ?",
+      "description": "«Tartuffe», «hypocrisie», «mauvais comédien»… La gauche dénonce l’«hypocrisie» des propos d’Emmanuel Macron sur la Cisjordanie — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "«Tartuffe», «hypocrisie», «mauvais comédien»… La gauche dénonce l’«hypocrisie» des propos d’Emmanuel Macron su — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=auto&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=auto&utm_content=tartuffe-hypocrisie-mauvais-comed",
+        "label": "Questionnaire auto (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Cafeyn (presse partenaire)</strong> (<strong>«Tartuffe», «hypocrisie», «mauvais comédien»… La gauche dénonce l’«hypocrisie» des prop…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Le mauvais niveau de garantie auto se paie au premier sinistre responsable."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Tiers simple vs tiers etendu vs tous risques",
+            "Bonus-malus et coefficient actuel",
+            "Franchise et vehicule de remplacement",
+            "Conducteurs declares au contrat",
+            "Options assistance et protection juridique"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire auto : profil conducteur et usage en 3 minutes."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-auto-bonus-malus.html",
+          "label": "Bonus-malus"
+        },
+        {
+          "href": "../assurance-auto/",
+          "label": "Assurance auto"
+        }
+      ]
+    },
+    {
+      "file": "credit-immobilier-en-2026-le-taux-ne-suffit-plus-pour-mesurer-le-cout-re.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Crédit immobilier : en 2026, le taux ne suffit plus pour mesurer le coût réel d’un achat : pret et assurance emprunteur — que faire ?",
+      "description": "Crédit immobilier : en 2026, le taux ne suffit plus pour mesurer le coût réel d’un achat — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Crédit immobilier : en 2026, le taux ne suffit plus pour mesurer le coût réel d’un achat — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=credit-immobilier-en-2026-le-taux-ne",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Microsoft Edge / Bing actu</strong> (<strong>Crédit immobilier : en 2026, le taux ne suffit plus pour mesurer le coût réel d’un achat</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "assurance-animaux-comment-proteger-son-chien-ou-son-chat-sans-se-ruiner.html",
+      "section": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "title": "Assurance animaux: comment protéger son chien ou son chat sans se ruiner? : assurance animaux — que faire ?",
+      "description": "Assurance animaux: comment protéger son chien ou son chat sans se ruiner? — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Assurance animaux: comment protéger son chien ou son chat sans se ruiner? — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=assurance-animaux-comment-proteger-son",
+        "label": "Questionnaire animaux (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Microsoft Edge / Bing actu</strong> (<strong>Assurance animaux: comment protéger son chien ou son chat sans se ruiner?</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Une urgence veterinaire peut depasser 1 000 EUR sans assurance animaux."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Plafond annuel et franchise",
+            "Maladies hereditaires et exclusions",
+            "Prevention et vermifuge",
+            "Age du chien ou chat a la souscription",
+            "Delai de carence"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire animaux : espece, age, antecedents."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-animaux-comment-choisir.html",
+          "label": "Choisir assurance animaux"
+        },
+        {
+          "href": "../assurance-animaux/",
+          "label": "Assurance animaux"
+        }
+      ]
+    },
+    {
+      "file": "immobilier-pourquoi-l-investissement-locatif-ne-seduit-plus-en-france.html",
+      "section": "habitat",
+      "tag": "Location & recherche",
+      "tagClass": "tag-habitation",
+      "title": "Immobilier Pourquoi l'investissement locatif ne séduit plus en France ? : assurance habitation — que faire ?",
+      "description": "Immobilier Pourquoi l'investissement locatif ne séduit plus en France ? — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Immobilier Pourquoi l'investissement locatif ne séduit plus en France ? — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=immobilier-pourquoi-l-investissement-loc",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Microsoft Edge / Bing actu</strong> (<strong>Immobilier Pourquoi l'investissement locatif ne séduit plus en France ?</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "interdiction-d-autorisation-de-decouvert-la-nouvelle-loi-europeenne-qui-.html",
+      "section": "actu",
+      "tag": "Lois & réformes",
+      "tagClass": "tag-actu",
+      "title": "Interdiction d’autorisation de découvert : La nouvelle loi européenne qui affole la France : prevoyance et revenus — que faire ?",
+      "description": "Interdiction d’autorisation de découvert : La nouvelle loi européenne qui affole la France — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Interdiction d’autorisation de découvert : La nouvelle loi européenne qui affole la France — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=prevoyance&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=prevoyance&utm_content=interdiction-d-autorisation-de-decouvert",
+        "label": "Questionnaire prévoyance (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Microsoft Edge / Bing actu</strong> (<strong>Interdiction d’autorisation de découvert : La nouvelle loi européenne qui affole la France</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Sans prevoyance solide, un arret de travail fait chuter les revenus du foyer."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Maintien de salaire et franchise ITT",
+            "Invalidite et rente education",
+            "Deces et capital pour les proches",
+            "Statut salarie vs TNS",
+            "Coordination avec mutuelle et PER"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire prevoyance : securiser revenus et charges fixes."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ]
+    },
+    {
+      "file": "chauffeur-vtc-il-faudra-desormais-obligatoirement-passer-un-examen-le-fi.html",
+      "section": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "title": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen - Le Figaro : assurance VTC — que faire ?",
+      "description": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen - Le Figaro — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen - Le Figaro — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=chauffeur-vtc-il-faudra-desormais-obli",
+        "label": "Questionnaire VTC (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Chauffeur VTC : il faudra désormais obligatoirement passer un examen - Le Figaro</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un contrat VTC inadapte peut bloquer Uber, Bolt ou Heetch — et couter cher au sinistre."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "RC Pro plateforme et activite",
+            "Vehicule : usage professionnel declare",
+            "Assistance et perte d'exploitation",
+            "Franchise et conducteurs secondaires",
+            "Attestation a jour avant chaque course"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire VTC : plateforme, vehicule, anciennete."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-vtc-moins-cher-2026.html",
+          "label": "VTC moins cher"
+        },
+        {
+          "href": "../assurance-vtc/",
+          "label": "Assurance VTC"
+        }
+      ]
+    },
+    {
+      "file": "marche-immobilier-la-fnaim-anticipe-un-repli-des-ventes-en-2026-immo-mat.html",
+      "section": "habitat",
+      "tag": "Vente & acquisition",
+      "tagClass": "tag-habitation",
+      "title": "Marché immobilier : la Fnaim anticipe un repli des ventes en 2026 - Immo Matin : assurance habitation — que faire ?",
+      "description": "Marché immobilier : la Fnaim anticipe un repli des ventes en 2026 - Immo Matin — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Marché immobilier : la Fnaim anticipe un repli des ventes en 2026 - Immo Matin — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=marche-immobilier-la-fnaim-anticipe-un",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Marché immobilier : la Fnaim anticipe un repli des ventes en 2026 - Immo Matin</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
         }
       ]
     }

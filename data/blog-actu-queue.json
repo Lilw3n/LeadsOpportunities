@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-09-23T10:15:09.130Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -34,8 +34,62 @@
       "url": "",
       "source": "cafeyn",
       "note": "Angle assurance a preciser",
-      "status": "pending",
+      "status": "rejected",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "niche-lois-2026-09",
+      "title": "Interdiction d’autorisation de découvert : La nouvelle loi européenne qui affole la France",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab3a5fdc99b4cee9d9d85cf78a26f3b&url=https%3a%2f%2fjournalducoin.com%2feconomie%2finterdiction-autorisation-decouvert-france-nouvelle-loi-europe%2f&c=6969902380290209743&mkt=en-us",
+      "source": "bing",
+      "note": "Angle lois/réformes France — prévoyance & patrimoine — Depuis fin 2025, la rumeur d'une interdiction du découvert bancaire en 2026 enflamme les réseaux sociaux. Voici ce que change vraiment la loi au 20 novembre.",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:13.621Z"
+    },
+    {
+      "id": "niche-vtc-2026-09",
+      "title": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen - Le Figaro",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQd0FTSVlpSks1bzg4cmM0MUxtWWtKY1lRQ2FkQTd0c0NOSFFmUVVFM21YME9nV0FXYWdranM1UXlZTjJyVzVuU1VsX2dRc0FwY2hzZWxHZElOZFdIdVNyZnNndG9pcTV2QTRoUWdPWG16blZObmxXLVRoMjFETnVpdmFrMzBfaTNaa1NpVkZiRU83UHVLRDNGX1haUVMxOWdjWDlpVVhYNkdoSTJ0?oc=5",
+      "source": "google",
+      "note": "Angle chauffeur VTC France — carte pro / assurance — <a href=\"https://news.google.com/rss/articles/CBMirAFBVV95cUxQd0FTSVlpSks1bzg4cmM0MUxtWWtKY1lRQ2FkQTd0c0NOSFFmUVVFM21YME9nV0FXYWdranM1UXlZTjJyVzVuU1VsX2dRc0FwY2",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:13.642Z"
+    },
+    {
+      "id": "niche-animaux-2026-09",
+      "title": "Assurance animaux: comment protéger son chien ou son chat sans se ruiner?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab3a5fd552d4357b763997262756af7&url=https%3a%2f%2frmc.bfmtv.com%2factualites%2feconomie%2fassurance-animaux-comment-proteger-son-chien-ou-son-chat-sans-se-ruiner_AV-202511050646.html&c=4962937936581961808&mkt=en-us",
+      "source": "bing",
+      "note": "Angle chien/chat — assurance animaux — Les factures vétérinaires peuvent grimper rapidement et mettre à mal votre budget. Pourtant, en France, seuls 5% des animaux de compagnie sont assurés. Découvrez comment choisir un",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:13.800Z"
+    },
+    {
+      "id": "niche-pret-2026-09",
+      "title": "Crédit immobilier : en 2026, le taux ne suffit plus pour mesurer le coût réel d’un achat",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab3a5fd1ff7499e8601e6d662b5604b&url=https%3a%2f%2fwww.lepoint.fr%2fservices%2fcredit-immobilier-en-2026-taux-duree-et-cout-reel-RE2DERKPENHTHBKF5OU7QLWSFE%2f&c=940984020836609710&mkt=en-us",
+      "source": "bing",
+      "note": "Angle prêt immobilier / recherche de crédit / emprunteur — Taux, mensualités, assurance, DPE et règles d’endettement : ce qu’il faut examiner pour mesurer le coût réel d’un crédit immobilier en 2026.",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:13.887Z"
+    },
+    {
+      "id": "niche-vente-2026-09",
+      "title": "Marché immobilier : la Fnaim anticipe un repli des ventes en 2026 - Immo Matin",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNdkZqbUFQZ2NwTjZVVWdLdVdQdGd3OVY5SmR4NUwzUlZwTFg5alJpd2VldnFXUjY0amswNzdNT201N0VJTXZMZ29VSi1VaXFCcHdvelVCa19xZno1b3dMUTdYMU96b3g1em5TQ2NmU0dNWXRCVDNWeHYzeWphYjhvQWM3emp1SEUzZWw3bi1NNnVIMjl5d19TYUp1QTZFWjZidE1pNnpwNkYyYW00MGxJaGwycExIaVFvWThxa2ZDVQ?oc=5",
+      "source": "google",
+      "note": "Angle vente & acquisition maison France — <a href=\"https://news.google.com/rss/articles/CBMivwFBVV95cUxNdkZqbUFQZ2NwTjZVVWdLdVdQdGd3OVY5SmR4NUwzUlZwTFg5alJpd2VldnFXUjY0amswNzdNT201N0VJTXZMZ29VSi1VaXFCcH",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:13.898Z"
+    },
+    {
+      "id": "niche-location-2026-09",
+      "title": "Immobilier Pourquoi l'investissement locatif ne séduit plus en France ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab3a5fdbb014537a8e827f3bc98e7bb&url=https%3a%2f%2fwww.ledauphine.com%2fmagazine-immobilier%2f2025%2f04%2f28%2fpourquoi-l-investissement-locatif-ne-seduit-plus-en-france&c=1203208963129569066&mkt=en-us",
+      "source": "bing",
+      "note": "Angle recherche bien à louer / location — habitation — Alors qu’en 2022, un appartement sur deux était vendu à un investisseur dans le but d’être mis en location, le nombre d’investissements locatifs reste à la peine depuis plusieurs m",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:14.006Z"
     }
   ]
 }
