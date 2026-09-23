@@ -1,11 +1,14 @@
 {
-  "updated": "2026-06-17",
+  "updated": "2026-09-23",
   "maxPerFeed": 5,
   "quotas": {
     "cafeyn": 20,
     "edge": 12,
     "firefox": 15,
-    "aggregator": 30
+    "google": 25,
+    "bing": 12,
+    "yahoo": 10,
+    "aggregator": 8
   },
   "feeds": [
     {
@@ -122,9 +125,9 @@
     },
     {
       "id": "source-cafeyn-capital",
-      "name": "Cafeyn — Capital",
+      "name": "Cafeyn — Capital (Prisma RSS)",
       "sourceType": "cafeyn",
-      "url": "https://www.capital.fr/rss",
+      "url": "https://feed.prismamediadigital.com/v1/cap/rss?limit=20",
       "enabled": true
     },
     {
@@ -263,196 +266,196 @@
     {
       "id": "google-news-top-fr",
       "name": "Google News — une France",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss?hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-assurance",
       "name": "Google News — assurance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+OR+mutuelle+OR+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-assurance-fr",
       "name": "Google News — assurance France",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-mutuelle",
       "name": "Google News — mutuelle santé",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=mutuelle+sante+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-habitation",
       "name": "Google News — habitation sinistre",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+habitation+sinistre+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-habitation-fr",
       "name": "Google News — assurance habitation",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+habitation+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-auto",
       "name": "Google News — assurance auto",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+auto+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-sante",
       "name": "Google News — santé remboursement",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=mutuelle+OR+remboursement+santé+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-immobilier",
       "name": "Google News — prêt immo emprunteur",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=prêt+immobilier+OR+assurance+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-taux-immo",
       "name": "Google News — taux immobilier",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=taux+immobilier+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-emprunteur",
       "name": "Google News — assurance emprunteur",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-prevoyance",
       "name": "Google News — prévoyance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=prevoyance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-retraite",
       "name": "Google News — retraite prévoyance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=retraite+prevoyance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-sinistre",
       "name": "Google News — sinistre assurance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=sinistre+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-cat-nat",
       "name": "Google News — catastrophe naturelle",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=catastrophe+naturelle+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-canicule",
       "name": "Google News — canicule dégâts",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=canicule+degats+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-vtc",
       "name": "Google News — VTC Uber assurance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=VTC+uber+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-animaux",
       "name": "Google News — assurance animaux",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+animaux+chien+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-rc-pro",
       "name": "Google News — RC Pro",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=RC+pro+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-people",
       "name": "Google News — people (angle assurance)",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=people+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-sport-voyage",
       "name": "Google News — sport & voyage",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=coupe+du+monde+OR+voyage+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-sport",
       "name": "Google News — sport France",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=sport+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-cdm-2026",
       "name": "Google News — Coupe du monde 2026 France",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=coupe+du+monde+2026+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-equipe-france",
       "name": "Google News — équipe de France football",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=equipe+de+france+football&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-bleus-joueurs",
       "name": "Google News — Mbappé Deschamps Bleus",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=Mbappe+OR+Deschamps+OR+Griezmann+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-supporters",
       "name": "Google News — supporters France foot",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=supporters+france+football&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-match-france",
       "name": "Google News — match France aujourd'hui",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=match+france+football&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-cdm-voyage",
       "name": "Google News — CDM voyage assurance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=coupe+du+monde+voyage+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
@@ -469,11 +472,109 @@
       "sourceType": "edge",
       "url": "https://www.bing.com/news/search?q=coupe+du+monde+2026+france&format=rss",
       "enabled": true
+    },
+    {
+      "id": "source-yahoo-actu",
+      "name": "Yahoo — Actualités FR",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-france",
+      "name": "Yahoo — France",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/france/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance",
+      "name": "Yahoo Finance — une",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance-top",
+      "name": "Yahoo Finance — top stories",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/topstories",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-vtc",
+      "name": "Bing News — VTC chauffeur",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=VTC+chauffeur+assurance+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-animaux",
+      "name": "Bing News — chien chat assurance",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=assurance+chien+chat+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-pret-immo",
+      "name": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=pr%C3%AAt+immobilier+taux+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-vente-maison",
+      "name": "Bing News — vente maison",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=vente+maison+acqu%C3%A9reur+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-location",
+      "name": "Bing News — location bien",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=location+appartement+maison+%C3%A0+louer+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-lois-assurance",
+      "name": "Bing News — lois assurance crédit",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=loi+Lemoine+OR+loi+Hamon+assurance+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "google-news-vtc-chauffeur",
+      "name": "Google News — chauffeur VTC",
+      "sourceType": "google",
+      "url": "https://news.google.com/rss/search?q=chauffeur+VTC+carte+professionnelle+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-vente-maison",
+      "name": "Google News — vente acquisition maison",
+      "sourceType": "google",
+      "url": "https://news.google.com/rss/search?q=vente+maison+OR+acquisition+immobilier+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-location-bien",
+      "name": "Google News — bien à louer",
+      "sourceType": "google",
+      "url": "https://news.google.com/rss/search?q=appartement+%C3%A0+louer+OR+maison+%C3%A0+louer+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-lois-assurance",
+      "name": "Google News — lois assurance",
+      "sourceType": "google",
+      "url": "https://news.google.com/rss/search?q=loi+Lemoine+OR+loi+Hamon+OR+r%C3%A9siliation+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
     }
   ],
   "pocket": {
     "enabled": true,
     "note": "Firefox Pocket — POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN"
   },
-  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
+  "notes": "Sources publiques : Cafeyn (RSS journaux), Edge/MSN (Bing), Firefox (France Info…), Google News, Bing News thématiques, Yahoo Actualités/Finance. Pas de login Cafeyn. Thèmes leads : lois, VTC, animaux, prêt, vente/acquisition, location."
 }

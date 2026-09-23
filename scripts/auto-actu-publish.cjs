@@ -70,6 +70,9 @@ function candidateSourceType(c, feedMap) {
   if (c.sourceType) return c.sourceType;
   var src = String(c.source || "").toLowerCase();
   if (src.indexOf("cafeyn") !== -1) return "cafeyn";
+  if (src.indexOf("yahoo") !== -1) return "yahoo";
+  if (src.indexOf("google") !== -1) return "google";
+  if (src.indexOf("bing") !== -1 && src.indexOf("edge") === -1) return "bing";
   if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
   if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
   return feedMap[c.feedId] || "aggregator";

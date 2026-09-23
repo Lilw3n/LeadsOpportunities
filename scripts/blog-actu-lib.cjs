@@ -104,12 +104,27 @@ function scoreLeadPotential(candidate) {
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
+  if (candidate.sourceType === "google" || candidate.sourceType === "bing" || candidate.sourceType === "yahoo") {
+    score += 8;
+  }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  if (need === "credit-immo") score += 18;
 
-  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
+  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie", "vtc", "chien", "chat", "location", "loi "].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
+
+  // Pénalités : communiqués corporate / titres probablement anglais (agrégateurs Bing/Google)
+  if (/\b(mou|businesswire|press release|announces|acquires)\b/i.test(title)) score -= 20;
+  if (/^[a-z0-9\s,'\-:.&]+$/i.test(title) && !/[àâäéèêëïîôùûüçœæ]/i.test(title) && title.split(/\s+/).length > 6) {
+    score -= 12;
+  }
+  if (candidate.pubDate) {
+    var ageMs = Date.now() - new Date(candidate.pubDate).getTime();
+    if (ageMs > 21 * 86400000) score -= 18;
+    else if (ageMs > 14 * 86400000) score -= 10;
+  }
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {

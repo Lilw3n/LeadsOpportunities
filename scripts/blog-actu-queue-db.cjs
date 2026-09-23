@@ -1,7 +1,8 @@
 /**
  * Charge la file actu depuis Neon (bookmarklet Cafeyn / inbox web).
+ * Chemin DB : api/_lib/db (pas ../db).
  */
-const { getSql } = require("../db");
+const { getSql } = require("../api/_lib/db");
 
 async function loadQueueFromDatabase() {
   var sql = getSql();
@@ -42,12 +43,15 @@ async function markQueuePublished(ids) {
   if (!sql || !ids || !ids.length) return;
   try {
     for (var i = 0; i < ids.length; i++) {
-      if (!ids[i] || String(ids[i]).indexOf("ingest-") !== 0) continue;
-      await sql`UPDATE blog_actu_queue SET status = 'published' WHERE id = ${ids[i]}`;
+      var id = ids[i];
+      await sql`UPDATE blog_actu_queue SET status = 'published' WHERE id = ${id}`;
     }
   } catch (e) {
-    console.warn("DB queue mark published:", e.message);
+    console.warn("markQueuePublished:", e.message);
   }
 }
 
-module.exports = { loadQueueFromDatabase: loadQueueFromDatabase, markQueuePublished: markQueuePublished };
+module.exports = {
+  loadQueueFromDatabase: loadQueueFromDatabase,
+  markQueuePublished: markQueuePublished,
+};
