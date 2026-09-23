@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16",
+  "updated": "2026-09-14",
   "sections": {
     "animaux": {
       "need": "animaux",
@@ -368,6 +368,19 @@
         "endettement 35",
         "ficp",
         "deuxième chance crédit"
+      ],
+      "section": "finance"
+    },
+    {
+      "id": "diagnostics-vente",
+      "match": [
+        "diagnostic immobilier",
+        "diagnostics immobiliers",
+        "diagnostics obligatoires",
+        "loi carrez",
+        "dossier de diagnostic",
+        "DDT vente",
+        "mesurage carrez"
       ],
       "section": "finance"
     }
@@ -765,6 +778,34 @@
       "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
       "landing": "/landings/credit-immo.html",
       "landingLabel": "Étude crédit 2e chance"
+    },
+    "diagnostics-immobiliers-obligatoires-vente-2026.html": {
+      "section": "finance",
+      "hook": "Diagnostics incomplets = compromis reporté. On vous aide à lister ce qui manque avant la mise en vente.",
+      "question": "Voulez-vous préparer votre dossier de vente (diagnostics, pièces, estimation) ?",
+      "landing": "/landings/acheteur-immo.html?role=vendeur",
+      "landingLabel": "Préparer ma vente"
+    },
+    "loi-carrez-surface-appartement-vente-2026.html": {
+      "section": "finance",
+      "hook": "Une erreur Carrez de plus de 5 % peut faire baisser le prix après signature.",
+      "question": "Votre surface copropriété est-elle à jour avant la mise en vente ?",
+      "landing": "/landings/acheteur-immo.html?role=vendeur",
+      "landingLabel": "Vérifier ma surface / vendre"
+    },
+    "documents-vendre-maison-appartement-checklist-2026.html": {
+      "section": "finance",
+      "hook": "Titre, copro, diagnostics : un dossier incomplet retarde le notaire et les acquéreurs sérieux.",
+      "question": "On vous aide à prioriser les pièces manquantes ?",
+      "landing": "/landings/acheteur-immo.html?role=vendeur",
+      "landingLabel": "Constituer mon dossier"
+    },
+    "diagnostics-location-ddt-bailleur-2026.html": {
+      "section": "habitat",
+      "hook": "DPE G interdit à la location, gaz/élec à 6 ans : un bail sans DDT expose le bailleur.",
+      "question": "Votre logement à louer a-t-il tous les diagnostics du bail ?",
+      "landing": "/landings/location.html",
+      "landingLabel": "Parcours location / bailleur"
     }
   }
 }

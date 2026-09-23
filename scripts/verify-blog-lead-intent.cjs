@@ -39,5 +39,9 @@ articles.forEach(function (a) {
 var gsc = fs.readFileSync(path.join(root, "scripts/seo-gsc-priority-urls.cjs"), "utf8");
 assert(gsc.indexOf("heritiers-pas-daccord") !== -1, "GSC héritiers");
 assert(gsc.indexOf("taux-pret-immobilier-aout-2026") !== -1, "GSC taux août");
+assert(gsc.indexOf("diagnostics-immobiliers-obligatoires-vente-2026") !== -1, "GSC diagnostics vente");
+assert(gsc.indexOf("loi-carrez-surface-appartement-vente-2026") !== -1, "GSC Carrez");
+assert(gsc.indexOf("documents-vendre-maison-appartement-checklist-2026") !== -1, "GSC documents vente");
+assert(gsc.indexOf("diagnostics-location-ddt-bailleur-2026") !== -1, "GSC diagnostics location");
 
 process.exit(failed ? 1 : 0);

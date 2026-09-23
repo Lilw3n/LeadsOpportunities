@@ -316,6 +316,7 @@ module.exports = [
       },
     ],
     related: [
+      { href: "./diagnostics-immobiliers-obligatoires-vente-2026.html", label: "Diagnostics obligatoires vente" },
       { href: "../landings/chasseur-bien.html", label: "Chasseur de bien" },
       { href: "./taux-pret-immobilier-aout-2026-rentree.html", label: "Taux août 2026" },
     ],
@@ -726,6 +727,347 @@ module.exports = [
       {
         q: "Faut-il vider et ranger avant la vente ?",
         a: "Souvent oui pour les visites. Le notaire peut gérer le vide successoral si les héritiers ne s'accordent pas sur le contenu.",
+      },
+    ],
+  },
+  {
+    file: "diagnostics-immobiliers-obligatoires-vente-2026.html",
+    section: "finance",
+    tag: "Diagnostics",
+    tagClass: "tag-immo",
+    themes: ["vendeur", "dpe", "actu"],
+    title: "Diagnostics immobiliers obligatoires pour vendre en 2026 (DDT)",
+    description:
+      "DPE, amiante, plomb, gaz, électricité, ERP, Carrez, audit énergétique : quels diagnostics coller au compromis, durées de validité, pièges notaire.",
+    meta: "12 min · Septembre 2026",
+    cardExcerpt: "DDT 2026 : la checklist vendeur avant le compromis — sans mauvaises surprises.",
+    keywords: [
+      "diagnostics immobiliers obligatoires vente 2026",
+      "DDT vente diagnostics",
+      "diagnostics obligatoires avant compromis",
+      "durée validité diagnostic immobilier",
+      "DPE amiante plomb gaz électricité ERP",
+      "audit énergétique vente maison DPE E F G",
+    ],
+    cta: {
+      href: "../landings/acheteur-immo.html?role=vendeur&utm_content=diagnostics-vente-2026",
+      label: "Préparer ma vente (diagnostics)",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: "Vous vendez un <strong>appartement ou une maison</strong> et le notaire parle de <strong>DDT</strong> (dossier de diagnostic technique) ? Sans ce paquet, le compromis patine, l'acquéreur négocie, parfois l'acte est reporté. En septembre 2026, la liste n'est pas la même pour une copropriété récente et une maison d'avant 1949. Voici le <strong>socle obligatoire</strong>, les durées de validité, et ce que vous pouvez lancer dès maintenant. <a href=\"../landings/acheteur-immo.html?role=vendeur&utm_content=diagnostics-vente\"><strong>Décrire mon bien à vendre</strong></a> · <a href=\"./passoire-energetique-dpe-g-vendre-2026.html\">vendre un DPE G</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "1. Ce que le notaire attend dans le DDT" },
+      {
+        type: "p",
+        text: "Le DDT réunit les diagnostics que le vendeur doit annexer à la <strong>promesse ou au compromis</strong> (Code de la construction et de l'habitation). Un dossier incomplet, périmé ou au mauvais lot = délai, voire renégociation. Nous ne remplaçons pas le diagnostiqueur certifié ni le notaire : on vous aide à <strong>lister ce qui manque</strong> selon l'année, le type de bien et la copropriété.",
+      },
+      { type: "h2", text: "2. Le socle presque toujours dû" },
+      {
+        type: "ul",
+        items: [
+          "<strong>DPE</strong> — quasi tous les logements, valable 10 ans. Les DPE d'avant le 1er juillet 2021 ont expiré : refaites-le.",
+          "<strong>État des risques (ERP / ERNMT)</strong> — valable 6 mois. À coller au plus près du compromis, surtout en zone inondable (Meurthe, Seille…).",
+          "<strong>Gaz</strong> et <strong>électricité</strong> — si l'installation a plus de 15 ans : 3 ans de validité à la vente.",
+          "<strong>Amiante</strong> — permis de construire antérieur au 1er juillet 1997. Illimité si négatif (après avril 2013) ; à surveiller si présence.",
+          "<strong>Plomb (CREP)</strong> — logement avant 1949. Illimité si négatif ; 1 an si présence de plomb.",
+        ],
+      },
+      { type: "h2", text: "3. Selon le bien : Carrez, termites, assainissement, audit" },
+      {
+        type: "ul",
+        items: [
+          "<strong>Loi Carrez</strong> — lots de copropriété (appartements). Surface privative ; à refaire après travaux. Voir <a href=\"./loi-carrez-surface-appartement-vente-2026.html\">guide Carrez</a>.",
+          "<strong>Termites / mérule</strong> — uniquement si arrêté préfectoral (zone). Validité courte (~6 mois).",
+          "<strong>Assainissement non collectif</strong> — maison non raccordée au tout-à-l'égout.",
+          "<strong>Audit énergétique</strong> — maisons ou immeubles en monopropriété classés E, F ou G : document distinct du DPE, demandé à la vente.",
+        ],
+      },
+      { type: "h2", text: "4. Calendrier vendeur (éviter l'urgence J-3)" },
+      {
+        type: "p",
+        text: "Lancez DPE, gaz, électricité, amiante et plomb <strong>dès la mise en vente</strong>. Gardez ERP (et termites) pour les 2–3 semaines avant le compromis : leur validité est courte. Un DPE G ou F change le prix et le profil d'acquéreur — autant le savoir avant les photos. <a href=\"./documents-vendre-maison-appartement-checklist-2026.html\">checklist documents vente</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "5. Bassin nancéien : ERP et inondation" },
+      {
+        type: "p",
+        text: "À <strong>Nancy, Jarville, Varangéville</strong> et autour de la Meurthe, l'<strong>état des risques</strong> n'est pas un détail : un ERP périmé au moment de l'acte, et le notaire recale. Si vous vendez pour racheter, cadrez aussi le <a href=\"../pret-immobilier/nancy-metropole/\">prêt immobilier Nancy métropole</a> en parallèle — diagnostics + capacité d'emprunt, c'est le même calendrier. <a href=\"../landings/credit-immo.html?utm_content=diagnostics-credit\">étude crédit</a>.",
+      },
+      {
+        type: "p",
+        text: "On ne réalise pas les diagnostics. On vous dit lesquels manquent, on aligne estimation et dossier, et on recroise acquéreurs. <a href=\"../landings/acheteur-immo.html?role=vendeur&utm_content=diagnostics-cta\">Déposer mon bien</a> · <a href=\"../landings/chasseur-bien.html?utm_content=diagnostics-chasseur\">signaler un bien (chasseur)</a>.",
+      },
+    ],
+    related: [
+      { href: "./loi-carrez-surface-appartement-vente-2026.html", label: "Loi Carrez" },
+      { href: "./documents-vendre-maison-appartement-checklist-2026.html", label: "Documents à réunir" },
+      { href: "./passoire-energetique-dpe-g-vendre-2026.html", label: "Vendre un DPE G" },
+    ],
+    faq: [
+      {
+        q: "Puis-je signer le compromis sans DPE ?",
+        a: "En pratique, non : le DPE doit être annexé. Un dossier incomplet retarde la signature et affaiblit votre position.",
+      },
+      {
+        q: "Combien coûtent les diagnostics de vente ?",
+        a: "Le pack dépend de la surface, de l'année et du type de bien (maison vs appartement). Demandez un devis à un diagnostiqueur certifié — le moins-disant n'est pas toujours le plus solide au notaire.",
+      },
+      {
+        q: "Un diagnostic location (6 ans) suffit-il pour vendre ?",
+        a: "Pas pour le gaz et l'électricité : 3 ans à la vente, 6 ans à la location. Vérifiez les dates avant de recycler un ancien dossier.",
+      },
+    ],
+  },
+  {
+    file: "loi-carrez-surface-appartement-vente-2026.html",
+    section: "finance",
+    tag: "Loi Carrez",
+    tagClass: "tag-immo",
+    themes: ["vendeur", "carrez"],
+    title: "Loi Carrez 2026 : surface, attestation, erreur de 5 % — ce qui compte",
+    description:
+      "Surface Carrez vs surface habitable, lots de copropriété, combles, terrasses. Erreur de mesurage > 5 % : baisse de prix. Guide vendeur et acheteur.",
+    meta: "11 min · Septembre 2026",
+    cardExcerpt: "Carrez : ce qui se mesure, ce qui s'exclut, et le piège des 5 %.",
+    keywords: [
+      "loi carrez surface appartement",
+      "attestation loi carrez vente",
+      "surface carrez vs surface habitable",
+      "erreur mesurage carrez 5%",
+      "diagnostic carrez obligatoire copropriété",
+      "surface privative carrez combles",
+    ],
+    cta: {
+      href: "../landings/acheteur-immo.html?role=vendeur&utm_content=loi-carrez-2026",
+      label: "Vérifier ma surface avant vente",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: "En copropriété, la <strong>loi Carrez</strong> n'est pas un « plus » marketing : c'est la <strong>surface privative</strong> qui doit figurer dans l'avant-contrat. Une erreur de plus de <strong>5 %</strong> au détriment de l'acquéreur ouvre droit à une <strong>diminution du prix</strong>. Combles, mezzanine, cave, terrasse : tout le monde confond Carrez et surface habitable. <a href=\"../landings/acheteur-immo.html?role=vendeur&utm_content=carrez\"><strong>Faire le point sur mon lot</strong></a> · <a href=\"./diagnostics-immobiliers-obligatoires-vente-2026.html\">diagnostics vente 2026</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "1. Quand l'attestation Carrez est obligatoire" },
+      {
+        type: "p",
+        text: "Elle concerne les <strong>lots de copropriété</strong> (appartements, parfois maisons en copro). Une maison individuelle hors copropriété n'est pas visée par Carrez — on parle alors plutôt de surface habitable. En copro, sans mesurage à jour, le notaire bloque. Validité <strong>illimitée</strong> tant qu'aucun travaux n'a modifié la surface.",
+      },
+      { type: "h2", text: "2. Ce qui compte (et ce qui ne compte pas)" },
+      {
+        type: "ul",
+        items: [
+          "Pièces d'une <strong>hauteur sous plafond ≥ 1,80 m</strong>",
+          "Combles aménagés, vérandas, sous-sols habitables s'ils respectent la hauteur",
+          "<strong>Exclus</strong> : caves, garages, parkings, terrasses, balcons, lots de moins de 8 m²",
+          "Les murs, cloisons, cages d'escalier, gaines ne rentrent pas dans le mesurage privatif",
+        ],
+      },
+      { type: "h2", text: "3. Carrez vs surface habitable (loi Boutin)" },
+      {
+        type: "p",
+        text: "La <strong>surface habitable</strong> (Boutin) sert surtout à la <strong>location</strong> : elle exclut encore plus (combles non aménagés, etc.). Un même appartement peut afficher 52 m² Carrez et 48 m² habitables. Annonce, DPE et compromis doivent parler le même langage — sinon l'acquéreur a un levier. Pour louer : <a href=\"./diagnostics-location-ddt-bailleur-2026.html\">diagnostics location</a> · <a href=\"../landings/location.html?utm_content=carrez-location\">parcours bailleur</a>.",
+      },
+      { type: "h2", text: "4. L'erreur de 5 % : ce que ça coûte" },
+      {
+        type: "p",
+        text: "Si la surface réelle est inférieure de plus de 5 % à celle indiquée, l'acquéreur peut demander une <strong>réduction du prix</strong> proportionnelle. À 250 000 €, 6 % d'écart, ce n'est pas symbolique. Un mesurage « à l'œil » ou un ancien plan après abattement de cloison est un risque. Faites refaire Carrez après travaux.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "5. Appartements Nancy, Jarville, Varangéville" },
+      {
+        type: "p",
+        text: "Sur le bassin nancéien, beaucoup de copropriétés des années 1960-80 ont des <strong>combles, caves et caves hautes</strong> mal décrits. Un lot « 65 m² » peut être 58 m² Carrez. Avant de fixer le prix, on recoupe mesurage, DPE et comparables — pas une photo d'annonce. Si vous vendez pour racheter : <a href=\"../credit-immo/nancy-metropole/\">crédit Nancy métropole</a> · <a href=\"../landings/projection-achat.html?utm_content=carrez-projection\">projection achat</a>.",
+      },
+      {
+        type: "p",
+        text: "<a href=\"../landings/acheteur-immo.html?role=vendeur&utm_content=carrez-cta\">Déposer mon appartement</a> · <a href=\"../landings/acheteur-immo.html?utm_content=carrez-acheteur\">je cherche un bien (vérifier la surface)</a>.",
+      },
+    ],
+    related: [
+      { href: "./diagnostics-immobiliers-obligatoires-vente-2026.html", label: "Diagnostics vente" },
+      { href: "./documents-vendre-maison-appartement-checklist-2026.html", label: "Checklist documents" },
+      { href: "../landings/acheteur-immo.html", label: "Recherche / dépôt" },
+    ],
+    faq: [
+      {
+        q: "Une maison individuelle a-t-elle besoin du Carrez ?",
+        a: "Non, hors copropriété. En copropriété horizontale ou lotissement en copro, oui : demandez au notaire.",
+      },
+      {
+        q: "Le Carrez d'il y a 15 ans est-il encore valable ?",
+        a: "Oui s'il n'y a pas eu de travaux modifiant la surface. Après réunion de deux pièces ou création d'une mezzanine, refaites le mesurage.",
+      },
+      {
+        q: "Qui paie le mesurage Carrez ?",
+        a: "Le vendeur, comme les autres diagnostics. C'est un coût de mise en vente, pas une option.",
+      },
+    ],
+  },
+  {
+    file: "documents-vendre-maison-appartement-checklist-2026.html",
+    section: "finance",
+    tag: "Documents vente",
+    tagClass: "tag-immo",
+    themes: ["vendeur"],
+    title: "Documents pour vendre une maison ou un appartement en 2026 (checklist)",
+    description:
+      "Titre de propriété, diagnostics, copropriété, urbanisme, charges : la liste des pièces à réunir avant compromis. Moins d'allers-retours notaire.",
+    meta: "12 min · Septembre 2026",
+    cardExcerpt: "Checklist vendeur : pièces, diagnostics, copro — pour signer sans stress.",
+    keywords: [
+      "documents pour vendre une maison",
+      "pièces notaire vente appartement",
+      "checklist documents vente immobilière",
+      "dossier copropriété vente",
+      "titre de propriété vente 2026",
+      "documents à fournir pour vendre",
+    ],
+    cta: {
+      href: "../landings/acheteur-immo.html?role=vendeur&utm_content=docs-vente-2026",
+      label: "Constituer mon dossier de vente",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: "Le notaire ne « bloque » pas pour le plaisir : il manque une pièce, et tout le calendrier glisse. <strong>Titre, diagnostics, copro, urbanisme</strong> — la checklist ci-dessous est celle que les vendeurs cherchent le plus en 2026. Plus le dossier est complet, plus les visites sérieuses convertissent. <a href=\"../landings/acheteur-immo.html?role=vendeur&utm_content=docs-vente\"><strong>Déposer mon bien</strong></a> · <a href=\"./diagnostics-immobiliers-obligatoires-vente-2026.html\">diagnostics obligatoires</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "1. Preuve de propriété et identité" },
+      {
+        type: "ul",
+        items: [
+          "Titre de propriété (acte d'achat, donation, succession)",
+          "Pièces d'identité des vendeurs, contrat de mariage / PACS / jugement de divorce",
+          "Si SCI : statuts, Kbis, pouvoir de signer",
+          "Si indivision / héritiers : attestation du notaire sur les parts — <a href=\"./heritiers-pas-daccord-prix-vente-maison-que-faire.html\">héritiers pas d'accord</a>",
+        ],
+      },
+      { type: "h2", text: "2. Diagnostics et surfaces" },
+      {
+        type: "p",
+        text: "Le <strong>DDT</strong> (DPE, ERP, gaz, élec, amiante, plomb, etc.) + <strong>Carrez</strong> en copro. Lancez-les tôt : un DPE G change le prix. Voir <a href=\"./loi-carrez-surface-appartement-vente-2026.html\">loi Carrez</a> et <a href=\"./passoire-energetique-dpe-g-vendre-2026.html\">passoire énergétique</a>.",
+      },
+      { type: "h2", text: "3. Copropriété (appartement)" },
+      {
+        type: "ul",
+        items: [
+          "Règlement de copropriété et état descriptif de division",
+          "Procès-verbaux des 3 dernières AG, carnet d'entretien",
+          "Montant des charges, fonds travaux, procédures en cours",
+          "Preuve du paiement des charges (quitus syndic)",
+        ],
+      },
+      { type: "h2", text: "4. Maison : urbanisme, assainissement, bornage" },
+      {
+        type: "ul",
+        items: [
+          "Servitudes, bornage, cadastre",
+          "Permis / déclarations de travaux (extension, véranda)",
+          "Assainissement (raccordé ou SPANC)",
+          "Taxe foncière, diagnostics assainissement si non collectif",
+        ],
+      },
+      { type: "bridge" },
+      { type: "h2", text: "5. Crédit en cours et vente-rachat" },
+      {
+        type: "p",
+        text: "Tableau d'amortissement, IRA (indemnités de remboursement anticipé), accord de la banque : le notaire en a besoin pour solder le prêt le jour de l'acte. Si vous rachetez dans la foulée, cadrez un <a href=\"./pret-relais-vente-rachat-enchaine-2026.html\">prêt relais</a> et une <a href=\"../pret-immobilier/nancy-metropole/\">capacité sur Nancy métropole</a> avant de signer. <a href=\"../landings/credit-immo.html?utm_content=docs-vente-credit\">étude crédit</a>.",
+      },
+      {
+        type: "p",
+        text: "On ne tient pas le rôle du notaire. On vous aide à <strong>prioriser les pièces manquantes</strong>, à coller estimation et dossier, et à recroiser des acquéreurs. <a href=\"../landings/acheteur-immo.html?role=vendeur&utm_content=docs-cta\">Parler de ma vente</a> · <a href=\"./vente-immobiliere-3d-divorce-deces-demenagement.html\">vente 3D (divorce, décès, déménagement)</a>.",
+      },
+    ],
+    related: [
+      { href: "./diagnostics-immobiliers-obligatoires-vente-2026.html", label: "Diagnostics vente" },
+      { href: "./divorce-vente-maison-ex-conjoint-refuse-prix.html", label: "Divorce et vente" },
+      { href: "../landings/chasseur-bien.html", label: "Chasseur de bien" },
+    ],
+    faq: [
+      {
+        q: "Combien de temps pour réunir toutes les pièces ?",
+        a: "Comptez 2 à 6 semaines selon le syndic, le notaire de la précédente vente et les diagnostics. Ne mettez pas l'annonce en ligne sans DPE.",
+      },
+      {
+        q: "Le syndic peut-il retarder la vente ?",
+        a: "Un état daté ou des charges impayées ralentissent l'acte. Demandez les documents d'AG et le solde dès la mise en vente.",
+      },
+    ],
+  },
+  {
+    file: "diagnostics-location-ddt-bailleur-2026.html",
+    section: "finance",
+    tag: "Location",
+    tagClass: "tag-habitation",
+    themes: ["habitat", "dpe", "vendeur"],
+    title: "Diagnostics location 2026 : ce que le bailleur doit annexer au bail",
+    description:
+      "DPE, CREP, ERP, gaz, électricité, surface habitable : DDT location, durées de validité, DPE G interdit. Checklist bailleur 2026.",
+    meta: "10 min · Septembre 2026",
+    cardExcerpt: "Louer en 2026 : diagnostics du bail, DPE G, ce qui est dû au locataire.",
+    keywords: [
+      "diagnostics location obligatoires 2026",
+      "DDT location bailleur",
+      "diagnostics bail DPE CREP ERP",
+      "DPE G location interdite",
+      "surface habitable loi Boutin location",
+      "gaz électricité diagnostic location 6 ans",
+    ],
+    cta: { href: "../landings/location.html?utm_content=diagnostics-location-2026", label: "Parcours bailleur / location" },
+    blocks: [
+      {
+        type: "p",
+        text: "Mettre un logement en <strong>location</strong> sans le bon paquet de diagnostics, c'est s'exposer à un bail contestable et, pour un <strong>DPE G</strong>, à une <strong>interdiction de louer</strong>. La liste 2026 est plus courte qu'à la vente, mais les <strong>durées de validité diffèrent</strong> (gaz/élec : 6 ans à la location, 3 ans à la vente). <a href=\"../landings/location.html?utm_content=diagnostics-location\"><strong>Parler de mon bien à louer</strong></a> · <a href=\"./passoire-energetique-dpe-g-vendre-2026.html\">DPE G : louer ou vendre</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "1. Les pièces annexées au bail" },
+      {
+        type: "ul",
+        items: [
+          "<strong>DPE</strong> — 10 ans ; obligatoire dans l'annonce et le bail. Classe G : location interdite (progression F ensuite).",
+          "<strong>CREP (plomb)</strong> — logement avant 1949. 6 ans si présence ; illimité si négatif.",
+          "<strong>ERP</strong> — état des risques, ~6 mois. À remettre au locataire.",
+          "<strong>Gaz et électricité</strong> — installations de plus de 15 ans : <strong>6 ans</strong> à la location.",
+          "<strong>Surface habitable (Boutin)</strong> — mentionnée au bail ; ce n'est pas le Carrez.",
+        ],
+      },
+      { type: "h2", text: "2. DPE G / F : louer, rénover ou vendre ?" },
+      {
+        type: "p",
+        text: "Un G ne se loue plus. Un F se rapproche de l'échéance. Travaux, décote à la vente, ou sortie du parc locatif : ce n'est pas le même calcul. <a href=\"../landings/acheteur-immo.html?role=vendeur&utm_content=location-dpe-vente\">estimer une vente plutôt qu'une location</a> · <a href=\"../landings/projection-achat.html?utm_content=location-travaux\">projection avec travaux</a>.",
+      },
+      { type: "h2", text: "3. Recyclage vente ↔ location" },
+      {
+        type: "p",
+        text: "Un diagnostic gaz/élec de vente (3 ans) reste bon pour louer s'il n'est pas périmé. L'inverse est faux : un dossier location de 5 ans peut être trop vieux pour un compromis de vente. Avant d'enchaîner vente après location, revoyez les dates. <a href=\"./diagnostics-immobiliers-obligatoires-vente-2026.html\">checklist vente</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "4. Nancy métropole : bailleurs et passoires" },
+      {
+        type: "p",
+        text: "Sur Nancy, Jarville, Varangéville, un stock de copropriétés mal isolées pèse sur les bailleurs. Si le DPE tue la location, on recadre prix de vente, travaux et, le cas échéant, un <a href=\"../pret-immobilier/nancy-metropole/\">financement local</a>. <a href=\"../landings/syndic.html?utm_content=diagnostics-syndic\">syndic / copro</a> · <a href=\"../landings/credit-immo.html?utm_content=diagnostics-location-credit\">crédit travaux</a>.",
+      },
+      {
+        type: "p",
+        text: "<a href=\"../landings/location.html?utm_content=diagnostics-cta\">Je mets en location</a> · <a href=\"../landings/acheteur-immo.html?role=vendeur&utm_content=location-vers-vente\">je vends plutôt</a>.",
+      },
+    ],
+    related: [
+      { href: "./diagnostics-immobiliers-obligatoires-vente-2026.html", label: "Diagnostics vente" },
+      { href: "./loi-carrez-surface-appartement-vente-2026.html", label: "Carrez vs Boutin" },
+      { href: "../immobilier/location/", label: "Hub location" },
+    ],
+    faq: [
+      {
+        q: "Le locataire peut-il exiger les diagnostics après signature ?",
+        a: "Ils doivent être annexés au bail. Un oubli se corrige, mais un DPE G expose à l'interdiction de louer — ce n'est pas cosmétique.",
+      },
+      {
+        q: "Dois-je refaire le DPE entre deux locataires ?",
+        a: "Non s'il est encore dans les 10 ans et qu'aucun travaux n'a changé la performance. Vérifiez la date sur le rapport.",
       },
     ],
   },
