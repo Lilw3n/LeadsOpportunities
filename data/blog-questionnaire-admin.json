@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-22",
+  "updated": "2026-09-23",
   "sections": [
     "actu",
     "animaux",
@@ -17,6 +17,84 @@
     "vtc"
   ],
   "rows": [
+    {
+      "file": "lois-assurance-credit-lemoine-hamon-chatel-2026.html",
+      "title": "Lois assurance et crédit 2026 : Lemoine, Hamon, Chatel — ce qui change pour vous",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Lois%20assurance%20cr%C3%A9dit%20%E2%80%94%20besoin%20d%27accompagnement",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "devenir-chauffeur-vtc-carte-pro-assurance-2026.html",
+      "title": "Devenir chauffeur VTC en 2026 : carte pro, véhicule et assurance obligatoire",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Devenir%20chauffeur%20VTC%20%E2%80%94%20devis%20assurance",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "assurance-chien-chat-guide-frais-veterinaires-2026.html",
+      "title": "Assurance chien et chat 2026 : frais véto, RC et comment choisir",
+      "section": "animaux",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Assurance%20chien%20ou%20chat",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "recherche-pret-immobilier-comparer-banques-courtier-2026.html",
+      "title": "Recherche de prêt immobilier 2026 : comparer banques et courtier",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Recherche%20pr%C3%AAt%20immobilier",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "vente-acquisition-maison-etapes-notaire-assurance-2026.html",
+      "title": "Vente et acquisition de maison 2026 : étapes, notaire et assurances",
+      "section": "habitat",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Vente%20ou%20acquisition%20maison",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "recherche-bien-a-vendre-ou-a-louer-methodes-2026.html",
+      "title": "Recherche de bien à vendre ou à louer : méthodes qui marchent en 2026",
+      "section": "finance",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Recherche%20bien%20%C3%A0%20vendre%20ou%20%C3%A0%20louer",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": "habitation",
+      "species": null
+    },
     {
       "file": "courtier-assurance-mutuelle-sante-nancy.html",
       "title": "Courtier assurance mutuelle santé Nancy : comment bien choisir",
@@ -2017,6 +2095,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "une-plainte-deposee-a-paris-contre-l-armee-israelienne-apres-l-arrachage.html",
+      "title": "Une plainte déposée à Paris contre l’armée israélienne, après l’arrachage d’oliviers ce… : assurance habitation — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=une-plainte-deposee-a-paris-contre-l-arm",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "frais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-.html",
+      "title": "Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ? : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=frais-dentaires-moins-rembourses-vers",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "ou-en-est-la-loi-francaise-sur-l-aide-a-mourir.html",
+      "title": "Où en est la loi française sur l’aide à mourir ? : assurance habitation — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=ou-en-est-la-loi-francaise-sur-l-aide-a",
+      "matchedRule": null,
       "species": null
     }
   ]

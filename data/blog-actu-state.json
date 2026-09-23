@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-23T10:13:38.573Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/international/une-plainte-deposee-a-paris-contre-l-armee-israelienne-apres-l-arrachage-d-oliviers-centenaires-au-liban-20260923",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ab3a651c1624ac89ec6f3e70ef46dd1&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffrais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-en-2027-21-09-2026-FJNY25GPRJFPRJM2C47QLSKYGY.php&c=17203564814959830423&mkt=en-us",
+    "https://www.huffingtonpost.fr/france/article/ou-en-est-la-loi-francaise-sur-l-aide-a-mourir_329573.html"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-23T10:13:40.206Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-23T10:13:40.206Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "une-plainte-deposee-a-paris-contre-l-armee-israelienne-apres-l-arrachage.html",
+          "title": "Une plainte déposée à Paris contre l’armée israélienne, après l’arrachage d’oliviers ce… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro flash",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "frais-dentaires-moins-rembourses-vers-une-hausse-des-tarifs-de-mutuelle-.html",
+          "title": "Frais dentaires moins remboursés : vers une hausse des tarifs de mutuelle en 2027 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "ou-en-est-la-loi-francaise-sur-l-aide-a-mourir.html",
+          "title": "Où en est la loi française sur l’aide à mourir ? : assurance habitation — que faire ?",
+          "source": "Firefox — HuffPost",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
