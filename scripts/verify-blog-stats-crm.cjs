@@ -69,9 +69,20 @@ var js = read("crm-blog-stats.js");
 assert(js.indexOf("blog-stats-article-link") !== -1, "titres articles cliquables");
 assert(js.indexOf("date_published") !== -1 || js.indexOf("formatDate") !== -1, "affichage date article");
 assert(js.indexOf("questionnaires_admin_url") !== -1, "lien mapping questionnaire");
+assert(js.indexOf("article_source") !== -1 || js.indexOf("Article source") !== -1, "colonne article source leads");
+assert(read("js/site-host-brand.js").indexOf("buchetimmobilier") !== -1, "brand host buchet");
+assert(read("crm-blog-stats.html").indexOf("blogStatsLeadsByArticle") !== -1, "bloc leads par article");
 
 var bq = read("blog-questionnaires-admin.js");
 assert(bq.indexOf("queryParam") !== -1, "préremplissage ?q= sur questionnaires");
 assert(bq.indexOf("crm-blog-stats.html") !== -1, "lien retour stats depuis questionnaires");
+
+var { resolveLeadArticle, slugFromUtmContent } = require("../api/_lib/blog-stats.js");
+assert(slugFromUtmContent("foo-bar.html") === "foo-bar", "slugFromUtmContent");
+assert(
+  resolveLeadArticle({ utm_source: "blog", utm_content: "pret-immobilier-refuse-que-faire-2026", payload: {} }).slug ===
+    "pret-immobilier-refuse-que-faire-2026",
+  "lead → article via utm_content"
+);
 
 process.exit(failed ? 1 : 0);

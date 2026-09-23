@@ -100,6 +100,10 @@
     <label>Recherche article
       <input type="search" id="blogStatsSearch" class="crm-input" placeholder="titre, slug, mutuelle, VTC…" style="min-width:200px" />
     </label>
+    <label id="blogStatsImmoFilterWrap" style="display:none">
+      <input type="checkbox" id="blogStatsImmoOnly" checked />
+      Articles immo / crédit seulement
+    </label>
     <span class="acq-badge muted" id="blogStatsInventory">—</span>
   </div>
 
@@ -131,8 +135,14 @@
   </div>
 
   <section class="panel" style="margin-top:18px">
+    <h2>Leads par article</h2>
+    <p style="color:var(--muted);margin-top:0">Combien de leads chaque article a générés (utm_content / journey / landing).</p>
+    <div class="blog-stats-table-wrap" id="blogStatsLeadsByArticle"></div>
+  </section>
+
+  <section class="panel" style="margin-top:18px">
     <h2>Leads issus du blog / forum</h2>
-    <p style="color:var(--muted);margin-top:0">Leads CRM dont la landing, l’UTM ou le formulaire pointe vers /blog ou /forum.</p>
+    <p style="color:var(--muted);margin-top:0">Chaque lead montre l’<strong>article source</strong> (cliquable) et le mapping questionnaire.</p>
     <div class="blog-stats-table-wrap" id="blogStatsLeads"></div>
   </section>
 
@@ -146,6 +156,7 @@
     </ul>
   </section>
 
+  <script src="./js/site-host-brand.js"></script>
   <script src="./js/crm-lead-platform.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-blog-stats.js"></script>

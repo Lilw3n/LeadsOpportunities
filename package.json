@@ -101,6 +101,7 @@
     "verify:vente-3d": "node scripts/verify-vente-3d.cjs",
     "verify:blog-lead-intent": "node scripts/verify-blog-lead-intent.cjs",
     "verify:blog-stats-crm": "node scripts/verify-blog-stats-crm.cjs",
+    "verify:buchet-blog-crm": "node scripts/verify-buchet-blog-crm.cjs",
     "verify:nancy-bassin-pret": "node scripts/verify-nancy-bassin-pret.cjs",
     "verify:seo-long-terme": "node scripts/verify-seo-long-terme.cjs",
     "verify:contact-pair": "node scripts/verify-contact-pair.cjs",
