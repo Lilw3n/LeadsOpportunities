@@ -15,10 +15,31 @@
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
+      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie", "recherche de prêt", "recherche de pret", "offre de prêt", "offre de pret", "capacité d'emprunt", "capacite d'emprunt", "dossier de crédit", "dossier de credit"],
       "section": "finance",
       "need": "emprunteur",
       "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu"
+    },
+    {
+      "keywords": ["vente de maison", "vente maison", "acquisition", "achat immobilier", "acheter une maison", "acheter un appartement", "compromis de vente", "notaire", "frais de notaire", "bien à vendre", "bien a vendre", "annonce immobilière", "annonce immobiliere", "marché immobilier", "marche immobilier"],
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Vente & acquisition",
+      "tagClass": "tag-habitation"
+    },
+    {
+      "keywords": ["location", "à louer", "a louer", "bien à louer", "louer un appartement", "louer une maison", "bail", "loyers", "locataire", "bailleur", "recherche de bien", "visite immobilière", "visite immobiliere"],
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Location & recherche",
+      "tagClass": "tag-habitation"
+    },
+    {
+      "keywords": ["loi ", "lois ", "réforme", "reforme", "réglementation", "reglementation", "décret", "decret", "assemblée", "assemblee", "parlement", "lemoine", "hamon", "bourquin", "code des assurances", "projet de loi"],
+      "section": "actu",
+      "need": "emprunteur",
+      "tag": "Lois & réglementation",
       "tagClass": "tag-actu"
     },
     {
@@ -29,18 +50,18 @@
       "tagClass": "tag-habitation"
     },
     {
+      "keywords": ["vtc", "uber", "bolt", "heetch", "chauffeur vtc", "chauffeur Uber", "plateforme VTC"],
+      "section": "vtc",
+      "need": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc"
+    },
+    {
       "keywords": ["auto", "voiture", "automobile", "accident", "permis", "conducteur", "bonus", "malus"],
       "section": "auto",
       "need": "auto",
       "tag": "Auto",
       "tagClass": "tag-auto"
-    },
-    {
-      "keywords": ["vtc", "uber", "bolt", "heetch", "chauffeur", "taxi"],
-      "section": "vtc",
-      "need": "vtc",
-      "tag": "VTC",
-      "tagClass": "tag-vtc"
     },
     {
       "keywords": ["chien", "chat", "animal", "vétérinaire", "veterinaire", "animaux"],

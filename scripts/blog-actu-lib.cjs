@@ -101,14 +101,49 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (
+    candidate.sourceType === "cafeyn" ||
+    candidate.sourceType === "edge" ||
+    candidate.sourceType === "firefox"
+  ) {
     score += 12;
+  }
+  if (candidate.sourceType === "google" || candidate.sourceType === "bing" || candidate.sourceType === "yahoo") {
+    score += 8;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
 
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
+  });
+
+  /* Themes leads demands : lois, VTC, animaux, pret, vente/acquisition, location */
+  [
+    "loi ",
+    "réforme",
+    "reforme",
+    "lemoine",
+    "vtc",
+    "uber",
+    "chauffeur",
+    "chien",
+    "chat",
+    "animaux",
+    "vétérinaire",
+    "veterinaire",
+    "prêt immobilier",
+    "pret immobilier",
+    "taux",
+    "vente",
+    "acquisition",
+    "achat immobilier",
+    "location",
+    "à louer",
+    "a louer",
+    "bail",
+  ].forEach(function (kw) {
+    if (title.indexOf(kw) !== -1) score += 10;
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
@@ -131,6 +166,16 @@ function scoreLeadPotential(candidate) {
 
   score += franceLeadScoreAdjust(candidate);
 
+  var feedId = String(candidate.feedId || "").toLowerCase();
+  if (
+    /vtc|animaux|chiens-chats|lois-assurance|recherche-pret|vente-maison|bien-louer|pret-immo|vente-immo|location|bing-animaux|bing-vtc/.test(
+      feedId
+    )
+  ) {
+    score += 28;
+  }
+
+  if (title.indexOf("chomage") !== -1 || title.indexOf("chômage") !== -1) score -= 25;
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
   if (candidate.pubDate) {
