@@ -94,6 +94,43 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** Gabarit inbox (pas une vraie actu) — ne jamais publier. */
+function isActuPlaceholderTitle(title) {
+  var t = String(title || "").toLowerCase();
+  if (t.indexOf("collez ici") !== -1) return true;
+  if (t.indexOf("titre de la une") !== -1 && t.indexOf("cafeyn") !== -1) return true;
+  return false;
+}
+
+var STRONG_LEAD_KEYWORDS = [
+  "mutuelle",
+  "assurance",
+  "emprunteur",
+  "sinistre",
+  "dentaire",
+  "optique",
+  "habitation",
+  "prêt immobilier",
+  "pret immobilier",
+  "crédit immobilier",
+  "credit immobilier",
+  "dégât",
+  "degat",
+  "incendie",
+  "rc pro",
+  "vétérinaire",
+  "veterinaire",
+  "loi lemoine",
+];
+
+/** Sujet qui peut vraiment déboucher sur un questionnaire (pas l'actu générale). */
+function isStrongLeadTopic(candidate) {
+  var hay = (String(candidate && candidate.title) + " " + String(candidate && candidate.summary)).toLowerCase();
+  return STRONG_LEAD_KEYWORDS.some(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  });
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -338,6 +375,8 @@ module.exports = {
   readJson: readJson,
   writeJson: writeJson,
   slugify: slugify,
+  isActuPlaceholderTitle: isActuPlaceholderTitle,
+  isStrongLeadTopic: isStrongLeadTopic,
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
   matchTopic: matchTopic,

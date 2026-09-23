@@ -10,7 +10,14 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  appendPendingArticle,
+  isActuPlaceholderTitle,
+  isStrongLeadTopic,
+} = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -61,6 +68,10 @@ function loadPublishedTitleKeys() {
       keys.add(normalizeTitle(a.title));
     });
   } catch (e) {}
+  var state = readJson("blog-actu-state.json", { processedTitles: [] });
+  (state.processedTitles || []).forEach(function (t) {
+    keys.add(normalizeTitle(t));
+  });
   return keys;
 }
 
@@ -96,12 +107,18 @@ function pickCandidates(candidates, count, state) {
   var available = ranked.filter(function (c) {
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
+    if (c.status === "template" || isActuPlaceholderTitle(c.title)) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     return true;
   });
 
   if (!available.length) return [];
+
+  var strong = available.filter(function (c) {
+    return isStrongLeadTopic(c);
+  });
+  var leadPool = strong.length ? strong : available;
 
   var picks = [];
   var used = new Set();
@@ -120,7 +137,7 @@ function pickCandidates(candidates, count, state) {
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used);
+      var pick = bestFromPlatform(leadPool, platform, feedMap, used);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
@@ -131,7 +148,7 @@ function pickCandidates(candidates, count, state) {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
-      var rotated = bestFromPlatform(available, platform, feedMap, used);
+      var rotated = bestFromPlatform(leadPool, platform, feedMap, used);
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
@@ -140,7 +157,7 @@ function pickCandidates(candidates, count, state) {
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
   }
 
-  available
+  leadPool
     .filter(function (c) {
       return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
     })
@@ -152,7 +169,7 @@ function pickCandidates(candidates, count, state) {
       used.add(k);
     });
 
-  available.forEach(function (c) {
+  leadPool.forEach(function (c) {
     if (picks.length >= count) return;
     var k = c.url || c.title;
     if (used.has(k)) return;
@@ -257,6 +274,12 @@ async function main() {
         state.processedUrls.push(pick.url);
       }
     }
+    if (pick.title) {
+      state.processedTitles = state.processedTitles || [];
+      if (state.processedTitles.indexOf(pick.title) === -1) {
+        state.processedTitles.push(pick.title);
+      }
+    }
     published.push({
       file: article.file,
       title: article.title,
@@ -279,7 +302,10 @@ async function main() {
     if (process.env.STRICT_ACTU_QUALITY === "1" || process.argv.indexOf("--strict-quality") !== -1) {
       console.log("\n=== Contrôle qualité ===");
       try {
-        execSync("node scripts/verify-actu-quality.cjs", { stdio: "inherit", cwd: ROOT });
+        execSync("node scripts/verify-actu-quality.cjs --file=data/blog-actu-pending.json", {
+          stdio: "inherit",
+          cwd: ROOT,
+        });
       } catch (e) {
         console.error("Qualité insuffisante — publication annulée. Utilisez Cursor pour enrichir.");
         process.exit(1);
