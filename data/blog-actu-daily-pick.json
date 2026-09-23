@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-16",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux-com",
+      "title": "Assurance habitation : primes et sinistres, bilan 2025 - meilleurtaux.com",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+      "summary": "Assurance habitation : primes et sinistres, bilan 2025 meilleurtaux.com",
+      "pubDate": "Fri, 11 Sep 2026 05:25:11 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-primes-et-sinistres-bilan-2025-meilleurtaux-com.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-pourquoi-elle-pese-tant-dans-un-credit",
+      "title": "Assurance emprunteur : pourquoi elle pèse tant dans un crédit ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aaaa4fb0219455ca03acbeb46b262d5&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fassurance-emprunteur-pourquoi-elle-pese-tant-dans-un-credit-1530110&c=3698400232288588636&mkt=en-us",
+      "summary": "Souvent reléguée au second plan derrière le taux du prêt immobilier, l’assurance emprunteur représente pourtant une part conséquente du coût total d’un crédit. Selon le profil de l’emprunteur et la du ...",
+      "pubDate": "Mon, 14 Sep 2026 00:36:00 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-pourquoi-elle-pese-tant-dans-un-credit.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-les-tensions-entre-kylian-mbappe-et-ousmane-dembele-fra",
+      "title": "Equipe de France : les tensions entre Kylian Mbappé et Ousmane Dembélé fracturent le vestiaire des Bleus - Foot Mercato",
+      "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNVHB5VWtJXy1IU2F6VzBSRkhJM3BMNTBRbW1rZ3Q1djF4cTlLNGd5bjI5RjNuaVV4cWhLcUdmTHF0SDNfTk1WWlhWOWthQTRWSGFYdC1DbThxdzBmb2ZnOFQ2T0I1RnBZbm9DLUNNSFJpYS1tdTMzb1YwaVk3ODJsRzF1aXQ0d2VzTnFnSmd3MTdPdkEwV1E3ekFlLUMzZWQ4NU9uQTgxX1draUpnWUtnZkhUOERBdVotdGtIUWlpSWhjU3pIVnUycmxDWTNQQVQ1UmJHag?oc=5",
+      "summary": "Equipe de France : les tensions entre Kylian Mbappé et Ousmane Dembélé fracturent le vestiaire des Bleus Foot Mercato",
+      "pubDate": "Mon, 14 Sep 2026 17:21:09 GMT",
+      "feedId": "google-news-equipe-france",
+      "feedName": "Google News — équipe de France football",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-les-tensions-entre-kylian-mbappe-et-ousmane-dembele-fra.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-ousmane-dembele-est-tres-remonte-contre-kylian-mbappe-le-vestiaire-de-zi",
+      "title": "«Ousmane Dembélé est très remonté contre Kylian Mbappé» : Le vestiaire de Zinedine Zidane est divisé, «il y a maintenant deux camps» en équipe de France - Le10Sport",
+      "url": "https://news.google.com/rss/articles/CBMipwJBVV95cUxOaEY1T1FSOV92RENGc2Vub0g1OV9BYmM4M2hGZ1ZLRGp2anFwLUtuUjRXQXBaQzBSYkRFLUdoXzRQYjVYUHBJczRHQUEybWFjM2lCaDZkTnRfV2MwZVluMnNxcmF4ekF0OGNhcXVPQ3B3dU5lNVM5dFNEaEJJdzhZejBXMTFCUkg4YkdfXzNYLVZJYkcxZGZjZ2xvTmt1UkRfMVVzbkxEcm56alZiOHZLSGhCN2s0d3BfLURWOXNySkRQR2R1N3lPdElmU1FVci1zUjdTbE5RSjhPU3JHNFVGMm5pc0RDOWUyRjBudzFQTVMyWkJETVJ3Y0FmVE16enVkZHN3UWFxZmRpRzJQc3oxWXlFb3FfSXZGYXZWa09vaF93eGxBdGIw?oc=5",
+      "summary": "«Ousmane Dembélé est très remonté contre Kylian Mbappé» : Le vestiaire de Zinedine Zidane est divisé, «il y a maintenant deux camps» en équipe de France Le10Sport",
+      "pubDate": "Wed, 16 Sep 2026 00:00:00 GMT",
+      "feedId": "google-news-equipe-france",
+      "feedName": "Google News — équipe de France football",
+      "sourceType": "google",
+      "suggestedFile": "ousmane-dembele-est-tres-remonte-contre-kylian-mbappe-le-vestiaire-de-zi.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-feminine-2026-de-basket-l-equipe-de-france-surclassee-par",
+      "title": "Coupe du monde féminine 2026 de basket : l'équipe de France surclassée par les Etats-Unis en finale (97-79) - CNews",
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOX1hwanIxN28tbUk3QXRMSEhTMm5pcmxyLXF5dHhKNGdQTHRqU3R4WEJHQU1odjRZLU52dkx0ZFR4LXVSRGMwM1FnVXQyWldYb2Juc3NRQUQ5V0RObXNpOFRWRFVjWnd3SmQxY1VfUXlrT1dwZWJRUVgteFFjVXJ1MU5TdEpfLXE1U3g1TFpKVGVDb001NU5IdzJPNXNyTGc3LU9CcXlGNlZELTJxSUpqRF9kdmY4QjJtQk400gHAAUFVX3lxTFBCRDV4em4xMzA2alJtM0tMSDlzbk5lTWw1OFZoVDZFb0RHY1J5aTFyN1M3dmo0UFZjWXo5NnJsczIzbEtQY1B3YTI0bjMwai13azNZSXhvVWFZNHk2T2YtbGJTOWxIQnBKMTJGRUdjTDJ5ekZpWnBqcDJBNTJmeGJZczg0YThSMFYxNTJBWU5LaFVLWndGVlNIX1ZvLUJJclN1bTN2QjJpczNuVnNXUDBtbTRhaXNWa1p6alZieDJPNQ?oc=5",
+      "summary": "Coupe du monde féminine 2026 de basket : l'équipe de France surclassée par les Etats-Unis en finale (97-79) CNews",
+      "pubDate": "Sun, 13 Sep 2026 19:44:27 GMT",
+      "feedId": "google-news-cdm-2026",
+      "feedName": "Google News — Coupe du monde 2026 France",
+      "sourceType": "google",
+      "suggestedFile": "coupe-du-monde-feminine-2026-de-basket-l-equipe-de-france-surclassee-par.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}
