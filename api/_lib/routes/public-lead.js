@@ -123,6 +123,19 @@ module.exports = async (req, res) => {
   enriched.clientIp = normalizeClientIp(req);
   enriched.clientUa = String(req.headers["user-agent"] || body.userAgent || body.user_agent || "").slice(0, 400);
   enriched.visitor_country = visitorCountry || body.visitor_country || null;
+  enriched.utm_content =
+    body.utm_content ||
+    body.attr_last_utm_content ||
+    body.attr_first_utm_content ||
+    body.blog_article ||
+    null;
+  if (enriched.utm_content) {
+    enriched.utm_content = String(enriched.utm_content).replace(/\.html$/i, "").slice(0, 200);
+  }
+  enriched.blog_article =
+    (body.blog_article && String(body.blog_article).replace(/\.html$/i, "").slice(0, 200)) ||
+    enriched.utm_content ||
+    null;
 
   if (
     visitorCountry &&
@@ -144,6 +157,12 @@ module.exports = async (req, res) => {
   var utmMedium =
     enriched.attr_last_utm_medium || enriched.utm_medium || enriched.attr_first_utm_medium || null;
   var utmCampaign = enriched.utm_campaign || enriched.attr_first_utm_campaign || null;
+  var utmContent =
+    enriched.utm_content ||
+    enriched.attr_last_utm_content ||
+    enriched.attr_first_utm_content ||
+    enriched.blog_article ||
+    null;
   var gclidVal = enriched.attr_last_gclid || enriched.gclid || enriched.attr_first_gclid || null;
   var fbclid = enriched.fbclid || enriched.attr_fbclid || null;
   var ttclid = enriched.ttclid || null;
@@ -299,6 +318,7 @@ module.exports = async (req, res) => {
           utm_source: utmSource,
           utm_medium: utmMedium,
           utm_campaign: utmCampaign,
+          utm_content: utmContent,
         });
         await recordLeadEvent(sql, {
           leadId,

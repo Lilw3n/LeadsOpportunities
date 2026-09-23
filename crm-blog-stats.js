@@ -127,7 +127,10 @@
 
   function articleUrl(r) {
     if (r.path && r.path.indexOf("http") === 0) return r.path;
-    return "https://www.leadsopportunities.fr" + (r.path || "/blog/");
+    var origin =
+      (window.LoSiteBrand && window.LoSiteBrand.publicOrigin && window.LoSiteBrand.publicOrigin()) ||
+      "https://www.leadsopportunities.fr";
+    return origin + (r.path || "/blog/");
   }
 
   function formatDate(r) {
@@ -251,7 +254,8 @@
           var url =
             p.path && p.path.indexOf("http") === 0
               ? p.path
-              : "https://www.leadsopportunities.fr" + (p.path || "/");
+              : ((window.LoSiteBrand && window.LoSiteBrand.publicOrigin && window.LoSiteBrand.publicOrigin()) ||
+                  "https://www.leadsopportunities.fr") + (p.path || "/");
           return (
             '<tr><td><a class="blog-stats-article-link" href="' +
             esc(url) +
@@ -272,31 +276,90 @@
     var el = document.getElementById("blogStatsLeads");
     if (!leads || !leads.length) {
       el.innerHTML =
-        '<p style="color:var(--muted)">Aucun lead attribué au blog/forum sur la période (filtre landing / UTM).</p>';
+        '<p style="color:var(--muted)">Aucun lead attribué au blog/forum sur la période (filtre landing / UTM / journey).</p>';
       return;
     }
+    var origin =
+      (window.LoSiteBrand && window.LoSiteBrand.publicOrigin && window.LoSiteBrand.publicOrigin()) ||
+      "https://www.leadsopportunities.fr";
     el.innerHTML =
-      "<table><thead><tr><th>Date</th><th>Vertical</th><th>Source</th><th>Campagne</th><th>Landing</th><th>Contact</th><th>Score</th></tr></thead><tbody>" +
+      "<table><thead><tr><th>Date</th><th>Article source</th><th>Vertical</th><th>Source</th><th>Campagne</th><th>Contact</th><th>Score</th></tr></thead><tbody>" +
       leads
         .map(function (l) {
           var d = l.created_at ? String(l.created_at).slice(0, 16).replace("T", " ") : "—";
+          var artPath = l.article_path || (l.slug && l.slug.indexOf("(") !== 0 ? "/blog/" + l.slug + ".html" : "");
+          var artUrl = artPath
+            ? artPath.indexOf("http") === 0
+              ? artPath
+              : origin + artPath
+            : "";
+          var qUrl = l.questionnaires_admin_url || "./blog-questionnaires.html?q=" + encodeURIComponent(l.slug || "");
+          if (qUrl.charAt(0) === "/") qUrl = "." + qUrl;
+          var articleCell = artUrl
+            ? '<a class="blog-stats-article-link" href="' +
+              esc(artUrl) +
+              '" target="_blank" rel="noopener">' +
+              esc(l.article_title || l.slug) +
+              "</a><br><code style=\"font-size:0.7rem\">" +
+              esc(l.slug || "") +
+              "</code>" +
+              (l.article_source
+                ? ' <span class="acq-badge muted" style="font-size:0.65rem">' +
+                  esc(l.article_source) +
+                  "</span>"
+                : "") +
+              '<br><a href="' +
+              esc(qUrl) +
+              '" style="font-size:0.72rem">Questionnaire</a>'
+            : esc(l.landing || l.slug || "—");
           return (
             "<tr><td>" +
             esc(d) +
+            "</td><td>" +
+            articleCell +
             "</td><td>" +
             esc(l.vertical || "—") +
             "</td><td>" +
             esc(l.source || "—") +
             "</td><td>" +
             esc(l.utm_campaign || "—") +
-            "</td><td><code style=\"font-size:0.7rem\">" +
-            esc(l.landing || l.slug || "—") +
-            "</code></td><td>" +
+            "</td><td>" +
             (l.email === "oui" ? "✉" : "") +
             (l.phone === "oui" ? " ☎" : "") +
             "</td><td>" +
             (l.lead_score || 0) +
             "</td></tr>"
+          );
+        })
+        .join("") +
+      "</tbody></table>";
+  }
+
+  function renderLeadsByArticle(rows) {
+    var el = document.getElementById("blogStatsLeadsByArticle");
+    if (!el) return;
+    if (!rows || !rows.length) {
+      el.innerHTML = '<p style="color:var(--muted)">Pas encore de leads rattachés à un article.</p>';
+      return;
+    }
+    var origin =
+      (window.LoSiteBrand && window.LoSiteBrand.publicOrigin && window.LoSiteBrand.publicOrigin()) ||
+      "https://www.leadsopportunities.fr";
+    el.innerHTML =
+      "<table><thead><tr><th>Article</th><th>Date pub.</th><th>Leads</th></tr></thead><tbody>" +
+      rows
+        .map(function (r) {
+          var url = r.path ? (r.path.indexOf("http") === 0 ? r.path : origin + r.path) : "#";
+          return (
+            "<tr><td><a class=\"blog-stats-article-link\" href=\"" +
+            esc(url) +
+            '" target="_blank" rel="noopener">' +
+            esc(r.title || r.slug) +
+            "</a></td><td class=\"blog-stats-date\">" +
+            esc(r.date_published || "—") +
+            "</td><td><strong>" +
+            r.leads +
+            "</strong></td></tr>"
           );
         })
         .join("") +
@@ -327,6 +390,16 @@
       .then(function (res) {
         if (!res.ok) throw new Error(res.error || "Erreur");
         articlesCache = res.articles || [];
+        if (window.LoSiteBrand && window.LoSiteBrand.isBuchet && window.LoSiteBrand.isBuchet()) {
+          var filterImmo = document.getElementById("blogStatsImmoOnly");
+          if (filterImmo && filterImmo.checked) {
+            articlesCache = articlesCache.filter(function (a) {
+              return window.LoSiteBrand.isImmoSection(a.section) || /immo|credit|pret|vendeur|acquereur|habitation|syndic|location|finance|habitat/i.test(
+                [a.slug, a.title, a.section].join(" ")
+              );
+            });
+          }
+        }
         renderSummary(res.comparison || {}, res.inventory || {}, res.leads_total);
         renderCompare(res.comparison || {});
         renderChart(res.trend);
@@ -334,6 +407,7 @@
         renderCtas(res.top_ctas);
         renderTopPages(res.top_pages);
         renderLeads(res.leads);
+        renderLeadsByArticle(res.leads_by_article);
         renderExternal(res.analytics_links);
         document.getElementById("blogStatsNote").textContent = res.note || "";
       })
@@ -341,6 +415,23 @@
         document.getElementById("blogStatsCompare").innerHTML =
           '<p style="color:#b91c1c">' + esc(String(e)) + "</p>";
       });
+  }
+
+  function applyHostBrand() {
+    if (!window.LoSiteBrand) return;
+    var label = window.LoSiteBrand.label();
+    var eyebrow = document.querySelector(".crm-eyebrow");
+    if (eyebrow && window.LoSiteBrand.isBuchet()) {
+      eyebrow.textContent = "Analytics · " + label;
+    }
+    var h2 = document.querySelector(".crm-page-panel h2");
+    if (h2 && window.LoSiteBrand.isBuchet()) {
+      h2.textContent = "Stats blog immo — vues, clics, leads";
+    }
+    var immoWrap = document.getElementById("blogStatsImmoFilterWrap");
+    if (immoWrap) {
+      immoWrap.style.display = window.LoSiteBrand.isBuchet() ? "" : "none";
+    }
   }
 
   document.getElementById("btnBlogStatsRefresh").onclick = load;
@@ -358,5 +449,8 @@
       if (pre) searchEl.value = pre.replace(/\.html$/i, "");
     } catch (e) {}
   }
+  var immoOnly = document.getElementById("blogStatsImmoOnly");
+  if (immoOnly) immoOnly.addEventListener("change", load);
+  applyHostBrand();
   load();
 })();

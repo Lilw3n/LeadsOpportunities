@@ -191,6 +191,18 @@
       if (!bag.referrer && document.referrer) {
         bag.referrer_first = document.referrer;
       }
+      /* Sur un article blog : mémoriser la source pour les leads suivants */
+      try {
+        var blogMatch = (window.location.pathname || "").match(/\/blog\/([^/]+?)(?:\.html)?\/?$/i);
+        if (blogMatch) {
+          var slug = decodeURIComponent(blogMatch[1]);
+          bag.blog_article = slug;
+          localStorage.setItem("lo_blog_article", slug + ".html");
+          if (!bag.last_touch.utm_content) bag.last_touch.utm_content = slug;
+          if (!bag.first_touch.utm_content) bag.first_touch.utm_content = slug;
+          if (!bag.last_touch.utm_source) bag.last_touch.utm_source = "blog";
+        }
+      } catch (blogErr) {}
 
       keys.forEach(function (k) {
         var v = params.get(k);
@@ -497,8 +509,23 @@
         attr_last_utm_source: lt.utm_source || cur.get("utm_source") || "",
         attr_last_utm_medium: lt.utm_medium || cur.get("utm_medium") || "",
         attr_last_utm_campaign: lt.utm_campaign || cur.get("utm_campaign") || "",
+        attr_last_utm_content: lt.utm_content || cur.get("utm_content") || "",
+        attr_last_utm_term: lt.utm_term || cur.get("utm_term") || "",
         attr_last_gclid: lt.gclid || cur.get("gclid") || "",
         attr_last_fbclid: lt.fbclid || cur.get("fbclid") || "",
+        utm_content: lt.utm_content || cur.get("utm_content") || ft.utm_content || "",
+        blog_article:
+          (function () {
+            try {
+              var fromBag = localStorage.getItem("lo_blog_article") || "";
+              if (fromBag) return String(fromBag).replace(/\.html$/i, "");
+            } catch (e) {}
+            try {
+              var m = (window.location.pathname || "").match(/\/blog\/([^/]+?)(?:\.html)?\/?$/i);
+              if (m) return decodeURIComponent(m[1]);
+            } catch (e2) {}
+            return lt.utm_content || ft.utm_content || "";
+          })(),
         fbp: readCookie("_fbp") || "",
         attr_fbp: readCookie("_fbp") || "",
       };

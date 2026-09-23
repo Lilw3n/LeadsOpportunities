@@ -46,7 +46,51 @@ function slugFromPath(p) {
   return "";
 }
 
+function slugFromUtmContent(raw) {
+  var s = String(raw || "").trim();
+  if (!s) return "";
+  s = s.replace(/\.html$/i, "");
+  if (/^forum[:/]/i.test(s)) return "forum:" + s.replace(/^forum[:/]+/i, "").replace(/\//g, ":");
+  if (s.indexOf("/") !== -1) return slugFromPath(s);
+  if (/^[a-z0-9][a-z0-9_-]{2,120}$/i.test(s)) return s;
+  return "";
+}
+
+function resolveLeadArticle(row) {
+  var payload = parsePayloadSafe(row.payload);
+  var candidates = [
+    { src: "utm_content", value: row.utm_content || payload.utm_content || payload.attr_last_utm_content || payload.attr_first_utm_content },
+    { src: "blog_article", value: payload.blog_article || payload.blog_article_slug || payload.article_slug || payload.lo_blog_article },
+    { src: "landing", value: leadLandingPath(row) },
+    { src: "referrer", value: payload.referrer || payload.referer || payload.referrer_first || row.referrer },
+    { src: "page_path", value: payload.page_path || payload.path || payload.href || payload.page_url },
+  ];
+  for (var i = 0; i < candidates.length; i++) {
+    var c = candidates[i];
+    var slug = "";
+    if (c.src === "utm_content" || c.src === "blog_article") {
+      slug = slugFromUtmContent(c.value);
+      if (!slug && c.value) slug = slugFromPath(String(c.value));
+    } else {
+      var pathVal = String(c.value || "");
+      try {
+        if (pathVal.indexOf("http") === 0) pathVal = new URL(pathVal).pathname;
+      } catch (e) {}
+      slug = slugFromPath(pathVal);
+    }
+    if (slug && slug !== "index") {
+      return { slug: slug, source: c.src, raw: c.value || null };
+    }
+  }
+  var landing = leadLandingPath(row);
+  var fallback = slugFromPath(landing);
+  if (fallback) return { slug: fallback, source: "landing", raw: landing };
+  return null;
+}
+
 function leadTouchesBlog(row) {
+  var resolved = resolveLeadArticle(row);
+  if (resolved && resolved.slug) return true;
   var payload = parsePayloadSafe(row.payload);
   var blob = [
     row.source,
@@ -59,6 +103,13 @@ function leadTouchesBlog(row) {
     payload.utm_source,
     payload.utm_medium,
     payload.utm_campaign,
+    payload.utm_content,
+    payload.attr_last_utm_content,
+    payload.attr_first_utm_content,
+    payload.blog_article,
+    payload.blog_article_slug,
+    payload.article_slug,
+    payload.lo_blog_article,
     payload.landing,
     payload.landing_page,
     payload.landing_url,
@@ -66,6 +117,7 @@ function leadTouchesBlog(row) {
     payload.page_path,
     payload.referrer,
     payload.referer,
+    payload.referrer_first,
     payload.href,
     payload.path,
   ]
@@ -77,7 +129,9 @@ function leadTouchesBlog(row) {
     blob.indexOf("blog") !== -1 ||
     blob.indexOf("/forum") !== -1 ||
     blob.indexOf("forum") !== -1 ||
-    String(row.utm_medium || payload.utm_medium || "").toLowerCase() === "content"
+    String(row.utm_medium || payload.utm_medium || "").toLowerCase() === "content" ||
+    String(row.utm_source || payload.utm_source || "").toLowerCase() === "blog" ||
+    String(row.utm_medium || payload.utm_medium || "").toLowerCase() === "article_bridge"
   );
 }
 
@@ -467,7 +521,7 @@ async function buildBlogStats(options) {
     leadRows = await sql`
       SELECT id, source, vertical, lead_score, email, phone,
              utm_source, utm_medium, utm_campaign, utm_content,
-             form_id, created_at, payload, city
+             form_id, created_at, payload, city, visitor_id
       FROM site_leads
       WHERE created_at >= ${since}
       ORDER BY created_at DESC
@@ -477,36 +531,128 @@ async function buildBlogStats(options) {
     try {
       leadRows = await sql`
         SELECT id, source, vertical, lead_score, email, phone,
-               utm_source, utm_medium, utm_campaign, created_at, payload
+               utm_source, utm_medium, utm_campaign, utm_content,
+               created_at, payload, visitor_id
         FROM site_leads
         WHERE created_at >= ${since}
         ORDER BY created_at DESC
         LIMIT 800
       `;
     } catch (e2) {
-      leadRows = [];
+      try {
+        leadRows = await sql`
+          SELECT id, source, vertical, lead_score, email, phone,
+                 utm_source, utm_medium, utm_campaign, created_at, payload
+          FROM site_leads
+          WHERE created_at >= ${since}
+          ORDER BY created_at DESC
+          LIMIT 800
+        `;
+      } catch (e3) {
+        leadRows = [];
+      }
+    }
+  }
+
+  /* Dernier article blog vu (journey) par visitor_id avant le lead */
+  var journeyArticleByVisitor = {};
+  var visitorIds = [];
+  leadRows.forEach(function (row) {
+    if (row.visitor_id) visitorIds.push(String(row.visitor_id));
+  });
+  visitorIds = Array.from(new Set(visitorIds)).slice(0, 200);
+  if (visitorIds.length) {
+    try {
+      var journeyHits = await sql`
+        SELECT DISTINCT ON (visitor_id)
+          visitor_id, page_path, meta, created_at
+        FROM journey_events
+        WHERE visitor_id = ANY(${visitorIds})
+          AND created_at >= ${since}
+          AND (
+            event_type IN ('blog_article_view', 'page_view')
+            AND (page_path ILIKE '/blog%' OR page_path ILIKE '/forum%' OR event_type = 'blog_article_view')
+          )
+        ORDER BY visitor_id, created_at DESC
+      `;
+      journeyHits.forEach(function (j) {
+        var meta = parsePayloadSafe(j.meta);
+        var slug = meta.article_slug || slugFromPath(j.page_path);
+        if (slug) {
+          journeyArticleByVisitor[String(j.visitor_id)] = {
+            slug: slug,
+            path: j.page_path,
+            source: "journey",
+          };
+        }
+      });
+    } catch (je) {
+      /* journey optional */
     }
   }
 
   var blogLeads = [];
   var leads7d = 0;
   var leadsPrev7d = 0;
+  var leadsByArticle = {};
   leadRows.forEach(function (row) {
-    if (!leadTouchesBlog(row)) return;
-    var landing = leadLandingPath(row);
-    var slug = slugFromPath(landing) || "(landing blog/forum)";
+    var resolved = resolveLeadArticle(row);
+    var fromJourney =
+      row.visitor_id && journeyArticleByVisitor[String(row.visitor_id)]
+        ? journeyArticleByVisitor[String(row.visitor_id)]
+        : null;
+    if (!resolved && !fromJourney && !leadTouchesBlog(row)) return;
+
+    var slug =
+      (resolved && resolved.slug) ||
+      (fromJourney && fromJourney.slug) ||
+      "(landing blog/forum)";
+    var articleSource =
+      (resolved && resolved.source) ||
+      (fromJourney && fromJourney.source) ||
+      "utm_blog";
+    /* Prefer explicit utm/blog_article over journey when both exist */
+    if (resolved && resolved.slug && fromJourney && !resolved.source) {
+      /* no-op */
+    }
+    if ((!resolved || !resolved.slug || resolved.slug === "(blog/forum)") && fromJourney) {
+      slug = fromJourney.slug;
+      articleSource = "journey";
+    }
+
     bump(bySlug, slug, "leads", 1);
+    leadsByArticle[slug] = (leadsByArticle[slug] || 0) + 1;
     var created = new Date(row.created_at).getTime();
     if (created >= Date.parse(weekAgo)) leads7d++;
     else if (created >= Date.parse(twoWeeksAgo)) leadsPrev7d++;
+
+    var inv = invBySlug[slug] || {};
+    var articlePath =
+      inv.path ||
+      (fromJourney && fromJourney.path) ||
+      (slug.indexOf("forum:") === 0
+        ? "/forum/" + slug.replace(/^forum:/, "").replace(/:/g, "/") + ".html"
+        : slug === "(landing blog/forum)"
+          ? null
+          : "/blog/" + slug + ".html");
+
     blogLeads.push({
       id: row.id,
       created_at: row.created_at,
       vertical: row.vertical,
       source: row.source,
       utm_campaign: row.utm_campaign,
-      landing: landing || null,
+      utm_content: row.utm_content || null,
+      landing: leadLandingPath(row) || null,
       slug: slug,
+      article_slug: slug,
+      article_title: inv.title || titleBySlug[slug] || slug,
+      article_path: articlePath,
+      article_source: articleSource,
+      article_date: inv.date_published || null,
+      questionnaires_admin_url:
+        inv.questionnaires_admin_url ||
+        "/blog-questionnaires.html?q=" + encodeURIComponent(String(slug).replace(/^forum:/, "")),
       email: row.email ? "oui" : "non",
       phone: row.phone ? "oui" : "non",
       lead_score: row.lead_score || 0,
@@ -676,6 +822,21 @@ async function buildBlogStats(options) {
     top_ctas: topCtas,
     leads: blogLeads.slice(0, 40),
     leads_total: blogLeads.length,
+    leads_by_article: Object.keys(leadsByArticle)
+      .map(function (slug) {
+        var inv = invBySlug[slug] || {};
+        return {
+          slug: slug,
+          title: inv.title || titleBySlug[slug] || slug,
+          path: inv.path || (slug.indexOf("forum:") === 0 ? null : "/blog/" + slug + ".html"),
+          leads: leadsByArticle[slug],
+          date_published: inv.date_published || null,
+        };
+      })
+      .sort(function (a, b) {
+        return b.leads - a.leads;
+      })
+      .slice(0, 20),
     trend: trend.map(function (r) {
       return {
         day: r.day,
@@ -687,7 +848,7 @@ async function buildBlogStats(options) {
     }),
     analytics_links: analyticsLinks,
     note:
-      "Vues/clics = journey_events first-party (page_view + événements blog_*). Leads = site_leads dont landing/UTM touche /blog ou /forum. GA4/Clarity restent la référence pour le trafic SEO global.",
+      "Vues/clics = journey_events. Leads blog = site_leads rattachés à un article via utm_content, blog_article, landing/referrer /blog, ou dernier parcours journey du visitor_id. GA4/Clarity restent la référence SEO globale.",
   };
 }
 
@@ -696,6 +857,9 @@ module.exports = {
   loadArticleInventory,
   isBlogOrForumPath,
   slugFromPath,
+  slugFromUtmContent,
+  resolveLeadArticle,
+  leadTouchesBlog,
   BLOG_EVENT_TYPES,
   parseDateFromHtml,
   metaToDateLabel,
