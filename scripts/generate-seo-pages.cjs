@@ -1131,7 +1131,8 @@ const mainUrls = allUrls
   .concat(getTaxiLongtailSitemapEntries(BASE))
   .concat(getVtcIdfSitemapEntries(BASE))
   .concat(getImmoDestinationSitemapEntries(BASE))
-  .concat(nancyBassin.sitemapEntries(BASE));
+  .concat(nancyBassin.sitemapEntries(BASE))
+  .concat(require("./generate-forum.cjs").getForumSitemapEntries(BASE));
 
 writeSitemap(mainUrls, path.join(ROOT, "sitemap-main.xml"));
 writeSitemap(geoUrls, path.join(ROOT, "sitemap-geo.xml"));
