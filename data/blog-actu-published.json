@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-09-23T09:56:23.099Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -408,6 +408,89 @@
         {
           "href": "./mutuelle-sante-5-criteres.html",
           "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "frais-dentaires-mutuelle-2027.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Frais dentaires moins remboursés en 2027 : ce que votre mutuelle doit couvrir",
+      "description": "Dès 2027, la Sécurité sociale réduit sa part sur certains soins dentaires. Vérifiez plafond, 100 % Santé et reste à charge avant que la cotisation mutuelle n'augmente.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Soins dentaires moins pris en charge : le bon réflexe est de relire le plafond dentaire de votre mutuelle avant 2027.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=frais-dentaires-mutuelle-2027",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "L'actualité santé de cette semaine est claire pour les foyers : <strong>à partir de janvier 2027, l'Assurance maladie doit réduire sa participation sur certains soins dentaires</strong>. La part qui reste est reportée sur la mutuelle — et, souvent, sur la cotisation. Ce n'est pas une raison de changer de contrat dans la précipitation. C'est le moment de vérifier si le vôtre couvre encore le dentaire que vous utilisez vraiment."
+        },
+        {
+          "type": "h2",
+          "text": "Qui paie le dentaire : Sécurité sociale, mutuelle, vous"
+        },
+        {
+          "type": "p",
+          "text": "Un soin dentaire suit toujours le même chemin. La <strong>base de remboursement Sécurité sociale</strong> est prise en charge en partie par l'Assurance maladie. Votre mutuelle complète selon le poste « dentaire » du tableau de garanties : soins courants, prothèses, orthodontie. Tout ce qui dépasse le plafond, ou qui est hors panier, reste <strong>à votre charge</strong>."
+        },
+        {
+          "type": "p",
+          "text": "Le <strong>100 % Santé</strong> (couronnes, bridges et dentiers du panier réglementé) limite déjà ce reste à charge quand le praticien pratique ces tarifs. Hors panier — matériaux, implants, dépassements — le contrat fait toute la différence. Si la Sécurité sociale baisse sa part, un forfait dentaire trop bas ne compensera pas."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi la cotisation peut augmenter sans que vos besoins changent"
+        },
+        {
+          "type": "p",
+          "text": "Quand un poste est moins remboursé par le régime obligatoire, les complémentaires absorbent plus de dépenses. Les assureurs répercutent ensuite ce coût dans les <strong>tarifs 2027</strong>. Deux contrats au même prix aujourd'hui peuvent donc diverger : l'un relève le plafond dentaire, l'autre augmente la cotisation en laissant le même forfait."
+        },
+        {
+          "type": "p",
+          "text": "Relisez l'échéance annuelle, pas seulement la pub. Un contrat signé il y a plusieurs années est souvent calé sur un dentaire « de base ». Il devient insuffisant dès qu'une couronne, un enfant en orthodontie ou un renouvellement de prothèse entre dans l'année."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist avant de comparer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Plafond dentaire annuel et limite par acte (couronne, inlay, implant)",
+            "Ce qui est inclus dans le 100 % Santé, et ce qui reste hors panier",
+            "Délai de carence dentaire si vous changez de mutuelle",
+            "Orthodontie enfant et adulte : forfait ou pourcentage",
+            "Le reste du contrat : hospitalisation, optique, médecine de ville — ne dégradez pas un poste pour en améliorer un autre"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Trois minutes pour voir si votre niveau suffit"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire mutuelle demande votre situation (seul, famille, seniors), vos soins habituels et votre budget. Un courtier ORIAS en déduit un niveau de garanties comparable, dentaire inclus, <strong>sans engagement</strong>."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities compare des contrats du marché (April, AXA, Allianz, Generali, Zephir et d'autres) selon votre profil. L'objectif n'est pas le prix le plus bas : c'est un dentaire qui tient quand la Sécurité sociale recule, sans surpayer l'hospitalisation ou l'optique."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 critères mutuelle"
         },
         {
           "href": "../assurance-sante/comparatif/",
