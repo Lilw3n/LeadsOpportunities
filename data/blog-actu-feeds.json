@@ -3,9 +3,9 @@
   "maxPerFeed": 5,
   "quotas": {
     "cafeyn": 20,
-    "edge": 12,
+    "edge": 15,
     "firefox": 15,
-    "aggregator": 30
+    "aggregator": 40
   },
   "feeds": [
     {
@@ -124,7 +124,7 @@
       "id": "source-cafeyn-capital",
       "name": "Cafeyn — Capital",
       "sourceType": "cafeyn",
-      "url": "https://www.capital.fr/rss",
+      "url": "https://feed.prismamediadigital.com/v1/cap/rss?limit=20",
       "enabled": true
     },
     {
@@ -320,7 +320,7 @@
       "id": "google-news-immobilier",
       "name": "Google News — prêt immo emprunteur",
       "sourceType": "aggregator",
-      "url": "https://news.google.com/rss/search?q=prêt+immobilier+OR+assurance+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
+      "url": "https://news.google.com/rss/search?q=pret+immobilier+OR+assurance+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
@@ -374,16 +374,86 @@
     },
     {
       "id": "google-news-vtc",
-      "name": "Google News — VTC Uber assurance",
+      "name": "Google News — VTC Uber chauffeur",
       "sourceType": "aggregator",
-      "url": "https://news.google.com/rss/search?q=VTC+uber+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
+      "url": "https://news.google.com/rss/search?q=VTC+OR+Uber+OR+chauffeur+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-animaux",
-      "name": "Google News — assurance animaux",
+      "name": "Google News — chien chat animaux",
       "sourceType": "aggregator",
-      "url": "https://news.google.com/rss/search?q=assurance+animaux+chien+france&hl=fr&gl=FR&ceid=FR:fr",
+      "url": "https://news.google.com/rss/search?q=chien+OR+chat+OR+assurance+animaux+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-lois",
+      "name": "Google News — lois et reformes France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=loi+OR+reforme+legislation+france+2026&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-location",
+      "name": "Google News — location appartement loyer",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=location+appartement+OR+loyer+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-vente-immo",
+      "name": "Google News — vente achat maison",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=vente+maison+OR+achat+immobilier+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-vtc",
+      "name": "Edge — Bing VTC chauffeur",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=VTC+france&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-animaux",
+      "name": "Edge — Bing assurance chien",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=assurance+chien+france&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-pret",
+      "name": "Edge — Bing prêt immobilier",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=pret+immobilier+france&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-actu",
+      "name": "Yahoo — Actualités France",
+      "sourceType": "aggregator",
+      "url": "https://fr.news.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-france",
+      "name": "Yahoo — Actu France",
+      "sourceType": "aggregator",
+      "url": "https://fr.news.yahoo.com/rss/france/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance",
+      "name": "Yahoo Finance — top stories",
+      "sourceType": "aggregator",
+      "url": "https://fr.finance.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-20minutes",
+      "name": "Firefox — 20 Minutes une",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-une.xml",
       "enabled": true
     },
     {

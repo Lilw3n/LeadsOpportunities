@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-22",
+  "updated": "2026-09-23",
   "sections": [
     "actu",
     "animaux",
@@ -2017,6 +2017,84 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "la-reprise-aura-ete-de-courte-duree-pour-le-marche-immobilier-apres-un-r.html",
+      "title": "La reprise aura été de courte durée pour le marché immobilier: après un rebond à 950.00… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=la-reprise-aura-ete-de-courte-duree-pour",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "taux-immobilier-septembre-2026-quel-taux-sur-15-20-25-ans-pretto.html",
+      "title": "Taux Immobilier Septembre 2026 : quel taux sur 15, 20, 25 ans - Pretto : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=taux-immobilier-septembre-2026-quel-ta",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "trouver-un-appartement-a-louer-en-france-c-est-une-enorme-galere-pourquo.html",
+      "title": "\"Trouver un appartement à louer en France, c'est une énorme galère\" : pourquoi la locat… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=trouver-un-appartement-a-louer-en-franc",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "la-france-adopte-une-timide-legislation-pour-lutter-contre-la-fast-fashi.html",
+      "title": "La France adopte une timide législation pour lutter contre la fast-fashion - Le Monde.fr : prevoyance et revenus — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=prevoyance&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=prevoyance&utm_content=la-france-adopte-une-timide-legislation",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "l-abandon-des-animaux-encore-eleve-durant-l-ete-2026-ymanci-fr.html",
+      "title": "L’abandon des animaux encore élevé durant l'été 2026 - ymanci.fr : assurance animaux — que faire ?",
+      "section": "animaux",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=l-abandon-des-animaux-encore-eleve-duran",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "revalorisation-du-revenu-minimum-garanti-a-partir-du-1er-septembre-2026-.html",
+      "title": "Revalorisation du revenu minimum garanti à partir du 1er septembre 2026 - Uber : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=revalorisation-du-revenu-minimum-garanti",
+      "matchedRule": "vtc",
       "species": null
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-09-23T10:14:17.004Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,420 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "la-reprise-aura-ete-de-courte-duree-pour-le-marche-immobilier-apres-un-r.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "La reprise aura été de courte durée pour le marché immobilier: après un rebond à 950.00… : assurance habitation — que faire ?",
+      "description": "La reprise aura été de courte durée pour le marché immobilier: après un rebond à 950.000 ventes l'année dernière, le nombre de transactions va redescendre  — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "La reprise aura été de courte durée pour le marché immobilier: après un rebond à 950.000 ventes l'année derniè — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=la-reprise-aura-ete-de-courte-duree-pour",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>La reprise aura été de courte durée pour le marché immobilier: après un rebond à 950.00…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "taux-immobilier-septembre-2026-quel-taux-sur-15-20-25-ans-pretto.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Taux Immobilier Septembre 2026 : quel taux sur 15, 20, 25 ans - Pretto : pret et assurance emprunteur — que faire ?",
+      "description": "Taux Immobilier Septembre 2026 : quel taux sur 15, 20, 25 ans - Pretto — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Taux Immobilier Septembre 2026 : quel taux sur 15, 20, 25 ans - Pretto — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=taux-immobilier-septembre-2026-quel-ta",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Taux Immobilier Septembre 2026 : quel taux sur 15, 20, 25 ans - Pretto</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "trouver-un-appartement-a-louer-en-france-c-est-une-enorme-galere-pourquo.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "\"Trouver un appartement à louer en France, c'est une énorme galère\" : pourquoi la locat… : assurance habitation — que faire ?",
+      "description": "\"Trouver un appartement à louer en France, c'est une énorme galère\" : pourquoi la location est en crise - TF1 Info — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "\"Trouver un appartement à louer en France, c'est une énorme galère\" : pourquoi la location est en crise - TF1  — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=trouver-un-appartement-a-louer-en-franc",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>\"Trouver un appartement à louer en France, c'est une énorme galère\" : pourquoi la locat…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "la-france-adopte-une-timide-legislation-pour-lutter-contre-la-fast-fashi.html",
+      "section": "actu",
+      "tag": "Lois & réforme",
+      "tagClass": "tag-actu",
+      "title": "La France adopte une timide législation pour lutter contre la fast-fashion - Le Monde.fr : prevoyance et revenus — que faire ?",
+      "description": "La France adopte une timide législation pour lutter contre la fast-fashion - Le Monde.fr — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "La France adopte une timide législation pour lutter contre la fast-fashion - Le Monde.fr — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=prevoyance&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=prevoyance&utm_content=la-france-adopte-une-timide-legislation",
+        "label": "Questionnaire prévoyance (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>La France adopte une timide législation pour lutter contre la fast-fashion - Le Monde.fr</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Sans prevoyance solide, un arret de travail fait chuter les revenus du foyer."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Maintien de salaire et franchise ITT",
+            "Invalidite et rente education",
+            "Deces et capital pour les proches",
+            "Statut salarie vs TNS",
+            "Coordination avec mutuelle et PER"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire prevoyance : securiser revenus et charges fixes."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ]
+    },
+    {
+      "file": "l-abandon-des-animaux-encore-eleve-durant-l-ete-2026-ymanci-fr.html",
+      "section": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "title": "L’abandon des animaux encore élevé durant l'été 2026 - ymanci.fr : assurance animaux — que faire ?",
+      "description": "L’abandon des animaux encore élevé durant l'été 2026 - ymanci.fr — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "L’abandon des animaux encore élevé durant l'été 2026 - ymanci.fr — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=l-abandon-des-animaux-encore-eleve-duran",
+        "label": "Questionnaire animaux (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>L’abandon des animaux encore élevé durant l'été 2026 - ymanci.fr</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Une urgence veterinaire peut depasser 1 000 EUR sans assurance animaux."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Plafond annuel et franchise",
+            "Maladies hereditaires et exclusions",
+            "Prevention et vermifuge",
+            "Age du chien ou chat a la souscription",
+            "Delai de carence"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire animaux : espece, age, antecedents."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-animaux-comment-choisir.html",
+          "label": "Choisir assurance animaux"
+        },
+        {
+          "href": "../assurance-animaux/",
+          "label": "Assurance animaux"
+        }
+      ]
+    },
+    {
+      "file": "revalorisation-du-revenu-minimum-garanti-a-partir-du-1er-septembre-2026-.html",
+      "section": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "title": "Revalorisation du revenu minimum garanti à partir du 1er septembre 2026 - Uber : assurance VTC — que faire ?",
+      "description": "Revalorisation du revenu minimum garanti à partir du 1er septembre 2026 - Uber — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Revalorisation du revenu minimum garanti à partir du 1er septembre 2026 - Uber — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=revalorisation-du-revenu-minimum-garanti",
+        "label": "Questionnaire VTC (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Revalorisation du revenu minimum garanti à partir du 1er septembre 2026 - Uber</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un contrat VTC inadapte peut bloquer Uber, Bolt ou Heetch — et couter cher au sinistre."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "RC Pro plateforme et activite",
+            "Vehicule : usage professionnel declare",
+            "Assistance et perte d'exploitation",
+            "Franchise et conducteurs secondaires",
+            "Attestation a jour avant chaque course"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire VTC : plateforme, vehicule, anciennete."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-vtc-moins-cher-2026.html",
+          "label": "VTC moins cher"
+        },
+        {
+          "href": "../assurance-vtc/",
+          "label": "Assurance VTC"
         }
       ]
     }

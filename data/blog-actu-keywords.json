@@ -8,17 +8,24 @@
       "tagClass": "tag-sante"
     },
     {
-      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur"],
+      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur", "location", "louer", "loyer", "bail", "à louer", "a louer", "recherche appartement", "bien à louer", "bien a louer"],
       "section": "habitat",
       "need": "habitation",
       "tag": "Habitation",
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
+      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie", "vente maison", "achat immobilier", "acquisition", "transactions immobilières", "transactions immobilieres", "bien à vendre", "bien a vendre", "recherche de prêt", "recherche de pret", "compromis", "notaire"],
       "section": "finance",
       "need": "emprunteur",
       "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu"
+    },
+    {
+      "keywords": ["loi ", "lois ", "législation", "legislation", "décret", "decret", "réforme", "reforme", "assemblée", "assemblee", "sénat", "senat", "juridique", "légitime défense", "legitime defense", "fast-fashion", "démarchage", "demarchage"],
+      "section": "actu",
+      "need": "prevoyance",
+      "tag": "Lois & réforme",
       "tagClass": "tag-actu"
     },
     {

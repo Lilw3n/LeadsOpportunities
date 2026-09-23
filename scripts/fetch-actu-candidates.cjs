@@ -27,9 +27,27 @@ function resolveQueueSourceType(source) {
 
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
+  var queuedFirst = [];
+  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+    (buckets[type] || []).forEach(function (c) {
+      if (c.status === "queued") queuedFirst.push(c);
+    });
+  });
+  queuedFirst.sort(function (a, b) {
+    return (b.leadScore || 0) - (a.leadScore || 0);
+  });
+  var queuedKeys = new Set(
+    queuedFirst.map(function (c) {
+      return c.url || c.title;
+    })
+  );
+  merged = merged.concat(queuedFirst);
+
   ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
     var cap = quotas[type] || 0;
-    var list = (buckets[type] || []).slice();
+    var list = (buckets[type] || []).slice().filter(function (c) {
+      return !queuedKeys.has(c.url || c.title);
+    });
     list.sort(function (a, b) {
       return b.leadScore - a.leadScore;
     });
@@ -38,8 +56,17 @@ function mergeWithQuotas(buckets, quotas) {
   return merged;
 }
 
+function isPlaceholderQueueItem(item) {
+  var id = String(item && item.id || "");
+  var title = String(item && item.title || "");
+  if (id === "cafeyn-pending-template") return true;
+  if (/COLLEZ ICI/i.test(title)) return true;
+  return false;
+}
+
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected") return;
+  if (isPlaceholderQueueItem(item)) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
@@ -171,13 +198,23 @@ async function main() {
   });
 
   ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
-    var seen = new Set();
-    buckets[type] = (buckets[type] || []).filter(function (c) {
+    var byKey = new Map();
+    (buckets[type] || []).forEach(function (c) {
       var k = (c.url || c.title).toLowerCase();
-      if (seen.has(k)) return false;
-      seen.add(k);
-      return true;
+      var prev = byKey.get(k);
+      if (!prev) {
+        byKey.set(k, c);
+        return;
+      }
+      // Garder la version file (queued) plutôt que le doublon RSS
+      if (c.status === "queued" && prev.status !== "queued") {
+        byKey.set(k, c);
+        return;
+      }
+      if (prev.status === "queued") return;
+      if ((c.leadScore || 0) > (prev.leadScore || 0)) byKey.set(k, c);
     });
+    buckets[type] = Array.from(byKey.values());
     buckets[type].forEach(function (c) {
       c.leadScore = scoreLeadPotential(c);
     });

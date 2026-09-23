@@ -168,7 +168,7 @@ function runNode(script) {
 }
 
 async function main() {
-  var count = Math.min(5, Math.max(1, Number(arg("count", 1)) || 1));
+  var count = Math.min(6, Math.max(1, Number(arg("count", 1)) || 1));
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
   var skipPublish = process.argv.indexOf("--skip-publish") !== -1;
   var useAi = hasAiKey() && process.argv.indexOf("--no-ai") === -1;

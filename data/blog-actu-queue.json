@@ -1,41 +1,74 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-09-23T10:14:17.010Z",
   "items": [
-    {
-      "id": "edge-world-cup-iran-2026",
-      "title": "Coupe du monde : fan flag et deplacement USA",
-      "url": "",
-      "source": "edge",
-      "note": "Angle assurance voyage sante etranger",
-      "status": "published",
-      "addedAt": "2026-06-17T08:00:00.000Z"
-    },
-    {
-      "id": "firefox-g7-evian",
-      "title": "G7 d'Evian : a quoi sert le Groupe des sept",
-      "url": "",
-      "source": "firefox",
-      "note": "Courrier international — prevoyance patrimoine credit",
-      "status": "published",
-      "addedAt": "2026-06-17T08:00:00.000Z"
-    },
-    {
-      "id": "firefox-france-senegal",
-      "title": "France vs Senegal Coupe du monde",
-      "url": "",
-      "source": "firefox",
-      "note": "Widget sport — voyage assurance",
-      "status": "published",
-      "addedAt": "2026-06-17T08:00:00.000Z"
-    },
     {
       "id": "cafeyn-pending-template",
       "title": "COLLEZ ICI le titre de la une Cafeyn (Le Figaro, Le Parisien…)",
       "url": "",
       "source": "cafeyn",
-      "note": "Angle assurance a preciser",
+      "note": "Angle assurance a preciser — placeholder ignore par le pipeline",
       "status": "pending",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "theme-lois-2026-09-23",
+      "title": "La France adopte une timide législation pour lutter contre la fast-fashion - Le Monde.fr",
+      "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxOaGNUN2RaTkQyUW1DdmEzakpzUllmeWowRVA5dDl1UXBKMDAxMnlreFdTeVBlREpBUFhmUkN2OHN3TnpWUkE0MmVRQ2t6cXRjRVJHS1g1aG9RMVViQklBcnNyODd1UWVZTjNFaUpxd00wQVVTMWFqR0cteTkwRzdrcGVGNl83VW41Mkl5bFlNaGNnVGZzR0tfeUZ6dVJLaWIyZkg4QzFTNkhZM1lSaVB6ZGJXSjY3UTBLTHB6Y185VHMwTjd1RHJlLVdTeVZ5bHgxdTVBX3VUbmZZSXg1c0Jn?oc=5",
+      "source": "aggregator",
+      "note": "Angle prevoyance / cadre legal France — CTA questionnaire prevoyance",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:11.000Z",
+      "theme": "lois"
+    },
+    {
+      "id": "theme-vtc-2026-09-23",
+      "title": "Revalorisation du revenu minimum garanti à partir du 1er septembre 2026 - Uber",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9LTFZncUZ0SjRvWll1LWRoZDZxd1ZHUmo0NGFfZjh1dXktakxCVzNlc0ZMYS1HRzVCRGEyYnhKRnZ5TGV6dmFjUW1kdGVFZERUZ2Z6Q2FuWWR3X0xSOW9TVmx2dUJid2U4LXUxdENJUnBNRDQ2cTJwb1ZsbnRWZw?oc=5",
+      "source": "aggregator",
+      "note": "Angle chauffeur VTC / revenu plateforme — CTA questionnaire VTC",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:11.000Z",
+      "theme": "vtc"
+    },
+    {
+      "id": "theme-animaux-2026-09-23",
+      "title": "L’abandon des animaux encore élevé durant l'été 2026 - ymanci.fr",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQX1pLWlBIUGRlVXdqdlRzVGFsRl90a200NWhjLXN5elBoVVhZTy10bVNVZEFCYWRUcGRrSWxFYUNDVUNJbFNpX2RsUThCVnZaQmVva3U2aFpkMFJNb2lPQVFaN2JaX1RTOXVUQTJ5NEgzNDAyU1dkN1J0S0RKZ3AwM3ZXV3RuTm5qNXZRRTZLYWFWb0U?oc=5",
+      "source": "aggregator",
+      "note": "Angle abandon et frais veterinaire — CTA questionnaire animaux",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:11.000Z",
+      "theme": "animaux"
+    },
+    {
+      "id": "theme-pret-2026-09-23",
+      "title": "Taux Immobilier Septembre 2026 : quel taux sur 15, 20, 25 ans - Pretto",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOall4NXFmenZudFRRUDMzSy1SLTlodWxteWRnanN4a3VWa3BXaEhETmY1TW1pT0xucm1vY1NRdmxpZnJGZ1A0ZGpoODhSaVRocjZQNUhCYlJPczNxMEtaeVh4WXFRYjYwN1BKOG9mRTA3d2pSWjRlQmVWRlVxaEo0dDF5OGhWM0lUVkZ4aVZyLTJNVHg3dGs2Z2dNUlY0RnRCQnc?oc=5",
+      "source": "aggregator",
+      "note": "Angle recherche de pret / taux immo — CTA questionnaire emprunteur",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:11.000Z",
+      "theme": "pret"
+    },
+    {
+      "id": "theme-vente-2026-09-23",
+      "title": "La reprise aura été de courte durée pour le marché immobilier: après un rebond à 950.000 ventes l'année dernière, le nombre de transactions va redescendre entre 900 et 920.000 en 2026 - BFM",
+      "url": "https://news.google.com/rss/articles/CBMi5gJBVV95cUxPMkw0TWZDVXVNQlowWkNxdktuSzRIa0UwYTdoS3lFSUp0TWNhNl9KbzFobUJYSEtPYUFXQzI4WjNjNG1Qc0tzRkJQYVl0ZFhEUElGSjdQMDE5SFpsbFpoQmdJUVRZQXZZQmtPelBEdFpGdVpqVERxckQtRThrYzNVd1ltcWd0LW5sWFYtNVV5VVFNWU1UcjJiTDlJYkdLOHE3ajdvM2IxY1VxZ25SdHlCOXBENklvOVVMVV9jXy1xOHlVdGRYbGxxSDlzQXo5ems0cEVGQU9vLWNNNkVXZXBMSEpPY3dpcFRXUmNENFVYaTY1cW10bU54QlEzRlp1QTZxMFlkd09JMzdYcUNlcE9VYmE4ZDVOYURFcWE0MXNVRmZFZi15UXgzaEczczZUaEQzcXA4b0czSGItOThuLXp4SlBJelBsNVFXejFkYXhkRlp4dENiUFdVc2tOSVZ6VEtUbGNLdDFR?oc=5",
+      "source": "aggregator",
+      "note": "Angle vente acquisition maison — CTA questionnaire emprunteur + habitation",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:11.000Z",
+      "theme": "vente"
+    },
+    {
+      "id": "theme-location-2026-09-23",
+      "title": "\"Trouver un appartement à louer en France, c'est une énorme galère\" : pourquoi la location est en crise - TF1 Info",
+      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxONVZTcGxmZkY4UjdwTU5vVmJrb2o5SjQwMzVpOTh6UjBCaUJxQ3R4N1pUSk9vSzhWcld2b1hKcE1SZS1VR19HbU9VQzZKemp0aVJJbS10SnpPaUR4ekt3MmgzNi05a3pubTNTS0ZCVTlYR2xWVUN6cE5IRGdXQWdpWUJoRlNDQURac3l0ZHJnZXJRSEVnaEk3WE90ZUNad082VzBkM0N1akV5NkFjNUxqeVRUemU5LWstdFFGNW9ZM29reTkxUncxZlpzTUQ1azZUc2E2UDQ5OEVIR0FySVE?oc=5",
+      "source": "aggregator",
+      "note": "Angle recherche bien a louer — CTA questionnaire habitation",
+      "status": "published",
+      "addedAt": "2026-09-23T10:12:11.000Z",
+      "theme": "location"
     }
   ]
 }

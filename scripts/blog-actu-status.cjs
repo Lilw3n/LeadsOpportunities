@@ -14,7 +14,10 @@ function main() {
   console.log("=== Pipeline blog actu ===\n");
   console.log("Articles manifeste:", MANIFEST.articles.length);
   console.log("File manuelle (queue):", (queue.items || []).filter(function (i) {
-    return i.status !== "published";
+    if (i.status === "published" || i.status === "rejected") return false;
+    if (i.id === "cafeyn-pending-template") return false;
+    if (/COLLEZ ICI/i.test(String(i.title || ""))) return false;
+    return true;
   }).length);
   console.log("Candidats RSS:", (candidates.candidates || []).length);
   console.log("Articles pending (brouillon):", pending.length);
