@@ -104,12 +104,19 @@ function scoreLeadPotential(candidate) {
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
+  if (candidate.sourceType === "google" || candidate.sourceType === "bing" || candidate.sourceType === "yahoo") {
+    score += 8;
+  }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
 
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
+  ["vtc", "uber", "chauffeur", "chien", "chat", "animal", "location", "loyers", "notaire", "acquisition", "réforme", "reforme"].forEach(function (kw) {
+    if (title.indexOf(kw) !== -1) score += 6;
+  });
+  if (/\bloi\b/.test(title) || title.indexOf("législ") !== -1 || title.indexOf("legisl") !== -1) score += 6;
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {

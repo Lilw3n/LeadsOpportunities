@@ -15,11 +15,32 @@
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
+      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie", "recherche de prêt", "recherche de pret", "dossier de crédit", "dossier de credit", "offre de prêt", "offre de pret"],
       "section": "finance",
       "need": "emprunteur",
       "tag": "Crédit & emprunteur",
       "tagClass": "tag-actu"
+    },
+    {
+      "keywords": ["loi ", "lois ", "décret", "decret", "réforme", "reforme", "législation", "legislation", "assemblée nationale", "assemblee nationale", "sénat", "senat", "code civil", "plfss", "projet de loi"],
+      "section": "actu",
+      "need": "prevoyance",
+      "tag": "Lois & réformes",
+      "tagClass": "tag-actu"
+    },
+    {
+      "keywords": ["vente maison", "achat maison", "acquisition", "compromis de vente", "notaire", "frais de notaire", "marché immobilier", "marche immobilier", "prix au m", "bien à vendre", "bien a vendre", "annonce immobilière", "annonce immobiliere"],
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Vente & acquisition",
+      "tagClass": "tag-habitation"
+    },
+    {
+      "keywords": ["location", "à louer", "a louer", "loyers", "bail ", "coloc", "colocation", "agence immobilière", "agence immobiliere", "recherche de bien", "bien à louer", "bien a louer"],
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Location & recherche",
+      "tagClass": "tag-habitation"
     },
     {
       "keywords": ["construction", "sinistre", "dégâts des eaux", "degats des eaux", "catastrophe", "récolte", "agricole"],
