@@ -94,6 +94,40 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+var LEAD_ANGLE_RE =
+  /assurance|mutuelle|emprunteur|pr[eê]t immobilier|cr[eé]dit immo|sinistre|habitation|pr[eé]voyance|orias|vtc\b|rc[- ]?pro|carburant|essence|gazole|logement|taux du cr[eé]dit|loi lemoine|compl[eé]mentaire sant[eé]/i;
+
+var LOW_LEAD_RE =
+  /faits-divers|proc[eè]s|assassinat|meurtre|accus[eé]|cour d['’]assises|pape |vatican|concert|c[eé]l[eé]bration pol[eé]mique|r[eé]seaux sociaux|dissuasion nucl[eé]aire|oc[eé]an arctique|municipales|malfrats|vend[eé]e globe|biblioth[eè]que|prison pour|tueur de|interpell|usurpation d['’]identit|violences sexuelles|camp de migrants|\/musique\/|leurs adieux|n[eé]crologie|d[eé]c[eé]d[eé]e/i;
+
+function hasLeadConversionAngle(candidate) {
+  var hay =
+    String((candidate && candidate.title) || "") +
+    " " +
+    String((candidate && candidate.summary) || "") +
+    " " +
+    String((candidate && candidate.url) || "");
+  return LEAD_ANGLE_RE.test(hay);
+}
+
+/** Actu sans angle questionnaire (faits divers, people, foot hors CDM). */
+function isLowLeadActuTopic(candidate) {
+  var title = String((candidate && candidate.title) || "");
+  var summary = String((candidate && candidate.summary) || "");
+  var url = String((candidate && candidate.url) || "");
+  var hay = title + " " + summary + " " + url;
+  if (hasLeadConversionAngle(candidate)) return false;
+  if (LOW_LEAD_RE.test(hay)) return true;
+  if (
+    /\bfootball\b|\bas monaco\b|\bmatch(es)? de suspension\b/i.test(hay) &&
+    !/coupe du monde|les bleus|mbapp/i.test(hay)
+  ) {
+    return true;
+  }
+  if (/\bguerre\b|\bmoyen-orient\b|\bukraine\b|\by[eé]men\b|\bcisjordanie\b/i.test(hay)) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -139,6 +173,8 @@ function scoreLeadPotential(candidate) {
     else if (age < 7 * 86400000) score += 6;
   }
 
+  if (isLowLeadActuTopic(candidate)) score = Math.min(score, 12);
+
   return Math.min(100, Math.max(0, score));
 }
 
@@ -150,6 +186,20 @@ function rankCandidates(candidates) {
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
     });
+}
+
+/** File inbox / titres factices à ne jamais publier. */
+function isUnusableActuCandidate(c) {
+  var title = String((c && c.title) || "").trim();
+  if (!title) return true;
+  var id = String((c && c.id) || "");
+  if (id === "cafeyn-pending-template") return true;
+  var t = title.toLowerCase();
+  if (t.indexOf("collez ici") !== -1) return true;
+  if (t.indexOf("titre de la une") !== -1) return true;
+  if (t.indexOf("[placeholder]") !== -1) return true;
+  if (/^TODO\b/i.test(title)) return true;
+  return false;
 }
 
 function ctaWithUtm(need, slug) {
@@ -349,6 +399,9 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isUnusableActuCandidate: isUnusableActuCandidate,
+  isLowLeadActuTopic: isLowLeadActuTopic,
+  hasLeadConversionAngle: hasLeadConversionAngle,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };

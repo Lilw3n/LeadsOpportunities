@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-15T11:50:45.721Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aa930b80f90412cab5a030e9ed79913&url=https%3a%2f%2fwww.france24.com%2ffr%2f%25C3%25A9missions%2fsports%2f20260515-%25C3%25A9quipe-de-france-didier-deschamps-d%25C3%25A9voile-sa-liste-pour-la-coupe-du-monde-2026&c=1859530772915579181&mkt=en-us",
+    "https://www.franceinfo.fr/sante/maladie/grippe/la-couverture-vaccinale-contre-la-grippe-est-insuffisante-chez-les-personnages-agees-et-les-soignants-selon-une-etude-de-sante-publique-france_8193185.html#xtor=RSS-3-%5Bgeneral%5D",
+    "https://www.lefigaro.fr/flash-eco/canadiens-chinois-mexicains-comment-les-visiteurs-etrangers-ont-sauve-la-saison-touristique-2026-en-france-20260915"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-15T11:50:47.535Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,45 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-15T11:49:18.416Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "equipe-de-france-didier-deschamps-devoile-sa-liste-pour-la-coupe-du-mond.html",
+          "title": "Équipe de France : Didier Deschamps dévoile sa liste pour la Coupe du monde 2026 : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing actu France",
+          "sourceType": "edge"
+        },
+        {
+          "file": "la-couverture-vaccinale-contre-la-grippe-est-insuffisante-chez-les-perso.html",
+          "title": "La couverture vaccinale contre la grippe est insuffisante chez les personnages âgées et… : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-15T11:50:15.827Z",
+      "count": 0,
+      "usedAi": false,
+      "articles": []
+    },
+    {
+      "at": "2026-09-15T11:50:47.535Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "canadiens-chinois-mexicains-comment-les-visiteurs-etrangers-ont-sauve-la.html",
+          "title": "Canadiens, Chinois, Mexicains... Comment les visiteurs étrangers ont sauvé la saison to… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 1
 }
