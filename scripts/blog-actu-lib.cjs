@@ -59,7 +59,7 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (keywordHit(hay, kw)) score += 1;
     });
     if (score > bestScore) {
       bestScore = score;
@@ -92,6 +92,17 @@ function monthLabel() {
   var months = ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"];
   var d = new Date();
   return months[d.getMonth()] + " " + d.getFullYear();
+}
+
+/** Mots courts (sécu, auto…) : correspondance au mot, pas un préfixe (sécuritaire). */
+function keywordHit(hay, kw) {
+  var k = String(kw || "").toLowerCase();
+  if (!k) return false;
+  if (k.length <= 5) {
+    var escaped = k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp("(^|[^a-zà-ÿ0-9])" + escaped + "([^a-zà-ÿ0-9]|$)", "i").test(hay);
+  }
+  return hay.indexOf(k) !== -1;
 }
 
 /** Score 0–100 : potentiel lead questionnaire */
@@ -150,6 +161,19 @@ function rankCandidates(candidates) {
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
     });
+}
+
+/** File manuelle / inbox : ignore les consignes "COLLEZ ICI" et les gabarits. */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var title = String(item.title || "").trim();
+  var id = String(item.id || "").toLowerCase();
+  var status = String(item.status || "").toLowerCase();
+  if (!title) return true;
+  if (status === "template") return true;
+  if (/collez ici/i.test(title)) return true;
+  if (id.indexOf("pending-template") !== -1 || /-template$/.test(id)) return true;
+  return false;
 }
 
 function ctaWithUtm(need, slug) {
@@ -349,6 +373,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuItem: isPlaceholderActuItem,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
