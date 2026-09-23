@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stats blog & forum | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .blog-stats-growth--up { color: #16a34a; font-weight: 700; }
+    .blog-stats-growth--down { color: #b91c1c; font-weight: 700; }
+    .blog-stats-growth--flat { color: var(--muted); font-weight: 600; }
+    .blog-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .blog-stats-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .blog-stats-card h3 { margin: 0 0 6px; font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+    .blog-stats-card .big { font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
+    .blog-stats-card .sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+    .blog-stats-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 110px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+    }
+    .blog-stats-bar-wrap {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .blog-stats-bar {
+      width: 100%;
+      max-width: 22px;
+      background: linear-gradient(180deg, #0284c7, #0369a1);
+      border-radius: 4px 4px 0 0;
+      min-height: 2px;
+    }
+    .blog-stats-bar-label {
+      font-size: 0.55rem;
+      color: var(--muted);
+      transform: rotate(-45deg);
+      white-space: nowrap;
+      margin-top: 6px;
+    }
+    .blog-stats-external { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .blog-stats-table-wrap { overflow-x: auto; }
+    .blog-stats-table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .blog-stats-table-wrap th,
+    .blog-stats-table-wrap td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    .blog-stats-table-wrap th { color: var(--muted); font-weight: 600; font-size: 0.75rem; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Analytics</p>
+      <h2>Stats blog &amp; forum — vues, clics, leads</h2>
+      <p>Chiffres <strong>first-party</strong> sur le site (Neon) : pages vues, clics CTA, lectures terminées et leads issus du blog/forum. Complément GA4 / Clarity / Search Console ci-dessous.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-trafic.html" class="btn btn-ghost">Trafic global</a>
+      <a href="./crm-sources.html" class="btn btn-ghost">Origine leads</a>
+      <a href="./blog/" class="btn btn-ghost" target="_blank" rel="noopener">Ouvrir le blog ↗</a>
+      <button type="button" class="btn btn-primary" id="btnBlogStatsRefresh">Actualiser</button>
+    </div>
+  </section>
+
+  <div class="crm-toolbar acq-toolbar">
+    <label>Période
+      <select id="blogStatsDays" class="crm-input">
+        <option value="7">7 jours</option>
+        <option value="30" selected>30 jours</option>
+        <option value="60">60 jours</option>
+        <option value="90">90 jours</option>
+      </select>
+    </label>
+    <span class="acq-badge muted" id="blogStatsInventory">—</span>
+  </div>
+
+  <div class="acq-stats" id="blogStatsSummary"></div>
+
+  <section class="panel pub-hub-section">
+    <h2>Comparaison 7 j vs semaine précédente</h2>
+    <div class="blog-stats-grid" id="blogStatsCompare"></div>
+    <p id="blogStatsNote" style="color:var(--muted);font-size:0.85rem;margin:0"></p>
+  </section>
+
+  <section class="panel pub-hub-section">
+    <h2>Évolution quotidienne (vues blog/forum)</h2>
+    <div class="blog-stats-chart" id="blogStatsChart"></div>
+  </section>
+
+  <div class="src-grid">
+    <section class="panel">
+      <h2>Articles — vues &amp; clics</h2>
+      <div class="blog-stats-table-wrap" id="blogStatsArticles"></div>
+    </section>
+    <section class="panel">
+      <h2>Top CTA cliqués</h2>
+      <div id="blogStatsCtas"></div>
+      <h2 style="margin-top:20px">Pages les plus vues</h2>
+      <div id="blogStatsTopPages"></div>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top:18px">
+    <h2>Leads issus du blog / forum</h2>
+    <p style="color:var(--muted);margin-top:0">Leads CRM dont la landing, l’UTM ou le formulaire pointe vers /blog ou /forum.</p>
+    <div class="blog-stats-table-wrap" id="blogStatsLeads"></div>
+  </section>
+
+  <section class="panel" style="margin-top:18px">
+    <h2>Analytics externes (détail sessions / SEO)</h2>
+    <div class="blog-stats-external" id="blogStatsExternal"></div>
+    <ul style="margin-top:14px;color:var(--muted);font-size:0.85rem;line-height:1.6">
+      <li><strong>GA4</strong> — événements <code>blog_article_view</code>, <code>blog_cta_click</code>, <code>blog_scroll_depth</code></li>
+      <li><strong>Clarity</strong> — heatmaps / scroll maps sur <code>/blog/*</code>, tag <code>market_intent=FR</code></li>
+      <li><strong>Search Console</strong> — clics organiques Google (≠ clics dans la page)</li>
+    </ul>
+  </section>
+
+  <script src="./js/crm-lead-platform.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-blog-stats.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
