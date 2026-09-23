@@ -7,7 +7,7 @@ const path = require("path");
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
 const { franceMetaBlock, logoBlock, brandIconsMeta, LOGO_BANNER_SRC } = require("./france-brand.cjs");
 const { SITE_ORIGIN: BASE } = require("./site-url.cjs");
-const { organizationJsonLd } = require("./seo-org-schema.cjs");
+const { organizationJsonLd, AUTHOR, authorBlockHtml, breadcrumbListJsonLd, ORG } = require("./seo-org-schema.cjs");
 const { footerSocialLinksHtml } = require("./social-links-lib.cjs");
 
 const ROOT = path.join(__dirname, "..");
@@ -199,6 +199,28 @@ function footerBlock(prefix) {
   );
 }
 
+function breadcrumbNav(items) {
+  return (
+    '    <nav class="forum-bc" aria-label="Fil d\'Ariane">\n' +
+    '      <ol class="forum-bc-list">\n' +
+    items
+      .map(function (it, i) {
+        var last = i === items.length - 1;
+        if (last) {
+          return (
+            '        <li><span aria-current="page">' + esc(it.name) + "</span></li>\n"
+          );
+        }
+        return (
+          "        <li><a href=\"" + esc(it.href) + '">' + esc(it.name) + "</a></li>\n"
+        );
+      })
+      .join("") +
+    "      </ol>\n" +
+    "    </nav>\n"
+  );
+}
+
 function askFormHtml(theme, opts) {
   opts = opts || {};
   var threadSlug = opts.threadSlug || "";
@@ -377,17 +399,24 @@ function buildTheme(theme) {
         "</p>\n" +
         '        <a class="forum-read" href="./' +
         esc(th.slug) +
-        '.html">Lire la réponse →</a>\n' +
+        '.html">Lire la réponse à « ' +
+        esc(th.question.slice(0, 48)) +
+        (th.question.length > 48 ? "…" : "") +
+        ' »</a>\n' +
         "      </article>\n"
       );
     })
     .join("");
 
+  var crumbs = [
+    { name: "Accueil", href: "../../index.html", item: BASE + "/" },
+    { name: "Forum", href: "../", item: BASE + "/forum/" },
+    { name: theme.navLabel, href: "./", item: canonical },
+  ];
+
   var body =
     '  <main class="forum-main container">\n' +
-    '    <nav class="forum-bc" aria-label="Fil d\'Ariane"><a href="../">Forum</a> · <span>' +
-    esc(theme.navLabel) +
-    "</span></nav>\n" +
+    breadcrumbNav(crumbs) +
     '    <header class="forum-hero forum-hero--theme">\n' +
     "      <h1>" +
     esc(theme.title) +
@@ -395,9 +424,13 @@ function buildTheme(theme) {
     "      <p class=\"lead\">" +
     esc(theme.intro) +
     "</p>\n" +
-    '      <p class="forum-cta-row"><a class="btn btn-primary" href="#poser-question">Poser une question</a> <a class="btn btn-outline" href="' +
+    '      <p class="forum-cta-row"><a class="btn btn-primary" href="#poser-question">Poser une question sur ' +
+    esc(theme.navLabel) +
+    '</a> <a class="btn btn-outline" href="' +
     esc(theme.landing) +
-    '">Parcours devis</a> <a class="btn btn-soft" href="mailto:' +
+    '">Parcours devis ' +
+    esc(theme.navLabel) +
+    '</a> <a class="btn btn-soft" href="mailto:' +
     esc(DATA.contactEmail) +
     "?subject=" +
     encodeURIComponent(theme.title) +
@@ -405,9 +438,10 @@ function buildTheme(theme) {
     esc(DATA.contactEmail) +
     "</a></p>\n" +
     "    </header>\n" +
-    '    <section class="forum-thread-list" aria-label="Fils">\n' +
+    '    <section class="forum-thread-list" aria-label="Fils de discussion">\n' +
     threads +
     "    </section>\n" +
+    authorBlockHtml() +
     askFormHtml(theme) +
     shareBox(canonical, theme.title) +
     "  </main>\n";
@@ -427,28 +461,34 @@ function buildTheme(theme) {
   };
 
   return shell({
-    title: theme.title + " — Q/R et demandes",
+    title: theme.title + " — questions et réponses",
     description: desc,
     canonical: canonical,
     ogImage: ogImageFor(theme),
     bodyClass: "forum-theme",
     depth: 1,
     activeTheme: theme.slug,
-    jsonLd: [organizationJsonLd(), itemList],
+    jsonLd: [organizationJsonLd(), breadcrumbListJsonLd(crumbs), itemList],
     body: body,
   });
 }
 
 function buildThread(theme, thread) {
   var canonical = BASE + "/forum/" + theme.slug + "/" + thread.slug + ".html";
-  var desc = thread.excerpt + " Réponse courtier ORIAS · " + DATA.contactEmail;
+  var answerUrl = canonical + "#acceptedAnswer";
+  var desc = thread.excerpt + " Réponse courtier ORIAS Wendy Buchet · " + DATA.contactEmail;
   var fbHook = (DATA.facebookHooks && DATA.facebookHooks[0]) || "";
+
+  var crumbs = [
+    { name: "Accueil", href: "../../index.html", item: BASE + "/" },
+    { name: "Forum", href: "../", item: BASE + "/forum/" },
+    { name: theme.navLabel, href: "./", item: BASE + "/forum/" + theme.slug + "/" },
+    { name: thread.question.slice(0, 60), href: "./" + thread.slug + ".html", item: canonical },
+  ];
 
   var body =
     '  <main class="forum-main container forum-thread-page">\n' +
-    '    <nav class="forum-bc" aria-label="Fil d\'Ariane"><a href="../">Forum</a> · <a href="./">' +
-    esc(theme.navLabel) +
-    "</a> · <span>Q/R</span></nav>\n" +
+    breadcrumbNav(crumbs) +
     "    <article>\n" +
     '      <header class="forum-hero forum-hero--thread">\n' +
     "        <p class=\"forum-kicker\">Question · " +
@@ -460,8 +500,13 @@ function buildThread(theme, thread) {
     "        <p class=\"lead\">" +
     esc(thread.excerpt) +
     "</p>\n" +
+    '        <p class="forum-date"><time datetime="' +
+    TODAY +
+    '">Mis à jour le ' +
+    TODAY +
+    "</time></p>\n" +
     "      </header>\n" +
-    '      <div class="forum-answer">\n' +
+    '      <div class="forum-answer" id="acceptedAnswer">\n' +
     "        <h2>Réponse du courtier</h2>\n" +
     "        <p>" +
     esc(thread.answer) +
@@ -471,6 +516,7 @@ function buildThread(theme, thread) {
     "</p>\n" +
     "      </div>\n" +
     phrasesList(thread.phrases) +
+    authorBlockHtml() +
     shareBox(canonical, thread.question) +
     '      <p class="forum-cta-row"><a class="btn btn-primary" href="' +
     esc(theme.questionnaire) +
@@ -479,7 +525,7 @@ function buildThread(theme, thread) {
     esc(theme.slug) +
     '">Questionnaire ' +
     esc(theme.navLabel) +
-    '</a> <a class="btn btn-outline" href="mailto:' +
+    ' (3 min)</a> <a class="btn btn-outline" href="mailto:' +
     esc(DATA.contactEmail) +
     "?subject=" +
     encodeURIComponent(thread.question.slice(0, 80)) +
@@ -496,34 +542,42 @@ function buildThread(theme, thread) {
     mainEntity: {
       "@type": "Question",
       name: thread.question,
-      text: thread.question,
-      dateCreated: TODAY,
+      text: thread.excerpt || thread.question,
       answerCount: 1,
+      upvoteCount: 1,
+      dateCreated: TODAY,
+      author: AUTHOR,
       acceptedAnswer: {
         "@type": "Answer",
         text: thread.answer,
+        upvoteCount: 1,
+        url: answerUrl,
         dateCreated: TODAY,
-        author: {
-          "@type": "Organization",
-          name: "Leads Opportunities",
-          email: DATA.contactEmail,
-        },
+        author: AUTHOR,
       },
     },
   };
 
-  var discussion = {
+  var webPageDiscussion = {
     "@context": "https://schema.org",
-    "@type": "DiscussionForumPosting",
-    headline: thread.question,
-    text: thread.answer,
+    "@type": "WebPage",
+    name: thread.question,
     url: canonical,
     datePublished: TODAY,
-    author: { "@type": "Organization", name: "Leads Opportunities" },
-    isPartOf: {
-      "@type": "WebPage",
-      name: theme.title,
-      url: BASE + "/forum/" + theme.slug + "/",
+    dateModified: TODAY,
+    author: AUTHOR,
+    mainEntity: {
+      "@type": "DiscussionForumPosting",
+      headline: thread.question,
+      text: thread.answer,
+      url: canonical,
+      datePublished: TODAY,
+      author: AUTHOR,
+      sharedContent: {
+        "@type": "WebPage",
+        url: BASE + "/forum/" + theme.slug + "/",
+        name: theme.title,
+      },
     },
   };
 
@@ -535,7 +589,7 @@ function buildThread(theme, thread) {
     bodyClass: "forum-thread",
     depth: 1,
     activeTheme: theme.slug,
-    jsonLd: [qaPage, discussion],
+    jsonLd: [qaPage, webPageDiscussion, breadcrumbListJsonLd(crumbs), organizationJsonLd()],
     body: body,
   });
 }

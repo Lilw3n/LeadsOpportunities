@@ -1,5 +1,13 @@
 User-agent: *
 Allow: /
+Allow: /forum/
+Allow: /blog/
+Allow: /assets/
+Allow: /css/
+Allow: /js/
+Allow: /main.css
+Allow: /main.js
+# Ne pas bloquer CSS/JS (Google SEO starter : Google doit voir la page comme l'internaute)
 Disallow: /dashboard.html
 Disallow: /admin.html
 Disallow: /auth.html

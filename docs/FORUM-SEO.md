@@ -40,3 +40,7 @@ Source des thèmes / phrases : `data/forum-themes.json`.
 
 - Mailto partout : `contact@leadsopportunities.fr`
 - Tél. : 06 51 36 62 22
+
+## Alignement Google SEO Starter
+
+Voir `docs/GOOGLE-SEO-STARTER-CHECKLIST.md` (BreadcrumbList, QAPage, E-E-A-T Wendy Buchet / ORIAS, robots Allow CSS/JS).
