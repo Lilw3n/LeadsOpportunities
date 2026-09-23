@@ -112,8 +112,8 @@ var ANGLES = {
 
 function enrichFromCandidate(candidate) {
   var title = String(candidate.title || "").trim();
-  var topic = matchTopic(title + " " + (candidate.summary || ""));
-  var need = candidate.need || topic.need || "habitation";
+  var topic = matchTopic(title, candidate.summary);
+  var need = topic.need || candidate.need || "habitation";
   var angle = isSportActu(title) ? ANGLES.sport : ANGLES[need] || ANGLES.habitation;
   if (isSportActu(title)) {
     need = "sante";
@@ -123,6 +123,12 @@ function enrichFromCandidate(candidate) {
   var file = candidate.suggestedFile;
   if (!file) return null;
   var platform = platformLabel(candidate.sourceType || candidate.source);
+  var description =
+    title.slice(0, 120) +
+    " — conseils assurance, checklist et questionnaire gratuit Leads Opportunities (courtier ORIAS).";
+  if (description.length < 80) {
+    description += " Comparez vos garanties avant un sinistre ou un renouvellement.";
+  }
 
   return {
     file: file.endsWith(".html") ? file : file + ".html",
@@ -130,7 +136,7 @@ function enrichFromCandidate(candidate) {
     tag: topic.tag,
     tagClass: topic.tagClass,
     title: buildTitle(title, need),
-    description: title.slice(0, 155) + " — conseils assurance et questionnaire gratuit Leads Opportunities.",
+    description: description,
     meta: "7 min · " + monthLabel(),
     cardExcerpt: title.slice(0, 110) + " — impact sur votre assurance.",
     cta: ctaWithUtm(need, slug),

@@ -29,7 +29,7 @@
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["auto", "voiture", "automobile", "accident", "permis", "conducteur", "bonus", "malus"],
+      "keywords": ["auto", "voiture", "automobile", "accident", "permis", "conducteur", "bonus", "malus", "carburant", "essence", "gazole", "stations-service"],
       "section": "auto",
       "need": "auto",
       "tag": "Auto",
