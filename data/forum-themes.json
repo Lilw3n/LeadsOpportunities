@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "note": "Forum public SEO — thèmes + fils seed (questions longue traîne Google/Facebook). Les nouvelles demandes passent par POST /api/lead (source=forum).",
+  "version": 2,
+  "note": "Forum public : vraies questions (langue naturelle) = pages SEO indexables. Nouvelles demandes → POST /api/lead (source=forum).",
   "contactEmail": "contact@leadsopportunities.fr",
   "phoneDisplay": "06 51 36 62 22",
   "phoneE164": "+33651366222",
@@ -41,7 +41,7 @@
         "courtier mutuelle",
         "reste à charge optique dentaire"
       ],
-      "intro": "Ici on parle mutuelle comme on en parle sur Facebook : « combien ça coûte ? », « mon opticien est-il bien remboursé ? », « je change d’employeur, je garde quelle couverture ? ». Chaque fil est indexable ; chaque demande peut devenir un devis courtier.",
+      "intro": "Posez vos questions mutuelle comme vous le feriez à un proche : prix, optique, dentaire, changement d’employeur. Chaque fil a une réponse de courtier ORIAS ; vous pouvez aussi envoyer votre propre demande.",
       "threads": [
         {
           "slug": "combien-coute-vraiment-une-bonne-mutuelle-en-2026",
@@ -90,6 +90,42 @@
             "avis échéance mutuelle que faire",
             "portabilité mutuelle licenciement"
           ]
+        },
+        {
+          "slug": "mutuelle-optique-dentaire-que-regarder",
+          "question": "Mutuelle optique et dentaire : que regarder vraiment avant de signer ?",
+          "excerpt": "Verres complexes, prothèses, forfaits annuels — les postes qui font la différence.",
+          "answer": "Pour l’optique, regardez le forfait verres complexes / progressifs et le délai avant renouvellement. Pour le dentaire : prothèses, implants (souvent exclus ou plafonnés), et le pourcentage de remboursement sur la base Sécurité sociale. Un devis courtier croise vos soins prévus (lunettes, couronnes) avec 2–3 tableaux — contact@leadsopportunities.fr.",
+          "phrases": [
+            "mutuelle qui rembourse bien les lunettes",
+            "forfait optique mutuelle 2026",
+            "mutuelle implants dentaires",
+            "comparer mutuelle optique dentaire"
+          ]
+        },
+        {
+          "slug": "mutuelle-alsace-moselle-difference-regime-local",
+          "question": "Mutuelle Alsace-Moselle : quelle différence avec le régime général ?",
+          "excerpt": "Régime local 54/57/67/68 : remboursements Sécu plus élevés, mutuelle à recalibrer.",
+          "answer": "En Alsace-Moselle, la Sécurité sociale rembourse déjà mieux certains postes. Une mutuelle « nationale » peut donc être surdimensionnée — ou mal calibrée. Indiquez toujours le régime local au devis. Sur Nancy / Meurthe-et-Moselle, on traite souvent ces dossiers : contact@leadsopportunities.fr.",
+          "phrases": [
+            "mutuelle régime local Alsace Moselle",
+            "complémentaire santé 54 Nancy",
+            "différence mutuelle régime général local",
+            "devis mutuelle Meurthe-et-Moselle"
+          ]
+        },
+        {
+          "slug": "mutuelle-senior-hospitalisation-que-comparer-2026",
+          "question": "Mutuelle senior 2026 : que comparer pour l’hospitalisation ?",
+          "excerpt": "Chambre particulière, dépassements, assistance — priorités après 55 ans.",
+          "answer": "Priorisez hospitalisation (chambre particulière, honoraires), puis optique/dentaire selon vos besoins. Méfiez-vous des délais de carence et des exclusions chroniques. Un courtier ORIAS aligne plusieurs organismes sur le même profil — devis gratuit.",
+          "phrases": [
+            "meilleure mutuelle senior hospitalisation",
+            "mutuelle retraite chambre particulière",
+            "comparer mutuelle après 60 ans",
+            "reste à charge hospitalisation mutuelle"
+          ]
         }
       ]
     },
@@ -110,7 +146,7 @@
         "assurance Uber Bolt Heetch",
         "franchise assurance VTC"
       ],
-      "intro": "Les discussions Facebook VTC tournent toujours autour du même trio : prix, franchise, attestation plateforme. Ici on structure ça en fils SEO + réponses courtier, pour que Google et Meta indexent les vraies questions des indépendants.",
+      "intro": "Forum des chauffeurs VTC : prix, franchise, attestation Uber / Bolt / Heetch, RC Pro. Questions fréquentes + réponses courtier, et formulaire pour votre cas.",
       "threads": [
         {
           "slug": "comparatif-assurance-vtc-chauffeur-independant-criteres",
@@ -147,6 +183,30 @@
             "assurance VTC temps partiel",
             "RC Pro chauffeur indépendant prix"
           ]
+        },
+        {
+          "slug": "combien-coute-assurance-vtc-par-mois-ile-de-france",
+          "question": "Combien coûte une assurance VTC par mois en Île-de-France ?",
+          "excerpt": "Fourchettes réalistes, ce qui fait monter la prime, et comment comparer sans se tromper.",
+          "answer": "Les fourchettes varient fortement selon véhicule, sinistralité, franchise et kilométrage (CDG / Orly). Un « prix moyen » Facebook n’est pas un devis. Demandez un comparatif à garanties équivalentes : RC Pro, tous risques, assistance. Étude : contact@leadsopportunities.fr.",
+          "phrases": [
+            "prix assurance VTC Paris mensuel",
+            "assurance VTC pas cher Île-de-France",
+            "coût RC Pro chauffeur VTC",
+            "assurance VTC aéroport CDG Orly"
+          ]
+        },
+        {
+          "slug": "attestation-assurance-vtc-uber-bolt-documents",
+          "question": "Attestation assurance VTC pour Uber ou Bolt : quels documents ?",
+          "excerpt": "Ce que les plateformes exigent, délais, et pièges d’une attestation incomplète.",
+          "answer": "Les plateformes demandent une attestation mentionnant l’activité VTC / transport de personnes, à jour, avec les bonnes garanties. Sans ça, le compte peut être bloqué. Anticipez le renouvellement : contactez le courtier 2–3 semaines avant l’échéance.",
+          "phrases": [
+            "attestation VTC Uber refusée",
+            "documents assurance Bolt Heetch",
+            "renouvellement attestation VTC",
+            "assurance VTC activité déclarée"
+          ]
         }
       ]
     },
@@ -167,7 +227,7 @@
         "taux endettement 35%",
         "assurance emprunteur"
       ],
-      "intro": "Sur Facebook, les posts « mon dossier bloque » et « comment avoir un accord vite » explosent. Ici on transforme ces tournures en pages indexables + contact courtier (assurance emprunteur, mutuelle liée au projet).",
+      "intro": "Dossier banque, apport, refus de prêt, assurance emprunteur (Lemoine) : les questions qui bloquent un projet. Lisez les fils ou posez la vôtre.",
       "threads": [
         {
           "slug": "comment-obtenir-un-credit-immobilier-rapidement",
@@ -204,6 +264,30 @@
             "TAEG assurance trop élevé",
             "questionnaire de santé emprunteur"
           ]
+        },
+        {
+          "slug": "quel-apport-minimum-pret-immobilier-2026",
+          "question": "Quel apport minimum pour un prêt immobilier en 2026 ?",
+          "excerpt": "Frais de notaire, 10 % vs 20 %, primo-accédant — ce que les banques regardent.",
+          "answer": "Il n’y a pas de chiffre magique unique. Souvent on vise au moins les frais (notaire + garanties), idéalement 10 % du bien hors frais. Un bon reste à vivre et un dossier propre comptent autant que l’apport. Étude capacité : contact@leadsopportunities.fr.",
+          "phrases": [
+            "apport personnel minimum banque 2026",
+            "acheter sans apport possible",
+            "frais de notaire et apport",
+            "primo-accédant apport PTZ"
+          ]
+        },
+        {
+          "slug": "taux-pret-immobilier-comment-comparer-offres-2026",
+          "question": "Taux de prêt immobilier 2026 : comment comparer les offres vraiment ?",
+          "excerpt": "TAEG, assurance emprunteur, frais de dossier — au-delà du taux nominal.",
+          "answer": "Comparez le TAEG et le coût total (intérêts + assurance + frais), pas seulement le taux débiteur. L’assurance emprunteur peut faire basculer deux offres. Loi Lemoine : vous pouvez souvent changer d’assureur. On vous aide à lire les tableaux : contact@leadsopportunities.fr.",
+          "phrases": [
+            "comparer TAEG prêt immobilier",
+            "taux nominal vs TAEG",
+            "meilleur taux crédit immo 2026",
+            "coût assurance emprunteur dans le TAEG"
+          ]
         }
       ]
     },
@@ -224,7 +308,7 @@
         "sous-assurance sinistre",
         "multirisque habitation"
       ],
-      "intro": "Dégât des eaux, cambriolage, coloc, PNO : les posts Facebook habitation sont des mines de SEO. On les reformule en questions claires + réponses actionnables.",
+      "intro": "Dégât des eaux, locataire / propriétaire, PNO, colocation, sous-assurance : questions du quotidien avec réponses actionnables.",
       "threads": [
         {
           "slug": "locataire-ou-proprietaire-quelle-assurance-habitation",
@@ -249,6 +333,30 @@
             "sinistre dégât des eaux franchise",
             "assurance colocation responsabilités"
           ]
+        },
+        {
+          "slug": "degat-des-eaux-assurance-habitation-qui-paie",
+          "question": "Dégât des eaux : qui paie, locataire ou propriétaire ?",
+          "excerpt": "Responsabilités, convention IRSI, franchises — les bases avant le sinistre.",
+          "answer": "Ça dépend de l’origine (appareil, canalisation, voisin) et du statut. Locataire et propriétaire ont des assurances différentes ; la convention IRSI simplifie souvent les petits sinistres entre assureurs. Déclarez vite, gardez photos et devis. Besoin de vérifier votre contrat : contact@leadsopportunities.fr.",
+          "phrases": [
+            "sinistre dégât des eaux déclaration",
+            "franchise dégât des eaux habitation",
+            "assurance locataire fuite d’eau",
+            "voisin responsable dégât des eaux"
+          ]
+        },
+        {
+          "slug": "assurance-colocation-qui-doit-assurer",
+          "question": "Assurance colocation : qui doit assurer le logement ?",
+          "excerpt": "Un contrat pour tous, ou chacun le sien — pièges et attestations bail.",
+          "answer": "Le bail peut exiger une attestation. Souvent un colocataire souscrit et les autres sont déclarés, ou chacun a sa RC. Clarifiez avec le propriétaire avant l’entrée. Un trou de couverture = litige après sinistre.",
+          "phrases": [
+            "attestation assurance colocation",
+            "assurance habitation plusieurs colocataires",
+            "RC vie privée coloc",
+            "bail colocation assurance obligatoire"
+          ]
         }
       ]
     },
@@ -269,7 +377,7 @@
         "assurance Varangéville",
         "Wendy Buchet courtier"
       ],
-      "intro": "Facebook local (groupes Nancy, Jarville, Laxou…) = intentions d’achat ultra chaudes. Ce thème regroupe les formulations géolocalisées + contact direct du cabinet.",
+      "intro": "Questions ancrées Grand Nancy, Varangéville et bassin 54 — mutuelle, crédit, VTC, immo — avec contact direct du cabinet local.",
       "threads": [
         {
           "slug": "ou-trouver-un-courtier-assurance-a-nancy",
@@ -293,6 +401,30 @@
             "acheter maison bassin nancéien",
             "courtier crédit Meurthe-et-Moselle",
             "frais de notaire estimation 54"
+          ]
+        },
+        {
+          "slug": "mutuelle-sante-nancy-devis-gratuit-sans-engagement",
+          "question": "Mutuelle santé à Nancy : comment obtenir un devis gratuit sans engagement ?",
+          "excerpt": "Grand Nancy, 54 : questionnaire, rappel, ou e-mail au courtier local.",
+          "answer": "Trois voies : questionnaire en ligne, formulaire du forum, ou e-mail à contact@leadsopportunities.fr. Wendy Buchet (ORIAS 15005935) compare plusieurs organismes pour le bassin nancéien et en distanciel France. Aucune CB pour « voir un prix ».",
+          "phrases": [
+            "devis mutuelle Nancy gratuit",
+            "courtier mutuelle Grand Nancy",
+            "comparer mutuelle Vandœuvre Laxou",
+            "mutuelle santé 54 sans engagement"
+          ]
+        },
+        {
+          "slug": "assurance-vtc-nancy-metropole-par-ou-commencer",
+          "question": "Assurance VTC sur Nancy Métropole : par où commencer ?",
+          "excerpt": "RC Pro, véhicule, attestation plateforme — checklist bassin 54.",
+          "answer": "Listez véhicule, usage (temps plein / partiel), et la plateforme visée. Demandez un devis VTC avec attestation adaptée. Courtier local : contact@leadsopportunities.fr · 06 51 36 62 22. Voir aussi le thème Forum assurance VTC.",
+          "phrases": [
+            "assurance VTC Nancy devis",
+            "chauffeur VTC Meurthe-et-Moselle",
+            "RC Pro VTC Lorraine",
+            "attestation VTC Nancy"
           ]
         }
       ]

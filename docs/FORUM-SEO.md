@@ -1,18 +1,21 @@
-# Forum SEO — thèmes, Q/R, Facebook
+# Forum — questions = SEO
 
-## Idée
+## Principe
 
-Google indexe les **questions en langage naturel**. Facebook (groupes, partage de liens) fonctionne comme un second moteur : un bon `og:title` + `og:image` fait circuler le fil.
+Le **forum** (`/forum/`) est à la fois :
 
-Le dossier **`/forum/`** expose :
+1. **Un vrai forum** — thèmes, liste de questions, fils Q/R, formulaire « poser une question »
+2. **Un silo SEO** — chaque question en langage naturel = page indexable (`QAPage` + `DiscussionForumPosting`)
+
+Les gens cherchent en phrases (« combien ça coûte vraiment », « mon prêt est refusé »). Ces tournures **sont** notre SEO : on les transforme en fils stables, partageables (Facebook OG), avec CTA devis / contact.
 
 | Élément | Rôle |
 |---------|------|
-| Hub `/forum/` | Thèmes + cloud de tournures longue traîne |
-| Thème `/forum/{slug}/` | Liste de fils + formulaire demande |
-| Fil `/forum/{slug}/{question}.html` | Q/R seed SEO + schema `QAPage` + `DiscussionForumPosting` + share Facebook |
+| Hub `/forum/` | Stats, thèmes, **tableau de toutes les questions**, formulaire hub |
+| Thème `/forum/{slug}/` | Liste des fils du thème + formulaire |
+| Fil `/forum/{slug}/{question}.html` | Question + réponse courtier + recherches associées + related |
 
-Les **nouvelles** questions du public passent par `POST /api/lead` (`source=forum`) → CRM / e-mail `contact@leadsopportunities.fr`. Les fils seed restent des pages HTML statiques (SEO stable).
+Les **nouvelles** questions du public passent par `POST /api/lead` (`source=forum`) → CRM / `contact@leadsopportunities.fr`. Les fils seed restent du HTML statique (SEO stable).
 
 ## Build
 
@@ -22,25 +25,21 @@ npm run verify:forum-seo
 # inclus dans seo:build
 ```
 
-Source des thèmes / phrases : `data/forum-themes.json`.
+Source : `data/forum-themes.json` (thèmes + questions + réponses + phrases longue traîne).
 
-## Ajouter un thème ou un fil
+## Ajouter une question SEO
 
-1. Éditer `data/forum-themes.json` (titre en **forme question**, phrases proches, réponse courtier).
+1. Éditer `data/forum-themes.json` — titre en **forme question**, `excerpt`, `answer`, `phrases[]`
 2. `npm run forum:build`
-3. Vérifier OG + mailto sur la page.
+3. Vérifier OG + schema + mailto
 
 ## Facebook
 
-- Chaque thème / fil a `og:type=article`, image large, description courte.
-- Bouton **Partager sur Facebook** (`facebook.com/sharer`).
-- UTM : `utm_source=forum` sur les questionnaires ; le formulaire injecte `utm_source=forum` / `utm_medium=ask_form`.
+- `og:type=article`, image large, description courte
+- Bouton **Partager** (`facebook.com/sharer`)
+- UTM : `utm_source=forum` sur questionnaires ; formulaire → `utm_source=forum` / `utm_medium=ask_form`
 
 ## Contact
 
-- Mailto partout : `contact@leadsopportunities.fr`
+- Mailto : `contact@leadsopportunities.fr`
 - Tél. : 06 51 36 62 22
-
-## Alignement Google SEO Starter
-
-Voir `docs/GOOGLE-SEO-STARTER-CHECKLIST.md` (BreadcrumbList, QAPage, E-E-A-T Wendy Buchet / ORIAS, robots Allow CSS/JS).
