@@ -53,7 +53,10 @@ var hub = fs.readFileSync(path.join(ROOT, "forum", "index.html"), "utf8");
 assert(hub.indexOf("Facebook") >= 0 || hub.indexOf("facebook") >= 0, "hub mention Facebook");
 assert(hub.indexOf("forum-table") >= 0, "hub tableau questions (vrai forum)");
 assert(hub.indexOf("toutes-les-questions") >= 0, "hub ancre toutes les questions");
-assert(hub.indexOf("data-hub-ask") >= 0, "hub formulaire poser question");
+assert(
+  hub.indexOf("data-hub-ask") >= 0 || hub.indexOf("data-forum-live") >= 0,
+  "hub formulaire demande ou forum live"
+);
 assert(hub.indexOf("ItemList") >= 0, "hub schema ItemList SEO");
 (DATA.seoPhrases || []).slice(0, 3).forEach(function (p) {
   assert(hub.indexOf(p) >= 0, "phrase SEO hub: " + p);
@@ -66,6 +69,11 @@ DATA.themes.forEach(function (t) {
 
 var askJs = fs.readFileSync(path.join(ROOT, "js", "forum-ask.js"), "utf8");
 assert(askJs.indexOf("forum_theme_select") >= 0, "forum-ask : sélecteur thème hub");
+
+var appJs = path.join(ROOT, "js", "forum-app.js");
+if (fs.existsSync(appJs)) {
+  assert(hub.indexOf("forum-app.js") >= 0, "hub charge forum-app.js (live)");
+}
 
 console.log(ok ? "verify:forum-seo OK — " + totalThreads + " questions" : "verify:forum-seo FAILED");
 process.exit(ok ? 0 : 1);

@@ -121,6 +121,9 @@ function shell(opts) {
     '  <script src="' +
     prefix +
     'js/forum-ask.js" defer></script>\n' +
+    (opts.includeLiveApp
+      ? '  <script src="' + prefix + 'js/forum-app.js" defer></script>\n'
+      : "") +
     "</body>\n</html>\n"
   );
 }
@@ -427,44 +430,35 @@ function buildHub() {
     })
     .join("");
 
-  var hubTheme = {
-    need: "sante",
-    slug: "",
-    navLabel: "Forum",
-    title: "Forum",
-  };
-
   var body =
     '  <main class="forum-main container">\n' +
     '    <header class="forum-hero">\n' +
     '      <p class="forum-kicker">Forum communautaire · Courtier ORIAS</p>\n' +
     "      <h1>Forum assurance &amp; crédit</h1>\n" +
-    '      <p class="lead">Les questions que vous tapez sur Google — « combien ça coûte vraiment », « mon prêt est refusé », « attestation VTC Uber » — sont ici en fils de discussion, avec réponse de courtier. Posez la vôtre : <a href="mailto:' +
-    esc(DATA.contactEmail) +
-    '">' +
-    esc(DATA.contactEmail) +
-    "</a>.</p>\n" +
+    '      <p class="lead">Connectez-vous, posez des questions, recevez des réponses, et <strong>liez les articles du blog</strong> quand les sujets se rejoignent. Les questions en langage naturel restent aussi notre SEO.</p>\n' +
     '      <p class="forum-stats" aria-label="Statistiques du forum"><span><strong>' +
     stats.threads +
-    "</strong> questions</span><span><strong>" +
+    "</strong> fils SEO</span><span><strong>" +
     stats.themes +
-    "</strong> thèmes</span><span><strong>" +
-    stats.replies +
-    "</strong> réponses courtier</span></p>\n" +
-    '      <p class="forum-cta-row"><a class="btn btn-primary" href="#poser-question">Poser une question</a> <a class="btn btn-outline" href="#toutes-les-questions">Voir toutes les questions</a></p>\n' +
+    "</strong> catégories</span><span><strong>live</strong> discussion</span></p>\n" +
+    '      <p class="forum-cta-row"><a class="btn btn-primary" href="#/auth/register">Créer un compte</a> <a class="btn btn-outline" href="#/new">Nouveau sujet</a> <a class="btn btn-soft" href="#toutes-les-questions">Questions SEO</a></p>\n' +
     "    </header>\n" +
-    '    <nav class="forum-chips" aria-label="Thèmes du forum">\n' +
+    '    <section class="flive-mount" data-forum-live aria-live="polite">\n' +
+    '      <p class="flive-loading">Chargement du forum live…</p>\n' +
+    "    </section>\n" +
+    '    <div data-forum-seo-static>\n' +
+    '    <nav class="forum-chips" aria-label="Thèmes SEO (pages indexables)">\n' +
     "        " +
     themeChips +
     "\n" +
     "    </nav>\n" +
-    '    <section class="forum-theme-grid" aria-label="Thèmes">\n' +
+    '    <section class="forum-theme-grid" aria-label="Thèmes SEO">\n' +
     cards +
     "    </section>\n" +
     '    <section class="forum-board" id="toutes-les-questions" aria-labelledby="forum-board-title">\n' +
     '      <div class="forum-board-head">\n' +
-    '        <h2 id="forum-board-title">Toutes les questions</h2>\n' +
-    '        <p class="forum-board-lead">Chaque question = une page indexable (SEO) + une réponse courtier. Cliquez pour lire le fil.</p>\n' +
+    '        <h2 id="forum-board-title">Questions SEO (pages indexables)</h2>\n' +
+    '        <p class="forum-board-lead">Chaque question = une URL Google. La discussion live (compte) est au-dessus — les deux se complètent.</p>\n' +
     "      </div>\n" +
     '      <div class="forum-table-wrap">\n' +
     '        <table class="forum-table">\n' +
@@ -478,14 +472,14 @@ function buildHub() {
     "      </div>\n" +
     "    </section>\n" +
     '    <section class="forum-cloud">\n' +
-    "      <h2>Tournures fréquentes (longue traîne)</h2>\n" +
+    "      <h2>Tournures fréquentes (longue traîne SEO)</h2>\n" +
     "      <p class=\"forum-cloud-lead\">Ces phrases sont aussi notre SEO : ce que les gens tapent avant de comparer un devis.</p>\n" +
     "      <ul>" +
     phraseCloud +
     "</ul>\n" +
-    '      <p class="forum-fb-note">Partagez un fil sur <strong>Facebook</strong> (groupes locaux Nancy, VTC, immo) : chaque page a un bouton Partager + Open Graph.</p>\n' +
+    '      <p class="forum-fb-note">Partagez un fil sur <strong>Facebook</strong> : chaque page SEO a un bouton Partager + Open Graph.</p>\n' +
     "    </section>\n" +
-    askFormHtml(hubTheme, { hubMode: true }) +
+    "    </div>\n" +
     "  </main>\n";
 
   var itemList = {
@@ -526,6 +520,7 @@ function buildHub() {
     depth: 0,
     jsonLd: jsonLd,
     body: body,
+    includeLiveApp: true,
   });
 }
 
@@ -704,14 +699,14 @@ function buildThread(theme, thread) {
     relatedThreadsHtml(theme, thread.slug) +
     authorBlockHtml() +
     shareBox(canonical, thread.question) +
-    '      <p class="forum-cta-row"><a class="btn btn-primary" href="' +
+    '      <p class="forum-cta-row"><a class="btn btn-primary" href="/forum/#/">Discuter en live sur ce thème</a> <a class="btn btn-outline" href="' +
     esc(theme.questionnaire) +
     (theme.questionnaire.indexOf("?") >= 0 ? "&" : "?") +
     "utm_source=forum&utm_medium=thread&utm_campaign=" +
     esc(theme.slug) +
     '">Questionnaire ' +
     esc(theme.navLabel) +
-    ' (3 min)</a> <a class="btn btn-outline" href="mailto:' +
+    ' (3 min)</a> <a class="btn btn-soft" href="mailto:' +
     esc(DATA.contactEmail) +
     "?subject=" +
     encodeURIComponent(thread.question.slice(0, 80)) +

@@ -515,18 +515,22 @@
     <header class="forum-hero">
       <p class="forum-kicker">Forum communautaire · Courtier ORIAS</p>
       <h1>Forum assurance &amp; crédit</h1>
-      <p class="lead">Les questions que vous tapez sur Google — « combien ça coûte vraiment », « mon prêt est refusé », « attestation VTC Uber » — sont ici en fils de discussion, avec réponse de courtier. Posez la vôtre : <a href="mailto:contact@leadsopportunities.fr">contact@leadsopportunities.fr</a>.</p>
-      <p class="forum-stats" aria-label="Statistiques du forum"><span><strong>25</strong> questions</span><span><strong>5</strong> thèmes</span><span><strong>25</strong> réponses courtier</span></p>
-      <p class="forum-cta-row"><a class="btn btn-primary" href="#poser-question">Poser une question</a> <a class="btn btn-outline" href="#toutes-les-questions">Voir toutes les questions</a></p>
+      <p class="lead">Connectez-vous, posez des questions, recevez des réponses, et <strong>liez les articles du blog</strong> quand les sujets se rejoignent. Les questions en langage naturel restent aussi notre SEO.</p>
+      <p class="forum-stats" aria-label="Statistiques du forum"><span><strong>25</strong> fils SEO</span><span><strong>5</strong> catégories</span><span><strong>live</strong> discussion</span></p>
+      <p class="forum-cta-row"><a class="btn btn-primary" href="#/auth/register">Créer un compte</a> <a class="btn btn-outline" href="#/new">Nouveau sujet</a> <a class="btn btn-soft" href="#toutes-les-questions">Questions SEO</a></p>
     </header>
-    <nav class="forum-chips" aria-label="Thèmes du forum">
+    <section class="flive-mount" data-forum-live aria-live="polite">
+      <p class="flive-loading">Chargement du forum live…</p>
+    </section>
+    <div data-forum-seo-static>
+    <nav class="forum-chips" aria-label="Thèmes SEO (pages indexables)">
         <a class="forum-chip" href="./mutuelle-sante/">Mutuelle <span>7</span></a>
         <a class="forum-chip" href="./assurance-vtc/">VTC <span>5</span></a>
         <a class="forum-chip" href="./credit-immobilier/">Crédit immo <span>5</span></a>
         <a class="forum-chip" href="./habitation/">Habitation <span>4</span></a>
         <a class="forum-chip" href="./nancy-54/">Nancy 54 <span>4</span></a>
     </nav>
-    <section class="forum-theme-grid" aria-label="Thèmes">
+    <section class="forum-theme-grid" aria-label="Thèmes SEO">
       <a class="forum-theme-card" href="./mutuelle-sante/">
         <strong>Forum mutuelle santé</strong>
         <span>Questions, devis et retours d’expérience sur la complémentaire santé.</span>
@@ -555,8 +559,8 @@
     </section>
     <section class="forum-board" id="toutes-les-questions" aria-labelledby="forum-board-title">
       <div class="forum-board-head">
-        <h2 id="forum-board-title">Toutes les questions</h2>
-        <p class="forum-board-lead">Chaque question = une page indexable (SEO) + une réponse courtier. Cliquez pour lire le fil.</p>
+        <h2 id="forum-board-title">Questions SEO (pages indexables)</h2>
+        <p class="forum-board-lead">Chaque question = une URL Google. La discussion live (compte) est au-dessus — les deux se complètent.</p>
       </div>
       <div class="forum-table-wrap">
         <table class="forum-table">
@@ -719,38 +723,12 @@
       </div>
     </section>
     <section class="forum-cloud">
-      <h2>Tournures fréquentes (longue traîne)</h2>
+      <h2>Tournures fréquentes (longue traîne SEO)</h2>
       <p class="forum-cloud-lead">Ces phrases sont aussi notre SEO : ce que les gens tapent avant de comparer un devis.</p>
       <ul><li>comment comparer sans se tromper</li><li>combien ça coûte vraiment en 2026</li><li>est-ce que ça vaut le coup de changer</li><li>quel est le meilleur choix pour mon profil</li><li>où trouver un courtier ORIAS fiable</li><li>que regarder avant de signer</li><li>quels documents préparer pour un devis</li><li>peut-on résilier en cours d'année</li><li>quelle différence entre prix affiché et reste à charge</li><li>comment obtenir une réponse rapide sans engagement</li></ul>
-      <p class="forum-fb-note">Partagez un fil sur <strong>Facebook</strong> (groupes locaux Nancy, VTC, immo) : chaque page a un bouton Partager + Open Graph.</p>
+      <p class="forum-fb-note">Partagez un fil sur <strong>Facebook</strong> : chaque page SEO a un bouton Partager + Open Graph.</p>
     </section>
-<section class="forum-ask" id="poser-question" data-forum-ask data-need="sante" data-theme="" data-thread="" data-hub-ask="1">
-  <h2>Posez votre question</h2>
-  <p>Une vraie question, une réponse de courtier ORIAS. Gratuit, sans engagement — message reçu à <strong>contact@leadsopportunities.fr</strong>.</p>
-  <form class="forum-ask-form" novalidate>
-    <label>Thème<select name="forum_theme_select" required>
-      <option value="">Choisir un thème…</option>
-      <option value="mutuelle-sante" data-need="sante">Mutuelle — Forum mutuelle santé</option>
-      <option value="assurance-vtc" data-need="vtc">VTC — Forum assurance VTC</option>
-      <option value="credit-immobilier" data-need="credit-immo">Crédit immo — Forum crédit immobilier</option>
-      <option value="habitation" data-need="habitation">Habitation — Forum assurance habitation</option>
-      <option value="nancy-54" data-need="sante">Nancy 54 — Forum local Nancy &amp; bassin 54</option>
-    </select></label>
-    <label>Votre question / demande<textarea name="question" required rows="4" maxlength="2000" placeholder="Ex. Combien coûte une mutuelle famille à Nancy avec bons postes optique ?"></textarea></label>
-    <div class="forum-ask-row">
-      <label>Prénom<input type="text" name="first_name" required autocomplete="given-name" /></label>
-      <label>E-mail<input type="email" name="email" required autocomplete="email" /></label>
     </div>
-    <div class="forum-ask-row">
-      <label>Téléphone<input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="06…" /></label>
-      <label>Code postal<input type="text" name="postal_code" maxlength="5" inputmode="numeric" placeholder="54xxx" /></label>
-    </div>
-    <input type="text" name="_hp" class="forum-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-    <button type="submit" class="btn btn-primary">Envoyer ma question</button>
-    <p class="forum-ask-alt">Ou écrivez directement : <a href="mailto:contact@leadsopportunities.fr?subject=Forum">contact@leadsopportunities.fr</a></p>
-    <p class="forum-ask-msg" data-forum-msg hidden></p>
-  </form>
-</section>
   </main>
   <footer class="forum-footer">
     <div class="container">
@@ -760,5 +738,6 @@
   </footer>
   <script src="../js/attribution.js" defer></script>
   <script src="../js/forum-ask.js" defer></script>
+  <script src="../js/forum-app.js" defer></script>
 </body>
 </html>

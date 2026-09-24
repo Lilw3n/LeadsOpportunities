@@ -401,4 +401,10 @@ module.exports = {
   ensureCalendarSchema,
   ensureTodoistSchema,
   ensureEInvoicingSchema,
+  ensureForumSchema: async function (sql) {
+    const Forum = require("./forum-store");
+    await Forum.ensureForumSchema(sql);
+    await Forum.seedForumIfEmpty(sql);
+    return true;
+  },
 };

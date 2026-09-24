@@ -516,3 +516,133 @@
     display: none;
   }
 }
+
+/* Forum live (interactif) */
+.flive-mount {
+  margin: 8px 0 36px;
+  min-height: 120px;
+}
+.flive-loading {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+.flive-auth {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid var(--forum-line);
+  border-radius: 12px;
+}
+.flive-auth span {
+  flex: 1 1 180px;
+  font-size: 0.92rem;
+  color: #475569;
+}
+.flive-staff {
+  font-style: normal;
+  background: #ecfdf5;
+  color: #047857;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-left: 6px;
+}
+.flive-cats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.flive-cat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid var(--forum-line);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.flive-cat:hover {
+  border-color: rgba(30, 79, 138, 0.45);
+  transform: translateY(-1px);
+}
+.flive-cat span {
+  font-size: 0.88rem;
+  color: #64748b;
+}
+.flive-cat em {
+  font-style: normal;
+  font-size: 0.8rem;
+  color: var(--forum-blue);
+}
+.flive-excerpt {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 400;
+}
+.flive-login-hint {
+  color: #475569;
+}
+.flive-check {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500 !important;
+}
+.flive-check input {
+  width: auto;
+  margin: 0;
+}
+.flive-link-form {
+  margin: 18px 0;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid var(--forum-line);
+  border-radius: 12px;
+}
+.flive-link-form h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+.flive-suggest {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+.flive-suggest-item {
+  text-align: left;
+  background: #f1f5f9;
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+}
+.flive-suggest-item:hover {
+  background: #e2e8f0;
+}
+.flive-seo-link {
+  font-size: 0.88rem;
+  color: #64748b;
+}
+.flive-fallback {
+  padding: 16px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+.flive-auth-box {
+  max-width: 420px;
+}
