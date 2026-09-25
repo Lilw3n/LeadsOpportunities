@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-22",
+  "updated": "2026-09-25",
   "sections": [
     "actu",
     "animaux",
@@ -17,6 +17,84 @@
     "vtc"
   ],
   "rows": [
+    {
+      "file": "lois-assurance-credit-lemoine-hamon-chatel-2026.html",
+      "title": "Lois assurance et crédit 2026 : Lemoine, Hamon, Chatel — ce qui change pour vous",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=lois_2026",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "devenir-chauffeur-vtc-carte-pro-assurance-2026.html",
+      "title": "Devenir chauffeur VTC en 2026 : carte pro, véhicule et assurance obligatoire",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=devenir_vtc_2026",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "assurance-chien-chat-guide-frais-veterinaires-2026.html",
+      "title": "Assurance chien et chat 2026 : frais véto, RC et comment choisir",
+      "section": "animaux",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=chien_chat_2026",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "recherche-pret-immobilier-comparer-banques-courtier-2026.html",
+      "title": "Recherche de prêt immobilier 2026 : comparer banques et courtier",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=recherche_pret_2026",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "vente-acquisition-maison-etapes-notaire-assurance-2026.html",
+      "title": "Vente et acquisition de maison 2026 : étapes, notaire et assurances",
+      "section": "habitat",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=vente_acquisition_2026",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "recherche-bien-a-vendre-ou-a-louer-methodes-2026.html",
+      "title": "Recherche de bien à vendre ou à louer : méthodes qui marchent en 2026",
+      "section": "finance",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=recherche_bien_2026",
+      "matchedRule": "habitation",
+      "species": null
+    },
     {
       "file": "courtier-assurance-mutuelle-sante-nancy.html",
       "title": "Courtier assurance mutuelle santé Nancy : comment bien choisir",
@@ -2017,6 +2095,84 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "assurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-sedu.html",
+      "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les empru… : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-de-pret-immobilier-carrefour",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "marseille-paris-nantes-plusieurs-centaines-de-chauffeurs-de-vtc-manifest.html",
+      "title": "Marseille, Paris, Nantes… plusieurs centaines de chauffeurs de VTC manifestent contre u… : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=marseille-paris-nantes-plusieurs-cent",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "mutuelle-pour-chien-ou-chat-est-ce-vraiment-utile-et-combien-coute-cette.html",
+      "title": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? … : assurance animaux — que faire ?",
+      "section": "animaux",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=mutuelle-pour-chien-ou-chat-est-ce-vra",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "les-taux-des-credits-remontent-et-s-approchent-du-seuil-des-4-les-procha.html",
+      "title": "Les taux des crédits remontent et s'approchent du seuil des 4%: les prochains mois pour… : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=les-taux-des-credits-remontent-et-s-appr",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "achat-immobilier-nos-cartes-des-prix-dans-20-grandes-villes-de-france.html",
+      "title": "Achat immobilier : nos cartes des prix dans 20 grandes villes de France : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=achat-immobilier-nos-cartes-des-prix-d",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "crise-du-logement-pourquoi-trouver-une-location-est-devenu-un-parcours-d.html",
+      "title": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant … : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=crise-du-logement-pourquoi-trouver-une",
+      "matchedRule": "habitation",
       "species": null
     }
   ]

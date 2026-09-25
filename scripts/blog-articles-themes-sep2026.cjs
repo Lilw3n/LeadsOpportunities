@@ -26,8 +26,8 @@ module.exports = [
       "droits assuré emprunteur",
     ],
     cta: {
-      href: "mailto:contact@leadsopportunities.fr?subject=Lois%20assurance%20cr%C3%A9dit%20%E2%80%94%20besoin%20d%27accompagnement",
-      label: "Écrire à contact@leadsopportunities.fr",
+      href: "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=lois_2026",
+      label: "Questionnaire emprunteur / lois",
     },
     blocks: [
       {
@@ -106,8 +106,8 @@ module.exports = [
       "coût assurance VTC mensuel",
     ],
     cta: {
-      href: "mailto:contact@leadsopportunities.fr?subject=Devenir%20chauffeur%20VTC%20%E2%80%94%20devis%20assurance",
-      label: "Écrire à contact@leadsopportunities.fr",
+      href: "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=devenir_vtc_2026",
+      label: "Questionnaire chauffeur VTC",
     },
     blocks: [
       {
@@ -185,8 +185,8 @@ module.exports = [
       "devis assurance animaux",
     ],
     cta: {
-      href: "mailto:contact@leadsopportunities.fr?subject=Assurance%20chien%20ou%20chat",
-      label: "Écrire à contact@leadsopportunities.fr",
+      href: "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=chien_chat_2026",
+      label: "Questionnaire chien & chat",
     },
     blocks: [
       {
@@ -255,8 +255,8 @@ module.exports = [
       "prêt immobilier Nancy 54",
     ],
     cta: {
-      href: "mailto:contact@leadsopportunities.fr?subject=Recherche%20pr%C3%AAt%20immobilier",
-      label: "Écrire à contact@leadsopportunities.fr",
+      href: "../landings/questionnaire.html?need=credit-immo&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=recherche_pret_2026",
+      label: "Questionnaire recherche de prêt",
     },
     blocks: [
       {
@@ -329,8 +329,8 @@ module.exports = [
       "acquisition maison financement",
     ],
     cta: {
-      href: "mailto:contact@leadsopportunities.fr?subject=Vente%20ou%20acquisition%20maison",
-      label: "Écrire à contact@leadsopportunities.fr",
+      href: "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=vente_acquisition_2026",
+      label: "Questionnaire vente / acquisition",
     },
     blocks: [
       {
@@ -402,8 +402,8 @@ module.exports = [
       "chasseur immobilier critères",
     ],
     cta: {
-      href: "mailto:contact@leadsopportunities.fr?subject=Recherche%20bien%20%C3%A0%20vendre%20ou%20%C3%A0%20louer",
-      label: "Écrire à contact@leadsopportunities.fr",
+      href: "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=recherche_bien_2026",
+      label: "Questionnaire recherche de bien",
     },
     blocks: [
       {
