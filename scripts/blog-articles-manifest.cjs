@@ -4,6 +4,7 @@
  * themes (optionnel): sujets additionnels — ex. ["canicule","seniors"] ; voir scripts/blog-themes.cjs
  */
 const seoIntentSep2026 = require("./blog-articles-seo-intent-sep2026.cjs");
+const themesSep2026 = require("./blog-articles-themes-sep2026.cjs");
 
 module.exports = {
   sections: [
@@ -3261,6 +3262,9 @@ promoProduits.forEach(function (a) {
 
 /* SEO intent volumes (mutuelle Nancy, devis sans engagement, VTC indépendant, crédit rapide) */
 module.exports.articles = seoIntentSep2026.concat(module.exports.articles);
+
+/* Pack thèmes leads : lois, VTC, animaux, prêt, vente/acquisition, recherche bien */
+module.exports.articles = themesSep2026.concat(module.exports.articles);
 
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();
