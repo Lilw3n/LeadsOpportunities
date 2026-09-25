@@ -8,14 +8,14 @@
       "tagClass": "tag-sante"
     },
     {
-      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur"],
+      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur", "location", "louer", "loyer", "tension locative", "vente immobilière", "ventes immobilières", "transaction immobilière", "transactions immobilières", "achat immobilier", "bien à vendre", "bien a vendre", "acquisition"],
       "section": "habitat",
       "need": "habitation",
       "tag": "Habitation",
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
+      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "crédit immobilier", "credit immobilier", "taux ", "taux des crédits", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie", "capacité d'emprunt", "recherche de prêt", "recherche de pret"],
       "section": "finance",
       "need": "emprunteur",
       "tag": "Crédit & emprunteur",
@@ -127,10 +127,10 @@
       "tagClass": "tag-actu"
     },
     {
-      "keywords": ["élection", "election", "président", "president", "politique", "trump", "macron", "budget"],
+      "keywords": ["élection", "election", "président", "president", "politique", "trump", "macron", "budget", "loi ", "projet de loi", "réforme", "reforme", "sénat", "senat", "assemblée", "assemblee", "parlement", "décret", "decret", "rupture conventionnelle", "indemnisation"],
       "section": "actu",
       "need": "prevoyance",
-      "tag": "Actu politique",
+      "tag": "Actu lois & politique",
       "tagClass": "tag-actu"
     }
   ],

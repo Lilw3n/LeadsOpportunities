@@ -1,11 +1,11 @@
 {
-  "updated": "2026-06-17",
+  "updated": "2026-09-25",
   "maxPerFeed": 5,
   "quotas": {
     "cafeyn": 20,
     "edge": 12,
     "firefox": 15,
-    "aggregator": 30
+    "aggregator": 45
   },
   "feeds": [
     {
@@ -468,6 +468,41 @@
       "name": "Edge — Bing Coupe du monde 2026",
       "sourceType": "edge",
       "url": "https://www.bing.com/news/search?q=coupe+du+monde+2026+france&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "google-news-vente-immo",
+      "name": "Google News — ventes et acquisitions immobilières",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=ventes+immobilières+OR+achat+maison+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-location",
+      "name": "Google News — location et recherche de bien",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=location+appartement+OR+tension+locative+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-lois",
+      "name": "Google News — lois et réformes France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=projet+de+loi+OR+réforme+assurance+OR+sénat+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-news-fr-assurance",
+      "name": "Yahoo News FR — assurance",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=assurance+site:fr.yahoo.com+OR+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-news-fr-top",
+      "name": "Yahoo News FR — une",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=when:1d+assurance+OR+immobilier+OR+VTC+site:fr&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     }
   ],
