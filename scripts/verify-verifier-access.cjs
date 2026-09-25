@@ -21,6 +21,7 @@ assert(lib.indexOf("MrRollin") !== -1, "défaut MrRollin");
 assert(lib.indexOf("LEGAL_VERIFIER_EMAILS") !== -1, "env LEGAL_VERIFIER_EMAILS");
 assert(lib.indexOf("servicejuridique@immobilier.email") !== -1, "servicejuridique vérificateur");
 assert(lib.indexOf("contact@immobilier.email") !== -1, "contact@immobilier vérificateur");
+assert(lib.indexOf("lilwen.song@gmail.com") !== -1, "lilwen.song vérificateur");
 assert(lib.indexOf("isPublicVerifierEmail") !== -1, "helper public verifier");
 assert(lib.indexOf("isVerifierSharedPassword") !== -1, "helper shared password");
 
@@ -52,14 +53,17 @@ assert(authHtml.indexOf("MrRollin") !== -1, "hint MrRollin");
 assert(authHtml.indexOf("loginCodeForm") !== -1, "UI saisie code");
 assert(authHtml.indexOf("needsCode") !== -1, "UI gère needsCode");
 assert(authHtml.indexOf("immobilier.email") !== -1, "hint immobilier.email");
+assert(authHtml.indexOf("lilwen.song@gmail.com") !== -1, "hint lilwen");
 assert(authHtml.indexOf("publicAccess") !== -1, "redirect publicAccess");
 
 var v = require("../api/_lib/verifier-access");
 assert(v.isPublicVerifierEmail("servicejuridique@immobilier.email"), "runtime public 1");
 assert(v.isPublicVerifierEmail("contact@immobilier.email"), "runtime public 2");
+assert(v.isPublicVerifierEmail("lilwen.song@gmail.com"), "runtime public lilwen");
 assert(!v.isPublicVerifierEmail("wendy.buchet@gmail.com"), "wendy pas public-only");
 assert(v.isVerifierEmail("wendy.buchet@gmail.com"), "wendy est vérificateur (admin)");
 assert(v.isVerifierEmail("courtier972@gmail.com"), "courtier vérificateur (admin)");
+assert(v.isVerifierEmail("lilwen.song@gmail.com"), "lilwen est vérificateur");
 
 console.log(ok ? "verify:verifier-access OK" : "verify:verifier-access FAILED");
 process.exit(ok ? 0 : 1);
