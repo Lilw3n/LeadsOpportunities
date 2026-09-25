@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acquisition leads | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Acquisition</p>
+      <h2>Pipeline leads multi-sources</h2>
+      <p>Priorisez les prospects entrants, repérez les leads non ouverts, archivez ce qui pollue la vue et orientez les dossiers vers le bon partenaire.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-leads.html" class="btn btn-primary">Page leads</a>
+      <a href="./crm-pubs.html" class="btn btn-ghost">Gestion pubs</a>
+      <a href="./crm-sources.html" class="btn btn-ghost">Origine des leads</a>
+      <a href="./crm-meta-inbox.html" class="btn btn-ghost">Leads Meta (Facebook)</a>
+      <a href="./crm-private-offer-matching.html" class="btn btn-ghost">Matching VSP privé</a>
+      <a href="./crm-tariff-grid.html" class="btn btn-ghost">Bordereau tarifaire</a>
+      <a href="./crm-search.html" class="btn btn-ghost">Recherche CRM</a>
+    </div>
+  </section>
+
+  <div class="crm-toolbar acq-toolbar">
+    <input type="search" id="acqSearch" class="acq-search crm-input" placeholder="Rechercher email, téléphone, nom…" />
+    <select id="acqTime" class="crm-input" style="max-width:160px">
+      <option value="">Tous délais</option>
+      <option value="24h">&lt; 24 h</option>
+      <option value="3d">24 h – 3 j</option>
+      <option value="old">&gt; 3 jours</option>
+    </select>
+    <select id="acqView" class="crm-input" style="max-width:190px">
+      <option value="active">Leads non archivés</option>
+      <option value="all">Tous les leads</option>
+      <option value="archived">Leads archivés</option>
+      <option value="unopened">Leads non ouverts</option>
+      <option value="interesting">Intéressants ++</option>
+    </select>
+    <button type="button" class="btn btn-ghost" id="btnDormant">Leads dormants</button>
+    <button type="button" class="btn btn-ghost" id="btnSound">Son off</button>
+  </div>
+
+  <div class="acq-chips" id="platformChips"></div>
+  <section class="panel acq-rotation-panel" id="metaRotationPanel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Meta intelligent</p>
+        <h2>Rotation 4 semaines · 1 €/jour</h2>
+      </div>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnRefreshRotation">Actualiser CPL</button>
+    </div>
+    <div id="metaRotationBody"><p style="color:var(--muted)">Chargement du plan acquisition…</p></div>
+  </section>
+  <div class="acq-stats" id="acqStats"></div>
+  <div class="acq-pipeline" id="acqPipeline"><p class="alerts-empty" style="padding:24px;text-align:center">Chargement des formulaires remplis…</p></div>
+
+  <section class="panel acq-api-doc">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Tracking campagnes</p>
+        <h2>Connecter vos publicités et formulaires</h2>
+      </div>
+      <a href="./docs/SEA-TRACKING.md" class="btn btn-ghost btn-sm">Guide SEA</a>
+    </div>
+    <p>
+      Un seul endpoint <code>POST /api/lead</code> pour Facebook, Instagram, Google, TikTok, Allo et votre site.
+      Plus vous transmettez d'étapes de questionnaire, mieux le CRM classe, priorise et relance.
+      En cas d'erreur pipeline : exécutez <code>database/crm-acquisition-bootstrap.sql</code> dans Neon.
+    </p>
+    <pre>{
+  "email": "client@exemple.fr",
+  "phone": "0612345678",
+  "vertical": "vtc",
+  "utm_source": "facebook",
+  "fbclid": "...",
+  "questionnaire_step": 4,
+  "questionnaire_total": 10
+}</pre>
+  </section>
+
+  <script src="./js/crm-lead-platform.js"></script>
+  <script src="./js/crm-lead-payload-view.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-acquisition.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

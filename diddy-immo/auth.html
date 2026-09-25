@@ -1,0 +1,870 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon Espace | Leads Opportunities</title>
+  <meta name="description" content="Connectez-vous à votre espace Leads Opportunities pour gérer vos demandes de devis et suivre vos dossiers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./main.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .auth-hero {
+      min-height: calc(100vh - 72px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+      background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 40%, #f0fdf4 100%);
+    }
+    .auth-container {
+      width: min(460px, 100%);
+    }
+    .auth-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(15,23,42,.08), 0 1px 3px rgba(15,23,42,.04);
+      padding: 40px 32px;
+    }
+    .auth-card h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0 0 6px;
+      text-align: center;
+    }
+    .auth-card .subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin: 0 0 28px;
+    }
+    .auth-tabs {
+      display: flex;
+      gap: 0;
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      background: transparent;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all .2s;
+    }
+    .auth-tab.active {
+      background: #fff;
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(15,23,42,.08);
+    }
+    .auth-panel { display: none; }
+    .auth-panel.active { display: block; }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      font-size: 16px;
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+      font-family: inherit;
+    }
+    .form-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(13,148,136,.1);
+    }
+    .auth-submit {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .2s;
+    }
+    .auth-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(13,148,136,.3);
+    }
+    .auth-submit:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-google {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1.5px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+      font-family: inherit;
+    }
+    .btn-google:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 2px 8px rgba(15,23,42,.06);
+    }
+    .btn-google svg { flex-shrink: 0; }
+    .auth-link {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 0.88rem;
+    }
+    .auth-link a, .auth-link button {
+      color: var(--primary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: inherit;
+      font-family: inherit;
+    }
+    .auth-link a:hover, .auth-link button:hover {
+      text-decoration: underline;
+    }
+    .auth-message {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .auth-message.success {
+      display: block;
+      background: #f0fdf4;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+    .auth-message.error {
+      display: block;
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+    .auth-footer {
+      text-align: center;
+      padding: 20px 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .auth-footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .password-toggle {
+      position: relative;
+    }
+    .password-toggle button {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 4px;
+    }
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--primary-light);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .user-badge .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .user-badge .info { flex: 1; }
+    .user-badge .email { font-weight: 600; font-size: 0.92rem; }
+    .user-badge .role { font-size: 0.8rem; color: var(--muted); }
+    .settings-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+    }
+    .settings-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
+    .settings-list li:last-child { border-bottom: none; }
+    .settings-list li:hover { color: var(--primary); }
+    .settings-list .icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .admin-hub-links {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 16px;
+    }
+    .admin-hub-links a {
+      display: block;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: var(--primary-light, #f0fdfa);
+      border: 1.5px solid #99f6e4;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .admin-hub-links a span {
+      display: block;
+      font-weight: 500;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .admin-hub-links a.preferred {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark, #0f766e));
+      color: #fff;
+      border-color: transparent;
+    }
+    .admin-hub-links a.preferred span { color: rgba(255,255,255,.85); }
+    @media (max-width: 520px) {
+      .auth-card { padding: 28px 20px; }
+      .auth-hero { padding: 24px 12px; align-items: flex-start; }
+      .auth-submit, .btn-google { min-height: 48px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body data-admin-nav-page>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="logo logo--banner" href="./index.html" aria-label="Leads Opportunities — Wendy Buchet">
+        <img
+          class="logo-banner-img"
+          src="/assets/brand/logo-banner.jpg"
+          alt="Leads Opportunities — Wendy Buchet"
+          width="200"
+          height="100"
+          decoding="async"
+        />
+      </a>
+      <nav>
+        <a href="./index.html">Accueil</a>
+        <a href="./blog/">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="auth-hero">
+    <div class="auth-container">
+
+      <!-- ========= GUEST VIEW ========= -->
+      <div id="guestView">
+        <div class="auth-card">
+          <h1>Connexion</h1>
+          <p class="subtitle">Espace client &amp; administrateur</p>
+
+          <div id="authMsg" class="auth-message"></div>
+
+          <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="login">Connexion</button>
+            <button class="auth-tab" data-tab="register">Inscription</button>
+          </div>
+
+          <!-- LOGIN -->
+          <div id="panel-login" class="auth-panel active">
+            <a id="googleLoginLink" href="/api/auth/google?returnTo=/admin.html" class="btn-google">Continuer avec Google</a>
+            <div class="auth-divider">ou avec votre email</div>
+            <form id="loginForm">
+              <div class="form-group">
+                <label for="loginEmail">Adresse email</label>
+                <input type="email" id="loginEmail" placeholder="vous@email.com" required autocomplete="email" />
+              </div>
+              <div class="form-group">
+                <label for="loginPassword">Mot de passe</label>
+                <div class="password-toggle">
+                  <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password" />
+                  <button type="button" class="toggle-pw" aria-label="Afficher">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+              <button type="submit" class="auth-submit" id="loginBtn">Se connecter</button>
+            </form>
+            <div class="auth-link">
+              <button type="button" id="showForgot">Mot de passe oublié ?</button>
+            </div>
+          </div>
+
+          <!-- REGISTER -->
+          <div id="panel-register" class="auth-panel">
+            <form id="registerForm">
+              <div class="form-group">
+                <label for="regName">Nom complet</label>
+                <input type="text" id="regName" placeholder="Votre nom" autocomplete="name" />
+              </div>
+              <div class="form-group">
+                <label for="regEmail">Adresse email</label>
+                <input type="email" id="regEmail" placeholder="vous@email.com" required autocomplete="email" />
+              </div>
+              <div class="form-group">
+                <label for="regPhone">Téléphone</label>
+                <input type="tel" id="regPhone" placeholder="06 12 34 56 78" autocomplete="tel" />
+              </div>
+              <div class="form-group">
+                <label for="regPassword">Mot de passe (min 8 caractères)</label>
+                <div class="password-toggle">
+                  <input type="password" id="regPassword" placeholder="••••••••" required minlength="8" autocomplete="new-password" />
+                  <button type="button" class="toggle-pw" aria-label="Afficher">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+              <button type="submit" class="auth-submit" id="regBtn">Créer mon compte</button>
+            </form>
+          </div>
+
+          <!-- FORGOT PASSWORD -->
+          <div id="panel-forgot" class="auth-panel">
+            <form id="forgotForm">
+              <div class="form-group">
+                <label for="forgotEmail">Email du compte</label>
+                <input type="email" id="forgotEmail" placeholder="vous@email.com" required />
+              </div>
+              <button type="submit" class="auth-submit">Envoyer le code</button>
+            </form>
+            <div class="auth-link" style="margin-top:12px">
+              <button type="button" id="showReset">J'ai déjà un code</button>
+            </div>
+            <div class="auth-link">
+              <button type="button" id="backToLogin">Retour à la connexion</button>
+            </div>
+          </div>
+
+          <!-- RESET PASSWORD -->
+          <div id="panel-reset" class="auth-panel">
+            <form id="resetForm">
+              <div class="form-group">
+                <label for="resetEmail">Email</label>
+                <input type="email" id="resetEmail" placeholder="vous@email.com" required />
+              </div>
+              <div class="form-group">
+                <label for="resetCode">Code reçu par email</label>
+                <input type="text" id="resetCode" placeholder="123456" required maxlength="6" />
+              </div>
+              <div class="form-group">
+                <label for="resetNewPw">Nouveau mot de passe</label>
+                <input type="password" id="resetNewPw" placeholder="••••••••" required minlength="8" />
+              </div>
+              <button type="submit" class="auth-submit">Réinitialiser</button>
+            </form>
+            <div class="auth-link">
+              <button type="button" id="backToLogin2">Retour à la connexion</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="auth-footer">
+          <a href="./mentions-legales.html">Mentions légales</a> · <a href="./politique-confidentialite.html">Confidentialité</a> · <a href="./index.html#contact">Nous contacter</a>
+        </div>
+      </div>
+
+      <!-- ========= LOGGED IN VIEW ========= -->
+      <div id="loggedView" style="display:none">
+        <div class="auth-card">
+          <h1>Mon Espace</h1>
+          <p class="subtitle">Gérez votre compte et vos paramètres</p>
+
+          <div id="authMsgLogged" class="auth-message"></div>
+
+          <div class="user-badge">
+            <div class="avatar" id="userAvatar">U</div>
+            <div class="info">
+              <div class="email" id="userEmail">—</div>
+              <div class="role" id="userRole">Utilisateur</div>
+            </div>
+          </div>
+
+          <div id="adminHub" class="admin-hub-links" style="display:none"></div>
+
+          <ul class="settings-list">
+            <li id="goDashboard" style="display:none">
+              <span class="icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+              </span>
+              <span>Dashboard Admin</span>
+            </li>
+            <li id="showChangePw">
+              <span class="icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <span>Changer le mot de passe</span>
+            </li>
+            <li id="logoutBtn">
+              <span class="icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              </span>
+              <span style="color:#ef4444">Se déconnecter</span>
+            </li>
+          </ul>
+
+          <!-- CHANGE PASSWORD PANEL -->
+          <div id="changePwPanel" style="display:none; margin-top:20px; padding-top:20px; border-top:1px solid var(--line);">
+            <h3 style="font-size:1rem; margin:0 0 16px;">Modifier le mot de passe</h3>
+            <form id="changePwForm">
+              <div class="form-group">
+                <label for="oldPw">Mot de passe actuel</label>
+                <input type="password" id="oldPw" required />
+              </div>
+              <div class="form-group">
+                <label for="newPw">Nouveau mot de passe</label>
+                <input type="password" id="newPw" required minlength="8" />
+              </div>
+              <button type="submit" class="auth-submit">Mettre à jour</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="auth-footer">
+          <a href="./index.html">Retour au site</a> · <a href="./index.html#contact">Nous contacter</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var TOKEN_KEY = "lo_token";
+    var USER_KEY = "lo_user";
+    var ALLOWED_NEXT = {
+      "/admin.html": true,
+      "/dashboard.html": true,
+      "/crm.html": true,
+      "/crm-mobile.html": true,
+      "/auth.html": true,
+      "./admin.html": true,
+      "./dashboard.html": true,
+      "./crm.html": true,
+      "./crm-mobile.html": true,
+      "./auth.html": true
+    };
+
+    function getToken() { return localStorage.getItem(TOKEN_KEY); }
+    function getUser() {
+      try { return JSON.parse(localStorage.getItem(USER_KEY)); } catch { return null; }
+    }
+    function setAuth(token, user) {
+      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+    }
+    function clearAuth() {
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(USER_KEY);
+    }
+
+    function isMobile() {
+      return window.matchMedia("(max-width: 768px)").matches ||
+        /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+    }
+
+    /** Normalise next/redirect/returnTo vers un chemin relatif sûr */
+    function resolveNext(raw) {
+      if (!raw) return null;
+      var v = String(raw).trim();
+      try { v = decodeURIComponent(v); } catch (e) {}
+      if (!v || v.indexOf("://") >= 0 || v.indexOf("//") === 0) return null;
+      if (v.charAt(0) !== "/" && v.indexOf("./") !== 0) v = "./" + v.replace(/^\.?\/?/, "");
+      var pathOnly = v.split("?")[0].split("#")[0];
+      var asAbs = pathOnly.indexOf("./") === 0 ? "/" + pathOnly.slice(2) : pathOnly;
+      if (!ALLOWED_NEXT[pathOnly] && !ALLOWED_NEXT[asAbs]) return null;
+      return asAbs.indexOf("/") === 0 ? asAbs : "/" + asAbs.replace(/^\.\//, "");
+    }
+
+    function readNextParam() {
+      var params = new URLSearchParams(window.location.search);
+      return resolveNext(params.get("next") || params.get("redirect") || params.get("returnTo"));
+    }
+
+    function defaultAdminDest() {
+      return isMobile() ? "/crm-mobile.html" : "/admin.html";
+    }
+
+    function goAfterLogin(user, forcedDest) {
+      var next = forcedDest || readNextParam();
+      if (next) {
+        window.location.href = next;
+        return;
+      }
+      if (user && (user.role === "admin" || user.crmRole)) {
+        window.location.href = defaultAdminDest();
+        return;
+      }
+      renderLoggedView();
+    }
+
+    function syncGoogleLink() {
+      var next = readNextParam() || defaultAdminDest();
+      var link = document.getElementById("googleLoginLink");
+      if (link) link.href = "/api/auth/google?returnTo=" + encodeURIComponent(next);
+    }
+
+    function showMsg(id, text, ok) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = text;
+      el.className = "auth-message " + (ok ? "success" : "error");
+    }
+    function hideMsg(id) {
+      var el = document.getElementById(id);
+      if (el) { el.className = "auth-message"; el.textContent = ""; }
+    }
+
+    async function apiCall(url, data) {
+      var token = getToken();
+      var headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = "Bearer " + token;
+      var res = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(data) });
+      return res.json();
+    }
+
+    syncGoogleLink();
+
+    // Tab switching
+    document.querySelectorAll(".auth-tab").forEach(function(tab) {
+      tab.addEventListener("click", function() {
+        document.querySelectorAll(".auth-tab").forEach(function(t) { t.classList.remove("active"); });
+        document.querySelectorAll(".auth-panel").forEach(function(p) { p.classList.remove("active"); });
+        tab.classList.add("active");
+        document.getElementById("panel-" + tab.dataset.tab).classList.add("active");
+        hideMsg("authMsg");
+      });
+    });
+
+    // Show forgot/reset
+    document.getElementById("showForgot").addEventListener("click", function() {
+      document.querySelectorAll(".auth-tab").forEach(function(t) { t.classList.remove("active"); });
+      document.querySelectorAll(".auth-panel").forEach(function(p) { p.classList.remove("active"); });
+      document.getElementById("panel-forgot").classList.add("active");
+    });
+    document.getElementById("showReset").addEventListener("click", function() {
+      document.querySelectorAll(".auth-panel").forEach(function(p) { p.classList.remove("active"); });
+      document.getElementById("panel-reset").classList.add("active");
+    });
+    ["backToLogin", "backToLogin2"].forEach(function(id) {
+      document.getElementById(id).addEventListener("click", function() {
+        document.querySelectorAll(".auth-tab").forEach(function(t) { t.classList.remove("active"); });
+        document.querySelectorAll(".auth-panel").forEach(function(p) { p.classList.remove("active"); });
+        document.querySelector('.auth-tab[data-tab="login"]').classList.add("active");
+        document.getElementById("panel-login").classList.add("active");
+      });
+    });
+
+    // Password toggle
+    document.querySelectorAll(".toggle-pw").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        var inp = btn.parentElement.querySelector("input");
+        inp.type = inp.type === "password" ? "text" : "password";
+      });
+    });
+
+    // Retour connexion Google
+    (function handleOAuthReturn() {
+      var params = new URLSearchParams(window.location.search);
+      var oauthErr = params.get("oauth_error");
+      if (oauthErr) {
+        showMsg("authMsg", decodeURIComponent(oauthErr.replace(/\+/g, " ")), false);
+        window.history.replaceState({}, "", "./auth.html" + (readNextParam() ? "?next=" + encodeURIComponent(readNextParam()) : ""));
+      }
+      var token = params.get("token");
+      if (params.get("oauth") === "success" && token) {
+        var dest = resolveNext(params.get("dest")) || defaultAdminDest();
+        fetch("/api/auth/me", { headers: { Authorization: "Bearer " + token } })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (data.ok && data.user) {
+              setAuth(token, data.user);
+              window.history.replaceState({}, "", "./auth.html");
+              window.location.href = dest;
+            } else {
+              showMsg("authMsg", data.error || "Connexion Google incomplete", false);
+            }
+          })
+          .catch(function() {
+            showMsg("authMsg", "Erreur apres connexion Google", false);
+          });
+      }
+    })();
+
+    // LOGIN
+    document.getElementById("loginForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      var btn = document.getElementById("loginBtn");
+      btn.disabled = true; btn.textContent = "Connexion...";
+      hideMsg("authMsg");
+      try {
+        var data = await apiCall("/api/auth/login", {
+          email: document.getElementById("loginEmail").value,
+          password: document.getElementById("loginPassword").value
+        });
+        if (data.ok) {
+          setAuth(data.token, data.user);
+          showMsg("authMsg", "Connexion réussie ! Redirection...", true);
+          setTimeout(function() { goAfterLogin(data.user); }, 600);
+        } else {
+          showMsg("authMsg", data.error || "Erreur de connexion", false);
+        }
+      } catch(err) {
+        showMsg("authMsg", "Erreur réseau", false);
+      }
+      btn.disabled = false; btn.textContent = "Se connecter";
+    });
+
+    // REGISTER
+    document.getElementById("registerForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      var btn = document.getElementById("regBtn");
+      btn.disabled = true; btn.textContent = "Création...";
+      hideMsg("authMsg");
+      try {
+        var data = await apiCall("/api/auth/register", {
+          email: document.getElementById("regEmail").value,
+          password: document.getElementById("regPassword").value,
+          fullName: document.getElementById("regName").value || undefined,
+          phone: document.getElementById("regPhone").value || undefined
+        });
+        if (data.ok) {
+          setAuth(data.token, data.user);
+          showMsg("authMsg", "Compte créé ! Bienvenue.", true);
+          setTimeout(function() { renderLoggedView(); }, 800);
+        } else {
+          showMsg("authMsg", data.error || "Erreur lors de l'inscription", false);
+        }
+      } catch(err) {
+        showMsg("authMsg", "Erreur réseau", false);
+      }
+      btn.disabled = false; btn.textContent = "Créer mon compte";
+    });
+
+    // FORGOT PASSWORD
+    document.getElementById("forgotForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      hideMsg("authMsg");
+      try {
+        var data = await apiCall("/api/auth/forgot-password", {
+          email: document.getElementById("forgotEmail").value
+        });
+        showMsg("authMsg", data.message || "Code envoyé si le compte existe.", true);
+        document.querySelectorAll(".auth-panel").forEach(function(p) { p.classList.remove("active"); });
+        document.getElementById("panel-reset").classList.add("active");
+        document.getElementById("resetEmail").value = document.getElementById("forgotEmail").value;
+      } catch(err) {
+        showMsg("authMsg", "Erreur réseau", false);
+      }
+    });
+
+    // RESET PASSWORD
+    document.getElementById("resetForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      hideMsg("authMsg");
+      try {
+        var data = await apiCall("/api/auth/reset-password", {
+          email: document.getElementById("resetEmail").value,
+          code: document.getElementById("resetCode").value,
+          newPassword: document.getElementById("resetNewPw").value
+        });
+        if (data.ok) {
+          if (data.token) setAuth(data.token, { email: document.getElementById("resetEmail").value });
+          showMsg("authMsg", "Mot de passe réinitialisé !", true);
+          setTimeout(function() { renderLoggedView(); }, 800);
+        } else {
+          showMsg("authMsg", data.error || "Code invalide", false);
+        }
+      } catch(err) {
+        showMsg("authMsg", "Erreur réseau", false);
+      }
+    });
+
+    // LOGGED IN VIEW
+    function renderLoggedView() {
+      var user = getUser();
+      if (!user) return;
+      document.getElementById("guestView").style.display = "none";
+      document.getElementById("loggedView").style.display = "block";
+      document.getElementById("userEmail").textContent = user.email || "—";
+      document.getElementById("userRole").textContent =
+        user.role === "admin" ? "Administrateur" :
+        (user.crmRole ? "CRM · " + user.crmRole : "Utilisateur");
+      document.getElementById("userAvatar").textContent = (user.email || "U")[0].toUpperCase();
+
+      var hub = document.getElementById("adminHub");
+      var isAdmin = user.role === "admin";
+      var hasCrm = isAdmin || !!user.crmRole;
+      if (hasCrm) {
+        document.getElementById("goDashboard").style.display = isAdmin ? "flex" : "none";
+        var mobile = isMobile();
+        var links = [];
+        links.push({
+          href: "./admin.html",
+          title: "Hub admin",
+          desc: "Tous les accès en un endroit",
+          preferred: false
+        });
+        if (isAdmin) {
+          links.push({
+            href: "./dashboard.html",
+            title: "Dashboard",
+            desc: "Leads & questionnaires",
+            preferred: !mobile
+          });
+        }
+        links.push({
+          href: "./crm-mobile.html",
+          title: "CRM Mobile",
+          desc: "Version téléphone",
+          preferred: mobile
+        });
+        links.push({
+          href: "./crm.html",
+          title: "CRM bureau",
+          desc: "Vue complète ordinateur",
+          preferred: false
+        });
+        hub.style.display = "grid";
+        hub.innerHTML = links.map(function(l) {
+          return '<a class="' + (l.preferred ? "preferred" : "") + '" href="' + l.href + '">' +
+            l.title + "<span>" + l.desc + "</span></a>";
+        }).join("");
+      } else {
+        hub.style.display = "none";
+        hub.innerHTML = "";
+        document.getElementById("goDashboard").style.display = "none";
+      }
+    }
+
+    // Go to dashboard
+    document.getElementById("goDashboard").addEventListener("click", function() {
+      window.location.href = "./dashboard.html";
+    });
+
+    // Change password
+    document.getElementById("showChangePw").addEventListener("click", function() {
+      var panel = document.getElementById("changePwPanel");
+      panel.style.display = panel.style.display === "none" ? "block" : "none";
+    });
+
+    document.getElementById("changePwForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      hideMsg("authMsgLogged");
+      try {
+        var data = await apiCall("/api/auth/change-password", {
+          oldPassword: document.getElementById("oldPw").value,
+          newPassword: document.getElementById("newPw").value
+        });
+        if (data.ok) {
+          showMsg("authMsgLogged", "Mot de passe modifié !", true);
+          document.getElementById("changePwForm").reset();
+          document.getElementById("changePwPanel").style.display = "none";
+        } else {
+          showMsg("authMsgLogged", data.error || "Erreur", false);
+        }
+      } catch(err) {
+        showMsg("authMsgLogged", "Erreur réseau", false);
+      }
+    });
+
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", function() {
+      clearAuth();
+      document.getElementById("loggedView").style.display = "none";
+      document.getElementById("guestView").style.display = "block";
+      hideMsg("authMsg");
+    });
+
+    // On load: check session — si next + déjà connecté, rediriger
+    var token = getToken();
+    var pendingNext = readNextParam();
+    if (token) {
+      fetch("/api/auth/me", { headers: { Authorization: "Bearer " + token } })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.ok && data.user) {
+            setAuth(token, data.user);
+            if (pendingNext && (data.user.role === "admin" || data.user.crmRole || pendingNext === "/auth.html")) {
+              window.location.href = pendingNext;
+              return;
+            }
+            renderLoggedView();
+          } else {
+            clearAuth();
+          }
+        })
+        .catch(function() {});
+    }
+
+  })();
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

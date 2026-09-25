@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Piges | CRM Immobilier</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    :root {
+      --piges-blue: #1e4f8a;
+      --piges-line: #c5d4e8;
+      --piges-bg: #f4f7fb;
+    }
+    .piges-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 8px;
+    }
+    @media (max-width: 960px) {
+      .piges-layout { grid-template-columns: 1fr; }
+    }
+    .piges-side {
+      background: #fff;
+      border: 1px solid var(--piges-line);
+      border-radius: 12px;
+      padding: 14px 14px 18px;
+      position: sticky;
+      top: 12px;
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+    }
+    .piges-side h1 {
+      margin: 0 0 12px;
+      font-size: 1.15rem;
+      letter-spacing: .04em;
+      color: var(--piges-blue);
+      text-transform: uppercase;
+    }
+    .piges-sec {
+      border-top: 2px solid var(--piges-blue);
+      padding-top: 10px;
+      margin-top: 14px;
+    }
+    .piges-sec h2 {
+      margin: 0 0 10px;
+      font-size: .78rem;
+      letter-spacing: .06em;
+      color: var(--piges-blue);
+      text-transform: uppercase;
+    }
+    .piges-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 9px;
+      font-size: .72rem;
+      font-weight: 700;
+      color: #64748b;
+    }
+    .piges-field input,
+    .piges-field select {
+      padding: 7px 9px;
+      border-radius: 7px;
+      border: 1px solid var(--line);
+      background: var(--piges-bg);
+      font: inherit;
+      font-weight: 500;
+      color: #0f172a;
+    }
+    .piges-range {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 6px;
+      align-items: center;
+    }
+    .piges-range span { font-size: .7rem; color: #94a3b8; text-align: center; }
+    .piges-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: #334155;
+    }
+    .piges-tri {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .piges-tri button {
+      border: 0;
+      background: #fff;
+      padding: 5px 9px;
+      cursor: pointer;
+      font-size: .75rem;
+      color: #64748b;
+    }
+    .piges-tri button.active-yes { background: #dcfce7; color: #166534; }
+    .piges-tri button.active-no { background: #fee2e2; color: #991b1b; }
+    .piges-tri button.active-any { background: #e2e8f0; color: #0f172a; }
+    .piges-switch {
+      width: 38px; height: 22px; border-radius: 999px; border: 1px solid var(--line);
+      background: #e2e8f0; position: relative; cursor: pointer; flex-shrink: 0;
+    }
+    .piges-switch.on { background: #93c5fd; border-color: #60a5fa; }
+    .piges-switch i {
+      position: absolute; top: 2px; left: 2px; width: 16px; height: 16px;
+      border-radius: 50%; background: #fff; transition: left .15s;
+    }
+    .piges-switch.on i { left: 18px; }
+    .piges-search-btn {
+      width: 100%; margin-top: 14px; padding: 12px;
+      background: #0f172a; color: #fff; border: 0; border-radius: 8px;
+      font-weight: 800; letter-spacing: .04em; cursor: pointer;
+    }
+    .piges-toolbar {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
+    }
+    .piges-toolbar button,
+    .piges-toolbar a.piges-act {
+      appearance: none;
+      border: 0;
+      background: #1e3a5f;
+      color: #fff;
+      font-weight: 700;
+      font-size: .72rem;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    .piges-toolbar button:hover,
+    .piges-toolbar a.piges-act:hover { background: #16304f; }
+    .piges-toolbar button:disabled { opacity: .45; cursor: not-allowed; }
+    .piges-hint {
+      margin: 0 0 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      font-size: .82rem;
+      line-height: 1.45;
+    }
+    .immo-when { color: #475569; font-size: .78rem; }
+    .immo-hist-toggle {
+      border: 0;
+      background: transparent;
+      color: #0b5cab;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+      padding: 0;
+    }
+    .immo-history-timeline {
+      margin: 8px 0 0;
+      padding: 0 0 0 18px;
+      color: #334155;
+      font-size: .82rem;
+      line-height: 1.45;
+    }
+    .immo-history-timeline li { margin: 0 0 6px; }
+    .immo-history-inline {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 8px 8px 24px;
+      margin-top: 8px;
+    }
+    .immo-history-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px;
+      margin: 0 0 10px;
+      list-style: none;
+    }
+    .immo-history-idx {
+      font-size: .72rem;
+      font-weight: 800;
+      color: #0369a1;
+      background: #e0f2fe;
+      border-radius: 999px;
+      padding: 2px 8px;
+      height: fit-content;
+    }
+    .immo-prospect {
+      margin: 6px 0 4px;
+      font-size: .9rem;
+      line-height: 1.45;
+      color: #1e3a5f;
+    }
+    .immo-prospect a { color: #0b5cab; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+    .immo-prospect-empty { color: #8a6d3b; font-style: italic; }
+    .immo-prospect-hint { color: #64748b; font-size: .82rem; font-weight: 500; }
+    .piges-main-top {
+      display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+      align-items: center; margin-bottom: 10px;
+    }
+    .piges-count { color: var(--muted); font-size: .85rem; font-weight: 600; }
+    .immo-card { cursor: default;
+
+      display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: start;
+      padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); margin-bottom: 10px;
+    }
+    .immo-card.js-card-nav,
+    .immo-card[data-card-href] { cursor: pointer; }
+    .immo-card.js-card-nav:hover,
+    .immo-card[data-card-href]:hover { border-color: #93c5fd; box-shadow: 0 2px 10px rgba(15,23,42,.06); }
+    .immo-card h3 { margin: 0 0 4px; font-size: 1rem; }
+    .immo-meta { color: var(--muted); font-size: .82rem; }
+    .immo-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .immo-tag { font-size: .72rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: #e0f2fe; color: #0369a1; }
+    .immo-actions { display: flex; flex-direction: column; gap: 6px; }
+    .immo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+    .immo-grid label { display: flex; flex-direction: column; gap: 4px; font-size: .78rem; font-weight: 700; color: var(--muted); }
+    .immo-grid input, .immo-grid select, .immo-grid textarea {
+      padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font: inherit;
+    }
+    .immo-check { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
+    .immo-check label { flex-direction: row; align-items: center; gap: 6px; font-weight: 600; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier · piges</p>
+      <h2>Piges &amp; annonces</h2>
+      <p>Recherche type portails (Leboncoin, SeLoger, ParuVendu…) en saisie manuelle + URL — filtres métier, actions listing.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-immo-matching.html" class="btn btn-ghost">Matching acquéreurs</a>
+      <a href="./crm-immo-documents.html" class="btn btn-ghost">Documents</a>
+      <button type="button" class="btn btn-primary" id="btnNewProp">+ Bien</button>
+    </div>
+  </section>
+
+  <div class="piges-layout">
+    <aside class="piges-side" id="pigesFilters">
+      <h1>Piges</h1>
+
+      <div class="piges-sec">
+        <h2>Recherche</h2>
+        <label class="piges-field">Mot-clés
+          <input id="q" placeholder="Nom prospect, ville, tél…" />
+        </label>
+        <label class="piges-field">État
+          <select id="fEtat">
+            <option value="">Tous</option>
+            <option value="non_affectee">Non affectée</option>
+            <option value="affectee">Affectée</option>
+            <option value="en_cours">En cours</option>
+          </select>
+        </label>
+        <label class="piges-field">Statut
+          <select id="fStatus">
+            <option value="" selected>Tous</option>
+          </select>
+        </label>
+        <div class="piges-row"><span>Classif. projet</span><input type="checkbox" id="fClassif" /></div>
+        <div class="piges-row"><span>À contacter</span><button type="button" class="piges-switch" id="swContact" data-on="0" aria-pressed="false"><i></i></button></div>
+        <div class="piges-row"><span>Contact connu</span><button type="button" class="piges-switch" id="swKnown" data-on="0" aria-pressed="false"><i></i></button></div>
+        <div class="piges-row"><span>Liées à un prospect</span><button type="button" class="piges-switch on" id="swLinkedOnly" data-on="1" aria-pressed="true" title="N’afficher que les piges liées à un interlocuteur"><i></i></button></div>
+        <div class="piges-row">
+          <span>Téléphone</span>
+          <div class="piges-tri" data-tri="fPhone">
+            <button type="button" data-v="yes" title="Avec tél.">✓</button>
+            <button type="button" data-v="any" class="active-any" title="Indifférent">○</button>
+            <button type="button" data-v="no" title="Sans tél.">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="piges-sec">
+        <h2>Où ?</h2>
+        <label class="piges-field">Localité
+          <input id="fCity" list="cityList" placeholder="Ville / CP" />
+          <datalist id="cityList"></datalist>
+        </label>
+        <div class="piges-row">
+          <span>Géolocalisation</span>
+          <div class="piges-tri" data-tri="fGeo">
+            <button type="button" data-v="yes" title="Avec geo">✓</button>
+            <button type="button" data-v="any" class="active-any" title="Indifférent">○</button>
+            <button type="button" data-v="no" title="Sans geo">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="piges-sec">
+        <h2>Qui ?</h2>
+        <label class="piges-field">Agence
+          <input id="fAgence" placeholder="Nom / réseau" />
+        </label>
+        <label class="piges-field">Suivi par
+          <input id="fSuivi" placeholder="Négociateur" />
+        </label>
+      </div>
+
+      <div class="piges-sec">
+        <h2>Quoi ?</h2>
+        <label class="piges-field">Type de bien
+          <select id="fType"><option value="">Tous</option></select>
+        </label>
+        <label class="piges-field">Transaction
+          <select id="fTransaction">
+            <option value="">Toutes</option>
+            <option value="vente">À vendre</option>
+            <option value="location">À louer</option>
+          </select>
+        </label>
+        <label class="piges-field">Origine
+          <select id="fSource"><option value="">Toutes</option></select>
+        </label>
+        <label class="piges-field">Pièces
+          <div class="piges-range">
+            <input id="fRoomsMin" type="number" min="0" step="1" placeholder="de" />
+            <span>à</span>
+            <input id="fRoomsMax" type="number" min="0" step="1" placeholder="à" />
+          </div>
+        </label>
+        <label class="piges-field">Chambres
+          <div class="piges-range">
+            <input id="fBedMin" type="number" min="0" step="1" placeholder="de" />
+            <span>à</span>
+            <input id="fBedMax" type="number" min="0" step="1" placeholder="à" />
+          </div>
+        </label>
+        <label class="piges-field">Prix (€)
+          <div class="piges-range">
+            <input id="fPriceMin" type="number" min="0" step="1000" placeholder="de" />
+            <span>à</span>
+            <input id="fPriceMax" type="number" min="0" step="1000" placeholder="à" />
+          </div>
+        </label>
+        <label class="piges-field">Surface (m²)
+          <div class="piges-range">
+            <input id="fSurfMin" type="number" min="0" step="1" placeholder="de" />
+            <span>à</span>
+            <input id="fSurfMax" type="number" min="0" step="1" placeholder="à" />
+          </div>
+        </label>
+      </div>
+
+      <div class="piges-sec">
+        <h2>Quand ?</h2>
+        <label class="piges-field">Date début
+          <input id="fDateFrom" type="date" />
+        </label>
+        <label class="piges-field">Date fin
+          <input id="fDateTo" type="date" />
+        </label>
+      </div>
+
+      <button type="button" class="piges-search-btn" id="btnPigesSearch">Rechercher</button>
+    </aside>
+
+    <div>
+      <div class="piges-toolbar" id="pigesActions">
+        <button type="button" data-act="sms">SMS</button>
+        <button type="button" data-act="suivi">Créer suivi</button>
+        <button type="button" data-act="delete">Supprimer</button>
+        <button type="button" data-act="assign">Affecter</button>
+        <button type="button" data-act="phone">Prospection téléphonique</button>
+        <button type="button" data-act="inventory">Inventaire fiches</button>
+        <button type="button" data-act="export">Export CSV</button>
+        <button type="button" data-act="print">Imprimer listing</button>
+      </div>
+
+      <p class="piges-hint" id="pigesHint">Par défaut : <strong>uniquement les piges liées à un prospect</strong> (vendeur, acquéreur, personnes).
+        Cliquez <em>N enreg.</em> pour dérouler l’historique, ou <strong>Historique</strong> sur la fiche.
+        Sur l’interlocuteur, « Liste piges » n’ouvre que ses biens liés.</p>
+      <div class="piges-main-top">
+        <div class="piges-count" id="listCount">0 bien(s)</div>
+        <label style="font-size:.8rem;font-weight:600;color:var(--muted)">
+          <input type="checkbox" id="chkAll" /> Tout sélectionner
+        </label>
+      </div>
+
+      <section class="panel" id="formPanel" hidden>
+        <h3 id="formTitle">Nouveau bien</h3>
+        <form id="propForm" class="immo-grid">
+          <input type="hidden" id="pId" />
+          <label>Titre<input id="pTitle" required placeholder="T3 centre…" /></label>
+          <label>Type<select id="pType"></select></label>
+          <label>Transaction
+            <select id="pTransaction">
+              <option value="vente">À vendre</option>
+              <option value="location">À louer</option>
+            </select>
+          </label>
+          <label>Statut
+            <select id="pStatus"></select>
+          </label>
+          <label>État
+            <select id="pEtat">
+              <option value="non_affectee">Non affectée</option>
+              <option value="affectee">Affectée</option>
+              <option value="en_cours">En cours</option>
+            </select>
+          </label>
+          <label>Source / origine<select id="pSource"></select></label>
+          <label style="grid-column:1/-1">URL annonce<input id="pUrl" placeholder="https://www.leboncoin.fr/ad/… — le portail se détecte tout seul" /></label>
+          <label>Ville<input id="pCity" /></label>
+          <label>Code postal<input id="pCp" /></label>
+          <label>Département<input id="pDept" maxlength="3" /></label>
+          <label>Adresse<input id="pAddress" /></label>
+          <label>Surface m²<input id="pSurf" type="number" step="0.1" /></label>
+          <label>Pièces<input id="pRooms" type="number" step="0.5" /></label>
+          <label>Chambres<input id="pBed" type="number" step="0.5" /></label>
+          <label>Prix net / loyer €<input id="pNet" type="number" step="100" /></label>
+          <label>Prix FAI €<input id="pFai" type="number" step="1000" /></label>
+          <label>Honoraires €<input id="pHon" type="number" step="100" /></label>
+          <label>DPE<input id="pDpe" maxlength="2" /></label>
+          <label>Agence<input id="pAgence" /></label>
+          <label>Suivi par<input id="pSuivi" /></label>
+          <label>Téléphone contact<input id="pPhone" /></label>
+          <label>Contact vendeur (id)<input id="pOwner" placeholder="contact_…" /></label>
+          <label>Contact acquéreur (id)<input id="pBuyer" placeholder="contact_…" /></label>
+          <label>Lead lié (id)<input id="pLead" placeholder="lead_…" /></label>
+          <div class="immo-check" style="grid-column:1/-1">
+            <label><input type="checkbox" id="pAContacter" /> À contacter</label>
+            <label><input type="checkbox" id="pContactConnu" /> Contact connu</label>
+            <label><input type="checkbox" id="pGarage" /> Garage</label>
+            <label><input type="checkbox" id="pParking" /> Parking</label>
+            <label><input type="checkbox" id="pCave" /> Cave</label>
+            <label><input type="checkbox" id="pGarden" /> Jardin</label>
+            <label><input type="checkbox" id="pTerrace" /> Terrasse</label>
+            <label><input type="checkbox" id="pBalcony" /> Balcon</label>
+            <label><input type="checkbox" id="pElev" /> Ascenseur</label>
+            <label><input type="checkbox" id="pPool" /> Piscine</label>
+          </div>
+          <label style="grid-column:1/-1">Description<textarea id="pDesc" rows="3"></textarea></label>
+          <label style="grid-column:1/-1">Notes / suivi<textarea id="pNotes" rows="2"></textarea></label>
+          <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="button" class="btn btn-ghost" id="btnCancelForm">Annuler</button>
+          </div>
+        </form>
+      </section>
+
+      <div id="listMount"></div>
+    </div>
+  </div>
+
+  <script src="./js/immo-listing-portals-lib.js"></script>
+  <script src="./js/crm-immo-matcher.js"></script>
+  <script src="./js/crm-immo-dossier-lib.js"></script>
+  <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-contact-links.js"></script>
+  <script src="./js/print-document-lib.js"></script>
+  <script src="./js/crm-immo-properties-page.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

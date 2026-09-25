@@ -1,0 +1,298 @@
+/* Acteurs assurance / partenaires — mise en avant */
+section[data-partners-trust][data-partners-layout="showcase"]:not(.partners-mounted) {
+  min-height: 720px;
+  contain: layout style;
+}
+
+@media (max-width: 768px) {
+  section[data-partners-trust][data-partners-layout="showcase"]:not(.partners-mounted) {
+    min-height: 960px;
+  }
+}
+
+.partners-trust-section {
+  padding: 56px 0;
+  background: linear-gradient(180deg, #f0fdfa 0%, #f8fafc 40%, #fff 100%);
+  border-top: 1px solid var(--border, #e2e8f0);
+  border-bottom: 1px solid var(--border, #e2e8f0);
+}
+
+.partners-trust-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.partners-trust-head {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 32px;
+}
+
+.partners-trust-head h2 {
+  font-size: clamp(1.4rem, 3.2vw, 1.9rem);
+  margin: 12px 0 10px;
+  line-height: 1.2;
+  color: #0f172a;
+}
+
+.partners-trust-lead {
+  color: var(--text-muted, #64748b);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.partners-trust-speed {
+  margin: 16px 0 0;
+  font-size: 0.95rem;
+  color: var(--primary, #0d9488);
+}
+
+.partners-trust-speed strong {
+  font-weight: 700;
+}
+
+/* Grille par catégorie */
+.partners-category-block {
+  margin-bottom: 28px;
+}
+
+.partners-category-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.partners-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.partners-featured-grid--flat {
+  margin-bottom: 24px;
+}
+
+.partners-featured-grid--compact {
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+/* Carte partenaire */
+.partner-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px 18px 16px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.partner-card-link:hover .partner-card,
+.partner-card-link:focus-visible .partner-card {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.12);
+  border-color: #99f6e4;
+}
+
+.partner-card--principal {
+  border-color: #ccfbf1;
+  background: linear-gradient(145deg, #fff 0%, #f0fdfa 100%);
+}
+
+.partner-card--compact {
+  padding: 14px 12px;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.partner-card--compact .partner-card-logo {
+  font-size: 1.6rem;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.partner-card--compact .partner-card-name {
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+
+.partner-card-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.partner-card-badge--active {
+  background: #ccfbf1;
+  color: #0f766e;
+}
+
+.partner-card-logo {
+  font-size: 2rem;
+  line-height: 1;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.partner-card-logo-img {
+  display: block;
+  max-width: min(148px, 100%);
+  max-height: 40px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+  margin-bottom: 8px;
+}
+
+.partner-card-logo-img--tall {
+  max-height: 56px;
+}
+
+.partner-card--compact .partner-card-logo-img {
+  max-width: 112px;
+  max-height: 34px;
+  margin: 0 auto 6px;
+  object-position: center;
+}
+
+.partner-card--compact .partner-card-logo-img--tall {
+  max-height: 44px;
+}
+
+.partner-card-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0 0 6px;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.partner-card-tagline {
+  font-size: 0.88rem;
+  color: #475569;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+.partner-card-products {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0d9488;
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* Bandeau défilant */
+.partners-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  margin: 20px 0 16px;
+}
+
+.partners-marquee-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: partners-marquee 38s linear infinite;
+}
+
+.partners-marquee:hover .partners-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes partners-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.partner-chip {
+  flex-shrink: 0;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+.partners-trust-legal {
+  text-align: center;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #94a3b8;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* Landing */
+.landing-partners-slot .partners-trust-section {
+  padding: 24px 0 4px;
+  background: transparent;
+  border: none;
+}
+
+.landing-partners-slot .partners-trust-inner {
+  padding: 0;
+}
+
+.landing-partners-slot .partners-trust-head h2 {
+  font-size: 1.15rem;
+}
+
+.landing-partners-slot .partners-trust-head {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.landing-partners-slot .partners-trust-lead,
+.landing-partners-slot .partners-trust-speed {
+  font-size: 0.88rem;
+}
+
+.landing-partners-slot .partners-marquee {
+  margin-top: 12px;
+}
+
+.landing-partners-slot .partner-card--compact {
+  padding: 10px 8px;
+}
+
+@media (max-width: 640px) {
+  .partners-trust-section {
+    padding: 40px 0;
+  }
+
+  .partners-featured-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .partner-card-tagline {
+    display: none;
+  }
+
+  .partner-card {
+    padding: 16px 12px 12px;
+  }
+}

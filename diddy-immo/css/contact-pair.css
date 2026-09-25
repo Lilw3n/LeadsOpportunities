@@ -1,0 +1,73 @@
+/* Téléphone + e-mail : bloc unique, mobile-first, autofill-friendly */
+.contact-pair {
+  border: 1px solid rgba(13, 148, 136, 0.28);
+  background: linear-gradient(145deg, #f0fdfa 0%, #f8fafc 100%);
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  margin: 0 0 18px;
+}
+
+.contact-pair > legend {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #0f172a;
+  padding: 0 6px;
+}
+
+.contact-pair-hint {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.contact-pair-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 560px) {
+  .contact-pair-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.contact-pair .field,
+.contact-pair label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.contact-pair input[type="tel"],
+.contact-pair input[type="email"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  background: #fff;
+}
+
+.contact-pair input:focus {
+  outline: none;
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.contact-form .form-row.contact-pair-row {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 560px) {
+  .contact-form .form-row.contact-pair-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}

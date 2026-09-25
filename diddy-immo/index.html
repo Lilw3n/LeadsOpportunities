@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buchet Immobilier — CRM, piges, barème &amp; visites</title>
+  <meta name="description" content="Espace immobilier Wendy Buchet : fiches biens, piges, barème des honoraires, matching, visites virtuelles et CRM." />
+  <meta name="robots" content="index,follow" />
+  <link rel="stylesheet" href="./main.css" />
+  <link rel="stylesheet" href="./css/piliers-hub.css" />
+  <link rel="stylesheet" href="./css/clickable-affordance.css" />
+  <style>
+    :root {
+      --bi-ink: #0a1931;
+      --bi-blue: #1e4f8a;
+      --bi-sky: #e8f1fb;
+      --bi-accent: #c4a35a;
+    }
+    body.bi-hub {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse 90% 60% at 10% -10%, rgba(30, 79, 138, 0.18), transparent 55%),
+        radial-gradient(ellipse 70% 50% at 100% 0%, rgba(196, 163, 90, 0.16), transparent 50%),
+        linear-gradient(165deg, #f7fafc 0%, #eef3f9 45%, #f5f0e6 100%);
+      color: var(--bi-ink);
+    }
+    .bi-hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      align-items: end;
+      padding: 0;
+      overflow: hidden;
+    }
+    .bi-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(10, 25, 49, 0.35) 0%, rgba(10, 25, 49, 0.72) 55%, rgba(10, 25, 49, 0.88) 100%),
+        url("./assets/piliers/pilier-immobilier.jpg") center / cover no-repeat;
+      z-index: 0;
+    }
+    .bi-hero-inner {
+      position: relative;
+      z-index: 1;
+      width: min(920px, 92vw);
+      margin: 0 auto 12vh;
+      padding: 24px 0;
+      color: #fff;
+      animation: bi-rise 0.9s ease-out both;
+    }
+    .bi-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .bi-brand img {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+    }
+    .bi-brand-name {
+      font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .bi-brand-tag {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 500;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+    .bi-hero h1 {
+      font-size: clamp(1.35rem, 3.2vw, 1.85rem);
+      font-weight: 600;
+      line-height: 1.25;
+      max-width: 18ch;
+      margin: 0 0 12px;
+    }
+    .bi-hero .lead {
+      max-width: 36ch;
+      font-size: 1.05rem;
+      opacity: 0.9;
+      margin: 0 0 28px;
+    }
+    .bi-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .bi-cta .btn {
+      min-height: 48px;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    .bi-cta .btn-primary {
+      background: var(--bi-accent);
+      color: #1a1408;
+      border: none;
+    }
+    .bi-cta .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1.5px solid rgba(255, 255, 255, 0.55);
+    }
+    .bi-cta .btn-primary:hover { filter: brightness(1.06); }
+    .bi-cta .btn-outline:hover { background: rgba(255, 255, 255, 0.1); }
+    @keyframes bi-rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .bi-nav-strip {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 4vw 72px;
+      animation: bi-rise 1.1s 0.15s ease-out both;
+    }
+    .bi-nav-strip h2 {
+      font-size: 1.25rem;
+      margin: 0 0 8px;
+      color: var(--bi-ink);
+    }
+    .bi-nav-strip > p {
+      margin: 0 0 24px;
+      color: #475569;
+      max-width: 48ch;
+    }
+    .bi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .bi-grid a {
+      display: block;
+      padding: 18px 16px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(30, 79, 138, 0.12);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--bi-ink);
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+    .bi-grid a:hover {
+      transform: translateY(-2px);
+      border-color: rgba(30, 79, 138, 0.35);
+      background: #fff;
+    }
+    .bi-grid strong { display: block; margin-bottom: 4px; font-size: 1rem; }
+    .bi-grid span { font-size: 0.88rem; color: #64748b; }
+    .bi-foot {
+      text-align: center;
+      padding: 24px;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+    .bi-foot a { color: var(--bi-blue); }
+  </style>
+</head>
+<body class="bi-hub">
+  <header class="bi-hero" aria-label="Buchet Immobilier">
+    <div class="bi-hero-inner">
+      <a class="bi-brand" href="./index.html">
+        <img src="./assets/brand/logo-mark.png" width="52" height="52" alt="" />
+        <span>
+          <span class="bi-brand-name">Buchet Immobilier</span>
+          <span class="bi-brand-tag">Wendy Buchet · Nancy &amp; bassin 54</span>
+        </span>
+      </a>
+      <h1>Piges, barème et visites — un seul outil</h1>
+      <p class="lead">CRM immobilier, honoraires publics, matching acheteurs et parcours visite.</p>
+      <div class="bi-cta">
+        <a class="btn btn-primary" href="./crm-immo-properties.html">Ouvrir le CRM piges</a>
+        <a class="btn btn-outline" href="./immobilier/">Site immobilier</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="bi-nav-strip" aria-label="Parcours">
+    <h2>Accès rapides</h2>
+    <p>Pack exporté depuis Leads Opportunities — prêt à déployer sur Vercel (root <code>diddy-immo</code>) ou à pousser vers DiddyImmo.</p>
+    <div class="bi-grid">
+      <a href="./crm-immo-properties.html"><strong>Piges / biens</strong><span>Fiches, composition, photos</span></a>
+      <a href="./crm-immo-pubs.html"><strong>Pubs &amp; mandats</strong><span>Annonces et portails</span></a>
+      <a href="./crm-agency-fees.html"><strong>Honoraires</strong><span>Barèmes &amp; partage</span></a>
+      <a href="./bareme-honoraires/"><strong>Barème public</strong><span>Grille transparente</span></a>
+      <a href="./immobilier/visite.html"><strong>Visites</strong><span>Player &amp; accès</span></a>
+      <a href="./crm-immo-matching.html"><strong>Matching</strong><span>Acheteurs ↔ biens</span></a>
+      <a href="./crm-immo-utilisateurs.html"><strong>Utilisateurs marché</strong><span>Réseau &amp; contacts</span></a>
+      <a href="./auth.html"><strong>Connexion</strong><span>Admin / collaborateur</span></a>
+    </div>
+  </section>
+
+  <footer class="bi-foot">
+    <p>Contact <a href="tel:+33651366222">06 51 36 62 22</a> · <a href="./mentions-legales.html">Mentions légales</a></p>
+  </footer>
+</body>
+</html>

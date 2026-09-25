@@ -1,0 +1,428 @@
+/**
+ * Mode contrôle admin : parcourir les formulaires multi-étapes sans remplir,
+ * avec annotations (obligatoire, choix obligatoire, règles @email, CP, etc.)
+ *
+ * Activation : compte admin (lo_user), ?audit=1, ou localStorage lo_form_audit=1
+ */
+(function () {
+  var STORAGE_KEY = "lo_form_audit";
+
+  function isAdminUser() {
+    try {
+      var u = JSON.parse(localStorage.getItem("lo_user") || "{}");
+      return u.role === "admin";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function canUseAudit() {
+    if (isAdminUser()) return true;
+    return new URLSearchParams(window.location.search).get("audit") === "1";
+  }
+
+  function auditEnabledByDefault() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get("audit") === "1") return true;
+    try {
+      return localStorage.getItem(STORAGE_KEY) === "1";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function setAuditPreference(on) {
+    try {
+      if (on) localStorage.setItem(STORAGE_KEY, "1");
+      else localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {}
+  }
+
+  function fieldRules(el) {
+    var tags = [];
+    var name = (el.name || "").trim();
+    var type = (el.type || "").toLowerCase();
+    var tag = el.tagName;
+
+    if (el.hasAttribute("data-optional")) {
+      tags.push({ kind: "optional", text: "Facultatif" });
+    } else if (el.hasAttribute("data-was-required")) {
+      tags.push({ kind: "optional", text: "Utile au devis" });
+    } else if (el.hasAttribute("required") || el.getAttribute("aria-required") === "true") {
+      if (type === "checkbox" || type === "radio") {
+        tags.push({ kind: "choice", text: "Choix obligatoire" });
+      } else if (tag === "SELECT") {
+        tags.push({ kind: "choice", text: "Choix obligatoire" });
+      } else {
+        tags.push({ kind: "required", text: "Obligatoire" });
+      }
+    }
+
+    if (type === "email") tags.push({ kind: "rule", text: "Format @email" });
+    if (type === "tel" || name === "phone" || name === "mobile") {
+      tags.push({ kind: "rule", text: "Téléphone" });
+    }
+    if (name === "postalCode" || name === "postalProject") {
+      tags.push({ kind: "rule", text: "CP 5 chiffres" });
+    }
+    if (name === "street") {
+      tags.push({ kind: "rule", text: "Adresse postale" });
+    }
+    if (name === "cityFull" || name === "city") {
+      tags.push({ kind: "rule", text: "Ville" });
+    }
+    if (name === "companySiret" || name === "collectiveSiret" || name === "siret") {
+      tags.push({ kind: "rule", text: "SIREN 9 ou SIRET 14 chiffres" });
+    }
+    if (
+      name === "autoPlate" ||
+      name === "vtcVehiclePlate" ||
+      name === "vehiclePlate" ||
+      name === "motoPlate" ||
+      name === "tempVehiclePlate" ||
+      name === "fleetMainPlate" ||
+      name === "rvPlate"
+    ) {
+      tags.push({ kind: "rule", text: "Plaque d'immatriculation" });
+    }
+    if (type === "date" || name.indexOf("Dob") !== -1 || name.indexOf("Birth") !== -1) {
+      tags.push({ kind: "rule", text: "Date valide" });
+    }
+    if (name === "petChipNumber") {
+      tags.push({ kind: "rule", text: "Puce 15 chiffres (si renseigné)" });
+    }
+    if (el.pattern) {
+      tags.push({ kind: "rule", text: "Pattern HTML" });
+    }
+    if (el.minLength > 0) {
+      tags.push({ kind: "rule", text: "Min. " + el.minLength + " car." });
+    }
+    if (el.maxLength > 0 && el.maxLength < 500) {
+      tags.push({ kind: "rule", text: "Max. " + el.maxLength + " car." });
+    }
+
+    return tags;
+  }
+
+  function renderTags(tags) {
+    if (!tags.length) return "";
+    var seen = {};
+    var html = '<span class="audit-tag">';
+    tags.forEach(function (t) {
+      var key = t.kind + ":" + t.text;
+      if (seen[key]) return;
+      seen[key] = true;
+      html += '<span class="audit-tag--' + t.kind + '">' + t.text + "</span>";
+    });
+    html += "</span>";
+    return html;
+  }
+
+  function annotateForm(form) {
+    var fields = form.querySelectorAll("input, select, textarea");
+    fields.forEach(function (el) {
+      if (el.disabled || el.type === "button" || el.type === "submit" || el.type === "hidden") return;
+      if (el.name === "_hp" || el.id === "hp_q") return;
+
+      var label = form.querySelector('label[for="' + el.id + '"]');
+      if (!label) {
+        label = el.closest("label");
+      }
+      if (!label) return;
+
+      label.classList.add("form-audit-field");
+      var existing = label.querySelector(".audit-tag");
+      if (existing) existing.remove();
+
+      var tags = fieldRules(el);
+      if (!tags.length) return;
+      label.insertAdjacentHTML("beforeend", renderTags(tags));
+    });
+  }
+
+  function fieldLabelText(el) {
+    var lbl = el.closest("label");
+    if (lbl) {
+      var clone = lbl.cloneNode(true);
+      clone.querySelectorAll("input, select, textarea, .audit-tag").forEach(function (n) {
+        n.remove();
+      });
+      var t = (clone.textContent || "").replace(/\s+/g, " ").trim();
+      if (t) return t.slice(0, 80);
+    }
+    if (el.id) {
+      var forLbl = el.form && el.form.querySelector('label[for="' + el.id + '"]');
+      if (forLbl) {
+        var ft = (forLbl.textContent || "").replace(/\s+/g, " ").trim();
+        if (ft) return ft.slice(0, 80);
+      }
+    }
+    var fs = el.closest("fieldset");
+    if (fs) {
+      var legend = fs.querySelector("legend");
+      if (legend) {
+        var lt = (legend.textContent || "").replace(/\s+/g, " ").trim();
+        if (lt) return lt.slice(0, 80);
+      }
+    }
+    return "";
+  }
+
+  function buildStepPanel(form, step, index) {
+    var title = step.querySelector("h3");
+    var name =
+      step.getAttribute("data-step-name") ||
+      step.getAttribute("data-step") ||
+      "Étape " + (index + 1);
+    var seenGroups = {};
+    var inputs = [];
+    step.querySelectorAll("input, select, textarea").forEach(function (el) {
+      if (el.disabled || el.type === "hidden" || el.type === "submit" || el.type === "button") return;
+      if (el.name === "_hp") return;
+
+      // Cases à cocher / radios : une seule ligne par groupe, libellés humains
+      if ((el.type === "checkbox" || el.type === "radio") && el.name) {
+        if (seenGroups[el.name]) return;
+        seenGroups[el.name] = true;
+        var opts = [];
+        step.querySelectorAll('input[name="' + el.name + '"]').forEach(function (cb) {
+          var ot = fieldLabelText(cb) || cb.value;
+          if (ot && opts.indexOf(ot) === -1) opts.push(ot);
+        });
+        var rules = fieldRules(el)
+          .map(function (t) {
+            return t.text;
+          })
+          .join(" · ");
+        var legend = el.closest("fieldset") && el.closest("fieldset").querySelector("legend");
+        var legendText = legend ? (legend.textContent || "").replace(/\s+/g, " ").trim() : "";
+        var groupTitle =
+          legendText ||
+          (el.name === "buyerNeeds" ? "Besoins sélectionnés" : fieldLabelText(el) || el.name);
+        inputs.push(
+          "<li><strong>" +
+            groupTitle +
+            "</strong>" +
+            (rules ? " — " + rules : "") +
+            (opts.length ? "<br><span class='muted'>" + opts.join(" · ") + "</span>" : "") +
+            "</li>"
+        );
+        return;
+      }
+
+      var labelText = fieldLabelText(el) || el.name || el.id || "Champ";
+      var rules = fieldRules(el)
+        .map(function (t) {
+          return t.text;
+        })
+        .join(" · ");
+      inputs.push("<li><strong>" + labelText + "</strong>" + (rules ? " — " + rules : "") + "</li>");
+    });
+    return (
+      "<h4>" +
+      (title ? title.textContent : name) +
+      "</h4><ul>" +
+      (inputs.length ? inputs.join("") : "<li class='muted'>Aucun champ saisissable</li>") +
+      "</ul>"
+    );
+  }
+
+  function getWizardSteps(form) {
+    return Array.prototype.slice.call(form.querySelectorAll(".wizard-step"));
+  }
+
+  function goToWizardStep(form, index) {
+    var steps = getWizardSteps(form);
+    if (!steps.length) return;
+    var i = Math.max(0, Math.min(index, steps.length - 1));
+    try {
+      form.dispatchEvent(
+        new CustomEvent("lo-audit-goto", { bubbles: false, detail: { index: i } })
+      );
+    } catch (e) {
+      steps.forEach(function (s, j) {
+        s.hidden = j !== i;
+      });
+    }
+    refreshStepUi(form, i);
+  }
+
+  function refreshStepUi(form, index) {
+    var steps = getWizardSteps(form);
+    if (!steps.length) return;
+    var i = Math.max(0, Math.min(index, steps.length - 1));
+    steps.forEach(function (s, j) {
+      s.classList.toggle("form-audit-step-active", j === i);
+    });
+    var bar = form._auditBar;
+    var panel = form.querySelector("[data-audit-step-summary]");
+    if (bar) {
+      var sel = bar.querySelector("[data-audit-step-select]");
+      if (sel) sel.value = String(i);
+    }
+    if (panel) panel.innerHTML = buildStepPanel(form, steps[i], i);
+    form.dataset.auditStep = String(i + 1);
+  }
+
+  function mountToolbar(form) {
+    if (form._auditBar) return;
+    var steps = getWizardSteps(form);
+    var bar = document.createElement("div");
+    bar.className = "form-audit-bar";
+    bar.setAttribute("role", "region");
+    bar.setAttribute("aria-label", "Mode contrôle formulaire");
+
+    var stepOptions = steps
+      .map(function (s, i) {
+        var n =
+          s.getAttribute("data-step-name") ||
+          s.getAttribute("data-step") ||
+          "étape " + (i + 1);
+        var h = s.querySelector("h3");
+        var label = i + 1 + ". " + n + (h ? " — " + h.textContent : "");
+        return '<option value="' + i + '">' + label + "</option>";
+      })
+      .join("");
+
+    bar.innerHTML =
+      "<strong>Contrôle admin</strong>" +
+      '<label class="form-audit-toggle"><input type="checkbox" data-audit-active checked /> Mode contrôle (sans remplir)</label>' +
+      (steps.length
+        ? '<label>Aller à <select data-audit-step-select>' + stepOptions + "</select></label>" +
+          '<button type="button" data-audit-prev>◀ Étape</button>' +
+          '<button type="button" data-audit-next>Étape ▶</button>' +
+          '<label class="form-audit-toggle"><input type="checkbox" data-audit-show-fields /> Liste des champs</label>'
+        : "") +
+      '<div class="form-audit-legend">' +
+      '<span class="audit-tag--required">Obligatoire</span>' +
+      '<span class="audit-tag--choice">Choix obligatoire</span>' +
+      '<span class="audit-tag--rule">Règle</span>' +
+      '<span class="audit-tag--optional">Facultatif</span>' +
+      "</div>";
+
+    document.body.insertBefore(bar, document.body.firstChild);
+    form._auditBar = bar;
+
+    var panel = document.createElement("div");
+    panel.className = "form-audit-step-panel";
+    panel.setAttribute("data-audit-step-summary", "");
+    panel.hidden = true;
+    var mount = form.querySelector("#wizardStepsMount") || form.querySelector("[data-pet-journey]") || form.firstElementChild;
+    if (mount && mount.parentNode) {
+      mount.parentNode.insertBefore(panel, mount);
+    } else {
+      form.insertBefore(panel, form.firstChild);
+    }
+
+    function syncActive(checked) {
+      form.dataset.auditMode = checked ? "1" : "0";
+      document.body.classList.toggle("form-audit-active", checked);
+      setAuditPreference(checked);
+      var showFields = bar.querySelector("[data-audit-show-fields]");
+      panel.hidden = !checked || !(showFields && showFields.checked);
+      bar.style.opacity = checked ? "1" : "0.85";
+    }
+
+    var toggle = bar.querySelector("[data-audit-active]");
+    toggle.addEventListener("change", function () {
+      syncActive(toggle.checked);
+    });
+    var showFields = bar.querySelector("[data-audit-show-fields]");
+    if (showFields) {
+      showFields.addEventListener("change", function () {
+        panel.hidden = !toggle.checked || !showFields.checked;
+      });
+    }
+    syncActive(toggle.checked);
+
+    if (steps.length) {
+      var sel = bar.querySelector("[data-audit-step-select]");
+      sel.addEventListener("change", function () {
+        goToWizardStep(form, parseInt(sel.value, 10));
+      });
+      bar.querySelector("[data-audit-prev]").addEventListener("click", function () {
+        var cur = parseInt(form.dataset.auditStep || "1", 10) - 1;
+        goToWizardStep(form, cur - 1);
+      });
+      bar.querySelector("[data-audit-next]").addEventListener("click", function () {
+        var cur = parseInt(form.dataset.auditStep || "1", 10) - 1;
+        goToWizardStep(form, cur + 1);
+      });
+      goToWizardStep(form, 0);
+    }
+
+    panel.innerHTML = steps.length ? buildStepPanel(form, steps[0], 0) : "";
+
+    form.addEventListener("lo:wizard_step", function () {
+      var cur = parseInt(form.dataset.currentStep || "1", 10) - 1;
+      refreshStepUi(form, cur);
+      if (bar) {
+        var sel = bar.querySelector("[data-audit-step-select]");
+        if (sel) sel.value = String(cur);
+      }
+    });
+  }
+
+  function showEnablePrompt() {
+    if (document.getElementById("formAuditPrompt")) return;
+    var p = document.createElement("p");
+    p.id = "formAuditPrompt";
+    p.className = "form-audit-prompt";
+    p.innerHTML =
+      "Compte admin détecté — parcourez le questionnaire sans remplir et affichez les règles des champs. " +
+      '<button type="button" id="formAuditEnableBtn">Activer le mode contrôle</button>';
+    var wrap = document.querySelector("#demande .form-wrap") || document.querySelector(".form-wrap");
+    if (wrap) wrap.insertBefore(p, wrap.firstChild);
+    document.getElementById("formAuditEnableBtn").addEventListener("click", function () {
+      setAuditPreference(true);
+      p.remove();
+      initAll(true);
+    });
+  }
+
+  function initForm(form, forceOn) {
+    if (!canUseAudit()) return;
+    annotateForm(form);
+    var on = forceOn || auditEnabledByDefault();
+    if (!on) return;
+    mountToolbar(form);
+    form.dataset.auditMode = "1";
+    document.body.classList.add("form-audit-active");
+  }
+
+  function initAll(forceOn) {
+    var forms = document.querySelectorAll("form[data-quote-wizard], form[data-pet-journey-form]");
+    if (!forms.length) return;
+    forms.forEach(function (form) {
+      initForm(form, forceOn);
+    });
+  }
+
+  window.FormAudit = {
+    canUseAudit: canUseAudit,
+    isAdminUser: isAdminUser,
+    skipValidation: function (form) {
+      return form && form.dataset.auditMode === "1";
+    },
+    isActive: function (form) {
+      return form && form.dataset.auditMode === "1";
+    },
+    refresh: function () {
+      initAll(true);
+    },
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!canUseAudit()) return;
+    var forms = document.querySelectorAll("form[data-quote-wizard], form[data-pet-journey-form]");
+    if (!forms.length) return;
+
+    setTimeout(function () {
+      if (auditEnabledByDefault()) {
+        initAll(true);
+      } else {
+        showEnablePrompt();
+      }
+    }, 0);
+  });
+})();

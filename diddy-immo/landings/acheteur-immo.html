@@ -1,0 +1,2249 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recherche de bien immobilier | Maison, appart, pro ou particulier</title>
+  <meta name="description" content="Recherchez un appartement ou une maison : filtres ville, budget, pièces, cartes d'annonces. Alerte si aucun mandat. Prêt et assurances en option." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
+  <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
+  <meta property="og:title" content="Recherche de bien immobilier | Maison, appart, pro ou particulier" />
+  <meta property="og:description" content="Vitrine d'annonces : type, ville, budget, pièces — puis alerte et prêt si besoin. Pas un questionnaire d'assurance." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JX8E35693F');
+  </script>
+  <script src="/api/google-config-env"></script>
+  <script src="../google-config.js"></script>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./css/immo-parcours.css?v=20260826docsui" />
+  <link rel="stylesheet" href="../css/acheteur-immo-search.css?v=20260825fold" />
+  <script>
+    (function () {
+      var p = new URLSearchParams(location.search);
+      var h = (p.get("hat") || p.get("role") || "").toLowerCase();
+      if (h === "vendeur" || h === "seller" || (location.hash || "").indexOf("deposer-bien") >= 0) {
+        document.documentElement.setAttribute("data-immo-hat", "vendeur");
+      } else if (h === "les_deux" || h === "both") {
+        document.documentElement.setAttribute("data-immo-hat", "les_deux");
+      } else if (h === "signalement" || h === "chasseur") {
+        document.documentElement.setAttribute("data-immo-hat", "signalement");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/form-audit.css" />
+  <link rel="stylesheet" href="../css/callback-form.css" />
+  <link rel="stylesheet" href="../css/retention-opportunity.css" />
+  <link rel="stylesheet" href="../css/contact-pair.css" />
+  <link rel="stylesheet" href="../css/lead-dossier-upload.css" />
+  <link rel="stylesheet" href="../css/client-value-block.css" />
+  <link rel="stylesheet" href="../css/pret-risks-block.css" />
+  <link rel="stylesheet" href="../css/achat-perennite-block.css" />
+  <link rel="stylesheet" href="../css/landing-form-first.css" />
+  <link rel="stylesheet" href="../css/vendeur-visite-pret-block.css" />
+  <link rel="stylesheet" href="../css/immo-documents.css?v=20260826docsui" />
+  <link rel="stylesheet" href="../css/lo-document-gallery.css?v=20260826docs1" />
+</head>
+<body data-retention-need="acheteur">
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="../index.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Retour a l'accueil
+      </a>
+      <a class="landing-logo" href="../index.html">
+        <span class="landing-logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        Leads Opportunities
+      </a>
+    </div>
+  </header>
+  <main class="page">
+    <div class="container">
+      <span class="badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Recherche de bien
+      </span>
+      <section class="card">
+        <div class="hero-surface">
+          <div class="hero">
+            <h1
+              data-hero-title
+              data-speed-title="Appartements et maisons à vendre — recherchez par ville et budget"
+              data-price-title="Annonces immobilières : mandats en cours, matching acquéreur"
+            >Appartements et maisons à vendre — recherchez par ville et budget</h1>
+            <p
+              class="sub"
+              data-hero-subtitle
+              data-speed-subtitle="Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels."
+              data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
+            >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
+            <ul class="points">
+              <li>Acquéreur : cherchez un bien, ou collez une URL déjà vue</li>
+              <li>Vendeur : déposez votre bien à la main ou via l'URL de votre annonce</li>
+              <li>Les deux casquettes : vous vendez et vous rachètez — on gère la chaîne</li>
+            </ul>
+            <div class="trust-row">
+              <span class="trust-pill">Acquéreur</span>
+              <span class="trust-pill">Vendeur</span>
+              <span class="trust-pill">Vend + rachète</span>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
+              <a class="btn btn-soft" href="#recherche">Voir les annonces</a>
+              <a class="btn btn-soft" href="./projection-achat.html">Me projeter (prêt + charges)</a>
+              <a class="btn btn-soft" href="./credit-immo.html#demande">Dossier crédit</a>
+            </div>
+          </div>
+        </div>
+
+        <nav data-immo-parcours data-immo-step="bien" aria-label="Parcours acquéreur"></nav>
+
+        <div class="immo-hats" data-immo-hats>
+          <p class="search-section-label">Vous êtes</p>
+          <div class="search-mode-tabs" role="radiogroup" aria-label="Votre casquette">
+            <label class="search-mode-tab">
+              <input type="radio" name="immoHat" value="acheteur" checked />
+              <span>Je cherche un bien</span>
+            </label>
+            <label class="search-mode-tab">
+              <input type="radio" name="immoHat" value="vendeur" />
+              <span>Je dépose un bien</span>
+            </label>
+            <label class="search-mode-tab">
+              <input type="radio" name="immoHat" value="les_deux" />
+              <span>Je vends et je rachète</span>
+            </label>
+            <label class="search-mode-tab">
+              <input type="radio" name="immoHat" value="signalement" />
+              <span>Je signale un bien en vente</span>
+            </label>
+          </div>
+          <p class="listings-intro" data-hat-hint>Choisissez votre casquette : acquéreur, vendeur, les deux — ou signalement terrain (chasseur de bien).</p>
+        </div>
+
+        <div data-vendeur-visite-pret-wrap hidden>
+          <div data-vendeur-visite-pret-block="landing"></div>
+        </div>
+
+        <details class="listings-wrap listings-fold" id="recherche" data-immo-search>
+          <summary class="listings-fold-summary" title="Ouvrir ou fermer le catalogue">
+            <span class="listings-fold-title">Annonces à vendre</span>
+            <span class="listings-fold-meta" data-listings-count>Fermé — cliquer pour ouvrir</span>
+            <span class="listings-fold-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="listings-fold-body">
+          <p class="listings-intro">Les biens collés via une URL s'affichent ici (photo, description, capture). Pas d'annonces d'exemple.</p>
+          <div class="listings-types" role="group" aria-label="Type de bien">
+            <label class="search-chip"><input type="checkbox" name="listingType" value="appartement" /><span>Appartement</span></label>
+            <label class="search-chip"><input type="checkbox" name="listingType" value="maison" /><span>Maison</span></label>
+            <label class="search-chip"><input type="checkbox" name="listingType" value="terrain" /><span>Terrain</span></label>
+            <label class="search-chip"><input type="checkbox" name="listingType" value="local" /><span>Local</span></label>
+            <label class="search-chip"><input type="checkbox" name="listingType" value="immeuble" /><span>Immeuble</span></label>
+          </div>
+          <form class="listings-bar" data-listings-filters>
+            <div class="field">
+              <label for="listingCity">Ville</label>
+              <input id="listingCity" data-listing-city placeholder="Ex. Strasbourg, Lyon, Paris" autocomplete="address-level2" />
+            </div>
+            <div class="field">
+              <label for="listingPostal">Code postal</label>
+              <input id="listingPostal" data-listing-postal inputmode="numeric" maxlength="5" placeholder="Ex. 67000" />
+            </div>
+            <div class="field">
+              <label for="listingBudget">Budget max</label>
+              <input id="listingBudget" data-listing-budget inputmode="numeric" placeholder="Ex. 280000" />
+            </div>
+            <div class="field">
+              <label for="listingRooms">Pièces min.</label>
+              <input id="listingRooms" data-listing-rooms inputmode="numeric" placeholder="Ex. 3" />
+            </div>
+            <div class="field">
+              <label for="listingSurface">Surface min. m²</label>
+              <input id="listingSurface" data-listing-surface inputmode="numeric" placeholder="Ex. 65" />
+            </div>
+            <div class="field">
+              <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+          </form>
+          <div class="listings-meta">
+            <span data-listings-count-inner></span>
+          </div>
+          <div class="listings-grid" data-listings-grid></div>
+          <div class="listings-empty" data-listings-empty>
+            <h3>Aucun bien pour le moment</h3>
+            <p data-empty-hint>Déposez un bien (vendeur) ou collez une URL d'annonce.</p>
+            <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
+          </div>
+          </div>
+        </details>
+
+        <div class="url-capture" id="deposer-bien" data-listing-url-capture>
+          <span id="annonce-url"></span>
+          <span class="dossier-kicker" data-deposit-kicker>Annonce déjà vue</span>
+          <h2 data-deposit-title>Collez l'URL du bien</h2>
+          <p class="listings-intro" data-deposit-intro>
+            Leboncoin, SeLoger, ParuVendu… Collez le lien, recopiez la description, ajoutez photos et capture.
+          </p>
+          <form data-url-capture-form novalidate>
+            <div class="immo-deposit-draft-banner" data-sell-draft-banner hidden>
+              <span data-sell-draft-text>Brouillon enregistré</span>
+              <div class="immo-deposit-draft-actions">
+                <button type="button" class="btn btn-primary btn-sm" data-sell-draft-restore>Reprendre un dossier</button>
+                <button type="button" class="btn btn-soft btn-sm" data-sell-draft-new>Nouvelle demande</button>
+                <button type="button" class="btn btn-soft btn-sm" data-sell-draft-dismiss>Effacer ce brouillon</button>
+              </div>
+            </div>
+            <p class="immo-deposit-session-hint" data-sell-draft-session hidden></p>
+            <p class="immo-deposit-draft-toast" data-sell-draft-toast hidden role="status"></p>
+            <input type="hidden" name="role" value="acheteur" data-hat-role />
+            <div class="hp-field" aria-hidden="true">
+              <label for="hp_listing_url">Ne pas remplir</label>
+              <input type="text" id="hp_listing_url" name="_hp" tabindex="-1" autocomplete="off" />
+            </div>
+            <p class="search-section-label" data-deposit-section-basic style="margin-top:4px">1. Le bien — saisie rapide</p>
+            <p class="listing-media-hint" style="margin:0 0 10px">Annonce vitrine + photos sur le site et Google Drive (<strong>Immo → 01_photos_publiques</strong>).</p>
+            <p class="search-section-label">Annonce en ligne (optionnel)</p>
+            <p class="small immo-listing-dual-hint">Collez l'URL de votre annonce <strong>et</strong> complétez les champs du bien ci-dessous — les deux se complètent.</p>
+            <input type="hidden" name="listingMode" value="both" />
+            <div data-url-block>
+              <label for="listingUrlsBox" data-url-label>URL de l'annonce (une par ligne si plusieurs)</label>
+              <textarea id="listingUrlsBox" data-listing-urls placeholder="https://www.leboncoin.fr/ad/ventes_immobilieres/…&#10;https://www.seloger.com/annonces/…"></textarea>
+              <div class="url-detected" data-url-detected aria-live="polite"></div>
+            </div>
+            <div class="grid">
+              <div class="field">
+                <label for="urlPropType">Type de bien</label>
+                <select id="urlPropType" name="property_type">
+                  <option value="appartement">Appartement</option>
+                  <option value="maison">Maison</option>
+                  <option value="terrain">Terrain</option>
+                  <option value="local">Local / mixte</option>
+                  <option value="immeuble">Immeuble</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="urlCity">Ville du bien <span class="field-req" data-hat-vendeur-only hidden aria-hidden="true">*</span></label>
+                <input id="urlCity" name="city" placeholder="Ex. Nancy, Lyon" autocomplete="address-level2" />
+              </div>
+              <div class="field">
+                <label for="urlPostal">Code postal <span class="field-req" data-hat-vendeur-only hidden aria-hidden="true">*</span></label>
+                <input id="urlPostal" name="postal_code" inputmode="numeric" maxlength="5" placeholder="54000" autocomplete="postal-code" />
+              </div>
+              <div class="field">
+                <label for="urlPrice">Prix affiché (€)</label>
+                <input id="urlPrice" name="price_fai" inputmode="numeric" placeholder="Ex. 200000" />
+              </div>
+              <div class="field">
+                <label for="urlRooms">Pièces</label>
+                <input id="urlRooms" name="rooms" inputmode="numeric" placeholder="Ex. 4" />
+              </div>
+              <div class="field">
+                <label for="urlSurf">Surface m²</label>
+                <input id="urlSurf" name="surface_m2" inputmode="numeric" placeholder="Ex. 101" />
+              </div>
+              <div class="field">
+                <label for="urlBedrooms">Chambres</label>
+                <input id="urlBedrooms" name="bedrooms" inputmode="numeric" placeholder="Ex. 2" />
+              </div>
+              <div class="field">
+                <label for="urlDpe">DPE</label>
+                <select id="urlDpe" name="dpe">
+                  <option value="">Non indiqué</option>
+                  <option>A</option>
+                  <option>B</option>
+                  <option>C</option>
+                  <option>D</option>
+                  <option>E</option>
+                  <option>F</option>
+                  <option>G</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="urlDescription">Description</label>
+                <textarea id="urlDescription" name="description" rows="4" placeholder="Pièces, jardin, parking, proximité commerces, travaux…"></textarea>
+              </div>
+              <div class="field" data-hat-signalement-only hidden>
+                <label for="signalement-source">Comment avez-vous vu ce bien ?</label>
+                <select id="signalement-source" name="signalementSource">
+                  <option value="">— Choisir —</option>
+                  <option value="panneau">Panneau « À vendre »</option>
+                  <option value="voisin">Voisin / connaissance</option>
+                  <option value="passage">Vu en passant</option>
+                  <option value="reseau">Réseau / bouche-à-oreille</option>
+                  <option value="autre">Autre</option>
+                </select>
+              </div>
+              <div class="field full" data-hat-signalement-only hidden>
+                <label for="address-hint">Adresse ou repère (optionnel)</label>
+                <input id="address-hint" name="addressHint" placeholder="ex. 12 rue …, quartier …" autocomplete="street-address" />
+              </div>
+            </div>
+            <p class="search-section-label" style="margin-top:16px" data-photos-label>Infos pour la pub — photos &amp; capture</p>
+            <p class="listing-media-hint">Enregistrées sur le site et copiées dans Google Drive <strong>Immo → 01_photos_publiques</strong> (Leboncoin, vitrine, annonce).</p>
+            <div class="grid">
+              <div class="field">
+                <label for="urlPhotos">Photos du bien pour l'annonce (max 4)</label>
+                <input id="urlPhotos" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple data-listing-photos />
+                <p class="listing-media-hint">Façade, pièces, jardin — visibles sur l'annonce.</p>
+              </div>
+              <div class="field">
+                <label for="urlCapture">Capture d'écran de l'annonce</label>
+                <input id="urlCapture" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" data-listing-capture />
+                <p class="listing-media-hint">Leboncoin / SeLoger… → Drive <strong>01_photos_publiques</strong>.</p>
+              </div>
+            </div>
+            <div class="listing-thumbs" data-listing-thumbs></div>
+            <div class="listing-preview-wrap">
+              <p class="search-section-label">Aperçu de la fiche</p>
+              <div data-listing-preview></div>
+            </div>
+
+            <section class="immo-deposit-vente-wrap" data-deposit-vente-wrap>
+              <p class="search-section-label" style="margin-top:20px">2. Dossier vente — toutes les infos du bien</p>
+              <p class="small immo-deposit-vente-lead" data-deposit-vente-lead>Propriétaires, mandat, adresse, descriptif pièce par pièce, copro, travaux, diagnostics, checklist documents, matrice projet…</p>
+              <label class="immo-deposit-vente-toggle field-check full" data-deposit-vente-toggle-wrap>
+                <input type="checkbox" name="wantsSellDossier" value="1" data-deposit-vente-toggle checked />
+                <span data-deposit-vente-toggle-label><strong>Afficher le dossier vente détaillé</strong> (recommandé pour une mise en vente)</span>
+              </label>
+              <div class="immo-deposit-vente-panel" data-deposit-vente-mount></div>
+            </section>
+
+            <section class="immo-doc-panel" data-immo-docs-vendeur-wrap>
+              <p class="search-section-label" style="margin-top:20px">3. Documents du bien — classés sur Drive</p>
+              <p class="small" style="margin:0 0 10px;color:#64748b">
+                <strong>Pub</strong> (DPE, descriptif annonce) et <strong>perso</strong> (actes, taxe foncière, copro…) — PDF/JPG, max 12 Mo.
+              </p>
+              <div data-immo-docs-panel="vendeur"></div>
+            </section>
+
+            <div data-hat-vendeur-only>
+              <p class="search-section-label" style="margin-top:16px">Vous vendez en tant que</p>
+              <div class="search-chip-grid search-chip-grid--3" role="group" aria-label="Type de vendeur">
+                <label class="search-chip"><input type="radio" name="sellerKind" value="particulier" checked /><span>Particulier</span></label>
+                <label class="search-chip"><input type="radio" name="sellerKind" value="pro" /><span>Professionnel</span></label>
+                <label class="search-chip"><input type="radio" name="sellerKind" value="agence" /><span>Agence</span></label>
+              </div>
+              <div class="grid" style="margin-top:12px">
+                <div class="field">
+                  <label for="sellerAgencyOwner">Agence / réseau (si pro)</label>
+                  <input id="sellerAgencyOwner" name="sellerAgency" placeholder="Ex. ORPI, indépendant" />
+                </div>
+              </div>
+            </div>
+
+            <div data-hat-acheteur-only>
+              <p class="search-section-label" style="margin-top:16px">Infos vendeur / agence (visibles sur l'annonce)</p>
+              <div class="grid">
+                <div class="field">
+                  <label for="sellerName">Nom du vendeur ou de l'annonceur</label>
+                  <input id="sellerName" name="sellerName" placeholder="Ex. Jean Dupont / Agence Martin" />
+                </div>
+                <div class="field">
+                  <label for="sellerPhone">Téléphone vendeur</label>
+                  <input id="sellerPhone" name="sellerPhone" inputmode="tel" placeholder="06…" />
+                </div>
+                <div class="field">
+                  <label for="sellerEmail">E-mail vendeur</label>
+                  <input id="sellerEmail" name="sellerEmail" type="email" placeholder="vendeur@…" />
+                </div>
+                <div class="field">
+                  <label for="sellerAgency">Agence / réseau</label>
+                  <input id="sellerAgency" name="sellerAgencyThird" placeholder="Ex. ORPI, indépendant" />
+                </div>
+              </div>
+            </div>
+
+            <div data-hat-dual-only>
+              <p class="search-section-label" style="margin-top:16px">Le bien que vous cherchez ensuite (rachat)</p>
+              <p class="listings-intro">Vous vendez et vous rachetez : on enregistre les deux casquettes (chaîne, prêt relais).</p>
+              <div class="grid">
+                <div class="field">
+                  <label for="buyCity">Ville / secteur recherché</label>
+                  <input id="buyCity" name="buyCity" placeholder="Ex. Grenoble, Strasbourg" />
+                </div>
+                <div class="field">
+                  <label for="buyPostal">Code postal recherché</label>
+                  <input id="buyPostal" name="buyPostal" inputmode="numeric" maxlength="5" />
+                </div>
+                <div class="field">
+                  <label for="buyBudget">Budget max rachat (€)</label>
+                  <input id="buyBudget" name="buyBudgetMax" inputmode="numeric" placeholder="Ex. 280000" />
+                </div>
+                <div class="field">
+                  <label for="buyRooms">Pièces min.</label>
+                  <input id="buyRooms" name="buyRoomsMin" inputmode="numeric" placeholder="Ex. 3" />
+                </div>
+                <div class="field">
+                  <label for="buySurf">Surface min. m²</label>
+                  <input id="buySurf" name="buySurfaceMin" inputmode="numeric" />
+                </div>
+                <div class="field">
+                  <label for="buyType">Type recherché</label>
+                  <select id="buyType" name="buyPropertyType">
+                    <option value="">Indifférent</option>
+                    <option value="appartement">Appartement</option>
+                    <option value="maison">Maison</option>
+                    <option value="terrain">Terrain</option>
+                    <option value="local">Local</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label class="field-check"><input type="checkbox" name="wantsRelais" value="1" /> Je suis intéressé par un prêt relais / une vente en chaîne</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="immo-city-fallback-wrap" data-city-fallback-wrap>
+              <p class="search-section-label" style="margin-top:16px">Ville du bien</p>
+              <p class="small immo-city-fallback-hint">Si vous ne l'avez pas indiquée en haut du formulaire ou dans le dossier vente, complétez ici :</p>
+              <div class="grid">
+                <div class="field">
+                  <label for="cityFallback">Ville</label>
+                  <input id="cityFallback" data-city-fallback autocomplete="address-level2" placeholder="Ex. Nancy" />
+                </div>
+                <div class="field">
+                  <label for="postalFallback">Code postal</label>
+                  <input id="postalFallback" data-postal-fallback inputmode="numeric" maxlength="5" placeholder="54000" />
+                </div>
+              </div>
+            </div>
+
+            <p class="search-section-label" style="margin-top:16px" data-coords-label>Vos coordonnées</p>
+            <fieldset class="immo-account-block" data-account-block hidden>
+              <legend>Votre compte sur le site</legend>
+              <p class="small immo-account-lead">Le dépôt crée ou met à jour votre espace client pour reprendre le dossier, déposer des pièces et suivre votre projet.</p>
+              <p class="immo-account-status" data-account-status hidden></p>
+              <div class="immo-account-confirm" role="radiogroup" aria-label="Confirmation d'identité">
+                <p class="small immo-account-confirm-lead">Comment confirmer votre identité ? <strong>Un seul choix.</strong></p>
+                <div class="immo-confirm-options">
+                  <label class="immo-confirm-option">
+                    <input type="radio" name="confirmMethod" value="google" />
+                    <span class="immo-confirm-option-text"><strong>Avec Google</strong> — e-mail confirmé automatiquement</span>
+                  </label>
+                  <label class="immo-confirm-option">
+                    <input type="radio" name="confirmMethod" value="email" checked />
+                    <span class="immo-confirm-option-text"><strong>Par e-mail</strong> — lien de confirmation après envoi</span>
+                  </label>
+                  <label class="immo-confirm-option">
+                    <input type="radio" name="confirmMethod" value="phone" />
+                    <span class="immo-confirm-option-text"><strong>Par téléphone</strong> — rappel conseiller pour valider le numéro</span>
+                  </label>
+                </div>
+              </div>
+              <div class="immo-account-oauth" data-confirm-panel="google" hidden>
+                <a class="btn-google immo-account-google" data-account-google href="/api/external/google?returnTo=%2Flandings%2Facheteur-immo.html%3Fhat%3Dvendeur%23deposer-bien" rel="nofollow">Continuer avec Google</a>
+                <p class="small immo-account-google-hint">Connectez-vous avec Google : votre e-mail est confirmé et vos coordonnées seront pré-remplies.</p>
+              </div>
+              <p class="small immo-account-panel-hint" data-confirm-panel="email">Indiquez votre e-mail ci-dessous — un lien de confirmation vous sera envoyé après le dépôt.</p>
+              <p class="small immo-account-panel-hint" data-confirm-panel="phone" hidden>Indiquez votre téléphone ci-dessous — un conseiller vous rappellera pour confirmer votre identité.</p>
+              <p class="small immo-account-resend-wrap" data-confirm-panel="email">Déjà inscrit ? <button type="button" class="immo-link-btn" data-account-resend-verify>Renvoyer l'e-mail de confirmation</button> · <a href="../external/login.html">Se connecter</a></p>
+            </fieldset>
+            <div class="grid">
+              <div class="field">
+                <label for="urlFirstName">Prénom</label>
+                <input id="urlFirstName" name="firstName" autocomplete="given-name" placeholder="Ex. Marie" />
+              </div>
+              <div class="field">
+                <label for="urlLastName">Nom</label>
+                <input id="urlLastName" name="lastName" autocomplete="family-name" />
+              </div>
+              <div class="field full">
+                <label for="urlBirthName">Nom de jeune fille</label>
+                <input id="urlBirthName" name="birthName" autocomplete="additional-name" data-optional placeholder="Si différent du nom d'usage" />
+              </div>
+            </div>
+            <fieldset class="contact-pair">
+              <legend>Comment vous joindre</legend>
+              <p class="contact-pair-hint" data-contact-hint>Téléphone et e-mail : on vous rappelle pour cette URL / ce bien.</p>
+              <div class="contact-pair-row">
+                <div class="field" data-contact-phone-wrap>
+                  <label for="urlPhone">Téléphone</label>
+                  <input id="urlPhone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="06 12 34 56 78" />
+                </div>
+                <div class="field" data-contact-email-wrap>
+                  <label for="urlEmail">E-mail</label>
+                  <input id="urlEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="vous@email.fr" />
+                </div>
+              </div>
+            </fieldset>
+            <p class="immo-coords-known" data-coords-known hidden role="status"></p>
+            <div class="grid">
+              <div class="field full">
+                <label for="urlDetails" data-details-label>Précisions</label>
+                <textarea id="urlDetails" name="details" rows="2" placeholder="Créneau de visite, questions, urgence de vente…"></textarea>
+              </div>
+            </div>
+            <div class="immo-deposit-progress-wrap" data-sell-progress-wrap>
+              <div class="immo-deposit-progress-head">
+                <span data-sell-progress-label>Dossier 0 % — complétez les informations essentielles</span>
+                <button type="button" class="btn btn-soft btn-sm" data-sell-draft-save title="Enregistrer sur cet appareil">Sauvegarder pour cet appareil</button>
+              </div>
+              <div class="immo-deposit-progress-track" aria-hidden="true"><span class="immo-deposit-progress-bar" data-sell-progress-bar style="width:0%"></span></div>
+            </div>
+            <div class="immo-deposit-validation" id="deposer-bien-errors" data-sell-validation-panel hidden>
+              <p class="immo-deposit-validation-title" data-sell-validation-title>Pour envoyer, complétez :</p>
+              <ul class="immo-deposit-validation-list" data-sell-validation-list></ul>
+            </div>
+            <p class="url-capture-err" data-url-capture-err hidden role="alert"></p>
+            <p class="url-capture-ok" data-url-capture-ok hidden></p>
+            <div class="immo-deposit-submit-row">
+              <button type="button" class="btn btn-soft immo-jump-errors" data-sell-jump-errors hidden>Voir les erreurs ↑</button>
+              <button type="submit" class="btn btn-primary" data-deposit-submit>Envoyer l'annonce</button>
+            </div>
+          </form>
+          <details class="url-portals-legend">
+            <summary>Portails reconnus (diffusion)</summary>
+            <p class="small">Supports payants : Acheter-Louer, Amanda AMEPI, Bien'ici, Cautioneo, Cession PME, DOMimmo, Figaro Immo, FNAIM, Green-Acres, ImmoRegion / atHome, Leboncoin (direct &amp; Ubiflow), Les-terrains, Maisons &amp; Appartements, Ouest-France Immo, ParuVendu, Propriétés Le Figaro, Résidences Immobilier, SNPI, Studapart.</p>
+            <p class="small">Gratuits : EtreProprio, IMMO SQUARE. Agences : export XML libre. Courants : SeLoger, PAP, Logic-Immo, ORPI.</p>
+          </details>
+        </div>
+
+        <div class="landing-partners-slot">
+          <section data-partners-trust data-partners-context="credit" data-partners-layout="featured"></section>
+        </div>
+
+        <div class="landing-proximity-slot">
+          <section data-proximity-block data-proximity-context="credit" data-proximity-layout="compact"></section>
+        </div>
+
+        <div class="form-wrap" id="dossier" data-lead-dossier>
+          <span id="demande"></span>
+          <span class="dossier-kicker">Alerte &amp; dossier</span>
+          <h2 class="form-title">Pas le bon bien ? Déposez une alerte</h2>
+          <p class="form-lead">
+            On vous prévient quand un mandat correspond. Le <strong>prêt</strong> et les <strong>assurances</strong> viennent ensuite, seulement si vous en avez besoin — ce n'est pas l'écran de recherche.
+          </p>
+          <div data-callback-strip data-callback-need="acheteur-immo" data-callback-source="landing_acheteur"></div>
+
+          <div class="immo-fill-toolbar" data-immo-fill-toolbar data-active-mode="client">
+            <div class="immo-fill-toolbar-main">
+              <span class="immo-fill-badge" data-fill-mode-badge>Mode client</span>
+              <p class="immo-fill-hint">Le conseiller et le client peuvent remplir le même questionnaire. Imprimez-le vierge, partiel ou complet.</p>
+            </div>
+            <div class="immo-fill-mode" role="radiogroup" aria-label="Qui remplit le formulaire">
+              <label class="immo-fill-mode-opt">
+                <input type="radio" name="fillModeUi" value="client" checked />
+                <span>Je suis le client</span>
+              </label>
+              <label class="immo-fill-mode-opt">
+                <input type="radio" name="fillModeUi" value="conseiller" />
+                <span>Je suis conseiller</span>
+              </label>
+            </div>
+            <div class="immo-fill-print" role="group" aria-label="Imprimer le questionnaire">
+              <button type="button" class="btn btn-soft btn-sm" data-print-mode="empty">Imprimer vide</button>
+              <button type="button" class="btn btn-soft btn-sm" data-print-mode="partial">Imprimer partiel</button>
+              <button type="button" class="btn btn-primary btn-sm" data-print-mode="full">Imprimer complet</button>
+            </div>
+          </div>
+
+          <form data-track-form data-quote-wizard data-acheteur-immo novalidate>
+            <input type="hidden" name="need" value="acheteur-immo" />
+            <input type="hidden" name="serviceNeed" value="acheteur-immo" />
+            <input type="hidden" name="vertical" value="acheteur_immo" />
+            <input type="hidden" name="interestedListingId" id="interestedListingId" />
+            <input type="hidden" name="interestedListingTitle" id="interestedListingTitle" />
+            <div data-cross-sell-panel hidden></div>
+            <div class="hp-field" aria-hidden="true">
+              <label for="hp_immo">Ne pas remplir</label>
+              <input type="text" id="hp_immo" name="_hp" tabindex="-1" autocomplete="off" />
+            </div>
+            <div class="wizard-head">
+              <div class="wizard-progress-track">
+                <div class="wizard-progress-fill"></div>
+              </div>
+              <div class="wizard-meta">
+                <span>Alerte recherche</span>
+                <span class="wizard-step-counter">Etape 1 / 11</span>
+              </div>
+            </div>
+
+
+            <!-- ETAPE 1 : Vente / recherche / les deux -->
+            <section class="wizard-step" data-wizard-step="1" data-step-name="recherche">
+              <h3 data-wizard-recherche-title>Quel bien recherchez-vous ?</h3>
+              <fieldset class="contact-pair">
+                <legend>Comment vous joindre (interlocuteur principal)</legend>
+                <p class="contact-pair-hint">Téléphone et e-mail : on vous alerte ou vous rappelle, même si le dossier n'est pas fini. Les propriétaires du bien à vendre se renseignent plus bas.</p>
+                <div class="contact-pair-row">
+                  <div class="field">
+                    <label for="phone">Téléphone mobile</label>
+                    <input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" enterkeyhint="next" placeholder="06 12 34 56 78" />
+                  </div>
+                  <div class="field">
+                    <label for="email">E-mail</label>
+                    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" placeholder="vous@email.fr" />
+                  </div>
+                </div>
+              </fieldset>
+
+              <div class="field full" hidden>
+                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
+                  <legend>Vous cherchez…</legend>
+                  <label class="field-check"><input type="radio" name="searchKind" value="bien" checked /> Un bien a acheter / acquerir</label>
+                  <label class="field-check"><input type="radio" name="searchKind" value="service" /> Vendre / estimer mon bien</label>
+                  <label class="field-check"><input type="radio" name="searchKind" value="les_deux" /> Je vends et je rachète</label>
+                </fieldset>
+                <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez votre casquette pour continuer.</p>
+              </div>
+
+              <div class="search-mode-tabs" role="tablist" aria-label="Votre casquette" data-dossier-acheteur-only>
+                <label class="search-mode-tab">
+                  <input type="radio" name="searchModeUi" value="bien" checked data-search-mode />
+                  <span>Je cherche un bien</span>
+                </label>
+                <label class="search-mode-tab">
+                  <input type="radio" name="searchModeUi" value="service" data-search-mode />
+                  <span>Je veux vendre / estimer</span>
+                </label>
+                <label class="search-mode-tab">
+                  <input type="radio" name="searchModeUi" value="les_deux" data-search-mode />
+                  <span>Je vends et je rachète</span>
+                </label>
+              </div>
+
+              <span data-search-vente-first hidden aria-hidden="true"></span>
+
+              <div data-search-vente-panel-placeholder></div>
+
+              <div class="immo-form-section" data-search-vente-panel hidden>
+                <h4 class="immo-form-section-title">1. Projet de vente</h4>
+                <p class="small immo-form-section-lead">Dossier vente complet : propriétaires, bien, mandat, descriptif, estimation, copro, visites…</p>
+                <p class="immo-vente-blocks-hint">Sections repliées pour aller plus vite — ouvrez seulement ce dont vous avez besoin (flèche à droite).</p>
+
+                <div data-sell-photos-mount></div>
+
+                <details class="immo-vente-block">
+                  <summary>Propriétaires &amp; mandants</summary>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Fiche propriétaire complète (genre, noms, situation familiale, naissance, rôle…) + coordonnées. Minimum un propriétaire (nom + tél ou e-mail). Plusieurs lignes pour indivision, SCI, héritiers…</p>
+                  <div data-owners-mount class="immo-owners-mount"></div>
+                  <p class="small" data-owners-hint hidden style="color:#b91c1c;margin:8px 0 0">Indiquez au moins un propriétaire complet.</p>
+                  <button type="button" class="btn btn-soft btn-sm" data-owner-add style="margin:10px 0 0">+ Ajouter un propriétaire</button>
+                </details>
+
+                <details class="immo-vente-block" open>
+                  <summary>Coordonnées du bien &amp; dossier</summary>
+                  <div class="grid" style="margin-top:12px">
+                    <div class="field full">
+                      <label for="sellAddress">Adresse</label>
+                      <input id="sellAddress" name="sellAddress" autocomplete="street-address" data-search-vente-required placeholder="Ex. 12 rue de la République" />
+                    </div>
+                    <div class="field">
+                      <label for="sellBuilding">Bât.</label>
+                      <input id="sellBuilding" name="sellBuilding" data-optional placeholder="A, B…" />
+                    </div>
+                    <div class="field">
+                      <label for="sellStaircase">Escalier</label>
+                      <input id="sellStaircase" name="sellStaircase" data-optional />
+                    </div>
+                    <div class="field">
+                      <label for="sellFloor">Étage</label>
+                      <input id="sellFloor" name="sellFloor" data-optional placeholder="RDC, 2…" />
+                    </div>
+                    <div class="field">
+                      <label for="sellDoor">Porte</label>
+                      <input id="sellDoor" name="sellDoor" data-optional placeholder="12, gauche…" />
+                    </div>
+                    <div class="field">
+                      <label for="sellPostalCode">Code postal</label>
+                      <input id="sellPostalCode" name="sellPostalCode" inputmode="numeric" maxlength="5" data-search-vente-required placeholder="54000" />
+                    </div>
+                    <div class="field">
+                      <label for="sellCity">Ville</label>
+                      <input id="sellCity" name="sellCity" autocomplete="address-level2" data-search-vente-required placeholder="Nancy" />
+                    </div>
+                    <div class="field">
+                      <label for="sellDistrict">Quartier / secteur</label>
+                      <input id="sellDistrict" name="sellDistrict" data-optional />
+                    </div>
+                    <div class="field">
+                      <label for="sellRdvDate">Date du RDV</label>
+                      <input id="sellRdvDate" name="sellRdvDate" type="datetime-local" data-optional />
+                    </div>
+                    <div class="field">
+                      <label for="sellContactOrigin">Origine du contact</label>
+                      <select id="sellContactOrigin" name="sellContactOrigin" data-optional>
+                        <option value="">— Choisir —</option>
+                        <option value="leboncoin">Leboncoin</option>
+                        <option value="panneau">Panneau / passage</option>
+                        <option value="recommandation">Recommandation</option>
+                        <option value="agence">Agence / mandataire</option>
+                        <option value="notaire">Notaire</option>
+                        <option value="reseau">Réseau / bouche-à-oreille</option>
+                        <option value="meta">Meta / Facebook</option>
+                        <option value="google">Google / site web</option>
+                        <option value="autre">Autre</option>
+                      </select>
+                    </div>
+                    <div class="field" data-conseiller-only hidden>
+                      <label for="sellAdvisorName">Nom du conseiller</label>
+                      <input id="sellAdvisorName" name="sellAdvisorName" data-optional placeholder="Ex. Marie Dupont" />
+                    </div>
+                    <div class="field" data-conseiller-only hidden>
+                      <label for="sellDossierNumber">N° dossier</label>
+                      <input id="sellDossierNumber" name="sellDossierNumber" data-optional />
+                    </div>
+                    <div class="field" data-conseiller-only hidden>
+                      <label for="sellIsuiviNumber">i-SUIVI n°</label>
+                      <input id="sellIsuiviNumber" name="sellIsuiviNumber" data-optional />
+                    </div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Mandat de vente</summary>
+
+                  <div class="immo-mandate-client" data-client-mandate-panel>
+                    <p class="small immo-mandate-lead">
+                      Vous pouvez indiquer si vous souhaitez nous confier la vente. Le mandat officiel sera proposé <strong>après analyse du bien</strong> et validation du prix avec votre conseiller.
+                    </p>
+                    <label class="field-check full immo-mandate-opt-in">
+                      <input type="checkbox" name="sellWantsMandate" value="1" data-sell-wants-mandate data-optional />
+                      <span><strong>Je souhaite confier un mandat de vente</strong> à votre agence (après validation du dossier et du prix).</span>
+                    </label>
+                    <div class="immo-mandate-client-fields" data-sell-mandate-fields hidden>
+                      <p class="search-section-label" style="margin:14px 0 8px">Fourchette de prix envisageable</p>
+                      <p class="small" style="margin:0 0 10px;color:#64748b">
+                        Indiquez une large fourchette — vous pourrez l'ajuster avec le conseiller après la visite et l'estimation.
+                      </p>
+                      <div class="grid">
+                        <div class="field">
+                          <label for="sellMandatePriceMin">Prix minimum souhaité (€)</label>
+                          <input id="sellMandatePriceMin" name="sellMandatePriceMin" inputmode="numeric" data-optional placeholder="Ex. 180 000" />
+                        </div>
+                        <div class="field">
+                          <label for="sellMandatePriceMax">Prix maximum souhaité (€)</label>
+                          <input id="sellMandatePriceMax" name="sellMandatePriceMax" inputmode="numeric" data-optional placeholder="Ex. 220 000" />
+                        </div>
+                      </div>
+                      <p class="search-section-label" style="margin-top:14px">Type de collaboration souhaitée</p>
+                      <p class="small immo-mandate-pref-lead">
+                        En pratique, <strong>confier votre bien en exclusif à une seule agence</strong> permet de vendre plus vite et avec moins de stress — c'est l'option que nous recommandons.
+                      </p>
+                      <div class="immo-mandate-exclusif-benefits" role="note" data-mandate-exclusif-note>
+                        <strong>Pourquoi l'exclusif est mieux pour vous, vendeur</strong>
+                        <ul>
+                          <li><strong>Un seul interlocuteur</strong> — pas de doublons, pas de prix ni de messages contradictoires entre agences.</li>
+                          <li><strong>Plus de moyens engagés</strong> — photos, portails, diffusion ciblée : nous investissons davantage qu'en mandat simple.</li>
+                          <li><strong>Stratégie prix cohérente</strong> — une ligne de conduite, des visites mieux qualifiées, moins de pertes de temps.</li>
+                          <li><strong>Suivi jusqu'à la signature</strong> — votre conseiller pilote visites, offres et dossier notaire au quotidien.</li>
+                        </ul>
+                      </div>
+                      <div class="search-chip-grid search-chip-grid--3 immo-mandate-pref-grid" role="group" aria-label="Préférence mandat">
+                        <label class="search-chip search-chip--recommended">
+                          <input type="radio" name="sellMandatePreference" value="exclusif" checked data-optional data-mandate-pref="exclusif" />
+                          <span>Exclusif — une seule agence <em class="search-chip-badge">Recommandé</em></span>
+                        </label>
+                        <label class="search-chip">
+                          <input type="radio" name="sellMandatePreference" value="indifferent" data-optional data-mandate-pref="indifferent" />
+                          <span>À discuter avec le conseiller</span>
+                        </label>
+                        <label class="search-chip search-chip--secondary">
+                          <input type="radio" name="sellMandatePreference" value="simple" data-optional data-mandate-pref="simple" />
+                          <span>Mandat simple (plusieurs agences)</span>
+                        </label>
+                      </div>
+                      <div class="field full" style="margin-top:12px">
+                        <label for="sellMandateClientNotes">Précisions (délai, visites, contraintes…)</label>
+                        <textarea id="sellMandateClientNotes" name="sellMandateClientNotes" rows="2" data-optional placeholder="Disponibilités pour la visite conseiller, date souhaitée de mise en vente…"></textarea>
+                      </div>
+                      <div class="immo-mandate-notice" role="note">
+                        <strong>Avant le mandat signé</strong>
+                        <p>
+                          Votre conseiller doit d'abord <strong>visiter le bien</strong>, vérifier les pièces (diagnostics, copropriété, titre…) et <strong>analyser le marché local</strong> pour déterminer avec vous le <strong>prix de mise en vente</strong> le plus adapté. Ce formulaire enregistre votre intention — le mandat officiel vous sera remis ensuite, une fois tout cela validé ensemble.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="grid immo-mandate-admin" style="margin-top:16px" data-conseiller-only hidden>
+                    <p class="field full small" style="margin:0;color:#64748b">Dossier mandat — réservé conseiller (n° mandat, honoraires, clauses…).</p>
+                    <div class="field">
+                      <label for="sellMandateNumber">N° mandat</label>
+                      <input id="sellMandateNumber" name="sellMandateNumber" data-optional />
+                    </div>
+                    <div class="field">
+                      <label for="sellMandateDate">Date mandat</label>
+                      <input id="sellMandateDate" name="sellMandateDate" type="date" data-optional />
+                    </div>
+                    <div class="field full">
+                      <span class="search-section-label" style="margin:0">Type</span>
+                      <div class="search-chip-grid search-chip-grid--3" role="group">
+                        <label class="search-chip"><input type="radio" name="sellMandateForm" value="simple" /><span>Mandat simple</span></label>
+                        <label class="search-chip"><input type="radio" name="sellMandateForm" value="exclusif" /><span>Exclusif / Favoriz</span></label>
+                        <label class="search-chip"><input type="radio" name="sellMandateForm" value="semi_exclusif" /><span>Semi-exclusif</span></label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label for="sellMandateType">Objet</label>
+                      <select id="sellMandateType" name="sellMandateType" data-optional>
+                        <option value="">— Choisir —</option>
+                        <option value="vente">Vente</option>
+                        <option value="estimation">Estimation</option>
+                        <option value="recherche">Recherche</option>
+                        <option value="location">Location</option>
+                      </select>
+                    </div>
+                    <div class="field full">
+                      <label for="sellMandateInfo">Infos mandat (honoraires, échéance…)</label>
+                      <textarea id="sellMandateInfo" name="sellMandateInfo" rows="2" data-optional placeholder="Honoraires, échéance, commercialisation…"></textarea>
+                    </div>
+                    <div class="field full">
+                      <label for="sellSpecialClause">Clause particulière</label>
+                      <textarea id="sellSpecialClause" name="sellSpecialClause" rows="2" data-optional></textarea>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Informations publiques</summary>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Titre, description, typologie, prix, disponibilité, DPE et fiscalité — alignés fiche CRM.</p>
+                  <p class="small" data-listing-taxonomy-hint hidden style="color:#b91c1c;margin:0 0 10px">Complétez le type d'annonce, le type et le sous-type de bien.</p>
+                  <div class="grid" style="margin-top:12px">
+                    <div class="field full">
+                      <label for="sellListingTitle">Titre de l'annonce</label>
+                      <input id="sellListingTitle" name="sellListingTitle" data-optional placeholder="Ex. Nancy - 3 pièce(s) - 85 m²" />
+                    </div>
+                    <div class="field full">
+                      <label for="sellDescription">Description</label>
+                      <textarea id="sellDescription" name="sellDescription" rows="5" data-optional placeholder="Terrasse, véranda, classe énergie, prix…"></textarea>
+                    </div>
+                    <div class="field">
+                      <label for="sellListingType">Type d'annonce</label>
+                      <select id="sellListingType" name="sellListingType" data-search-vente-required></select>
+                    </div>
+                    <div class="field">
+                      <label for="sellPropertyCategory">Type de bien</label>
+                      <select id="sellPropertyCategory" name="sellPropertyCategory" data-search-vente-required></select>
+                    </div>
+                    <div class="field">
+                      <label for="sellCoproStatus">Bien soumis au statut de la copropriété</label>
+                      <select id="sellCoproStatus" name="sellCoproStatus" data-optional></select>
+                    </div>
+                    <div class="field full">
+                      <label for="sellPropertySubtypeFilter">Rechercher un sous-type</label>
+                      <input id="sellPropertySubtypeFilter" type="search" placeholder="Ex. maison, local, terrain…" autocomplete="off" data-optional />
+                    </div>
+                    <div class="field full">
+                      <label for="sellPropertySubtype">Sous-type de bien</label>
+                      <select id="sellPropertySubtype" name="sellPropertySubtype" data-search-vente-required></select>
+                    </div>
+                    <div class="field full">
+                      <label for="sellCommercialActivityFilter">Rechercher une activité commerciale</label>
+                      <input id="sellCommercialActivityFilter" type="search" placeholder="Ex. boulangerie, CHR, bureau…" autocomplete="off" data-optional />
+                    </div>
+                    <div class="field full">
+                      <label for="sellCommercialActivity">Activité commerciale</label>
+                      <select id="sellCommercialActivity" name="sellCommercialActivity" data-optional></select>
+                      <p class="immo-owner-hint" data-commercial-hint hidden>Obligatoire pour les biens professionnels / commerces.</p>
+                    </div>
+                    <div class="field full">
+                      <label for="sellEnvironmentFilter">Rechercher un environnement</label>
+                      <input id="sellEnvironmentFilter" type="search" placeholder="Ex. centre ville, campagne, plage…" autocomplete="off" data-optional />
+                    </div>
+                    <div class="field">
+                      <label for="sellEnvironment">Environnement</label>
+                      <select id="sellEnvironment" name="sellEnvironment" data-optional></select>
+                    </div>
+                    <div class="field full">
+                      <label for="sellGeneralConditionFilter">Rechercher un état général</label>
+                      <input id="sellGeneralConditionFilter" type="search" placeholder="Ex. bon, à rénover, neuf…" autocomplete="off" data-optional />
+                    </div>
+                    <div class="field">
+                      <label for="sellGeneralCondition">État général</label>
+                      <select id="sellGeneralCondition" name="sellGeneralCondition" data-optional></select>
+                    </div>
+                    <div class="field full">
+                      <span class="search-section-label" style="margin:0">Affichage du prix</span>
+                      <div class="search-chip-grid" role="group" aria-label="Affichage du prix">
+                        <label class="search-chip"><input type="radio" name="sellPriceDisplay" value="prix_hai" checked data-optional /><span>Prix HAI</span></label>
+                        <label class="search-chip"><input type="radio" name="sellPriceDisplay" value="nous_consulter" data-optional /><span>Prix : nous consulter</span></label>
+                      </div>
+                    </div>
+                    <div class="field full">
+                      <label for="sellAvailabilityFilter">Rechercher une disponibilité</label>
+                      <input id="sellAvailabilityFilter" type="search" placeholder="Ex. immédiate, viager, fin de location…" autocomplete="off" data-optional />
+                    </div>
+                    <div class="field">
+                      <label for="sellAvailability">Disponibilité</label>
+                      <select id="sellAvailability" name="sellAvailability" data-optional></select>
+                    </div>
+                    <div class="field">
+                      <label for="sellAvailabilityStart">Début de disponibilité</label>
+                      <input id="sellAvailabilityStart" name="sellAvailabilityStart" type="date" data-optional />
+                    </div>
+                    <div class="field full">
+                      <span class="search-section-label" style="margin:12px 0 0">DPE / GES / énergie</span>
+                    </div>
+                    <div class="field full">
+                      <div class="immo-crm-alert" data-immo-erp-alert role="note">
+                        <div class="immo-crm-alert__bar" aria-hidden="true"></div>
+                        <button type="button" class="immo-crm-alert__close" data-immo-alert-dismiss aria-label="Fermer">×</button>
+                        <p class="immo-crm-alert__body">
+                          N'oubliez pas de télécharger le rapport ERP sur
+                          <a href="https://www.georisques.gouv.fr/" target="_blank" rel="noopener noreferrer">géorisques</a>
+                          pour ce bien : depuis le 1<sup>er</sup> janvier 2023, il doit être tenu à la disposition des clients lors des visites.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="field full">
+                      <label class="field-check"><input type="checkbox" name="sellDpeExempt" value="1" data-optional /> Non soumis au DPE</label>
+                    </div>
+                    <div class="field"><label for="sellDpeDate">Date de réalisation du DPE</label><input id="sellDpeDate" name="sellDpeDate" type="date" data-optional /></div>
+                    <div class="field"><label for="sellDpeRefSurface">Surface de référence DPE (m²)</label><input id="sellDpeRefSurface" name="sellDpeRefSurface" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellDpe">DPE (lettre)</label>
+                      <select id="sellDpe" name="sellDpe" data-optional>
+                        <option value="">—</option>
+                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                        <option>E</option><option>F</option><option>G</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="sellDpeKwh">DPE (kWh/m²/an)</label><input id="sellDpeKwh" name="sellDpeKwh" inputmode="numeric" data-optional placeholder="Ex. 120" /></div>
+                    <div class="field"><label for="sellGes">GES (lettre)</label>
+                      <select id="sellGes" name="sellGes" data-optional>
+                        <option value="">—</option>
+                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                        <option>E</option><option>F</option><option>G</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="sellGesKg">GES (kg CO₂/m²/an)</label><input id="sellGesKg" name="sellGesKg" inputmode="numeric" data-optional placeholder="Ex. 25" /></div>
+                    <div class="field"><label for="sellEnergyCostAnnual">Montant estimé dépenses annuelles d'énergie (€)</label><input id="sellEnergyCostAnnual" name="sellEnergyCostAnnual" inputmode="numeric" data-optional placeholder="Ex. 1200" /></div>
+                    <div class="field"><label for="sellTaxeFonciere">Taxe foncière (€/an)</label><input id="sellTaxeFonciere" name="sellTaxeFonciere" inputmode="numeric" data-optional placeholder="Ex. 677" /></div>
+                    <div class="field"><label for="sellTaxeHabitation">Taxe d'habitation (€/an)</label><input id="sellTaxeHabitation" name="sellTaxeHabitation" inputmode="numeric" data-optional /></div>
+                  </div>
+                  <input type="hidden" id="sellPropertyTypeLegacy" name="sellPropertyTypeLegacy" value="" />
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Descriptif de l'habitation</summary>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Raccourci type (legacy) — synchronisé avec la typologie ci-dessus.</p>
+                  <div class="search-chip-grid" role="group" aria-label="Type de bien à vendre" style="margin-top:12px">
+                    <label class="search-chip"><input type="radio" name="sellPropertyType" value="appartement" /><span>Appartement</span></label>
+                    <label class="search-chip"><input type="radio" name="sellPropertyType" value="maison" /><span>Maison</span></label>
+                    <label class="search-chip"><input type="radio" name="sellPropertyType" value="terrain" /><span>Terrain</span></label>
+                    <label class="search-chip"><input type="radio" name="sellPropertyType" value="local" /><span>Local / mixte</span></label>
+                    <label class="search-chip"><input type="radio" name="sellPropertyType" value="immeuble" /><span>Immeuble</span></label>
+                  </div>
+                  <p class="small" data-sell-type-hint hidden style="color:#b91c1c;margin-top:8px">Indiquez le type de bien à vendre.</p>
+                  <div class="grid" style="margin-top:14px">
+                    <div class="field"><label for="sellRooms">Nb. pièces</label><input id="sellRooms" name="sellRooms" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellBedrooms">Nb. chambres</label><input id="sellBedrooms" name="sellBedrooms" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellSurface">Surf. hab. (m²)</label><input id="sellSurface" name="sellSurface" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellSurfaceCarrez">Surf. Carrez (m²)</label><input id="sellSurfaceCarrez" name="sellSurfaceCarrez" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellLivingSurface">Surf. séjour (m²)</label><input id="sellLivingSurface" name="sellLivingSurface" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellLandSurface">Surf. terrain (m²)</label><input id="sellLandSurface" name="sellLandSurface" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellLevels">Nb. niveaux</label><input id="sellLevels" name="sellLevels" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellOrientation">Orientation principale</label><input id="sellOrientation" name="sellOrientation" data-optional placeholder="Sud, EST…" /></div>
+                    <div class="field"><label for="sellView">Vue</label><input id="sellView" name="sellView" data-optional placeholder="Dégagée, parc, rue…" /></div>
+                    <div class="field"><label for="sellMitoyennete">Mitoyenneté</label><input id="sellMitoyennete" name="sellMitoyennete" data-optional placeholder="1 côté, pavillon…" /></div>
+                    <div class="field"><label for="sellKitchenType">Type cuisine</label>
+                      <select id="sellKitchenType" name="sellKitchenType" data-optional>
+                        <option value="">—</option>
+                        <option>Séparée équipée</option>
+                        <option>Américaine équipée</option>
+                        <option>Individuelle équipée</option>
+                        <option>Non équipée</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="sellHeating">Chauffage</label>
+                      <select id="sellHeating" name="sellHeating" data-optional>
+                        <option value="">—</option>
+                        <option>Individuel</option>
+                        <option>Collectif</option>
+                        <option>Pompe à chaleur</option>
+                        <option>Électrique</option>
+                        <option>Gaz</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="sellHeatingEnergy">Énergie</label><input id="sellHeatingEnergy" name="sellHeatingEnergy" data-optional placeholder="Gaz, élec…" /></div>
+                    <div class="field"><label for="sellBoilerYear">Année chaudière</label><input id="sellBoilerYear" name="sellBoilerYear" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellHotWater">Eau chaude</label><input id="sellHotWater" name="sellHotWater" data-optional /></div>
+                    <div class="field"><label for="sellInteriorState">État intérieur</label>
+                      <select id="sellInteriorState" name="sellInteriorState" data-optional>
+                        <option value="">—</option>
+                        <option>Très bon</option>
+                        <option>Bon</option>
+                        <option>À rafraîchir</option>
+                        <option>À rénover</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="sellCaveCount">Cave(s)</label><input id="sellCaveCount" name="sellCaveCount" data-optional placeholder="Nb" /></div>
+                    <div class="field"><label for="sellParkingExt">Park. ext.</label><input id="sellParkingExt" name="sellParkingExt" data-optional placeholder="1 privé…" /></div>
+                    <div class="field"><label for="sellParkingInt">Park. int.</label><input id="sellParkingInt" name="sellParkingInt" data-optional /></div>
+                    <div class="field"><label for="sellBoxCount">Box</label><input id="sellBoxCount" name="sellBoxCount" data-optional /></div>
+                    <div class="field"><label for="sellGarageCount">Garage(s)</label><input id="sellGarageCount" name="sellGarageCount" data-optional /></div>
+                    <div class="field full">
+                      <label class="field-check"><input type="checkbox" name="sellPrestige" value="1" data-optional /> Bien prestige / haut de gamme</label>
+                    </div>
+                    <div class="field full">
+                      <label for="sellListingUrl">URL annonce</label>
+                      <input id="sellListingUrl" name="sellListingUrl" type="url" data-optional placeholder="https://…" />
+                    </div>
+                  </div>
+
+                  <p class="search-section-label" style="margin-top:16px">Pièces / balcons (détail)</p>
+                  <div class="immo-rooms-wrap" data-rooms-mount>
+                    <table class="immo-rooms-table">
+                      <thead>
+                        <tr>
+                          <th>Niv.</th>
+                          <th>Pièce</th>
+                          <th>Surf.</th>
+                          <th>Dimensions</th>
+                          <th>Revêtement</th>
+                          <th>Expo</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody data-rooms-body></tbody>
+                    </table>
+                    <button type="button" class="btn btn-soft btn-sm" data-room-add style="margin-top:8px">+ Ajouter une pièce</button>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Immeuble, équipements &amp; terrain</summary>
+                  <div class="grid" style="margin-top:12px">
+                    <div class="field"><label for="sellStanding">Standing</label><input id="sellStanding" name="sellStanding" data-optional /></div>
+                    <div class="field"><label for="sellConstructionType">Type construction</label><input id="sellConstructionType" name="sellConstructionType" data-optional /></div>
+                    <div class="field"><label for="sellBuildYear">Année construction</label><input id="sellBuildYear" name="sellBuildYear" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellBuildingFloors">Nb. étages immeuble</label><input id="sellBuildingFloors" name="sellBuildingFloors" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellBuildingState">État immeuble</label>
+                      <select id="sellBuildingState" name="sellBuildingState" data-optional>
+                        <option value="">—</option>
+                        <option>Très bon</option>
+                        <option>Bon</option>
+                        <option>À rafraîchir</option>
+                        <option>À rénover</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="sellPlotSurface">Surface parcelle (m²)</label><input id="sellPlotSurface" name="sellPlotSurface" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellFrontage">Façade (m)</label><input id="sellFrontage" name="sellFrontage" data-optional /></div>
+                    <div class="field"><label for="sellDepth">Profondeur (m)</label><input id="sellDepth" name="sellDepth" data-optional /></div>
+                    <div class="field"><label for="sellPluZone">Zone PLU</label><input id="sellPluZone" name="sellPluZone" data-optional /></div>
+                    <div class="field"><label for="sellCos">COS</label><input id="sellCos" name="sellCos" data-optional /></div>
+                    <div class="field full">
+                      <span class="search-section-label" style="margin:0">Équipements</span>
+                      <div class="search-chip-grid" role="group">
+                        <label class="search-chip"><input type="checkbox" name="sellEquip[]" value="ascenseur" /><span>Ascenseur</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellEquip[]" value="digicode" /><span>Digicode</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellEquip[]" value="interphone" /><span>Interphone</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellEquip[]" value="alarme" /><span>Alarme</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellEquip[]" value="cheminee" /><span>Cheminée</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellEquip[]" value="piscine" /><span>Piscine</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellEquip[]" value="fibre" /><span>Fibre</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellEquip[]" value="pmr" /><span>Accès PMR</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellEquip[]" value="egout" /><span>Tout à l'égout</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellEquip[]" value="gaz" /><span>Gaz de ville</span></label>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Disponibilité, occupation &amp; visites</summary>
+                  <div class="grid" style="margin-top:12px">
+                    <div class="field full">
+                      <label class="field-check"><input type="checkbox" name="sellFurnished" value="1" data-optional /> Meublé</label>
+                    </div>
+                    <div class="field"><label for="sellTenantName">Locataire / occupant</label><input id="sellTenantName" name="sellTenantName" data-optional /></div>
+                    <div class="field"><label for="sellTenantPhone">Tél. occupant</label><input id="sellTenantPhone" name="sellTenantPhone" type="tel" data-optional /></div>
+                    <div class="field full">
+                      <label for="sellVisitInstructions">Consignes de visite (clés, accès…)</label>
+                      <textarea id="sellVisitInstructions" name="sellVisitInstructions" rows="2" data-optional placeholder="Clés agence, digicode, alarme…"></textarea>
+                    </div>
+                    <div class="field full">
+                      <label for="sellCadastre">Références cadastrales</label>
+                      <input id="sellCadastre" name="sellCadastre" data-optional placeholder="Section, n° parcelle…" />
+                    </div>
+                    <div class="field full">
+                      <label for="sellServitudes">Servitudes / commentaires titre</label>
+                      <textarea id="sellServitudes" name="sellServitudes" rows="2" data-optional></textarea>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Origine de propriété &amp; achat initial</summary>
+                  <div class="grid" style="margin-top:12px">
+                    <div class="field"><label for="sellPurchaseDate">Date achat</label><input id="sellPurchaseDate" name="sellPurchaseDate" type="date" data-optional /></div>
+                    <div class="field"><label for="sellPurchasePrice">Prix d'achat (€)</label><input id="sellPurchasePrice" name="sellPurchasePrice" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellRemainingLoan">Capital restant dû (€)</label><input id="sellRemainingLoan" name="sellRemainingLoan" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellPurchaseNotary">Notaire (achat)</label><input id="sellPurchaseNotary" name="sellPurchaseNotary" data-optional /></div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Copropriété, charges &amp; fiscalité</summary>
+                  <div class="grid" style="margin-top:12px">
+                    <div class="field"><label for="sellSyndic">Syndic / ASL</label><input id="sellSyndic" name="sellSyndic" data-optional /></div>
+                    <div class="field"><label for="sellLastAgDate">Date dernière AG</label><input id="sellLastAgDate" name="sellLastAgDate" type="date" data-optional /></div>
+                    <div class="field"><label for="sellLotMain">N° lot principal</label><input id="sellLotMain" name="sellLotMain" data-optional /></div>
+                    <div class="field"><label for="sellTantiemes">Tantièmes</label><input id="sellTantiemes" name="sellTantiemes" data-optional /></div>
+                    <div class="field"><label for="sellChargesAnnual">Charges annuelles (€)</label><input id="sellChargesAnnual" name="sellChargesAnnual" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellChargesMonthly">Moyenne mensuelle (€)</label><input id="sellChargesMonthly" name="sellChargesMonthly" inputmode="numeric" data-optional /></div>
+                    <p class="small full" style="color:#64748b;margin:0">Taxe foncière et habitation : voir bloc <strong>Informations publiques</strong>.</p>
+                    <div class="field"><label for="sellCoproLots">Nombre de lots (copro)</label><input id="sellCoproLots" name="sellCoproLots" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellCoproLotsBuilding">Lots dans l'immeuble</label><input id="sellCoproLotsBuilding" name="sellCoproLotsBuilding" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellWorkFund">Fonds travaux ALUR (€)</label><input id="sellWorkFund" name="sellWorkFund" inputmode="numeric" data-optional placeholder="Montant disponible" /></div>
+                    <div class="field full">
+                      <label class="field-check"><input type="checkbox" name="sellCoproProcedure" value="1" data-optional /> Procédure copropriété en cours (contentieux, travaux forcés…)</label>
+                    </div>
+                    <div class="field full"><label for="sellCoproProcedureDetail">Détail procédure / travaux imposés</label><textarea id="sellCoproProcedureDetail" name="sellCoproProcedureDetail" rows="2" data-optional></textarea></div>
+                    <div class="field full"><label for="sellSellerNotary">Notaire désigné vendeur</label><input id="sellSellerNotary" name="sellSellerNotary" data-optional /></div>
+                  </div>
+                  <p class="search-section-label" style="margin-top:16px">Travaux copropriété — faits / votés / payés</p>
+                  <p class="small" style="margin:0 0 8px;color:#64748b">Ravalement, ascenseur, toiture, réseaux… Indiquez le statut et la quote-part vendeur.</p>
+                  <div class="immo-copro-works-wrap" data-copro-works-mount>
+                    <table class="immo-rooms-table immo-copro-works-table">
+                      <thead>
+                        <tr>
+                          <th>Nature</th>
+                          <th>Statut</th>
+                          <th>Montant</th>
+                          <th>Date</th>
+                          <th>Quote-part</th>
+                          <th>Note</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody data-copro-works-body></tbody>
+                    </table>
+                    <button type="button" class="btn btn-soft btn-sm" data-copro-work-add style="margin-top:8px">+ Ajouter un travaux copro</button>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Construction ou rénovation lourde &lt; 10 ans</summary>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Dommage-ouvrage, garantie décennale, parfait achèvement — obligatoire si travaux récents.</p>
+                  <div class="field full">
+                    <label class="field-check"><input type="checkbox" name="sellRecentBuild" value="1" data-sell-recent-build-toggle data-optional /> Construction neuve ou rénovation lourde de moins de 10 ans</label>
+                  </div>
+                  <div data-sell-recent-build-panel hidden>
+                    <div class="grid" style="margin-top:12px">
+                      <div class="field"><label for="sellBuildCompletionDate">Date achèvement travaux</label><input id="sellBuildCompletionDate" name="sellBuildCompletionDate" type="date" data-optional /></div>
+                      <div class="field"><label for="sellBuilderName">Constructeur / entreprise</label><input id="sellBuilderName" name="sellBuilderName" data-optional /></div>
+                      <div class="field"><label for="sellBuildPermit">N° permis de construire / DP</label><input id="sellBuildPermit" name="sellBuildPermit" data-optional /></div>
+                      <div class="field"><label for="sellBuildArchitect">Architecte / maître d'œuvre</label><input id="sellBuildArchitect" name="sellBuildArchitect" data-optional /></div>
+                      <div class="field full">
+                        <span class="search-section-label" style="margin:0">Dommage-ouvrage (DO)</span>
+                      </div>
+                      <div class="field">
+                        <label for="sellDoInsurer">Assureur DO</label><input id="sellDoInsurer" name="sellDoInsurer" data-optional placeholder="Compagnie" />
+                      </div>
+                      <div class="field">
+                        <label for="sellDoPolicy">N° police DO</label><input id="sellDoPolicy" name="sellDoPolicy" data-optional />
+                      </div>
+                      <div class="field">
+                        <label for="sellDoExpiry">Échéance DO</label><input id="sellDoExpiry" name="sellDoExpiry" type="date" data-optional />
+                      </div>
+                      <div class="field full">
+                        <label class="field-check"><input type="checkbox" name="sellDoAttestation" value="1" data-optional /> Attestation DO remise au notaire</label>
+                      </div>
+                      <div class="field full">
+                        <span class="search-section-label" style="margin:0">Garanties constructeur</span>
+                      </div>
+                      <div class="field">
+                        <label class="field-check"><input type="checkbox" name="sellDecennale" value="1" data-optional /> Garantie décennale en cours</label>
+                      </div>
+                      <div class="field">
+                        <label for="sellDecennaleUntil">Décennale jusqu'au</label><input id="sellDecennaleUntil" name="sellDecennaleUntil" type="date" data-optional />
+                      </div>
+                      <div class="field">
+                        <label class="field-check"><input type="checkbox" name="sellBiennale" value="1" data-optional /> Garantie biennale (équipements)</label>
+                      </div>
+                      <div class="field">
+                        <label class="field-check"><input type="checkbox" name="sellPerfectCompletion" value="1" data-optional /> Garantie de parfait achèvement (GPA)</label>
+                      </div>
+                      <div class="field">
+                        <label for="sellRcDecennale">RC décennale constructeur — assureur</label><input id="sellRcDecennale" name="sellRcDecennale" data-optional />
+                      </div>
+                      <div class="field full">
+                        <label for="sellBuildNotes">Travaux réalisés / réserves / sinistres</label>
+                        <textarea id="sellBuildNotes" name="sellBuildNotes" rows="2" data-optional placeholder="Extension, surélévation, rénovation énergétique…"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Mobilier &amp; électroménager inclus</summary>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Ce qui reste avec le bien à la vente (inventaire pour l'acte ou annonce meublée).</p>
+                  <div class="field full">
+                    <label class="field-check"><input type="checkbox" name="sellFurnitureIncluded" value="1" data-sell-furniture-toggle data-optional /> Mobilier / électroménager inclus dans la vente</label>
+                  </div>
+                  <div data-sell-furniture-panel hidden>
+                    <div class="field" style="margin-top:10px">
+                      <label for="sellFurnitureValue">Valeur estimée du mobilier (€)</label>
+                      <input id="sellFurnitureValue" name="sellFurnitureValue" inputmode="numeric" data-optional placeholder="Hors prix immobilier" />
+                    </div>
+                    <p class="search-section-label" style="margin-top:12px">Cuisine &amp; électroménager</p>
+                    <div class="search-chip-grid" role="group">
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="cuisine_equipee" /><span>Cuisine équipée</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="plaque" /><span>Plaque / induction</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="four" /><span>Four</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="micro_ondes" /><span>Micro-ondes</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="hotte" /><span>Hotte</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="lave_vaisselle" /><span>Lave-vaisselle</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="frigo" /><span>Réfrigérateur</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="congelateur" /><span>Congélateur</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="lave_linge" /><span>Lave-linge</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="seche_linge" /><span>Sèche-linge</span></label>
+                    </div>
+                    <p class="search-section-label" style="margin-top:12px">Séjour &amp; chambres</p>
+                    <div class="search-chip-grid" role="group">
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="canape" /><span>Canapé</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="table" /><span>Table</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="chaises" /><span>Chaises</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="literie" /><span>Literie</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="armoires" /><span>Armoires / dressing</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="bureau" /><span>Bureau</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="luminaires" /><span>Luminaires</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="rideaux" /><span>Rideaux / stores</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="tv" /><span>TV / écrans</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="exterieur" /><span>Mobilier extérieur</span></label>
+                    </div>
+                    <div class="field full" style="margin-top:12px">
+                      <label for="sellFurnitureInventory">Inventaire détaillé (marque, état, pièce…)</label>
+                      <textarea id="sellFurnitureInventory" name="sellFurnitureInventory" rows="3" data-optional placeholder="Liste pièce par pièce pour l'acte / annonce meublée…"></textarea>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block" data-conseiller-only hidden>
+                  <summary>Estimation &amp; mise en vente (prix, honoraires, net vendeur)</summary>
+                  <p class="small" style="margin:8px 0;color:#64748b">Fourchettes prix, honoraires et net vendeur — suivi conseiller.</p>
+                  <div class="immo-price-grid" style="margin-top:10px">
+                    <div class="immo-price-row immo-price-row--head">
+                      <span></span><span>Prix vente (€)</span><span>Honoraires (€)</span><span>Reste vendeur (€)</span><span>Date</span>
+                    </div>
+                    <div class="immo-price-row">
+                      <label>Fourchette haute</label>
+                      <input name="estHighPrice" inputmode="numeric" data-optional />
+                      <input name="estHighFees" inputmode="numeric" data-optional />
+                      <input name="estHighNet" inputmode="numeric" data-optional />
+                      <input name="estHighDate" type="date" data-optional />
+                    </div>
+                    <div class="immo-price-row">
+                      <label>Fourchette basse</label>
+                      <input name="estLowPrice" inputmode="numeric" data-optional />
+                      <input name="estLowFees" inputmode="numeric" data-optional />
+                      <input name="estLowNet" inputmode="numeric" data-optional />
+                      <input name="estLowDate" type="date" data-optional />
+                    </div>
+                    <div class="immo-price-row">
+                      <label>Mise en vente initiale</label>
+                      <input name="saleInitPrice" inputmode="numeric" data-optional />
+                      <input name="saleInitFees" inputmode="numeric" data-optional />
+                      <input name="saleInitNet" inputmode="numeric" data-optional />
+                      <input name="saleInitDate" type="date" data-optional />
+                    </div>
+                    <div class="immo-price-row">
+                      <label>Conditions actuelles</label>
+                      <input name="saleCurrentPrice" inputmode="numeric" data-optional />
+                      <input name="saleCurrentFees" inputmode="numeric" data-optional />
+                      <input name="saleCurrentNet" inputmode="numeric" data-optional />
+                      <input name="saleCurrentDate" type="date" data-optional />
+                    </div>
+                    <div class="immo-price-row">
+                      <label>Conditions mandat</label>
+                      <input name="saleMandatePrice" inputmode="numeric" data-optional />
+                      <input name="saleMandateFees" inputmode="numeric" data-optional />
+                      <input name="saleMandateNet" inputmode="numeric" data-optional />
+                      <input name="saleMandatePriceDate" type="date" data-optional />
+                    </div>
+                  </div>
+                  <div class="grid" style="margin-top:14px">
+                    <div class="field"><label for="sellPriceNet">Prix net vendeur retenu (€)</label><input id="sellPriceNet" name="sellPriceNet" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellPriceFai">Prix FAI retenu (€)</label><input id="sellPriceFai" name="sellPriceFai" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellFilePlanned">Remise dossier prévue</label><input id="sellFilePlanned" name="sellFilePlanned" type="date" data-optional /></div>
+                    <div class="field"><label for="sellFileDone">Remise dossier effective</label><input id="sellFileDone" name="sellFileDone" type="date" data-optional /></div>
+                    <div class="field full"><label for="sellPricingRefs">Références utilisées pour le prix</label><textarea id="sellPricingRefs" name="sellPricingRefs" rows="2" data-optional placeholder="Biens comparables, DVF…"></textarea></div>
+                    <div class="field full"><label for="sellFileComments">Commentaires / suivi dossier</label><textarea id="sellFileComments" name="sellFileComments" rows="2" data-optional></textarea></div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block" data-conseiller-only hidden>
+                  <summary>Communication (annonce, vitrine, argumentaire)</summary>
+                  <div class="grid" style="margin-top:12px">
+                    <div class="field full"><label for="sellStrengths">Arguments forts</label><textarea id="sellStrengths" name="sellStrengths" rows="2" data-optional></textarea></div>
+                    <div class="field full"><label for="sellObjections">Objections à anticiper</label><textarea id="sellObjections" name="sellObjections" rows="2" data-optional></textarea></div>
+                    <div class="field full"><label for="sellAdText">Texte annonce</label><textarea id="sellAdText" name="sellAdText" rows="3" data-optional></textarea></div>
+                    <div class="field full"><label for="sellWindowText">Texte vitrine</label><textarea id="sellWindowText" name="sellWindowText" rows="2" data-optional></textarea></div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Projet vendeur — matrice passé · présent · futur</summary>
+                  <p class="small" style="margin:8px 0 12px;color:#64748b">Comprendre le parcours du vendeur en un coup d'œil (passé · présent · futur).</p>
+                  <div class="immo-timeline-matrix" data-timeline-matrix>
+                    <div class="immo-timeline-head">
+                      <span class="immo-timeline-corner"></span>
+                      <span class="immo-timeline-col immo-timeline-col--past">Passé</span>
+                      <span class="immo-timeline-col immo-timeline-col--present">Présent</span>
+                      <span class="immo-timeline-col immo-timeline-col--future">Futur</span>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Motivation / déclencheur</span>
+                      <textarea name="sellTimelinePastMotivation" rows="2" data-optional placeholder="Pourquoi vendre maintenant ?"></textarea>
+                      <textarea name="sellTimelinePresentMotivation" rows="2" data-optional placeholder="Urgence, délai souhaité…"></textarea>
+                      <textarea name="sellTimelineFutureMotivation" rows="2" data-optional placeholder="Objectif après vente…"></textarea>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Situation perso / pro</span>
+                      <textarea name="sellTimelinePastSituation" rows="2" data-optional placeholder="Famille, travail, retraite…"></textarea>
+                      <textarea name="sellTimelinePresentSituation" rows="2" data-optional placeholder="Occupation du bien, contraintes…"></textarea>
+                      <textarea name="sellTimelineFutureSituation" rows="2" data-optional placeholder="Projet de vie visé…"></textarea>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Bien / logement</span>
+                      <textarea name="sellTimelinePastHousing" rows="2" data-optional placeholder="Historique du bien, achat initial…"></textarea>
+                      <textarea name="sellTimelinePresentHousing" rows="2" data-optional placeholder="État, travaux faits, occupation…"></textarea>
+                      <textarea name="sellTimelineFutureHousing" rows="2" data-optional placeholder="Rachat, location, résidence secondaire…"></textarea>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Financement / prêt</span>
+                      <textarea name="sellTimelinePastFinance" rows="2" data-optional placeholder="Crédit initial, apport…"></textarea>
+                      <textarea name="sellTimelinePresentFinance" rows="2" data-optional placeholder="CRD, capacité rachat, relais…"></textarea>
+                      <textarea name="sellTimelineFutureFinance" rows="2" data-optional placeholder="Besoin prêt rachat, apport visé…"></textarea>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Timing / échéance</span>
+                      <textarea name="sellTimelinePastTiming" rows="2" data-optional placeholder="Dates clés passées…"></textarea>
+                      <textarea name="sellTimelinePresentTiming" rows="2" data-optional placeholder="Date idéale de vente / libération…"></textarea>
+                      <textarea name="sellTimelineFutureTiming" rows="2" data-optional placeholder="Chaîne, compromis, emménagement…"></textarea>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Critères prioritaires</span>
+                      <textarea name="sellTimelinePastCriteria" rows="2" data-optional placeholder="Expériences antérieures…"></textarea>
+                      <textarea name="sellTimelinePresentCriteria" rows="2" data-optional placeholder="Prix net, délai, discrétion…"></textarea>
+                      <textarea name="sellTimelineFutureCriteria" rows="2" data-optional placeholder="Secteur rachat, type de bien…"></textarea>
+                    </div>
+                  </div>
+                  <div class="grid" style="margin-top:14px">
+                    <div class="field full"><label for="sellPastExperience">Notes passé (complément libre)</label><textarea id="sellPastExperience" name="sellPastExperience" rows="2" data-optional></textarea></div>
+                    <div class="field full"><label for="sellPresentSituation">Notes présent (complément libre)</label><textarea id="sellPresentSituation" name="sellPresentSituation" rows="2" data-optional></textarea></div>
+                    <div class="field full"><label for="sellFutureProject">Notes futur — rachat / chaîne</label><textarea id="sellFutureProject" name="sellFutureProject" rows="2" data-optional placeholder="Pourquoi, pour quand, secteur…"></textarea></div>
+                    <div class="field full">
+                      <span class="search-section-label" style="margin:0">Engagements attendus envers le vendeur</span>
+                      <div class="search-chip-grid" role="group">
+                        <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="ecoute" /><span>Écoute</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="accompagnement" /><span>Accompagnement</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="liberte" /><span>Liberté</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="visibilite" /><span>Visibilité</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="exclusivite" /><span>Exclusivité de service</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="transparence" /><span>Transparence honoraires</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="reactivite" /><span>Réactivité visites</span></label>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block" data-rgpd-confirmation-block>
+                  <summary>Confirmation</summary>
+                  <section class="immo-rgpd-confirm">
+                    <p class="immo-rgpd-confirm-lead">
+                      Selon les articles <strong>4</strong>, <strong>6</strong> et <strong>7</strong> du RGPD, lorsque le traitement de données à des fins de prospection commerciale par voie électronique (newsletter, SMS…) n'est pas justifié par l'exécution d'un contrat (<strong>mandat</strong>, compromis, bail), par une obligation légale ou par une relation client antérieure, il doit reposer sur le <strong>consentement</strong> de la personne.
+                    </p>
+                    <p class="immo-rgpd-confirm-note">
+                      Ce consentement doit permettre à la personne de comprendre comment ses données seront traitées, de choisir librement d'accepter ou non ce traitement, et de revenir librement sur son choix.
+                    </p>
+                    <p class="immo-rgpd-confirm-mandate-hint" data-rgpd-mandate-hint hidden>
+                      <strong>Mandat en cours de constitution :</strong> la simple intention de mandat ne couvre pas la newsletter / SMS — le consentement ci-dessous reste nécessaire tant qu'aucun mandat signé n'existe.
+                    </p>
+                    <p class="immo-rgpd-confirm-question" data-rgpd-question-client>
+                      <strong>Acceptez-vous de recevoir des informations commerciales</strong> (newsletter, SMS…) dans les conditions décrites ci-dessus ? Consultez aussi notre <a href="../politique-confidentialite.html">politique de confidentialité</a>.
+                    </p>
+                    <p class="immo-rgpd-confirm-question" data-rgpd-question-conseiller hidden>
+                      <strong>Ce consentement a-t-il été collecté et la personne informée de ses droits en la matière ?</strong>
+                    </p>
+                    <div class="immo-rgpd-confirm-actions" data-rgpd-confirm-actions role="radiogroup" aria-label="Confirmation RGPD prospection">
+                      <label class="immo-rgpd-confirm-btn immo-rgpd-confirm-btn--no">
+                        <input type="radio" name="sellMarketingConsent" value="0" />
+                        <span>Non</span>
+                      </label>
+                      <label class="immo-rgpd-confirm-btn immo-rgpd-confirm-btn--yes">
+                        <input type="radio" name="sellMarketingConsent" value="1" />
+                        <span>Oui</span>
+                      </label>
+                    </div>
+                  </section>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Pièces justificatives à fournir</summary>
+                  <p class="small" style="margin:8px 0 8px;color:#64748b">Déposez les pièces déjà disponibles. Les manquantes seront demandées au notaire ou via Google Drive.</p>
+                  <p class="immo-docs-counter" data-sell-docs-counter>0 / 0 pièces déposées</p>
+                  <div class="immo-docs-checklist" data-sell-docs-mount></div>
+                  <div class="field full" style="margin-top:10px">
+                    <label for="sellDocNotes">Pièces manquantes / remarques / dépôt Drive</label>
+                    <textarea id="sellDocNotes" name="sellDocNotes" rows="2" data-optional placeholder="Ce qui sera envoyé par e-mail, Google Drive, ou remis en RDV…"></textarea>
+                  </div>
+                </details>
+              </div>
+
+              <div class="immo-form-section" data-search-bien-panel style="margin-top:16px">
+                <h4 class="immo-form-section-title" data-search-bien-heading>2. Bien recherché</h4>
+                <p class="small immo-form-section-lead" data-search-bien-lead>Type, secteur, budget — critères pour vous proposer des biens à visiter.</p>
+                <p class="search-section-label">Categorie</p>
+                <div class="search-chip-grid" role="group" aria-label="Type de bien">
+                  <label class="search-chip"><input type="checkbox" name="propertySought" value="appartement" /><span>Appartement</span></label>
+                  <label class="search-chip"><input type="checkbox" name="propertySought" value="maison" /><span>Maison</span></label>
+                  <label class="search-chip"><input type="checkbox" name="propertySought" value="terrain" /><span>Terrain</span></label>
+                  <label class="search-chip"><input type="checkbox" name="propertySought" value="local" /><span>Local / mixte</span></label>
+                  <label class="search-chip"><input type="checkbox" name="propertySought" value="immeuble" /><span>Immeuble</span></label>
+                </div>
+                <p class="small" data-property-sought-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez au moins une categorie (maison, appart…).</p>
+
+                <p class="search-section-label" style="margin-top:18px">Vendeur</p>
+                <div class="search-chip-grid search-chip-grid--3" role="group" aria-label="Type de vendeur">
+                  <label class="search-chip"><input type="radio" name="sellerType" value="particulier" /><span>Particulier</span></label>
+                  <label class="search-chip"><input type="radio" name="sellerType" value="pro" /><span>Professionnel</span></label>
+                  <label class="search-chip"><input type="radio" name="sellerType" value="indifferent" /><span>Les deux</span></label>
+                </div>
+                <p class="small" data-seller-type-hint hidden style="color:#b91c1c;margin-top:8px">Indiquez particulier, professionnel, ou les deux.</p>
+
+                <div class="grid" style="margin-top:18px">
+                  <div class="field">
+                    <label for="postalProject">Code postal / secteur</label>
+                    <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" data-search-bien-required placeholder="Ex. 75011" />
+                  </div>
+                  <div class="field">
+                    <label for="searchCities">Ville(s) visee(s)</label>
+                    <input id="searchCities" name="searchCities" data-optional placeholder="Ex. Paris 11e, Vincennes" />
+                  </div>
+                  <div class="field">
+                    <label for="budgetMax">Budget max (€)</label>
+                    <input id="budgetMax" name="budgetMax" inputmode="numeric" data-search-bien-required placeholder="Ex. 280000" />
+                  </div>
+                  <div class="field">
+                    <label for="budgetMin">Budget min (€) — optionnel</label>
+                    <input id="budgetMin" name="budgetMin" inputmode="numeric" data-optional placeholder="Ex. 200000" />
+                  </div>
+                  <div class="field">
+                    <label for="roomsMin">Pieces min.</label>
+                    <input id="roomsMin" name="roomsMin" inputmode="numeric" data-optional placeholder="Ex. 3" />
+                  </div>
+                  <div class="field">
+                    <label for="propertySurfaceSearch">Surface min. (m²) — optionnel</label>
+                    <input id="propertySurfaceSearch" name="propertySurfaceSearch" inputmode="numeric" data-optional placeholder="Ex. 65" />
+                  </div>
+                  <div class="field full">
+                    <label for="listingUrls">URL d'annonces déjà vues (Leboncoin, SeLoger…)</label>
+                    <textarea id="listingUrls" name="listingUrls" rows="2" data-optional placeholder="https://www.leboncoin.fr/ad/…"></textarea>
+                  </div>
+                </div>
+
+                <section class="immo-doc-panel" data-immo-docs-acheteur-wrap style="margin-top:18px">
+                  <p class="search-section-label">Documents financement &amp; recherche</p>
+                  <p class="small" style="margin:0 0 10px;color:#64748b">Bulletins de salaire, avis d'imposition, relevés bancaires, justificatif d'apport… pour étudier votre prêt.</p>
+                  <div data-immo-docs-panel="acheteur"></div>
+                </section>
+              </div>
+
+              <div class="field full" data-search-service-panel hidden style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
+                <p class="search-section-label">Services complémentaires (optionnel)</p>
+                <p class="small" style="margin:0 0 10px;color:#64748b">Syndic, gestion locative, recherche locataire… en plus de la vente. Parcours dédiés : <a href="./location.html">location</a> · <a href="./syndic.html">syndic</a>.</p>
+                <div class="search-chip-grid" role="group" aria-label="Services immobiliers">
+                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="syndic_copro" /><span>Syndic / copro</span></label>
+                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="location_gestion" /><span>Location / gestion</span></label>
+                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="estimation_vente" /><span>Estimation / vente</span></label>
+                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="recherche_locataire" /><span>Locataire</span></label>
+                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="transaction" /><span>Transaction</span></label>
+                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="autre_service" /><span>Autre</span></label>
+                </div>
+                <p class="small" data-service-sought-hint hidden style="color:#b91c1c;margin-top:8px">Cochez au moins un service.</p>
+              </div>
+            </section>
+
+            <!-- ETAPE 2 : Besoins pret et assurances -->
+            <section class="wizard-step" data-wizard-step="2" data-step-name="besoins" hidden>
+              <h3>Vos besoins (optionnel — pret et assurances)</h3>
+              <p class="small" style="margin-top:0;margin-bottom:14px;">Si vous cherchez seulement un bien, cochez « visites ». Les assurances et le pret sont facultatifs.</p>
+              <div class="field full">
+                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
+                  <legend style="font-weight:700;margin-bottom:10px">Que souhaitez-vous etudier ?</legend>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="visite" /> Recherche de bien / visites</label>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="pret" /> Pret immobilier / capacite d'emprunt</label>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="emprunteur" /> Assurance emprunteur (delegation)</label>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="habitation" /> Assurance habitation (future residence)</label>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="pno" /> PNO — proprietaire non occupant (bien loue / investissement)</label>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="locataire" /> Assurance locataire (logement actuel)</label>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="rachat" /> Rachat ou renegociation de credit</label>
+                </fieldset>
+                <p class="small" data-buyer-needs-hint hidden style="color:#b91c1c;margin-top:8px">Selectionnez au moins un besoin pour continuer.</p>
+              </div>
+            </section>
+
+            <!-- ETAPE 3 : Situation logement et parrainage -->
+            <section class="wizard-step" data-wizard-step="3" data-step-name="logement" hidden>
+              <h3>Votre situation logement</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="currentHousingStatus">Logement actuel</label>
+                  <select id="currentHousingStatus" name="currentHousingStatus">
+                    <option value="">Selectionnez</option>
+                    <option>Locataire</option>
+                    <option>Proprietaire occupant</option>
+                    <option>Proprietaire bailleur (PNO)</option>
+                    <option>Heberge chez un tiers</option>
+                    <option>Autre</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="tenantInsurance">Assurance locataire en cours ?</label>
+                  <select id="tenantInsurance" name="tenantInsurance">
+                    <option value="">Selectionnez</option>
+                    <option>Oui, contrat en cours</option>
+                    <option>Non, pas encore assure</option>
+                    <option>Non concerne (pas locataire)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="pnoProperties">Biens en location (PNO) — nombre</label>
+                  <select id="pnoProperties" name="pnoProperties" data-optional>
+                    <option value="">Non concerne</option>
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3 ou plus</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="keepCurrentHome">Si vous etes proprietaire : que ferez-vous de votre logement actuel ?</label>
+                  <select id="keepCurrentHome" name="keepCurrentHome" data-optional>
+                    <option value="">Non concerne</option>
+                    <option>Le vendre</option>
+                    <option>Le mettre en location (PNO)</option>
+                    <option>Le garder (residence secondaire)</option>
+                    <option>Je ne suis pas proprietaire</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="referredBy">Vous etes accompagne par</label>
+                  <select id="referredBy" name="referredBy">
+                    <option value="">Selectionnez</option>
+                    <option>Negociateur immobilier</option>
+                    <option>Agent immobilier / mandataire</option>
+                    <option>Agence immobiliere</option>
+                    <option>Promoteur / VEFA</option>
+                    <option>Particulier (sans intermediaire)</option>
+                    <option>Parrain / connaissance</option>
+                    <option>Autre</option>
+                  </select>
+                  <p class="small" style="margin:6px 0 0;color:#64748b">
+                    Si une connaissance vous oriente, indiquez-le ici. Aucune rémunération promise à l'avance — si le dossier aboutit, une reconnaissance pourra éventuellement être étudiée.
+                  </p>
+                </div>
+                <div class="field">
+                  <label for="agentName">Nom du negociateur / conseiller (optionnel)</label>
+                  <input id="agentName" name="agentName" data-optional placeholder="Ex. Marie Dupont" />
+                </div>
+                <div class="field">
+                  <label for="agencyName">Agence ou reseau (optionnel)</label>
+                  <input id="agencyName" name="agencyName" data-optional placeholder="Ex. Agence du quartier" />
+                </div>
+              </div>
+            </section>
+
+            <!-- ETAPE 4 : Precisions bien recherche -->
+            <section class="wizard-step" data-wizard-step="4" data-step-name="projet" hidden>
+              <h3>Precisions sur le bien recherche</h3>
+              <p class="small" style="margin-top:0;margin-bottom:12px;color:#334155">
+                Affinez le projet (residence, investissement, surface, secteur) pour le matching et le pret.
+              </p>
+              <div class="grid">
+                <div class="field">
+                  <label for="projectType">Type de projet</label>
+                  <select id="projectType" name="projectType">
+                    <option value="">Selectionnez</option>
+                    <option>Achat residence principale</option>
+                    <option>Investissement locatif</option>
+                    <option>Residence secondaire</option>
+                    <option>Rachat de credit / Renegociation</option>
+                    <option>Pret travaux</option>
+                    <option>Construction maison</option>
+                    <option>Achat terrain + construction</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="propertyType">Type de bien</label>
+                  <select id="propertyType" name="propertyType">
+                    <option value="">Selectionnez</option>
+                    <option>Appartement ancien</option>
+                    <option>Appartement neuf / VEFA</option>
+                    <option>Maison ancienne</option>
+                    <option>Maison neuve / VEFA</option>
+                    <option>Terrain a batir</option>
+                    <option>Local commercial / Mixte</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="propertySurface">Surface approximative (m2)</label>
+                  <input id="propertySurface" name="propertySurface" inputmode="numeric" data-optional placeholder="Ex. 65" />
+                </div>
+                <div class="field">
+                  <label for="propertyFound">Bien deja trouve ?</label>
+                  <select id="propertyFound" name="propertyFound">
+                    <option value="">Selectionnez</option>
+                    <option>Oui, offre acceptee</option>
+                    <option>Oui, en negociation</option>
+                    <option>En recherche active</option>
+                    <option>Phase d'exploration</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="horizon">Horizon d'achat / signature</label>
+                  <select id="horizon" name="horizon">
+                    <option value="">Selectionnez</option>
+                    <option>Sous 30 jours (urgent)</option>
+                    <option>1 a 3 mois</option>
+                    <option>3 a 6 mois</option>
+                    <option>Plus de 6 mois</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <!-- ETAPE 5 : Budget et financement (pret) -->
+            <section class="wizard-step" data-wizard-step="5" data-step-name="pret-budget" data-wizard-skip-pret hidden>
+              <h3>Budget et financement</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="propertyPrice">Prix du bien (estimation ou reel)</label>
+                  <input id="propertyPrice" name="propertyPrice" inputmode="numeric" placeholder="Ex. 280000" />
+                </div>
+                <div class="field">
+                  <label for="worksAmount">Montant des travaux (si applicable)</label>
+                  <input id="worksAmount" name="worksAmount" inputmode="numeric" data-optional placeholder="Ex. 30000 (0 si aucun)" />
+                </div>
+                <div class="field">
+                  <label for="downPayment">Apport personnel (EUR)</label>
+                  <input id="downPayment" name="downPayment" inputmode="numeric" placeholder="Ex. 25000" />
+                </div>
+                <div class="field">
+                  <label for="downPaymentSource">Origine de l'apport</label>
+                  <select id="downPaymentSource" name="downPaymentSource">
+                    <option value="">Selectionnez</option>
+                    <option>Epargne personnelle</option>
+                    <option>Don familial</option>
+                    <option>Vente d'un bien</option>
+                    <option>Epargne salariale / Participation</option>
+                    <option>Mixte (plusieurs sources)</option>
+                    <option>Pas d'apport</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="loanDuration">Duree de pret souhaitee</label>
+                  <select id="loanDuration" name="loanDuration">
+                    <option value="">Selectionnez</option>
+                    <option>10 ans</option>
+                    <option>15 ans</option>
+                    <option>20 ans</option>
+                    <option>25 ans</option>
+                    <option>30 ans</option>
+                    <option>A definir avec le conseiller</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="ptzEligible">Eligible au PTZ (Pret a Taux Zero) ?</label>
+                  <select id="ptzEligible" name="ptzEligible">
+                    <option value="">Selectionnez</option>
+                    <option>Oui (primo-accedant, zone eligible)</option>
+                    <option>Non</option>
+                    <option>Je ne sais pas</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <!-- ETAPE 6 : Situation professionnelle (pret) -->
+            <section class="wizard-step" data-wizard-step="6" data-step-name="pret-pro" data-wizard-skip-pret hidden>
+              <h3>Votre situation professionnelle</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="employmentStatus">Statut professionnel</label>
+                  <select id="employmentStatus" name="employmentStatus">
+                    <option value="">Selectionnez</option>
+                    <option>CDI (passe la periode d'essai)</option>
+                    <option>CDI (en periode d'essai)</option>
+                    <option>CDD / Interim</option>
+                    <option>Fonctionnaire titulaire</option>
+                    <option>Fonctionnaire contractuel</option>
+                    <option>Independant / Liberal</option>
+                    <option>Chef d'entreprise / Gerant</option>
+                    <option>Auto-entrepreneur</option>
+                    <option>Retraite</option>
+                    <option>Autre</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="employer">Employeur / Secteur d'activite</label>
+                  <input id="employer" name="employer" data-optional placeholder="Ex. BNP Paribas, Hopital public..." />
+                </div>
+                <div class="field">
+                  <label for="jobSeniority">Anciennete dans l'emploi actuel</label>
+                  <select id="jobSeniority" name="jobSeniority">
+                    <option value="">Selectionnez</option>
+                    <option>Moins de 6 mois</option>
+                    <option>6 mois a 1 an</option>
+                    <option>1 a 2 ans</option>
+                    <option>2 a 5 ans</option>
+                    <option>Plus de 5 ans</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="netIncome">Revenus nets mensuels (EUR)</label>
+                  <input id="netIncome" name="netIncome" inputmode="numeric" placeholder="Salaire net sur bulletin" />
+                </div>
+                <div class="field">
+                  <label for="otherIncome">Autres revenus mensuels (primes, locatif...)</label>
+                  <input id="otherIncome" name="otherIncome" inputmode="numeric" data-optional placeholder="0 si aucun" />
+                </div>
+                <div class="field">
+                  <label for="incomeProof">Justificatif de revenus disponible ?</label>
+                  <select id="incomeProof" name="incomeProof">
+                    <option value="">Selectionnez</option>
+                    <option>Oui, 3 derniers bulletins + avis d'imposition</option>
+                    <option>Oui, avis d'imposition uniquement</option>
+                    <option>En cours de collecte</option>
+                    <option>Non, pas encore</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <!-- ETAPE 7 : Charges (pret) -->
+            <section class="wizard-step" data-wizard-step="7" data-step-name="pret-charges" data-wizard-skip-pret hidden>
+              <h3>Vos charges actuelles</h3>
+              <p class="small" style="margin-top:0;margin-bottom:14px;">La banque analyse votre taux d'endettement (max ~35%). Soyez precis pour une estimation fiable.</p>
+              <div class="grid">
+                <div class="field">
+                  <label for="currentRent">Loyer actuel (EUR / mois)</label>
+                  <input id="currentRent" name="currentRent" inputmode="numeric" placeholder="0 si proprietaire ou heberge" />
+                </div>
+                <div class="field">
+                  <label for="currentLoans">Credits en cours (mensualite totale)</label>
+                  <input id="currentLoans" name="currentLoans" inputmode="numeric" placeholder="0 si aucun credit" />
+                </div>
+                <div class="field">
+                  <label for="loanTypes">Types de credits en cours</label>
+                  <select id="loanTypes" name="loanTypes">
+                    <option value="">Selectionnez</option>
+                    <option>Aucun credit en cours</option>
+                    <option>Credit auto</option>
+                    <option>Credit consommation</option>
+                    <option>Credit immobilier existant</option>
+                    <option>Plusieurs credits (auto + conso...)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="loanEndDate">Fin du credit le plus important</label>
+                  <select id="loanEndDate" name="loanEndDate">
+                    <option value="">Selectionnez</option>
+                    <option>Pas de credit en cours</option>
+                    <option>Moins de 6 mois</option>
+                    <option>6 mois a 1 an</option>
+                    <option>1 a 3 ans</option>
+                    <option>Plus de 3 ans</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="alimony">Pension alimentaire versee (EUR / mois)</label>
+                  <input id="alimony" name="alimony" inputmode="numeric" data-optional placeholder="0 si non concerne" />
+                </div>
+                <div class="field">
+                  <label for="bankIncidents">Incidents bancaires (decouverts, rejets) ?</label>
+                  <select id="bankIncidents" name="bankIncidents">
+                    <option value="">Selectionnez</option>
+                    <option>Aucun sur les 3 derniers mois</option>
+                    <option>1 depassement ponctuel</option>
+                    <option>Plusieurs incidents</option>
+                    <option>Fichage Banque de France (FICP/FCC)</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <!-- ETAPE 8 : Co-emprunteur (pret) -->
+            <section class="wizard-step" data-wizard-step="8" data-step-name="pret-co" data-wizard-skip-pret hidden>
+              <h3>Co-emprunteur</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="hasCoBorrower">Empruntez-vous a deux ?</label>
+                  <select id="hasCoBorrower" name="hasCoBorrower">
+                    <option value="">Selectionnez</option>
+                    <option>Oui</option>
+                    <option>Non, emprunteur seul</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="coBorrowerStatus">Statut pro du co-emprunteur</label>
+                  <select id="coBorrowerStatus" name="coBorrowerStatus" data-optional>
+                    <option value="">Non concerne</option>
+                    <option>CDI</option>
+                    <option>CDD / Interim</option>
+                    <option>Fonctionnaire</option>
+                    <option>Independant</option>
+                    <option>Retraite</option>
+                    <option>Sans emploi</option>
+                    <option>Autre</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="coBorrowerIncome">Revenus nets mensuels co-emprunteur (EUR)</label>
+                  <input id="coBorrowerIncome" name="coBorrowerIncome" inputmode="numeric" data-optional placeholder="0 si emprunteur seul" />
+                </div>
+                <div class="field">
+                  <label for="coBorrowerSeniority">Anciennete co-emprunteur</label>
+                  <select id="coBorrowerSeniority" name="coBorrowerSeniority" data-optional>
+                    <option value="">Non concerne</option>
+                    <option>Moins de 1 an</option>
+                    <option>1 a 3 ans</option>
+                    <option>Plus de 3 ans</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="maritalStatus">Situation familiale</label>
+                  <select id="maritalStatus" name="maritalStatus">
+                    <option value="">Selectionnez</option>
+                    <option>Celibataire</option>
+                    <option>Marie(e) (communaute)</option>
+                    <option>Marie(e) (separation de biens)</option>
+                    <option>Pacse(e)</option>
+                    <option>Union libre / Concubinage</option>
+                    <option>Divorce(e)</option>
+                    <option>Veuf(ve)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="nbDependants">Nombre de personnes a charge</label>
+                  <select id="nbDependants" name="nbDependants">
+                    <option value="">Selectionnez</option>
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4 ou plus</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <!-- ETAPE 9 : Portefeuille multi-contrats -->
+            <section class="wizard-step" data-wizard-step="9" data-step-name="portefeuille" hidden>
+              <h3>Vos autres contrats (optionnel)</h3>
+              <p class="small" style="margin-top:0;margin-bottom:14px;">Confidentiel — permet un conseil global assurance + financement.</p>
+              <div class="grid">
+                <div class="field">
+                  <label for="hasMutuelle">Mutuelle sante ?</label>
+                  <select id="hasMutuelle" name="hasMutuelle" data-optional>
+                    <option value="">Je prefere ne pas repondre</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="hasAutoInsurance">Assurance auto ?</label>
+                  <select id="hasAutoInsurance" name="hasAutoInsurance" data-optional>
+                    <option value="">Je prefere ne pas repondre</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="hasHabitation">Assurance habitation ?</label>
+                  <select id="hasHabitation" name="hasHabitation" data-optional>
+                    <option value="">Je prefere ne pas repondre</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="interestedProducts">Autres besoins :</label>
+                  <select id="interestedProducts" name="interestedProducts" data-optional multiple size="4" style="min-height:88px">
+                    <option value="assurance-sante">Mutuelle sante</option>
+                    <option value="vtc-taxi">Assurance VTC</option>
+                    <option value="assurance-auto">Assurance auto</option>
+                    <option value="prevoyance">Prevoyance</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <!-- ETAPE 10 : Coordonnees -->
+            <section class="wizard-step" data-wizard-step="10" data-step-name="coordonnees" hidden>
+              <h3>Vos coordonnees</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="civility">Civilite</label>
+                  <select id="civility" name="civility">
+                    <option value="">Selectionnez</option>
+                    <option>Monsieur</option>
+                    <option>Madame</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="firstName">Prenom</label>
+                  <input id="firstName" name="firstName" autocomplete="given-name" />
+                </div>
+                <div class="field">
+                  <label for="lastName">Nom</label>
+                  <input id="lastName" name="lastName" autocomplete="family-name" />
+                </div>
+                <div class="field">
+                  <label for="birthName">Nom de jeune fille</label>
+                  <input id="birthName" name="birthName" autocomplete="additional-name" data-optional placeholder="Si différent du nom d'usage" />
+                </div>
+                <div class="field">
+                  <label for="dob">Date de naissance</label>
+                  <input id="dob" name="dob" type="date" />
+                </div>
+                <div class="field full">
+                  <label for="street">Adresse actuelle <span class="field-optional">(facultatif)</span></label>
+                  <input id="street" name="street" autocomplete="street-address" data-optional />
+                </div>
+                <div class="field">
+                  <label for="postalCode">Code postal <span class="field-optional">(facultatif)</span></label>
+                  <input id="postalCode" name="postalCode" inputmode="numeric" maxlength="5" autocomplete="postal-code" data-optional />
+                </div>
+                <div class="field">
+                  <label for="cityFull">Ville <span class="field-optional">(facultatif)</span></label>
+                  <input id="cityFull" name="cityFull" autocomplete="address-level2" data-optional />
+                </div>
+              </div>
+            </section>
+
+            <!-- ETAPE 11 : Finalisation assurances -->
+            <section class="wizard-step" data-wizard-step="11" data-step-name="finalisation" hidden>
+              <h3>Assurances et dernieres precisions</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="insuranceHabitationNeed">Assurance habitation (future RP) — souhaitez-vous un devis ?</label>
+                  <select id="insuranceHabitationNeed" name="insuranceHabitationNeed">
+                    <option value="">Selectionnez</option>
+                    <option>Oui, des la signature ou avant emmenagement</option>
+                    <option>Oui, mais plus tard</option>
+                    <option>Non / deja en place</option>
+                    <option>Non concerne</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="insurancePnoNeed">PNO (bien loue ou investissement) — devis souhaite ?</label>
+                  <select id="insurancePnoNeed" name="insurancePnoNeed">
+                    <option value="">Selectionnez</option>
+                    <option>Oui, pour un bien existant</option>
+                    <option>Oui, apres achat / mise en location</option>
+                    <option>Non / deja assure</option>
+                    <option>Non concerne</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="insuranceTenantNeed">Assurance locataire (logement actuel) — devis ?</label>
+                  <select id="insuranceTenantNeed" name="insuranceTenantNeed">
+                    <option value="">Selectionnez</option>
+                    <option>Oui, je suis locataire</option>
+                    <option>Non, pas locataire</option>
+                    <option>Deja assure</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="monthlyTarget">Mensualite cible pret (EUR / mois)</label>
+                  <input id="monthlyTarget" name="monthlyTarget" inputmode="numeric" data-optional placeholder="Ex. 900" />
+                </div>
+                <div class="field">
+                  <label for="insuranceBorrower">Assurance emprunteur souhaitee ?</label>
+                  <select id="insuranceBorrower" name="insuranceBorrower">
+                    <option value="">Selectionnez</option>
+                    <option>Oui, via le courtier (delegation Lemoine)</option>
+                    <option>Oui, via la banque</option>
+                    <option>Non concerne (pas de pret)</option>
+                    <option>Je ne sais pas encore</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="previousBank">Banque principale actuelle</label>
+                  <input id="previousBank" name="previousBank" data-optional placeholder="Ex. Credit Agricole, BNP..." />
+                </div>
+                <div class="field">
+                  <label for="callbackTime">Horaire de rappel prefere</label>
+                  <select id="callbackTime" name="callbackTime">
+                    <option value="">Selectionnez</option>
+                    <option>Avant 9h</option>
+                    <option>9h - 11h</option>
+                    <option>11h - 13h</option>
+                    <option>13h - 15h</option>
+                    <option>15h - 17h</option>
+                    <option>17h - 19h</option>
+                    <option>Apres 19h</option>
+                    <option>Peu importe</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="details">Precisions complementaires</label>
+                  <textarea id="details" name="details" rows="4" data-optional placeholder="Credits a solder, projets particuliers, questions pour le courtier..."></textarea>
+                </div>
+                <label class="field-check full">
+                  <input type="checkbox" name="rgpd" value="1" required aria-required="true" />
+                  <span>J'accepte d'etre contacte pour ma simulation et j'ai lu la <a href="../politique-confidentialite.html">politique de confidentialite</a>.</span>
+                </label>
+              </div>
+            </section>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn-soft wizard-prev" hidden>Retour</button>
+              <button type="button" class="btn btn-primary wizard-next">Continuer</button>
+              <button type="submit" class="btn btn-primary wizard-submit" hidden data-track="cta_click">Envoyer mon alerte acquereur</button>
+            </div>
+            <div class="form-trust-row">
+              <div class="form-trust-item">100% gratuit</div>
+              <div class="form-trust-item">Donnees protegees</div>
+              <div class="form-trust-item">Sans engagement</div>
+            </div>
+          </form>
+          <p class="success" data-form-success hidden>Merci, votre alerte / dossier a bien ete envoye. Un conseiller vous rappelle pour les visites, le pret ou les assurances selon vos besoins.</p>
+          <p class="form-error" data-form-error hidden>Envoi impossible. Reessayez dans quelques instants.</p>
+          <div data-lead-insights hidden></div>
+        </div>
+
+        <section class="landing-info-bottom" aria-label="Pour aller plus loin">
+          <h2 class="landing-info-bottom__title">Pour aller plus loin</h2>
+          <p class="landing-info-bottom__lead">Honoraires, risques du crédit et achat durable — après votre recherche ou dépôt de bien.</p>
+          <div class="landing-info-bottom__grid">
+            <div data-client-value-block="landing"></div>
+            <div data-pret-risks-block="landing"></div>
+            <div data-achat-perennite-block="landing"></div>
+            <div data-vente-3d-block="landing"></div>
+          </div>
+        </section>
+
+        <div class="form-wrap">
+          <h2>Formules assurance emprunteur</h2>
+          <p class="section-lead">Comparatif via Marketplace Emprunteur pour trouver la couverture adaptee a votre pret.</p>
+          <ul class="product-grid">
+            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Equilibre</strong><span class="product-item-text">Rapport garanties / prix equilibre</span><span class="product-item-cta">Demander un devis →</span></a></li>
+            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Essentiel</strong><span class="product-item-text">Entree de gamme</span><span class="product-item-cta">Demander un devis →</span></a></li>
+            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Integrale</strong><span class="product-item-text">Couverture large</span><span class="product-item-cta">Demander un devis →</span></a></li>
+            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Optimum +</strong><span class="product-item-text">Haut de gamme</span><span class="product-item-cta">Demander un devis →</span></a></li>
+            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Horizon</strong><span class="product-item-text">Formule dediee</span><span class="product-item-cta">Demander un devis →</span></a></li>
+            <li class="product-item"><a class="product-item-link" href="#demande"><strong>APRIL Reprise</strong><span class="product-item-text">Reprise de contrat existant</span><span class="tag">Reprise</span><span class="product-item-cta">Demander un devis →</span></a></li>
+          </ul>
+        </div>
+
+        <div class="form-wrap">
+          <h2>Parcours accompagne</h2>
+          <ol class="steps">
+            <li><strong>1. Parcourir les annonces</strong>Filtres ville / budget, ou collez une URL Leboncoin / SeLoger / ParuVendu.</li>
+            <li><strong>2. Bien + vendeur</strong>On enregistre le lien, le prix, la ville et les coordonnées vendeur visibles.</li>
+            <li><strong>3. Prêt et assurances (optionnel)</strong>Uniquement si vous voulez financer ou assurer le projet.</li>
+          </ol>
+        </div>
+
+        <div class="form-wrap">
+          <h2>FAQ recherche de bien</h2>
+          <ul class="faq-list landing-faq">
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Pourquoi je ne vois pas Leboncoin ou SeLoger ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Pas de scraping. Un vendeur dépose son bien à la main ou colle l’URL de son annonce. Un acquéreur peut aussi coller une URL déjà vue. Les biens s’affichent ensuite dans la vitrine.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Je vends et je rachète : comment ça marche ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Choisissez « Je vends et je rachète ». On enregistre le bien à vendre et le bien recherché (chaîne, prêt relais). Une seule fiche, deux casquettes.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Dois-je remplir un dossier prêt pour chercher ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Non. La recherche est en haut de page (filtres + cartes). Le questionnaire prêt / assurances est plus bas, uniquement si vous en avez besoin.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Et si un autre bien conviendrait mieux que celui que je veux ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Notre rôle n'est pas de vous pousser vers un coup de cœur à tout prix. On recoupe le bien avec votre besoin réel, vos capacités et les travaux à prévoir. Parfois, un autre logement serait plus pérenne pour votre vie — et on vous le dit.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Emprunter pour acheter : quels risques ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>S'endetter, c'est prendre un engagement sur des années. Divorce ou séparation : mensualités, bien, co-emprunt — des complications possibles. On vous aide à dimensionner le prêt (reste à vivre, apport, assurance) pour atteindre votre objectif sans vous mettre en danger.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Pourquoi des honoraires sur l'immobilier ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Ce n'est pas un simple conseil : liaison acquéreur-vendeur, veille terrain, négociation du prix, déblocage du prêt — tout est centralisé sur votre besoin. Les honoraires sont expliqués avant de démarrer. Mon travail a un prix.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Je vends après un divorce, un décès ou un déménagement : êtes-vous concernés ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Oui. On parle des « 3D » (divorce, décès, déménagement) et des dossiers plus complexes : <strong>héritiers qui ne s'accordent pas</strong>, <strong>ex-conjoints en désaccord</strong>, <strong>viager</strong>, <strong>SCI</strong>, <strong>locaux pro</strong>. Notaire, avocat si besoin — sans vous pousser à vendre dans la précipitation. <a href="../blog/vente-immobiliere-3d-divorce-deces-demenagement.html">Guide complet</a>.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Héritiers nombreux, viager, SCI ou local pro : vous accompagnez ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Oui. Héritage avec bénéficiaires qui ne s'accordent pas sur le prix, vente en viager, SCI familiale, locaux professionnels ou entreprise : chaque dossier a sa logique. On avance avec le notaire et vos conseils, sans traiter votre situation comme une annonce standard. <a href="../blog/vente-immobiliere-3d-divorce-deces-demenagement.html">En savoir plus</a>.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Proposez-vous aussi le crédit et l'assurance emprunteur ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Oui, en complément : crédit via La Centrale de Financement et assurance emprunteur via Marketplace Emprunteur — après la recherche du bien.</p>
+              </details>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="landing-footer">
+    <a href="../index.html#contact">Nous contacter</a>
+    <a href="../mentions-legales.html">Mentions legales</a>
+    <a href="../politique-confidentialite.html">Confidentialite</a>
+    <a href="../cgu.html">CGU</a>
+    <span>&copy; 2026 Leads Opportunities</span>
+    <span class="landing-footer-legal">ORIAS n&deg; 15005935</span>
+  </footer>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Pourquoi je ne vois pas Leboncoin ou SeLoger ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pas de scraping. Vendeur : dépôt à la main ou URL. Acquéreur : coller une URL déjà vue. Double casquette : vendre et racheter (chaîne / prêt relais)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Dois-je remplir un dossier prêt pour chercher un bien ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Non. La recherche (filtres et cartes d'annonces) est en haut de page. Le questionnaire prêt et assurances est optionnel, plus bas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Proposez-vous aussi le crédit et l'assurance emprunteur ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui, en complément après la recherche du bien : crédit via La Centrale de Financement et assurance emprunteur via Marketplace Emprunteur."
+          }
+        }
+      ]
+    }
+  </script>
+  <div id="listingLightbox" class="listing-lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="listingLightboxTitle">
+    <div class="listing-lightbox-panel">
+      <button type="button" class="listing-lightbox-close" data-lb-close aria-label="Fermer">×</button>
+      <h2 id="listingLightboxTitle" data-lb-title></h2>
+      <p class="listing-lightbox-meta" data-lb-meta></p>
+      <p class="listing-lightbox-desc" data-lb-desc></p>
+      <div class="listing-lightbox-media" data-lb-media></div>
+    </div>
+  </div>
+  <script src="../js/finance-deep-link.js"></script>
+  <script src="../js/immo-parcours-strip.js"></script>
+  <script src="../js/devis-document-config.js"></script>
+  <script src="../js/immo-documents-config.js?v=20260826docsui"></script>
+  <script src="../js/immo-category-documents.js?v=20260826docsui"></script>
+  <script src="../js/lo-document-gallery.js?v=20260826docs1"></script>
+  <script src="../js/public-partners-trust.js"></script>
+  <script src="../js/contact-pair.js?v=20260826softreq"></script>
+  <script src="../js/callback-form.js"></script>
+  <script src="../js/retention-opportunity.js"></script>
+  <script src="../js/public-proximity.js?v=20260528"></script>
+  <script src="../js/attribution.js"></script>
+  <script src="../js/leads-storage.js"></script>
+  <script src="../js/quote-intelligence.js?v=20260826softreq"></script>
+  <script src="./quote-wizard.js?v=20260826softreq"></script>
+  <script src="../js/form-audit.js?v=20260826softreq"></script>
+  <script src="../js/lead-insights.js"></script>
+  <script src="../js/landing-seo-config.js"></script>
+  <script src="../js/landing-seo-inject.js"></script>
+  <script src="../js/print-document-lib.js"></script>
+  <script src="../js/acheteur-immo-fill-mode.js"></script>
+  <script src="../js/acheteur-immo-print.js"></script>
+  <script src="../js/immo-listing-taxonomy.js"></script>
+  <script src="../js/acheteur-immo-listing-fields.js"></script>
+  <script src="../js/acheteur-immo-owners.js"></script>
+  <script src="../js/acheteur-immo-rooms.js"></script>
+  <script src="../js/acheteur-immo-wizard.js"></script>
+  <script src="../js/acheteur-immo-hat-dossier.js"></script>
+  <script src="../js/acheteur-immo-deposit-vente.js"></script>
+  <script src="../js/acheteur-immo-deposit-guide.js?v=20260825drive3"></script>
+  <script src="../js/acheteur-immo-account.js"></script>
+  <script src="../js/immo-public-listings-lib.js"></script>
+  <script src="../js/acheteur-immo-search.js?v=20260825fold"></script>
+  <script src="../js/immo-listing-portals-lib.js"></script>
+  <script src="../js/immo-photo-compress-lib.js"></script>
+  <script src="../js/acheteur-immo-listing-url.js?v=20260825draft1"></script>
+  <script src="../js/client-value-messaging-lib.js"></script>
+  <script src="../js/client-value-block.js"></script>
+  <script src="../js/pret-risks-messaging-lib.js"></script>
+  <script src="../js/pret-risks-block.js"></script>
+  <script src="../js/achat-perennite-messaging-lib.js"></script>
+  <script src="../js/achat-perennite-block.js"></script>
+  <script src="../js/vente-3d-messaging-lib.js"></script>
+  <script src="../js/vente-3d-block.js"></script>
+  <script src="../js/acheteur-immo-copro-works.js"></script>
+  <script src="../js/immo-sell-docs-checklist.js?v=20260826docsui"></script>
+  <script src="../js/immo-tracfin-mandate.js"></script>
+  <script src="../js/immo-rgpd-confirmation.js"></script>
+  <script src="../js/acheteur-immo-mandate-client.js"></script>
+  <script src="../js/acheteur-immo-laforet-extras.js"></script>
+  <script src="../js/acheteur-immo-sell-photos.js"></script>
+  <script src="../js/vendeur-visite-pret-messaging-lib.js"></script>
+  <script src="../js/vendeur-visite-pret-block.js"></script>
+  <script src="./tracking.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.FinanceDeepLink) window.FinanceDeepLink.applyToForm(document);
+    });
+  </script>
+</body>
+</html>
