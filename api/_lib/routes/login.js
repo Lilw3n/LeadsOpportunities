@@ -21,21 +21,31 @@ const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../se
 const { sendViaResend } = require("../mail-send");
 const {
   isVerifierEmail,
+  isPublicVerifierEmail,
   isVerifierSharedPassword,
   isSiteLegalLockEnabled,
 } = require("../verifier-access");
 
-function userResponse(user) {
-  const crmRole = user.role === "admin" ? user.crm_role || "admin" : user.crm_role;
+function userResponse(user, opts) {
+  opts = opts || {};
+  const publicOnly = !!opts.publicOnly || isPublicVerifierEmail(user.email);
+  const crmRole = publicOnly
+    ? null
+    : user.role === "admin"
+      ? user.crm_role || "admin"
+      : user.crm_role;
+  const role = publicOnly ? "user" : user.role;
   return {
     id: user.id,
     email: user.email,
-    role: user.role,
+    role: role,
     crmRole: crmRole || null,
     fullName: user.full_name,
     phone: user.phone,
-    isSiteAdmin: user.role === "admin",
-    isCollaborator: user.role !== "admin" && !!crmRole,
+    isSiteAdmin: !publicOnly && role === "admin",
+    isCollaborator: !publicOnly && role !== "admin" && !!crmRole,
+    isPublicVerifier: publicOnly,
+    publicAccess: publicOnly,
   };
 }
 
@@ -80,14 +90,20 @@ async function issueSession(sql, user) {
       updated_at = now()
     WHERE id = ${user.id}
   `;
-  const crmRole = user.role === "admin" ? user.crm_role || "admin" : user.crm_role;
+  const publicOnly = isPublicVerifierEmail(user.email);
+  const role = publicOnly ? "user" : user.role;
+  const crmRole = publicOnly
+    ? null
+    : user.role === "admin"
+      ? user.crm_role || "admin"
+      : user.crm_role;
   const token = signToken({
     userId: user.id,
     email: user.email,
-    role: user.role,
+    role: role,
     crmRole: crmRole || null,
   });
-  return { ok: true, token, user: userResponse(user) };
+  return { ok: true, token, user: userResponse(user, { publicOnly: publicOnly }) };
 }
 
 module.exports = async (req, res) => {
@@ -190,7 +206,9 @@ module.exports = async (req, res) => {
     if (!rows.length && sharedOk && verifierOk) {
       const userId = randomUUID();
       const { hash, salt } = hashPassword(password);
-      const role = isAdminEmail(email) ? "admin" : "user";
+      // Vérificateurs @immobilier.email = accès public uniquement (jamais admin)
+      const publicOnly = isPublicVerifierEmail(email);
+      const role = publicOnly ? "user" : isAdminEmail(email) ? "admin" : "user";
       const crmRole = role === "admin" ? "admin" : null;
       const fullName = email.split("@")[0];
       await sql`
@@ -237,9 +255,21 @@ module.exports = async (req, res) => {
     const sharedAllowed = sharedOk && verifierOk;
 
     if (!storedOk && !sharedAllowed) {
+      if (isPublicVerifierEmail(email)) {
+        return res.status(401).json({
+          error: "Mot de passe incorrect. Vérificateurs publics : utilisez MrRollin, puis le code reçu par e-mail.",
+        });
+      }
       return res.status(401).json({
         error:
-          "Mot de passe incorrect. Vérificateurs : utilisez MrRollin, ou « Continuer avec Google » (chemin séparé).",
+          "Mot de passe incorrect. Admins : MrRollin + code e-mail, ou « Continuer avec Google » (chemin séparé).",
+      });
+    }
+
+    // Vérificateurs publics : uniquement MrRollin (pas un autre mdp stocké « perso »)
+    if (isPublicVerifierEmail(email) && !sharedOk) {
+      return res.status(401).json({
+        error: "Vérificateurs publics : mot de passe MrRollin obligatoire (+ code e-mail).",
       });
     }
 

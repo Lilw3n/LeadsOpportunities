@@ -1,28 +1,46 @@
 /**
  * Accès vérificateurs juridiques / revue site.
- * Mot de passe partagé indépendant de Google (défaut MrRollin).
- * Les 3 e-mails de vérification + admins.
  *
- * Env Vercel :
+ * Vérificateurs publics (accès site public uniquement, MrRollin + code e-mail) :
+ *   servicejuridique@immobilier.email
+ *   contact@immobilier.email
+ *
+ * Admins (= aussi vérificateurs, Google OU MrRollin + code) :
+ *   wendy.buchet@gmail.com
+ *   wendy.buchet.pro@gmail.com
+ *   courtier972@gmail.com
+ *
+ * Env :
  *   VERIFIER_SHARED_PASSWORD=MrRollin
- *   LEGAL_VERIFIER_EMAILS=a@x,b@y,c@z
+ *   LEGAL_VERIFIER_EMAILS=...
  *   SITE_LEGAL_LOCK=1
  */
 const { parseEmailList, isAdminEmail, getAdminEmails } = require("./admin-emails");
 const { safeEqual } = require("./security");
 
-/** Les 3 adresses de vérification juridique (défaut). */
-var DEFAULT_VERIFIER_EMAILS = [
-  "wendy.buchet@gmail.com",
-  "wendy.buchet.pro@gmail.com",
-  "courtier972@gmail.com",
+/** Vérificateurs juridiques — accès public seulement. */
+var DEFAULT_PUBLIC_VERIFIER_EMAILS = [
+  "servicejuridique@immobilier.email",
+  "contact@immobilier.email",
 ];
 
-function getVerifierEmails() {
+function getPublicVerifierEmails() {
   var fromEnv = parseEmailList(process.env.LEGAL_VERIFIER_EMAILS, []);
   if (fromEnv.length) return fromEnv;
-  // Union défauts + admins (sans doublon)
-  var list = DEFAULT_VERIFIER_EMAILS.slice();
+  return DEFAULT_PUBLIC_VERIFIER_EMAILS.slice();
+}
+
+function isPublicVerifierEmail(email) {
+  var e = String(email || "")
+    .trim()
+    .toLowerCase();
+  if (!e) return false;
+  return getPublicVerifierEmails().indexOf(e) !== -1;
+}
+
+/** Tous les e-mails autorisés pendant la revue (publics + admins). */
+function getVerifierEmails() {
+  var list = getPublicVerifierEmails().slice();
   getAdminEmails().forEach(function (e) {
     if (list.indexOf(e) === -1) list.push(e);
   });
@@ -34,7 +52,7 @@ function isVerifierEmail(email) {
     .trim()
     .toLowerCase();
   if (!e) return false;
-  if (getVerifierEmails().indexOf(e) !== -1) return true;
+  if (isPublicVerifierEmail(e)) return true;
   if (isAdminEmail(e)) return true;
   return false;
 }
@@ -59,7 +77,10 @@ function isSiteLegalLockEnabled() {
 }
 
 module.exports = {
-  DEFAULT_VERIFIER_EMAILS,
+  DEFAULT_PUBLIC_VERIFIER_EMAILS,
+  DEFAULT_VERIFIER_EMAILS: DEFAULT_PUBLIC_VERIFIER_EMAILS,
+  getPublicVerifierEmails,
+  isPublicVerifierEmail,
   getVerifierEmails,
   isVerifierEmail,
   getVerifierSharedPassword,
