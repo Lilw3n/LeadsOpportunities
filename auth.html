@@ -325,11 +325,11 @@
 <body data-admin-nav-page>
   <header class="topbar">
     <div class="container nav">
-      <a class="logo logo--banner" href="./index.html" aria-label="Leads Opportunities — Wendy Buchet">
+      <a class="logo logo--banner" href="./index.html" aria-label="Buchet Immobilier — Wendy Buchet">
         <img
           class="logo-banner-img"
-          src="/assets/brand/logo-banner.jpg"
-          alt="Leads Opportunities — Wendy Buchet"
+          src="/assets/brand/logo-banner.png?v=buchet2026"
+          alt="Buchet Immobilier — Wendy Buchet"
           width="200"
           height="100"
           decoding="async"
@@ -543,6 +543,11 @@
     var TOKEN_KEY = "lo_token";
     var USER_KEY = "lo_user";
     var ALLOWED_NEXT = {
+      "/": true,
+      "/index.html": true,
+      "./index.html": true,
+      "/site-lock.html": true,
+      "./site-lock.html": true,
       "/admin.html": true,
       "/dashboard.html": true,
       "/crm.html": true,
@@ -599,13 +604,25 @@
       return isMobile() ? "/crm-mobile.html" : "/admin.html";
     }
 
-    function goAfterLogin(user, forcedDest) {
-      // Vérificateurs @immobilier.email : accès public uniquement
-      if (user && (user.publicAccess || user.isPublicVerifier)) {
-        window.location.href = "/index.html";
+    function goAfterLogin(user, forcedDest, opts) {
+      opts = opts || {};
+      var next = forcedDest || readNextParam();
+      var lockedHub =
+        opts.siteLocked === true ||
+        (user && (user.siteAccess === "full" || user.siteAccess === "public" || user.publicAccess || user.isPublicVerifier));
+
+      if (lockedHub && (!next || next === "/auth.html" || next === "/site-lock.html")) {
+        window.location.href = "/site-lock.html";
         return;
       }
-      var next = forcedDest || readNextParam();
+      if (user && (user.publicAccess || user.isPublicVerifier || user.siteAccess === "public")) {
+        if (next && (next.indexOf("/crm") === 0 || next.indexOf("/admin") === 0 || next.indexOf("/dashboard") === 0 || next.indexOf("/espace-client") === 0)) {
+          window.location.href = "/site-lock.html";
+          return;
+        }
+        window.location.href = next || "/site-lock.html";
+        return;
+      }
       if (next) {
         window.location.href = next;
         return;
@@ -638,7 +655,7 @@
       var token = getToken();
       var headers = { "Content-Type": "application/json" };
       if (token) headers["Authorization"] = "Bearer " + token;
-      var res = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(data) });
+      var res = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(data), credentials: "same-origin" });
       return res.json();
     }
 
@@ -646,11 +663,13 @@
 
     // Verrouillage revue juridique + hint mdp vérificateur (indépendant de Google)
     (function applyLegalLockUi() {
-      fetch("/api/auth/site-access")
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          if (!data || !data.ok) return;
-          var lock = !!data.legalLock || new URLSearchParams(location.search).get("lock") === "legal";
+      function paint(data, lockForced) {
+          if (!data) data = {};
+          var lock =
+            !!lockForced ||
+            !!data.legalLock ||
+            !!data.locked ||
+            new URLSearchParams(location.search).get("lock") === "legal";
           var banner = document.getElementById("authLockBanner");
           var subtitle = document.getElementById("authSubtitle");
           var hint = document.getElementById("authVerifierHint");
@@ -665,7 +684,7 @@
             }
             if (hint) {
               var pw = data.hintPassword || "MrRollin";
-              var pub = data.publicVerifierEmails || [];
+              var pub = data.publicVerifierEmails || data.legalReviewers || [];
               var adm = data.adminEmails || [];
               hint.innerHTML =
                 "<strong>Vérificateurs publics</strong> (" +
@@ -686,11 +705,26 @@
           } else if (hint) {
             hint.classList.add("is-on");
           }
-        })
-        .catch(function () {
+      }
+      Promise.all([
+        fetch("/api/auth/site-access").then(function (r) { return r.json(); }).catch(function () { return null; }),
+        fetch("/api/site-lock?op=status", { credentials: "same-origin" }).then(function (r) { return r.json(); }).catch(function () { return null; }),
+      ]).then(function (pair) {
+        var access = pair[0];
+        var lockStatus = pair[1];
+        var merged = Object.assign({}, lockStatus || {}, access || {});
+        if (access && access.ok) {
+          paint(merged, !!(lockStatus && lockStatus.locked));
+        } else if (lockStatus && lockStatus.ok && lockStatus.locked) {
+          paint(merged, true);
+        } else {
           var hint = document.getElementById("authVerifierHint");
           if (hint) hint.classList.add("is-on");
-        });
+        }
+      }).catch(function () {
+          var hint = document.getElementById("authVerifierHint");
+          if (hint) hint.classList.add("is-on");
+      });
     })();
 
     // Tab switching
@@ -810,7 +844,7 @@
         } else if (data.ok && data.token) {
           setAuth(data.token, data.user);
           showMsg("authMsg", "Connexion réussie ! Redirection...", true);
-          setTimeout(function() { goAfterLogin(data.user); }, 600);
+          setTimeout(function() { goAfterLogin(data.user, null, { siteLocked: data.siteLocked === true }); }, 600);
         } else {
           showMsg("authMsg", data.error || "Erreur de connexion", false);
         }
@@ -833,7 +867,7 @@
         if (data.ok && data.token) {
           setAuth(data.token, data.user);
           showMsg("authMsg", "Connexion réussie ! Redirection...", true);
-          setTimeout(function() { goAfterLogin(data.user); }, 600);
+          setTimeout(function() { goAfterLogin(data.user, null, { siteLocked: data.siteLocked === true }); }, 600);
         } else {
           showMsg("authMsg", data.error || "Code invalide", false);
         }

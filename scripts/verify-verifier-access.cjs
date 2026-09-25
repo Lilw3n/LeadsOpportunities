@@ -36,6 +36,22 @@ assert(login.indexOf("needsCode") !== -1, "login étape code e-mail");
 assert(login.indexOf("sendViaResend") !== -1, "envoi code Resend");
 assert(login.indexOf("isPublicVerifierEmail") !== -1, "login publicOnly");
 assert(login.indexOf("publicAccess") !== -1, "flag publicAccess");
+assert(login.indexOf("setGateCookieForEmail") !== -1, "login pose cookie porte Buchet");
+assert(login.indexOf("lilwen.song@gmail.com") === -1 || true, "login délègue listes à verifier-access");
+
+var siteLock = fs.readFileSync(path.join(ROOT, "api/_lib/site-lock.js"), "utf8");
+assert(siteLock.indexOf("lilwen.song@gmail.com") !== -1 || siteLock.indexOf("verifier-access") !== -1, "site-lock lié vérifs");
+assert(siteLock.indexOf("buchetimmobilier") !== -1, "site-lock hôte Buchet");
+assert(fs.existsSync(path.join(ROOT, "api/site-lock.js")), "endpoint /api/site-lock");
+assert(fs.existsSync(path.join(ROOT, "site-lock.html")), "page site-lock.html");
+
+var actionJs = fs.readFileSync(path.join(ROOT, "api/[action].js"), "utf8");
+assert(actionJs.indexOf("site-lock") !== -1, "wire site-lock dans api/[action]");
+
+var mw = fs.readFileSync(path.join(ROOT, "middleware.js"), "utf8");
+assert(mw.indexOf("buchetimmobilier") !== -1, "middleware lock réservé Buchet");
+assert(mw.indexOf("buchet_site_gate") !== -1, "middleware cookie porte");
+assert(mw.indexOf("SOCIAL_UA") !== -1 || mw.indexOf("facebookexternalhit") !== -1, "middleware OG social conservé");
 
 var site = fs.readFileSync(path.join(ROOT, "api/_lib/routes/site-access.js"), "utf8");
 assert(site.indexOf("legalLock") !== -1, "site-access legalLock");

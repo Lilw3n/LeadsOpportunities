@@ -26,6 +26,7 @@ const ROUTES = {
   "subscription-plans": () => require("./_lib/routes/public-subscription-plans"),
   "partner-sites": () => require("./_lib/routes/public-partner-sites"),
   forum: () => require("./_lib/routes/public-forum"),
+  "site-lock": () => require("./_lib/routes/site-lock"),
   dashboard: () => require("./dashboard/[action].js"),
 };
 
