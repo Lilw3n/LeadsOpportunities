@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
     ok: true,
     legalLock: lock,
     hintPassword: lock ? getVerifierSharedPassword() : null,
+    verifierEmails: require("../verifier-access").getVerifierEmails(),
     message: lock
       ? "Le site est temporairement verrouillé. Seuls les comptes administrateur et les vérificateurs juridiques peuvent se connecter."
       : null,
