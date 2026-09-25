@@ -1,6 +1,8 @@
 /**
  * Forum interactif — board, catégories, sujets, réponses, liens articles.
- * Auth via /api/auth/login|register (localStorage lo_token).
+ * Lecture libre sans compte. Pour poster : Google ou e-mail + mdp
+ * (/api/auth/forum-login, mot de passe partagé FORUM_SHARED_PASSWORD / MrRollin).
+ * Session : localStorage lo_token.
  */
 (function () {
   var TOKEN_KEY = "lo_token";
@@ -114,9 +116,8 @@
     }
     return (
       '<div class="flive-auth">' +
-      "<span>Posez des questions, répondez, liez des articles.</span>" +
+      "<span>Lecture libre — connexion seulement pour poser une question ou répondre.</span>" +
       '<a class="btn btn-outline btn-sm" href="#/auth/login">Connexion</a>' +
-      '<a class="btn btn-primary btn-sm" href="#/auth/register">Créer un compte</a>' +
       "</div>"
     );
   }
@@ -274,7 +275,7 @@
           ? '<label class="flive-check"><input type="checkbox" name="isAnswer" /> Marquer comme réponse courtier</label>'
           : "") +
         '<button type="submit" class="btn btn-primary">Publier la réponse</button></form>'
-      : '<p class="flive-login-hint">Pour répondre : <a href="#/auth/login">connectez-vous</a> ou <a href="#/auth/register">créez un compte</a>.</p>';
+      : '<p class="flive-login-hint">Pour répondre : <a href="#/auth/login">connectez-vous</a> (Google ou e-mail).</p>';
 
     var linkForm = state.me
       ? '<form class="flive-link-form" data-flive-link>' +
@@ -325,7 +326,8 @@
     if (!state.me) {
       return (
         authBar() +
-        '<p>Créez un compte ou connectez-vous pour ouvrir un sujet.</p><p><a class="btn btn-primary" href="#/auth/register">Créer un compte</a></p>'
+        "<p>Connectez-vous pour ouvrir un sujet (Google ou e-mail). La lecture reste libre sans compte.</p>" +
+        '<p><a class="btn btn-primary" href="#/auth/login">Connexion</a></p>'
       );
     }
     var opts = state.categories
@@ -351,29 +353,29 @@
     );
   }
 
+  function googleAuthHref() {
+    return "/api/auth/google?returnTo=" + encodeURIComponent("/forum/");
+  }
+
   function renderAuth(mode) {
     var isReg = mode === "register";
     return (
-      '<section class="forum-ask flive-auth-box"><h2>' +
-      (isReg ? "Créer un compte forum" : "Connexion") +
-      "</h2>" +
-      "<p>Un compte permet de poser des questions, répondre et lier des articles du blog.</p>" +
-      '<form class="forum-ask-form" data-flive-auth data-mode="' +
-      (isReg ? "register" : "login") +
+      '<section class="forum-ask flive-auth-box"><h2>Connexion forum</h2>' +
+      "<p>Vous pouvez <strong>lire tout le forum sans compte</strong>. " +
+      "Pour poser une question ou répondre : Google, ou n’importe quel e-mail + mot de passe.</p>" +
+      '<a class="btn btn-google flive-btn-google" href="' +
+      googleAuthHref() +
       '">' +
+      '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.2 6.1 29.4 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.5-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.2 6.1 29.4 4 24 4 16.3 4 9.6 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.3 26.7 36 24 36c-5.3 0-9.7-3.1-11.3-7.5l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.3 4.1-4.1 5.5l.1.1 6.2 5.2C39.2 36.3 44 31.5 44 24c0-1.3-.1-2.5-.4-3.5z"/></svg>' +
+      " Continuer avec Google</a>" +
+      '<p class="flive-auth-or">ou e-mail (Outlook, Free, Orange…)</p>' +
+      '<form class="forum-ask-form" data-flive-auth data-mode="login">' +
       (isReg ? '<label>Prénom / nom<input name="fullName" autocomplete="name" /></label>' : "") +
-      '<label>E-mail<input type="email" name="email" required autocomplete="email" /></label>' +
-      '<label>Mot de passe<input type="password" name="password" required minlength="8" autocomplete="' +
-      (isReg ? "new-password" : "current-password") +
-      '" /></label>' +
-      '<button type="submit" class="btn btn-primary">' +
-      (isReg ? "Créer mon compte" : "Se connecter") +
-      "</button>" +
-      '<p class="forum-ask-alt">' +
-      (isReg
-        ? 'Déjà un compte ? <a href="#/auth/login">Connexion</a>'
-        : 'Pas encore de compte ? <a href="#/auth/register">Inscription</a>') +
-      '</p><p class="forum-ask-msg" data-flive-msg hidden></p></form></section>'
+      '<label>E-mail<input type="email" name="email" required autocomplete="email" placeholder="vous@exemple.fr" /></label>' +
+      '<label>Mot de passe<input type="password" name="password" required minlength="6" autocomplete="current-password" placeholder="MrRollin" /></label>' +
+      '<p class="flive-auth-hint">Sans Google : votre e-mail + le mot de passe <code>MrRollin</code> (compte créé automatiquement si besoin).</p>' +
+      '<button type="submit" class="btn btn-primary">Se connecter</button>' +
+      '<p class="forum-ask-msg" data-flive-msg hidden></p></form></section>'
     );
   }
 
@@ -416,15 +418,13 @@
       authForm.addEventListener("submit", function (ev) {
         ev.preventDefault();
         var fd = new FormData(authForm);
-        var mode = authForm.getAttribute("data-mode");
         var msg = authForm.querySelector("[data-flive-msg]");
-        var path = mode === "register" ? "/api/auth/register" : "/api/auth/login";
         var body = {
           email: String(fd.get("email") || "").trim(),
           password: String(fd.get("password") || ""),
+          fullName: String(fd.get("fullName") || "").trim(),
         };
-        if (mode === "register") body.fullName = String(fd.get("fullName") || "").trim();
-        api(path, { method: "POST", body: body }).then(function (res) {
+        api("/api/auth/forum-login", { method: "POST", body: body }).then(function (res) {
           if (!res.ok || !res.token) {
             if (msg) {
               msg.hidden = false;

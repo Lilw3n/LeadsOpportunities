@@ -39,15 +39,37 @@ assert(route.indexOf("link-article") !== -1, "op link-article");
 assert(route.indexOf("getAuthUser") !== -1, "auth required for write");
 
 var app = fs.readFileSync(path.join(ROOT, "js/forum-app.js"), "utf8");
-assert(app.indexOf("/api/auth/login") !== -1, "login");
-assert(app.indexOf("/api/auth/register") !== -1, "register");
+assert(app.indexOf("/api/auth/forum-login") !== -1, "forum-login");
+assert(app.indexOf("/api/auth/google") !== -1, "google oauth link");
+assert(app.indexOf("MrRollin") !== -1, "hint mot de passe forum");
+assert(app.indexOf("Lecture libre") !== -1, "lecture libre");
 assert(app.indexOf("link-article") !== -1, "UI link article");
 assert(app.indexOf("data-forum-live") !== -1 || app.indexOf("[data-forum-live]") !== -1, "mount selector");
+
+var forumLogin = fs.readFileSync(path.join(ROOT, "api/_lib/routes/forum-login.js"), "utf8");
+assert(forumLogin.indexOf("FORUM_SHARED_PASSWORD") !== -1, "env FORUM_SHARED_PASSWORD");
+assert(forumLogin.indexOf("MrRollin") !== -1, "défaut MrRollin");
+
+var gcb = fs.readFileSync(path.join(ROOT, "api/_lib/routes/google-callback.js"), "utf8");
+assert(gcb.indexOf('"/forum/"') !== -1, "google returnTo /forum/");
+
+var authPage = fs.readFileSync(path.join(ROOT, "auth.html"), "utf8");
+assert(authPage.indexOf('"/forum/"') !== -1, "auth ALLOWED_NEXT /forum/");
+
+var authAction = fs.readFileSync(path.join(ROOT, "api/auth/[action].js"), "utf8");
+assert(authAction.indexOf("forum-login") !== -1, "auth wire forum-login");
 
 var hub = fs.readFileSync(path.join(ROOT, "forum/index.html"), "utf8");
 assert(hub.indexOf("data-forum-live") !== -1, "hub mount live");
 assert(hub.indexOf("forum-app.js") !== -1, "hub charge forum-app.js");
-assert(hub.indexOf("Créer un compte") !== -1 || hub.indexOf("Creer un compte") !== -1 || hub.indexOf("#/auth/register") !== -1, "CTA compte");
+assert(
+  hub.indexOf("Créer un compte") !== -1 ||
+    hub.indexOf("Creer un compte") !== -1 ||
+    hub.indexOf("#/auth/register") !== -1 ||
+    hub.indexOf("#/auth/login") !== -1 ||
+    app.indexOf("#/auth/login") !== -1,
+  "CTA connexion forum"
+);
 
 var css = fs.readFileSync(path.join(ROOT, "forum/forum.css"), "utf8");
 assert(css.indexOf("flive-cat") !== -1, "css live cats");
