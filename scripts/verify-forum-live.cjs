@@ -49,6 +49,13 @@ assert(app.indexOf("data-forum-live") !== -1 || app.indexOf("[data-forum-live]")
 var forumLogin = fs.readFileSync(path.join(ROOT, "api/_lib/routes/forum-login.js"), "utf8");
 assert(forumLogin.indexOf("FORUM_SHARED_PASSWORD") !== -1, "env FORUM_SHARED_PASSWORD");
 assert(forumLogin.indexOf("MrRollin") !== -1, "défaut MrRollin");
+assert(forumLogin.indexOf("needsCode") !== -1, "étape code confirmation");
+assert(forumLogin.indexOf("sendViaResend") !== -1, "envoi e-mail Resend");
+assert(forumLogin.indexOf("generateResetCode") !== -1, "code 6 chiffres");
+
+assert(app.indexOf("data-flive-auth-code") !== -1, "UI saisie code");
+assert(app.indexOf("data-flive-resend-code") !== -1, "UI renvoyer code");
+assert(app.indexOf("needsCode") !== -1, "UI gère needsCode");
 
 var gcb = fs.readFileSync(path.join(ROOT, "api/_lib/routes/google-callback.js"), "utf8");
 assert(gcb.indexOf('"/forum/"') !== -1, "google returnTo /forum/");

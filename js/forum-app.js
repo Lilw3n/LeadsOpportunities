@@ -1,7 +1,7 @@
 /**
  * Forum interactif — board, catégories, sujets, réponses, liens articles.
  * Lecture libre sans compte. Pour poster : Google ou e-mail + mdp
- * (/api/auth/forum-login, mot de passe partagé FORUM_SHARED_PASSWORD / MrRollin).
+ * (/api/auth/forum-login + code e-mail Resend ; mdp partagé MrRollin).
  * Session : localStorage lo_token.
  */
 (function () {
@@ -20,6 +20,8 @@
     loading: false,
     error: "",
     suggest: [],
+    pendingEmail: "",
+    authMsg: "",
   };
 
   function esc(s) {
@@ -357,24 +359,49 @@
     return "/api/auth/google?returnTo=" + encodeURIComponent("/forum/");
   }
 
+  function applySession(user, tok) {
+    saveSession(tok, user);
+    state.me = {
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+      isStaff: !!(user.isSiteAdmin || user.crmRole || user.role === "admin"),
+    };
+    state.pendingEmail = "";
+    state.authMsg = "";
+    go("#/");
+  }
+
   function renderAuth(mode) {
-    var isReg = mode === "register";
+    if (state.pendingEmail) {
+      return (
+        '<section class="forum-ask flive-auth-box"><h2>Code de confirmation</h2>' +
+        "<p>Un code à 6 chiffres a été envoyé à <strong>" +
+        esc(state.pendingEmail) +
+        "</strong> (vérifiez aussi les spams).</p>" +
+        '<form class="forum-ask-form" data-flive-auth-code>' +
+        '<label>Code reçu par e-mail<input type="text" name="code" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" placeholder="123456" /></label>' +
+        '<button type="submit" class="btn btn-primary">Valider le code</button>' +
+        '<button type="button" class="btn btn-outline" data-flive-resend-code>Renvoyer le code</button>' +
+        '<button type="button" class="btn btn-soft" data-flive-auth-back>Changer d’e-mail</button>' +
+        '<p class="forum-ask-msg" data-flive-msg hidden></p></form></section>'
+      );
+    }
     return (
       '<section class="forum-ask flive-auth-box"><h2>Connexion forum</h2>' +
       "<p>Vous pouvez <strong>lire tout le forum sans compte</strong>. " +
-      "Pour poser une question ou répondre : Google, ou n’importe quel e-mail + mot de passe.</p>" +
+      "Pour poser une question ou répondre : Google, ou e-mail + mot de passe puis <strong>code reçu par e-mail</strong>.</p>" +
       '<a class="btn btn-google flive-btn-google" href="' +
       googleAuthHref() +
       '">' +
-      '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.2 6.1 29.4 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.5-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.2 6.1 29.4 4 24 4 16.3 4 9.6 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.3 26.7 36 24 36c-5.3 0-9.7-3.1-11.3-7.5l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.3 4.1-4.1 5.5l.1.1 6.2 5.2C39.2 36.3 44 31.5 44 24c0-1.3-.1-2.5-.4-3.5z"/></svg>' +
+      '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.2 6.1 29.4 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.5-.4-3.5z"/><path fill="#FFC107" d="M6.3 14.7l6.6 4.8C14.7 16 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.2 6.1 29.4 4 24 4 16.3 4 9.6 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.3 26.7 36 24 36c-5.3 0-9.7-3.1-11.3-7.5l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.3 4.1-4.1 5.5l.1.1 6.2 5.2C39.2 36.3 44 31.5 44 24c0-1.3-.1-2.5-.4-3.5z"/></svg>' +
       " Continuer avec Google</a>" +
       '<p class="flive-auth-or">ou e-mail (Outlook, Free, Orange…)</p>' +
       '<form class="forum-ask-form" data-flive-auth data-mode="login">' +
-      (isReg ? '<label>Prénom / nom<input name="fullName" autocomplete="name" /></label>' : "") +
       '<label>E-mail<input type="email" name="email" required autocomplete="email" placeholder="vous@exemple.fr" /></label>' +
       '<label>Mot de passe<input type="password" name="password" required minlength="6" autocomplete="current-password" placeholder="MrRollin" /></label>' +
-      '<p class="flive-auth-hint">Sans Google : votre e-mail + le mot de passe <code>MrRollin</code> (compte créé automatiquement si besoin).</p>' +
-      '<button type="submit" class="btn btn-primary">Se connecter</button>' +
+      '<p class="flive-auth-hint">Sans Google : e-mail + <code>MrRollin</code>, puis le <strong>code de confirmation</strong> envoyé à cette adresse.</p>' +
+      '<button type="submit" class="btn btn-primary">Recevoir le code</button>' +
       '<p class="forum-ask-msg" data-flive-msg hidden></p></form></section>'
     );
   }
@@ -419,12 +446,26 @@
         ev.preventDefault();
         var fd = new FormData(authForm);
         var msg = authForm.querySelector("[data-flive-msg]");
+        var btn = authForm.querySelector('button[type="submit"]');
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Envoi…";
+        }
         var body = {
           email: String(fd.get("email") || "").trim(),
           password: String(fd.get("password") || ""),
-          fullName: String(fd.get("fullName") || "").trim(),
         };
         api("/api/auth/forum-login", { method: "POST", body: body }).then(function (res) {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Recevoir le code";
+          }
+          if (res.needsCode && res.email) {
+            state.pendingEmail = res.email;
+            state.authMsg = res.message || "";
+            render();
+            return;
+          }
           if (!res.ok || !res.token) {
             if (msg) {
               msg.hidden = false;
@@ -433,16 +474,71 @@
             }
             return;
           }
-          saveSession(res.token, res.user);
-          state.me = {
-            id: res.user.id,
-            email: res.user.email,
-            fullName: res.user.fullName,
-            isStaff: !!(res.user.isSiteAdmin || res.user.crmRole || res.user.role === "admin"),
-          };
-          go("#/");
+          applySession(res.user, res.token);
         });
       });
+    }
+
+    var codeForm = root.querySelector("[data-flive-auth-code]");
+    if (codeForm) {
+      codeForm.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        var fd = new FormData(codeForm);
+        var msg = codeForm.querySelector("[data-flive-msg]");
+        var btn = codeForm.querySelector('button[type="submit"]');
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Vérification…";
+        }
+        api("/api/auth/forum-login", {
+          method: "POST",
+          body: {
+            email: state.pendingEmail,
+            code: String(fd.get("code") || "").trim(),
+          },
+        }).then(function (res) {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Valider le code";
+          }
+          if (!res.ok || !res.token) {
+            if (msg) {
+              msg.hidden = false;
+              msg.className = "forum-ask-msg is-err";
+              msg.textContent = res.error || "Code invalide";
+            }
+            return;
+          }
+          applySession(res.user, res.token);
+        });
+      });
+      var resendBtn = codeForm.querySelector("[data-flive-resend-code]");
+      if (resendBtn) {
+        resendBtn.addEventListener("click", function () {
+          var msg = codeForm.querySelector("[data-flive-msg]");
+          resendBtn.disabled = true;
+          api("/api/auth/forum-login", {
+            method: "POST",
+            body: { email: state.pendingEmail, resend: true },
+          }).then(function (res) {
+            resendBtn.disabled = false;
+            if (msg) {
+              msg.hidden = false;
+              msg.className = "forum-ask-msg " + (res.ok ? "is-ok" : "is-err");
+              msg.textContent = res.ok
+                ? res.message || "Code renvoyé"
+                : res.error || "Échec de l’envoi";
+            }
+          });
+        });
+      }
+      var backBtn = codeForm.querySelector("[data-flive-auth-back]");
+      if (backBtn) {
+        backBtn.addEventListener("click", function () {
+          state.pendingEmail = "";
+          render();
+        });
+      }
     }
 
     var newForm = root.querySelector("[data-flive-new]");

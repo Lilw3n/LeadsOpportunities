@@ -684,3 +684,11 @@
   padding: 1px 6px;
   border-radius: 4px;
 }
+.flive-auth-box .btn-outline,
+.flive-auth-box .btn-soft {
+  width: 100%;
+  margin-top: 8px;
+}
+.forum-ask-msg.is-ok {
+  color: #047857;
+}
