@@ -4,6 +4,7 @@ const ROUTES = {
   login: () => require("../_lib/routes/login"),
   register: () => require("../_lib/routes/register"),
   "forum-login": () => require("../_lib/routes/forum-login"),
+  "site-access": () => require("../_lib/routes/site-access"),
   me: () => require("../_lib/routes/me"),
   "change-password": () => require("../_lib/routes/change-password"),
   "forgot-password": () => require("../_lib/routes/forgot-password"),
