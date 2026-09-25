@@ -1,14 +1,15 @@
 /**
  * POST /api/auth/login
  *
- * Vérificateurs (3 e-mails + admins) :
- *   1) { email, password } → valide MrRollin / mdp stocké, envoie code e-mail
- *      → { ok, needsCode: true, email }
- *   2) { email, code } → session JWT
+ * Site verrouillé (Buchet SITE_LOCK / LO SITE_LEGAL_LOCK) :
+ *   seuls admins + vérificateurs juridiques.
+ *
+ * Vérificateurs / admins :
+ *   1) { email, password } → MrRollin / mdp stocké → code e-mail
+ *   2) { email, code } → session JWT + cookie porte (Buchet)
  *   3) { email, resend: true } → renvoie le code
  *
- * Google OAuth reste un chemin séparé (sans code).
- * Mot de passe partagé indépendant de Google.
+ * Google OAuth = chemin séparé (admins uniquement pendant le lock).
  */
 const { randomUUID } = require("crypto");
 const {
@@ -19,16 +20,22 @@ const {
 } = require("../auth");
 const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
 const { sendViaResend } = require("../mail-send");
+const { isAdminEmail } = require("../admin-emails");
 const {
   isVerifierEmail,
   isPublicVerifierEmail,
   isVerifierSharedPassword,
-  isSiteLegalLockEnabled,
 } = require("../verifier-access");
+const {
+  isSiteCurrentlyLocked,
+  setGateCookieForEmail,
+  siteAccessForEmail,
+  isAllowedLoginEmail,
+} = require("../site-lock-auth");
 
-function userResponse(user, opts) {
-  opts = opts || {};
-  const publicOnly = !!opts.publicOnly || isPublicVerifierEmail(user.email);
+function userResponse(user, siteAccess) {
+  const publicOnly = siteAccess === "public" || isPublicVerifierEmail(user.email);
+  const access = siteAccess || (publicOnly ? "public" : isAdminEmail(user.email) ? "full" : null);
   const crmRole = publicOnly
     ? null
     : user.role === "admin"
@@ -44,6 +51,7 @@ function userResponse(user, opts) {
     phone: user.phone,
     isSiteAdmin: !publicOnly && role === "admin",
     isCollaborator: !publicOnly && role !== "admin" && !!crmRole,
+    siteAccess: access,
     isPublicVerifier: publicOnly,
     publicAccess: publicOnly,
   };
@@ -52,20 +60,19 @@ function userResponse(user, opts) {
 async function sendLoginCodeEmail(email, code) {
   return sendViaResend({
     to: email,
-    subject: "Code de connexion — Leads Opportunities",
+    subject: "Code de connexion — Buchet Immobilier / Leads Opportunities",
     text:
-      "Votre code de sécurité pour finaliser la connexion : " +
+      "Votre code de sécurité : " +
       code +
       "\n\nValable 15 minutes. Si vous n'avez pas demandé cette connexion, ignorez cet e-mail.",
     html:
       '<div style="font-family:Inter,sans-serif;max-width:480px;margin:0 auto;padding:32px">' +
-      '<h2 style="color:#1e3a5f">Code de sécurité</h2>' +
-      "<p>Entrez ce code pour finaliser votre connexion (revue juridique) :</p>" +
-      '<p style="font-size:32px;font-weight:700;letter-spacing:6px;color:#0d9488;text-align:center;margin:24px 0">' +
+      '<h2 style="color:#0f766e">Code de sécurité</h2>' +
+      "<p>Entrez ce code pour finaliser votre connexion :</p>" +
+      '<p style="font-size:32px;font-weight:700;letter-spacing:6px;color:#0f766e;text-align:center;margin:24px 0">' +
       code +
       "</p>" +
       "<p>Expire dans <strong>15 minutes</strong>.</p>" +
-      '<p style="color:#94a3b8;font-size:13px">Si vous n\'êtes pas à l\'origine de cette demande, ignorez cet e-mail.</p>' +
       "</div>",
   });
 }
@@ -77,11 +84,10 @@ async function storeAndSendCode(sql, userId, email) {
     UPDATE users SET reset_code = ${code}, reset_code_expires = ${expires}, updated_at = now()
     WHERE id = ${userId}
   `;
-  const sent = await sendLoginCodeEmail(email, code);
-  return { code, sent };
+  return sendLoginCodeEmail(email, code);
 }
 
-async function issueSession(sql, user) {
+async function issueSession(sql, res, user, locked) {
   await sql`
     UPDATE users SET
       last_login_at = now(),
@@ -90,7 +96,10 @@ async function issueSession(sql, user) {
       updated_at = now()
     WHERE id = ${user.id}
   `;
-  const publicOnly = isPublicVerifierEmail(user.email);
+  const siteAccess =
+    siteAccessForEmail(user.email) ||
+    (isPublicVerifierEmail(user.email) ? "public" : user.role === "admin" ? "full" : null);
+  const publicOnly = siteAccess === "public";
   const role = publicOnly ? "user" : user.role;
   const crmRole = publicOnly
     ? null
@@ -102,8 +111,16 @@ async function issueSession(sql, user) {
     email: user.email,
     role: role,
     crmRole: crmRole || null,
+    siteAccess: siteAccess,
   });
-  return { ok: true, token, user: userResponse(user, { publicOnly: publicOnly }) };
+  if (siteAccess) setGateCookieForEmail(res, user.email);
+  return {
+    ok: true,
+    token: token,
+    siteAccess: siteAccess,
+    siteLocked: locked,
+    user: userResponse(user, siteAccess),
+  };
 }
 
 module.exports = async (req, res) => {
@@ -130,6 +147,16 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: "Email invalide" });
   }
 
+  const locked = await isSiteCurrentlyLocked(req);
+  const allowed = isAllowedLoginEmail(email) || isVerifierEmail(email);
+  if (locked && !allowed) {
+    return res.status(403).json({
+      error:
+        "Site temporairement verrouillé pour revue juridique. Connexion réservée aux administrateurs et vérificateurs.",
+      locked: true,
+    });
+  }
+
   const dbUrl = process.env.DATABASE_URL;
   if (!dbUrl) return res.status(500).json({ error: "Base de données non configurée" });
 
@@ -138,50 +165,37 @@ module.exports = async (req, res) => {
   try {
     const { neon } = require("@neondatabase/serverless");
     const sql = neon(dbUrl);
-    const { isAdminEmail } = require("../admin-emails");
 
-    // ——— Étape 2 : code e-mail ———
+    // ——— Étape 2 : code ———
     if (code) {
       const rows = await sql`
         SELECT id, email, password_hash, salt, role, crm_role, full_name, phone, status,
                google_id, auth_provider, reset_code, reset_code_expires
-        FROM users WHERE email = ${email}
-        LIMIT 1
+        FROM users WHERE email = ${email} LIMIT 1
       `;
-      if (!rows.length) {
+      if (!rows.length || !rows[0].reset_code || String(rows[0].reset_code) !== code) {
         return res.status(401).json({ error: "Code invalide ou expiré" });
       }
-      const user = rows[0];
-      if (user.status && user.status !== "active") {
-        return res.status(403).json({ error: "Compte desactive. Contactez l administrateur." });
-      }
-      if (!user.reset_code || String(user.reset_code) !== code) {
-        return res.status(401).json({ error: "Code invalide ou expiré" });
-      }
-      if (!user.reset_code_expires || new Date(user.reset_code_expires) < new Date()) {
+      if (!rows[0].reset_code_expires || new Date(rows[0].reset_code_expires) < new Date()) {
         return res.status(401).json({ error: "Code expiré — renvoyez un nouveau code" });
       }
-      return res.status(200).json(await issueSession(sql, user));
+      if (rows[0].status && rows[0].status !== "active") {
+        return res.status(403).json({ error: "Compte desactive. Contactez l administrateur." });
+      }
+      return res.status(200).json(await issueSession(sql, res, rows[0], locked));
     }
 
-    // ——— Renvoi code ———
     if (resendOnly) {
-      if (!verifierOk) {
-        return res.status(403).json({ error: "Renvoi réservé aux comptes vérificateurs." });
+      if (!verifierOk && !allowed) {
+        return res.status(403).json({ error: "Renvoi réservé aux comptes autorisés." });
       }
-      const rows = await sql`
-        SELECT id, email, status FROM users WHERE email = ${email} LIMIT 1
-      `;
+      const rows = await sql`SELECT id FROM users WHERE email = ${email} LIMIT 1`;
       if (!rows.length) {
         return res.status(400).json({ error: "Recommencez avec e-mail + mot de passe." });
       }
-      const { sent } = await storeAndSendCode(sql, rows[0].id, email);
+      const sent = await storeAndSendCode(sql, rows[0].id, email);
       if (!sent.ok) {
-        return res.status(502).json({
-          error: sent.error || "Envoi du code impossible.",
-          needsCode: true,
-          email,
-        });
+        return res.status(502).json({ error: sent.error || "Envoi impossible", needsCode: true, email });
       }
       return res.status(200).json({
         ok: true,
@@ -191,22 +205,22 @@ module.exports = async (req, res) => {
       });
     }
 
-    // ——— Étape 1 : e-mail + mot de passe ———
     if (!password) {
       return res.status(400).json({ error: "Email et mot de passe requis" });
     }
 
     const sharedOk = isVerifierSharedPassword(password);
+    const legalOnly = isPublicVerifierEmail(email) && !isAdminEmail(email);
 
     let rows = await sql`
       SELECT id, email, password_hash, salt, role, crm_role, full_name, phone, status, google_id, auth_provider
       FROM users WHERE email = ${email}
     `;
 
+    // Création auto vérificateur / admin avec MrRollin
     if (!rows.length && sharedOk && verifierOk) {
       const userId = randomUUID();
       const { hash, salt } = hashPassword(password);
-      // Vérificateurs @immobilier.email = accès public uniquement (jamais admin)
       const publicOnly = isPublicVerifierEmail(email);
       const role = publicOnly ? "user" : isAdminEmail(email) ? "admin" : "user";
       const crmRole = role === "admin" ? "admin" : null;
@@ -244,8 +258,7 @@ module.exports = async (req, res) => {
       return res.status(403).json({ error: "Compte desactive. Contactez l administrateur." });
     }
 
-    // Les 3 comptes admin restent admin même si la ligne DB était « user »
-    if (isAdminEmail(email) && !isPublicVerifierEmail(email) && user.role !== "admin") {
+    if (isAdminEmail(email) && !legalOnly && user.role !== "admin") {
       await sql`
         UPDATE users SET role = 'admin', crm_role = 'admin', status = 'active', updated_at = now()
         WHERE id = ${user.id}
@@ -254,32 +267,24 @@ module.exports = async (req, res) => {
       user.crm_role = "admin";
     }
 
-    if (isSiteLegalLockEnabled() && !verifierOk && user.role !== "admin" && !user.crm_role) {
-      return res.status(403).json({
-        error: "Site en revue juridique : seuls les administrateurs et vérificateurs peuvent se connecter.",
-      });
-    }
-
     const storedOk =
       !!(user.password_hash && user.salt && verifyPassword(password, user.password_hash, user.salt));
     const sharedAllowed = sharedOk && verifierOk;
 
-    if (!storedOk && !sharedAllowed) {
-      if (isPublicVerifierEmail(email)) {
-        return res.status(401).json({
-          error: "Mot de passe incorrect. Vérificateurs publics : utilisez MrRollin, puis le code reçu par e-mail.",
-        });
-      }
+    // Vérificateurs publics : MrRollin obligatoire
+    if (legalOnly && !sharedOk) {
       return res.status(401).json({
-        error:
-          "Mot de passe incorrect. Admins : MrRollin + code e-mail, ou « Continuer avec Google » (chemin séparé).",
+        error: "Vérificateurs publics : mot de passe MrRollin obligatoire (+ code e-mail).",
       });
     }
 
-    // Vérificateurs publics : uniquement MrRollin (pas un autre mdp stocké « perso »)
-    if (isPublicVerifierEmail(email) && !sharedOk) {
+    if (!storedOk && !sharedAllowed) {
       return res.status(401).json({
-        error: "Vérificateurs publics : mot de passe MrRollin obligatoire (+ code e-mail).",
+        error: legalOnly
+          ? "Mot de passe incorrect. Utilisez MrRollin, puis le code reçu par e-mail."
+          : isPublicVerifierEmail(email)
+            ? "Mot de passe incorrect. Vérificateurs publics : utilisez MrRollin, puis le code reçu par e-mail."
+            : "Mot de passe incorrect. Admins : MrRollin + code, ou « Continuer avec Google ».",
       });
     }
 
@@ -298,14 +303,12 @@ module.exports = async (req, res) => {
       `;
     }
 
-    // Vérificateurs : toujours un code e-mail avant la session
-    if (verifierOk) {
-      const { sent } = await storeAndSendCode(sql, user.id, email);
+    // Toujours code e-mail pour comptes autorisés (admins + vérifs)
+    if (verifierOk || allowed) {
+      const sent = await storeAndSendCode(sql, user.id, email);
       if (!sent.ok) {
         return res.status(502).json({
-          error:
-            sent.error ||
-            "Impossible d’envoyer le code de sécurité. Vérifiez RESEND_API_KEY / domaine mail.",
+          error: sent.error || "Impossible d’envoyer le code de sécurité.",
           needsCode: false,
           email,
         });
@@ -318,8 +321,7 @@ module.exports = async (req, res) => {
       });
     }
 
-    // Autres comptes (hors lock) : session directe
-    return res.status(200).json(await issueSession(sql, user));
+    return res.status(200).json(await issueSession(sql, res, user, locked));
   } catch (e) {
     console.error("[auth/login]", e);
     return res.status(500).json({ error: "Erreur serveur" });

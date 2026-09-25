@@ -28,9 +28,10 @@ var DEFAULT_PUBLIC_VERIFIER_EMAILS = [
 
 function getPublicVerifierEmails() {
   var fromEnv = parseEmailList(process.env.LEGAL_VERIFIER_EMAILS, []);
-  // Toujours garder les défauts + éventuelle surcharge Vercel
+  // Alias Buchet (historique) — toujours en union avec les défauts
+  var fromEnvAlias = parseEmailList(process.env.LEGAL_REVIEWER_EMAILS, []);
   var list = DEFAULT_PUBLIC_VERIFIER_EMAILS.slice();
-  fromEnv.forEach(function (e) {
+  fromEnv.concat(fromEnvAlias).forEach(function (e) {
     if (list.indexOf(e) === -1) list.push(e);
   });
   return list;

@@ -187,6 +187,31 @@ module.exports = async (req, res) => {
     const fullName = profile.name || profile.given_name || email.split("@")[0];
     const avatarUrl = profile.picture || null;
 
+    const { isAdminEmail } = require("../admin-emails");
+    const { isPublicVerifierEmail } = require("../verifier-access");
+    const {
+      isSiteCurrentlyLocked,
+      setGateCookieForEmail,
+      siteAccessForEmail,
+      isAllowedLoginEmail,
+    } = require("../site-lock-auth");
+    const { gateCookieHeader, createGateToken } = require("../site-gate-cookie");
+
+    // Vérificateurs publics : pas Google (MrRollin + code e-mail uniquement)
+    if (isPublicVerifierEmail(email) && !isAdminEmail(email)) {
+      return redirectAuth(res, {
+        oauth_error:
+          "Vérificateurs publics : utilisez e-mail + MrRollin + code (pas Google).",
+      });
+    }
+
+    const locked = await isSiteCurrentlyLocked(req);
+    if (locked && !isAllowedLoginEmail(email) && !isAdminEmail(email)) {
+      return redirectAuth(res, {
+        oauth_error: "Site verrouillé — connexion réservée aux administrateurs et vérificateurs.",
+      });
+    }
+
     let rows = await sql`
       SELECT id, email, role, crm_role, full_name, google_id, auth_provider
       FROM users WHERE google_id = ${googleId} OR email = ${email}
@@ -196,8 +221,6 @@ module.exports = async (req, res) => {
     let userId;
     let role;
     let crmRole;
-
-    const { isAdminEmail } = require("../admin-emails");
 
     if (rows.length) {
       const u = rows[0];
@@ -248,11 +271,13 @@ module.exports = async (req, res) => {
       `;
     }
 
+    const siteAccess = siteAccessForEmail(email) || (isAdminEmail(email) || role === "admin" ? "full" : null);
     const token = signToken({
       userId: userId,
       email: email,
       role: role,
       crmRole: crmRole || null,
+      siteAccess: siteAccess,
     });
 
     const allowedReturns = [
@@ -261,26 +286,41 @@ module.exports = async (req, res) => {
       "/dashboard.html",
       "/auth.html",
       "/admin.html",
+      "/site-lock.html",
       "/forum/",
       "/forum/index.html",
+      "/index.html",
+      "/",
     ];
     // Accepte aussi /forum/#… passé sans le hash (returnTo côté client = chemin seul)
     let dest =
       returnTo && allowedReturns.indexOf(returnTo.split("?")[0].split("#")[0]) !== -1
         ? returnTo.split("?")[0].split("#")[0]
-        : role === "admin" || crmRole
-          ? "/admin.html"
-          : "/auth.html";
+        : locked
+          ? "/site-lock.html"
+          : role === "admin" || crmRole
+            ? "/admin.html"
+            : "/auth.html";
     if (dest === "/forum/index.html") dest = "/forum/";
+    if (locked && (dest === "/auth.html" || !dest)) dest = "/site-lock.html";
 
     const q = new URLSearchParams({
       oauth: "success",
       token: token,
       dest: dest,
     });
+    if (siteAccess) q.set("siteAccess", siteAccess);
     // crm.html consomme le token lui-même ; sinon auth.html puis redirection vers dest
     const landing = dest === "/crm.html" ? "/crm.html" : "/auth.html";
-    res.writeHead(302, { Location: getAppUrl() + landing + "?" + q.toString() });
+    const headers = { Location: getAppUrl() + landing + "?" + q.toString() };
+    if (siteAccess) {
+      headers["Set-Cookie"] = gateCookieHeader(createGateToken(email, siteAccess));
+    } else {
+      try {
+        setGateCookieForEmail(res, email);
+      } catch (e) {}
+    }
+    res.writeHead(302, headers);
     res.end();
   } catch (e) {
     console.error("[auth/google-callback]", e);

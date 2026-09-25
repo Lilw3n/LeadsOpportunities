@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site en revue | Buchet Immobilier</title>
+  <meta name="description" content="Buchet Immobilier — accès temporairement restreint pour revue de conformité." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://www.buchetimmobilier.com/site-lock.html" />
+  <link rel="icon" href="./favicon.png" type="image/png" />
+  <link rel="stylesheet" href="./main.css" />
+  <link rel="stylesheet" href="./css/buchet-immo-identity.css?v=lock2026" />
+  <style>
+    :root {
+      --lock-ink: #1c1917;
+      --lock-muted: #57534e;
+      --lock-line: #e7e5e4;
+      --lock-accent: #0f766e;
+      --lock-accent-dark: #115e59;
+      --lock-warn: #9a3412;
+      --lock-warn-bg: #fff7ed;
+      --lock-ok: #166534;
+      --lock-ok-bg: #f0fdf4;
+    }
+    body.lock-page {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--lock-ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(15, 118, 110, 0.12), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, rgba(180, 83, 9, 0.08), transparent 50%),
+        linear-gradient(180deg, #fafaf9 0%, #f5f5f4 45%, #e7e5e4 100%);
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+    .lock-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .lock-top {
+      padding: 18px 20px;
+    }
+    .lock-top .logo-banner-img {
+      width: 200px;
+      height: auto;
+    }
+    .lock-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px 48px;
+    }
+    .lock-panel {
+      width: min(520px, 100%);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--lock-line);
+      border-radius: 4px;
+      padding: 36px 28px 28px;
+      box-shadow: 0 18px 40px rgba(28, 25, 23, 0.06);
+    }
+    .lock-kicker {
+      margin: 0 0 10px;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--lock-accent);
+      font-weight: 700;
+    }
+    .lock-panel h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.55rem, 3.5vw, 1.95rem);
+      line-height: 1.2;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+    }
+    .lock-panel .lead {
+      margin: 0 0 22px;
+      color: var(--lock-muted);
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+    .lock-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .lock-actions a,
+    .lock-actions button {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      padding: 12px 18px;
+      border-radius: 2px;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .lock-actions a:hover,
+    .lock-actions button:hover {
+      transform: translateY(-1px);
+    }
+    .btn-primary {
+      background: var(--lock-accent);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--lock-accent-dark);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--lock-ink);
+      border: 1px solid var(--lock-line) !important;
+    }
+    .btn-validate {
+      background: #166534;
+      color: #fff;
+      width: 100%;
+    }
+    .btn-validate:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .lock-note {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--lock-muted);
+      line-height: 1.5;
+    }
+    .lock-status {
+      display: none;
+      margin: 0 0 16px;
+      padding: 12px 14px;
+      border-radius: 2px;
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+    .lock-status.is-warn {
+      display: block;
+      background: var(--lock-warn-bg);
+      color: var(--lock-warn);
+      border: 1px solid #fdba74;
+    }
+    .lock-status.is-ok {
+      display: block;
+      background: var(--lock-ok-bg);
+      color: var(--lock-ok);
+      border: 1px solid #86efac;
+    }
+    .lock-reviewer {
+      display: none;
+      margin-top: 22px;
+      padding-top: 20px;
+      border-top: 1px solid var(--lock-line);
+    }
+    .lock-reviewer h2 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+    .lock-reviewer p {
+      margin: 0 0 14px;
+      color: var(--lock-muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    .lock-meta {
+      margin-top: 18px;
+      font-size: 0.8rem;
+      color: #78716c;
+    }
+    @media (max-width: 520px) {
+      .lock-panel { padding: 28px 18px 22px; }
+      .lock-actions a,
+      .lock-actions button { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body class="lock-page">
+  <div class="lock-shell">
+    <header class="lock-top">
+      <a class="logo logo--banner logo--immo-brand" href="./site-lock.html" aria-label="Buchet Immobilier">
+        <img class="logo-banner-img" src="./assets/brand/logo-banner.png?v=buchet-lock2026" width="200" height="44" alt="Buchet Immobilier — Wendy Buchet" />
+      </a>
+    </header>
+
+    <main class="lock-main">
+      <div class="lock-panel">
+        <p class="lock-kicker">Buchet Immobilier</p>
+        <h1>Site temporairement verrouillé</h1>
+        <p class="lead">
+          Accès public suspendu le temps d’une revue de conformité.
+          Les administrateurs et les vérificateurs juridiques peuvent se connecter.
+        </p>
+
+        <div id="lockStatus" class="lock-status" role="status"></div>
+
+        <div class="lock-actions" id="guestActions">
+          <a class="btn-primary" href="./auth.html">Se connecter</a>
+          <a class="btn-ghost" href="mailto:contact@immobilier.email">Contacter Immobilier Email</a>
+        </div>
+
+        <div class="lock-actions" id="authedActions" style="display:none">
+          <a class="btn-primary" id="browseLink" href="#">Visiter le site</a>
+          <a class="btn-ghost" id="adminDashLink" href="#" style="display:none">Dashboard admin</a>
+          <a class="btn-ghost" href="./auth.html">Mon espace</a>
+        </div>
+
+        <div class="lock-reviewer" id="reviewerBox">
+          <h2>Validation conformité</h2>
+          <p>
+            Après avoir consulté les pages publiques, validez pour rouvrir le site aux visiteurs.
+            Un administrateur ou l’un des comptes vérificateurs suffit.
+          </p>
+          <button type="button" class="btn-validate" id="validateBtn">Valider et ouvrir le site</button>
+          <p class="lock-meta" id="reviewerMeta"></p>
+        </div>
+
+        <p class="lock-note" id="guestNote">
+          Visiteurs : le site sera rouvert dès validation de la conformité.
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+  (function () {
+    var TOKEN_KEY = "lo_token";
+    var USER_KEY = "lo_user";
+
+    function getToken() { return localStorage.getItem(TOKEN_KEY); }
+    function getUser() {
+      try { return JSON.parse(localStorage.getItem(USER_KEY)); } catch (e) { return null; }
+    }
+
+    function setStatus(text, kind) {
+      var el = document.getElementById("lockStatus");
+      if (!el) return;
+      el.textContent = text || "";
+      el.className = "lock-status" + (kind ? " is-" + kind : "");
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    var oauthErr = params.get("oauth_error");
+    if (oauthErr) {
+      try { oauthErr = decodeURIComponent(oauthErr.replace(/\+/g, " ")); } catch (e) {}
+      setStatus(oauthErr, "warn");
+    }
+
+    var user = getUser();
+    var token = getToken();
+    var canValidate = !!(user && (user.siteAccess === "full" || user.siteAccess === "public" || user.role === "admin"));
+
+    function enterUrl(toPath) {
+      var t = getToken();
+      if (!t) return "./auth.html?next=" + encodeURIComponent("/site-lock.html");
+      return (
+        "/api/site-lock?op=enter&token=" +
+        encodeURIComponent(t) +
+        "&to=" +
+        encodeURIComponent(toPath || "/index.html")
+      );
+    }
+
+    function showAuthedUi(access) {
+      document.getElementById("guestActions").style.display = "none";
+      document.getElementById("guestNote").style.display = "none";
+      document.getElementById("authedActions").style.display = "flex";
+      var browse = document.getElementById("browseLink");
+      var dash = document.getElementById("adminDashLink");
+      // Navigation pleine page via API → Set-Cookie puis redirect site
+      browse.textContent = "Visiter le site";
+      browse.href = enterUrl("/index.html");
+      if (access === "full") {
+        if (dash) {
+          dash.style.display = "inline-block";
+          dash.href = enterUrl("/dashboard.html");
+        }
+      } else if (dash) {
+        dash.style.display = "none";
+      }
+      if (access === "full" || access === "public") {
+        document.getElementById("reviewerBox").style.display = "block";
+        document.getElementById("reviewerMeta").textContent =
+          "Connecté : " + ((user && user.email) || "—") +
+          (access === "public" ? " (vérificateur — pages publiques)" : " (administrateur)");
+      }
+    }
+
+    if (token && user) {
+      var access = user.siteAccess || (user.role === "admin" ? "full" : null);
+      if (access) showAuthedUi(access);
+      fetch("/api/auth/me", { headers: { Authorization: "Bearer " + token }, credentials: "same-origin" })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data && data.ok && data.user) {
+            localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+            user = data.user;
+            access = data.user.siteAccess || data.siteAccess || access;
+            if (access) showAuthedUi(access);
+          }
+        })
+        .catch(function () {});
+    }
+
+    fetch("/api/site-lock?op=status", { credentials: "same-origin" })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data) return;
+        if (data.locked === false) {
+          setStatus(
+            "Le site est ouvert" +
+              (data.validatedBy ? " (validé par " + data.validatedBy + ")" : "") +
+              ". Redirection…",
+            "ok"
+          );
+          setTimeout(function () {
+            var next = params.get("next") || "/index.html";
+            if (next.charAt(0) !== "/") next = "/index.html";
+            window.location.href = next;
+          }, 900);
+          return;
+        }
+        if (!oauthErr) {
+          setStatus("Revue en cours — connexion réservée aux comptes autorisés.", "warn");
+        }
+      })
+      .catch(function () {});
+
+    var validateBtn = document.getElementById("validateBtn");
+    if (validateBtn) {
+      validateBtn.addEventListener("click", function () {
+        var t = getToken();
+        if (!t) {
+          window.location.href = "./auth.html?next=" + encodeURIComponent("/site-lock.html");
+          return;
+        }
+        validateBtn.disabled = true;
+        validateBtn.textContent = "Validation…";
+        fetch("/api/site-lock", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + t,
+          },
+          body: JSON.stringify({ action: "validate" }),
+        })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) {
+            if (res.ok && res.j && res.j.ok) {
+              setStatus(res.j.message || "Site validé et ouvert au public.", "ok");
+              validateBtn.textContent = "Site validé";
+              setTimeout(function () { window.location.href = "./index.html"; }, 1000);
+            } else {
+              setStatus((res.j && res.j.error) || "Échec de la validation", "warn");
+              validateBtn.disabled = false;
+              validateBtn.textContent = "Valider et ouvrir le site";
+            }
+          })
+          .catch(function () {
+            setStatus("Erreur réseau", "warn");
+            validateBtn.disabled = false;
+            validateBtn.textContent = "Valider et ouvrir le site";
+          });
+      });
+    }
+  })();
+  </script>
+</body>
+</html>
