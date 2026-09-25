@@ -3,11 +3,15 @@
  * Inclut par défaut le compte Google / Matterport Wendy + le compte historique.
  *
  * Surcharge Vercel / .env :
- *   ADMIN_EMAILS=courtier972@gmail.com,wendy.buchet.pro@gmail.com
+ *   ADMIN_EMAILS=courtier972@gmail.com,wendy.buchet.pro@gmail.com,wendy.buchet@gmail.com
  *   MATTERPORT_ADMIN_EMAILS=wendy.buchet.pro@gmail.com
  */
 
-var DEFAULT_ADMIN_EMAILS = ["courtier972@gmail.com", "wendy.buchet.pro@gmail.com"];
+var DEFAULT_ADMIN_EMAILS = [
+  "courtier972@gmail.com",
+  "wendy.buchet.pro@gmail.com",
+  "wendy.buchet@gmail.com",
+];
 var DEFAULT_MATTERPORT_ADMIN_EMAILS = ["wendy.buchet.pro@gmail.com"];
 
 function parseEmailList(raw, fallback) {

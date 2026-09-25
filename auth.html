@@ -364,9 +364,10 @@
             <a id="googleLoginLink" href="/api/auth/google?returnTo=/admin.html" class="btn-google">Continuer avec Google</a>
             <div class="auth-divider">ou avec votre email</div>
             <p id="authVerifierHint" class="auth-verifier-hint">
-              Vérificateurs (<span id="authVerifierEmailsList">3 e-mails autorisés</span>) :
-              mot de passe <code>MrRollin</code>, puis <strong>code reçu par e-mail</strong>
-              (indépendant de Google).
+              Vérificateurs publics (<code>servicejuridique@immobilier.email</code>,
+              <code>contact@immobilier.email</code>) : mot de passe <code>MrRollin</code>
+              + code e-mail — accès site public uniquement.
+              Admins : Google ou MrRollin + code.
             </p>
             <form id="loginForm">
               <div class="form-group">
@@ -598,12 +599,17 @@
     }
 
     function goAfterLogin(user, forcedDest) {
+      // Vérificateurs @immobilier.email : accès public uniquement
+      if (user && (user.publicAccess || user.isPublicVerifier)) {
+        window.location.href = "/index.html";
+        return;
+      }
       var next = forcedDest || readNextParam();
       if (next) {
         window.location.href = next;
         return;
       }
-      if (user && (user.role === "admin" || user.crmRole)) {
+      if (user && (user.role === "admin" || user.crmRole || user.isSiteAdmin)) {
         window.location.href = defaultAdminDest();
         return;
       }
@@ -658,15 +664,21 @@
             }
             if (hint) {
               var pw = data.hintPassword || "MrRollin";
-              var emails = (data.verifierEmails || []).slice(0, 3);
-              var listEl = document.getElementById("authVerifierEmailsList");
-              if (listEl && emails.length) listEl.textContent = emails.join(", ");
+              var pub = data.publicVerifierEmails || [];
+              var adm = data.adminEmails || [];
               hint.innerHTML =
-                "Vérificateurs" +
-                (emails.length ? " (" + emails.map(function (e) { return "<code>" + String(e).replace(/</g, "") + "</code>"; }).join(", ") + ")" : "") +
-                " : mot de passe <code>" +
+                "<strong>Vérificateurs publics</strong> (" +
+                (pub.length
+                  ? pub.map(function (e) { return "<code>" + String(e).replace(/</g, "") + "</code>"; }).join(", ")
+                  : "<code>@immobilier.email</code>") +
+                ") : mot de passe <code>" +
                 pw.replace(/</g, "") +
-                "</code>, puis <strong>code reçu par e-mail</strong> (indépendant de Google).";
+                "</code> + <strong>code e-mail</strong> — accès site public uniquement.<br/>" +
+                "<strong>Admins</strong> (" +
+                (adm.length
+                  ? adm.map(function (e) { return "<code>" + String(e).replace(/</g, "") + "</code>"; }).join(", ")
+                  : "3 comptes") +
+                ") : Google <em>ou</em> MrRollin + code.";
               hint.classList.add("is-on");
             }
             if (regTab) regTab.style.display = "none";
