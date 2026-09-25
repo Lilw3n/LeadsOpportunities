@@ -96,6 +96,7 @@
     "verify:apporteur-public": "node scripts/verify-apporteur-public.cjs",
     "verify:chasseur-bien": "node scripts/verify-chasseur-bien.cjs",
     "verify:immo-location-syndic": "node scripts/verify-immo-location-syndic.cjs",
+    "verify:immo-hub-audiences": "node scripts/verify-immo-hub-audiences.cjs",
     "verify:immo-multi-units": "node scripts/verify-immo-multi-units.cjs",
     "verify:client-value": "node scripts/verify-client-value.cjs",
     "verify:pret-risks": "node scripts/verify-pret-risks.cjs",
