@@ -88,6 +88,7 @@
     "verify:canicule-mutuelle": "node scripts/verify-canicule-mutuelle.cjs",
     "verify:partners-credit": "node scripts/verify-partners-credit.cjs",
     "verify:acquisition-priorites": "node scripts/verify-acquisition-priorites.cjs",
+    "verify:auto-tarifs": "node scripts/verify-auto-tarifs.cjs",
     "verify:niches-actu": "node scripts/verify-niches-actu.cjs",
     "verify:pret-refuse": "node scripts/verify-pret-refuse.cjs",
     "verify:collaborateurs-crm": "node scripts/verify-collaborateurs-crm.cjs",
