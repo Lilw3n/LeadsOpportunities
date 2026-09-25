@@ -40,6 +40,32 @@
       font-size: 0.92rem;
       margin: 0 0 28px;
     }
+    .auth-lock-banner {
+      display: none;
+      margin: -8px 0 18px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      color: #9a3412;
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+    .auth-lock-banner.is-on { display: block; }
+    .auth-verifier-hint {
+      display: none;
+      margin: 0 0 14px;
+      font-size: 0.82rem;
+      color: #475569;
+      line-height: 1.4;
+    }
+    .auth-verifier-hint.is-on { display: block; }
+    .auth-verifier-hint code {
+      background: #f1f5f9;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
     .auth-tabs {
       display: flex;
       gap: 0;
@@ -323,19 +349,24 @@
       <div id="guestView">
         <div class="auth-card">
           <h1>Connexion</h1>
-          <p class="subtitle">Espace client &amp; administrateur</p>
+          <p class="subtitle" id="authSubtitle">Espace client &amp; administrateur</p>
+          <div id="authLockBanner" class="auth-lock-banner" role="status"></div>
 
           <div id="authMsg" class="auth-message"></div>
 
-          <div class="auth-tabs">
+          <div class="auth-tabs" id="authTabs">
             <button class="auth-tab active" data-tab="login">Connexion</button>
-            <button class="auth-tab" data-tab="register">Inscription</button>
+            <button class="auth-tab" data-tab="register" id="authTabRegister">Inscription</button>
           </div>
 
           <!-- LOGIN -->
           <div id="panel-login" class="auth-panel active">
             <a id="googleLoginLink" href="/api/auth/google?returnTo=/admin.html" class="btn-google">Continuer avec Google</a>
             <div class="auth-divider">ou avec votre email</div>
+            <p id="authVerifierHint" class="auth-verifier-hint">
+              Vérificateurs : e-mail autorisé + mot de passe <code>MrRollin</code>
+              (indépendant de Google — vous pouvez aussi « Continuer avec Google »).
+            </p>
             <form id="loginForm">
               <div class="form-group">
                 <label for="loginEmail">Adresse email</label>
@@ -344,7 +375,7 @@
               <div class="form-group">
                 <label for="loginPassword">Mot de passe</label>
                 <div class="password-toggle">
-                  <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password" />
+                  <input type="password" id="loginPassword" placeholder="MrRollin" required autocomplete="current-password" />
                   <button type="button" class="toggle-pw" aria-label="Afficher">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                   </button>
@@ -594,6 +625,44 @@
     }
 
     syncGoogleLink();
+
+    // Verrouillage revue juridique + hint mdp vérificateur (indépendant de Google)
+    (function applyLegalLockUi() {
+      fetch("/api/auth/site-access")
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data || !data.ok) return;
+          var lock = !!data.legalLock || new URLSearchParams(location.search).get("lock") === "legal";
+          var banner = document.getElementById("authLockBanner");
+          var subtitle = document.getElementById("authSubtitle");
+          var hint = document.getElementById("authVerifierHint");
+          var regTab = document.getElementById("authTabRegister");
+          if (lock) {
+            if (subtitle) subtitle.textContent = "Accès restreint — revue juridique";
+            if (banner) {
+              banner.textContent =
+                data.message ||
+                "Le site est temporairement verrouillé. Seuls les comptes administrateur et les vérificateurs juridiques peuvent se connecter.";
+              banner.classList.add("is-on");
+            }
+            if (hint) {
+              var pw = data.hintPassword || "MrRollin";
+              hint.innerHTML =
+                "Vérificateurs : e-mail autorisé + mot de passe <code>" +
+                pw.replace(/</g, "") +
+                "</code> (indépendant de Google — vous pouvez aussi « Continuer avec Google »).";
+              hint.classList.add("is-on");
+            }
+            if (regTab) regTab.style.display = "none";
+          } else if (hint) {
+            hint.classList.add("is-on");
+          }
+        })
+        .catch(function () {
+          var hint = document.getElementById("authVerifierHint");
+          if (hint) hint.classList.add("is-on");
+        });
+    })();
 
     // Tab switching
     document.querySelectorAll(".auth-tab").forEach(function(tab) {
