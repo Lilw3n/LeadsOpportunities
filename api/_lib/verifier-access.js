@@ -4,6 +4,7 @@
  * Vérificateurs publics (accès site public uniquement, MrRollin + code e-mail) :
  *   servicejuridique@immobilier.email
  *   contact@immobilier.email
+ *   lilwen.song@gmail.com
  *
  * Admins (= aussi vérificateurs, Google OU MrRollin + code) :
  *   wendy.buchet@gmail.com
@@ -22,12 +23,17 @@ const { safeEqual } = require("./security");
 var DEFAULT_PUBLIC_VERIFIER_EMAILS = [
   "servicejuridique@immobilier.email",
   "contact@immobilier.email",
+  "lilwen.song@gmail.com",
 ];
 
 function getPublicVerifierEmails() {
   var fromEnv = parseEmailList(process.env.LEGAL_VERIFIER_EMAILS, []);
-  if (fromEnv.length) return fromEnv;
-  return DEFAULT_PUBLIC_VERIFIER_EMAILS.slice();
+  // Toujours garder les défauts + éventuelle surcharge Vercel
+  var list = DEFAULT_PUBLIC_VERIFIER_EMAILS.slice();
+  fromEnv.forEach(function (e) {
+    if (list.indexOf(e) === -1) list.push(e);
+  });
+  return list;
 }
 
 function isPublicVerifierEmail(email) {
