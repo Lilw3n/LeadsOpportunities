@@ -64,6 +64,22 @@
       var need = root.getAttribute("data-need") || "sante";
       var theme = root.getAttribute("data-theme") || "";
       var thread = root.getAttribute("data-thread") || "";
+      var themeSelect = form.querySelector('[name="forum_theme_select"]');
+      if (themeSelect && themeSelect.value) {
+        theme = String(themeSelect.value);
+        var opt = themeSelect.options[themeSelect.selectedIndex];
+        if (opt && opt.getAttribute("data-need")) {
+          need = opt.getAttribute("data-need");
+        }
+      }
+      if (root.getAttribute("data-hub-ask") === "1" && themeSelect && !themeSelect.value) {
+        if (msg) {
+          msg.hidden = false;
+          msg.className = "forum-ask-msg is-err";
+          msg.textContent = "Choisissez un thème pour votre question.";
+        }
+        return;
+      }
       var utm = collectUtm();
       if (theme) utm.utm_campaign = utm.utm_campaign || "forum_" + theme;
 

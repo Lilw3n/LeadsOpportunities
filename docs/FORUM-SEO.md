@@ -1,46 +1,48 @@
-# Forum SEO — thèmes, Q/R, Facebook
+# Forum — interactif + SEO
 
-## Idée
+## Deux couches
 
-Google indexe les **questions en langage naturel**. Facebook (groupes, partage de liens) fonctionne comme un second moteur : un bon `og:title` + `og:image` fait circuler le fil.
+| Couche | Rôle |
+|--------|------|
+| **Live** (`/forum/#/…`) | Vrai forum : compte, catégories, sujets, réponses, liens articles |
+| **SEO** (`/forum/{cat}/{slug}.html`) | Pages indexables (questions langue naturelle) + schema QAPage |
 
-Le dossier **`/forum/`** expose :
+Les questions seed (`data/forum-themes.json`) alimentent les pages SEO **et** sont importées en base (`forum_*`) au premier appel API.
 
-| Élément | Rôle |
-|---------|------|
-| Hub `/forum/` | Thèmes + cloud de tournures longue traîne |
-| Thème `/forum/{slug}/` | Liste de fils + formulaire demande |
-| Fil `/forum/{slug}/{question}.html` | Q/R seed SEO + schema `QAPage` + `DiscussionForumPosting` + share Facebook |
+## Compte
 
-Les **nouvelles** questions du public passent par `POST /api/lead` (`source=forum`) → CRM / e-mail `contact@leadsopportunities.fr`. Les fils seed restent des pages HTML statiques (SEO stable).
+- Inscription / connexion : `/api/auth/register` · `/api/auth/login` (JWT `lo_token`)
+- UI : `#/auth/register` · `#/auth/login` sur le hub
+- Poster / répondre / lier un article → connexion requise
+- Badge **Courtier** si `role=admin` ou `crm_role`
 
-## Build
+## API
+
+`GET/POST /api/forum?op=…`
+
+| op | Méthode | Auth |
+|----|---------|------|
+| `board` | GET | non |
+| `topics` | GET | non |
+| `topic` | GET | non |
+| `suggest-articles` | GET | non |
+| `create-topic` | POST | oui |
+| `reply` | POST | oui |
+| `link-article` | POST | oui |
+
+## Articles liés
+
+Sur un sujet live : formulaire « Lier un article » + suggestions depuis le manifeste blog (`suggest-articles`).  
+Ça crée l’interaction quand un fil mutuelle croise un article blog, une landing devis, le hub Nancy, etc.
+
+## Build / vérif
 
 ```bash
 npm run forum:build
 npm run verify:forum-seo
-# inclus dans seo:build
+npm run verify:forum-live
 ```
 
-Source des thèmes / phrases : `data/forum-themes.json`.
+## Redirects 404
 
-## Ajouter un thème ou un fil
-
-1. Éditer `data/forum-themes.json` (titre en **forme question**, phrases proches, réponse courtier).
-2. `npm run forum:build`
-3. Vérifier OG + mailto sur la page.
-
-## Facebook
-
-- Chaque thème / fil a `og:type=article`, image large, description courte.
-- Bouton **Partager sur Facebook** (`facebook.com/sharer`).
-- UTM : `utm_source=forum` sur les questionnaires ; le formulaire injecte `utm_source=forum` / `utm_medium=ask_form`.
-
-## Contact
-
-- Mailto partout : `contact@leadsopportunities.fr`
-- Tél. : 06 51 36 62 22
-
-## Alignement Google SEO Starter
-
-Voir `docs/GOOGLE-SEO-STARTER-CHECKLIST.md` (BreadcrumbList, QAPage, E-E-A-T Wendy Buchet / ORIAS, robots Allow CSS/JS).
+`/mutuelle-sante` → `/forum/mutuelle-sante/` (idem VTC / crédit) — voir `vercel.json`.

@@ -261,13 +261,17 @@ module.exports = async (req, res) => {
       "/dashboard.html",
       "/auth.html",
       "/admin.html",
+      "/forum/",
+      "/forum/index.html",
     ];
+    // Accepte aussi /forum/#… passé sans le hash (returnTo côté client = chemin seul)
     let dest =
-      returnTo && allowedReturns.indexOf(returnTo) !== -1
-        ? returnTo
+      returnTo && allowedReturns.indexOf(returnTo.split("?")[0].split("#")[0]) !== -1
+        ? returnTo.split("?")[0].split("#")[0]
         : role === "admin" || crmRole
           ? "/admin.html"
           : "/auth.html";
+    if (dest === "/forum/index.html") dest = "/forum/";
 
     const q = new URLSearchParams({
       oauth: "success",

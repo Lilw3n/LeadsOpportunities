@@ -25,6 +25,7 @@ const ROUTES = {
   "meta-status": () => require("./_lib/routes/public-meta-status"),
   "subscription-plans": () => require("./_lib/routes/public-subscription-plans"),
   "partner-sites": () => require("./_lib/routes/public-partner-sites"),
+  forum: () => require("./_lib/routes/public-forum"),
   dashboard: () => require("./dashboard/[action].js"),
 };
 

@@ -11,6 +11,36 @@
       "permanent": true
     },
     {
+      "source": "/mutuelle-sante",
+      "destination": "/forum/mutuelle-sante/",
+      "permanent": true
+    },
+    {
+      "source": "/mutuelle-sante/",
+      "destination": "/forum/mutuelle-sante/",
+      "permanent": true
+    },
+    {
+      "source": "/assurance-vtc",
+      "destination": "/forum/assurance-vtc/",
+      "permanent": true
+    },
+    {
+      "source": "/assurance-vtc/",
+      "destination": "/forum/assurance-vtc/",
+      "permanent": true
+    },
+    {
+      "source": "/credit-immobilier",
+      "destination": "/forum/credit-immobilier/",
+      "permanent": true
+    },
+    {
+      "source": "/credit-immobilier/",
+      "destination": "/forum/credit-immobilier/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {

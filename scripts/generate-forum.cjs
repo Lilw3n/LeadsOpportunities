@@ -121,6 +121,9 @@ function shell(opts) {
     '  <script src="' +
     prefix +
     'js/forum-ask.js" defer></script>\n' +
+    (opts.includeLiveApp
+      ? '  <script src="' + prefix + 'js/forum-app.js" defer></script>\n'
+      : "") +
     "</body>\n</html>\n"
   );
 }
@@ -224,21 +227,50 @@ function breadcrumbNav(items) {
 function askFormHtml(theme, opts) {
   opts = opts || {};
   var threadSlug = opts.threadSlug || "";
+  var hubMode = !!opts.hubMode;
+  var themeSelect = "";
+  if (hubMode) {
+    themeSelect =
+      '    <label>Thème<select name="forum_theme_select" required>\n' +
+      '      <option value="">Choisir un thème…</option>\n' +
+      DATA.themes
+        .map(function (t) {
+          return (
+            '      <option value="' +
+            esc(t.slug) +
+            '" data-need="' +
+            esc(t.need) +
+            '">' +
+            esc(t.navLabel) +
+            " — " +
+            esc(t.title) +
+            "</option>\n"
+          );
+        })
+        .join("") +
+      "    </select></label>\n";
+  }
+  var need = theme ? theme.need : "sante";
+  var themeSlug = theme ? theme.slug : "";
+  var themeLabel = theme ? theme.navLabel : "assurance & crédit";
   return (
     '<section class="forum-ask" id="poser-question" data-forum-ask data-need="' +
-    esc(theme.need) +
+    esc(need) +
     '" data-theme="' +
-    esc(theme.slug) +
+    esc(themeSlug) +
     '" data-thread="' +
     esc(threadSlug) +
-    '">\n' +
-    "  <h2>Posez votre question ou demande</h2>\n" +
-    "  <p>Publique côté SEO (thème « " +
-    esc(theme.navLabel) +
-    " ») — votre message arrive chez le courtier. Gratuit, sans engagement. Réponse à <strong>" +
+    '"' +
+    (hubMode ? ' data-hub-ask="1"' : "") +
+    ">\n" +
+    "  <h2>Posez votre question</h2>\n" +
+    "  <p>Une vraie question, une réponse de courtier ORIAS. Gratuit, sans engagement — message reçu à <strong>" +
     esc(DATA.contactEmail) +
-    "</strong>.</p>\n" +
+    "</strong>" +
+    (hubMode ? "" : " (thème « " + esc(themeLabel) + " »)") +
+    ".</p>\n" +
     '  <form class="forum-ask-form" novalidate>\n' +
+    themeSelect +
     '    <label>Votre question / demande<textarea name="question" required rows="4" maxlength="2000" placeholder="Ex. Combien coûte une mutuelle famille à Nancy avec bons postes optique ?"></textarea></label>\n' +
     '    <div class="forum-ask-row">\n' +
     '      <label>Prénom<input type="text" name="first_name" required autocomplete="given-name" /></label>\n' +
@@ -249,11 +281,11 @@ function askFormHtml(theme, opts) {
     '      <label>Code postal<input type="text" name="postal_code" maxlength="5" inputmode="numeric" placeholder="54xxx" /></label>\n' +
     "    </div>\n" +
     '    <input type="text" name="_hp" class="forum-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />\n' +
-    '    <button type="submit" class="btn btn-primary">Envoyer ma demande</button>\n' +
+    '    <button type="submit" class="btn btn-primary">Envoyer ma question</button>\n' +
     '    <p class="forum-ask-alt">Ou écrivez directement : <a href="mailto:' +
     esc(DATA.contactEmail) +
     "?subject=" +
-    encodeURIComponent(theme.navLabel || theme.title) +
+    encodeURIComponent(themeLabel) +
     '">' +
     esc(DATA.contactEmail) +
     "</a></p>\n" +
@@ -275,7 +307,7 @@ function shareBox(url, title) {
     encodeURIComponent("Lien : " + url);
   return (
     '<div class="forum-share" role="group" aria-label="Partager">\n' +
-    "  <span>Partager (Facebook indexe aussi les liens) :</span>\n" +
+    "  <span>Partager ce fil :</span>\n" +
     '  <a class="btn btn-outline btn-sm" href="' +
     esc(fb) +
     '" target="_blank" rel="noopener noreferrer">Facebook</a>\n' +
@@ -293,7 +325,7 @@ function phrasesList(phrases) {
   if (!phrases || !phrases.length) return "";
   return (
     '<aside class="forum-phrases">\n' +
-    "  <h2>Formulations proches (SEO)</h2>\n" +
+    "  <h2>Recherches associées</h2>\n" +
     "  <ul>\n" +
     phrases
       .map(function (p) {
@@ -305,10 +337,46 @@ function phrasesList(phrases) {
   );
 }
 
+function allThreadsFlat() {
+  var list = [];
+  DATA.themes.forEach(function (t) {
+    t.threads.forEach(function (th) {
+      list.push({ theme: t, thread: th });
+    });
+  });
+  return list;
+}
+
+function forumStats() {
+  var n = 0;
+  DATA.themes.forEach(function (t) {
+    n += t.threads.length;
+  });
+  return { themes: DATA.themes.length, threads: n, replies: n };
+}
+
 function buildHub() {
   var canonical = BASE + "/forum/";
+  var stats = forumStats();
   var desc =
-    "Forum assurance et crédit : mutuelle, VTC, crédit immo, habitation, Nancy 54. Posez une question, lisez les Q/R SEO, contactez contact@leadsopportunities.fr.";
+    "Forum assurance et crédit : " +
+    stats.threads +
+    " questions (mutuelle, VTC, crédit immo, habitation, Nancy 54). Posez la vôtre — réponses courtier ORIAS, contact@leadsopportunities.fr.";
+
+  var themeChips = DATA.themes
+    .map(function (t) {
+      return (
+        '<a class="forum-chip" href="./' +
+        esc(t.slug) +
+        '/">' +
+        esc(t.navLabel) +
+        " <span>" +
+        t.threads.length +
+        "</span></a>"
+      );
+    })
+    .join("\n        ");
+
   var cards = DATA.themes
     .map(function (t) {
       return (
@@ -323,8 +391,35 @@ function buildHub() {
         "</span>\n" +
         "        <em>" +
         t.threads.length +
-        " fils · poser une demande</em>\n" +
+        " questions · 1 réponse courtier / fil</em>\n" +
         "      </a>\n"
+      );
+    })
+    .join("");
+
+  var rows = allThreadsFlat()
+    .map(function (item) {
+      var t = item.theme;
+      var th = item.thread;
+      return (
+        '        <tr>\n' +
+        '          <td class="forum-q"><a href="./' +
+        esc(t.slug) +
+        "/" +
+        esc(th.slug) +
+        '.html">' +
+        esc(th.question) +
+        "</a>\n" +
+        '            <p class="forum-q-excerpt">' +
+        esc(th.excerpt) +
+        "</p></td>\n" +
+        '          <td><a class="forum-badge" href="./' +
+        esc(t.slug) +
+        '/">' +
+        esc(t.navLabel) +
+        "</a></td>\n" +
+        '          <td class="forum-meta-num">1</td>\n' +
+        "        </tr>\n"
       );
     })
     .join("");
@@ -338,25 +433,69 @@ function buildHub() {
   var body =
     '  <main class="forum-main container">\n' +
     '    <header class="forum-hero">\n' +
-    "      <p class=\"forum-kicker\">Forum SEO · Google + Facebook</p>\n" +
-    "      <h1>Questions, demandes &amp; Q/R assurance-crédit</h1>\n" +
-    "      <p class=\"lead\">Les gens cherchent en phrases naturelles — « combien ça coûte vraiment », « est-ce que ça vaut le coup », « où trouver un courtier à Nancy ». Ce forum transforme ces tournures en pages indexables, partageables sur Facebook, avec contact direct <a href=\"mailto:" +
-    esc(DATA.contactEmail) +
-    '">' +
-    esc(DATA.contactEmail) +
-    "</a>.</p>\n" +
+    '      <p class="forum-kicker">Forum communautaire · Courtier ORIAS</p>\n' +
+    "      <h1>Forum assurance &amp; crédit</h1>\n" +
+    '      <p class="lead">Connectez-vous, posez des questions, recevez des réponses, et <strong>liez les articles du blog</strong> quand les sujets se rejoignent. Les questions en langage naturel restent aussi notre SEO.</p>\n' +
+    '      <p class="forum-stats" aria-label="Statistiques du forum"><span><strong>' +
+    stats.threads +
+    "</strong> fils SEO</span><span><strong>" +
+    stats.themes +
+    "</strong> catégories</span><span><strong>live</strong> discussion</span></p>\n" +
+    '      <p class="forum-cta-row"><a class="btn btn-primary" href="#/auth/register">Créer un compte</a> <a class="btn btn-outline" href="#/new">Nouveau sujet</a> <a class="btn btn-soft" href="#toutes-les-questions">Questions SEO</a></p>\n' +
     "    </header>\n" +
-    '    <section class="forum-theme-grid" aria-label="Thèmes">\n' +
+    '    <section class="flive-mount" data-forum-live aria-live="polite">\n' +
+    '      <p class="flive-loading">Chargement du forum live…</p>\n' +
+    "    </section>\n" +
+    '    <div data-forum-seo-static>\n' +
+    '    <nav class="forum-chips" aria-label="Thèmes SEO (pages indexables)">\n' +
+    "        " +
+    themeChips +
+    "\n" +
+    "    </nav>\n" +
+    '    <section class="forum-theme-grid" aria-label="Thèmes SEO">\n' +
     cards +
     "    </section>\n" +
+    '    <section class="forum-board" id="toutes-les-questions" aria-labelledby="forum-board-title">\n' +
+    '      <div class="forum-board-head">\n' +
+    '        <h2 id="forum-board-title">Questions SEO (pages indexables)</h2>\n' +
+    '        <p class="forum-board-lead">Chaque question = une URL Google. La discussion live (compte) est au-dessus — les deux se complètent.</p>\n' +
+    "      </div>\n" +
+    '      <div class="forum-table-wrap">\n' +
+    '        <table class="forum-table">\n' +
+    "          <thead>\n" +
+    "            <tr><th scope=\"col\">Question</th><th scope=\"col\">Thème</th><th scope=\"col\">Réponses</th></tr>\n" +
+    "          </thead>\n" +
+    "          <tbody>\n" +
+    rows +
+    "          </tbody>\n" +
+    "        </table>\n" +
+    "      </div>\n" +
+    "    </section>\n" +
     '    <section class="forum-cloud">\n' +
-    "      <h2>Tournures qu’on vise (longue traîne)</h2>\n" +
+    "      <h2>Tournures fréquentes (longue traîne SEO)</h2>\n" +
+    "      <p class=\"forum-cloud-lead\">Ces phrases sont aussi notre SEO : ce que les gens tapent avant de comparer un devis.</p>\n" +
     "      <ul>" +
     phraseCloud +
     "</ul>\n" +
-    "      <p class=\"forum-fb-note\">Facebook agit comme un moteur : un lien avec bon titre + Open Graph se diffuse dans les groupes locaux (Nancy, VTC, immo). Chaque fil a un bouton <strong>Partager sur Facebook</strong>.</p>\n" +
+    '      <p class="forum-fb-note">Partagez un fil sur <strong>Facebook</strong> : chaque page SEO a un bouton Partager + Open Graph.</p>\n' +
     "    </section>\n" +
+    "    </div>\n" +
     "  </main>\n";
+
+  var itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Questions du forum Leads Opportunities",
+    numberOfItems: stats.threads,
+    itemListElement: allThreadsFlat().map(function (item, i) {
+      return {
+        "@type": "ListItem",
+        position: i + 1,
+        url: BASE + "/forum/" + item.theme.slug + "/" + item.thread.slug + ".html",
+        name: item.thread.question,
+      };
+    }),
+  };
 
   var jsonLd = [
     organizationJsonLd(),
@@ -367,11 +506,13 @@ function buildHub() {
       description: desc,
       url: canonical,
       isPartOf: { "@type": "WebSite", name: "Leads Opportunities", url: BASE + "/" },
+      mainEntity: itemList,
     },
+    itemList,
   ];
 
   return shell({
-    title: "Forum assurance & crédit — questions et demandes",
+    title: "Forum assurance & crédit — questions et réponses",
     description: desc,
     canonical: canonical,
     ogImage: absUrl(LOGO_BANNER_SRC || "/og/og-brand.jpg"),
@@ -379,6 +520,7 @@ function buildHub() {
     depth: 0,
     jsonLd: jsonLd,
     body: body,
+    includeLiveApp: true,
   });
 }
 
@@ -389,6 +531,9 @@ function buildTheme(theme) {
     .map(function (th) {
       return (
         '      <article class="forum-thread-card">\n' +
+        '        <div class="forum-thread-card-meta"><span class="forum-badge">' +
+        esc(theme.navLabel) +
+        '</span><span class="forum-pill">1 réponse</span></div>\n' +
         "        <h2><a href=\"./" +
         esc(th.slug) +
         '.html">' +
@@ -399,10 +544,7 @@ function buildTheme(theme) {
         "</p>\n" +
         '        <a class="forum-read" href="./' +
         esc(th.slug) +
-        '.html">Lire la réponse à « ' +
-        esc(th.question.slice(0, 48)) +
-        (th.question.length > 48 ? "…" : "") +
-        ' »</a>\n' +
+        '.html">Ouvrir le fil →</a>\n' +
         "      </article>\n"
       );
     })
@@ -424,9 +566,12 @@ function buildTheme(theme) {
     "      <p class=\"lead\">" +
     esc(theme.intro) +
     "</p>\n" +
-    '      <p class="forum-cta-row"><a class="btn btn-primary" href="#poser-question">Poser une question sur ' +
-    esc(theme.navLabel) +
-    '</a> <a class="btn btn-outline" href="' +
+    '      <p class="forum-stats"><span><strong>' +
+    theme.threads.length +
+    "</strong> questions</span><span><strong>" +
+    theme.threads.length +
+    "</strong> réponses</span></p>\n" +
+    '      <p class="forum-cta-row"><a class="btn btn-primary" href="#poser-question">Poser une question</a> <a class="btn btn-outline" href="' +
     esc(theme.landing) +
     '">Parcours devis ' +
     esc(theme.navLabel) +
@@ -473,6 +618,36 @@ function buildTheme(theme) {
   });
 }
 
+function relatedThreadsHtml(theme, currentSlug) {
+  var others = theme.threads.filter(function (th) {
+    return th.slug !== currentSlug;
+  }).slice(0, 4);
+  if (!others.length) return "";
+  return (
+    '<aside class="forum-related">\n' +
+    "  <h2>Autres questions — " +
+    esc(theme.navLabel) +
+    "</h2>\n" +
+    "  <ul>\n" +
+    others
+      .map(function (th) {
+        return (
+          '    <li><a href="./' +
+          esc(th.slug) +
+          '.html">' +
+          esc(th.question) +
+          "</a></li>\n"
+        );
+      })
+      .join("") +
+    "  </ul>\n" +
+    '  <p><a href="./">Toutes les questions « ' +
+    esc(theme.navLabel) +
+    " » →</a></p>\n" +
+    "</aside>\n"
+  );
+}
+
 function buildThread(theme, thread) {
   var canonical = BASE + "/forum/" + theme.slug + "/" + thread.slug + ".html";
   var answerUrl = canonical + "#acceptedAnswer";
@@ -491,47 +666,53 @@ function buildThread(theme, thread) {
     breadcrumbNav(crumbs) +
     "    <article>\n" +
     '      <header class="forum-hero forum-hero--thread">\n' +
-    "        <p class=\"forum-kicker\">Question · " +
+    '        <p class="forum-kicker">Fil · ' +
     esc(theme.navLabel) +
     "</p>\n" +
     "        <h1>" +
     esc(thread.question) +
     "</h1>\n" +
-    "        <p class=\"lead\">" +
-    esc(thread.excerpt) +
-    "</p>\n" +
     '        <p class="forum-date"><time datetime="' +
     TODAY +
     '">Mis à jour le ' +
     TODAY +
-    "</time></p>\n" +
+    "</time> · 1 réponse</p>\n" +
     "      </header>\n" +
-    '      <div class="forum-answer" id="acceptedAnswer">\n' +
-    "        <h2>Réponse du courtier</h2>\n" +
+    '      <div class="forum-post forum-post--question">\n' +
+    '        <div class="forum-post-head"><span class="forum-avatar" aria-hidden="true">Q</span><div><strong>Question du forum</strong><span class="forum-post-role">Membre · ' +
+    esc(theme.navLabel) +
+    "</span></div></div>\n" +
+    "        <p>" +
+    esc(thread.excerpt) +
+    "</p>\n" +
+    "      </div>\n" +
+    '      <div class="forum-post forum-post--answer forum-answer" id="acceptedAnswer">\n' +
+    '        <div class="forum-post-head"><span class="forum-avatar forum-avatar--pro" aria-hidden="true">W</span><div><strong>Wendy Buchet</strong><span class="forum-post-role">Courtier ORIAS 15005935 · réponse acceptée</span></div></div>\n' +
     "        <p>" +
     esc(thread.answer) +
     "</p>\n" +
-    "        <p class=\"forum-fb-hook\">" +
+    '        <p class="forum-fb-hook">' +
     esc(fbHook) +
     "</p>\n" +
     "      </div>\n" +
     phrasesList(thread.phrases) +
+    relatedThreadsHtml(theme, thread.slug) +
     authorBlockHtml() +
     shareBox(canonical, thread.question) +
-    '      <p class="forum-cta-row"><a class="btn btn-primary" href="' +
+    '      <p class="forum-cta-row"><a class="btn btn-primary" href="/forum/#/">Discuter en live sur ce thème</a> <a class="btn btn-outline" href="' +
     esc(theme.questionnaire) +
     (theme.questionnaire.indexOf("?") >= 0 ? "&" : "?") +
     "utm_source=forum&utm_medium=thread&utm_campaign=" +
     esc(theme.slug) +
     '">Questionnaire ' +
     esc(theme.navLabel) +
-    ' (3 min)</a> <a class="btn btn-outline" href="mailto:' +
+    ' (3 min)</a> <a class="btn btn-soft" href="mailto:' +
     esc(DATA.contactEmail) +
     "?subject=" +
     encodeURIComponent(thread.question.slice(0, 80)) +
     '">Écrire à ' +
     esc(DATA.contactEmail) +
-    "</a></p>\n" +
+    '</a> <a class="btn btn-soft" href="#poser-question">Répondre / poser une suite</a></p>\n' +
     "    </article>\n" +
     askFormHtml(theme, { threadSlug: thread.slug }) +
     "  </main>\n";
@@ -546,7 +727,7 @@ function buildThread(theme, thread) {
       answerCount: 1,
       upvoteCount: 1,
       dateCreated: TODAY,
-      author: AUTHOR,
+      author: { "@type": "Person", name: "Membre forum" },
       acceptedAnswer: {
         "@type": "Answer",
         text: thread.answer,
