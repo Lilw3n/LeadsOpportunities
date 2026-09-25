@@ -90,6 +90,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/site-lock",
+      "destination": "/api/[action]?action=site-lock"
+    },
+    {
       "source": "/api/google-config-env",
       "destination": "/api/auth/google-config-env"
     },
