@@ -244,6 +244,16 @@ module.exports = async (req, res) => {
       return res.status(403).json({ error: "Compte desactive. Contactez l administrateur." });
     }
 
+    // Les 3 comptes admin restent admin même si la ligne DB était « user »
+    if (isAdminEmail(email) && !isPublicVerifierEmail(email) && user.role !== "admin") {
+      await sql`
+        UPDATE users SET role = 'admin', crm_role = 'admin', status = 'active', updated_at = now()
+        WHERE id = ${user.id}
+      `;
+      user.role = "admin";
+      user.crm_role = "admin";
+    }
+
     if (isSiteLegalLockEnabled() && !verifierOk && user.role !== "admin" && !user.crm_role) {
       return res.status(403).json({
         error: "Site en revue juridique : seuls les administrateurs et vérificateurs peuvent se connecter.",

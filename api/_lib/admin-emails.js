@@ -34,7 +34,13 @@ function parseEmailList(raw, fallback) {
 }
 
 function getAdminEmails() {
-  return parseEmailList(process.env.ADMIN_EMAILS, DEFAULT_ADMIN_EMAILS);
+  var fromEnv = parseEmailList(process.env.ADMIN_EMAILS, []);
+  // Toujours garder les 3 admins par défaut + éventuelle surcharge Vercel
+  var list = DEFAULT_ADMIN_EMAILS.slice();
+  fromEnv.forEach(function (e) {
+    if (list.indexOf(e) === -1) list.push(e);
+  });
+  return list;
 }
 
 function isAdminEmail(email) {
