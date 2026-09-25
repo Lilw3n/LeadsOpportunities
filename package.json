@@ -131,7 +131,8 @@
     "verify:immo-history-delete": "node scripts/verify-immo-history-delete.cjs",
     "verify:immo-synthese-totale": "node scripts/verify-immo-synthese-totale.cjs",
     "verify:immo-composition-draw-share": "node scripts/verify-immo-composition-draw-share.cjs",
-    "verify:allo-mcp-appels": "node scripts/verify-allo-mcp-appels.cjs"
+    "verify:allo-mcp-appels": "node scripts/verify-allo-mcp-appels.cjs",
+    "verify:pack": "npm run verify:verifier-access"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

@@ -42,8 +42,9 @@ assert(login.indexOf("lilwen.song@gmail.com") === -1 || true, "login délègue l
 var siteLock = fs.readFileSync(path.join(ROOT, "api/_lib/site-lock.js"), "utf8");
 assert(siteLock.indexOf("lilwen.song@gmail.com") !== -1 || siteLock.indexOf("verifier-access") !== -1, "site-lock lié vérifs");
 assert(siteLock.indexOf("buchetimmobilier") !== -1, "site-lock hôte Buchet");
-assert(fs.existsSync(path.join(ROOT, "api/site-lock.js")), "endpoint /api/site-lock");
 assert(fs.existsSync(path.join(ROOT, "site-lock.html")), "page site-lock.html");
+assert(fs.existsSync(path.join(ROOT, "api/_lib/routes/site-lock.js")), "route site-lock");
+assert(!fs.existsSync(path.join(ROOT, "api/site-lock.js")), "pas de api/site-lock.js (conflit rewrite /api/:action)");
 
 var actionJs = fs.readFileSync(path.join(ROOT, "api/[action].js"), "utf8");
 assert(actionJs.indexOf("site-lock") !== -1, "wire site-lock dans api/[action]");
