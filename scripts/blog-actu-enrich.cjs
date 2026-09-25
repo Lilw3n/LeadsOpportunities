@@ -207,36 +207,17 @@ function platformLabel(sourceType) {
 
 function isSportActu(text) {
   var hay = String(text || "").toLowerCase();
-  return [
-    "coupe du monde",
-    "world cup",
-    "mondial",
-    "fifa",
-    "équipe de france",
-    "equipe de france",
-    "mbappe",
-    "mbappé",
-    "deschamps",
-    "griezmann",
-    "supporters",
-    "supporter",
-    "match france",
-    "les bleus",
-    "france -",
-    "france –",
-    "france senegal",
-    "france sénégal",
-    "france argentine",
-    "stade",
-    "fan zone",
-    "joueur iconique",
-    "icone du foot",
-    "légende du foot",
-    "demi-finale",
-    "quart de finale",
-  ].some(function (kw) {
-    return hay.indexOf(kw) !== -1;
-  });
+  /* Eviter faux positifs type "France - Europe 1" (source presse) ou "classement mondial" eco */
+  if (/\b(coupe du monde|world cup|fifa|mbapp[eé]|deschamps|griezmann|les bleus|fan zone|equipe de france|équipe de france)\b/i.test(hay)) {
+    return true;
+  }
+  if (/\b(match france|france\s*[-–]\s*(s[eé]n[eé]gal|argentine|norv[eè]ge)|supporters?\s+(foot|france|cdm)|stade\s+(de france|foot))\b/i.test(hay)) {
+    return true;
+  }
+  if (/\bmondial\b/i.test(hay) && /\b(foot|football|cdm|fifa|supporters?)\b/i.test(hay)) {
+    return true;
+  }
+  return false;
 }
 
 module.exports = { enrichFromCandidate: enrichFromCandidate, isSportActu: isSportActu };

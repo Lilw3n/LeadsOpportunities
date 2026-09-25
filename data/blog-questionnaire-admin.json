@@ -2359,15 +2359,15 @@
     },
     {
       "file": "crise-du-logement-pourquoi-trouver-une-location-est-devenu-un-parcours-d.html",
-      "title": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant … : assurance voyage, mutuelle etranger et habitation — guide supporters",
-      "section": "actu",
-      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
-      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
-      "need": "autre",
-      "landing": "../landings/questionnaire.html",
-      "express": "../landings/devis-express.html",
-      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=crise-du-logement-pourquoi-trouver-une",
-      "matchedRule": null,
+      "title": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant … : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=crise-du-logement-pourquoi-trouver-une",
+      "matchedRule": "habitation",
       "species": null
     }
   ]

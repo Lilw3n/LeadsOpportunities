@@ -1785,21 +1785,21 @@
     },
     {
       "file": "crise-du-logement-pourquoi-trouver-une-location-est-devenu-un-parcours-d.html",
-      "section": "actu",
-      "tag": "Coupe du monde 2026",
-      "tagClass": "tag-actu",
-      "title": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant … : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant … : assurance habitation — que faire ?",
       "description": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant en France - Europe 1 — conseils assurance et questionnaire gratuit Leads Opportunities.",
       "meta": "7 min · Sept 2026",
       "cardExcerpt": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant en France - Europe 1 — impact sur votre assurance.",
       "cta": {
-        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=crise-du-logement-pourquoi-trouver-une",
-        "label": "Questionnaire mutuelle (3 min)"
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=crise-du-logement-pourquoi-trouver-une",
+        "label": "Questionnaire habitation (3 min)"
       },
       "blocks": [
         {
           "type": "p",
-          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Crise du logement : pourquoi trouver une location est devenu un parcours du combattant …</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Coupe du monde, deplacements supporters ou sejour a l'etranger : sans bonnes garanties, un accident, une annulation ou un cambriolage pendant l'absence peut couter tres cher."
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Crise du logement : pourquoi trouver une location est devenu un parcours du combattant …</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
         },
         {
           "type": "h2",
@@ -1816,12 +1816,11 @@
         {
           "type": "ul",
           "items": [
-            "Mutuelle : hospitalisation et pharmacie USA / Mexique / Canada (CDM 2026)",
-            "Assistance rapatriement et frais medicaux a l'etranger",
-            "Assurance voyage : annulation transport ou hebergement",
-            "Habitation : logement vide pendant le match ou le deplacement",
-            "Auto : stationnement longue duree — vol, bris de glace, assistance",
-            "Prevoyance : arret maladie si blessure ou epuisement (supporters, deplacements pro)"
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
           ]
         },
         {
@@ -1833,7 +1832,7 @@
         },
         {
           "type": "p",
-          "text": "Avant le coup d'envoi : questionnaire mutuelle / sante pour verifier la couverture a l'etranger et le reste a charge."
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
         },
         {
           "type": "p",
@@ -1842,24 +1841,12 @@
       ],
       "related": [
         {
-          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
-          "label": "CDM 2026 — voyage & sante"
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
         },
         {
-          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
-          "label": "Mutuelle a l'etranger"
-        },
-        {
-          "href": "./ligue-champions-assurance-voyage-deplacement.html",
-          "label": "Voyage & assurance"
-        },
-        {
-          "href": "../assurances/",
-          "label": "Toutes nos assurances"
-        },
-        {
-          "href": "./index.html",
-          "label": "Blog assurance"
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
         }
       ],
       "publishedAt": "2026-09-25T15:23:25.833Z",
