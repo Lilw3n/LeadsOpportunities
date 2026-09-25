@@ -30,10 +30,19 @@ function mergeWithQuotas(buckets, quotas) {
   ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
     var cap = quotas[type] || 0;
     var list = (buckets[type] || []).slice();
-    list.sort(function (a, b) {
-      return b.leadScore - a.leadScore;
+    // File manuelle / inbox (status queued) toujours prioritaire — ne pas
+    // la faire disparaître derrière le plafond leadScore (CDM, etc.).
+    var queued = list.filter(function (c) {
+      return c.status === "queued";
     });
-    merged = merged.concat(list.slice(0, cap));
+    var rest = list
+      .filter(function (c) {
+        return c.status !== "queued";
+      })
+      .sort(function (a, b) {
+        return b.leadScore - a.leadScore;
+      });
+    merged = merged.concat(queued.concat(rest).slice(0, Math.max(cap, queued.length)));
   });
   return merged;
 }
@@ -52,6 +61,11 @@ function ingestQueueItem(item, buckets, processed) {
   });
   if (!scaffold) return;
   if (!buckets[queueType]) buckets[queueType] = [];
+  var need =
+    scaffold.need ||
+    (scaffold.cta && scaffold.cta.href && scaffold.cta.href.match(/need=([^&]+)/)
+      ? scaffold.cta.href.match(/need=([^&]+)/)[1]
+      : "habitation");
   buckets[queueType].push({
     id: item.id || "manual-" + scaffold.file.replace(".html", ""),
     title: item.title,
@@ -61,6 +75,8 @@ function ingestQueueItem(item, buckets, processed) {
     sourceType: queueType,
     suggestedFile: scaffold.file,
     section: scaffold.section,
+    need: need,
+    leadScore: 100,
     status: "queued",
     fromDatabase: !!item.fromDatabase,
   });
@@ -152,14 +168,15 @@ async function main() {
   var processed = new Set(state.processedUrls || []);
   var buckets = { cafeyn: [], edge: [], firefox: [], aggregator: [] };
 
-  await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
-
+  // File manuelle / thèmes en premier — la dédup URL conserve le 1er item.
   (queue.items || []).forEach(function (item) {
     ingestQueueItem(item, buckets, processed);
   });
   dbQueue.forEach(function (item) {
     ingestQueueItem(item, buckets, processed);
   });
+
+  await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
 
   var files = existingFiles();
   ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
@@ -178,8 +195,10 @@ async function main() {
       seen.add(k);
       return true;
     });
+    // Si un doublon URL a écrasé un queued (ordre inverse), on ne devrait plus
+    // arriver ici — file déjà injectée en premier. Score file = max.
     buckets[type].forEach(function (c) {
-      c.leadScore = scoreLeadPotential(c);
+      c.leadScore = c.status === "queued" ? Math.max(100, scoreLeadPotential(c)) : scoreLeadPotential(c);
     });
   });
 
