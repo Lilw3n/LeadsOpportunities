@@ -100,11 +100,17 @@
     if (!Array.isArray(arr)) arr = [];
     var out = [];
     arr.forEach(function (item) {
-      if (out.length >= 5) return;
+      if (out.length >= 24) return;
       var url = typeof item === "string" ? item : item && (item.url || item.src);
       var kind = item && item.kind === "capture" ? "capture" : "photo";
       if (!isSafeMediaUrl(url)) return;
-      out.push({ url: url, kind: kind });
+      var row = { url: url, kind: kind };
+      if (item && typeof item === "object") {
+        if (item.driveFileId) row.driveFileId = item.driveFileId;
+        if (item.webViewLink) row.webViewLink = item.webViewLink;
+        if (item.storage) row.storage = item.storage;
+      }
+      out.push(row);
     });
     return out;
   }

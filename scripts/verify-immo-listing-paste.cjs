@@ -117,16 +117,34 @@ assert(pagesJs.indexOf("adPhotoFileInput") !== -1, "pages : input fichiers photo
 assert(pagesJs.indexOf("ingestAdminFiles") !== -1, "pages : ingest fichiers admin");
 assert(pagesJs.indexOf("adPhotoPasteBox") !== -1, "pages : zone collage photos");
 assert(pagesJs.indexOf("bindAdminPhotoRetry") !== -1, "pages : bindAdminPhotoRetry");
-assert(pagesJs.indexOf("persist: true") !== -1 || pagesJs.indexOf("persist:true") !== -1, "pages : persist photos");
-assert(pagesJs.indexOf("marque-page") === -1, "pages : plus de marque-page");
+assert(pagesJs.indexOf("removeAdminPhoto") !== -1 || pagesJs.indexOf("remove_urls") !== -1, "pages : suppression photos");
+assert(pagesJs.indexOf("data-rm-photo") !== -1, "pages : bouton supprimer vignette");
+assert(pagesJs.indexOf("lbc-gallery__admin-retry--bar") !== -1, "pages : barre admin même avec photos");
+assert(pagesJs.indexOf("slice(0, 24)") !== -1 || pagesJs.indexOf("slice(0,24)") !== -1, "pages : jusqu'à 24 photos");
 
 var css = read("css/immo-ad-listings.css");
 assert(css.indexOf("lbc-gallery__admin-retry") !== -1, "CSS : zone retry admin");
 assert(css.indexOf("lbc-gallery__admin-paste") !== -1, "CSS : zone collage admin");
+assert(css.indexOf("lbc-thumb-del") !== -1, "CSS : bouton supprimer vignette");
 
 assert(routeSrc.indexOf("persistPhotos") !== -1 || routeSrc.indexOf("persisted") !== -1, "API : persistance photos");
+assert(routeSrc.indexOf("syncPropertyPhotosToDrive") !== -1, "API : sync Drive photos data:");
+assert(routeSrc.indexOf("remove_urls") !== -1, "API : suppression photos");
+assert(routeSrc.indexOf("data:image") !== -1 || routeSrc.indexOf("isAllowedPhotoUrl") !== -1, "API : accepte data:image");
 assert(routeSrc.indexOf("source: \"direct\"") !== -1 || routeSrc.indexOf("source: 'direct'") !== -1 || routeSrc.indexOf('source: "direct"') !== -1, "API : photo_urls directs");
 assert(routeSrc.indexOf("marque-page") === -1, "API : plus de marque-page");
+
+var pubLib = read("js/immo-public-listings-lib.js");
+assert(pubLib.indexOf("out.length >= 24") !== -1, "public listings : max 24 photos");
+
+var tiny =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP///wD/2wBDAf///wD/wgARCAABAAEDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAG/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AfwD/2Q==";
+var Pub = require("../js/immo-public-listings-lib.js");
+assert(Pub.isSafeMediaUrl(tiny), "data:image jpeg autorisé");
+var many = [];
+for (var i = 0; i < 10; i++) many.push({ url: "https://example.com/p" + i + ".jpg", kind: "photo" });
+var sanitized = Pub.sanitizeMedia(many);
+assert(sanitized.length === 10, "sanitizeMedia garde 10 photos (plus de plafond 5)");
 assert(read("immobilier/biens.html").indexOf("immo-listing-paste-lib") !== -1, "hub biens charge paste lib");
 assert(read("immobilier/biens.html").indexOf("immo-photo-compress-lib") !== -1, "hub biens charge compress");
 assert(read("immobilier/biens.html").indexOf("v=20260910drop") !== -1, "hub biens cache-bust");
