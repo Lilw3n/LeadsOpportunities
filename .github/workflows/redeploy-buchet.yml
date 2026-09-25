@@ -1,0 +1,46 @@
+name: Redeploy Buchet / DiddyImmo
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "api/_lib/site-lock.js"
+      - "api/_lib/routes/login.js"
+      - "api/_lib/verifier-access.js"
+      - "middleware.js"
+      - "auth.html"
+      - "site-lock.html"
+      - ".github/workflows/redeploy-buchet.yml"
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy hooks (Buchet / generic)
+        env:
+          HOOK_BUCHET: ${{ secrets.VERCEL_DEPLOY_HOOK_BUCHET }}
+          HOOK_DIDDY: ${{ secrets.VERCEL_DEPLOY_HOOK_DIDDY }}
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+          HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          set -e
+          ok=0
+          for name in HOOK_BUCHET HOOK_DIDDY HOOK HOOK_URL; do
+            val="${!name}"
+            if [ -n "$val" ]; then
+              echo "POST $name"
+              code=$(curl -sS -o /tmp/hook-out.txt -w "%{http_code}" -X POST "$val" || true)
+              echo "HTTP $code"
+              head -c 200 /tmp/hook-out.txt || true
+              echo
+              ok=1
+            else
+              echo "skip $name (empty)"
+            fi
+          done
+          if [ "$ok" != "1" ]; then
+            echo "Aucun deploy hook Buchet configuré dans les secrets GitHub."
+            echo "Ajouter VERCEL_DEPLOY_HOOK_BUCHET (Vercel → projet diddyimmo/buchet → Settings → Git → Deploy Hooks)."
+            exit 1
+          fi
