@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-23T10:52:15.547Z",
+  "updated": "2026-09-25T15:23:10.868Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -1514,6 +1514,356 @@
       "utm": {
         "medium": "actu_daily"
       }
+    },
+    {
+      "file": "assurance-emprunteur-changez-d-assureur-sans-perdre-votre-couverture.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Assurance emprunteur : changez d'assureur sans perdre votre couverture : pret et assurance emprunteur — que faire ?",
+      "description": "Assurance emprunteur : changez d'assureur sans perdre votre couverture — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Assurance emprunteur : changez d'assureur sans perdre votre couverture — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-emprunteur-changez-d-assureu",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Bing News</strong> (<strong>Assurance emprunteur : changez d'assureur sans perdre votre couverture</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "marseille-paris-nantes-plusieurs-centaines-de-chauffeurs-de-vtc-manifest.html",
+      "section": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "title": "Marseille, Paris, Nantes… plusieurs centaines de chauffeurs de VTC manifestent contre u… : assurance VTC — que faire ?",
+      "description": "Marseille, Paris, Nantes… plusieurs centaines de chauffeurs de VTC manifestent contre une hausse de leur numerus clausus — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Marseille, Paris, Nantes… plusieurs centaines de chauffeurs de VTC manifestent contre une hausse de leur numer — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=marseille-paris-nantes-plusieurs-cent",
+        "label": "Questionnaire VTC (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Bing News</strong> (<strong>Marseille, Paris, Nantes… plusieurs centaines de chauffeurs de VTC manifestent contre u…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un contrat VTC inadapte peut bloquer Uber, Bolt ou Heetch — et couter cher au sinistre."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "RC Pro plateforme et activite",
+            "Vehicule : usage professionnel declare",
+            "Assistance et perte d'exploitation",
+            "Franchise et conducteurs secondaires",
+            "Attestation a jour avant chaque course"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire VTC : plateforme, vehicule, anciennete."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-vtc-moins-cher-2026.html",
+          "label": "VTC moins cher"
+        },
+        {
+          "href": "../assurance-vtc/",
+          "label": "Assurance VTC"
+        }
+      ]
+    },
+    {
+      "file": "mutuelle-pour-chien-ou-chat-est-ce-vraiment-utile-et-combien-coute-cette.html",
+      "section": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "title": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? … : assurance animaux — que faire ?",
+      "description": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? - Ouest-France — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? - Ouest-France — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=mutuelle-pour-chien-ou-chat-est-ce-vra",
+        "label": "Questionnaire animaux (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? …</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Une urgence veterinaire peut depasser 1 000 EUR sans assurance animaux."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Plafond annuel et franchise",
+            "Maladies hereditaires et exclusions",
+            "Prevention et vermifuge",
+            "Age du chien ou chat a la souscription",
+            "Delai de carence"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire animaux : espece, age, antecedents."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-animaux-comment-choisir.html",
+          "label": "Choisir assurance animaux"
+        },
+        {
+          "href": "../assurance-animaux/",
+          "label": "Assurance animaux"
+        }
+      ]
+    },
+    {
+      "file": "assurance-habitation-quand-et-comment-declarer-un-sinistre-dans-son-loge.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Assurance habitation : quand et comment déclarer un sinistre dans son logement à son as… : assurance habitation — que faire ?",
+      "description": "Assurance habitation : quand et comment déclarer un sinistre dans son logement à son assureur? — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Assurance habitation : quand et comment déclarer un sinistre dans son logement à son assureur? — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=assurance-habitation-quand-et-comment",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Bing News</strong> (<strong>Assurance habitation : quand et comment déclarer un sinistre dans son logement à son as…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "crise-du-logement-pourquoi-trouver-une-location-est-devenu-un-parcours-d.html",
+      "section": "actu",
+      "tag": "Coupe du monde 2026",
+      "tagClass": "tag-actu",
+      "title": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant … : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "description": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant en France - Europe 1 — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Sept 2026",
+      "cardExcerpt": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant en France - Europe 1 — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=crise-du-logement-pourquoi-trouver-une",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Crise du logement : pourquoi trouver une location est devenu un parcours du combattant …</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Coupe du monde, deplacements supporters ou sejour a l'etranger : sans bonnes garanties, un accident, une annulation ou un cambriolage pendant l'absence peut couter tres cher."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Mutuelle : hospitalisation et pharmacie USA / Mexique / Canada (CDM 2026)",
+            "Assistance rapatriement et frais medicaux a l'etranger",
+            "Assurance voyage : annulation transport ou hebergement",
+            "Habitation : logement vide pendant le match ou le deplacement",
+            "Auto : stationnement longue duree — vol, bris de glace, assistance",
+            "Prevoyance : arret maladie si blessure ou epuisement (supporters, deplacements pro)"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Avant le coup d'envoi : questionnaire mutuelle / sante pour verifier la couverture a l'etranger et le reste a charge."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ],
+      "publishedAt": "2026-09-25T15:23:25.833Z",
+      "sourceType": "google"
     }
   ]
 }

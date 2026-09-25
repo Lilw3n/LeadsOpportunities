@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-23",
+  "updated": "2026-09-25",
   "sections": [
     "actu",
     "animaux",
@@ -2303,6 +2303,71 @@
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=bail-de-location-meuble-les-regles-ess",
       "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "assurance-emprunteur-changez-d-assureur-sans-perdre-votre-couverture.html",
+      "title": "Assurance emprunteur : changez d'assureur sans perdre votre couverture : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-emprunteur-changez-d-assureu",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "marseille-paris-nantes-plusieurs-centaines-de-chauffeurs-de-vtc-manifest.html",
+      "title": "Marseille, Paris, Nantes… plusieurs centaines de chauffeurs de VTC manifestent contre u… : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=marseille-paris-nantes-plusieurs-cent",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "mutuelle-pour-chien-ou-chat-est-ce-vraiment-utile-et-combien-coute-cette.html",
+      "title": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? … : assurance animaux — que faire ?",
+      "section": "animaux",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=mutuelle-pour-chien-ou-chat-est-ce-vra",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "assurance-habitation-quand-et-comment-declarer-un-sinistre-dans-son-loge.html",
+      "title": "Assurance habitation : quand et comment déclarer un sinistre dans son logement à son as… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=assurance-habitation-quand-et-comment",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "crise-du-logement-pourquoi-trouver-une-location-est-devenu-un-parcours-d.html",
+      "title": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant … : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=crise-du-logement-pourquoi-trouver-une",
+      "matchedRule": null,
       "species": null
     }
   ]
