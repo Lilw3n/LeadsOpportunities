@@ -1,19 +1,32 @@
 /**
  * Accès vérificateurs juridiques / revue site.
  * Mot de passe partagé indépendant de Google (défaut MrRollin).
+ * Les 3 e-mails de vérification + admins.
  *
  * Env Vercel :
  *   VERIFIER_SHARED_PASSWORD=MrRollin
- *   LEGAL_VERIFIER_EMAILS=wendy.buchet@gmail.com,autre@exemple.fr
- *   SITE_LEGAL_LOCK=1   → bannière « accès restreint » sur auth.html
+ *   LEGAL_VERIFIER_EMAILS=a@x,b@y,c@z
+ *   SITE_LEGAL_LOCK=1
  */
-const { parseEmailList, isAdminEmail } = require("./admin-emails");
+const { parseEmailList, isAdminEmail, getAdminEmails } = require("./admin-emails");
 const { safeEqual } = require("./security");
 
-var DEFAULT_VERIFIER_EMAILS = ["wendy.buchet@gmail.com"];
+/** Les 3 adresses de vérification juridique (défaut). */
+var DEFAULT_VERIFIER_EMAILS = [
+  "wendy.buchet@gmail.com",
+  "wendy.buchet.pro@gmail.com",
+  "courtier972@gmail.com",
+];
 
 function getVerifierEmails() {
-  return parseEmailList(process.env.LEGAL_VERIFIER_EMAILS, DEFAULT_VERIFIER_EMAILS);
+  var fromEnv = parseEmailList(process.env.LEGAL_VERIFIER_EMAILS, []);
+  if (fromEnv.length) return fromEnv;
+  // Union défauts + admins (sans doublon)
+  var list = DEFAULT_VERIFIER_EMAILS.slice();
+  getAdminEmails().forEach(function (e) {
+    if (list.indexOf(e) === -1) list.push(e);
+  });
+  return list;
 }
 
 function isVerifierEmail(email) {
@@ -22,7 +35,6 @@ function isVerifierEmail(email) {
     .toLowerCase();
   if (!e) return false;
   if (getVerifierEmails().indexOf(e) !== -1) return true;
-  // Admins = aussi autorisés pendant la revue (Google ou mdp partagé)
   if (isAdminEmail(e)) return true;
   return false;
 }

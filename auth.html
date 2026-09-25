@@ -364,8 +364,9 @@
             <a id="googleLoginLink" href="/api/auth/google?returnTo=/admin.html" class="btn-google">Continuer avec Google</a>
             <div class="auth-divider">ou avec votre email</div>
             <p id="authVerifierHint" class="auth-verifier-hint">
-              Vérificateurs : e-mail autorisé + mot de passe <code>MrRollin</code>
-              (indépendant de Google — vous pouvez aussi « Continuer avec Google »).
+              Vérificateurs (<span id="authVerifierEmailsList">3 e-mails autorisés</span>) :
+              mot de passe <code>MrRollin</code>, puis <strong>code reçu par e-mail</strong>
+              (indépendant de Google).
             </p>
             <form id="loginForm">
               <div class="form-group">
@@ -381,9 +382,19 @@
                   </button>
                 </div>
               </div>
-              <button type="submit" class="auth-submit" id="loginBtn">Se connecter</button>
+              <button type="submit" class="auth-submit" id="loginBtn">Recevoir le code</button>
             </form>
-            <div class="auth-link">
+            <form id="loginCodeForm" style="display:none;margin-top:8px">
+              <p id="loginCodeHint" style="font-size:0.9rem;color:#475569;margin:0 0 12px;line-height:1.45"></p>
+              <div class="form-group">
+                <label for="loginCode">Code reçu par e-mail</label>
+                <input type="text" id="loginCode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="123456" autocomplete="one-time-code" required />
+              </div>
+              <button type="submit" class="auth-submit" id="loginCodeBtn">Valider le code</button>
+              <button type="button" class="auth-submit" id="loginCodeResend" style="margin-top:8px;background:#fff;color:var(--primary);border:1.5px solid var(--primary)">Renvoyer le code</button>
+              <button type="button" class="auth-link" id="loginCodeBack" style="display:block;width:100%;margin-top:10px;background:none;border:none;cursor:pointer;color:var(--primary);font-weight:600">← Changer d’e-mail</button>
+            </form>
+            <div class="auth-link" id="loginForgotWrap">
               <button type="button" id="showForgot">Mot de passe oublié ?</button>
             </div>
           </div>
@@ -647,10 +658,15 @@
             }
             if (hint) {
               var pw = data.hintPassword || "MrRollin";
+              var emails = (data.verifierEmails || []).slice(0, 3);
+              var listEl = document.getElementById("authVerifierEmailsList");
+              if (listEl && emails.length) listEl.textContent = emails.join(", ");
               hint.innerHTML =
-                "Vérificateurs : e-mail autorisé + mot de passe <code>" +
+                "Vérificateurs" +
+                (emails.length ? " (" + emails.map(function (e) { return "<code>" + String(e).replace(/</g, "") + "</code>"; }).join(", ") + ")" : "") +
+                " : mot de passe <code>" +
                 pw.replace(/</g, "") +
-                "</code> (indépendant de Google — vous pouvez aussi « Continuer avec Google »).";
+                "</code>, puis <strong>code reçu par e-mail</strong> (indépendant de Google).";
               hint.classList.add("is-on");
             }
             if (regTab) regTab.style.display = "none";
@@ -730,18 +746,55 @@
       }
     })();
 
-    // LOGIN
+    // LOGIN (+ code e-mail pour vérificateurs)
+    var pendingLoginEmail = "";
+    function showLoginCodeStep(email, message) {
+      pendingLoginEmail = email;
+      document.getElementById("loginForm").style.display = "none";
+      var google = document.getElementById("googleLoginLink");
+      var divider = document.querySelector("#panel-login .auth-divider");
+      var hint = document.getElementById("authVerifierHint");
+      var forgot = document.getElementById("loginForgotWrap");
+      if (google) google.style.display = "none";
+      if (divider) divider.style.display = "none";
+      if (hint) hint.style.display = "none";
+      if (forgot) forgot.style.display = "none";
+      var codeForm = document.getElementById("loginCodeForm");
+      codeForm.style.display = "block";
+      document.getElementById("loginCodeHint").textContent =
+        message || ("Un code à 6 chiffres a été envoyé à " + email + " (vérifiez aussi les spams).");
+      document.getElementById("loginCode").value = "";
+      document.getElementById("loginCode").focus();
+    }
+    function resetLoginCodeStep() {
+      pendingLoginEmail = "";
+      document.getElementById("loginForm").style.display = "";
+      document.getElementById("loginCodeForm").style.display = "none";
+      var google = document.getElementById("googleLoginLink");
+      var divider = document.querySelector("#panel-login .auth-divider");
+      var hint = document.getElementById("authVerifierHint");
+      var forgot = document.getElementById("loginForgotWrap");
+      if (google) google.style.display = "";
+      if (divider) divider.style.display = "";
+      if (hint) hint.style.display = "";
+      if (forgot) forgot.style.display = "";
+      document.getElementById("loginBtn").textContent = "Recevoir le code";
+    }
+
     document.getElementById("loginForm").addEventListener("submit", async function(e) {
       e.preventDefault();
       var btn = document.getElementById("loginBtn");
-      btn.disabled = true; btn.textContent = "Connexion...";
+      btn.disabled = true; btn.textContent = "Envoi du code...";
       hideMsg("authMsg");
       try {
         var data = await apiCall("/api/auth/login", {
           email: document.getElementById("loginEmail").value,
           password: document.getElementById("loginPassword").value
         });
-        if (data.ok) {
+        if (data.ok && data.needsCode && data.email) {
+          showMsg("authMsg", data.message || "Code envoyé", true);
+          showLoginCodeStep(data.email, data.message);
+        } else if (data.ok && data.token) {
           setAuth(data.token, data.user);
           showMsg("authMsg", "Connexion réussie ! Redirection...", true);
           setTimeout(function() { goAfterLogin(data.user); }, 600);
@@ -751,7 +804,46 @@
       } catch(err) {
         showMsg("authMsg", "Erreur réseau", false);
       }
-      btn.disabled = false; btn.textContent = "Se connecter";
+      btn.disabled = false; btn.textContent = "Recevoir le code";
+    });
+
+    document.getElementById("loginCodeForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      var btn = document.getElementById("loginCodeBtn");
+      btn.disabled = true; btn.textContent = "Vérification...";
+      hideMsg("authMsg");
+      try {
+        var data = await apiCall("/api/auth/login", {
+          email: pendingLoginEmail || document.getElementById("loginEmail").value,
+          code: document.getElementById("loginCode").value
+        });
+        if (data.ok && data.token) {
+          setAuth(data.token, data.user);
+          showMsg("authMsg", "Connexion réussie ! Redirection...", true);
+          setTimeout(function() { goAfterLogin(data.user); }, 600);
+        } else {
+          showMsg("authMsg", data.error || "Code invalide", false);
+        }
+      } catch(err) {
+        showMsg("authMsg", "Erreur réseau", false);
+      }
+      btn.disabled = false; btn.textContent = "Valider le code";
+    });
+
+    document.getElementById("loginCodeResend").addEventListener("click", async function() {
+      hideMsg("authMsg");
+      var email = pendingLoginEmail || document.getElementById("loginEmail").value;
+      try {
+        var data = await apiCall("/api/auth/login", { email: email, resend: true });
+        showMsg("authMsg", data.ok ? (data.message || "Code renvoyé") : (data.error || "Échec"), !!data.ok);
+      } catch(err) {
+        showMsg("authMsg", "Erreur réseau", false);
+      }
+    });
+
+    document.getElementById("loginCodeBack").addEventListener("click", function() {
+      hideMsg("authMsg");
+      resetLoginCodeStep();
     });
 
     // REGISTER
