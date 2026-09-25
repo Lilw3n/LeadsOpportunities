@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Pipeline 100 % auto : fetch (RSS Cafeyn/Edge/Firefox + Pocket) → rédaction → publish.
+ * Pipeline 100 % auto : fetch (RSS Cafeyn/Edge/Firefox/Google/Bing/Yahoo + Pocket)
+ * → rédaction → publish.
  *
  * Usage:
  *   npm run blog:actu:auto
@@ -14,6 +15,7 @@ const { readJson, writeJson, rankCandidates, appendPendingArticle } = require(".
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
+const { PRIMARY_SOURCE_TYPES, resolveSourceType } = require("./blog-actu-sources.cjs");
 
 var ROOT = path.join(__dirname, "..");
 
@@ -37,7 +39,7 @@ function loadFeedSourceMap() {
   var feedsCfg = readJson("blog-actu-feeds.json", { feeds: [] });
   var map = {};
   (feedsCfg.feeds || []).forEach(function (f) {
-    map[f.id] = f.sourceType || "aggregator";
+    map[f.id] = resolveSourceType([f.id, f.name, f.sourceType].join(" "), f.sourceType || "aggregator");
   });
   return map;
 }
@@ -64,14 +66,15 @@ function loadPublishedTitleKeys() {
   return keys;
 }
 
-var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var PLATFORM_TYPES = PRIMARY_SOURCE_TYPES;
 
 function candidateSourceType(c, feedMap) {
-  if (c.sourceType) return c.sourceType;
+  if (c.sourceType) return resolveSourceType(c.sourceType, c.sourceType);
   var src = String(c.source || "").toLowerCase();
-  if (src.indexOf("cafeyn") !== -1) return "cafeyn";
-  if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
-  if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
+  if (src) {
+    var fromSource = resolveSourceType(src, "");
+    if (fromSource) return fromSource;
+  }
   return feedMap[c.feedId] || "aggregator";
 }
 
@@ -98,6 +101,7 @@ function pickCandidates(candidates, count, state) {
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
+    if (/arm[eé]e|isra[eé]l|gaza|ukraine|guerre|otan|plainte d[eé]pos/i.test(hay)) return false;
     return true;
   });
 
@@ -117,10 +121,40 @@ function pickCandidates(candidates, count, state) {
       used.add(c.url || c.title);
     });
 
+  /* Themes leads en priorite (lois/emprunteur, VTC, animaux, habitat/vente/location) */
+  var themeNeeds = ["emprunteur", "vtc", "animaux", "habitation"];
+  themeNeeds.forEach(function (need) {
+    if (picks.length >= count) return;
+    var already = picks.some(function (p) {
+      return p.need === need;
+    });
+    if (already) return;
+    var themed = available
+      .filter(function (c) {
+        return c.need === need && !used.has(c.url || c.title);
+      })
+      .sort(function (a, b) {
+        return b.leadScore - a.leadScore;
+      })[0];
+    if (themed) {
+      picks.push(themed);
+      used.add(themed.url || themed.title);
+    }
+  });
+
   if (count >= 3) {
+    var leadNeeds = { emprunteur: 1, vtc: 1, animaux: 1, habitation: 1, auto: 1, sante: 1, prevoyance: 1 };
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used);
+      var pick =
+        bestFromPlatform(
+          available.filter(function (c) {
+            return leadNeeds[c.need];
+          }),
+          platform,
+          feedMap,
+          used
+        ) || bestFromPlatform(available, platform, feedMap, used);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);

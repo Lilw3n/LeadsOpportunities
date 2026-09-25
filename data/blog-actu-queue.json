@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-09-25T15:23:10.875Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -33,9 +33,20 @@
       "title": "COLLEZ ICI le titre de la une Cafeyn (Le Figaro, Le Parisien…)",
       "url": "",
       "source": "cafeyn",
-      "note": "Angle assurance a preciser",
-      "status": "pending",
+      "note": "placeholder — ne pas publier",
+      "status": "rejected",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "queue-crise-logement-location-1790349781963",
+      "title": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant en France - Europe 1",
+      "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPVmdTdFR6UTFPcVpwWVJ6QjY5RWdDeXljU1h6dG85UnVPYW9FRjZORnFSZXlXSkpVVG9xdzRMTGtxbGtjbUhrci00ZG9fVzRJWkdPbXR1bVFJUEhGMVdKaElWN2R5VnJpaExHbmZTR0JpOGxkWXEwekhGZVk0Ukg3R1dJV25kSmFvby1QM1czNXFXWkZzemFhRVFjMm9DRXVJWWttMVRSN182eVVWZTBBTFBqckpxY2I2SGpWOFFwVVlKMmpjVllCNklfLVY4Z9IB0wFBVV95cUxPTm9XbXRoZFdYSHFraXowenhHOF8xcHhPbk8tWXl6SHRNZ2dqX0V6SVBaWUFEOEpJVmp4RlJlX0E4a01JcWdVQkNPZWR1aHhjR2l4OE9HZ0FNdGZJYVM3VUlNYzdkZm9Bdzl4aUlQMV81bndVZHAwbVZjVFI3UXZwRmR2aV9sMTRlbTBCLUhNRzJhN3dzMDZldEpYQ0E3LUx2a2lYQ3ZqSUFmMHJzT2ZMUE1GQUEtS0NLNG85RFV1M2UtdXNtRC04amcyOFVKUXR2Vkg4?oc=5",
+      "source": "google",
+      "note": "Theme recherche bien a louer — remplacement article non-lead",
+      "status": "published",
+      "need": "habitation",
+      "summary": "<a href=\"https://news.google.com/rss/articles/CBMizgFBVV95cUxPVmdTdFR6UTFPcVpwWVJ6QjY5RWdDeXljU1h6dG85UnVPYW9FRjZORnFSZXlXSkpVVG9xdzRMTGtxbGtjbUhrci00ZG9fVzRJWkdPbXR1bVFJUEhGMVdKaElWN2R5VnJpaExHbmZTR0JpOGxkWXEwekhGZVk0Ukg3R1dJV25kSmFvby1QM1czNXFXWkZzemFhRVFjMm9DRXVJWWttMVRSN182eVVWZTBBTFBqckpxY2I2SGpWOFFwVVlKMmpjVllCNklfLVY4Z9IB0wFBVV95cUxPTm9XbXRoZFdYSHFraXowenhHOF8xcHhPbk8tWXl6SHRNZ2dqX0V6SVBaWU",
+      "addedAt": "2026-09-25T15:23:01.963Z"
     }
   ]
 }
