@@ -20,8 +20,12 @@
   <style>
     .immo-bareme-block { margin: 36px 0 8px; }
     .immo-bareme-block .bh-calc { margin-top: 12px; }
-    .immo-bareme-preview { max-height: 320px; overflow: auto; }
+    .immo-bareme-preview { max-height: 520px; overflow: auto; }
     .immo-bareme-preview .bh-table { min-width: 0; }
+    .immo-bareme-preview tr.is-active td {
+      background: rgba(13, 148, 136, 0.12);
+      font-weight: 600;
+    }
     .immo-bareme-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
   </style>
 </head>
@@ -172,7 +176,7 @@
       <h2 class="pilier-section-title" id="immoBaremeTitle">Barème des honoraires</h2>
       <p class="bh-sub" style="margin-top:-4px">
         Grille choisie : <strong id="immoAgencyName">Les Portes Clés de l'Immobilier</strong>
-        (forfaits TTC TG0422). Même référence que le CRM.
+        (forfaits TTC TG0422 — <strong>toutes les tranches exactes</strong> du PDF). Même référence que le CRM.
       </p>
       <div class="bh-calc">
         <div class="bh-calc-grid">
@@ -217,8 +221,8 @@
     <section class="immo-bareme-block bh-section" id="location-bareme" aria-labelledby="immoLocBaremeTitle">
       <h2 class="pilier-section-title" id="immoLocBaremeTitle">Honoraires location (habitation)</h2>
       <p class="bh-sub" style="margin-top:-4px">
-        Barème TG0422 — € TTC / m² habitable : négociation 10 € (bailleur),
-        dossier 12,10 / 10,09 / 8,07 € selon zone, état des lieux 3,03 € (chaque partie).
+        Barème TG0422 — € TTC / m² habitable : négociation 6 € (bailleur),
+        dossier 12 / 10 / 8 € selon zone, état des lieux 3 € (chaque partie).
         Location pro : 18 % TTC du loyer annuel · bail commercial : 30 % HT, mini 7 000 € HT.
       </p>
       <div class="bh-calc">

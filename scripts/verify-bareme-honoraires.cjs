@@ -35,14 +35,38 @@ var hab = (data.schedules || []).find(function (s) {
 });
 assert(hab && Array.isArray(hab.brackets) && hab.brackets.length >= 23, "23 paliers habitation");
 assert(hab.brackets[5].value === 10000 && hab.brackets[5].min === 150001, "palier 150k–200k = 10k");
+
+// Tranches vente habitation = PDF TG0422 exact (23 paliers)
+var EXPECTED = [
+  [0, 20000, 5000], [20001, 40000, 5000], [40001, 70000, 5000],
+  [70001, 100000, 7000], [100001, 150000, 9000], [150001, 200000, 10000],
+  [200001, 250000, 12000], [250001, 300000, 15000], [300001, 350000, 18000],
+  [350001, 400000, 21000], [400001, 450000, 24000], [450001, 500000, 27000],
+  [500001, 550000, 30000], [550001, 600000, 33000], [600001, 650000, 36000],
+  [650001, 700000, 39000], [700001, 750000, 42000], [750001, 800000, 45000],
+  [800001, 850000, 48000], [850001, 900000, 51000], [900001, 950000, 54000],
+  [950001, 1000000, 57000]
+];
+var sorted = hab.brackets.slice().sort(function (a, b) { return a.min - b.min; });
+EXPECTED.forEach(function (row, i) {
+  var b = sorted[i];
+  assert(b && b.min === row[0] && b.max === row[1] && b.value === row[2] && b.type === "fixed",
+    "PDF tranche " + row[0] + "–" + row[1] + " = " + row[2]);
+});
+assert(sorted[22] && sorted[22].type === "percent" && sorted[22].value === 6 && sorted[22].min === 1000001, "PDF >1M = 6 %");
+
+var embed = read("js/immobilier-bareme-embed.js");
+assert(embed.indexOf("b.min === 70001") === -1, "embed n'échantillonné plus les paliers");
+assert(embed.indexOf("Toutes les tranches TG0422") >= 0 || embed.indexOf("hab.brackets || []") >= 0, "embed affiche toutes les tranches");
+
 var locHab = (data.schedules || []).find(function (s) {
   return s.kind === "location_habitation";
 });
-assert(locHab && locHab.perSqm && locHab.perSqm.negotiationTtcPerM2 === 10, "location négo 10 €/m²");
-assert(locHab.perSqm.etatDesLieuxTtcPerM2 === 3.03, "EDL 3,03 €/m²");
-assert(locHab.perSqm.dossierTtcPerM2["tres-tendue"] === 12.1, "dossier très tendue 12,10");
-assert(locHab.perSqm.dossierTtcPerM2.tendue === 10.09, "dossier tendue 10,09");
-assert(locHab.perSqm.dossierTtcPerM2.hors === 8.07, "dossier hors zone 8,07");
+assert(locHab && locHab.perSqm && locHab.perSqm.negotiationTtcPerM2 === 6, "location négo 6 €/m² PDF");
+assert(locHab.perSqm.etatDesLieuxTtcPerM2 === 3, "EDL 3 €/m² PDF");
+assert(locHab.perSqm.dossierTtcPerM2["tres-tendue"] === 12, "dossier très tendue 12 PDF");
+assert(locHab.perSqm.dossierTtcPerM2.tendue === 10, "dossier tendue 10 PDF");
+assert(locHab.perSqm.dossierTtcPerM2.hors === 8, "dossier hors zone 8 PDF");
 
 var bail = (data.schedules || []).find(function (s) {
   return s.kind === "bail_commercial";
@@ -61,10 +85,10 @@ assert(ventePro && ventePro.brackets && ventePro.brackets[0].value === 10, "vent
 
 var Lib = require(path.join(root, "js/bareme-honoraires-lib.js"));
 var loc50 = Lib.computeLocationHabitation(50, "tendue");
-assert(loc50.ok && loc50.bailleurTtc === 1156 && loc50.locataireTtc === 656, "50 m² zone tendue 1156 / 656");
-assert(loc50.totalAgenceTtc === 1812, "total agence 50 m² tendue = 1812");
+assert(loc50.ok && loc50.bailleurTtc === 950 && loc50.locataireTtc === 650, "50 m² zone tendue 950 / 650");
+assert(loc50.totalAgenceTtc === 1600, "total agence 50 m² tendue = 1600");
 var locHors = Lib.computeLocationHabitation(50, "hors_zone");
-assert(locHors.ok && locHors.zone.id === "hors" && locHors.bailleurTtc === 1055, "alias hors_zone + 50 m² hors = 1055");
+assert(locHors.ok && locHors.zone.id === "hors" && locHors.bailleurTtc === 850, "alias hors_zone + 50 m² hors = 850");
 var bailMin = Lib.computeBailCommercial(20000);
 assert(bailMin.ok && bailMin.appliedMinimum && bailMin.honorairesHt === 7000 && bailMin.honorairesTtc === 8400, "bail com mini 7000 HT / 8400 TTC");
 var bailOk = Lib.computeBailCommercial(30000);
@@ -123,7 +147,7 @@ assert(read("vercel.json").indexOf("/bareme-honoraires") >= 0, "rewrite Vercel")
 
 var lib = read("js/crm-agency-fees-lib.js");
 assert(lib.indexOf("publicOnSite: true") >= 0, "flag publicOnSite Portes Clés");
-assert(lib.indexOf("negotiation: 10") >= 0, "CRM négo location 10 €/m²");
+assert(lib.indexOf("negotiation: 6") >= 0, "CRM négo location 6 €/m²");
 assert(lib.indexOf("minFeeHt: 7000") >= 0, "CRM bail com mini 7000 HT");
 
 process.exit(failed ? 1 : 0);

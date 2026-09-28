@@ -17,27 +17,27 @@
       id: "tres-tendue",
       label: "Zone très tendue",
       hint: "Arrêté du 30 septembre 2014, annexe 1 tableau A bis (art. R. 304-1 CCH).",
-      dossierTtcPerM2: 12.1
+      dossierTtcPerM2: 12
     },
     tendue: {
       id: "tendue",
       label: "Zone tendue",
       hint: "Décret n° 2013-392 (TLV), hors communes déjà « très tendues ».",
-      dossierTtcPerM2: 10.09
+      dossierTtcPerM2: 10
     },
     hors: {
       id: "hors",
       label: "Hors zone tendue",
       hint: "Communes hors listes TLV / très tendues (ex. Lunéville).",
-      dossierTtcPerM2: 8.07
+      dossierTtcPerM2: 8
     }
   };
 
   var RATES = {
     tva: TVA,
     locationHabitation: {
-      negotiationTtcPerM2: 10,
-      etatDesLieuxTtcPerM2: 3.03,
+      negotiationTtcPerM2: 6,
+      etatDesLieuxTtcPerM2: 3,
       zones: LOCATION_ZONES,
       decree: "2014-890",
       sharing:
@@ -99,10 +99,10 @@
   }
 
   /**
-   * Location habitation — € TTC / m² surface habitable.
-   * Négociation : 10 € TTC/m² à la charge du bailleur.
+   * Location habitation — € TTC / m² surface habitable (PDF TG0422).
+   * Négociation : 6 € TTC/m² à la charge du bailleur.
    * Dossier + visite + rédaction du bail : même taux bailleur et locataire (zone).
-   * État des lieux : 3,03 € TTC/m² chacun.
+   * État des lieux : 3 € TTC/m² chacun.
    */
   function computeLocationHabitation(surfaceM2, zoneId) {
     var zone = resolveZone(zoneId);

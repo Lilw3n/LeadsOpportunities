@@ -70,27 +70,24 @@
     if (schedEl) schedEl.textContent = hab.name || "Vente habitation";
 
     var tbody = el("immoBhTableBody");
-    if (tbody) {
-      var preview = (hab.brackets || []).filter(function (b, idx, arr) {
-        return (
-          idx === 0 ||
-          idx === arr.length - 1 ||
-          b.min === 70001 ||
-          b.min === 150001 ||
-          b.min === 200001 ||
-          b.min === 300001 ||
-          b.min === 500001
-        );
-      });
-      tbody.innerHTML = preview
+
+    function renderTable(activeMin) {
+      if (!tbody) return;
+      // Toutes les tranches TG0422 exactes (pas d’échantillon qui saute des paliers).
+      var rows = hab.brackets || [];
+      tbody.innerHTML = rows
         .map(function (b) {
           var exampleNet = b.max == null ? Number(b.min) || 0 : Number(b.max);
           var fee =
             b.type === "fixed"
               ? Number(b.value) || 0
               : (exampleNet * (Number(b.value) || 0)) / 100;
+          var isActive =
+            activeMin != null && Number(b.min) === Number(activeMin);
           return (
-            "<tr><td>" +
+            '<tr class="' +
+            (isActive ? "is-active" : "") +
+            '"><td>' +
             formatRange(b) +
             '</td><td class="bh-fee">' +
             feeLabel(b) +
@@ -110,6 +107,7 @@
       var faiEl = el("immoBhFai");
       if (feeEl) feeEl.textContent = formatEuro(r.fee);
       if (faiEl) faiEl.textContent = formatEuro(net + r.fee);
+      renderTable(r.bracket ? r.bracket.min : null);
     }
 
     var priceEl = el("immoBhPrice");
@@ -148,12 +146,12 @@
       var zone = zoneEl ? zoneEl.value : "tendue";
       var dossier =
         zone === "tres-tendue" || zone === "tres_tendue"
-          ? 12.1
+          ? 12
           : zone === "hors" || zone === "hors_zone"
-            ? 8.07
-            : 10.09;
-      var bailleur = (10 + dossier + 3.03) * m2;
-      var locataire = (dossier + 3.03) * m2;
+            ? 8
+            : 10;
+      var bailleur = (6 + dossier + 3) * m2;
+      var locataire = (dossier + 3) * m2;
       var total = bailleur + locataire;
       if (el("immoLocBailleur")) el("immoLocBailleur").textContent = formatEuro(bailleur);
       if (el("immoLocLocataire")) el("immoLocLocataire").textContent = formatEuro(locataire);
