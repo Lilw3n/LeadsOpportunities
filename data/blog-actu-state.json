@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-28T09:16:00.495Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1Cb0FLNkxuay1rVEpyZjhlLVBTLXVfSXEydk9fdmx2UExJNHhtZUtkNklHVzUycTZoRGQ1dWY2NkI2TTItRFNwRk5MeGM2eTIzRmM3ckJn?oc=5",
+    "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPOXhpRGF5ejJ6SUNEOGN0OUtmdW85WDExWTR5UHZvcHNvdkxJd3QySFRpREotdUd0Y3cySVZhUTFLbWZXSjM0S3M0bUNSV3kwZnNBTldia0c5Q1ZWZVo1VUh1c3lnODkybEZzTTJDSVBIRDQ3ZGhxNVYtdF8tcEdPM2xSRF9aTzBIV1MtYzMzbXFIeUJMUzlRbjZfaXVfRF9NZnVxUHR0NU4xSC1qaVhZcnpBOW5XUWdyQzR6emgxTjNvanRpbC1tX19fM0hreEFISzhpOGJXNlBYaE5xTE1fVm9EOC1MTkJkcFEtOF9iS0Z6ZFhwVF96ZmNn?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aba2fe3938848aea9566bc9d03ed869&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6aba2fe42b67479caf1557421dd606bb&url=https%3a%2f%2fwww.capital.fr%2fimmobilier%2fachat-immobilier-nos-cartes-des-prix-dans-20-grandes-villes-de-france-1518998&c=14648715030204147575&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMiggJBVV95cUxNVmNfdkdkNEo5WFpDNDI0a1MzRVFHVlZzeF9xdVdXMGl4SzBKZm9WSzM3LTNLV3g3TlZlWHUzQW9NRHMxQmFRQ3FHVTF4cFFqMlUybFpjZjBBd0hjeFBoUllKc3FuODBNaldYSERNdWVldF9mdnlKNTk4aUJoWDZzdVllLVJ0X1VOdjdORmZxRGhzUlBPQkhaZXBWLTdnemgyWE11eUpaQ2c1ODlPV0lQTWJVeFEwU2xNLVZWdHEwOUNacGV3a3pwRVRxSWYxN0NQcXY2d1BzZFFZMVpqekd1WFFPTzN0NkxIQVQydFFPMVhiUkZqeFR1WjFWaGNKMWZfX1E?oc=5",
+    "https://news.google.com/rss/articles/CBMizgFBVV95cUxPVmdTdFR6UTFPcVpwWVJ6QjY5RWdDeXljU1h6dG85UnVPYW9FRjZORnFSZXlXSkpVVG9xdzRMTGtxbGtjbUhrci00ZG9fVzRJWkdPbXR1bVFJUEhGMVdKaElWN2R5VnJpaExHbmZTR0JpOGxkWXEwekhGZVk0Ukg3R1dJV25kSmFvby1QM1czNXFXWkZzemFhRVFjMm9DRXVJWWttMVRSN182eVVWZTBBTFBqckpxY2I2SGpWOFFwVVlKMmpjVllCNklfLVY4Z9IB0wFBVV95cUxPTm9XbXRoZFdYSHFraXowenhHOF8xcHhPbk8tWXl6SHRNZ2dqX0V6SVBaWUFEOEpJVmp4RlJlX0E4a01JcWdVQkNPZWR1aHhjR2l4OE9HZ0FNdGZJYVM3VUlNYzdkZm9Bdzl4aUlQMV81bndVZHAwbVZjVFI3UXZwRmR2aV9sMTRlbTBCLUhNRzJhN3dzMDZldEpYQ0E3LUx2a2lYQ3ZqSUFmMHJzT2ZMUE1GQUEtS0NLNG85RFV1M2UtdXNtRC04amcyOFVKUXR2Vkg4?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-28T09:16:02.475Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,50 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-28T09:16:02.475Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-protection-partenaires-avec-allianz-partners-uber.html",
+          "title": "Assurance Protection partenaires avec Allianz Partners - Uber : assurance VTC — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "mutuelle-pour-chien-ou-chat-est-ce-vraiment-utile-et-combien-coute-cette.html",
+          "title": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? … : assurance animaux — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "assurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-sedu.html",
+          "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les empru… : pret et assurance emprunteur — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "achat-immobilier-nos-cartes-des-prix-dans-20-grandes-villes-de-france.html",
+          "title": "Achat immobilier : nos cartes des prix dans 20 grandes villes de France : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "credit-immobilier-ces-regles-contre-le-surendettement-que-les-banques-ve.html",
+          "title": "Crédit immobilier : ces règles contre le surendettement que les banques veulent supprim… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "crise-du-logement-pourquoi-trouver-une-location-est-devenu-un-parcours-d.html",
+          "title": "Crise du logement : pourquoi trouver une location est devenu un parcours du combattant … : assurance habitation — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
