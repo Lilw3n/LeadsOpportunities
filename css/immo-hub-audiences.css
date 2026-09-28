@@ -1,0 +1,253 @@
+/* Hub immobilier — audiences (investisseur, acquéreur, vendeur, locataire) */
+.immo-aud,
+.immo-yield,
+.immo-faq {
+  --immo-aud-ink: #0f172a;
+  --immo-aud-muted: #475569;
+  --immo-aud-line: #dbe7f0;
+  --immo-aud-accent: #0369a1;
+  --immo-aud-soft: #e0f2fe;
+}
+.immo-aud {
+  margin: 0 0 28px;
+}
+
+.immo-aud-kicker {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--immo-aud-accent);
+  margin: 0 0 8px;
+}
+
+.immo-aud > h2 {
+  margin: 0 0 8px;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  letter-spacing: -0.02em;
+  color: var(--immo-aud-ink);
+}
+
+.immo-aud > p {
+  margin: 0 0 18px;
+  color: var(--immo-aud-muted);
+  max-width: 58ch;
+  line-height: 1.5;
+}
+
+.immo-aud-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 28px;
+}
+
+@media (max-width: 960px) {
+  .immo-aud-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .immo-aud-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.immo-aud-link {
+  display: block;
+  padding: 16px 16px 14px;
+  text-decoration: none;
+  color: inherit;
+  background: linear-gradient(180deg, #f8fbfd 0%, #eef5fa 100%);
+  border-bottom: 3px solid var(--immo-aud-accent);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.immo-aud-link:hover,
+.immo-aud-link:focus-visible {
+  transform: translateY(-2px);
+  background: #fff;
+  outline: none;
+}
+
+.immo-aud-link.is-featured {
+  background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 55%, #0ea5e9 100%);
+  color: #fff;
+  border-bottom-color: #7dd3fc;
+}
+
+.immo-aud-link.is-featured p {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.immo-aud-link.is-featured .go {
+  color: #e0f2fe;
+}
+
+.immo-aud-link strong {
+  display: block;
+  font-size: 1.02rem;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.immo-aud-link p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--immo-aud-muted);
+  line-height: 1.4;
+}
+
+.immo-aud-link .go {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--immo-aud-accent);
+}
+
+.immo-yield {
+  margin: 8px 0 32px;
+  padding: 22px 20px;
+  background:
+    linear-gradient(145deg, rgba(224, 242, 254, 0.65) 0%, rgba(248, 250, 252, 0.95) 42%),
+    #f8fafc;
+  border: 1px solid var(--immo-aud-line);
+  border-radius: 18px;
+}
+
+.immo-yield h2 {
+  margin: 0 0 6px;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.immo-yield .lead {
+  margin: 0 0 16px;
+  color: var(--immo-aud-muted);
+  max-width: 56ch;
+}
+
+.immo-yield-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.immo-yield-grid label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 4px;
+}
+
+.immo-yield-grid input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  background: #fff;
+}
+
+.immo-yield-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 8px 0 14px;
+}
+
+@media (max-width: 640px) {
+  .immo-yield-kpis {
+    grid-template-columns: 1fr;
+  }
+}
+
+.immo-yield-kpi {
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid var(--immo-aud-line);
+  border-radius: 12px;
+}
+
+.immo-yield-kpi span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.immo-yield-kpi strong {
+  font-size: 1.25rem;
+  color: var(--immo-aud-ink);
+  letter-spacing: -0.02em;
+}
+
+.immo-yield-kpi.is-best {
+  border-color: #7dd3fc;
+  background: var(--immo-aud-soft);
+}
+
+.immo-yield-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.immo-faq {
+  margin: 28px 0 8px;
+}
+
+.immo-faq h2 {
+  margin: 0 0 12px;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.immo-faq details {
+  border-bottom: 1px solid var(--immo-aud-line);
+  padding: 12px 0;
+}
+
+.immo-faq summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--immo-aud-ink);
+  list-style: none;
+}
+
+.immo-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.immo-faq summary::after {
+  content: "+";
+  float: right;
+  color: var(--immo-aud-accent);
+  font-weight: 800;
+}
+
+.immo-faq details[open] summary::after {
+  content: "–";
+}
+
+.immo-faq details p {
+  margin: 10px 0 4px;
+  color: var(--immo-aud-muted);
+  line-height: 1.55;
+  max-width: 70ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .immo-aud-link {
+    transition: none;
+  }
+}
