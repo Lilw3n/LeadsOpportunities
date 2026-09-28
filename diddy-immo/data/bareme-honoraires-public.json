@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "publishedAt": "2026-09-08",
+  "agencyId": "agency_portes_cles",
+  "agencyName": "Les Portes Clés de l'Immobilier",
+  "source": "Barème TG0422 — Immobilier Email SAS (PDF data/bareme-portecles-TG0422.pdf)",
+  "disclaimer": "Honoraires TTC maximums (TVA 20 % métropole). Vente : calculés sur le prix hors honoraires (net vendeur). Location : € TTC / m² habitable selon zone. Négociables au mandat. Document d'information.",
+  "schedules": [
+    {
+      "id": "sched_pc_habitation",
+      "name": "Vente habitation (forfait TTC)",
+      "kind": "vente_habitation",
+      "feeModel": "brackets",
+      "priceBasis": "net_vendeur",
+      "brackets": [
+        { "min": 0, "max": 20000, "type": "fixed", "value": 5000 },
+        { "min": 20001, "max": 40000, "type": "fixed", "value": 5000 },
+        { "min": 40001, "max": 70000, "type": "fixed", "value": 5000 },
+        { "min": 70001, "max": 100000, "type": "fixed", "value": 7000 },
+        { "min": 100001, "max": 150000, "type": "fixed", "value": 9000 },
+        { "min": 150001, "max": 200000, "type": "fixed", "value": 10000 },
+        { "min": 200001, "max": 250000, "type": "fixed", "value": 12000 },
+        { "min": 250001, "max": 300000, "type": "fixed", "value": 15000 },
+        { "min": 300001, "max": 350000, "type": "fixed", "value": 18000 },
+        { "min": 350001, "max": 400000, "type": "fixed", "value": 21000 },
+        { "min": 400001, "max": 450000, "type": "fixed", "value": 24000 },
+        { "min": 450001, "max": 500000, "type": "fixed", "value": 27000 },
+        { "min": 500001, "max": 550000, "type": "fixed", "value": 30000 },
+        { "min": 550001, "max": 600000, "type": "fixed", "value": 33000 },
+        { "min": 600001, "max": 650000, "type": "fixed", "value": 36000 },
+        { "min": 650001, "max": 700000, "type": "fixed", "value": 39000 },
+        { "min": 700001, "max": 750000, "type": "fixed", "value": 42000 },
+        { "min": 750001, "max": 800000, "type": "fixed", "value": 45000 },
+        { "min": 800001, "max": 850000, "type": "fixed", "value": 48000 },
+        { "min": 850001, "max": 900000, "type": "fixed", "value": 51000 },
+        { "min": 900001, "max": 950000, "type": "fixed", "value": 54000 },
+        { "min": 950001, "max": 1000000, "type": "fixed", "value": 57000 },
+        { "min": 1000001, "max": null, "type": "percent", "value": 6 }
+      ]
+    },
+    {
+      "id": "sched_pc_pro",
+      "name": "Terrains / bureaux / commerces / immeubles",
+      "kind": "vente_pro",
+      "feeModel": "brackets",
+      "priceBasis": "net_vendeur",
+      "summary": "10 % TTC sur toutes les tranches — charge vendeur sauf convention",
+      "rateTtc": 0.1,
+      "charge": "vendeur",
+      "brackets": [{ "min": 0, "max": null, "type": "percent", "value": 10 }]
+    },
+    {
+      "id": "sched_pc_bail_com",
+      "name": "Bail commercial",
+      "kind": "bail_commercial",
+      "feeModel": "annual_rent_percent",
+      "priceBasis": "loyer_annuel_ht",
+      "percentValue": 30,
+      "percentTax": "ht",
+      "minimumHt": 7000,
+      "charge": "preneur",
+      "summary": "30 % HT du loyer annuel en principal, mini 7 000 € HT, à la charge du preneur (TTC = HT × 1,20)."
+    },
+    {
+      "id": "sched_pc_loc_hab",
+      "name": "Location habitation",
+      "kind": "location_habitation",
+      "feeModel": "per_sqm_rental",
+      "priceBasis": "surface_habitable",
+      "summary": "Négociation 10 € TTC/m² (bailleur) · dossier + visite + bail 12,10 / 10,09 / 8,07 € TTC/m² selon zone (chaque partie) · état des lieux 3,03 € TTC/m² (chaque partie).",
+      "perSqm": {
+        "negotiationTtcPerM2": 10,
+        "etatDesLieuxTtcPerM2": 3.03,
+        "dossierTtcPerM2": {
+          "tres-tendue": 12.1,
+          "tendue": 10.09,
+          "hors": 8.07
+        }
+      },
+      "decree": "2014-890"
+    },
+    {
+      "id": "sched_pc_loc_pro",
+      "name": "Location pro / commercial",
+      "kind": "location_pro",
+      "feeModel": "annual_rent_percent",
+      "priceBasis": "loyer_annuel_ttc",
+      "percentValue": 18,
+      "percentTax": "ttc",
+      "charge": "preneur",
+      "summary": "18 % TTC du loyer TTC annuel, à la charge du preneur sauf convention."
+    },
+    {
+      "id": "sched_pc_avis",
+      "name": "Avis de valeur",
+      "kind": "avis_valeur",
+      "feeModel": "fixed_fee",
+      "priceBasis": "forfait",
+      "fixedFee": 360,
+      "charge": "proprietaire",
+      "maisonMaxM2": 100,
+      "appartMaxM2": 50,
+      "summary": "360 € TTC (maison < 100 m² ou appart < 50 m²) — autres biens sur devis. Charge propriétaire."
+    }
+  ]
+}

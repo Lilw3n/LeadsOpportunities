@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marché immobilier — déposer &amp; rechercher un bien | Leads Opportunities</title>
+  <meta name="description" content="Marché immobilier Leads Opportunities : recherchez un bien ou déposez votre annonce. Matching acquéreur / vendeur, Nancy et bassin 54 — leads qualifiés, pas de scraping." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/immobilier/marche.html" />
+  <meta property="og:title" content="Marché immobilier — déposer &amp; rechercher | Leads Opportunities" />
+  <meta property="og:description" content="Catalogue vivant : filtres, dépôt vendeur, recherche acquéreur. Chaque action crée un lead suivi dans le CRM." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.leadsopportunities.fr/immobilier/marche.html" />
+  <meta property="og:image" content="https://www.leadsopportunities.fr/assets/piliers/pilier-immobilier.jpg" />
+  <link rel="stylesheet" href="../main.css" />
+  <link rel="stylesheet" href="../css/piliers-hub.css?v=20260825real" />
+  <link rel="stylesheet" href="../css/acheteur-immo-search.css?v=20260825fold" />
+  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260910hub" />
+  <style>
+    .marche-hero {
+      position: relative;
+      min-height: min(72vh, 640px);
+      display: flex;
+      align-items: flex-end;
+      color: #fff;
+      background:
+        linear-gradient(160deg, rgba(12, 28, 48, 0.82) 0%, rgba(18, 52, 78, 0.55) 45%, rgba(8, 20, 36, 0.88) 100%),
+        url("../assets/piliers/pilier-immobilier.jpg") center/cover no-repeat;
+    }
+    .marche-hero .container { padding: 48px 20px 56px; max-width: 1080px; }
+    .marche-brand {
+      font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+      font-size: clamp(2.1rem, 5vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 10px;
+      line-height: 1.05;
+    }
+    .marche-hero h1 {
+      font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+      font-weight: 600;
+      margin: 0 0 12px;
+      max-width: 34ch;
+      line-height: 1.35;
+    }
+    .marche-hero .lead {
+      margin: 0 0 22px;
+      max-width: 46ch;
+      color: rgba(255,255,255,.88);
+      font-size: 1.02rem;
+    }
+    .marche-actions { display:flex; flex-wrap:wrap; gap:10px; }
+    .marche-section { padding: 36px 0 48px; }
+    .marche-section h2 {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.55rem;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px;
+    }
+    .marche-section .intro { color:#475569; margin:0 0 18px; max-width:60ch; }
+    .marche-paths {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:16px;
+      margin: 8px 0 28px;
+    }
+    .marche-path {
+      display:block;
+      padding:18px 18px 16px;
+      border-bottom: 3px solid #0f3d5c;
+      text-decoration:none;
+      color:inherit;
+      background: linear-gradient(180deg, #f7fafc 0%, #eef4f8 100%);
+      transition: transform .2s ease, background .2s ease;
+    }
+    .marche-path:hover { transform: translateY(-2px); background:#fff; }
+    .marche-path strong { display:block; font-size:1.05rem; margin-bottom:6px; }
+    .marche-path p { margin:0; color:#475569; font-size:.92rem; }
+    .marche-path .go { display:inline-block; margin-top:10px; font-weight:700; color:#0f3d5c; font-size:.88rem; }
+    .listings-wrap { margin-top: 8px; }
+    @media (prefers-reduced-motion: reduce) {
+      .marche-path { transition: none; }
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+</head>
+<body class="immo-ad-page">
+  <header class="topbar">
+    <div class="container nav">
+      <a class="logo" href="../index.html">
+        <span class="logo-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+        <span class="logo-text">
+          <span class="logo-name">Leads Opportunities</span>
+          <span class="logo-tagline">Assurance · Immo · Prêt · Banque · Finance</span>
+        </span>
+      </a>
+      <nav>
+        <a href="../immobilier/">Immobilier</a>
+        <a href="./marche.html" aria-current="page">Marché</a>
+        <a href="./biens.html">Biens &amp; visites</a>
+        <a class="btn btn-nav" href="../landings/acheteur-immo.html?role=vendeur">Déposer</a>
+      </nav>
+    </div>
+  </header>
+
+  <header class="marche-hero" aria-label="Marché immobilier">
+    <div class="container">
+      <p class="marche-brand">Leads Opportunities</p>
+      <h1>Le marché pour déposer ou chercher un bien — et créer le bon contact.</h1>
+      <p class="lead">Comme une vraie place d’annonces : filtres, dépôt vendeur, recherche acquéreur. Chaque demande devient un lead suivi par Wendy.</p>
+      <div class="marche-actions">
+        <a class="btn btn-primary" href="#annonces">Voir les annonces</a>
+        <a class="btn btn-outline" href="../landings/acheteur-immo.html?role=vendeur" style="color:#fff;border-color:rgba(255,255,255,.55)">Déposer mon bien</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="marche-section container">
+      <h2>Deux entrées, un seul CRM</h2>
+      <p class="intro">Pas un agrégateur type Lybox : ici les gens déposent ou cherchent, et vous gardez la main sur chaque lead (matching, visite, prêt, assurance).</p>
+      <div class="marche-paths">
+        <a class="marche-path" href="../landings/acheteur-immo.html">
+          <strong>Je cherche un bien</strong>
+          <p>Ville, budget, pièces — alerte et matching si rien n’est encore en vitrine.</p>
+          <span class="go">Lancer ma recherche →</span>
+        </a>
+        <a class="marche-path" href="../landings/acheteur-immo.html?role=vendeur">
+          <strong>Je dépose un bien</strong>
+          <p>Saisie manuelle ou URL d’annonce (Leboncoin, SeLoger…). Photos et description restent modifiables.</p>
+          <span class="go">Déposer maintenant →</span>
+        </a>
+        <a class="marche-path" href="./biens.html">
+          <strong>Biens &amp; visites 3D</strong>
+          <p>Vitrine des mandats activés, visite virtuelle avec accès vérifié.</p>
+          <span class="go">Ouvrir la vitrine →</span>
+        </a>
+      </div>
+
+      <div id="annonces">
+        <h2>Annonces en ligne</h2>
+        <p class="intro">Catalogue public branché sur le CRM — uniquement des biens réels (pas d’annonces d’illustration).</p>
+        <details class="listings-wrap listings-fold" open data-immo-search>
+          <summary class="listings-fold-summary" title="Ouvrir ou fermer le catalogue">
+            <span class="listings-fold-title">Filtrer le marché</span>
+            <span class="listings-fold-meta" data-listings-count>Chargement…</span>
+            <span class="listings-fold-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="listings-fold-body">
+            <div class="listings-types" role="group" aria-label="Type de bien">
+              <label class="search-chip"><input type="checkbox" name="listingType" value="appartement" /><span>Appartement</span></label>
+              <label class="search-chip"><input type="checkbox" name="listingType" value="maison" /><span>Maison</span></label>
+              <label class="search-chip"><input type="checkbox" name="listingType" value="terrain" /><span>Terrain</span></label>
+              <label class="search-chip"><input type="checkbox" name="listingType" value="local" /><span>Local</span></label>
+              <label class="search-chip"><input type="checkbox" name="listingType" value="immeuble" /><span>Immeuble</span></label>
+            </div>
+            <form class="listings-bar" data-listings-filters>
+              <div class="field">
+                <label for="marcheCity">Ville</label>
+                <input id="marcheCity" data-listing-city placeholder="Ex. Nancy, Jarville" autocomplete="address-level2" />
+              </div>
+              <div class="field">
+                <label for="marchePostal">Code postal</label>
+                <input id="marchePostal" data-listing-postal inputmode="numeric" maxlength="5" placeholder="Ex. 54000" />
+              </div>
+              <div class="field">
+                <label for="marcheBudget">Budget max</label>
+                <input id="marcheBudget" data-listing-budget inputmode="numeric" placeholder="Ex. 280000" />
+              </div>
+              <div class="field">
+                <label for="marcheRooms">Pièces min.</label>
+                <input id="marcheRooms" data-listing-rooms inputmode="numeric" placeholder="Ex. 3" />
+              </div>
+              <div class="field">
+                <label for="marcheSurface">Surface min. m²</label>
+                <input id="marcheSurface" data-listing-surface inputmode="numeric" placeholder="Ex. 65" />
+              </div>
+              <div class="field">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+              </div>
+            </form>
+            <div class="listings-meta"><span data-listings-count-inner></span></div>
+            <div class="listings-grid" data-listings-grid></div>
+            <div class="listings-empty" data-listings-empty>
+              <h3>Aucun bien pour le moment</h3>
+              <p data-empty-hint>Déposez un bien ou affinez les filtres. Les annonces apparaissent dès qu’un mandat est en vitrine CRM.</p>
+              <a class="btn btn-primary" href="../landings/acheteur-immo.html?role=vendeur">Déposer un bien</a>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" style="padding:24px 0;text-align:center;color:#64748b;font-size:.85rem">
+    <div class="container">
+      <a href="../immobilier/">Hub immobilier</a> ·
+      <a href="./biens.html">Biens &amp; visites</a> ·
+      <a href="../bareme-honoraires/">Barème honoraires</a> ·
+      Wendy Buchet — ORIAS
+    </div>
+  </footer>
+
+  <script src="../js/immo-public-listings-lib.js"></script>
+  <script src="../js/acheteur-immo-search.js?v=20260825fold"></script>
+</body>
+</html>

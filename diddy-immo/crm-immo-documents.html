@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Documents immobiliers | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .immo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
+    .immo-grid label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:var(--muted); }
+    .immo-grid input, .immo-grid select, .immo-grid textarea { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
+    .doc-row { display:flex; justify-content:space-between; gap:10px; padding:12px 0; border-bottom:1px solid var(--line); }
+    .doc-preview {
+      margin-top:14px; padding:18px; border:1px solid var(--line); border-radius:12px;
+      background:linear-gradient(180deg,#fff,#f8fafc); font-family:Georgia,serif; line-height:1.5;
+    }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier · documents</p>
+      <h2>Éditeur documents immo</h2>
+      <p>Mandat, bon de visite, offre, compromis… Éditez puis <strong>Imprimer / PDF</strong> pour un document présentable.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-immo-properties.html" class="btn btn-ghost">Inventaire</a>
+      <button type="button" class="btn btn-primary" id="btnNewDoc">+ Document</button>
+    </div>
+  </section>
+
+  <div class="crm-toolbar" style="margin-bottom:12px">
+    <label>Filtrer par bien
+      <select id="filterProp" class="crm-input"><option value="">Tous</option></select>
+    </label>
+  </div>
+
+  <div class="panel" style="display:grid;grid-template-columns:1fr 1.2fr;gap:18px" id="docsLayout">
+    <div>
+      <h3>Liste</h3>
+      <div id="docsList"></div>
+    </div>
+    <div>
+      <h3>Édition</h3>
+      <form id="docForm" class="immo-grid" hidden>
+        <input type="hidden" id="dId" />
+        <label>Titre<input id="dTitle" required /></label>
+        <label>Type<select id="dType"></select></label>
+        <label>Statut
+          <select id="dStatus">
+            <option value="draft">Brouillon</option>
+            <option value="ready">Prêt</option>
+            <option value="signed">Signé</option>
+            <option value="archived">Archivé</option>
+          </select>
+        </label>
+        <label>Bien lié<select id="dProp"></select></label>
+        <label>Contact id<input id="dContact" placeholder="contact_…" /></label>
+        <label style="grid-column:1/-1">Corps / clauses<textarea id="dBody" rows="8" placeholder="Texte du document…"></textarea></label>
+        <label style="grid-column:1/-1">Parties (JSON simple)<textarea id="dParties" rows="3" placeholder='{"mandant":"…","acquereur":"…"}'></textarea></label>
+        <label style="grid-column:1/-1">Notes<textarea id="dNotes" rows="2"></textarea></label>
+        <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap">
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="button" class="btn btn-ghost" id="btnPrintDoc">Imprimer / PDF</button>
+          <button type="button" class="btn btn-ghost" id="btnDelDoc">Supprimer</button>
+        </div>
+      </form>
+      <div class="doc-preview" id="docPreview">Sélectionnez ou créez un document.</div>
+    </div>
+  </div>
+  <style>@media (max-width:800px){ #docsLayout { grid-template-columns:1fr !important; } }</style>
+
+  <script src="./js/crm-immo-matcher.js"></script>
+  <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/print-document-lib.js"></script>
+  <script src="./js/crm-immo-documents-page.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

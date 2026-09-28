@@ -1,0 +1,353 @@
+/* Parcours location & syndic — landings + sous-hubs immobilier */
+.immo-ls-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+.immo-ls-tabs label,
+.immo-ls-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+.immo-ls-tabs input {
+  accent-color: #0369a1;
+}
+.immo-ls-tabs label:has(input:checked),
+.immo-ls-tab.is-on {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+  color: #075985;
+}
+.immo-ls-grid {
+  display: grid;
+  gap: 16px;
+  margin: 22px 0;
+}
+@media (min-width: 700px) {
+  .immo-ls-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.immo-ls-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 18px;
+}
+.immo-ls-card strong {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0369a1;
+  margin-bottom: 6px;
+}
+.immo-ls-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+.immo-ls-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.immo-ls-note {
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  color: #9a3412;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 16px 0;
+}
+.immo-ls-form {
+  margin-top: 8px;
+  padding-top: 8px;
+}
+.immo-ls-form .grid {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .immo-ls-form .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .immo-ls-form .field.full,
+  .immo-ls-form .grid .full {
+    grid-column: 1 / -1;
+  }
+}
+.immo-ls-form label,
+.immo-ls-form .field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.immo-ls-form input,
+.immo-ls-form select,
+.immo-ls-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font: inherit;
+  box-sizing: border-box;
+}
+.immo-ls-form .hp-field {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.immo-ls-cities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0;
+}
+.immo-ls-cities a {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #075985;
+  text-decoration: none;
+  font-weight: 600;
+}
+.immo-ls-cities a:hover {
+  background: #bae6fd;
+}
+.immo-ls-success {
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+.immo-ls-error {
+  color: #b91c1c;
+  font-size: 0.9rem;
+  margin: 8px 0 0;
+}
+.immo-ls-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.immo-ls-form [hidden],
+.immo-ls-form [data-role-panel][hidden],
+.immo-ls-form [data-coloc-panel][hidden] {
+  display: none !important;
+}
+@media (min-width: 900px) {
+  .immo-ls-grid.immo-ls-grid--3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.immo-ls-checks {
+  display: grid;
+  gap: 8px 14px;
+  margin: 0 0 12px;
+}
+@media (min-width: 640px) {
+  .immo-ls-checks {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.immo-ls-checks label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin: 0;
+  cursor: pointer;
+}
+.immo-ls-checks input {
+  width: auto;
+  margin-top: 3px;
+  accent-color: #0369a1;
+}
+.irl-widget {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 22px 0;
+}
+.irl-widget h2,
+.irl-widget h3 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+.irl-widget > p {
+  margin: 0 0 14px;
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.irl-widget-grid {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 700px) {
+  .irl-widget-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.irl-widget .field label,
+.irl-widget-grid label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.irl-widget input,
+.irl-widget select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font: inherit;
+  box-sizing: border-box;
+  background: #fff;
+}
+.irl-widget-out {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+@media (min-width: 640px) {
+  .irl-widget-out {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.irl-widget-out div {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.irl-widget-out span {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  font-weight: 600;
+}
+.irl-widget-out strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.15rem;
+  color: #0f172a;
+}
+.irl-widget-source {
+  margin: 12px 0 0 !important;
+  font-size: 0.8rem !important;
+  color: #64748b;
+}
+.immo-droits-widget {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 22px 0;
+}
+.immo-droits-widget h2,
+.immo-droits-widget h3 {
+  margin: 0 0 8px;
+  font-size: 1.12rem;
+}
+.immo-droits-widget > p {
+  margin: 0 0 14px;
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.immo-droits-delay {
+  margin: 0 0 14px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.immo-droits-cols {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+@media (min-width: 700px) {
+  .immo-droits-cols {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.immo-droits-col,
+.immo-droits-col--full {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.immo-droits-col--full {
+  margin-bottom: 12px;
+}
+.immo-droits-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+.immo-droits-badge--obli {
+  color: #9a3412;
+  background: #ffedd5;
+}
+.immo-droits-badge--cas {
+  color: #075985;
+  background: #e0f2fe;
+}
+.immo-droits-badge--reco {
+  color: #065f46;
+  background: #d1fae5;
+}
+.immo-droits-col h3 {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0369a1;
+  margin: 0 0 8px;
+}
+.immo-droits-col ul,
+.immo-droits-widget .immo-ls-note ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #334155;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.immo-droits-col li + li,
+.immo-droits-widget .immo-ls-note li + li {
+  margin-top: 6px;
+}
+.immo-ls-form [data-notice-panel][hidden] {
+  display: none !important;
+}

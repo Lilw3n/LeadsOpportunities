@@ -1,0 +1,1421 @@
+/* Parcours acquéreur : Bien → Projection → Crédit → Emprunteur */
+
+.immo-parcours {
+  margin: 0 0 1.25rem;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid #cce7e3;
+  background:
+    linear-gradient(135deg, rgba(13, 148, 136, 0.08) 0%, rgba(255, 255, 255, 0.9) 55%),
+    #f0fdfa;
+}
+
+.immo-parcours-kicker {
+  margin: 0 0 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0f766e;
+}
+
+.immo-parcours-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.25rem;
+  align-items: stretch;
+}
+
+.immo-parcours-step {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: 1 1 140px;
+  min-width: 0;
+}
+
+.immo-parcours-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid #d1e7e3;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+a.immo-parcours-link:hover {
+  border-color: #0d9488;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.12);
+  transform: translateY(-1px);
+}
+
+.immo-parcours-step.is-active .immo-parcours-link {
+  border-color: #0d9488;
+  background: #ccfbf1;
+  box-shadow: inset 0 0 0 1px rgba(13, 148, 136, 0.25);
+}
+
+.immo-parcours-step.is-done .immo-parcours-link {
+  border-color: #99f6e4;
+}
+
+.immo-parcours-label {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.immo-parcours-hint {
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.immo-parcours-arrow {
+  color: #94a3b8;
+  font-weight: 700;
+  padding: 0 0.15rem;
+  flex-shrink: 0;
+}
+
+.immo-parcours-note {
+  margin: 0.7rem 0 0;
+  font-size: 0.78rem;
+  color: #475569;
+  line-height: 1.4;
+}
+
+@media (max-width: 720px) {
+  .immo-parcours-arrow {
+    display: none;
+  }
+  .immo-parcours-step {
+    flex: 1 1 calc(50% - 0.35rem);
+  }
+}
+
+.nancy-bassin-pret-banner {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #5eead4;
+  background: linear-gradient(90deg, #ecfdf5, #f0fdfa);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #134e4a;
+}
+.nancy-bassin-pret-banner a {
+  font-weight: 700;
+  color: #0d9488;
+}
+
+/* Sections vente / achat — questionnaire acheteur-immo */
+.immo-form-section {
+  margin-top: 1.1rem;
+  padding: 1rem 1.05rem;
+  border-radius: 12px;
+  border: 1px solid #dbeafe;
+  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+}
+
+.immo-form-section-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1e4f8a;
+}
+
+.immo-form-section-lead {
+  margin: 0 0 0.85rem !important;
+}
+
+.immo-owners-mount {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.immo-owner-card {
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 12px 12px 4px;
+  background: #fff;
+}
+
+.immo-owner-card--invalid {
+  border-color: #f87171;
+  box-shadow: inset 0 0 0 1px rgba(248, 113, 113, 0.35);
+}
+
+.immo-owner-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.immo-owner-card-head strong {
+  font-size: 0.88rem;
+  color: #0f766e;
+}
+
+.immo-owner-remove {
+  border: 0;
+  background: transparent;
+  color: #b91c1c;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn-sm {
+  padding: 0.45rem 0.85rem;
+  font-size: 0.82rem;
+}
+
+.immo-vente-block {
+  margin-top: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.immo-vente-block > summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0.75rem 0.95rem;
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: #1e4f8a;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+  list-style: none;
+  user-select: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.immo-vente-block > summary:hover {
+  background: #e2e8f0;
+  color: #0f766e;
+}
+
+.immo-vente-block > summary:focus-visible {
+  outline: 2px solid #0d9488;
+  outline-offset: -2px;
+}
+
+.immo-vente-block > summary::-webkit-details-marker {
+  display: none;
+}
+
+.immo-vente-block > summary::after {
+  content: "";
+  flex-shrink: 0;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-right: 2px;
+  border-right: 2px solid #64748b;
+  border-bottom: 2px solid #64748b;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease, border-color 0.15s ease;
+}
+
+.immo-vente-block[open] > summary::after {
+  transform: rotate(45deg);
+  border-color: #0f766e;
+}
+
+.immo-vente-block[open] > summary {
+  border-bottom: 1px solid #e2e8f0;
+  background: #f0fdfa;
+  color: #0f766e;
+}
+
+.immo-vente-block > :not(summary) {
+  padding: 0 0.85rem 0.85rem;
+}
+
+.immo-vente-blocks-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #f0fdfa;
+  border: 1px dashed #99f6e4;
+  color: #475569;
+  font-size: 0.82rem;
+}
+
+.immo-vente-blocks-hint::before {
+  content: "▾";
+  font-size: 0.9rem;
+  color: #0f766e;
+  line-height: 1;
+}
+
+.immo-salutation-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.immo-salutation-row--wrap {
+  align-items: flex-start;
+}
+
+.immo-salutation {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.immo-salutation--wide {
+  font-weight: 500;
+}
+
+.immo-owner-req-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-right: 4px;
+}
+
+.immo-owner-section-title {
+  margin: 14px 0 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0f766e;
+}
+
+.immo-owner-hint {
+  margin: 6px 0 0;
+  font-size: 0.78rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.immo-crm-alert {
+  position: relative;
+  margin: 0 0 12px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.immo-crm-alert__bar {
+  height: 6px;
+  background: #dc2626;
+}
+
+.immo-crm-alert__body {
+  padding: 12px 36px 12px 14px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #475569;
+}
+
+.immo-crm-alert__body a {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.immo-crm-alert__close {
+  position: absolute;
+  top: 10px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.immo-crm-alert__close:hover {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.immo-crm-alert[hidden] {
+  display: none;
+}
+
+.immo-owner-card textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  resize: vertical;
+}
+
+.immo-listing-select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  background: #fff;
+}
+
+#sellPropertySubtype {
+  max-height: none;
+}
+
+.immo-rooms-wrap {
+  overflow-x: auto;
+}
+
+.immo-rooms-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.immo-rooms-table th {
+  text-align: left;
+  padding: 6px 4px;
+  color: #64748b;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.immo-rooms-table td {
+  padding: 4px 3px;
+  vertical-align: middle;
+}
+
+.immo-rooms-table input {
+  width: 100%;
+  min-width: 52px;
+  padding: 6px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.immo-room-remove {
+  border: 0;
+  background: #fee2e2;
+  color: #991b1b;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.immo-price-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.immo-price-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1.2fr) repeat(4, minmax(72px, 1fr));
+  gap: 6px;
+  align-items: center;
+}
+
+.immo-price-row--head {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.immo-price-row label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.immo-price-row input {
+  padding: 6px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.82rem;
+  width: 100%;
+}
+
+@media (max-width: 720px) {
+  .immo-price-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .immo-price-row--head span:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
+  display: none !important;
+}
+
+.immo-fill-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 0 0 1.1rem;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #99f6e4;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+}
+
+.immo-fill-toolbar-main {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.immo-fill-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0f766e;
+  background: #ccfbf1;
+  border: 1px solid #5eead4;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+[data-immo-fill-mode="conseiller"] .immo-fill-badge {
+  color: #1e3a8a;
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.immo-fill-hint {
+  margin: 8px 0 0;
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.immo-fill-mode {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.immo-fill-mode-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.immo-fill-mode-opt:has(input:checked) {
+  border-color: #0d9488;
+  background: #ccfbf1;
+  color: #0f766e;
+}
+
+[data-immo-fill-mode="conseiller"] .immo-fill-mode-opt:has(input:checked) {
+  border-color: #2563eb;
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.immo-fill-print {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+@media print {
+  .immo-fill-toolbar,
+  .wizard-head,
+  .wizard-nav,
+  .landing-topbar,
+  .callback-strip {
+    display: none !important;
+  }
+}
+
+/* Matrice passé / présent / futur */
+.immo-timeline-matrix {
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.immo-timeline-head,
+.immo-timeline-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 1.1fr) repeat(3, minmax(0, 1fr));
+  gap: 0;
+  align-items: stretch;
+}
+
+.immo-timeline-head {
+  background: linear-gradient(90deg, #f8fafc, #f1f5f9);
+  border-bottom: 2px solid #e2e8f0;
+  font-weight: 800;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.immo-timeline-corner {
+  padding: 10px 12px;
+  border-right: 1px solid #e2e8f0;
+}
+
+.immo-timeline-col {
+  padding: 10px 12px;
+  text-align: center;
+  border-right: 1px solid #e2e8f0;
+}
+
+.immo-timeline-col--past { color: #7c2d12; background: #fff7ed; }
+.immo-timeline-col--present { color: #0f766e; background: #f0fdfa; }
+.immo-timeline-col--future { color: #1e40af; background: #eff6ff; border-right: 0; }
+
+.immo-timeline-row {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.immo-timeline-row:last-child {
+  border-bottom: 0;
+}
+
+.immo-timeline-label {
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #334155;
+  background: #f8fafc;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+}
+
+.immo-timeline-row textarea {
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  border-right: 1px solid #e2e8f0;
+  border-radius: 0;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 0.82rem;
+  resize: vertical;
+  background: #fff;
+}
+
+.immo-timeline-row textarea:focus {
+  outline: 2px solid #99f6e4;
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.immo-timeline-row textarea:last-child {
+  border-right: 0;
+}
+
+/* Checklist pièces justificatives */
+.immo-docs-counter {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #0f766e;
+  background: #ccfbf1;
+  border: 1px solid #5eead4;
+}
+
+.immo-docs-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.immo-docs-checklist .immo-doc-cat {
+  margin: 0;
+}
+
+.immo-mandate-lead {
+  margin: 10px 0 12px;
+  color: #64748b;
+}
+
+.immo-mandate-opt-in {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #99f6e4;
+  background: #f0fdfa;
+}
+
+.immo-mandate-client-fields {
+  margin-top: 4px;
+}
+
+.immo-mandate-pref-lead {
+  margin: 0 0 10px;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.immo-mandate-exclusif-benefits {
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #99f6e4;
+  background: linear-gradient(180deg, #f0fdfa 0%, #f8fafc 100%);
+  font-size: 0.84rem;
+  color: #334155;
+}
+
+.immo-mandate-exclusif-benefits strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #0f766e;
+  font-size: 0.88rem;
+}
+
+.immo-mandate-exclusif-benefits ul {
+  margin: 6px 0 0;
+  padding-left: 1.15rem;
+  line-height: 1.5;
+}
+
+.immo-mandate-exclusif-benefits li + li {
+  margin-top: 4px;
+}
+
+.immo-mandate-pref-grid .search-chip--recommended span {
+  border-color: #5eead4;
+  background: linear-gradient(180deg, #ecfdf5 0%, #fff 100%);
+  flex-direction: column;
+  gap: 4px;
+  min-height: 58px;
+}
+
+.immo-mandate-pref-grid .search-chip--recommended input:checked + span {
+  border-color: #0d9488;
+  background: linear-gradient(180deg, #ccfbf1 0%, #f0fdfa 100%);
+  box-shadow: inset 0 0 0 1px #0d9488;
+}
+
+.immo-mandate-pref-grid .search-chip-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #0f766e;
+  background: #99f6e4;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.immo-mandate-pref-grid .search-chip--secondary span {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #64748b;
+  background: #f8fafc;
+}
+
+.immo-mandate-exclusif-benefits.is-muted {
+  opacity: 0.72;
+  border-color: #e2e8f0;
+  background: #f8fafc;
+}
+
+.immo-mandate-notice {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.84rem;
+  color: #475569;
+}
+
+.immo-mandate-notice strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #0f766e;
+}
+
+.immo-mandate-notice p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.immo-mandate-admin {
+  padding-top: 12px;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.immo-tracfin {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  background: #fffbeb;
+}
+.immo-tracfin-title {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #c2410c;
+}
+.immo-tracfin-alert {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #fdba74;
+  font-size: 0.84rem;
+  color: #7c2d12;
+}
+.immo-tracfin-alert p {
+  margin: 6px 0 0;
+}
+.immo-tracfin-attest {
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+}
+.immo-tracfin-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 14px;
+}
+.immo-tracfin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.immo-tracfin-table th,
+.immo-tracfin-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+  vertical-align: middle;
+}
+.immo-tracfin-table th {
+  background: #f8fafc;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+}
+.immo-tracfin-status {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #ffedd5;
+  color: #c2410c;
+}
+.immo-tracfin-status.is-done {
+  background: #dcfce7;
+  color: #166534;
+}
+.immo-tracfin-add {
+  color: #2563eb;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+.immo-tracfin-file {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: #475569;
+}
+.immo-tracfin-risk {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+.immo-tracfin-risk legend {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 8px;
+}
+.immo-tracfin-risk-opt {
+  display: block;
+  margin: 6px 0;
+  font-size: 0.86rem;
+}
+.immo-tracfin-risk-opt small {
+  color: #64748b;
+  font-weight: 400;
+}
+
+.immo-rgpd-confirm {
+  padding: 4px 0 0;
+}
+.immo-rgpd-confirm-lead,
+.immo-rgpd-confirm-note,
+.immo-rgpd-confirm-mandate-hint {
+  margin: 0 0 12px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #334155;
+}
+.immo-rgpd-confirm-mandate-hint {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #312e81;
+}
+.immo-rgpd-confirm-question {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  color: #1e1b4b;
+}
+.immo-rgpd-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.immo-rgpd-confirm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: 2px solid #312e81;
+  background: #fff;
+  color: #312e81;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.immo-rgpd-confirm-btn input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.immo-rgpd-confirm-btn--yes:has(input:checked),
+.immo-rgpd-confirm-btn--yes.is-selected {
+  background: #312e81;
+  color: #fff;
+}
+.immo-rgpd-confirm-btn--no:has(input:checked),
+.immo-rgpd-confirm-btn--no.is-selected {
+  background: #fff;
+  border-color: #312e81;
+  box-shadow: inset 0 0 0 1px #312e81;
+}
+details[data-rgpd-confirmation-block] > summary {
+  color: #312e81;
+  font-weight: 800;
+}
+
+[data-immo-fill-mode="conseiller"] .immo-mandate-client {
+  margin-bottom: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.immo-copro-works-table th {
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .immo-timeline-head,
+  .immo-timeline-row {
+    grid-template-columns: 1fr;
+  }
+  .immo-timeline-head .immo-timeline-corner { display: none; }
+  .immo-timeline-col { border-right: 0; border-bottom: 1px solid #e2e8f0; text-align: left; }
+  .immo-timeline-label { border-right: 0; border-bottom: 1px solid #e2e8f0; }
+  .immo-timeline-row textarea { border-right: 0; border-bottom: 1px solid #f1f5f9; }
+}
+
+.immo-deposit-draft-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 14px;
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #99f6e4;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+  font-size: 0.88rem;
+  color: #0f766e;
+}
+
+.immo-deposit-draft-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.immo-deposit-session-hint {
+  margin: 0 0 10px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.immo-deposit-draft-toast {
+  margin: 0 0 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+  font-size: 0.84rem;
+}
+
+.immo-deposit-progress-wrap {
+  margin: 12px 0 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.immo-deposit-progress-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin-bottom: 8px;
+  font-size: 0.82rem;
+  color: #475569;
+}
+
+.immo-deposit-progress-track {
+  height: 6px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.immo-deposit-progress-bar {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0d9488, #14b8a6);
+  transition: width 0.25s ease;
+}
+
+.immo-deposit-validation {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+}
+
+.immo-deposit-validation-title {
+  margin: 0 0 8px;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #b91c1c;
+}
+
+.immo-deposit-validation-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.immo-deposit-validation-list li {
+  margin: 4px 0;
+}
+
+.immo-deposit-optional-lead {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-bottom: 6px !important;
+}
+
+.immo-deposit-missing-link {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  text-align: left;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #be123c;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.immo-deposit-missing-link:hover,
+.immo-deposit-missing-link:focus-visible {
+  background: rgba(244, 63, 94, 0.08);
+  outline: 2px solid #fda4af;
+  outline-offset: 1px;
+}
+
+.immo-deposit-missing-link--soft {
+  color: #0f766e;
+  font-weight: 600;
+}
+
+.immo-deposit-missing-link--soft:hover,
+.immo-deposit-missing-link--soft:focus-visible {
+  background: rgba(13, 148, 136, 0.08);
+  outline-color: #5eead4;
+}
+
+.immo-deposit-missing-section {
+  font-weight: 500;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.immo-listing-dual-hint {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.field-req {
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.immo-account-block {
+  margin: 12px 0 16px;
+  padding: 14px 16px;
+  border: 1px solid #c7d2fe;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
+  min-width: 0;
+  min-inline-size: 0;
+  max-width: 100%;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.immo-account-block legend {
+  font-weight: 800;
+  color: #312e81;
+  padding: 0 6px;
+}
+
+.immo-account-lead {
+  margin: 0 0 10px;
+  color: #475569;
+}
+
+.immo-account-status {
+  margin: 0 0 10px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.immo-account-confirm .field-check {
+  display: block;
+  margin: 6px 0;
+}
+
+.immo-account-confirm-lead {
+  margin: 0 0 10px;
+  color: #334155;
+}
+
+.immo-account-confirm {
+  min-width: 0;
+  width: 100%;
+}
+
+.immo-confirm-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.immo-confirm-option {
+  display: block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-weight: 400;
+}
+
+.immo-confirm-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.immo-confirm-option-text {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px 12px 42px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #334155;
+  position: relative;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+}
+
+.immo-confirm-option-text::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #94a3b8;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.immo-confirm-option input:checked + .immo-confirm-option-text {
+  border-color: #6366f1;
+  background: #eef2ff;
+}
+
+.immo-confirm-option input:checked + .immo-confirm-option-text::before {
+  border-color: #6366f1;
+  background: radial-gradient(circle, #6366f1 42%, #fff 44%);
+}
+
+.immo-confirm-option input:focus-visible + .immo-confirm-option-text {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+.immo-confirm-option strong {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.immo-coords-known {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #93c5fd;
+  background: #eff6ff;
+  color: #1e40af;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.immo-account-panel-hint {
+  margin: 8px 0 0;
+  color: #475569;
+}
+
+.contact-field--required label::after {
+  content: " *";
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.immo-deposit-submit-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.immo-jump-errors {
+  font-weight: 700;
+}
+
+.immo-err-jump {
+  font-weight: 700;
+  color: #b91c1c;
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+}
+
+.immo-err-jump:hover {
+  color: #991b1b;
+}
+
+html[data-immo-hat="vendeur"] [data-account-block],
+html[data-immo-hat="les_deux"] [data-account-block] {
+  display: block;
+}
+
+html[data-immo-hat="vendeur"] [data-account-block][hidden],
+html[data-immo-hat="les_deux"] [data-account-block][hidden] {
+  display: none;
+}
+
+.immo-city-fallback-wrap {
+  margin: 4px 0 8px;
+  padding: 12px 14px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.immo-city-fallback-hint {
+  margin: 0 0 10px;
+  color: #64748b;
+}
+
+html[data-immo-hat="vendeur"] [data-city-fallback-wrap],
+html[data-immo-hat="les_deux"] [data-city-fallback-wrap],
+html[data-immo-hat="signalement"] [data-city-fallback-wrap] {
+  display: block;
+}
+
+html[data-immo-hat="vendeur"] [data-city-fallback-wrap][hidden],
+html[data-immo-hat="les_deux"] [data-city-fallback-wrap][hidden],
+html[data-immo-hat="signalement"] [data-city-fallback-wrap][hidden] {
+  display: none;
+}
+
+.immo-account-oauth {
+  margin: 12px 0 8px;
+}
+
+.btn-google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+  color: #334155;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+}
+
+.btn-google:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.btn-google::before {
+  content: "G";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #4285f4, #ea4335 50%, #fbbc05 80%, #34a853);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.immo-account-google-hint {
+  margin: 6px 0 0;
+  color: #64748b;
+}
+
+.immo-link-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #0d9488;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: inherit;
+}
+
+.immo-account-resend-wrap {
+  margin: 8px 0 0;
+  color: #64748b;
+}

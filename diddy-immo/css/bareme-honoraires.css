@@ -1,0 +1,426 @@
+/* Barème des honoraires — page publique */
+.bh-page {
+  --bh-ink: #0f172a;
+  --bh-muted: #64748b;
+  --bh-line: #e2e8f0;
+  --bh-accent: #0d9488;
+  --bh-soft: #ecfdf5;
+  --bh-best: #f0fdfa;
+  background: linear-gradient(180deg, #f0fdfa 0%, #f8fafc 28%, #fff 100%);
+  color: var(--bh-ink);
+}
+
+.bh-hero {
+  position: relative;
+  padding: 48px 0 36px;
+  overflow: hidden;
+}
+.bh-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 85% 10%, rgba(13, 148, 136, 0.18), transparent 55%),
+    linear-gradient(120deg, rgba(15, 23, 42, 0.04), transparent 50%);
+  pointer-events: none;
+}
+.bh-hero-inner {
+  position: relative;
+  max-width: 920px;
+}
+.bh-kicker {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bh-accent);
+  margin-bottom: 10px;
+}
+.bh-hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(1.75rem, 4vw, 2.45rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.bh-lead {
+  margin: 0 0 18px;
+  font-size: 1.05rem;
+  color: var(--bh-muted);
+  max-width: 58ch;
+  line-height: 1.55;
+}
+.bh-agency-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #99f6e4;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.08);
+}
+.bh-agency-chip em {
+  font-style: normal;
+  color: #047857;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--bh-soft);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.bh-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.bh-section {
+  padding: 8px 0 40px;
+}
+.bh-section h2 {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+}
+.bh-section .bh-sub {
+  margin: 0 0 18px;
+  color: var(--bh-muted);
+  font-size: 0.95rem;
+}
+
+.bh-calc {
+  background: #fff;
+  border: 1px solid #99f6e4;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+.bh-calc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.bh-calc label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #334155;
+}
+.bh-calc input,
+.bh-calc select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--bh-line);
+  border-radius: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background: #fff;
+}
+.bh-result {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.bh-kpi {
+  background: #f8fafc;
+  border: 1px solid var(--bh-line);
+  border-radius: 12px;
+  padding: 14px;
+}
+.bh-kpi span {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--bh-muted);
+  margin-bottom: 4px;
+}
+.bh-kpi strong {
+  font-size: 1.2rem;
+}
+.bh-kpi.is-best {
+  background: var(--bh-best);
+  border-color: #99f6e4;
+}
+.bh-kpi.is-best strong {
+  color: #0f766e;
+}
+
+.bh-table-wrap {
+  overflow: auto;
+  border: 1px solid var(--bh-line);
+  border-radius: 14px;
+  background: #fff;
+}
+.bh-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  min-width: 560px;
+}
+.bh-table th,
+.bh-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+.bh-table th {
+  background: #f8fafc;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  font-weight: 700;
+}
+.bh-table tbody tr:hover {
+  background: #f8fafc;
+}
+.bh-table tbody tr.is-active {
+  background: #ecfdf5;
+}
+.bh-table .bh-num {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.bh-table .bh-fee {
+  font-weight: 700;
+  color: #0f766e;
+}
+
+.bh-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 8px;
+}
+.bh-jump a {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #99f6e4;
+  background: #fff;
+  color: #0f766e;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.bh-jump a:hover,
+.bh-jump a:focus-visible {
+  background: #ecfdf5;
+}
+
+.bh-other {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+.bh-other article,
+.bh-other-card {
+  background: #fff;
+  border: 1px solid var(--bh-line);
+  border-radius: 12px;
+  padding: 16px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.bh-other-card:hover,
+.bh-other-card:focus-visible {
+  border-color: #99f6e4;
+  box-shadow: 0 8px 20px rgba(13, 148, 136, 0.08);
+}
+.bh-other strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+.bh-other p {
+  margin: 0;
+  color: var(--bh-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.bh-other-card span {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--bh-accent);
+}
+
+.bh-lines {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.bh-line {
+  background: #f8fafc;
+  border: 1px solid var(--bh-line);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.bh-line span {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--bh-muted);
+  margin-bottom: 2px;
+}
+.bh-line strong {
+  font-size: 0.95rem;
+}
+
+.bh-note {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 0.88rem;
+  color: #92400e;
+  line-height: 1.5;
+  margin-top: 20px;
+}
+.bh-note a {
+  color: #b45309;
+}
+
+.bh-estimate {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+.bh-estimate-copy {
+  background: #fff;
+  border: 1px solid #99f6e4;
+  border-radius: 16px;
+  padding: 22px 20px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+.bh-estimate-copy > p {
+  margin: 0 0 14px;
+  color: #334155;
+  line-height: 1.55;
+  font-size: 0.98rem;
+}
+.bh-estimate-list {
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.bh-estimate-list li {
+  position: relative;
+  padding: 10px 12px 10px 36px;
+  background: #f8fafc;
+  border: 1px solid var(--bh-line);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+.bh-estimate-list li::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--bh-accent);
+  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+}
+.bh-estimate-aside {
+  background: linear-gradient(160deg, #fffbeb, #fff 55%);
+  border: 1px solid #fde68a;
+  border-radius: 16px;
+  padding: 22px 20px;
+}
+.bh-estimate-aside strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+  color: #92400e;
+}
+.bh-estimate-aside p {
+  margin: 0;
+  color: #78350f;
+  line-height: 1.5;
+  font-size: 0.92rem;
+}
+.bh-sub a {
+  color: var(--bh-accent);
+  font-weight: 600;
+}
+
+.bh-estimate-copy .bh-calc-grid label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #334155;
+}
+.bh-estimate-copy .bh-calc-grid input,
+.bh-estimate-copy .bh-calc-grid select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--bh-line);
+  border-radius: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.bh-cta {
+  margin: 28px 0 48px;
+  background: linear-gradient(135deg, #0f172a, #134e4a);
+  color: #fff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+.bh-cta h2 {
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+  color: #fff;
+}
+.bh-cta p {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  max-width: 48ch;
+}
+.bh-cta .btn {
+  background: #2dd4bf;
+  color: #0f172a;
+  border: 0;
+}
+.bh-cta .btn:hover {
+  filter: brightness(1.05);
+}
+
+@media (max-width: 640px) {
+  .bh-hero {
+    padding: 32px 0 24px;
+  }
+  .bh-calc {
+    padding: 16px;
+  }
+  .bh-estimate {
+    grid-template-columns: 1fr;
+  }
+}

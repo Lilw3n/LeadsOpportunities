@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Utilisateurs marché immo | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .imu-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:0 0 14px}
+    .imu-stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+    .imu-stat strong{display:block;font-size:1.35rem;font-weight:800;letter-spacing:-.02em}
+    .imu-stat span{font-size:.78rem;color:var(--muted);font-weight:600}
+    .imu-layout{display:grid;grid-template-columns:1.45fr 1fr;gap:16px;align-items:start}
+    @media (max-width:960px){.imu-layout{grid-template-columns:1fr}}
+    .imu-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--card);max-height:62vh}
+    .imu-table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .imu-table th,.imu-table td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+    .imu-table th{position:sticky;top:0;background:var(--card);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);z-index:1}
+    .imu-table tr:hover td{background:rgba(15,23,42,.03)}
+    .imu-role{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;background:#e2e8f0;color:#0f172a;margin:0 4px 4px 0}
+    .imu-compose label{display:flex;flex-direction:column;gap:4px;font-size:.78rem;font-weight:700;color:var(--muted);margin-bottom:10px}
+    .imu-compose input,.imu-compose textarea,.imu-compose select{padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit}
+    .imu-compose textarea{min-height:140px;resize:vertical}
+    .imu-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .imu-status{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:.86rem;background:#f8fafc;border:1px solid var(--line)}
+    .imu-status.is-ok{background:#ecfdf5;border-color:#a7f3d0;color:#065f46}
+    .imu-status.is-err{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+    .imu-warn{font-size:.82rem;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:10px 12px;margin-bottom:12px}
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier · super-admin</p>
+      <h2>Utilisateurs du marché</h2>
+      <p>Annuaire contactable (dépôts, recherches, critères, visites). Écris à une sélection ou à tout le filtre.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-immo-properties.html" class="btn btn-ghost">Piges &amp; biens</a>
+      <a href="./immobilier/marche.html" class="btn btn-ghost" target="_blank" rel="noopener">Voir le marché</a>
+      <button type="button" class="btn btn-primary" id="imuReload">Actualiser</button>
+    </div>
+  </section>
+
+  <div class="imu-stats" id="imuStats" aria-live="polite"></div>
+
+  <div class="crm-toolbar" style="gap:10px;flex-wrap:wrap;margin-bottom:12px">
+    <label>Recherche
+      <input type="search" id="imuQ" class="crm-input" placeholder="Nom, e-mail, téléphone, ville…" />
+    </label>
+    <label>Rôle
+      <select id="imuRole" class="crm-input">
+        <option value="all">Tous</option>
+        <option value="acheteur">Acquéreurs</option>
+        <option value="vendeur">Vendeurs</option>
+        <option value="les_deux">Vend + rachète</option>
+        <option value="chasseur">Chasseurs</option>
+        <option value="visiteur">Visites virtuelles</option>
+        <option value="contact">Contacts CRM</option>
+      </select>
+    </label>
+    <label>Canal
+      <select id="imuChannel" class="crm-input">
+        <option value="all">E-mail ou téléphone</option>
+        <option value="email">E-mail uniquement</option>
+        <option value="phone">Téléphone uniquement</option>
+      </select>
+    </label>
+    <button type="button" class="btn btn-ghost btn-sm" id="imuSelectVisible">Tout sélectionner (filtre)</button>
+    <button type="button" class="btn btn-ghost btn-sm" id="imuClearSel">Vider sélection</button>
+    <button type="button" class="btn btn-ghost btn-sm" id="imuExport">Export CSV</button>
+  </div>
+
+  <div class="imu-layout">
+    <div>
+      <div class="imu-table-wrap">
+        <table class="imu-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="imuCheckAll" aria-label="Tout cocher" /></th>
+              <th>Contact</th>
+              <th>Rôle</th>
+              <th>Coordonnées</th>
+              <th>Sources</th>
+            </tr>
+          </thead>
+          <tbody id="imuBody"></tbody>
+        </table>
+      </div>
+      <p class="imu-status" id="imuMeta">Chargement…</p>
+    </div>
+
+    <section class="panel imu-compose">
+      <h3>Écrire aux sélectionnés</h3>
+      <p class="imu-warn" id="imuAdminGate" hidden>
+        L’envoi Resend groupé est réservé au <strong>super-admin</strong>. Export CSV et mailto BCC restent disponibles.
+      </p>
+      <p style="font-size:.86rem;color:var(--muted);margin:0 0 10px">
+        Sélectionnés : <strong id="imuSelCount">0</strong> · max <strong>40</strong> e-mails / envoi
+      </p>
+      <label>Objet
+        <input id="imuSubject" maxlength="180" placeholder="Ex. Nouveaux biens autour de Nancy" />
+      </label>
+      <label>Message
+        <textarea id="imuMessage" maxlength="8000" placeholder="Bonjour,&#10;&#10;…"></textarea>
+      </label>
+      <label>Confirmation (envoi à tout le filtre)
+        <input id="imuConfirm" placeholder="CONTACTER TOUS" autocomplete="off" />
+      </label>
+      <div class="imu-actions">
+        <button type="button" class="btn btn-primary" id="imuSendSel">Envoyer à la sélection</button>
+        <button type="button" class="btn btn-ghost" id="imuSendAll">Envoyer à tout le filtre</button>
+        <button type="button" class="btn btn-ghost" id="imuMailto">Ouvrir mailto BCC</button>
+      </div>
+      <div class="imu-status" id="imuSendStatus" hidden></div>
+    </section>
+  </div>
+
+  <script src="./js/immo-marche-users-lib.js"></script>
+  <script src="./js/crm-immo-utilisateurs-page.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

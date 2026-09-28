@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trafic & visites | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .traf-growth--up { color: #16a34a; font-weight: 700; }
+    .traf-growth--down { color: #b91c1c; font-weight: 700; }
+    .traf-growth--flat { color: var(--muted); font-weight: 600; }
+    .traf-compare-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .traf-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .traf-card h3 { margin: 0 0 8px; font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+    .traf-card .traf-big { font-size: 1.75rem; font-weight: 800; line-height: 1.1; }
+    .traf-card .traf-sub { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
+    .traf-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 120px;
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+    }
+    .traf-bar-wrap {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .traf-bar {
+      width: 100%;
+      max-width: 24px;
+      background: linear-gradient(180deg, #0ea5e9, #0284c7);
+      border-radius: 4px 4px 0 0;
+      min-height: 2px;
+    }
+    .traf-bar-label {
+      font-size: 0.6rem;
+      color: var(--muted);
+      transform: rotate(-45deg);
+      white-space: nowrap;
+      margin-top: 8px;
+    }
+    .traf-external { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Analytics</p>
+      <h2>Trafic — plus de visites qu’avant ?</h2>
+      <p>Comparaison <strong>7 derniers jours</strong> vs <strong>7 jours précédents</strong> (données site first-party). Pour le trafic global SEO/bots, ouvrez GA4 et Clarity.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-sources.html" class="btn btn-ghost">Origine leads</a>
+      <a href="./crm-pubs.html" class="btn btn-ghost">Gestion pubs</a>
+      <a href="./dashboard.html" class="btn btn-ghost">Dashboard admin</a>
+      <button type="button" class="btn btn-primary" id="btnTrafRefresh">Actualiser</button>
+    </div>
+  </section>
+
+  <div class="acq-stats" id="trafSummary"></div>
+
+  <section class="panel pub-hub-section" id="trafAlertPanel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Slack</p>
+        <h2 style="margin:0">Alerte baisse de trafic</h2>
+      </div>
+      <span class="acq-badge muted" id="trafAlertBadge">—</span>
+    </div>
+    <p style="color:var(--muted);margin-top:0" id="trafAlertDesc">Vérification quotidienne à 9h — alerte Slack si les visiteurs chutent au-delà du seuil.</p>
+    <div class="pub-link-row">
+      <button type="button" class="btn btn-primary btn-sm" id="btnTrafAlertTest">Vérifier maintenant</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnTrafAlertForce">Forcer alerte Slack</button>
+      <span id="trafAlertResult" style="margin-left:8px;color:var(--muted);font-size:0.85rem"></span>
+    </div>
+  </section>
+
+  <section class="panel pub-hub-section">
+    <h2>Comparaison semaine vs semaine précédente</h2>
+    <div class="traf-compare-grid" id="trafCompare"></div>
+    <p id="trafNote" style="color:var(--muted);font-size:0.85rem;margin:0"></p>
+  </section>
+
+  <section class="panel pub-hub-section">
+    <h2>Évolution quotidienne (visiteurs)</h2>
+    <p style="color:var(--muted);margin-top:0">Courbe sur la période sélectionnée.</p>
+    <label style="font-size:0.85rem;margin-bottom:8px;display:inline-block">Période
+      <select id="trafTrendDays" class="crm-input">
+        <option value="14">14 jours</option>
+        <option value="30" selected>30 jours</option>
+        <option value="60">60 jours</option>
+        <option value="90">90 jours</option>
+      </select>
+    </label>
+    <div class="traf-chart" id="trafChart"></div>
+  </section>
+
+  <div class="src-grid">
+    <section class="panel">
+      <h2>Pages les plus vues (7 j)</h2>
+      <div id="trafTopPages"></div>
+    </section>
+    <section class="panel">
+      <h2>Analytics externes</h2>
+      <p style="color:var(--muted);margin-top:0">Sessions complètes, heatmaps, SEO Google.</p>
+      <div class="traf-external" id="trafExternal"></div>
+      <ul style="margin-top:16px;color:var(--muted);font-size:0.85rem;line-height:1.6">
+        <li><strong>Clarity</strong> — filtre Pays = France, tag <code>market_intent=FR</code></li>
+        <li><strong>GA4</strong> — Rapports → comparer période précédente</li>
+        <li><strong>Search Console</strong> — clics organiques Google</li>
+      </ul>
+    </section>
+  </div>
+
+  <script src="./js/crm-lead-platform.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-trafic.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

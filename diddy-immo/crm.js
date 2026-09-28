@@ -1,0 +1,852 @@
+(function () {
+  var TOKEN_KEY = "lo_token";
+  var USER_KEY = "lo_user";
+  var state = {
+    user: null,
+    section: "overview",
+    contactType: "",
+    selectedContactId: null,
+    lastContacts: [],
+  };
+
+  function token() {
+    return localStorage.getItem(TOKEN_KEY);
+  }
+
+  function api(path, opts) {
+    opts = opts || {};
+    var timeoutMs = opts.timeoutMs || 12000;
+    var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timer = controller
+      ? setTimeout(function () {
+          controller.abort();
+        }, timeoutMs)
+      : null;
+    return fetch(path, {
+      method: opts.method || "GET",
+      headers: Object.assign(
+        { "Content-Type": "application/json" },
+        token() ? { Authorization: "Bearer " + token() } : {}
+      ),
+      body: opts.body ? JSON.stringify(opts.body) : undefined,
+      signal: controller ? controller.signal : undefined,
+    })
+      .then(function (r) {
+        if (timer) clearTimeout(timer);
+        return r.json().catch(function () {
+          return { ok: false, error: "Reponse invalide" };
+        });
+      })
+      .catch(function (err) {
+        if (timer) clearTimeout(timer);
+        return { ok: false, error: err && err.name === "AbortError" ? "Delai depasse" : "Reseau" };
+      });
+  }
+
+  function showOverviewDiag(data) {
+    var box = document.getElementById("crmOverviewDiag");
+    if (!box) {
+      box = document.createElement("div");
+      box.id = "crmOverviewDiag";
+      box.className = "panel";
+      box.style.marginBottom = "14px";
+      var stats = document.getElementById("crmStats");
+      if (stats && stats.parentNode) stats.parentNode.insertBefore(box, stats);
+    }
+    var diag = data && data.diagnostics;
+    if (data && data.databaseConfigured === false) {
+      box.innerHTML =
+        '<p style="margin:0;color:#b91c1c"><strong>Urgent : base non connectée.</strong> ' +
+        "Les formulaires affichent « Merci » mais ne sont <em>pas sauvegardés</em>. " +
+        "Ajoutez <code>DATABASE_URL</code> sur Vercel, exécutez <code>database/site_leads.sql</code> sur Neon, puis redéployez. " +
+        '<a href="./crm-acquisition.html">Voir pipeline acquisition</a></p>';
+      return;
+    }
+    if (data && data.partial && diag && diag.migration) {
+      box.innerHTML =
+        '<p style="margin:0;color:#b45309"><strong>Module contacts CRM optionnel.</strong> ' +
+        "Les <strong>réponses questionnaires</strong> sont dans " +
+        '<a href="./dashboard.html?section=mailbox">Messagerie → Questionnaires</a> et ' +
+        '<a href="./dashboard.html?section=leads">Dashboard leads</a>. ' +
+        "Pour le portefeuille contacts : exécutez <code>database/crm.sql</code> sur Neon.</p>";
+      return;
+    }
+    if (data && data.partial && diag && diag.hint) {
+      box.innerHTML =
+        '<p style="margin:0;color:#64748b"><strong>Mode dégradé.</strong> ' + esc(diag.hint) + "</p>";
+      return;
+    }
+    box.innerHTML = "";
+  }
+
+  function labelType(t) {
+    if (t === "client") return "Client";
+    if (t === "apporteur") return "Apporteur";
+    return "Prospect";
+  }
+
+  function badgeClass(t) {
+    if (t === "client") return "badge-client";
+    if (t === "apporteur") return "badge-apporteur";
+    return "badge-prospect";
+  }
+
+  function esc(s) {
+    if (!s) return "";
+    var d = document.createElement("div");
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function showAuth() {
+    document.getElementById("crmApp").classList.add("hidden");
+    document.getElementById("crmAuth").classList.remove("hidden");
+  }
+
+  function showApp() {
+    document.getElementById("crmAuth").classList.add("hidden");
+    document.getElementById("crmApp").classList.remove("hidden");
+    mountSidebar();
+    window.dispatchEvent(new CustomEvent("lo:crm-app-visible"));
+    var name = state.user.fullName || state.user.email;
+    document.getElementById("crmUserName").textContent = name;
+    var roleText =
+      window.LoCollaborator && window.LoCollaborator.roleLabel
+        ? window.LoCollaborator.roleLabel(state.user)
+        : (state.user.crmRole || state.user.role || "").toUpperCase();
+    document.getElementById("crmUserRole").textContent = roleText;
+    var av = document.getElementById("crmUserAvatar");
+    if (av) av.textContent = (name.charAt(0) || "U").toUpperCase();
+    var teamPanel = document.getElementById("userFormPanel");
+    if (teamPanel) {
+      teamPanel.hidden = !(window.LoCollaborator && window.LoCollaborator.isSiteAdmin(state.user));
+    }
+  }
+
+  function mountSidebar() {
+    var nav = document.getElementById("crmNavMount");
+    if (nav && window.CrmSidebar) {
+      window.CrmSidebar.mount(nav, { activeSection: state.section });
+      if (window.CrmNavUi) window.CrmNavUi.init(nav);
+    }
+  }
+
+  function setSection(section) {
+    state.section = section;
+    document.querySelectorAll(".crm-nav-section").forEach(function (a) {
+      var id = ((a.getAttribute("href") || "").split("#")[1] || "");
+      a.classList.toggle("active", id === section);
+    });
+    if (location.hash !== "#" + section) {
+      history.replaceState(null, "", "./crm.html#" + section);
+    }
+    document.querySelectorAll("[data-crm-panel]").forEach(function (p) {
+      p.classList.toggle("hidden", p.dataset.crmPanel !== section);
+    });
+    var titles = {
+      overview: ["Tableau de bord CRM", "Pilotage, priorités et modules métier"],
+      contacts: ["Contacts", "Prospects, clients, apporteurs et dossiers liés"],
+      leads: ["Leads web", "Demandes issues du site et passerelle vers l'acquisition"],
+      team: ["Équipe", "Staff, commerciaux, apporteurs et accès CRM"],
+    };
+    var t = titles[section] || titles.overview;
+    document.getElementById("crmTitle").textContent = t[0];
+    document.getElementById("crmSubtitle").textContent = t[1];
+    if (section === "overview") loadOverview();
+    if (section === "contacts") loadContacts();
+    if (section === "leads") loadLeads();
+    if (section === "team") loadTeam();
+  }
+
+  function loadOverview() {
+    loadAlerts();
+    loadAiSuggestions();
+    renderPriorityLeads();
+
+    var el = document.getElementById("crmStats");
+    if (!el) return;
+    api("/api/crm/overview")
+      .then(function (data) {
+        showOverviewDiag(data);
+        if (!data.ok) {
+          el.innerHTML =
+            '<p class="activity">' +
+            esc(data.error || "Statistiques indisponibles") +
+            (data.detail ? " — " + esc(data.detail) : "") +
+            '. <a href="./crm-acquisition.html">Voir les formulaires remplis</a></p>';
+          return;
+        }
+        el.innerHTML =
+          '<div class="stat"><strong>' +
+          (data.quotesOpen != null ? data.quotesOpen : "—") +
+          '</strong><span>Devis</span></div>' +
+          '<div class="stat"><strong>' +
+          (data.contractsSigned != null ? data.contractsSigned : "—") +
+          '</strong><span>Contrats signés</span></div>' +
+          '<div class="stat"><strong>' +
+          (data.claimsActive != null ? data.claimsActive : "—") +
+          '</strong><span>Sinistres actifs</span></div>' +
+          '<div class="stat"><strong>' +
+          (data.newClients != null ? data.newClients : "—") +
+          '</strong><span>Nouveaux clients</span></div>' +
+          '<div class="stat"><strong>' +
+          data.contactsTotal +
+          '</strong><span>Contacts total</span></div>' +
+          '<div class="stat"><strong>' +
+          data.leadsWeek +
+          '</strong><span>Leads 7 jours</span></div>';
+        var quick = document.getElementById("crmQuickNav");
+        if (quick) quick.classList.remove("hidden");
+      })
+      .catch(function () {
+        el.innerHTML =
+          '<p class="activity">Statistiques indisponibles. <a href="./crm-acquisition.html">Voir les formulaires remplis</a> · ' +
+          '<a href="./dashboard.html?section=leads">Dashboard leads</a></p>';
+      });
+  }
+
+  function loadAiSuggestions() {
+    var box = document.getElementById("crmAiBox");
+    if (!box) return;
+    if (!window.CrmAiSuggestions) {
+      box.innerHTML = '<p class="alerts-empty">Module suggestions non chargé.</p>';
+      return;
+    }
+    box.innerHTML = '<p class="alerts-empty">Chargement...</p>';
+    window.CrmAiSuggestions.load(token(), esc)
+      .then(function (html) {
+        box.innerHTML = html;
+      })
+      .catch(function () {
+        box.innerHTML =
+          '<p class="alerts-empty">Suggestions indisponibles. <a href="./crm-ai-suggestions.html">Voir le module IA</a></p>';
+      });
+  }
+
+  var lastAlerts = [];
+
+  function loadAlerts() {
+    var box = document.getElementById("crmAlertsBox");
+    if (!box) return;
+    box.innerHTML = '<p class="alerts-empty">Chargement...</p>';
+    api("/api/crm/alerts", { timeoutMs: 10000 })
+      .then(function (data) {
+        if (!data.ok) {
+          box.innerHTML =
+            '<p class="alerts-empty">' +
+            esc(data.error || "Alertes indisponibles") +
+            (data.detail ? " — " + esc(data.detail) : "") +
+            ' · <a href="./crm-acquisition.html">Formulaires remplis</a></p>';
+          return;
+        }
+        lastAlerts = data.alerts || [];
+        if (!lastAlerts.length) {
+          box.innerHTML =
+            '<p class="alerts-empty">Aucune alerte. <a href="./crm-acquisition.html">Voir les formulaires remplis</a></p>';
+          return;
+        }
+        paintAlerts();
+      })
+      .catch(function () {
+        box.innerHTML = '<p class="alerts-empty">Alertes indisponibles.</p>';
+      });
+  }
+
+  function paintAlerts() {
+    var box = document.getElementById("crmAlertsBox");
+    if (!box) return;
+    var q = "";
+    var searchEl = document.getElementById("crmAlertSearch");
+    if (searchEl) q = searchEl.value.trim().toLowerCase();
+    var list = lastAlerts;
+    if (q) {
+      list = lastAlerts.filter(function (a) {
+        return (
+          String(a.title || "").toLowerCase().indexOf(q) >= 0 ||
+          String(a.message || "").toLowerCase().indexOf(q) >= 0
+        );
+      });
+    }
+    if (window.CrmAlertsPanel) {
+      box.innerHTML = window.CrmAlertsPanel.render(list, esc, { variant: "compact" });
+    } else {
+      box.innerHTML = "<p>" + list.length + " alerte(s)</p>";
+    }
+  }
+
+  var alertSearchEl = document.getElementById("crmAlertSearch");
+  if (alertSearchEl) alertSearchEl.oninput = paintAlerts;
+
+  function loadContacts() {
+    var params = [];
+    if (state.contactType) params.push("type=" + encodeURIComponent(state.contactType));
+    var searchEl = document.getElementById("contactSearch");
+    if (searchEl && searchEl.value.trim().length >= 2) {
+      params.push("search=" + encodeURIComponent(searchEl.value.trim()));
+    }
+    var q = params.length ? "?" + params.join("&") : "";
+    api("/api/crm/contacts" + q).then(function (data) {
+      var tbody = document.getElementById("contactsTable");
+      if (!data.ok || !data.contacts) {
+        tbody.innerHTML =
+          '<tr><td colspan="6">' + esc(data.error || "Erreur chargement") + "</td></tr>";
+        return;
+      }
+      state.lastContacts = data.contacts || [];
+      if (!data.contacts.length) {
+        tbody.innerHTML = '<tr><td colspan="6">Aucun contact</td></tr>';
+        return;
+      }
+      tbody.innerHTML = data.contacts
+        .map(function (c) {
+          var name =
+            (c.first_name || "") + " " + (c.last_name || "") || c.email || "—";
+          return (
+            "<tr data-id=\"" +
+            esc(c.id) +
+            "\" style=\"cursor:pointer\">" +
+            "<td><span class=\"badge " +
+            badgeClass(c.contact_type) +
+            "\">" +
+            labelType(c.contact_type) +
+            "</span></td>" +
+            "<td>" +
+            esc(name.trim()) +
+            "</td>" +
+            "<td>" +
+            esc(c.email || "—") +
+            "</td>" +
+            "<td>" +
+            esc(c.phone || "—") +
+            "</td>" +
+            "<td>" +
+            esc(c.company || "—") +
+            "</td>" +
+            "<td>" +
+            esc(c.status || "") +
+            "</td></tr>"
+          );
+        })
+        .join("");
+      tbody.querySelectorAll("tr[data-id]").forEach(function (row) {
+        row.addEventListener("click", function () {
+          openContact(row.getAttribute("data-id"));
+        });
+      });
+    });
+  }
+
+  function openContact(id) {
+    window.location.href = "./crm-contact.html?id=" + encodeURIComponent(id);
+  }
+
+  function patchAcqLead(id, payload) {
+    return fetch("/api/crm/lead-acquisition?id=" + encodeURIComponent(id), {
+      method: "PATCH",
+      headers: Object.assign(
+        { "Content-Type": "application/json" },
+        token() ? { Authorization: "Bearer " + token() } : {}
+      ),
+      body: JSON.stringify(payload || {}),
+    }).then(function (r) {
+      return r.json().catch(function () {
+        return { ok: false, error: "Reponse invalide" };
+      });
+    });
+  }
+
+  function leadTitle(l) {
+    var p = {};
+    try {
+      p = l.payload ? JSON.parse(l.payload) : {};
+    } catch (e) {}
+    var name = ((p.firstName || p.first_name || "") + " " + (p.lastName || p.last_name || "")).trim();
+    return name || l.email || l.phone || l.id;
+  }
+
+  function renderPriorityLeads() {
+    var box = document.getElementById("crmPriorityLeadsBox");
+    if (!box) return;
+    box.innerHTML = '<p class="alerts-empty">Chargement...</p>';
+    var fetchTimer = setTimeout(function () {
+      box.innerHTML =
+        '<p class="alerts-empty">Chargement lent… <a href="./crm-acquisition.html">Ouvrir Acquisition leads</a></p>';
+    }, 10000);
+    fetch("/api/crm/leads-acquisition?limit=8&view=unopened", {
+      headers: Object.assign({ "Content-Type": "application/json" }, token() ? { Authorization: "Bearer " + token() } : {}),
+      signal: typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(12000) : undefined,
+    })
+      .then(function (r) {
+        return r.json().catch(function () {
+          return { ok: false, error: "Reponse invalide" };
+        });
+      })
+      .then(function (data) {
+        clearTimeout(fetchTimer);
+        if (!data.ok) {
+          box.innerHTML =
+            '<p class="alerts-empty">' +
+            esc(data.error || "Erreur leads") +
+            (data.detail ? " — " + esc(data.detail) : "") +
+            ' · <a href="./dashboard.html?section=mailbox">Questionnaires (Messagerie)</a> · ' +
+            '<a href="./crm-acquisition.html">Pipeline complet</a></p>';
+          return;
+        }
+        var diag = data.diagnostics;
+        if (diag && diag.databaseConfigured === false) {
+          box.innerHTML =
+            '<p class="alerts-empty" style="color:#b91c1c"><strong>Base non connectée</strong> — formulaires non enregistrés. Configurez DATABASE_URL sur Vercel.</p>';
+          return;
+        }
+        if (diag && diag.hint && !(data.leads && data.leads.length)) {
+          box.innerHTML =
+            '<p class="alerts-empty" style="color:#b45309">' +
+            esc(diag.hint) +
+            ' · <a href="./dashboard.html?section=mailbox">Voir réponses questionnaires</a></p>';
+          return;
+        }
+        var leads = (data.leads || []).slice(0, 8);
+        if (!leads.length) {
+          box.innerHTML =
+            "<p class='alerts-empty'>Aucun nouveau lead non ouvert. " +
+            '<a href="./crm-acquisition.html?view=all">Tous les formulaires</a> · ' +
+            '<a href="./dashboard.html?section=leads">Dashboard</a></p>';
+          return;
+        }
+        box.innerHTML = leads
+          .map(function (l) {
+            return (
+              '<div class="alert-item" style="display:flex;justify-content:space-between;gap:10px;align-items:center">' +
+              "<div><strong>" +
+              esc(leadTitle(l)) +
+              "</strong><br><span style='color:#64748b;font-size:.82rem'>" +
+              esc(l.vertical || "—") +
+              " · score " +
+              (l.lead_score != null ? l.lead_score : "—") +
+              " · " +
+              new Date(l.created_at).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" }) +
+              "</span></div>" +
+              '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+              '<a class="btn btn-ghost btn-sm" href="./crm-lead-detail.html?id=' + encodeURIComponent(l.id) + '">Ouvrir</a>' +
+              '<button type="button" class="btn btn-ghost btn-sm btn-prio-archive" data-id="' + esc(l.id) + '">Archiver</button>' +
+              "</div></div>"
+            );
+          })
+          .join("");
+
+        box.querySelectorAll(".btn-prio-archive").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            if (btn.disabled) return;
+            var id = btn.getAttribute("data-id");
+            if (!id) return;
+            if (!confirm("Archiver ce lead ? Il disparaîtra de la liste des nouveaux leads prioritaires.")) return;
+            btn.disabled = true;
+            btn.textContent = "Archivage…";
+            patchAcqLead(id, { action: "archive", archive_reason: "Archive depuis overview CRM" }).then(function (res) {
+              if (!res.ok) {
+                btn.disabled = false;
+                btn.textContent = "Archiver";
+                alert((res.error || "Erreur archivage") + (res.detail ? "\n" + res.detail : ""));
+                return;
+              }
+              var row = btn.closest(".alert-item");
+              if (row) row.remove();
+              if (!box.querySelector(".alert-item")) {
+                box.innerHTML =
+                  "<p class='alerts-empty'>Aucun nouveau lead non ouvert. " +
+                  '<a href="./crm-acquisition.html?view=all">Tous les formulaires</a></p>';
+              }
+            });
+          });
+        });
+      })
+      .catch(function () {
+        clearTimeout(fetchTimer);
+        box.innerHTML =
+          '<p class="alerts-empty">Impossible de charger les leads prioritaires. <a href="./crm-acquisition.html">Pipeline acquisition</a></p>';
+      });
+  }
+
+  function renderDuplicates() {
+    var box = document.getElementById("crmDuplicatesBox");
+    if (!box) return;
+    box.innerHTML = "<p class='alerts-empty'>Chargement...</p>";
+    api("/api/crm/contact-duplicates").then(function (data) {
+      if (!data.ok) {
+        box.innerHTML = "<p>" + esc(data.error || "Erreur doublons") + "</p>";
+        return;
+      }
+      var groups = (data.groups || []).slice(0, 30);
+      if (!groups.length) {
+        box.innerHTML = "<p class='alerts-empty'>Aucun doublon probable.</p>";
+        return;
+      }
+      box.innerHTML = groups
+        .map(function (g) {
+          var keep = g.contacts[0];
+          return (
+            '<div class="alert-item" style="margin-bottom:10px">' +
+            "<strong>" + esc(g.reason) + " : " + esc(g.key) + " (" + g.size + ")</strong>" +
+            "<div style='margin-top:6px;display:grid;gap:6px'>" +
+            g.contacts
+              .map(function (c, idx) {
+                return (
+                  '<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;border:1px solid #e2e8f0;border-radius:8px;padding:8px">' +
+                  "<div>" +
+                  esc(((c.first_name || "") + " " + (c.last_name || "")).trim() || c.email || c.phone || c.id) +
+                  "<br><span style='color:#64748b;font-size:.78rem'>" +
+                  esc(c.email || "—") +
+                  " · " +
+                  esc(c.phone || "—") +
+                  "</span></div>" +
+                  '<div style="display:flex;gap:6px">' +
+                  '<a class="btn btn-ghost btn-sm" href="./crm-contact.html?id=' + encodeURIComponent(c.id) + '">Fiche</a>' +
+                  (idx === 0
+                    ? '<span class="btn btn-ghost btn-sm" style="opacity:.6">Conserver</span>'
+                    : '<button type="button" class="btn btn-primary btn-sm btn-merge-contact" data-keep="' +
+                      esc(keep.id) +
+                      '" data-merge="' +
+                      esc(c.id) +
+                      '">Fusionner</button>') +
+                  "</div></div>"
+                );
+              })
+              .join("") +
+            "</div></div>"
+          );
+        })
+        .join("");
+
+      box.querySelectorAll(".btn-merge-contact").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var keepId = btn.getAttribute("data-keep");
+          var mergeId = btn.getAttribute("data-merge");
+          if (!confirm("Fusionner ce contact dans la fiche principale ?")) return;
+          api("/api/crm/merge-contacts", { method: "POST", body: { keepId: keepId, mergeId: mergeId } }).then(function (res) {
+            if (!res.ok) return alert(res.error || "Erreur fusion");
+            renderDuplicates();
+            if (state.section === "contacts") loadContacts();
+          });
+        });
+      });
+    });
+  }
+
+  function loadLeads() {
+    api("/api/dashboard/leads?limit=30").then(function (data) {
+      var tbody = document.getElementById("leadsTable");
+      if (!data.ok || !data.leads) {
+        tbody.innerHTML =
+          '<tr><td colspan="6">' +
+          esc(data.error || "Acces leads refuse ou erreur") +
+          ' — <a href="./auth.html">Connexion</a></td></tr>';
+        return;
+      }
+      tbody.innerHTML = data.leads
+        .map(function (l) {
+          return (
+            "<tr>" +
+            "<td>" +
+            new Date(l.created_at).toLocaleDateString("fr-FR") +
+            "</td>" +
+            "<td>" +
+            esc(l.vertical) +
+            "</td>" +
+            "<td>" +
+            esc(l.email || "—") +
+            "</td>" +
+            "<td>" +
+            esc(l.phone || "—") +
+            "</td>" +
+            "<td>" +
+            esc(l.status || "new") +
+            "</td>" +
+            "<td><button type=\"button\" class=\"btn btn-ghost btn-convert\" data-id=\"" +
+            esc(l.id) +
+            "\">→ Contact</button></td></tr>"
+          );
+        })
+        .join("");
+      tbody.querySelectorAll(".btn-convert").forEach(function (btn) {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var leadId = btn.getAttribute("data-id");
+          api("/api/crm/convert-lead", {
+            method: "POST",
+            body: { leadId: leadId, contactType: "prospect" },
+          }).then(function (res) {
+            if (res.ok && res.contactId) {
+              if (confirm("Contact cree. Ouvrir la fiche complete ?")) {
+                window.location.href =
+                  "./crm-contact.html?id=" + encodeURIComponent(res.contactId);
+              } else {
+                loadLeads();
+                loadOverview();
+              }
+            } else if (res.ok) {
+              loadLeads();
+              loadOverview();
+            } else alert(res.error || "Erreur");
+          });
+        });
+      });
+      renderDuplicates();
+    });
+  }
+
+  function loadTeam() {
+    api("/api/crm/users").then(function (data) {
+      var tbody = document.getElementById("teamTable");
+      var canManage = data.canManage || (window.LoCollaborator && window.LoCollaborator.isSiteAdmin());
+      var formPanel = document.getElementById("userFormPanel");
+      if (formPanel) formPanel.hidden = !canManage;
+      if (!data.ok) {
+        tbody.innerHTML = '<tr><td colspan="5">' + esc(data.error) + "</td></tr>";
+        return;
+      }
+      tbody.innerHTML = (data.users || [])
+        .map(function (u) {
+          var type =
+            u.role === "admin"
+              ? '<span class="crm-badge-admin">Administrateur</span>'
+              : '<span class="crm-badge-collab">Collaborateur</span>';
+          var actions = "";
+          if (canManage && u.role !== "admin") {
+            actions =
+              ' <button type="button" class="btn btn-ghost btn-sm" data-user-toggle="' +
+              esc(u.id) +
+              '" data-status="' +
+              esc(u.status === "inactive" ? "active" : "inactive") +
+              '">' +
+              (u.status === "inactive" ? "Réactiver" : "Désactiver") +
+              "</button>";
+          }
+          return (
+            "<tr><td>" +
+            esc(u.full_name || "—") +
+            "</td><td>" +
+            esc(u.email) +
+            "</td><td>" +
+            type +
+            " " +
+            esc(u.crm_role || "—") +
+            "</td><td>" +
+            esc(u.status || "active") +
+            "</td><td>" +
+            (u.last_login_at
+              ? new Date(u.last_login_at).toLocaleDateString("fr-FR")
+              : "—") +
+            actions +
+            "</td></tr>"
+          );
+        })
+        .join("");
+      tbody.querySelectorAll("[data-user-toggle]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var id = btn.getAttribute("data-user-toggle");
+          var status = btn.getAttribute("data-status");
+          api("/api/crm/users", {
+            method: "PATCH",
+            body: { id: id, status: status },
+          }).then(function (res) {
+            if (res.ok) loadTeam();
+            else alert(res.error || "Erreur");
+          });
+        });
+      });
+    });
+  }
+
+  function initAuth() {
+    document.getElementById("crmLoginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var fd = new FormData(e.target);
+      api("/api/auth/login", {
+        method: "POST",
+        body: { email: fd.get("email"), password: fd.get("password") },
+      }).then(function (data) {
+        if (!data.ok) {
+          document.getElementById("crmAuthMsg").textContent = data.error || "Erreur";
+          return;
+        }
+        localStorage.setItem(TOKEN_KEY, data.token);
+        localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+        state.user = data.user;
+        if (data.user.role !== "admin" && !data.user.crmRole) {
+          document.getElementById("crmAuthMsg").textContent =
+            "Compte sans accès CRM. Demandez à l'administrateur de créer votre accès collaborateur.";
+          localStorage.removeItem(TOKEN_KEY);
+          localStorage.removeItem(USER_KEY);
+          return;
+        }
+        if (window.matchMedia("(max-width: 768px)").matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "")) {
+          window.location.href = "./crm-mobile.html";
+          return;
+        }
+        showApp();
+        setSection(sectionFromHash() || "overview");
+      });
+    });
+    document.getElementById("crmLogout").addEventListener("click", function () {
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(USER_KEY);
+      showAuth();
+    });
+  }
+
+  function sectionFromHash() {
+    var h = (location.hash || "").replace("#", "");
+    return ["overview", "contacts", "leads", "team"].indexOf(h) >= 0 ? h : null;
+  }
+
+  function initApp() {
+    window.addEventListener("hashchange", function () {
+      var s = sectionFromHash();
+      if (s && !document.getElementById("crmApp").classList.contains("hidden")) setSection(s);
+    });
+    document.querySelectorAll(".tab").forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        document.querySelectorAll(".tab").forEach(function (t) {
+          t.classList.remove("active");
+        });
+        tab.classList.add("active");
+        state.contactType = tab.dataset.type || "";
+        loadContacts();
+      });
+    });
+    var contactSearchTimer;
+    var cs = document.getElementById("contactSearch");
+    if (cs) {
+      cs.addEventListener("input", function () {
+        clearTimeout(contactSearchTimer);
+        contactSearchTimer = setTimeout(loadContacts, 300);
+      });
+    }
+    var btnExpContacts = document.getElementById("btnExportContacts");
+    if (btnExpContacts && window.CrmExport) {
+      btnExpContacts.addEventListener("click", function () {
+        var list = state.lastContacts || [];
+        if (!list.length) return alert("Aucun contact a exporter");
+        var csv = window.CrmExport.toCsv(list, [
+          { label: "Type", value: function (c) { return c.contact_type; } },
+          {
+            label: "Nom",
+            value: function (c) {
+              return ((c.first_name || "") + " " + (c.last_name || "")).trim();
+            },
+          },
+          { label: "Email", value: function (c) { return c.email; } },
+          { label: "Telephone", value: function (c) { return c.phone; } },
+          { label: "Societe", value: function (c) { return c.company; } },
+          { label: "Statut", value: function (c) { return c.status; } },
+        ]);
+        window.CrmExport.download("contacts-crm.csv", csv);
+      });
+    }
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var fd = new FormData(e.target);
+      api("/api/crm/contacts", {
+        method: "POST",
+        body: {
+          contactType: fd.get("contactType"),
+          firstName: fd.get("firstName"),
+          lastName: fd.get("lastName"),
+          email: fd.get("email"),
+          phone: fd.get("phone"),
+          company: fd.get("company"),
+          notes: fd.get("notes"),
+        },
+      }).then(function (res) {
+        if (res.ok) {
+          e.target.reset();
+          loadContacts();
+          loadOverview();
+        } else alert(res.error);
+      });
+    });
+    document.getElementById("userForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var fd = new FormData(e.target);
+      api("/api/crm/users", {
+        method: "POST",
+        body: {
+          email: fd.get("email"),
+          password: fd.get("password"),
+          crmRole: fd.get("crmRole"),
+          fullName: fd.get("fullName"),
+        },
+      }).then(function (res) {
+        if (res.ok) {
+          e.target.reset();
+          loadTeam();
+        } else alert(res.error);
+      });
+    });
+    var dupRefresh = document.getElementById("btnRefreshDuplicates");
+    if (dupRefresh) dupRefresh.addEventListener("click", renderDuplicates);
+  }
+
+  function handleOAuthReturn() {
+    var params = new URLSearchParams(window.location.search);
+    var token = params.get("token");
+    if (params.get("oauth") === "success" && token) {
+      fetch("/api/auth/me", {
+        headers: { Authorization: "Bearer " + token },
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          if (data.ok && data.user) {
+            localStorage.setItem(TOKEN_KEY, token);
+            localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+            state.user = data.user;
+            window.history.replaceState({}, "", "./crm.html");
+            if (window.matchMedia("(max-width: 768px)").matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "")) {
+              window.location.href = "./crm-mobile.html";
+              return;
+            }
+            showApp();
+            setSection("overview");
+          } else {
+            document.getElementById("crmAuthMsg").textContent =
+              data.error || "Connexion Google incomplete";
+          }
+        })
+        .catch(function () {
+          document.getElementById("crmAuthMsg").textContent =
+            "Erreur apres connexion Google";
+        });
+      return true;
+    }
+    if (params.get("oauth_error")) {
+      document.getElementById("crmAuthMsg").textContent = params.get("oauth_error");
+    }
+    return false;
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    initAuth();
+    initApp();
+    if (handleOAuthReturn()) return;
+    var saved = localStorage.getItem(USER_KEY);
+    if (token() && saved) {
+      try {
+        state.user = JSON.parse(saved);
+      } catch (e) {}
+      api("/api/auth/me").then(function (data) {
+        if (data.ok && data.user) {
+          state.user = data.user;
+          localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+          if (data.user.role === "admin" || data.user.crmRole) {
+            showApp();
+            setSection(sectionFromHash() || "overview");
+            return;
+          }
+        }
+        showAuth();
+      });
+    } else showAuth();
+  });
+})();

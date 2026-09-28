@@ -1,0 +1,1441 @@
+(function () {
+  var Store = window.CrmImmoStore;
+  var AdLib = window.ImmoAdListings;
+  var Compress = window.ImmoPhotoCompress;
+  if (!Store || !AdLib) return;
+  if (!localStorage.getItem("lo_token")) {
+    location.href = "./crm.html";
+    return;
+  }
+
+  var MAX_PHOTOS = 12;
+  var currentId = "";
+  var highlightId = "";
+  var photoState = [];
+  var videoState = [];
+  var hiddenTourUrl = "";
+  var Access = window.ImmoAdDemoAccess;
+
+  function paintHiddenTourUrl(url) {
+    hiddenTourUrl = String(url || "").trim();
+    var mask = document.getElementById("adTourMasked");
+    var lab = document.getElementById("adTourLabel");
+    var inp = document.getElementById("adTour");
+    if (mask) {
+      mask.textContent = hiddenTourUrl
+        ? "Lien 3D enregistré et masqué — jamais collé sur Leboncoin ni visible pour un visiteur."
+        : "Aucun lien 3D enregistré.";
+    }
+    if (lab) lab.hidden = true;
+    if (inp) inp.value = "";
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function msg(text, ok) {
+    var el = document.getElementById("adStatusMsg");
+    if (!el) return;
+    el.textContent = text || "";
+    el.style.color = ok ? "#166534" : "var(--muted)";
+  }
+
+  function syncHiddenMediaFields() {
+    document.getElementById("adPhotos").value = photoState
+      .map(function (p) {
+        return p.url;
+      })
+      .join("\n");
+    document.getElementById("adVideos").value = videoState.join("\n");
+  }
+
+  function renderPhotoThumbs() {
+    var box = document.getElementById("adPhotoThumbs");
+    if (!box) return;
+    if (!photoState.length) {
+      box.innerHTML =
+        '<p class="pub-hint" style="margin:0">Aucune photo pour l’instant.</p>' +
+        '<button type="button" class="btn btn-ghost btn-sm" id="btnRetryPhotosEmpty" style="margin-top:8px">Réessayer de récupérer les photos</button>';
+      syncHiddenMediaFields();
+      var retryEmpty = document.getElementById("btnRetryPhotosEmpty");
+      if (retryEmpty) retryEmpty.onclick = fetchListingPhotosFromApi;
+      return;
+    }
+    box.innerHTML = photoState
+      .map(function (p, i) {
+        return (
+          '<div class="pub-thumb">' +
+          '<img src="' +
+          esc(p.url) +
+          '" alt="Photo ' +
+          (i + 1) +
+          '" />' +
+          '<span class="ord">' +
+          (i + 1) +
+          "</span>" +
+          '<button type="button" data-rm-photo="' +
+          i +
+          '" aria-label="Retirer">×</button>' +
+          "</div>"
+        );
+      })
+      .join("");
+    box.querySelectorAll("[data-rm-photo]").forEach(function (btn) {
+      btn.onclick = function () {
+        photoState.splice(Number(btn.getAttribute("data-rm-photo")), 1);
+        renderPhotoThumbs();
+      };
+    });
+    syncHiddenMediaFields();
+  }
+
+  function renderVideoList() {
+    var box = document.getElementById("adVideoList");
+    if (!box) return;
+    if (!videoState.length) {
+      box.innerHTML = "";
+      syncHiddenMediaFields();
+      return;
+    }
+    box.innerHTML = videoState
+      .map(function (url, i) {
+        return (
+          "<li><a href=\"" +
+          esc(url) +
+          '" target="_blank" rel="noopener">' +
+          esc(url) +
+          '</a><button type="button" class="btn btn-ghost btn-sm" data-rm-video="' +
+          i +
+          '">Retirer</button></li>'
+        );
+      })
+      .join("");
+    box.querySelectorAll("[data-rm-video]").forEach(function (btn) {
+      btn.onclick = function () {
+        videoState.splice(Number(btn.getAttribute("data-rm-video")), 1);
+        renderVideoList();
+      };
+    });
+    syncHiddenMediaFields();
+  }
+
+  function addPhotoUrl() {
+    var url = window.prompt("URL de la photo (https://…)");
+    if (!url) return;
+    url = String(url).trim();
+    if (!AdLib.sanitizePhotos([{ url: url, kind: "photo" }]).length) {
+      msg("URL photo refusée (https ou image compressée uniquement).");
+      return;
+    }
+    if (photoState.length >= MAX_PHOTOS) {
+      msg("Maximum " + MAX_PHOTOS + " photos.");
+      return;
+    }
+    photoState.push({ url: url, kind: "photo" });
+    renderPhotoThumbs();
+  }
+
+  function addVideoUrl(raw) {
+    var url = String(raw || "").trim();
+    if (!url) return;
+    if (!AdLib.isSafeVideoUrl(url)) {
+      msg("Lien vidéo non accepté (https YouTube / Vimeo / fichier…).");
+      return;
+    }
+    if (videoState.indexOf(url) !== -1) return;
+    if (videoState.length >= 6) {
+      msg("Maximum 6 vidéos.");
+      return;
+    }
+    videoState.push(url);
+    renderVideoList();
+    var inp = document.getElementById("adVideoInput");
+    if (inp) inp.value = "";
+  }
+
+  function formValues() {
+    syncHiddenMediaFields();
+    return {
+      title: document.getElementById("adTitle").value.trim(),
+      headline: document.getElementById("adHeadline").value.trim(),
+      description: document.getElementById("adDescription").value.trim(),
+      body: document.getElementById("adDescription").value.trim(),
+      property_type: document.getElementById("adType").value,
+      status: document.getElementById("adStatus").value,
+      city: document.getElementById("adCity").value.trim(),
+      postal_code: document.getElementById("adPostal").value.trim(),
+      price_fai: document.getElementById("adPrice").value,
+      surface_m2: document.getElementById("adSurface").value,
+      rooms: document.getElementById("adRooms").value,
+      bedrooms: document.getElementById("adBedrooms").value,
+      floor: document.getElementById("adFloor").value.trim(),
+      heating: document.getElementById("adHeating").value.trim(),
+      dpe: document.getElementById("adDpe").value,
+      ges: document.getElementById("adGes").value,
+      charges: document.getElementById("adCharges").value,
+      energy_cost: document.getElementById("adEnergyCost").value,
+      year_built: document.getElementById("adYear").value,
+      has_elevator: document.getElementById("adElevator").checked,
+      has_parking: document.getElementById("adParking").checked,
+      has_garage: document.getElementById("adGarage").checked,
+      has_cave: document.getElementById("adCave").checked,
+      has_balcony: document.getElementById("adBalcony").checked,
+      has_terrace: document.getElementById("adTerrace").checked,
+      has_garden: document.getElementById("adGarden").checked,
+      furnished: document.getElementById("adFurnished").checked,
+      photos: photoState.slice(),
+      videos: videoState.slice(),
+      virtual_tour: (document.getElementById("adTour") && document.getElementById("adTour").value.trim()) || hiddenTourUrl,
+      platforms: document.getElementById("adPlatforms").value,
+      demo_label: document.getElementById("adDemoLabel").value.trim(),
+      listing_url: document.getElementById("adListingUrl").value.trim(),
+      tour_gate: document.getElementById("chTourGate") ? document.getElementById("chTourGate").checked : false,
+      tour_name: document.getElementById("adTourName") ? document.getElementById("adTourName").value : "",
+      tour_availability: document.getElementById("adTourAvailability")
+        ? document.getElementById("adTourAvailability").value
+        : "active",
+      tour_visibility: document.getElementById("adTourVisibility")
+        ? document.getElementById("adTourVisibility").value
+        : "listed",
+      tour_link_id: document.getElementById("adTourLinkId") ? document.getElementById("adTourLinkId").value : "",
+      tour_create_link: !!window.__createNamedTourOnce,
+      tour_delete_link: !!window.__deleteTourOnce,
+      tour_days: "",
+      tour_duration_value: document.getElementById("adTourDuration")
+        ? document.getElementById("adTourDuration").value
+        : "",
+      tour_duration_unit: document.getElementById("adTourDurationUnit")
+        ? document.getElementById("adTourDurationUnit").value
+        : "days",
+      tour_duration_start: document.getElementById("adTourDurationStart")
+        ? document.getElementById("adTourDurationStart").value
+        : "first_view",
+      tour_max_views: document.getElementById("adTourMaxViews") ? document.getElementById("adTourMaxViews").value : "",
+      tour_max_per_contact: document.getElementById("adTourMaxPer") ? document.getElementById("adTourMaxPer").value : "",
+      tour_verify_mode: document.getElementById("adTourVerify") ? document.getElementById("adTourVerify").value : "email",
+      tour_period_mode: document.getElementById("adTourPeriod") ? document.getElementById("adTourPeriod").value : "limited",
+      tour_allow_emails: document.getElementById("adTourAllowEmails") ? document.getElementById("adTourAllowEmails").value : "",
+      tour_allow_phones: document.getElementById("adTourAllowPhones") ? document.getElementById("adTourAllowPhones").value : "",
+      tour_bind_site: document.getElementById("chTourBindSite") ? document.getElementById("chTourBindSite").checked : true,
+      tour_bind_leboncoin: document.getElementById("chTourBindLbc") ? document.getElementById("chTourBindLbc").checked : true,
+      tour_bind_seloger: document.getElementById("chTourBindSeloger") ? document.getElementById("chTourBindSeloger").checked : true,
+      tour_bind_meta: document.getElementById("chTourBindMeta") ? document.getElementById("chTourBindMeta").checked : true,
+      tour_bind_other: document.getElementById("chTourBindOther") ? document.getElementById("chTourBindOther").checked : true,
+      tour_portal_urls: document.getElementById("adTourPortalUrls") ? document.getElementById("adTourPortalUrls").value : "",
+      rotate_tour_token: !!(window.__rotateTourOnce),
+      channel_public: document.getElementById("chPublic").checked,
+      channel_private: document.getElementById("chPrivate").checked,
+      access_emails: document.getElementById("adAccessEmails").value,
+      access_phones: document.getElementById("adAccessPhones").value,
+    };
+  }
+
+  function tourPublicUrl(token, utm) {
+    return location.origin + "/immobilier/visite.html?t=" + encodeURIComponent(token || "") + "&utm_source=" + encodeURIComponent(utm || "leboncoin");
+  }
+
+  function copyTourUrl(token, utm, label) {
+    if (!token) {
+      msg("Enregistrez d’abord la pub pour générer le lien.");
+      return;
+    }
+    var url = tourPublicUrl(token, utm);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () {
+        msg("Lien " + (label || utm || "visite") + " copié — à coller sur l’annonce.", true);
+      });
+    } else {
+      msg(url, true);
+    }
+  }
+
+  function fillTourGate(ad, property) {
+    var Tour = window.ImmoTourAccess;
+    var links = Tour && Tour.listTourLinks ? Tour.listTourLinks(ad) : ad && ad.tour_access ? [ad.tour_access] : [];
+    var selectedId = document.getElementById("adTourLinkId") ? document.getElementById("adTourLinkId").value : "";
+    var ta = links[0] || (ad && ad.tour_access) || {};
+    if (selectedId) {
+      links.forEach(function (l) {
+        if (l.id === selectedId || l.token === selectedId) ta = l;
+      });
+    }
+    var linkSel = document.getElementById("adTourLinkSelect");
+    if (linkSel) {
+      linkSel.innerHTML =
+        '<option value="">— Lien principal —</option>' +
+        links
+          .map(function (l) {
+            return (
+              '<option value="' +
+              esc(l.id || l.token) +
+              '">' +
+              esc((l.name || "Visite") + (l.availability === "paused" ? " · pause" : "") + (l.visibility === "unlisted" ? " · masqué site" : "")) +
+              "</option>"
+            );
+          })
+          .join("");
+      if (ta.id || ta.token) linkSel.value = ta.id || ta.token;
+    }
+    var idEl = document.getElementById("adTourLinkId");
+    if (idEl) idEl.value = ta.id || ta.token || "";
+    var nameEl = document.getElementById("adTourName");
+    if (nameEl) nameEl.value = ta.name || "";
+    var avEl = document.getElementById("adTourAvailability");
+    if (avEl) avEl.value = ta.availability === "paused" ? "paused" : "active";
+    var visEl = document.getElementById("adTourVisibility");
+    if (visEl) visEl.value = ta.visibility === "unlisted" ? "unlisted" : "listed";
+    var gate = document.getElementById("chTourGate");
+    if (gate) gate.checked = !!(ta.token && ta.availability !== "paused");
+    var daysEl = document.getElementById("adTourDays");
+    var durEl = document.getElementById("adTourDuration");
+    var unitEl = document.getElementById("adTourDurationUnit");
+    if (ta.token) {
+      if (daysEl) daysEl.value = "";
+      if (durEl) durEl.value = ta.duration_value != null && ta.duration_value !== "" ? String(ta.duration_value) : "";
+    } else {
+      if (daysEl) daysEl.value = "30";
+      if (durEl && !durEl.value) durEl.value = "30";
+    }
+    if (unitEl) unitEl.value = ta.duration_unit === "hours" ? "hours" : "days";
+    var startEl = document.getElementById("adTourDurationStart");
+    if (startEl) {
+      if (ta.duration_start === "created" || ta.duration_start === "first_view") {
+        startEl.value = ta.duration_start;
+      } else {
+        startEl.value = ta.expires_at && !ta.first_viewed_at ? "created" : "first_view";
+      }
+    }
+    var maxEl = document.getElementById("adTourMaxViews");
+    if (maxEl && ta.max_views != null) maxEl.value = String(ta.max_views);
+    var perEl = document.getElementById("adTourMaxPer");
+    if (perEl && ta.max_views_per_contact != null) perEl.value = String(ta.max_views_per_contact);
+    var ver = document.getElementById("adTourVerify");
+    if (ver) ver.value = ta.verify_mode || "email";
+    var perMode = document.getElementById("adTourPeriod");
+    if (perMode) perMode.value = ta.period_mode || "limited";
+    var allowE = document.getElementById("adTourAllowEmails");
+    if (allowE) allowE.value = (ta.allow_emails || []).join("\n");
+    var allowP = document.getElementById("adTourAllowPhones");
+    if (allowP) allowP.value = (ta.allow_phones || []).join("\n");
+    var portals = document.getElementById("adTourPortalUrls");
+    if (portals) portals.value = (ta.portal_urls || []).join("\n");
+    var bind = ta.bind || {};
+    function setBind(id, key) {
+      var n = document.getElementById(id);
+      if (n) n.checked = bind[key] !== false;
+    }
+    setBind("chTourBindSite", "site");
+    setBind("chTourBindLbc", "leboncoin");
+    setBind("chTourBindSeloger", "seloger");
+    setBind("chTourBindMeta", "meta");
+    setBind("chTourBindOther", "other");
+    var hint = document.getElementById("adTourMandateHint");
+    if (hint && Tour && Tour.mandateInfo) {
+      var man = Tour.mandateInfo(property || {});
+      hint.textContent = man.exclusive
+        ? "Mandat exclusif / semi-exclusif" + (man.endIso ? " jusqu’au " + new Date(man.endIso).toLocaleDateString("fr-FR") : "") + (man.expired ? " — échu, le lien public sera coupé si période = mandat." : "")
+        : "Pas de mandat exclusif renseigné sur la fiche : la période « liée au mandat » bloquera le lien public.";
+    }
+    var urlEl = document.getElementById("adTourPublicUrl");
+    var list = document.getElementById("adTourChannelLinks");
+    if (urlEl) {
+      if (ta.token) {
+        var st = Tour && Tour.tourLinkStatus ? Tour.tourLinkStatus(ta, 0, property) : { ok: true };
+        urlEl.textContent =
+          (ta.name ? ta.name + " · " : "") +
+          tourPublicUrl(ta.token, "leboncoin") +
+          (ta.availability === "paused" ? " · en pause" : "") +
+          (ta.visibility === "unlisted" ? " · masqué site" : "") +
+          (st.remaining != null ? " · " + st.remaining + " vues restantes" : "") +
+          (st.expires_at ? " · expire le " + new Date(st.expires_at).toLocaleDateString("fr-FR") : "") +
+          (ta.view_count ? " · déjà " + ta.view_count + " vue(s)" : "");
+        if (list && Tour && Tour.channelLinks) {
+          var channelUrls = Tour.channelLinks(ta.token, location.origin);
+          list.innerHTML =
+            "<div>Site : <code>" +
+            channelUrls.site +
+            "</code></div><div>Leboncoin : <code>" +
+            channelUrls.leboncoin +
+            "</code></div><div>SeLoger : <code>" +
+            channelUrls.seloger +
+            "</code></div><div>Meta : <code>" +
+            channelUrls.meta +
+            "</code></div>";
+        }
+      } else {
+        urlEl.textContent = "Enregistrez pour générer les liens à coller (site, Leboncoin, SeLoger, Meta).";
+        if (list) list.innerHTML = "";
+      }
+    }
+  }
+
+  function setImportStatus(text, ok) {
+    var el = document.getElementById("adImportStatus");
+    if (!el) return;
+    el.textContent = text || "";
+    el.style.color = ok ? "#166534" : "var(--muted)";
+  }
+
+  function syncOpenListingBtn() {
+    var btn = document.getElementById("btnOpenListingUrl");
+    var url = document.getElementById("adListingUrl").value.trim();
+    if (!btn) return;
+    if (url && /^https?:\/\//i.test(url)) {
+      btn.hidden = false;
+      btn.href = url;
+    } else {
+      btn.hidden = true;
+      btn.removeAttribute("href");
+    }
+  }
+
+  function setIfEmpty(id, value) {
+    var el = document.getElementById(id);
+    if (!el || value == null || value === "") return false;
+    if (String(el.value || "").trim()) return false;
+    el.value = value;
+    return true;
+  }
+
+  function setCheckIfUnset(id, value) {
+    var el = document.getElementById(id);
+    if (!el || value == null) return false;
+    if (el.checked) return false;
+    if (value === true) {
+      el.checked = true;
+      return true;
+    }
+    return false;
+  }
+
+  function ensurePlatform(label) {
+    var el = document.getElementById("adPlatforms");
+    if (!el || !label) return;
+    var parts = String(el.value || "")
+      .split(/[,;\n]+/)
+      .map(function (s) {
+        return s.trim();
+      })
+      .filter(Boolean);
+    var found = parts.some(function (p) {
+      return p.toLowerCase() === String(label).toLowerCase();
+    });
+    if (!found) {
+      parts.push(label);
+      el.value = parts.join(", ");
+    }
+  }
+
+  function applyListingPaste(parsed) {
+    if (!parsed || !parsed.ok) {
+      setImportStatus((parsed && parsed.hint) || "Aucune info détectée.", false);
+      return;
+    }
+    var n = 0;
+    if (parsed.listing_url) {
+      document.getElementById("adListingUrl").value = parsed.listing_url;
+      syncOpenListingBtn();
+      n++;
+    }
+    if (parsed.title && setIfEmpty("adTitle", parsed.title)) n++;
+    if (parsed.headline && setIfEmpty("adHeadline", parsed.headline)) n++;
+    if (parsed.description && setIfEmpty("adDescription", parsed.description)) n++;
+    if (parsed.property_type) {
+      var typeEl = document.getElementById("adType");
+      if (typeEl && (!typeEl.value || typeEl.value === "appartement" || !document.getElementById("adTitle").value)) {
+        typeEl.value = parsed.property_type;
+        n++;
+      } else if (typeEl && !document.getElementById("adCity").value) {
+        typeEl.value = parsed.property_type;
+        n++;
+      }
+    }
+    if (parsed.city && setIfEmpty("adCity", parsed.city)) n++;
+    if (parsed.postal_code && setIfEmpty("adPostal", parsed.postal_code)) n++;
+    if (parsed.price_fai != null && setIfEmpty("adPrice", parsed.price_fai)) n++;
+    if (parsed.surface_m2 != null && setIfEmpty("adSurface", parsed.surface_m2)) n++;
+    if (parsed.rooms != null && setIfEmpty("adRooms", parsed.rooms)) n++;
+    if (parsed.bedrooms != null && setIfEmpty("adBedrooms", parsed.bedrooms)) n++;
+    if (parsed.floor && setIfEmpty("adFloor", parsed.floor)) n++;
+    if (parsed.heating && setIfEmpty("adHeating", parsed.heating)) n++;
+    if (parsed.dpe && setIfEmpty("adDpe", parsed.dpe)) n++;
+    if (parsed.ges && setIfEmpty("adGes", parsed.ges)) n++;
+    if (parsed.charges != null && setIfEmpty("adCharges", parsed.charges)) n++;
+    if (parsed.energy_cost != null && setIfEmpty("adEnergyCost", parsed.energy_cost)) n++;
+    if (parsed.year_built != null && setIfEmpty("adYear", parsed.year_built)) n++;
+    if (setCheckIfUnset("adElevator", parsed.has_elevator)) n++;
+    if (setCheckIfUnset("adParking", parsed.has_parking)) n++;
+    if (setCheckIfUnset("adGarage", parsed.has_garage)) n++;
+    if (setCheckIfUnset("adCave", parsed.has_cave)) n++;
+    if (setCheckIfUnset("adBalcony", parsed.has_balcony)) n++;
+    if (setCheckIfUnset("adTerrace", parsed.has_terrace)) n++;
+    if (setCheckIfUnset("adGarden", parsed.has_garden)) n++;
+    if (setCheckIfUnset("adFurnished", parsed.furnished)) n++;
+    if (parsed.portal_label) ensurePlatform(parsed.portal_label.indexOf("Leboncoin") === 0 ? "Leboncoin" : parsed.portal_label);
+    (parsed.photo_urls || []).forEach(function (url) {
+      if (photoState.length >= MAX_PHOTOS) return;
+      var exists = photoState.some(function (p) {
+        return p.url === url;
+      });
+      if (exists) return;
+      photoState.push({ url: url, kind: "photo" });
+      n++;
+    });
+    renderPhotoThumbs();
+    setImportStatus(parsed.hint || n + " champ(s) préremplis.", true);
+    msg(parsed.hint || "Infos reprises depuis l’annonce.", true);
+  }
+
+  function mergePhotoUrlField(blob) {
+    var el = document.getElementById("adListingPhotoUrls");
+    if (!el) return blob;
+    var extra = el.value.trim();
+    if (!extra) return blob;
+    return [blob, extra].filter(Boolean).join("\n\n");
+  }
+
+  function appendDetectedPhotoUrls(urls) {
+    var el = document.getElementById("adListingPhotoUrls");
+    if (!el || !urls || !urls.length) return;
+    var existing = el.value
+      .split(/\n+/)
+      .map(function (l) {
+        return l.trim();
+      })
+      .filter(Boolean);
+    urls.forEach(function (u) {
+      if (existing.indexOf(u) === -1) existing.push(u);
+    });
+    el.value = existing.join("\n");
+  }
+
+  function onRichListingPaste(ev) {
+    var Paste = window.ImmoListingPaste;
+    if (!Paste || !Paste.extractPhotoUrls) return;
+    var html = "";
+    var plain = "";
+    try {
+      html = (ev.clipboardData && ev.clipboardData.getData("text/html")) || "";
+      plain = (ev.clipboardData && ev.clipboardData.getData("text/plain")) || "";
+    } catch (e) {
+      return;
+    }
+    var found = Paste.extractPhotoUrls(html || plain);
+    if (!found.length) return;
+    appendDetectedPhotoUrls(found);
+    setImportStatus(
+      found.length +
+        " photo(s) détectée(s) dans le collage — cliquez « Reprendre les infos + photos ». Vous pourrez les modifier ensuite.",
+      true
+    );
+  }
+
+  function runListingImport() {
+    var Paste = window.ImmoListingPaste;
+    if (!Paste || !Paste.parseListingPaste) {
+      setImportStatus("Module de reprise indisponible.", false);
+      return;
+    }
+    var url = document.getElementById("adListingUrl").value.trim();
+    var paste = document.getElementById("adListingPaste").value.trim();
+    var photosField = document.getElementById("adListingPhotoUrls");
+    var photoLines = photosField ? photosField.value.trim() : "";
+    var blob = mergePhotoUrlField([url, paste].filter(Boolean).join("\n\n"));
+    if (!blob && !photoLines) {
+      setImportStatus("Collez un lien Leboncoin, le texte de l’annonce et/ou les liens photos.", false);
+      return;
+    }
+    var beforePhotos = photoState.length;
+    applyListingPaste(Paste.parseListingPaste(blob || photoLines));
+    var added = photoState.length - beforePhotos;
+    if (added > 0) {
+      setImportStatus(
+        (document.getElementById("adImportStatus").textContent || "OK") +
+          " · " +
+          added +
+          " photo(s) ajoutée(s) (modifiables ci-dessous).",
+        true
+      );
+    } else if (url && !paste && !photoLines) {
+      setImportStatus(
+        "Lien reconnu, sans photos locales. Cliquez « Essayer depuis le lien », ou ouvrez votre annonce et collez les adresses d’images dans le champ Photos.",
+        false
+      );
+    }
+  }
+
+  function applyFetchedPhotos(photoUrls, hint) {
+    var list = Array.isArray(photoUrls) ? photoUrls : [];
+    if (!list.length) {
+      setImportStatus(hint || "Aucune photo récupérée.", false);
+      return;
+    }
+    appendDetectedPhotoUrls(list);
+    list.forEach(function (u) {
+      if (photoState.length >= MAX_PHOTOS) return;
+      if (
+        photoState.some(function (p) {
+          return p && p.url === u;
+        })
+      )
+        return;
+      photoState.push({ url: u, kind: "photo" });
+    });
+    renderPhotoThumbs();
+    setImportStatus(
+      (hint || list.length + " photo(s)") + " · Galerie : " + photoState.length + " photo(s) (modifiables).",
+      true
+    );
+  }
+
+  function fetchListingPhotosFromApi() {
+    var url = document.getElementById("adListingUrl").value.trim();
+    var photosField = document.getElementById("adListingPhotoUrls");
+    var htmlBlob = photosField && /<img[\s>]/i.test(photosField.value || "") ? photosField.value.trim() : "";
+    if (!url && !htmlBlob) {
+      setImportStatus("Indiquez le lien de votre annonce (ou collez le HTML photos).", false);
+      return;
+    }
+    var tok = localStorage.getItem("lo_token") || "";
+    if (!tok) {
+      setImportStatus("Connectez-vous au CRM pour récupérer les photos.", false);
+      return;
+    }
+    setImportStatus("Récupération des photos en cours…", true);
+    fetch("/api/immo-listing-photos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + tok,
+      },
+      body: JSON.stringify(
+        htmlBlob
+          ? { html: htmlBlob, url: url, property_id: currentId || "", persist: !!currentId }
+          : { url: url, property_id: currentId || "", persist: !!currentId }
+      ),
+    })
+      .then(function (r) {
+        return r.json().then(function (data) {
+          return { status: r.status, data: data };
+        });
+      })
+      .then(function (res) {
+        var data = res.data || {};
+        if (res.status === 401) {
+          setImportStatus("Session CRM expirée — reconnectez-vous.", false);
+          return;
+        }
+        if (data.blocked) {
+          setImportStatus(
+            data.hint ||
+            "Leboncoin bloque nos serveurs. Ouvrez votre annonce → clic droit sur une photo → Copier l’adresse de l’image → collez dans le champ Photos.",
+            false
+          );
+          return;
+        }
+        if (data.photo_urls && data.photo_urls.length) {
+          applyFetchedPhotos(data.photo_urls, data.hint);
+          return;
+        }
+        setImportStatus(data.hint || data.error || "Aucune photo récupérée.", false);
+      })
+      .catch(function () {
+        setImportStatus("Erreur réseau pendant la récupération des photos.", false);
+      });
+  }
+
+  function installLbcPhotoBookmarklet() {
+    /* noop — import photos = collage d’URLs / fichiers */
+  }
+
+  function createPageUrl() {
+    return location.origin + "/crm-immo-pubs.html?new=1";
+  }
+
+  function paintCreateLink() {
+    var el = document.getElementById("createLinkUrl");
+    if (el) el.textContent = createPageUrl();
+  }
+
+  function showCreatedBanner(property) {
+    var box = document.getElementById("createdBanner");
+    if (!box || !property) return;
+    var bag = AdLib.getAdMeta(property);
+    var channels = AdLib.channelsOf(bag.ad);
+    var acc = Access && Access.getAccess ? Access.getAccess(bag.ad) : { emails: [], phones: [] };
+    var links = "";
+    if (channels.indexOf("public") !== -1) {
+      links +=
+        '<a class="btn btn-primary btn-sm" href="./immobilier/biens.html?id=' +
+        encodeURIComponent(property.id) +
+        '" target="_blank" rel="noopener">Voir sur le hub biens</a>';
+    }
+    if (bag.ad.tour_access && bag.ad.tour_access.enabled && bag.ad.tour_access.token) {
+      links +=
+        '<button type="button" class="btn btn-primary btn-sm" id="btnCopyTourBanner" data-token="' +
+        esc(bag.ad.tour_access.token) +
+        '">Copier le lien visite acquéreur</button>';
+    }
+    if (channels.indexOf("private") !== -1 && bag.ad.share_token) {
+      links +=
+        '<button type="button" class="btn btn-primary btn-sm" id="btnAdminPreviewBanner" data-token="' +
+        esc(bag.ad.share_token) +
+        '">Voir en admin (sans e-mail/tél)</button>';
+      links +=
+        '<a class="btn btn-ghost btn-sm" href="./immobilier/demo-pub-vendeur.html?token=' +
+        encodeURIComponent(bag.ad.share_token) +
+        '" target="_blank" rel="noopener">Lien vendeur (avec code)</a>';
+      links +=
+        '<button type="button" class="btn btn-ghost btn-sm" id="btnCopyDemoBanner" data-token="' +
+        esc(bag.ad.share_token) +
+        '">Copier le lien vendeur</button>';
+    }
+    var accessTxt = "";
+    if (acc.emails.length) accessTxt += "E-mails : " + acc.emails.join(", ") + ". ";
+    if (acc.phones.length) accessTxt += "Tél. : " + acc.phones.join(", ") + ".";
+    if (!accessTxt && channels.indexOf("private") !== -1) {
+      accessTxt = "Aucun e-mail/tél. lié : le lien token suffit (moins sécurisé).";
+    }
+    box.innerHTML =
+      "<h3>Pub créée / mise à jour</h3><p><strong>" +
+      esc(property.title || "Annonce") +
+      "</strong> — " +
+      esc(property.city || "") +
+      (property.price_fai ? " · " + Number(property.price_fai).toLocaleString("fr-FR") + " €" : "") +
+      "</p><p style=\"margin:6px 0 0;font-size:.86rem\">" +
+      esc(accessTxt) +
+      '</p><div class="links">' +
+      links +
+      "</div>";
+    box.classList.add("is-visible");
+    var adminBtn = document.getElementById("btnAdminPreviewBanner");
+    if (adminBtn) {
+      adminBtn.onclick = function () {
+        openAdminPreview(adminBtn.getAttribute("data-token"));
+      };
+    }
+    var copyBtn = document.getElementById("btnCopyDemoBanner");
+    if (copyBtn) {
+      copyBtn.onclick = function () {
+        var url =
+          location.origin +
+          "/immobilier/demo-pub-vendeur.html?token=" +
+          encodeURIComponent(copyBtn.getAttribute("data-token"));
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(function () {
+            msg("Lien vendeur copié.", true);
+          });
+        }
+      };
+    }
+    var copyTourBanner = document.getElementById("btnCopyTourBanner");
+    if (copyTourBanner) {
+      copyTourBanner.onclick = function () {
+        copyTourUrl(copyTourBanner.getAttribute("data-token"));
+      };
+    }
+    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function openAdminPreview(shareToken) {
+    if (!shareToken) return;
+    msg("Ouverture prévisualisation admin…");
+    fetch("/api/immo-ad-demo-access", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (localStorage.getItem("lo_token") || ""),
+      },
+      body: JSON.stringify({ action: "advisor_preview_grant", token: shareToken }),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (data) {
+        if (data && data.ok && data.preview_url) {
+          window.open(data.preview_url, "_blank", "noopener");
+          msg("Prévisualisation admin ouverte (sans e-mail/tél).", true);
+          return;
+        }
+        var fallback =
+          "./immobilier/demo-pub-vendeur.html?token=" + encodeURIComponent(shareToken) + "&admin=1";
+        window.open(fallback, "_blank", "noopener");
+        msg((data && data.error) || "Ouverture en mode admin local.", true);
+      })
+      .catch(function () {
+        window.open(
+          "./immobilier/demo-pub-vendeur.html?token=" + encodeURIComponent(shareToken) + "&admin=1",
+          "_blank",
+          "noopener"
+        );
+      });
+  }
+
+  function paintPhoneCodePanel(property) {
+    var panel = document.getElementById("phoneCodePanel");
+    if (!panel) return;
+    var bag = property ? AdLib.getAdMeta(property) : { ad: {} };
+    var acc = Access && Access.getAccess ? Access.getAccess(bag.ad) : { phones: [] };
+    if (!property || !bag.ad.share_token || !acc.phones.length) {
+      panel.hidden = true;
+      panel.innerHTML = "";
+      return;
+    }
+    panel.hidden = false;
+    panel.innerHTML =
+      "<p style=\"margin:0 0 8px\">Codes téléphone à transmettre au vendeur (valables ~10 min) :</p>" +
+      acc.phones
+        .map(function (ph) {
+          return (
+            '<div style="margin:6px 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center">' +
+            "<span>" +
+            esc(ph) +
+            '</span><button type="button" class="btn btn-ghost btn-sm" data-peek-phone="' +
+            esc(ph) +
+            '" data-token="' +
+            esc(bag.ad.share_token) +
+            '">Afficher le code</button><span data-code-for="' +
+            esc(ph) +
+            '"></span></div>'
+          );
+        })
+        .join("");
+    panel.querySelectorAll("[data-peek-phone]").forEach(function (btn) {
+      btn.onclick = function () {
+        var phone = btn.getAttribute("data-peek-phone");
+        var token = btn.getAttribute("data-token");
+        var out = panel.querySelector('[data-code-for="' + phone + '"]');
+        fetch("/api/immo-ad-demo-access", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + (localStorage.getItem("lo_token") || ""),
+          },
+          body: JSON.stringify({ action: "advisor_phone_code", token: token, phone: phone }),
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (data) {
+            if (data && data.ok && data.code) {
+              if (out) out.innerHTML = "Code : <strong>" + esc(data.code) + "</strong>";
+            } else {
+              if (out) out.textContent = (data && data.error) || "Impossible d’afficher le code";
+            }
+          })
+          .catch(function () {
+            if (out) out.textContent = "Erreur réseau";
+          });
+      };
+    });
+  }
+
+  function fillForm(property) {
+    var p = property || {};
+    var bag = AdLib.getAdMeta(p);
+    var ad = bag.ad || {};
+    var channels = AdLib.channelsOf(ad);
+    var acc = Access && Access.getAccess ? Access.getAccess(ad) : { emails: [], phones: [] };
+    document.getElementById("adId").value = p.id || "";
+    document.getElementById("adTitle").value = p.title || ad.headline || "";
+    document.getElementById("adHeadline").value = ad.headline || "";
+    document.getElementById("adDescription").value = ad.body || p.description || "";
+    document.getElementById("adType").value = p.property_type || "appartement";
+    document.getElementById("adStatus").value = p.status || "mandat";
+    document.getElementById("adCity").value = p.city || "";
+    document.getElementById("adPostal").value = p.postal_code || "";
+    document.getElementById("adPrice").value = p.price_fai != null ? p.price_fai : p.price || "";
+    document.getElementById("adSurface").value = p.surface_m2 || "";
+    document.getElementById("adRooms").value = p.rooms || "";
+    document.getElementById("adBedrooms").value = p.bedrooms || "";
+    var crit = ad.criteria || {};
+    document.getElementById("adFloor").value = crit.floor || p.floor || "";
+    document.getElementById("adHeating").value = crit.heating || "";
+    document.getElementById("adDpe").value = crit.dpe || p.dpe || "";
+    document.getElementById("adGes").value = crit.ges || p.ges || "";
+    document.getElementById("adCharges").value = crit.charges != null ? crit.charges : "";
+    document.getElementById("adEnergyCost").value =
+      crit.energy_cost != null && crit.energy_cost !== ""
+        ? crit.energy_cost
+        : "";
+    document.getElementById("adYear").value = crit.year_built != null ? crit.year_built : "";
+    // Compléter depuis le questionnaire (sellDossier) si le formulaire pubs est encore vide
+    if (AdLib.sellDossierToCriteria) {
+      var sell = AdLib.sellDossierToCriteria(AdLib.getSellDossier(p));
+      if (!document.getElementById("adRooms").value && sell.rooms != null) {
+        document.getElementById("adRooms").value = sell.rooms;
+      }
+      if (!document.getElementById("adBedrooms").value && sell.bedrooms != null) {
+        document.getElementById("adBedrooms").value = sell.bedrooms;
+      }
+      if (!document.getElementById("adFloor").value && sell.floor) {
+        document.getElementById("adFloor").value = sell.floor;
+      }
+      if (!document.getElementById("adHeating").value && sell.heating) {
+        document.getElementById("adHeating").value = sell.heating;
+      }
+      if (!document.getElementById("adDpe").value && sell.dpe) {
+        document.getElementById("adDpe").value = sell.dpe;
+      }
+      if (!document.getElementById("adGes").value && sell.ges) {
+        document.getElementById("adGes").value = sell.ges;
+      }
+      if (!document.getElementById("adCharges").value && sell.charges != null) {
+        document.getElementById("adCharges").value = sell.charges;
+      }
+      if (!document.getElementById("adEnergyCost").value && sell.energy_cost != null) {
+        document.getElementById("adEnergyCost").value = sell.energy_cost;
+      }
+      if (!document.getElementById("adYear").value && sell.year_built != null) {
+        document.getElementById("adYear").value = sell.year_built;
+      }
+      if (!document.getElementById("adFurnished").checked && sell.furnished === true) {
+        document.getElementById("adFurnished").checked = true;
+      }
+      if (!hiddenTourUrl && sell.virtual_tour) {
+        paintHiddenTourUrl(sell.virtual_tour);
+      }
+    }
+    document.getElementById("adElevator").checked = !!(crit.has_elevator || p.has_elevator);
+    document.getElementById("adParking").checked = !!(crit.has_parking || p.has_parking);
+    document.getElementById("adGarage").checked = !!(crit.has_garage || p.has_garage);
+    document.getElementById("adCave").checked = !!(crit.has_cave || p.has_cave);
+    document.getElementById("adBalcony").checked = !!(crit.has_balcony || p.has_balcony);
+    document.getElementById("adTerrace").checked = !!(crit.has_terrace || p.has_terrace);
+    document.getElementById("adGarden").checked = !!(crit.has_garden || p.has_garden);
+    document.getElementById("adFurnished").checked = !!(crit.furnished);
+    paintHiddenTourUrl(ad.virtual_tour || "");
+    document.getElementById("adListingUrl").value = ad.listing_url || p.listing_url || "";
+    syncOpenListingBtn();
+    document.getElementById("adPlatforms").value = (ad.platforms || ["Meta", "Google", "Leboncoin"]).join(", ");
+    document.getElementById("adDemoLabel").value = ad.demo_label || "Capacité de diffusion";
+    document.getElementById("adAccessEmails").value = (acc.emails || []).join("\n");
+    document.getElementById("adAccessPhones").value = (acc.phones || []).join("\n");
+    document.getElementById("chPublic").checked = channels.indexOf("public") !== -1;
+    document.getElementById("chPrivate").checked = channels.indexOf("private") !== -1 || (!property && true);
+    fillTourGate(ad, p);
+    document.getElementById("formTitle").textContent = p.id ? "Éditer l'annonce" : "Nouvelle annonce";
+    var marketOn = !p.id ? true : AdLib.isMarketVisible ? AdLib.isMarketVisible(p) : p.market_visible !== false;
+    var hideBtn = document.getElementById("btnHideAd");
+    var showBtn = document.getElementById("btnShowAd");
+    var delBtn = document.getElementById("btnDeleteAd");
+    if (hideBtn) hideBtn.hidden = !p.id || !marketOn;
+    if (showBtn) showBtn.hidden = !p.id || marketOn;
+    if (delBtn) delBtn.hidden = !p.id;
+    currentId = p.id || "";
+
+    var rawPhotos = ad.photos && ad.photos.length ? ad.photos : p.photos_json || p.photos || [];
+    photoState = AdLib.sanitizePhotos(rawPhotos);
+    videoState = Array.isArray(ad.videos) ? ad.videos.slice() : [];
+    renderPhotoThumbs();
+    renderVideoList();
+    paintPreview(p);
+    paintPhoneCodePanel(p.id ? p : null);
+  }
+
+  function paintPreview(property) {
+    var box = document.getElementById("previewLinks");
+    if (!box) return;
+    if (!property || !property.id) {
+      box.innerHTML = "";
+      return;
+    }
+    var bag = AdLib.getAdMeta(property);
+    var channels = AdLib.channelsOf(bag.ad);
+    var html = "";
+    if (channels.indexOf("public") !== -1) {
+      html +=
+        '<a class="btn btn-ghost btn-sm" href="./immobilier/biens.html?id=' +
+        encodeURIComponent(property.id) +
+        '" target="_blank" rel="noopener">Voir sur le hub biens</a>';
+    }
+    if (channels.indexOf("private") !== -1 && bag.ad.share_token) {
+      html +=
+        '<button type="button" class="btn btn-primary btn-sm" id="btnAdminPreview" data-token="' +
+        esc(bag.ad.share_token) +
+        '">Voir en admin (sans e-mail/tél)</button>';
+      html +=
+        '<a class="btn btn-ghost btn-sm" href="./immobilier/demo-pub-vendeur.html?token=' +
+        encodeURIComponent(bag.ad.share_token) +
+        '" target="_blank" rel="noopener">Lien vendeur (avec code)</a>';
+      html +=
+        '<button type="button" class="btn btn-ghost btn-sm" id="btnCopyDemo" data-token="' +
+        esc(bag.ad.share_token) +
+        '">Copier le lien vendeur</button>';
+    }
+    box.innerHTML = html;
+    var adminBtn = document.getElementById("btnAdminPreview");
+    if (adminBtn) {
+      adminBtn.onclick = function () {
+        openAdminPreview(adminBtn.getAttribute("data-token"));
+      };
+    }
+    var copyBtn = document.getElementById("btnCopyDemo");
+    if (copyBtn) {
+      copyBtn.onclick = function () {
+        var url =
+          location.origin +
+          "/immobilier/demo-pub-vendeur.html?token=" +
+          encodeURIComponent(copyBtn.getAttribute("data-token"));
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(function () {
+            msg("Lien vendeur copié.", true);
+          });
+        } else {
+          msg(url, true);
+        }
+      };
+    }
+  }
+
+  function listAds() {
+    var props = Store.listProperties({}).filter(function (p) {
+      return (
+        AdLib.isPublicMandateAd(p) ||
+        AdLib.isPrivateDemoAd(p) ||
+        p.market_visible === false ||
+        (AdLib.isMarketVisible && !AdLib.isMarketVisible(p))
+      );
+    });
+    var box = document.getElementById("adList");
+    if (!props.length) {
+      box.innerHTML = '<p class="pub-hint">Aucune annonce pub pour l’instant. Utilisez le lien de création ci-dessus.</p>';
+      return;
+    }
+    box.innerHTML = props
+      .map(function (p) {
+        var bag = AdLib.getAdMeta(p);
+        var channels = AdLib.channelsOf(bag.ad);
+        var marketOn = AdLib.isMarketVisible ? AdLib.isMarketVisible(p) : p.market_visible !== false;
+        var acc = Access && Access.getAccess ? Access.getAccess(bag.ad) : { emails: [], phones: [] };
+        var mediaBits = [];
+        var photos = (bag.ad.photos && bag.ad.photos.length) || (p.photos_json && p.photos_json.length) || 0;
+        if (photos) mediaBits.push(photos + " photo" + (photos > 1 ? "s" : ""));
+        if (bag.ad.videos && bag.ad.videos.length) mediaBits.push(bag.ad.videos.length + " vidéo" + (bag.ad.videos.length > 1 ? "s" : ""));
+        if (bag.ad.virtual_tour) mediaBits.push("visite 3D");
+        if (bag.ad.tour_access && bag.ad.tour_access.enabled) mediaBits.push("lien acquéreur");
+        if (acc.emails.length) mediaBits.push(acc.emails.length + " e-mail" + (acc.emails.length > 1 ? "s" : ""));
+        if (acc.phones.length) mediaBits.push(acc.phones.length + " tél.");
+        var tags = "";
+        if (!marketOn) tags += '<span class="priv">Masqué marché</span>';
+        else if (channels.indexOf("public") !== -1) tags += '<span class="pub">Public mandat</span>';
+        if (channels.indexOf("private") !== -1) tags += '<span class="priv">Démo privée</span>';
+        return (
+          '<article class="pub-item' +
+          (p.id === currentId ? " is-active" : "") +
+          (p.id === highlightId ? " is-highlight" : "") +
+          (!marketOn ? " is-hidden-market" : "") +
+          '" data-id="' +
+          esc(p.id) +
+          '"><h3>' +
+          esc(p.title || "Sans titre") +
+          (p.id === highlightId ? " · créée" : "") +
+          (!marketOn ? " · masqué" : "") +
+          "</h3><p>" +
+          esc(p.city || "") +
+          (p.price_fai ? " · " + Number(p.price_fai).toLocaleString("fr-FR") + " €" : "") +
+          (mediaBits.length ? " · " + mediaBits.join(", ") : "") +
+          '</p><div class="pub-tags">' +
+          tags +
+          "</div></article>"
+        );
+      })
+      .join("");
+    box.querySelectorAll("[data-id]").forEach(function (el) {
+      el.onclick = function () {
+        var p = Store.getProperty(el.getAttribute("data-id"));
+        if (p) fillForm(p);
+        listAds();
+      };
+    });
+    if (highlightId) {
+      var card = box.querySelector('[data-id="' + highlightId + '"]');
+      if (card) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }
+
+  function resetForm() {
+    highlightId = "";
+    var banner = document.getElementById("createdBanner");
+    if (banner) {
+      banner.classList.remove("is-visible");
+      banner.innerHTML = "";
+    }
+    fillForm(null);
+    photoState = [];
+    videoState = [];
+    paintHiddenTourUrl("");
+    renderPhotoThumbs();
+    renderVideoList();
+    document.getElementById("adAccessEmails").value = "";
+    document.getElementById("adAccessPhones").value = "";
+    document.getElementById("adListingUrl").value = "";
+    document.getElementById("adListingPaste").value = "";
+    var photoUrlsEl = document.getElementById("adListingPhotoUrls");
+    if (photoUrlsEl) photoUrlsEl.value = "";
+    setImportStatus("");
+    syncOpenListingBtn();
+    document.getElementById("chPrivate").checked = true;
+    document.getElementById("chPublic").checked = false;
+    document.getElementById("adStatus").value = "mandat";
+    msg("");
+    listAds();
+    document.getElementById("adTitle").focus();
+  }
+
+  paintCreateLink();
+  function selectedTourAccess() {
+    var existing = currentId ? Store.getProperty(currentId) : null;
+    if (!existing) return null;
+    var ad = AdLib.getAdMeta(existing).ad;
+    var Tour = window.ImmoTourAccess;
+    var id = document.getElementById("adTourLinkId") ? document.getElementById("adTourLinkId").value : "";
+    if (Tour && Tour.listTourLinks) {
+      var list = Tour.listTourLinks(ad);
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].id === id || list[i].token === id) return list[i];
+      }
+      return list[0] || ad.tour_access || null;
+    }
+    return ad.tour_access || null;
+  }
+  var copyTourBtn = document.getElementById("btnCopyTourLink");
+  if (copyTourBtn) {
+    copyTourBtn.onclick = function () {
+      var ta = selectedTourAccess();
+      copyTourUrl(ta && ta.token, "leboncoin", "Leboncoin");
+    };
+  }
+  var copySiteBtn = document.getElementById("btnCopyTourSite");
+  if (copySiteBtn) {
+    copySiteBtn.onclick = function () {
+      var ta = selectedTourAccess();
+      copyTourUrl(ta && ta.token, "site", "site");
+    };
+  }
+  var rotateTourBtn = document.getElementById("btnRotateTourLink");
+  if (rotateTourBtn) {
+    rotateTourBtn.onclick = function () {
+      if (!confirm("Seul CE lien nommé change d’URL. Les autres liens (ex. déjà sur Leboncoin) restent valables. Continuer ?")) return;
+      window.__rotateTourOnce = true;
+      document.getElementById("adForm").requestSubmit();
+    };
+  }
+  var editTourUrlBtn = document.getElementById("btnEditTourUrl");
+  if (editTourUrlBtn) {
+    editTourUrlBtn.onclick = function () {
+      var lab = document.getElementById("adTourLabel");
+      var inp = document.getElementById("adTour");
+      if (lab) lab.hidden = false;
+      if (inp) {
+        inp.value = "";
+        inp.focus();
+      }
+    };
+  }
+  var newNamedBtn = document.getElementById("btnNewNamedTourLink");
+  if (newNamedBtn) {
+    newNamedBtn.onclick = function () {
+      var nameEl = document.getElementById("adTourName");
+      if (nameEl && !String(nameEl.value || "").trim()) {
+        nameEl.value = "Nouveau lien";
+      }
+      window.__createNamedTourOnce = true;
+      document.getElementById("adForm").requestSubmit();
+    };
+  }
+  var deleteTourBtn = document.getElementById("btnDeleteTourLink");
+  if (deleteTourBtn) {
+    deleteTourBtn.onclick = function () {
+      var idEl = document.getElementById("adTourLinkId");
+      var linkId = idEl ? String(idEl.value || "").trim() : "";
+      if (!linkId) {
+        msg("Sélectionne d’abord le lien à supprimer.");
+        return;
+      }
+      if (!confirm("Supprimer CE lien de visite ? L’URL déjà collée (Leboncoin…) ne marchera plus. Les autres liens restent.")) return;
+      window.__deleteTourOnce = true;
+      document.getElementById("adForm").requestSubmit();
+    };
+  }
+  var linkSelEl = document.getElementById("adTourLinkSelect");
+  if (linkSelEl) {
+    linkSelEl.onchange = function () {
+      var idEl = document.getElementById("adTourLinkId");
+      if (idEl) idEl.value = linkSelEl.value || "";
+      if (!currentId) return;
+      var p = Store.getProperty(currentId);
+      if (p) fillTourGate(AdLib.getAdMeta(p).ad, p);
+    };
+  }
+  var avSel = document.getElementById("adTourAvailability");
+  var gateEl = document.getElementById("chTourGate");
+  if (avSel && gateEl) {
+    avSel.onchange = function () {
+      gateEl.checked = avSel.value !== "paused";
+    };
+    gateEl.onchange = function () {
+      avSel.value = gateEl.checked ? "active" : "paused";
+    };
+  }
+  var previewTourBtn = document.getElementById("btnPreviewTour");
+  if (previewTourBtn) {
+    previewTourBtn.onclick = function () {
+      var ta = selectedTourAccess();
+      if (!ta || !ta.token) {
+        msg("Enregistrez d’abord le lien visite.");
+        return;
+      }
+      var crmTok = "";
+      try {
+        crmTok = localStorage.getItem("lo_token") || "";
+      } catch (e) {}
+      fetch("/api/immo-tour-access", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: crmTok ? "Bearer " + crmTok : "",
+        },
+        body: JSON.stringify({ action: "advisor_preview", token: ta.token }),
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (d) {
+          if (d && d.preview_url) {
+            window.open(d.preview_url, "_blank", "noopener");
+          } else {
+            msg((d && d.error) || "Prévisualisation impossible (connexion CRM).");
+          }
+        })
+        .catch(function () {
+          msg("Erreur réseau.");
+        });
+    };
+  }
+  document.getElementById("btnNewAd").onclick = resetForm;
+  var btnImport = document.getElementById("btnImportListing");
+  if (btnImport) btnImport.onclick = runListingImport;
+  var btnFetchPhotos = document.getElementById("btnFetchListingPhotos");
+  if (btnFetchPhotos) btnFetchPhotos.onclick = fetchListingPhotosFromApi;
+  installLbcPhotoBookmarklet();
+  var listingPasteEl = document.getElementById("adListingPaste");
+  if (listingPasteEl) listingPasteEl.addEventListener("paste", onRichListingPaste);
+  var listingPhotosEl = document.getElementById("adListingPhotoUrls");
+  if (listingPhotosEl) listingPhotosEl.addEventListener("paste", onRichListingPaste);
+
+  var listingUrlEl = document.getElementById("adListingUrl");
+  if (listingUrlEl) {
+    listingUrlEl.addEventListener("change", syncOpenListingBtn);
+    listingUrlEl.addEventListener("input", syncOpenListingBtn);
+    listingUrlEl.addEventListener("paste", function () {
+      setTimeout(function () {
+        syncOpenListingBtn();
+        var Paste = window.ImmoListingPaste;
+        var v = listingUrlEl.value.trim();
+        if (Paste && v && !document.getElementById("adListingPaste").value.trim()) {
+          var parsed = Paste.parseListingPaste(v);
+          if (parsed.listing_url) {
+            listingUrlEl.value = parsed.listing_url;
+            syncOpenListingBtn();
+            if (parsed.portal_label) ensurePlatform(parsed.portal_label.indexOf("Leboncoin") === 0 ? "Leboncoin" : parsed.portal_label);
+            setImportStatus(parsed.hint, parsed.fields_filled.length > 1);
+          }
+        }
+      }, 0);
+    });
+  }
+  var copyCreate = document.getElementById("btnCopyCreateLink");
+  if (copyCreate) {
+    copyCreate.onclick = function () {
+      var url = createPageUrl();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function () {
+          msg("Lien de création copié.", true);
+        });
+      } else {
+        msg(url, true);
+      }
+    };
+  }
+  document.getElementById("btnAddPhotoUrl").onclick = addPhotoUrl;
+  document.getElementById("btnAddVideo").onclick = function () {
+    addVideoUrl(document.getElementById("adVideoInput").value);
+  };
+  document.getElementById("adVideoInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      addVideoUrl(document.getElementById("adVideoInput").value);
+    }
+  });
+
+  document.getElementById("adPhotoFiles").addEventListener("change", function () {
+    var input = document.getElementById("adPhotoFiles");
+    var files = Array.prototype.slice.call(input.files || []);
+    var room = MAX_PHOTOS - photoState.length;
+    if (!files.length) return;
+    if (room <= 0) {
+      msg("Maximum " + MAX_PHOTOS + " photos.");
+      input.value = "";
+      return;
+    }
+    msg("Compression des photos…");
+    var work = Compress
+      ? Compress.compressMany(files.slice(0, room))
+      : Promise.all(
+          files.slice(0, room).map(function (file) {
+            return new Promise(function (resolve) {
+              var reader = new FileReader();
+              reader.onload = function () {
+                resolve(reader.result);
+              };
+              reader.onerror = function () {
+                resolve(null);
+              };
+              reader.readAsDataURL(file);
+            });
+          })
+        );
+    work.then(function (urls) {
+      var added = 0;
+      (urls || []).filter(Boolean).forEach(function (url) {
+        if (photoState.length >= MAX_PHOTOS) return;
+        photoState.push({ url: url, kind: "photo" });
+        added++;
+      });
+      renderPhotoThumbs();
+      input.value = "";
+      msg(added ? added + " photo(s) ajoutée(s)." : "Aucune photo valide.", !!added);
+    });
+  });
+
+  document.getElementById("adForm").onsubmit = function (e) {
+    e.preventDefault();
+    var form = formValues();
+    if (!form.channel_public && !form.channel_private) {
+      msg("Cochez au moins un canal : public ou privé.");
+      return;
+    }
+    if (form.channel_private && !String(form.access_emails || "").trim() && !String(form.access_phones || "").trim()) {
+      if (!confirm("Aucun e-mail ni téléphone lié : la démo sera accessible avec le seul lien. Continuer ?")) return;
+    }
+    var existing = currentId ? Store.getProperty(currentId) : null;
+    var base = existing ? Object.assign({}, existing) : { id: currentId || undefined };
+    var next = AdLib.applyAdToProperty(base, form);
+    var Tour = window.ImmoTourAccess;
+    var prevLinks = existing && Tour && Tour.listTourLinks ? Tour.listTourLinks(AdLib.getAdMeta(existing).ad) : [];
+    var prevTokens = {};
+    prevLinks.forEach(function (l) {
+      if (l && l.token) prevTokens[l.token] = true;
+    });
+    window.__rotateTourOnce = false;
+    window.__createNamedTourOnce = false;
+    window.__deleteTourOnce = false;
+    if (currentId) next.id = currentId;
+    var saved = Store.upsertProperty(next);
+    currentId = saved.id;
+    highlightId = saved.id;
+    var nextLinks = Tour && Tour.listTourLinks ? Tour.listTourLinks(AdLib.getAdMeta(saved).ad) : [];
+    var currentLink =
+      nextLinks.filter(function (l) {
+        return l && l.token && !prevTokens[l.token];
+      })[0] ||
+      nextLinks.filter(function (l) {
+        return l && (l.id === form.tour_link_id || l.token === form.tour_link_id);
+      })[0] ||
+      nextLinks[0];
+    if (form.tour_delete_link) {
+      currentLink = nextLinks[0] || null;
+    }
+    if (document.getElementById("adTourLinkId")) {
+      document.getElementById("adTourLinkId").value = currentLink
+        ? currentLink.id || currentLink.token || ""
+        : "";
+    }
+    fillForm(saved);
+    listAds();
+    showCreatedBanner(saved);
+    if (form.tour_delete_link) {
+      msg("Lien de visite supprimé. Les autres liens restent valables.", true);
+    } else if (form.tour_create_link && currentLink) {
+      msg("Nouveau lien « " + (currentLink.name || "Visite") + " » créé. Les URLs déjà publiées sont inchangées.", true);
+    } else if (form.rotate_tour_token) {
+      msg("Ce lien a été renouvelé. L’ancienne URL ne marche plus.", true);
+    } else if (currentLink && currentLink.token) {
+      msg("Réglages enregistrés. L’URL publiée (Leboncoin) est inchangée.", true);
+    } else {
+      msg("Pub enregistrée et mise en évidence à droite.", true);
+    }
+  };
+
+  document.getElementById("btnHideAd").onclick = function () {
+    if (!currentId) return;
+    if (
+      !confirm(
+        "Masquer ce bien du marché public (/immobilier/marche.html) ?\n\nLes infos, photos et documents restent dans le CRM. Vous pourrez le remettre en vitrine."
+      )
+    ) {
+      return;
+    }
+    var saved = Store.setMarketVisible(currentId, false);
+    if (saved) fillForm(saved);
+    listAds();
+    msg("Bien masqué du marché — fiche et docs conservés.", true);
+  };
+
+  document.getElementById("btnShowAd").onclick = function () {
+    if (!currentId) return;
+    var saved = Store.setMarketVisible(currentId, true);
+    if (saved) {
+      var ch = document.getElementById("chPublic");
+      if (ch) ch.checked = true;
+      fillForm(saved);
+    }
+    listAds();
+    msg("Bien remis en vitrine publique.", true);
+  };
+
+  document.getElementById("btnDeleteAd").onclick = function () {
+    if (!currentId) return;
+    if (
+      !confirm(
+        "Suppression DÉFINITIVE du bien (documents inclus).\n\nPour un doublon, préférez « Masquer du marché ».\n\nTaper OK uniquement si vous voulez vraiment tout effacer."
+      )
+    ) {
+      return;
+    }
+    Store.deleteProperty(currentId);
+    resetForm();
+    msg("Supprimé définitivement.", true);
+  };
+
+  if (window.CrmImmoTourRequests) {
+    window.CrmImmoTourRequests.mount(document.getElementById("tourRequestInbox"), {
+      title: "Demandes de visite à valider ou décliner",
+    });
+  }
+
+  Store.syncFromApi().then(function () {
+    var params = new URLSearchParams(location.search);
+    var id = params.get("id") || params.get("property");
+    var isNew = params.get("new") === "1" || params.get("create") === "1";
+    if (isNew) {
+      resetForm();
+    } else if (id) {
+      var p = Store.getProperty(id);
+      if (p) {
+        highlightId = p.id;
+        fillForm(p);
+        showCreatedBanner(p);
+      } else resetForm();
+    } else {
+      resetForm();
+    }
+    listAds();
+  });
+})();

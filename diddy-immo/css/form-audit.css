@@ -1,0 +1,169 @@
+/* Mode contrôle admin — parcours formulaires sans saisie */
+body.form-audit-active {
+  padding-top: 52px;
+}
+
+.form-audit-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10050;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #1e3a5f 0%, #0f766e 100%);
+  color: #fff;
+  font-size: 0.78rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.form-audit-bar strong {
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.form-audit-bar label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.form-audit-bar select,
+.form-audit-bar button {
+  font: inherit;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.form-audit-bar select {
+  min-width: 140px;
+}
+
+.form-audit-bar button:hover,
+.form-audit-bar select:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.form-audit-bar .form-audit-toggle input {
+  accent-color: #5eead4;
+}
+
+.form-audit-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.form-audit-legend span {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.audit-tag {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.audit-tag > span,
+.form-audit-legend > span {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 5px;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+
+.audit-tag > .audit-tag--required,
+.form-audit-legend > .audit-tag--required {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.audit-tag > .audit-tag--choice,
+.form-audit-legend > .audit-tag--choice {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+}
+
+.audit-tag > .audit-tag--optional,
+.form-audit-legend > .audit-tag--optional {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.audit-tag > .audit-tag--rule,
+.form-audit-legend > .audit-tag--rule {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+label.form-audit-field {
+  position: relative;
+}
+
+.wizard-step.form-audit-step-active {
+  outline: 2px dashed #0f766e;
+  outline-offset: 8px;
+  border-radius: 12px;
+}
+
+.form-audit-step-panel {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+  font-size: 0.82rem;
+  color: #134e4a;
+}
+
+.form-audit-step-panel h4 {
+  margin: 0 0 6px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #0f766e;
+}
+
+.form-audit-prompt {
+  margin: 12px 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px dashed #94a3b8;
+  font-size: 0.88rem;
+  color: #334155;
+}
+
+.form-audit-prompt button {
+  margin-left: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #0f766e;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
