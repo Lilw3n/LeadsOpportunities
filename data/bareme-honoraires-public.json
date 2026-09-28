@@ -67,14 +67,14 @@
       "kind": "location_habitation",
       "feeModel": "per_sqm_rental",
       "priceBasis": "surface_habitable",
-      "summary": "Négociation 10 € TTC/m² (bailleur) · dossier + visite + bail 12,10 / 10,09 / 8,07 € TTC/m² selon zone (chaque partie) · état des lieux 3,03 € TTC/m² (chaque partie).",
+      "summary": "Négociation 6 € TTC/m² (bailleur) · dossier + visite + bail 12 / 10 / 8 € TTC/m² selon zone (chaque partie) · état des lieux 3 € TTC/m² (chaque partie).",
       "perSqm": {
-        "negotiationTtcPerM2": 10,
-        "etatDesLieuxTtcPerM2": 3.03,
+        "negotiationTtcPerM2": 6,
+        "etatDesLieuxTtcPerM2": 3,
         "dossierTtcPerM2": {
-          "tres-tendue": 12.1,
-          "tendue": 10.09,
-          "hors": 8.07
+          "tres-tendue": 12,
+          "tendue": 10,
+          "hors": 8
         }
       },
       "decree": "2014-890"

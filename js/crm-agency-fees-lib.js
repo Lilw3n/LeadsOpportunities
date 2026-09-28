@@ -4,8 +4,8 @@
  */
 window.CrmAgencyFees = (function () {
   var STORAGE_KEY = "lo_agency_fee_schedules_v1";
-  /** v5 = guérir Portes Clés corrompu (4 lignes %) → 23 forfaits TG0422 à chaque load. */
-  var DATA_VERSION = 5;
+  /** v6 = location TG0422 exacte (6 / 12 / 10 / 8 / 3 €) + vente 23 paliers. */
+  var DATA_VERSION = 6;
   var DEAL_SPLIT_KEY = "lo_agency_fee_deal_split_v1";
 
   /**
@@ -474,9 +474,9 @@ window.CrmAgencyFees = (function () {
           feeModel: "per_sqm_rental",
           priceBasis: "surface_habitable",
           perSqm: {
-            negotiation: 10,
-            edl: 3.03,
-            dossier: { tres_tendue: 12.1, tendue: 10.09, hors_zone: 8.07 },
+            negotiation: 6,
+            edl: 3,
+            dossier: { tres_tendue: 12, tendue: 10, hors_zone: 8 },
           },
           brackets: [],
         },
@@ -564,9 +564,9 @@ window.CrmAgencyFees = (function () {
   function normalizePerSqm(ps) {
     if (!ps || typeof ps !== "object") {
       return {
-        negotiation: 10,
-        edl: 3.03,
-        dossier: { tres_tendue: 12.1, tendue: 10.09, hors_zone: 8.07 },
+        negotiation: 6,
+        edl: 3,
+        dossier: { tres_tendue: 12, tendue: 10, hors_zone: 8 },
       };
     }
     var d = ps.dossier || {};
@@ -673,6 +673,11 @@ window.CrmAgencyFees = (function () {
     if (!b0 || Number(b0.value) !== 5000 || b0.type !== "fixed") return false;
     if (!mid || Number(mid.value) !== 10000 || mid.type !== "fixed") return false;
     if (!last || last.type !== "percent" || Number(last.value) !== 6) return false;
+    var loc = (agency.schedules || []).find(function (s) {
+      return s.kind === "location_habitation";
+    });
+    if (!loc || !loc.perSqm || Number(loc.perSqm.negotiation) !== 6) return false;
+    if (Number(loc.perSqm.edl) !== 3) return false;
     var kinds = {};
     (agency.schedules || []).forEach(function (s) {
       kinds[s.kind] = 1;
@@ -733,6 +738,13 @@ window.CrmAgencyFees = (function () {
         return ap - bp;
       });
       bag.version = 5;
+      save(bag);
+      ver = 5;
+    }
+    if (ver < 6) {
+      // Location PDF TG0422 : 6 / 12 / 10 / 8 / 3 € (plus 10 / 12,10…).
+      upsertPortesClesOfficialInBag(bag);
+      bag.version = 6;
       save(bag);
     }
     // Toujours vérifier le contenu (même si version déjà à jour).
