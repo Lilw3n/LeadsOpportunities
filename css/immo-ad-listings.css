@@ -1024,3 +1024,99 @@ body.immo-tour-page--direct .tour-important h2 {
     height: min(72vh, 720px);
   }
 }
+
+/* Offre de prix visiteurs */
+.tour-price-offer {
+  margin: 16px 0 28px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid #fed7aa;
+  background: linear-gradient(165deg, #fffbeb 0%, #fff 55%, #f8fafc 100%);
+}
+.tour-price-offer-kicker {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9a3412;
+}
+.tour-price-offer h2 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+  color: #0f172a;
+}
+.tour-price-offer-lead {
+  margin: 0 0 10px;
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.4;
+}
+.tour-price-offer-ask {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  font-size: 0.86rem;
+}
+.tour-price-offer-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+.tour-price-offer-form input,
+.tour-price-offer-form textarea {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  color: #0f172a;
+  font-weight: 500;
+}
+.tour-price-comments {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 640px) {
+  .tour-price-comments { grid-template-columns: 1fr; }
+}
+.tour-price-warn {
+  margin: 0 0 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  color: #9a3412;
+}
+.tour-price-warn.level-ok {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+.tour-price-warn.level-critical {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+.tour-price-warn.level-info {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+}
+.tour-price-offer .muted { font-weight: 500; color: #94a3b8; }
+.immo-ad-price-offer {
+  margin: 18px 0;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #fed7aa;
+  background: #fffbeb;
+}

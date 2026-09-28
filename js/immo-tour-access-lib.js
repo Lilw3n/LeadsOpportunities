@@ -721,6 +721,8 @@
       availability: a.availability || "active",
       visibility: a.visibility || "listed",
       city: String(hint.city || "").slice(0, 60),
+      asking_price: hint.asking_price != null ? hint.asking_price : hint.price_fai != null ? hint.price_fai : null,
+      price_fai: hint.price_fai != null ? hint.price_fai : hint.asking_price != null ? hint.asking_price : null,
       remaining: st.remaining,
       max_views: st.max_views || null,
       expires_at: st.expires_at || null,
