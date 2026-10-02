@@ -13,6 +13,7 @@
     "seo:images": "node scripts/download-seo-images.cjs",
     "verify:seo-vtc-idf": "node scripts/verify-seo-vtc-idf.cjs",
     "verify:vtc-garanties": "node scripts/verify-vtc-garanties.cjs",
+    "verify:wakam-vtc": "node scripts/verify-wakam-vtc.cjs",
     "verify:seo-pret-recherche": "node scripts/verify-seo-pret-recherche.cjs",
     "verify:seo-geo-piliers": "node scripts/verify-seo-geo-piliers.cjs",
     "verify:stripe-hub": "node scripts/verify-stripe-hub.cjs",

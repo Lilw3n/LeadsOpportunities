@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-22",
+  "updated": "2026-10-02",
   "sections": [
     "actu",
     "animaux",
@@ -1939,6 +1939,32 @@
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
       "matchedRule": "vsp-sans-permis",
+      "species": null
+    },
+    {
+      "file": "wakam-acpr-assurance-vtc-bascule-2026.html",
+      "title": "Wakam VTC interdit de renouveler (ACPR 25/09/2026) : bascule sans trou Uber/Bolt",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html?utm_content=wakam-bascule",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "wakam-vtc-opportunite-courtiers-portefeuille.html",
+      "title": "Wakam VTC : opportunités courtiers — sauver et développer le portefeuille",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Partenariat%20Wakam%20VTC",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "matchedRule": "vtc",
       "species": null
     },
     {

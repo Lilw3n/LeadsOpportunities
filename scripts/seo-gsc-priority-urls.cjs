@@ -142,6 +142,8 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/blog/assurance-vtc-moins-cher-2026.html",
   "/blog/vtc-premiere-course-checklist-assurance.html",
   "/blog/assurance-vtc-uber-bolt-heetch.html",
+  "/blog/wakam-acpr-assurance-vtc-bascule-2026.html",
+  "/blog/wakam-vtc-opportunite-courtiers-portefeuille.html",
   "/assurance-vtc/pas-cher/",
   "/blog/mutuelle-sante-5-criteres.html",
   "/blog/inflation-mutuelle-hausse-2026.html",
