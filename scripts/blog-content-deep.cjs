@@ -1028,6 +1028,12 @@ var DEEP = {
   },
 };
 
+/* Niche ACPR Wakam → bascule VTC (extraBlocks + FAQ) */
+var wakamDeep = require("./blog-articles-wakam-vtc.cjs").deep;
+Object.keys(wakamDeep).forEach(function (file) {
+  DEEP[file] = wakamDeep[file];
+});
+
 function getOverride(file) {
   return DEEP[file] || null;
 }
