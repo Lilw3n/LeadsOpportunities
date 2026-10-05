@@ -130,6 +130,26 @@
       "destination": "/assurance-vtc-france/devis.html"
     },
     {
+      "source": "/styles.css",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/styles.css"
+    },
+    {
+      "source": "/attr-boot.js",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/attr-boot.js"
+    },
+    {
+      "source": "/styles.css",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/styles.css"
+    },
+    {
+      "source": "/attr-boot.js",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/attr-boot.js"
+    },
+    {
       "source": "/api/site-lock",
       "destination": "/api/[action]?action=site-lock"
     },
