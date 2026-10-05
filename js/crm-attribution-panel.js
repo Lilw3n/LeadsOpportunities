@@ -56,6 +56,16 @@
       return r.value;
     });
 
+    var originUrl = "";
+    if (global.LeadOrigin && global.LeadOrigin.build) {
+      originUrl = global.LeadOrigin.build(lead).url || "";
+    } else {
+      originUrl = pick(lead, payload, ["page_url", "origin_url"]) || "";
+    }
+    if (originUrl) {
+      rows.splice(1, 0, { label: "URL d'origine", value: originUrl, highlight: true });
+    }
+
     var campaign = pick(lead, payload, ["utm_campaign"]);
     var platform = global.CrmLeadPlatform ? global.CrmLeadPlatform.detect(lead) : lead.platform;
 

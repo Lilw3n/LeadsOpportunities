@@ -362,6 +362,27 @@
       white-space: nowrap;
     }
     .leads-table th:hover { color: var(--text); }
+    .leads-table th[data-sort]::after {
+      content: "";
+      display: inline-block;
+      margin-left: 4px;
+      opacity: 0.35;
+      font-size: 0.7em;
+    }
+    .leads-table th[data-sort].is-asc::after { content: "▲"; opacity: 0.9; }
+    .leads-table th[data-sort].is-desc::after { content: "▼"; opacity: 0.9; }
+    .lead-origin-link {
+      color: var(--blue);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      word-break: break-all;
+      max-width: 220px;
+      display: inline-block;
+      line-height: 1.35;
+    }
+    .lead-origin-link:hover { text-decoration: underline; }
+    .filter-input-sm { min-width: 140px; max-width: 180px; }
     .leads-table td {
       padding: 12px 16px;
       border-bottom: 1px solid #f1f5f9;
@@ -2045,7 +2066,9 @@
               <option value="100" selected>100 par page</option>
               <option value="250">Tous (250)</option>
             </select>
-            <input type="text" class="filter-input" id="filterSearch" placeholder="Rechercher email, téléphone..." />
+            <input type="text" class="filter-input filter-input-sm" id="filterEmail" placeholder="Filtrer email…" title="Filtre sur l'adresse e-mail" />
+            <input type="text" class="filter-input filter-input-sm" id="filterPhone" placeholder="Filtrer téléphone…" title="Filtre sur le numéro" />
+            <input type="text" class="filter-input" id="filterSearch" placeholder="Recherche libre (UTM, page, source…)" title="Email, téléphone, UTM, landing, URL d'origine" />
             <input type="text" class="filter-input filter-input-ip" id="filterIp" placeholder="Filtrer par IP…" />
             <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:600;white-space:nowrap">
               <input type="checkbox" id="soundNewLead" checked /> Son nouveau lead
@@ -2086,16 +2109,17 @@
                   <th data-sort="lead_score">Score</th>
                   <th data-sort="vertical">Vertical</th>
                   <th data-sort="email">Email</th>
-                  <th>Téléphone</th>
+                  <th data-sort="phone">Téléphone</th>
                   <th>IP</th>
                   <th data-sort="status">Statut</th>
-                  <th>Réseau</th>
+                  <th data-sort="utm_source">Réseau</th>
+                  <th>Origine</th>
                   <th>Pertinence</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="leadsTableBody">
-                <tr><td colspan="11" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
+                <tr><td colspan="12" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
               </tbody>
             </table>
           </div>
@@ -2337,6 +2361,7 @@
   <script src="./js/crm-questionnaire-tools.js"></script>
   <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-lead-payload-view.js"></script>
+  <script src="./js/lead-origin-lib.js"></script>
   <script src="./js/lead-visitor-category-lib.js"></script>
   <script src="./js/ip-label-lib.js"></script>
   <script src="./js/dashboard.js?v=20260901mbx6"></script>
@@ -3068,11 +3093,17 @@
     // LOAD LEADS
     async function loadLeads() {
       var tbody = document.getElementById("leadsTableBody");
-      tbody.innerHTML = '<tr><td colspan="11" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="12" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
 
       var status = document.getElementById("filterStatus").value;
       var vertical = document.getElementById("filterVertical").value;
       var search = document.getElementById("filterSearch").value;
+      var emailFilter = document.getElementById("filterEmail")
+        ? document.getElementById("filterEmail").value.trim()
+        : "";
+      var phoneFilter = document.getElementById("filterPhone")
+        ? document.getElementById("filterPhone").value.trim()
+        : "";
       var view = document.getElementById("filterView").value;
       var platform = document.getElementById("filterPlatform").value;
       var ipFilter = document.getElementById("filterIp") ? document.getElementById("filterIp").value.trim() : "";
@@ -3089,8 +3120,17 @@
       if (view) params += "&view=" + encodeURIComponent(view);
       if (platform) params += "&platform=" + encodeURIComponent(platform);
       if (search) params += "&search=" + encodeURIComponent(search);
+      if (emailFilter) params += "&email=" + encodeURIComponent(emailFilter);
+      if (phoneFilter) params += "&phone=" + encodeURIComponent(phoneFilter);
       if (ipFilter) params += "&ip=" + encodeURIComponent(ipFilter);
       if (scoreMin) params += "&scoreMin=" + encodeURIComponent(scoreMin);
+
+      document.querySelectorAll("#sec-leads .leads-table th[data-sort]").forEach(function (th) {
+        th.classList.remove("is-asc", "is-desc");
+        if (th.dataset.sort === currentSort) {
+          th.classList.add(currentOrder === "asc" ? "is-asc" : "is-desc");
+        }
+      });
 
       var data = await D.api("/api/dashboard/leads" + params);
       if (!data.ok) {
@@ -3098,7 +3138,7 @@
         if (data.status === 403) leadErr = "Session expiree";
         if (data.detail) leadErr += " — " + esc(data.detail);
         tbody.innerHTML =
-          '<tr><td colspan="11"><div class="empty-state">' +
+          '<tr><td colspan="12"><div class="empty-state">' +
           leadErr +
           '<br><a href="./auth.html">Reconnectez-vous</a> · <button type="button" class="btn btn-ghost btn-sm" onclick="loadLeads()">Reessayer</button></div></td></tr>';
         return;
@@ -3114,7 +3154,7 @@
         }
         if (!leadsList.length) {
           tbody.innerHTML =
-            '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';var vc=document.getElementById(\'filterVisitorCat\');if(vc)vc.value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
+            '<tr><td colspan="12"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';var fe=document.getElementById(\'filterEmail\');if(fe)fe.value=\'\';var fp=document.getElementById(\'filterPhone\');if(fp)fp.value=\'\';var fs=document.getElementById(\'filterSearch\');if(fs)fs.value=\'\';var vc=document.getElementById(\'filterVisitorCat\');if(vc)vc.value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
         } else {
           window.__lastLeadsList = leadsList;
           leadsList.forEach(function(l) {
@@ -3159,6 +3199,10 @@
                   "</button>" +
                   "</div>"
                 : "—" + (catBadge ? " " + catBadge : "");
+            var originHtml =
+              window.LeadOrigin && window.LeadOrigin.formatCell
+                ? window.LeadOrigin.formatCell(l, esc)
+                : esc(l.origin_short || l.origin_url || l.landing_slug || "—");
             tr.innerHTML =
               '<td class="lead-check-cell"><input type="checkbox" class="lead-row-check" data-lead-id="' +
               esc(l.id) +
@@ -3173,6 +3217,7 @@
               '<td>' + ipHtml + '</td>' +
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
               '<td>' + esc(l.platform || l.utm_source || l.source) + '</td>' +
+              '<td>' + originHtml + '</td>' +
               '<td>' + relevanceLabel(rel) + '</td>' +
               '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> ' +
               (l.contact_id
@@ -3198,6 +3243,7 @@
               if (e.target.closest(".btn-ip-filter")) return;
               if (e.target.closest(".btn-ip-name")) return;
               if (e.target.closest("[data-block-ip]")) return;
+              if (e.target.closest(".lead-origin-link")) return;
               if (e.target.closest(".btn-lead-open")) {
                 e.stopPropagation();
                 openLeadDetail(l.id);
@@ -3214,7 +3260,7 @@
         renderLeadsPagination(pg);
       } catch(e) {
         console.error(e);
-        tbody.innerHTML = '<tr><td colspan="11" style="color:var(--red)">Erreur réseau</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="12" style="color:var(--red)">Erreur réseau</td></tr>';
       }
     }
 
@@ -3326,6 +3372,24 @@
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(function() { currentPage = 1; loadLeads(); }, 400);
     });
+    if (document.getElementById("filterEmail")) {
+      document.getElementById("filterEmail").addEventListener("input", function () {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function () {
+          currentPage = 1;
+          loadLeads();
+        }, 400);
+      });
+    }
+    if (document.getElementById("filterPhone")) {
+      document.getElementById("filterPhone").addEventListener("input", function () {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function () {
+          currentPage = 1;
+          loadLeads();
+        }, 400);
+      });
+    }
     document.getElementById("filterIp").addEventListener("input", function() {
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(function() { currentPage = 1; loadLeads(); }, 400);
@@ -3625,6 +3689,9 @@
             '<div class="detail-item"><div class="dlabel">Source</div><div class="dvalue">' + esc(l.utm_source || l.source) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">UTM Medium</div><div class="dvalue">' + esc(l.utm_medium) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">UTM Campaign</div><div class="dvalue">' + esc(l.utm_campaign) + '</div></div>' +
+            (window.LeadOrigin && window.LeadOrigin.formatDetail
+              ? window.LeadOrigin.formatDetail(Object.assign({}, l, { payload: payload }), esc)
+              : "") +
             (l.gclid ? '<div class="detail-item"><div class="dlabel">GCLID</div><div class="dvalue">' + esc(l.gclid) + '</div></div>' : '') +
             metaHtml +
             funnelHtml +
