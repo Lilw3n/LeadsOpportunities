@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-10-05T14:47:54.045Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,810 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "mutuelle-pour-chien-ou-chat-est-ce-vraiment-utile-et-combien-coute-cette.html",
+      "section": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "title": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? … : assurance animaux — que faire ?",
+      "description": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? - Ouest-France — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? - Ouest-France — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=mutuelle-pour-chien-ou-chat-est-ce-vra",
+        "label": "Questionnaire animaux (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? …</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Une urgence veterinaire peut depasser 1 000 EUR sans assurance animaux."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Plafond annuel et franchise",
+            "Maladies hereditaires et exclusions",
+            "Prevention et vermifuge",
+            "Age du chien ou chat a la souscription",
+            "Delai de carence"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire animaux : espece, age, antecedents."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-animaux-comment-choisir.html",
+          "label": "Choisir assurance animaux"
+        },
+        {
+          "href": "../assurance-animaux/",
+          "label": "Assurance animaux"
+        }
+      ]
+    },
+    {
+      "file": "pret-immobilier-voici-les-taux-que-les-banques-vont-proposer-en-ce-mois-.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Prêt immobilier : voici les taux que les banques vont proposer en ce mois d’octobre 202… : pret et assurance emprunteur — que faire ?",
+      "description": "Prêt immobilier : voici les taux que les banques vont proposer en ce mois d’octobre 2026 - Ouest-France — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Prêt immobilier : voici les taux que les banques vont proposer en ce mois d’octobre 2026 - Ouest-France — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=pret-immobilier-voici-les-taux-que-les",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Prêt immobilier : voici les taux que les banques vont proposer en ce mois d’octobre 202…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "assurance-habitation-de-fortes-disparites-de-prix-en-france-presse-agenc.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Assurance habitation : de fortes disparités de prix en France - Presse Agence : assurance habitation — que faire ?",
+      "description": "Assurance habitation : de fortes disparités de prix en France - Presse Agence — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Assurance habitation : de fortes disparités de prix en France - Presse Agence — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=assurance-habitation-de-fortes-dispari",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Assurance habitation : de fortes disparités de prix en France - Presse Agence</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "assurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-sedu.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les empru… : pret et assurance emprunteur — que faire ?",
+      "description": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les emprunteurs — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les emprunteurs — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-de-pret-immobilier-carrefour",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Bing News</strong> (<strong>Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les empru…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "taxe-fonciere-2026-achat-ou-vente-en-cours-d-annee-qui-paie-quoi.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Taxe foncière 2026 : achat ou vente en cours d’année, qui paie quoi ? : assurance habitation — que faire ?",
+      "description": "Taxe foncière 2026 : achat ou vente en cours d’année, qui paie quoi ? — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Taxe foncière 2026 : achat ou vente en cours d’année, qui paie quoi ? — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=taxe-fonciere-2026-achat-ou-vente-en-c",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Bing News</strong> (<strong>Taxe foncière 2026 : achat ou vente en cours d’année, qui paie quoi ?</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "ile-de-france-les-chauffeurs-vtc-manifestent-sur-l-a1.html",
+      "section": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "title": "Ile-de-France : les chauffeurs VTC manifestent sur l’A1 : assurance VTC — que faire ?",
+      "description": "Ile-de-France : les chauffeurs VTC manifestent sur l’A1 — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Ile-de-France : les chauffeurs VTC manifestent sur l’A1 — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=ile-de-france-les-chauffeurs-vtc-manif",
+        "label": "Questionnaire VTC (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Bing News</strong> (<strong>Ile-de-France : les chauffeurs VTC manifestent sur l’A1</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un contrat VTC inadapte peut bloquer Uber, Bolt ou Heetch — et couter cher au sinistre."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "RC Pro plateforme et activite",
+            "Vehicule : usage professionnel declare",
+            "Assistance et perte d'exploitation",
+            "Franchise et conducteurs secondaires",
+            "Attestation a jour avant chaque course"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire VTC : plateforme, vehicule, anciennete."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-vtc-moins-cher-2026.html",
+          "label": "VTC moins cher"
+        },
+        {
+          "href": "../assurance-vtc/",
+          "label": "Assurance VTC"
+        }
+      ]
+    },
+    {
+      "file": "pret-immobilier-bientot-un-nouveau-pret-a-taux-zero-quand-la-famille-s-a.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Prêt immobilier : bientôt un nouveau Prêt à taux zéro quand la famille s'agrandit ? - B… : pret et assurance emprunteur — que faire ?",
+      "description": "Prêt immobilier : bientôt un nouveau Prêt à taux zéro quand la famille s'agrandit ? - Boursorama — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Prêt immobilier : bientôt un nouveau Prêt à taux zéro quand la famille s'agrandit ? - Boursorama — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=pret-immobilier-bientot-un-nouveau-pre",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Prêt immobilier : bientôt un nouveau Prêt à taux zéro quand la famille s'agrandit ? - B…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "l-achat-immobilier-moyen-au-portugal-est-desormais-sensiblement-plus-che.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "L’achat immobilier moyen au Portugal est désormais sensiblement plus cher qu’en France … : assurance habitation — que faire ?",
+      "description": "L’achat immobilier moyen au Portugal est désormais sensiblement plus cher qu’en France - Figaro Immobilier — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "L’achat immobilier moyen au Portugal est désormais sensiblement plus cher qu’en France - Figaro Immobilier — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=l-achat-immobilier-moyen-au-portugal-est",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>L’achat immobilier moyen au Portugal est désormais sensiblement plus cher qu’en France …</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "assurance-de-pret-une-omission-medicale-ne-donne-pas-toujours-raison-a-l.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Assurance de prêt : une omission médicale ne donne pas toujours raison à l'assureur : pret et assurance emprunteur — que faire ?",
+      "description": "Assurance de prêt : une omission médicale ne donne pas toujours raison à l'assureur — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Assurance de prêt : une omission médicale ne donne pas toujours raison à l'assureur — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-de-pret-une-omission-medical",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Bing News</strong> (<strong>Assurance de prêt : une omission médicale ne donne pas toujours raison à l'assureur</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "assurance-chien-ou-chat-quel-est-l-age-limite-pour-assurer-votre-animal.html",
+      "section": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "title": "Assurance chien ou chat : quel est l’âge limite pour assurer votre animal? : assurance animaux — que faire ?",
+      "description": "Assurance chien ou chat : quel est l’âge limite pour assurer votre animal? — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Assurance chien ou chat : quel est l’âge limite pour assurer votre animal? — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=assurance-chien-ou-chat-quel-est-l-age",
+        "label": "Questionnaire animaux (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Bing News</strong> (<strong>Assurance chien ou chat : quel est l’âge limite pour assurer votre animal?</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Une urgence veterinaire peut depasser 1 000 EUR sans assurance animaux."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Plafond annuel et franchise",
+            "Maladies hereditaires et exclusions",
+            "Prevention et vermifuge",
+            "Age du chien ou chat a la souscription",
+            "Delai de carence"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire animaux : espece, age, antecedents."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-animaux-comment-choisir.html",
+          "label": "Choisir assurance animaux"
+        },
+        {
+          "href": "../assurance-animaux/",
+          "label": "Assurance animaux"
+        }
+      ]
+    },
+    {
+      "file": "lyon-aupres-des-etudiants-doucet-plaide-pour-la-prolongation-de-l-encadr.html",
+      "section": "habitat",
+      "tag": "Location & recherche",
+      "tagClass": "tag-habitation",
+      "title": "Lyon. Auprès des étudiants, Doucet plaide pour la prolongation de l’encadrement des loyers : assurance habitation — que faire ?",
+      "description": "Lyon. Auprès des étudiants, Doucet plaide pour la prolongation de l’encadrement des loyers — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Lyon. Auprès des étudiants, Doucet plaide pour la prolongation de l’encadrement des loyers — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=lyon-aupres-des-etudiants-doucet-plaid",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Cafeyn (presse partenaire)</strong> (<strong>Lyon. Auprès des étudiants, Doucet plaide pour la prolongation de l’encadrement des loyers</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "chauffeur-vtc-il-faudra-desormais-obligatoirement-passer-un-examen.html",
+      "section": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "title": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen : assurance VTC — que faire ?",
+      "description": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=chauffeur-vtc-il-faudra-desormais-obli",
+        "label": "Questionnaire VTC (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Bing News</strong> (<strong>Chauffeur VTC : il faudra désormais obligatoirement passer un examen</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un contrat VTC inadapte peut bloquer Uber, Bolt ou Heetch — et couter cher au sinistre."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "RC Pro plateforme et activite",
+            "Vehicule : usage professionnel declare",
+            "Assistance et perte d'exploitation",
+            "Franchise et conducteurs secondaires",
+            "Attestation a jour avant chaque course"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire VTC : plateforme, vehicule, anciennete."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-vtc-moins-cher-2026.html",
+          "label": "VTC moins cher"
+        },
+        {
+          "href": "../assurance-vtc/",
+          "label": "Assurance VTC"
         }
       ]
     }
