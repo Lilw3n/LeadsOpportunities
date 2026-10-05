@@ -39,6 +39,7 @@
       /\.assurancevtcfrance\.com$/i.test(host)
     ) {
       defaults.ga4MeasurementId = "G-85H2R0KDEN";
+      defaults.clarityProjectId = "yt0jvh21od";
     }
   } catch (eAvfGa) {}
 
@@ -51,19 +52,28 @@
     return defaults[key];
   }
 
-  // Sur AVF : prioriser le GA4 dédié même si l’env Vercel pointe encore vers LO
-  function mergeGa4() {
+  function isAvfHost() {
     try {
       var h = (window.location && window.location.hostname) || "";
-      if (
+      return (
         h === "assurancevtcfrance.com" ||
         h === "www.assurancevtcfrance.com" ||
         /\.assurancevtcfrance\.com$/i.test(h)
-      ) {
-        return "G-85H2R0KDEN";
-      }
-    } catch (e) {}
+      );
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Sur AVF : prioriser GA4 + Clarity dédiés même si l’env Vercel pointe encore vers LO
+  function mergeGa4() {
+    if (isAvfHost()) return "G-85H2R0KDEN";
     return merge("ga4MeasurementId");
+  }
+
+  function mergeClarity() {
+    if (isAvfHost()) return "yt0jvh21od";
+    return merge("clarityProjectId");
   }
 
   window.GOOGLE_TRACKING = {
@@ -76,7 +86,7 @@
     metaPixelId: merge("metaPixelId"),
     tiktokPixelId: merge("tiktokPixelId"),
     pinterestTagId: merge("pinterestTagId"),
-    clarityProjectId: merge("clarityProjectId"),
+    clarityProjectId: mergeClarity(),
   };
 
   var cfg = window.GOOGLE_TRACKING;
