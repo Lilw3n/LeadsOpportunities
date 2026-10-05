@@ -15,7 +15,7 @@ Domaine pub / SEO / leads VTC, même dépôt que Leads Opportunities.
 
 Leads → `POST /api/lead` avec `source=assurancevtcfrance`, `utm_source=assurancevtcfrance`, `site_domain=assurancevtcfrance.com`, `platform=assurancevtcfrance`.
 
-**GA4 dédié** : `G-85H2R0KDEN` (pages AVF + `google-config.js` sur host assurancevtcfrance.com). LO garde `G-JX8E35693F`.
+**GA4 dédié** : `G-85H2R0KDEN` · **Clarity dédié** : `yt0jvh21od` (pages AVF + `google-config.js` sur host assurancevtcfrance.com). LO garde `G-JX8E35693F` / `x7yqp46fj9`.
 
 **Recensement CRM (obligatoire)** :
 - `/crm-sources.html` — panneau **Assurance VTC France** + filtre plateforme
