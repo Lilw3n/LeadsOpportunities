@@ -2279,6 +2279,84 @@
       "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=ile-de-france-les-chauffeurs-vtc-manif",
       "matchedRule": "vtc",
       "species": null
+    },
+    {
+      "file": "pret-immobilier-bientot-un-nouveau-pret-a-taux-zero-quand-la-famille-s-a.html",
+      "title": "Prêt immobilier : bientôt un nouveau Prêt à taux zéro quand la famille s'agrandit ? - B… : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=pret-immobilier-bientot-un-nouveau-pre",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "l-achat-immobilier-moyen-au-portugal-est-desormais-sensiblement-plus-che.html",
+      "title": "L’achat immobilier moyen au Portugal est désormais sensiblement plus cher qu’en France … : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=l-achat-immobilier-moyen-au-portugal-est",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "assurance-de-pret-une-omission-medicale-ne-donne-pas-toujours-raison-a-l.html",
+      "title": "Assurance de prêt : une omission médicale ne donne pas toujours raison à l'assureur : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-de-pret-une-omission-medical",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "assurance-chien-ou-chat-quel-est-l-age-limite-pour-assurer-votre-animal.html",
+      "title": "Assurance chien ou chat : quel est l’âge limite pour assurer votre animal? : assurance animaux — que faire ?",
+      "section": "animaux",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=assurance-chien-ou-chat-quel-est-l-age",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "lyon-aupres-des-etudiants-doucet-plaide-pour-la-prolongation-de-l-encadr.html",
+      "title": "Lyon. Auprès des étudiants, Doucet plaide pour la prolongation de l’encadrement des loyers : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=lyon-aupres-des-etudiants-doucet-plaid",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "chauffeur-vtc-il-faudra-desormais-obligatoirement-passer-un-examen.html",
+      "title": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=chauffeur-vtc-il-faudra-desormais-obli",
+      "matchedRule": "vtc",
+      "species": null
     }
   ]
 }

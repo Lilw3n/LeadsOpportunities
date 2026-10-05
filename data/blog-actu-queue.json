@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-05T11:23:05.418Z",
+  "updated": "2026-10-05T14:47:54.051Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -102,6 +102,72 @@
       "need": "habitation",
       "addedAt": "2026-10-05T11:22:56.472Z",
       "fromCandidateId": "rss-assurance-habitation-de-fortes-disparites-de-prix-en-france-presse-agenc"
+    },
+    {
+      "id": "theme-lois-20261005e",
+      "title": "Assurance de prêt : une omission médicale ne donne pas toujours raison à l'assureur",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac3b823f9f04c0093f2776c4e1bc0ec&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2factualite%2fother%2fassurance-de-pr%25C3%25AAt-une-omission-m%25C3%25A9dicale-ne-donne-pas-toujours-raison-%25C3%25A0-lassureur%2far-AA2dAXLy&c=13570251177083593625&mkt=en-us",
+      "source": "bing",
+      "note": "Thème lois → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T14:47:36.885Z",
+      "fromCandidateId": "rss-assurance-de-pret-une-omission-medicale-ne-donne-pas-toujours-raison-a-l"
+    },
+    {
+      "id": "theme-vtc-20261005e",
+      "title": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac3b824c6954cfeb62e281afbe8bfdb&url=https%3a%2f%2fwww.lefigaro.fr%2fsocietes%2fchauffeur-vtc-il-faudra-desormais-obligatoirement-passer-un-examen-20260812&c=997682499383111162&mkt=en-us",
+      "source": "bing",
+      "note": "Thème vtc → questionnaire vtc",
+      "status": "published",
+      "need": "vtc",
+      "addedAt": "2026-10-05T14:47:36.885Z",
+      "fromCandidateId": "rss-chauffeur-vtc-il-faudra-desormais-obligatoirement-passer-un-examen"
+    },
+    {
+      "id": "theme-animaux-20261005e",
+      "title": "Assurance chien ou chat : quel est l’âge limite pour assurer votre animal?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac3b82484664ca7ae49d6f079fb231f&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2fassurance-chien-ou-chat-quel-est-lage-limite-pour-assurer-votre-animal-14-09-2022-WDOQXVH6HFEVPOXVIFZ7Q6JRUA.php&c=8355931491327766299&mkt=en-us",
+      "source": "bing",
+      "note": "Thème animaux → questionnaire animaux",
+      "status": "published",
+      "need": "animaux",
+      "addedAt": "2026-10-05T14:47:36.885Z",
+      "fromCandidateId": "rss-assurance-chien-ou-chat-quel-est-l-age-limite-pour-assurer-votre-animal"
+    },
+    {
+      "id": "theme-pret-20261005e",
+      "title": "Prêt immobilier : bientôt un nouveau Prêt à taux zéro quand la famille s'agrandit ? - Boursorama",
+      "url": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxOQ3Y4RzdQS0wxYUtTZ0tXdXJEUjJsTkRUQkdtOFNIcm5qNzZsT3hZa0hkenFoQmhYc1k0Uy1LaTBLY3luaUdvR19iNHFIQ2JDeFhmd1ZpcG9GanhZUFBkN0VOSXNoRXJVSV80RF9LaWFyVWhQOXdSdGU2YS1hZ1ZsS2ljeGhqTDdtZUxYSVdpU1ZSNy1KY0x3dlR5d3RvZmZvU1JZRmlSdm5nZU9TaXRva2ZQVDVOa1c3eklDeDJHTXJLZ05YZnFjWncycUp2WVdWZ1hMR2ZWbVktYnBxT0xGbVlUZ3U2S2ZQZkw3REVQeDF4TEItYzFjOHdPSVI?oc=5",
+      "source": "google",
+      "note": "Thème pret → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T14:47:36.885Z",
+      "fromCandidateId": "rss-pret-immobilier-bientot-un-nouveau-pret-a-taux-zero-quand-la-famille-s-a"
+    },
+    {
+      "id": "theme-vente-20261005e",
+      "title": "L’achat immobilier moyen au Portugal est désormais sensiblement plus cher qu’en France - Figaro Immobilier",
+      "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPVHRvRmJTb3YxSlRHRVpNQ2xFT0t6emRubXE1TUwwTDBPTWVaeFJrT3RJODREeDI3XzlXa2pyTWEzWDFEZzJoMEtHa2Q1Tnd5a2lDQ2NOWmhMQ2xqcWJuV2hqME9acTlFMGdocVdiOHBOVk9jVXdHejJ2Ry1aeVlHQm4zcXVTYXFzQVR0M28tSGdDaXZvdTNZY25nRXRDaEVBendvd0FfSFE2ZkpBVW5TemdOSHNTdW9jOUlEeV9ocF9PTy1hV0M5VU5NNmU0aFk?oc=5",
+      "source": "google",
+      "note": "Thème vente → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T14:47:36.885Z",
+      "fromCandidateId": "rss-l-achat-immobilier-moyen-au-portugal-est-desormais-sensiblement-plus-che"
+    },
+    {
+      "id": "theme-location-20261005e",
+      "title": "Lyon. Auprès des étudiants, Doucet plaide pour la prolongation de l’encadrement des loyers",
+      "url": "https://www.leprogres.fr/economie/2026/10/05/aupres-des-etudiants-doucet-plaide-pour-la-prolongation-de-l-encadrement-des-loyers",
+      "source": "cafeyn",
+      "note": "Thème location → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T14:47:36.885Z",
+      "fromCandidateId": "rss-lyon-aupres-des-etudiants-doucet-plaide-pour-la-prolongation-de-l-encadr"
     }
   ]
 }
