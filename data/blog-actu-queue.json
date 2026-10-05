@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-05T11:23:05.418Z",
+  "updated": "2026-10-05T13:38:15.861Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -102,6 +102,72 @@
       "need": "habitation",
       "addedAt": "2026-10-05T11:22:56.472Z",
       "fromCandidateId": "rss-assurance-habitation-de-fortes-disparites-de-prix-en-france-presse-agenc"
+    },
+    {
+      "id": "theme-lois-20261005d",
+      "title": "Assurance de prêt immobilier : ces 3 nouvelles mesures favorables aux emprunteurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac3a81d7c7a44b19d9b78e190bfee53&url=https%3a%2f%2fwww.boursorama.com%2fimmobilier%2fcredit%2factualites%2fassurance-de-pret-immobilier-ces-3-nouvelles-mesures-favorables-aux-emprunteurs-aba214d82291aa3882af10ec3daf7a34&c=5025052324863635030&mkt=en-us",
+      "source": "bing",
+      "note": "Thème lois / mesures emprunteur → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-assurance-de-pret-immobilier-ces-3-nouvelles-mesures-favorables-aux-empr"
+    },
+    {
+      "id": "theme-vtc-20261005d",
+      "title": "VTC : combien gagne un chauffeur Uber ? - L'Essentiel de l'Éco",
+      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE0zaHBwaXlzZHBmVTZiTE9NdUVhVzdWVS15MGd3cUVpaVZJaWZBajlucUM3eS0xRmhaa0RhNURtcEljMWN6OUJjdUJRWnlfSmtCLUhMOTBvNzk1dThKSzZ2bmdOVnl1TTYtSHVNUHA2VFp3U2EyN3VJdQ?oc=5",
+      "source": "google",
+      "note": "Thème chauffeur VTC revenus Uber → questionnaire vtc",
+      "status": "published",
+      "need": "vtc",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-vtc-combien-gagne-un-chauffeur-uber-l-essentiel-de-l-eco"
+    },
+    {
+      "id": "theme-animaux-20261005d",
+      "title": "Nos conseils pour obtenir une assurance chien ou chat pas chère",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac3a81e9f244b77ababb3ccde033f58&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2fassurance%2fnos-conseils-pour-obtenir-une-assurance-chien-ou-chat-pas-chere-12-10-2022-EOWTQOYUS5BHRAMIQOXT5AAJGI.php&c=10400719382239195249&mkt=en-us",
+      "source": "bing",
+      "note": "Thème chien/chat assurance pas chère → questionnaire animaux",
+      "status": "published",
+      "need": "animaux",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-nos-conseils-pour-obtenir-une-assurance-chien-ou-chat-pas-chere"
+    },
+    {
+      "id": "theme-pret-20261005d",
+      "title": "Prêt immobilier : la hausse du taux d’usure au 1er octobre va-t-elle vraiment vous aider à emprunter ? - SeLoger",
+      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQaGpucUhOUFpyUkd2V1BJQW9YTHJEMDVIRWNMV3ZhN09JdGRHVV8xM0p2ci1wMHlmNXNyRmswTXdoZW51dHU0NTc0R05lanFURDRHWW40XzItSWJrenRQdGdoUWVWckVjbDVEQTZtNXpGMkFGOWhKSzhnRTF2bnBnaFprY0o5cnBBTHdmbGY1eXVFVkZNRTdHelZ6b3NfRHVJeGVraVZ4aENVdlZfMW1ONGVGaUw3TzFiM1ZPS3ZEQ3p1Rjg?oc=5",
+      "source": "google",
+      "note": "Thème recherche prêt / taux usure octobre → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-pret-immobilier-la-hausse-du-taux-d-usure-au-1er-octobre-va-t-elle-vraim"
+    },
+    {
+      "id": "theme-vente-20261005d",
+      "title": "Baromètre immobilier France – Août 2026 - LeSiteImmo",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPTDdybmFwMF9CWFNKbjYwZ1h3RVpndjcxRlNyOGplSVJrVm4tXzhmYThsOExBSE96TXBwVWFBNG5TUXpQanotMmhqOGJaOElCZDZJRV9zMmdIQm1ZYjZhQ1NzdHpiRUctaEloTURmcmU3SktIYnR0LXV0WE1EQ2NDYW5Icw?oc=5",
+      "source": "google",
+      "note": "Thème vente/acquisition / baromètre immo → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-barometre-immobilier-france-aout-2026-lesiteimmo"
+    },
+    {
+      "id": "theme-location-20261005d",
+      "title": "Louer son appartement avec un bail Code civil, ça change tout !",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac3a81ee2bb4c5c95ab9bac5d1f8722&url=https%3a%2f%2fwww.lopinion.fr%2fpatrimoine%2flouer-son-appartement-avec-un-bail-code-civil-ca-change-tout&c=13371034713285252061&mkt=en-us",
+      "source": "bing",
+      "note": "Thème recherche bien / bail Code civil location → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-louer-son-appartement-avec-un-bail-code-civil-ca-change-tout"
     }
   ]
 }
