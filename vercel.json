@@ -90,6 +90,46 @@
   ],
   "rewrites": [
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/index.html"
+    },
+    {
+      "source": "/index.html",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/index.html"
+    },
+    {
+      "source": "/devis",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/devis.html"
+    },
+    {
+      "source": "/devis.html",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/devis.html"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/index.html"
+    },
+    {
+      "source": "/index.html",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/index.html"
+    },
+    {
+      "source": "/devis",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/devis.html"
+    },
+    {
+      "source": "/devis.html",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/devis.html"
+    },
+    {
       "source": "/api/site-lock",
       "destination": "/api/[action]?action=site-lock"
     },

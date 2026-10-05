@@ -17,6 +17,7 @@
 - **API APRIL** : `/crm-april.html` · OAuth2 API Store · `docs/APRIL-API.md` · `npm run verify:april-api` · secrets Vercel `PARTNER_APRIL_CLIENT_ID` / `PARTNER_APRIL_CLIENT_SECRET`
 - **Signature électronique gratuite (SES)** : `/crm-e-signature.html` · lien client `/landings/signature-electronique.html` · `docs/E-SIGNATURE-GRATUITE.md` · `npm run verify:e-signature`
 - **Google Workspace** : MX + DKIM + mails CRM + Drive miroir contact@ · `docs/GOOGLE-WORKSPACE-DNS.md` · `npm run verify:workspace-mail-drive`
+- **Domaine niche VTC** : `assurancevtcfrance.com` — microsite `/assurance-vtc-france/` · DNS o2switch→Vercel `docs/ASSURANCE-VTC-FRANCE-DNS.md` · pubs `ads/meta-assurancevtcfrance.csv` · `npm run verify:assurance-vtc-france`
 
 ## Blog actu (leads qualifiés)
 

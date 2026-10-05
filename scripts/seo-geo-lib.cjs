@@ -1765,6 +1765,8 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/agence-varangeville/", priority: "0.94", changefreq: "weekly" },
     { loc: base + "/assurances-niches.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/vtc.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc-france/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc-france/devis.html", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/landings/sante.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/credit-immo.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/acheteur-immo.html", priority: "0.9", changefreq: "weekly" },

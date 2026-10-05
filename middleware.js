@@ -115,6 +115,36 @@ function isBuchetHost(hostname) {
   );
 }
 
+function isAssuranceVtcFranceHost(hostname) {
+  var h = String(hostname || "")
+    .split(":")[0]
+    .trim()
+    .toLowerCase();
+  return h === "assurancevtcfrance.com" || h === "www.assurancevtcfrance.com" || /\.assurancevtcfrance\.com$/.test(h);
+}
+
+/** Force page VTC dès la racine du domaine niche (ne jamais servir l’index LO). */
+function rewriteAvfHome(request) {
+  var url = new URL(request.url);
+  var hostname = url.hostname || request.headers.get("host") || "";
+  if (!isAssuranceVtcFranceHost(hostname)) return null;
+  var path = url.pathname || "/";
+  var target = null;
+  if (path === "/" || path === "/index.html" || path === "") {
+    target = "/assurance-vtc-france/index.html";
+  } else if (path === "/devis" || path === "/devis/" || path === "/devis.html") {
+    target = "/assurance-vtc-france/devis.html";
+  }
+  if (!target) return null;
+  var dest = new URL(target, request.url);
+  dest.search = url.search;
+  return new Response(null, {
+    headers: {
+      "x-middleware-rewrite": dest.toString(),
+    },
+  });
+}
+
 function siteLockActive(hostname) {
   if (isEnvForcedOpen()) return false;
   if (isEnvForcedClosed()) return true;
@@ -204,6 +234,9 @@ async function handleSocialOg(request) {
 export default async function middleware(request) {
   var social = await handleSocialOg(request);
   if (social) return social;
+
+  var avf = rewriteAvfHome(request);
+  if (avf) return avf;
 
   var url = new URL(request.url);
   var hostname = url.hostname || request.headers.get("host") || "";

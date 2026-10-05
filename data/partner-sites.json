@@ -30,6 +30,18 @@
   ],
   "sites": [
     {
+      "id": "assurance-vtc-france",
+      "category": "assurance",
+      "name": "Assurance VTC France",
+      "url": "https://assurancevtcfrance.com/",
+      "preview_image_url": "",
+      "tagline": "Page VTC directe — devis Uber Bolt Heetch · par leadsopportunities.fr",
+      "city": "France",
+      "active": true,
+      "order": 5,
+      "notes": "Domaine niche LO — DNS o2switch → Vercel : docs/ASSURANCE-VTC-FRANCE-DNS.md"
+    },
+    {
       "id": "exemple-batiment-54",
       "category": "batiment",
       "name": "Entreprise bâtiment (exemple)",
