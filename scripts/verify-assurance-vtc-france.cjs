@@ -27,6 +27,8 @@ assert.ok(index.indexOf("Wakam") !== -1, "angle Wakam");
 assert.ok(index.indexOf('name="source" value="assurancevtcfrance"') !== -1, "source AVF");
 assert.ok(index.indexOf('name="utm_source" value="assurancevtcfrance"') !== -1, "utm_source AVF");
 assert.ok(index.indexOf("avf-btn-submit") !== -1, "bouton submit sticky visible");
+assert.ok(index.indexOf("G-85H2R0KDEN") !== -1, "GA4 AVF G-85H2R0KDEN");
+assert.ok(index.indexOf("G-JX8E35693F") === -1, "pas de GA4 LO sur home AVF");
 
 assert.ok(index.indexOf('href="/assurance-vtc-france/styles.css"') !== -1, "CSS absolu (rewrite /)");
 assert.ok(index.indexOf('src="/assurance-vtc-france/attr-boot.js"') !== -1, "attr-boot absolu");
@@ -46,6 +48,12 @@ assert.ok(devis.indexOf('href="/assurance-vtc-france/styles.css"') !== -1, "CSS 
 assert.ok(devis.indexOf("/landings/tracking.js") !== -1 || devis.indexOf("landings/tracking.js") !== -1, "tracking");
 assert.ok(devis.indexOf('name="utm_source" value="assurancevtcfrance"') !== -1, "utm devis");
 assert.ok(devis.indexOf("avf-btn-submit") !== -1, "submit devis");
+assert.ok(devis.indexOf("G-85H2R0KDEN") !== -1, "GA4 AVF devis");
+assert.ok(devis.indexOf("G-JX8E35693F") === -1, "pas de GA4 LO sur devis AVF");
+
+var gcfg = read("google-config.js");
+assert.ok(gcfg.indexOf("G-85H2R0KDEN") !== -1, "google-config GA4 AVF");
+assert.ok(gcfg.indexOf("assurancevtcfrance.com") !== -1, "google-config host AVF");
 
 var tracking = read("landings/tracking.js");
 assert.ok(tracking.indexOf("getAvfLeadDefaults") !== -1, "tracking force AVF");

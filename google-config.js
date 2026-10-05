@@ -31,6 +31,17 @@
     clarityProjectId: "x7yqp46fj9",
   };
 
+  try {
+    var host = (window.location && window.location.hostname) || "";
+    if (
+      host === "assurancevtcfrance.com" ||
+      host === "www.assurancevtcfrance.com" ||
+      /\.assurancevtcfrance\.com$/i.test(host)
+    ) {
+      defaults.ga4MeasurementId = "G-85H2R0KDEN";
+    }
+  } catch (eAvfGa) {}
+
   var env = window.GOOGLE_TRACKING_FROM_ENV || {};
   function merge(key) {
     var v = env[key];
@@ -40,8 +51,23 @@
     return defaults[key];
   }
 
+  // Sur AVF : prioriser le GA4 dédié même si l’env Vercel pointe encore vers LO
+  function mergeGa4() {
+    try {
+      var h = (window.location && window.location.hostname) || "";
+      if (
+        h === "assurancevtcfrance.com" ||
+        h === "www.assurancevtcfrance.com" ||
+        /\.assurancevtcfrance\.com$/i.test(h)
+      ) {
+        return "G-85H2R0KDEN";
+      }
+    } catch (e) {}
+    return merge("ga4MeasurementId");
+  }
+
   window.GOOGLE_TRACKING = {
-    ga4MeasurementId: merge("ga4MeasurementId"),
+    ga4MeasurementId: mergeGa4(),
     adsConversionId: merge("adsConversionId"),
     adsLeadConversionId: merge("adsLeadConversionId"),
     adsPhoneConversionId: merge("adsPhoneConversionId"),
