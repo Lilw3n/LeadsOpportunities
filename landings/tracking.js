@@ -148,12 +148,37 @@
     return "unknown";
   }
 
+  function isAssuranceVtcFranceHost() {
+    try {
+      var h = (window.location.hostname || "").toLowerCase();
+      return h === "assurancevtcfrance.com" || /\.assurancevtcfrance\.com$/.test(h);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function getAvfLeadDefaults() {
+    if (!isAssuranceVtcFranceHost()) {
+      var bodyDomain =
+        (document.body && document.body.getAttribute("data-site-domain")) || "";
+      if (bodyDomain.indexOf("assurancevtcfrance") === -1) return null;
+    }
+    return {
+      source: "assurancevtcfrance",
+      site_domain: "assurancevtcfrance.com",
+      utm_source: "assurancevtcfrance",
+      platform: "assurancevtcfrance",
+      vertical: "vtc",
+    };
+  }
+
   function getUtmPayload() {
     var params = new URLSearchParams(window.location.search);
+    var avf = getAvfLeadDefaults();
     return {
-      utm_source: params.get("utm_source") || "",
-      utm_medium: params.get("utm_medium") || "",
-      utm_campaign: params.get("utm_campaign") || "",
+      utm_source: params.get("utm_source") || (avf && avf.utm_source) || "",
+      utm_medium: params.get("utm_medium") || (avf ? "site" : "") || "",
+      utm_campaign: params.get("utm_campaign") || (avf ? "avf_organic" : "") || "",
       utm_content: params.get("utm_content") || "",
       gclid: params.get("gclid") || "",
     };
@@ -391,6 +416,7 @@
         trackEvent("form_submit", { variant: variant });
         var data = collectFormData(form);
         var needVal = (data.need || getVerticalFromForm() || getVerticalFromPath() || "").toString();
+        var avfDefaults = getAvfLeadDefaults();
         var leadPayload = Object.assign(
           {
             source: data.source || (window.QuoteIntelligence && window.QuoteIntelligence.getJourney() === "quick" ? "landing_quick" : "landing_form"),
@@ -407,8 +433,21 @@
           getUtmPayload(),
           getParcoursPayload(),
           getAttributionMerge(),
-          data
+          data,
+          avfDefaults || {}
         );
+        if (avfDefaults) {
+          leadPayload.source = "assurancevtcfrance";
+          leadPayload.site_domain = "assurancevtcfrance.com";
+          leadPayload.utm_source = leadPayload.utm_source || "assurancevtcfrance";
+          if (!leadPayload.utm_medium) leadPayload.utm_medium = "site";
+          leadPayload.platform = "assurancevtcfrance";
+          if (!needVal || needVal === "unknown" || needVal === "devis") {
+            leadPayload.vertical = "vtc";
+            leadPayload.serviceNeed = "vtc";
+            needVal = "vtc";
+          }
+        }
         if (window.QuoteIntelligence) {
           window.QuoteIntelligence.attachLeadIdToPayload(leadPayload);
         }

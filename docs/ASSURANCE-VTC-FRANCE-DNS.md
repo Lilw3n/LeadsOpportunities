@@ -13,7 +13,12 @@ Domaine pub / SEO / leads VTC, même dépôt que Leads Opportunities.
 
 `/` sur **apex et www** est réécrit vers la page VTC (`/assurance-vtc-france/index.html`) — jamais l’accueil multi-métiers LO. Middleware + `vercel.json` en double sécurité.
 
-Leads → `POST /api/lead` avec `utm_source=assurancevtcfrance` et `site_domain=assurancevtcfrance.com`.
+Leads → `POST /api/lead` avec `source=assurancevtcfrance`, `utm_source=assurancevtcfrance`, `site_domain=assurancevtcfrance.com`, `platform=assurancevtcfrance`.
+
+**Recensement CRM (obligatoire)** :
+- `/crm-sources.html` — panneau **Assurance VTC France** + filtre plateforme
+- Dashboard → Leads → réseau **Assurance VTC France**
+- Lien direct : `/crm-sources.html?platform=assurancevtcfrance`
 
 ## État actuel (zone o2switch)
 

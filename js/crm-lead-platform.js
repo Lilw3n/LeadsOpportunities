@@ -11,6 +11,8 @@ window.CrmLeadPlatform = {
     { id: "youtube", label: "YouTube", icon: "▶️", color: "#ff0000" },
     { id: "snapchat", label: "Snapchat", icon: "👻", color: "#fffc00" },
     { id: "bing", label: "Bing / Microsoft", icon: "🅱️", color: "#00809d" },
+    { id: "withallo", label: "WithAllo", icon: "📞", color: "#0ea5e9" },
+    { id: "assurancevtcfrance", label: "Assurance VTC France", icon: "🚗", color: "#f0a202" },
     { id: "site_web", label: "Site web", icon: "🌐", color: "#0d9488" },
     { id: "email", label: "Email / newsletter", icon: "✉️", color: "#64748b" },
     { id: "referral", label: "Apporteur / reco", icon: "🤝", color: "#7c3aed" },
@@ -37,8 +39,10 @@ window.CrmLeadPlatform = {
     var src = String(lead.source || payload.source || "").toLowerCase();
     var utm = String(lead.utm_source || payload.utm_source || "").toLowerCase();
     var medium = String(lead.utm_medium || payload.utm_medium || "").toLowerCase();
-    var combined = src + " " + utm + " " + medium;
+    var siteDomain = String(payload.site_domain || payload.siteDomain || "").toLowerCase();
+    var combined = src + " " + utm + " " + medium + " " + siteDomain;
 
+    if (/assurancevtcfrance/.test(combined)) return "assurancevtcfrance";
     if (lead.fbclid || payload.fbclid || /facebook|fbads|meta|instagram|ig\b/.test(combined)) {
       return /instagram|ig\b/.test(combined) ? "instagram" : "facebook";
     }

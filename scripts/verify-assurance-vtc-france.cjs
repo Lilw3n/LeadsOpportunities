@@ -24,11 +24,18 @@ assert.ok(index.indexOf("leadsopportunities.fr") !== -1, "mention LO");
 assert.ok(index.indexOf('name="need" value="vtc"') !== -1, "form need=vtc sur /");
 assert.ok(index.indexOf("data-quick-devis") !== -1, "form express sur home");
 assert.ok(index.indexOf("Wakam") !== -1, "angle Wakam");
+assert.ok(index.indexOf('name="source" value="assurancevtcfrance"') !== -1, "source AVF");
+assert.ok(index.indexOf('name="utm_source" value="assurancevtcfrance"') !== -1, "utm_source AVF");
+assert.ok(index.indexOf("avf-btn-submit") !== -1, "bouton submit sticky visible");
 
 assert.ok(index.indexOf('href="/assurance-vtc-france/styles.css"') !== -1, "CSS absolu (rewrite /)");
 assert.ok(index.indexOf('src="/assurance-vtc-france/attr-boot.js"') !== -1, "attr-boot absolu");
 assert.ok(index.indexOf('href="./styles.css"') === -1, "pas de CSS relatif cassé");
 assert.ok(index.indexOf('src="./attr-boot.js"') === -1, "pas d'attr relatif cassé");
+
+var styles = read("assurance-vtc-france/styles.css");
+assert.ok(styles.indexOf("avf-btn-submit") !== -1, "CSS sticky submit");
+assert.ok(styles.indexOf("z-index: 260") !== -1 || styles.indexOf("z-index:260") !== -1, "submit au-dessus cookie");
 
 var devis = read("assurance-vtc-france/devis.html");
 assert.ok(devis.indexOf('name="need" value="vtc"') !== -1, "need=vtc devis");
@@ -37,6 +44,26 @@ assert.ok(devis.indexOf("data-quick-devis") !== -1, "form express devis");
 assert.ok(devis.indexOf("leadsopportunities.fr") !== -1, "mention LO devis");
 assert.ok(devis.indexOf('href="/assurance-vtc-france/styles.css"') !== -1, "CSS absolu devis");
 assert.ok(devis.indexOf("/landings/tracking.js") !== -1 || devis.indexOf("landings/tracking.js") !== -1, "tracking");
+assert.ok(devis.indexOf('name="utm_source" value="assurancevtcfrance"') !== -1, "utm devis");
+assert.ok(devis.indexOf("avf-btn-submit") !== -1, "submit devis");
+
+var tracking = read("landings/tracking.js");
+assert.ok(tracking.indexOf("getAvfLeadDefaults") !== -1, "tracking force AVF");
+assert.ok(tracking.indexOf("assurancevtcfrance") !== -1, "tracking tag AVF");
+
+var crmSources = read("crm-sources.html");
+assert.ok(crmSources.indexOf("assurancevtcfrance") !== -1, "CRM filtre AVF");
+assert.ok(crmSources.indexOf("avfRecensement") !== -1, "CRM panneau recensement AVF");
+
+var crmSourcesJs = read("crm-sources.js");
+assert.ok(crmSourcesJs.indexOf("renderAvf") !== -1, "CRM render AVF");
+
+var crmApi = read("api/_lib/routes/crm-leads-sources.js");
+assert.ok(crmApi.indexOf("assurancevtcfrance") !== -1, "API sources AVF");
+assert.ok(crmApi.indexOf("by_site_domain") !== -1, "API by_site_domain");
+
+var dash = read("dashboard.html");
+assert.ok(dash.indexOf('value="assurancevtcfrance"') !== -1, "dashboard filtre AVF");
 
 var brand = read("js/site-host-brand.js");
 assert.ok(brand.indexOf("isAssuranceVtcFrance") !== -1, "brand host");

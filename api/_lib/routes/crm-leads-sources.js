@@ -8,7 +8,8 @@ const { loadHubConfig } = require("../ad-platform-hub");
 
 const PLATFORMS = [
   "facebook", "instagram", "google", "tiktok", "linkedin", "youtube",
-  "snapchat", "bing", "pinterest", "withallo", "site_web", "email", "referral", "autre",
+  "snapchat", "bing", "pinterest", "withallo", "assurancevtcfrance",
+  "site_web", "email", "referral", "autre",
 ];
 
 function parsePayloadSafe(raw) {
@@ -26,6 +27,9 @@ function detectPlatform(row) {
   if (row.platform) return row.platform;
   var utm = String(row.utm_source || payload.utm_source || "").toLowerCase();
   var src = String(row.source || payload.source || "").toLowerCase();
+  var siteDomain = String(payload.site_domain || payload.siteDomain || "").toLowerCase();
+  var combined = utm + " " + src + " " + siteDomain;
+  if (/assurancevtcfrance/.test(combined)) return "assurancevtcfrance";
   if (/withallo|allo/.test(src + " " + utm)) return "withallo";
   if (row.fbclid || payload.fbclid || /facebook|meta|fb/.test(utm)) {
     return /instagram|ig/.test(utm) ? "instagram" : "facebook";
@@ -37,6 +41,15 @@ function detectPlatform(row) {
   if (row.source === "meta_lead_ads") return "facebook";
   if (row.source === "landing_form" || /site|organic|direct|seo/.test(utm + " " + src)) return "site_web";
   return "autre";
+}
+
+function siteDomainOf(row, payload) {
+  var d = payload.site_domain || payload.siteDomain || "";
+  if (d) return String(d).toLowerCase();
+  var utm = String(row.utm_source || payload.utm_source || "").toLowerCase();
+  var src = String(row.source || payload.source || "").toLowerCase();
+  if (/assurancevtcfrance/.test(utm + " " + src)) return "assurancevtcfrance.com";
+  return "(non renseigné)";
 }
 
 function bump(map, key, inc) {
@@ -114,10 +127,13 @@ module.exports = async (req, res) => {
     var bySource = {};
     var byVertical = {};
     var byForm = {};
+    var bySiteDomain = {};
     var withGclid = 0;
     var withFbclid = 0;
     var withTtclid = 0;
     var withUtm = 0;
+    var avfCount = 0;
+    var avfRecent = [];
     var recent = [];
 
     PLATFORMS.forEach(function (p) {
@@ -134,12 +150,41 @@ module.exports = async (req, res) => {
       bump(byMedium, row.utm_medium || payload.utm_medium);
       bump(bySource, row.utm_source || payload.utm_source || row.source);
       bump(byVertical, row.vertical || payload.vertical || payload.need);
+      bump(bySiteDomain, siteDomainOf(row, payload));
       if (row.form_id || payload.meta_form_id) bump(byForm, row.form_id || payload.meta_form_id);
 
       if (row.gclid || payload.gclid) withGclid++;
       if (row.fbclid || payload.fbclid) withFbclid++;
       if (row.ttclid || payload.ttclid) withTtclid++;
       if (row.utm_campaign || row.utm_source || payload.utm_campaign) withUtm++;
+
+      var isAvf =
+        platform === "assurancevtcfrance" ||
+        /assurancevtcfrance/.test(
+          String(row.utm_source || "") +
+            " " +
+            String(row.source || "") +
+            " " +
+            String(payload.site_domain || "")
+        );
+      if (isAvf) {
+        avfCount++;
+        if (avfRecent.length < 25) {
+          avfRecent.push({
+            id: row.id,
+            platform: platform,
+            vertical: row.vertical,
+            lead_score: row.lead_score,
+            email: row.email,
+            phone: row.phone,
+            utm_source: row.utm_source || payload.utm_source,
+            utm_campaign: row.utm_campaign || payload.utm_campaign,
+            site_domain: siteDomainOf(row, payload),
+            source: row.source,
+            created_at: row.created_at,
+          });
+        }
+      }
 
       if (recent.length < 40) {
         recent.push({
@@ -153,6 +198,7 @@ module.exports = async (req, res) => {
           utm_medium: row.utm_medium || payload.utm_medium,
           utm_campaign: row.utm_campaign || payload.utm_campaign,
           utm_content: row.utm_content || payload.utm_content,
+          site_domain: siteDomainOf(row, payload),
           gclid: !!(row.gclid || payload.gclid),
           fbclid: !!(row.fbclid || payload.fbclid),
           ttclid: !!(row.ttclid || payload.ttclid),
@@ -177,13 +223,19 @@ module.exports = async (req, res) => {
         with_gclid: withGclid,
         with_fbclid: withFbclid,
         with_ttclid: withTtclid,
+        avf_count: avfCount,
       },
       by_platform: topEntries(byPlatform, 15),
       by_campaign: topEntries(byCampaign, 15),
       by_medium: topEntries(byMedium, 10),
       by_utm_source: topEntries(bySource, 10),
       by_vertical: topEntries(byVertical, 12),
+      by_site_domain: topEntries(bySiteDomain, 12),
       by_form_id: topEntries(byForm, 10),
+      assurancevtcfrance: {
+        count: avfCount,
+        recent: avfRecent,
+      },
       recent: recent,
       platform_links: hub.platforms || [],
       filter_platform: platformFilter,
