@@ -1,5 +1,5 @@
 /**
- * Pack thématique sep 2026 — leads qualifiés depuis collecte multi-sources
+ * Pack thématique leads 2026 (lois, VTC, animaux, prêt, immo) — leads qualifiés depuis collecte multi-sources
  * (Cafeyn RSS, Edge/Bing, Firefox, Google News, Yahoo) :
  * lois, chauffeur VTC, chiens/chats, prêt immo, vente/acquisition, recherche bien.
  * Contact : contact@leadsopportunities.fr
@@ -14,7 +14,7 @@ module.exports = [
     title: "Lois assurance et crédit 2026 : Lemoine, Hamon, Chatel — ce qui change pour vous",
     description:
       "Loi Lemoine, Hamon, Chatel : résilier, changer d’assurance emprunteur ou mutuelle sans perdre vos droits. Guide clair courtier ORIAS + contact direct.",
-    meta: "10 min · Septembre 2026",
+    meta: "10 min · Octobre 2026",
     cardExcerpt: "Lemoine, Hamon, Chatel : vos droits pour changer d’assurance.",
     keywords: [
       "loi Lemoine assurance emprunteur",
@@ -94,7 +94,7 @@ module.exports = [
     title: "Devenir chauffeur VTC en 2026 : carte pro, véhicule et assurance obligatoire",
     description:
       "Créer son activité VTC : carte professionnelle, véhicule, plateformes (Uber, Bolt, Heetch) et assurance VTC obligatoire. Checklist courtier ORIAS.",
-    meta: "11 min · Septembre 2026",
+    meta: "11 min · Octobre 2026",
     cardExcerpt: "VTC : carte pro, véhicule, assurance — le parcours sans mauvaise surprise.",
     keywords: [
       "devenir chauffeur VTC 2026",
@@ -173,7 +173,7 @@ module.exports = [
     title: "Assurance chien et chat 2026 : frais véto, RC et comment choisir",
     description:
       "Assurer son chien ou son chat : remboursements vétérinaires, responsabilité civile, délais de carence, plafonds. Guide comparatif + devis courtier.",
-    meta: "9 min · Septembre 2026",
+    meta: "9 min · Octobre 2026",
     cardExcerpt: "Chien ou chat : ce que rembourse vraiment une assurance animaux.",
     keywords: [
       "assurance chien chat 2026",
@@ -243,7 +243,7 @@ module.exports = [
     title: "Recherche de prêt immobilier 2026 : comparer banques et courtier",
     description:
       "Chercher un prêt immobilier : taux, assurance emprunteur, apport, HCSF 35 %. Pourquoi passer par un courtier multi-banques et comment monter le dossier.",
-    meta: "10 min · Septembre 2026",
+    meta: "10 min · Octobre 2026",
     cardExcerpt: "Prêt immo : taux + emprunteur + dossier — la méthode courtier.",
     keywords: [
       "recherche prêt immobilier",
@@ -317,7 +317,7 @@ module.exports = [
     title: "Vente et acquisition de maison 2026 : étapes, notaire et assurances",
     description:
       "Acheter ou vendre une maison : compromis, conditions suspensives, notaire, assurance habitation et emprunteur. Checklist vendeur et acquéreur.",
-    meta: "10 min · Septembre 2026",
+    meta: "10 min · Octobre 2026",
     cardExcerpt: "Vendre ou acheter : le fil rouge notaire + assurances.",
     keywords: [
       "vente acquisition maison",
@@ -390,7 +390,7 @@ module.exports = [
     title: "Recherche de bien à vendre ou à louer : méthodes qui marchent en 2026",
     description:
       "Trouver un bien à vendre ou à louer : alertes, critères, pièges d’annonces, financement et assurances. Méthode concrète pour acquéreurs et locataires.",
-    meta: "9 min · Septembre 2026",
+    meta: "9 min · Octobre 2026",
     cardExcerpt: "À vendre ou à louer : critères, alertes, pièges et financement.",
     keywords: [
       "recherche bien à vendre",

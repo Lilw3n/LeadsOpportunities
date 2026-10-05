@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-10-05T10:41:33.648Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -34,8 +34,74 @@
       "url": "",
       "source": "cafeyn",
       "note": "Angle assurance a preciser",
-      "status": "pending",
+      "status": "rejected",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "theme-lois-20261005",
+      "title": "Crise de la dette France : assurance emprunteur immobilier, comparatif et changement pour payer moins quand les taux montent - Kohen Avocats",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQT3JqdV9Hb3lSNFJzbG5GWFp1bnhJNXdZZFJMU05qZWstM01uT0tncUJDVkY5SUlxWkF5MGRkQUpPR041ZXUxS3VjOE9PYW9Sb1NKU0JncjZTRWdFbFVuTFhYOFJ3RjYtcnNFZUtwSXNUcUdXUXA0ZFl2Wks1dlJnVEZNOHZDbXU5aTE0TndXOUpuTWM3czdiWUpNQ2IxV0tSbWRSRWx4RTBlV2Y1WlpPZGlGOA?oc=5",
+      "source": "google",
+      "note": "Thème lois (Lemoine/Hamon/Chatel) → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T10:41:16.106Z",
+      "fromCandidateId": "rss-crise-de-la-dette-france-assurance-emprunteur-immobilier-comparatif-et-c"
+    },
+    {
+      "id": "theme-vtc-20261005",
+      "title": "VTC : combien gagne un chauffeur Uber ? - lessentieldeleco.fr",
+      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE0zaHBwaXlzZHBmVTZiTE9NdUVhVzdWVS15MGd3cUVpaVZJaWZBajlucUM3eS0xRmhaa0RhNURtcEljMWN6OUJjdUJRWnlfSmtCLUhMOTBvNzk1dThKSzZ2bmdOVnl1TTYtSHVNUHA2VFp3U2EyN3VJdQ?oc=5",
+      "source": "google",
+      "note": "Thème chauffeur VTC revenus/métier → questionnaire vtc",
+      "status": "published",
+      "need": "vtc",
+      "addedAt": "2026-10-05T10:41:16.107Z",
+      "fromCandidateId": "rss-vtc-combien-gagne-un-chauffeur-uber-lessentieldeleco-fr"
+    },
+    {
+      "id": "theme-animaux-20261005",
+      "title": "Top 10 des Meilleures Assurance Chien : comparatif tarifs 2026 ! - Le Mag de la Conso",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOMEJhSDYtTkpCRnREMDNLM0VpNU0wSW5Pd1JSUnFVNC1OUl9Mak9fUmI1VXNXYnNhYnk0TGpNZWY5NWJYRXJjWERqeEpUODRfR3p6S1VZMXRFS3NWaWdpOFd5WmVTWWtHN3UzTmdQR2lfSEtiNmx4X0FqbG5YaGFjWnBrN2R5UkVEa1E?oc=5",
+      "source": "google",
+      "note": "Thème chien/chat → questionnaire animaux",
+      "status": "published",
+      "need": "animaux",
+      "addedAt": "2026-10-05T10:41:16.108Z",
+      "fromCandidateId": "rss-top-10-des-meilleures-assurance-chien-comparatif-tarifs-2026-le-mag-de-l"
+    },
+    {
+      "id": "theme-pret-20261005",
+      "title": "Prêt immobilier plus cher au printemps 2026 : déléguez l’assurance emprunteur - Magnolia.fr",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPQmZ1U0ZnakZRdFl1Vm5tTzc2ZDhNNmN0bEtwTU50UC0xeFRIY1dzT0EyYk9QRFZQQ3lVM1BXTlF4Z2d4TWRLWXdndUxPaWYyT05YbFhGZzBNRjJOMUs5eW5jLW1YRVpCNHZzcEdzT2RDUEY4WlhkWE0yWUVwUXZLMVBVR0liOWpDYURaVm9INE9RTk0tRktITmhmTjNSZlhBZ2hBLU1tOWNSeHhZV2dPNHUyM1FvbnlKSnVOSA?oc=5",
+      "source": "google",
+      "note": "Thème recherche prêt immobilier → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T10:41:16.109Z",
+      "fromCandidateId": "rss-pret-immobilier-plus-cher-au-printemps-2026-deleguez-l-assurance-emprunt"
+    },
+    {
+      "id": "theme-vente-20261005",
+      "title": "Assurance habitation : de fortes disparités de prix en France - Presse Agence",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNa2Qyelp3MGRVbEhDRnZTSko0RWR1M2RpWFF5LV9LUTRvZEswRzBCQ0EzT21DWTViUWdpVVRwR2hub3hkM2pQWWRxaHdpdnRZOWFXZGtVMXhwWmJCaFFIRjFrNjMxQlAzNnVZQjdkeWxaQ0phZm9DN29Yd3VrMFpfTVBuT19NMkhObFZuNlZTODBhZGZzR2EzV09YMHJiZk1iYXJjN0FsM1NiLVE?oc=5",
+      "source": "google",
+      "note": "Thème vente/acquisition / prix immo France → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T10:41:16.109Z",
+      "fromCandidateId": "rss-assurance-habitation-de-fortes-disparites-de-prix-en-france-presse-agenc"
+    },
+    {
+      "id": "theme-location-20261005",
+      "title": "Bail de location meublé : les règles essentielles pour sécuriser son investissement locatif",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac37ec3b33146bd929b3404d22965cc&url=https%3a%2f%2fwww.latribune.fr%2fsupplement%2fla-tribune-now%2fbail-de-location-meuble-les-regles-essentielles-pour-securiser-son-investissement-locatif-1011353.html&c=9561197414431228174&mkt=en-us",
+      "source": "bing",
+      "note": "Thème recherche bien à vendre/louer → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T10:41:16.112Z",
+      "fromCandidateId": "rss-bail-de-location-meuble-les-regles-essentielles-pour-securiser-son-inves"
     }
   ]
 }
