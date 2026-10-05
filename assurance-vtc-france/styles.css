@@ -41,19 +41,19 @@ a {
 }
 
 .avf-top {
-  position: absolute;
-  inset: 0 0 auto;
-  z-index: 5;
+  position: sticky;
+  top: 0;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1.1rem 1.4rem;
+  padding: 0.85rem 1.4rem;
   max-width: 1120px;
   margin: 0 auto;
-  left: 0;
-  right: 0;
   width: 100%;
+  background: linear-gradient(180deg, rgba(8, 14, 28, 0.92) 0%, rgba(8, 14, 28, 0.72) 70%, transparent 100%);
+  backdrop-filter: blur(8px);
 }
 
 .avf-brand-block {
@@ -98,7 +98,7 @@ a {
   display: grid;
   gap: 1.75rem;
   align-items: end;
-  padding-top: 6.5rem;
+  padding-top: 1.5rem;
   padding-bottom: 2.5rem;
 }
 
@@ -156,19 +156,22 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.55rem 1rem;
+  padding: 0.7rem 1.2rem;
   border-radius: 999px;
-  background: var(--amber);
-  color: var(--ink);
-  font-weight: 700;
-  font-size: 0.88rem;
+  background: #ffb000;
+  color: #0b1220;
+  border: 2px solid #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
   text-decoration: none;
-  transition: transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 0 0 2px #0b1220, 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .avf-nav-cta:hover {
-  background: #ffb92e;
+  background: #ffc433;
   transform: translateY(-1px);
+  box-shadow: 0 0 0 2px #0b1220, 0 10px 28px rgba(0, 0, 0, 0.5);
 }
 
 /* Full-bleed hero */
@@ -204,7 +207,7 @@ a {
   max-width: 1120px;
   width: 100%;
   margin: 0 auto;
-  padding: 7.5rem 1.4rem 3.5rem;
+  padding: 1.25rem 1.4rem 3.5rem;
 }
 
 .avf-hero h1 {
@@ -262,14 +265,49 @@ a {
 }
 
 .avf-btn-primary {
-  background: var(--amber);
-  color: var(--ink);
-  box-shadow: 0 10px 30px rgba(240, 162, 2, 0.35);
+  background: #ffb000;
+  color: #0b1220;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px #0b1220, 0 12px 32px rgba(0, 0, 0, 0.4);
+  animation: avf-cta-pulse 2.4s ease-in-out infinite;
 }
 
 .avf-btn-primary:hover {
-  background: #ffb92e;
+  background: #ffc433;
+  color: #0b1220;
   transform: translateY(-2px);
+  box-shadow: 0 0 0 3px #0b1220, 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes avf-cta-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px #0b1220, 0 12px 32px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 5px #0b1220, 0 14px 36px rgba(240, 162, 2, 0.45);
+  }
+}
+
+/* Submit sticky : toujours visible au-dessus du cookie banner */
+.avf-form--panel .avf-btn-submit,
+.avf-form .avf-btn-submit {
+  position: sticky;
+  bottom: 5.5rem;
+  z-index: 260;
+  width: 100%;
+  min-height: 3.35rem;
+  font-size: 1.08rem;
+  letter-spacing: -0.01em;
+  margin-top: 0.5rem;
+}
+
+.avf-form--panel {
+  padding-bottom: 0.75rem;
+}
+
+body.avf {
+  padding-bottom: 6rem;
 }
 
 .avf-btn-ghost {
@@ -445,11 +483,63 @@ a {
   text-decoration: none;
 }
 
+/* Cookie banner minimal si main.css absent sur le domaine AVF */
+#cookie-banner-lo {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  padding: 14px 16px;
+  background: rgba(11, 18, 32, 0.96);
+  color: #e8eef7;
+  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.35);
+}
+#cookie-banner-lo .cookie-banner-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+#cookie-banner-lo p {
+  margin: 0;
+  font-size: 0.85rem;
+  flex: 1 1 220px;
+}
+#cookie-banner-lo a {
+  color: var(--amber);
+  font-weight: 700;
+}
+#cookie-banner-lo .cookie-banner-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+#cookie-banner-lo button {
+  font: inherit;
+  font-weight: 700;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: #fff;
+}
+#cookie-banner-lo #cookie-accept {
+  background: var(--amber);
+  color: var(--ink);
+  border-color: var(--amber);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .avf-hero,
   .avf-hero h1,
   .avf-hero p.lead,
-  .avf-cta-row {
+  .avf-cta-row,
+  .avf-btn-primary {
     animation: none !important;
   }
 }

@@ -2010,6 +2010,7 @@
             </select>
             <select class="filter-select" id="filterPlatform">
               <option value="">Tous réseaux</option>
+              <option value="assurancevtcfrance">Assurance VTC France</option>
               <option value="google">Google</option>
               <option value="facebook">Meta</option>
               <option value="instagram">Instagram</option>
@@ -3893,9 +3894,11 @@
     }
     if (params.get("section") === "leads") {
       setTimeout(function () {
+        var platParam = params.get("platform");
+        if (platParam && document.getElementById("filterPlatform")) {
+          document.getElementById("filterPlatform").value = platParam;
+        }
         goToLeads(params.get("view") || "");
-        loadBlockedIps();
-        loadIpLabels();
         var leadId = params.get("lead");
         if (leadId) setTimeout(function () { openLeadDetail(leadId); }, 400);
       }, 100);

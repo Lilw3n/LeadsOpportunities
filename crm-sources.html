@@ -37,6 +37,7 @@
     <label>Plateforme
       <select id="srcPlatform" class="crm-input">
         <option value="">Toutes</option>
+        <option value="assurancevtcfrance">Assurance VTC France</option>
         <option value="facebook">Facebook / Meta</option>
         <option value="instagram">Instagram</option>
         <option value="google">Google Ads</option>
@@ -52,6 +53,18 @@
 
   <div class="acq-stats" id="srcKpis"></div>
 
+  <section class="panel pub-hub-section" id="avfRecensement" style="border-left:4px solid #f0a202">
+    <h2>🚗 Assurance VTC France — recensement leads</h2>
+    <p style="color:var(--muted);margin:0 0 12px">Tous les devis depuis <strong>assurancevtcfrance.com</strong> (<code>source</code> / <code>utm_source</code> = assurancevtcfrance). Filtrer aussi dans le dashboard → Réseau.</p>
+    <div class="acq-stats" id="avfKpis"></div>
+    <div id="avfRecent"></div>
+    <p style="margin-top:12px">
+      <a class="btn btn-primary btn-sm" href="./crm-sources.html?platform=assurancevtcfrance">Filtrer AVF ici</a>
+      <a class="btn btn-ghost btn-sm" href="./dashboard.html?section=leads&amp;platform=assurancevtcfrance">Ouvrir dans le dashboard</a>
+      <a class="btn btn-ghost btn-sm" href="https://assurancevtcfrance.com/" target="_blank" rel="noopener">Ouvrir le site ↗</a>
+    </p>
+  </section>
+
   <section class="panel pub-hub-section">
     <h2>Liens rapides — ouvrir les plateformes pub</h2>
     <div class="pub-platform-grid" id="platformLinks"></div>
@@ -61,6 +74,10 @@
     <section class="panel">
       <h2>Par plateforme</h2>
       <div id="tblPlatform"></div>
+    </section>
+    <section class="panel">
+      <h2>Par domaine site</h2>
+      <div id="tblSiteDomain"></div>
     </section>
     <section class="panel">
       <h2>Par campagne (utm_campaign)</h2>

@@ -9,7 +9,8 @@ const { ensureSiteLeadsSchema } = require("../ensure-schema");
 const STAGES = ["new", "questionnaire", "tariff_editing", "quote_sent", "follow_up", "won", "lost"];
 const PLATFORMS = [
   "facebook", "instagram", "google", "tiktok", "linkedin", "youtube",
-  "snapchat", "bing", "pinterest", "withallo", "site_web", "email", "referral", "autre",
+  "snapchat", "bing", "pinterest", "withallo", "assurancevtcfrance",
+  "site_web", "email", "referral", "autre",
 ];
 
 function detectPlatform(row) {
@@ -17,6 +18,9 @@ function detectPlatform(row) {
   if (row.platform) return row.platform;
   var utm = String(row.utm_source || payload.utm_source || "").toLowerCase();
   var src = String(row.source || payload.source || "").toLowerCase();
+  var siteDomain = String(payload.site_domain || payload.siteDomain || "").toLowerCase();
+  var bag = utm + " " + src + " " + siteDomain;
+  if (/assurancevtcfrance/.test(bag)) return "assurancevtcfrance";
   if (/withallo|allo/.test(src + " " + utm)) return "withallo";
   if (row.fbclid || payload.fbclid || /facebook|meta|fb/.test(utm)) return /instagram|ig/.test(utm) ? "instagram" : "facebook";
   if (row.ttclid || payload.ttclid || /tiktok/.test(utm)) return "tiktok";

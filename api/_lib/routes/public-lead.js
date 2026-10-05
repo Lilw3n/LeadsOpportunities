@@ -172,6 +172,9 @@ module.exports = async (req, res) => {
     if (enriched.platform) return String(enriched.platform).slice(0, 40);
     var utm = String(utmSource || "").toLowerCase();
     var src = String(enriched.source || "").toLowerCase();
+    var siteDomain = String(enriched.site_domain || enriched.siteDomain || "").toLowerCase();
+    var bag = utm + " " + src + " " + siteDomain;
+    if (/assurancevtcfrance/.test(bag)) return "assurancevtcfrance";
     if (fbclid || /facebook|meta|fbads/.test(utm + src)) return /instagram|ig\b/.test(utm) ? "instagram" : "facebook";
     if (ttclid || /tiktok/.test(utm + src)) return "tiktok";
     if (gclidVal || msclkid || /google|gclid/.test(utm + src)) return "google";

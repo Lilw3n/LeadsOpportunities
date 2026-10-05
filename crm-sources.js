@@ -100,7 +100,7 @@
       return;
     }
     el.innerHTML =
-      "<table><thead><tr><th>Date</th><th>Lead</th><th>Plateforme</th><th>Campagne</th><th>IDs clic</th><th></th></tr></thead><tbody>" +
+      "<table><thead><tr><th>Date</th><th>Lead</th><th>Plateforme</th><th>Domaine</th><th>Campagne</th><th>IDs clic</th><th></th></tr></thead><tbody>" +
       recent
         .map(function (l) {
           var pm = window.CrmLeadPlatform.meta(l.platform);
@@ -122,10 +122,51 @@
             " " +
             esc(pm.label) +
             "</td><td><small>" +
+            esc(l.site_domain || "—") +
+            "</small></td><td><small>" +
             esc(l.utm_campaign || l.utm_source || "—") +
             "</small></td><td>" +
             esc(ids.join(", ") || "—") +
             "</td><td><a href=\"./crm-lead-detail.html?id=" +
+            encodeURIComponent(l.id) +
+            '" class="btn btn-ghost btn-sm">Fiche</a></td></tr>'
+          );
+        })
+        .join("") +
+      "</tbody></table>";
+  }
+
+  function renderAvf(avf, tracking) {
+    var kpis = document.getElementById("avfKpis");
+    var list = document.getElementById("avfRecent");
+    if (!kpis || !list) return;
+    var count = (avf && avf.count) || (tracking && tracking.avf_count) || 0;
+    kpis.innerHTML =
+      '<span class="acq-stat">Leads AVF <strong>' +
+      count +
+      "</strong></span>" +
+      '<span class="acq-stat">Source <strong>assurancevtcfrance</strong></span>' +
+      '<span class="acq-stat">Domaine <strong>assurancevtcfrance.com</strong></span>';
+    var recent = (avf && avf.recent) || [];
+    if (!recent.length) {
+      list.innerHTML =
+        '<p style="color:var(--muted)">Aucun lead Assurance VTC France sur la période — dès qu’un devis part du site, il apparaît ici.</p>';
+      return;
+    }
+    list.innerHTML =
+      "<table><thead><tr><th>Date</th><th>Contact</th><th>Campagne</th><th></th></tr></thead><tbody>" +
+      recent
+        .map(function (l) {
+          return (
+            "<tr><td>" +
+            esc(l.created_at ? new Date(l.created_at).toLocaleString("fr-FR") : "—") +
+            "</td><td>" +
+            esc(l.email || l.phone || l.id) +
+            "<br><small>score " +
+            esc(l.lead_score != null ? l.lead_score : "—") +
+            "</small></td><td><small>" +
+            esc(l.utm_campaign || l.utm_source || "—") +
+            "</small></td><td><a href=\"./crm-lead-detail.html?id=" +
             encodeURIComponent(l.id) +
             '" class="btn btn-ghost btn-sm">Fiche</a></td></tr>'
           );
@@ -161,6 +202,9 @@
           "</strong> (" +
           res.days +
           " j)</span>" +
+          '<span class="acq-stat">AVF <strong>' +
+          (tr.avf_count || 0) +
+          "</strong></span>" +
           '<span class="acq-stat">Avec UTM <strong>' +
           tr.with_utm +
           "</strong></span>" +
@@ -174,8 +218,11 @@
           tr.with_ttclid +
           "</strong></span>";
 
+        renderAvf(res.assurancevtcfrance, tr);
         renderPlatformLinks(res.platform_links);
         document.getElementById("tblPlatform").innerHTML = tableFromEntries(res.by_platform);
+        var tblDomain = document.getElementById("tblSiteDomain");
+        if (tblDomain) tblDomain.innerHTML = tableFromEntries(res.by_site_domain);
         document.getElementById("tblCampaign").innerHTML = tableFromEntries(res.by_campaign);
         document.getElementById("tblMedium").innerHTML = tableFromEntries(res.by_medium);
         document.getElementById("tblVertical").innerHTML = tableFromEntries(res.by_vertical);
