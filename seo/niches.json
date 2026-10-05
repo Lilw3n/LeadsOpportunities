@@ -1,12 +1,12 @@
 {
-  "updated": "2026-08-27",
+  "updated": "2026-10-05",
   "hub": {
     "title": "Assurances de niche",
     "intro": "Verticales peu concurrentielles sur Google : silos SEO dédiés (300+ pages par pilier), landings questionnaire, devis express et accompagnement courtier ORIAS partout en France.",
     "lead": "Nous ciblons les requêtes longue traîne là où les gros comparateurs ne investissent pas : assurance chien pas cher, RC chasseur, équitation par ville, voiture sans permis (VSP), instrument pro…",
     "stats": {
       "plannedNiches": 11,
-      "liveNiches": 5,
+      "liveNiches": 12,
       "seoPagesApprox": 950,
       "cityPagesApprox": 567,
       "departmentsApprox": 96
@@ -32,7 +32,7 @@
       },
       {
         "q": "Quelles niches sont déjà en ligne ?",
-        "a": "Animaux (chien, chat, NAC), chasse, équitation, voiture sans permis (VSP) et santé collective entreprise (ANI / PME). Les autres verticales listées sont en cours d’activation."
+        "a": "Animaux, chasse, équitation, VSP, santé collective, plus les niches partenariat : ramonage, esthétique, salles de loisirs, padel, immeuble pro, décennale, convoyage."
       },
       {
         "q": "Comment obtenir un devis ?",
@@ -45,12 +45,30 @@
     ]
   },
   "categories": [
-    { "id": "animaux", "label": "Animaux" },
-    { "id": "loisirs", "label": "Loisirs & passion" },
-    { "id": "transport", "label": "Transport & véhicules" },
-    { "id": "pro", "label": "Pro & équipement" },
-    { "id": "famille", "label": "Famille" },
-    { "id": "patrimoine", "label": "Patrimoine & collection" }
+    {
+      "id": "animaux",
+      "label": "Animaux"
+    },
+    {
+      "id": "loisirs",
+      "label": "Loisirs & passion"
+    },
+    {
+      "id": "transport",
+      "label": "Transport & véhicules"
+    },
+    {
+      "id": "pro",
+      "label": "Pro & équipement"
+    },
+    {
+      "id": "famille",
+      "label": "Famille"
+    },
+    {
+      "id": "patrimoine",
+      "label": "Patrimoine & collection"
+    }
   ],
   "niches": [
     {
@@ -70,7 +88,13 @@
       "pageCount": 320,
       "cityPages": 189,
       "departmentPages": 96,
-      "partners": ["Santévet", "Bulle Bleue", "Kozoo", "April", "AXA"],
+      "partners": [
+        "Santévet",
+        "Bulle Bleue",
+        "Kozoo",
+        "April",
+        "AXA"
+      ],
       "highlights": [
         "Pilier chien / chat / NAC",
         "Longue traîne pas cher, chiot, senior",
@@ -86,13 +110,34 @@
         "assurance chat pas cher"
       ],
       "quickLinks": [
-        { "label": "Pilier animaux", "href": "/assurance-animaux/" },
-        { "label": "Assurance chien", "href": "/assurance-animaux/chien/" },
-        { "label": "Assurance chat", "href": "/assurance-animaux/chat/" },
-        { "label": "Par ville", "href": "/assurance-animaux/villes/" },
-        { "label": "Comparatif", "href": "/assurance-animaux/comparatif/" },
-        { "label": "Chien pas cher", "href": "/assurance-animaux/chien/pas-cher/" },
-        { "label": "Devis express", "href": "/landings/animaux-express.html" }
+        {
+          "label": "Pilier animaux",
+          "href": "/assurance-animaux/"
+        },
+        {
+          "label": "Assurance chien",
+          "href": "/assurance-animaux/chien/"
+        },
+        {
+          "label": "Assurance chat",
+          "href": "/assurance-animaux/chat/"
+        },
+        {
+          "label": "Par ville",
+          "href": "/assurance-animaux/villes/"
+        },
+        {
+          "label": "Comparatif",
+          "href": "/assurance-animaux/comparatif/"
+        },
+        {
+          "label": "Chien pas cher",
+          "href": "/assurance-animaux/chien/pas-cher/"
+        },
+        {
+          "label": "Devis express",
+          "href": "/landings/animaux-express.html"
+        }
       ],
       "seoPaths": [
         "/assurance-animaux/",
@@ -119,15 +164,40 @@
       "featured": true,
       "pageCount": 195,
       "cityPages": 189,
-      "partners": ["Réseau courtage", "Spécialistes RC chasse"],
-      "highlights": ["RC chasseur expliquée", "189 pages ville", "FAQ permis & territoires"],
-      "keywords": ["assurance chasse", "rc chasseur", "assurance chasse pas cher", "responsabilité chasseur"],
-      "quickLinks": [
-        { "label": "Pilier chasse", "href": "/assurance-chasse/" },
-        { "label": "RC chasseur", "href": "/assurance-chasse/rc-chasseur/" },
-        { "label": "Par ville", "href": "/assurance-chasse/villes/" }
+      "partners": [
+        "Réseau courtage",
+        "Spécialistes RC chasse"
       ],
-      "seoPaths": ["/assurance-chasse/", "/assurance-chasse/villes/", "/assurance-chasse/rc-chasseur/"]
+      "highlights": [
+        "RC chasseur expliquée",
+        "189 pages ville",
+        "FAQ permis & territoires"
+      ],
+      "keywords": [
+        "assurance chasse",
+        "rc chasseur",
+        "assurance chasse pas cher",
+        "responsabilité chasseur"
+      ],
+      "quickLinks": [
+        {
+          "label": "Pilier chasse",
+          "href": "/assurance-chasse/"
+        },
+        {
+          "label": "RC chasseur",
+          "href": "/assurance-chasse/rc-chasseur/"
+        },
+        {
+          "label": "Par ville",
+          "href": "/assurance-chasse/villes/"
+        }
+      ],
+      "seoPaths": [
+        "/assurance-chasse/",
+        "/assurance-chasse/villes/",
+        "/assurance-chasse/rc-chasseur/"
+      ]
     },
     {
       "id": "equitation",
@@ -145,14 +215,36 @@
       "featured": true,
       "pageCount": 195,
       "cityPages": 189,
-      "highlights": ["RC équestre", "Centres & propriétaires", "189 villes"],
-      "keywords": ["assurance équitation", "assurance cheval", "rc équestre", "assurance centre équestre"],
-      "quickLinks": [
-        { "label": "Pilier équitation", "href": "/assurance-equitation/" },
-        { "label": "RC équestre", "href": "/assurance-equitation/rc-equestre/" },
-        { "label": "Par ville", "href": "/assurance-equitation/villes/" }
+      "highlights": [
+        "RC équestre",
+        "Centres & propriétaires",
+        "189 villes"
       ],
-      "seoPaths": ["/assurance-equitation/", "/assurance-equitation/villes/", "/assurance-equitation/rc-equestre/"]
+      "keywords": [
+        "assurance équitation",
+        "assurance cheval",
+        "rc équestre",
+        "assurance centre équestre"
+      ],
+      "quickLinks": [
+        {
+          "label": "Pilier équitation",
+          "href": "/assurance-equitation/"
+        },
+        {
+          "label": "RC équestre",
+          "href": "/assurance-equitation/rc-equestre/"
+        },
+        {
+          "label": "Par ville",
+          "href": "/assurance-equitation/villes/"
+        }
+      ],
+      "seoPaths": [
+        "/assurance-equitation/",
+        "/assurance-equitation/villes/",
+        "/assurance-equitation/rc-equestre/"
+      ]
     },
     {
       "id": "vsp",
@@ -170,7 +262,11 @@
       "featured": true,
       "pageCount": 200,
       "cityPages": 189,
-      "partners": ["AMI 3F", "FMA / Wakam", "Solly Azar"],
+      "partners": [
+        "AMI 3F",
+        "FMA / Wakam",
+        "Solly Azar"
+      ],
       "highlights": [
         "Pilier VSP + permis AM",
         "189 pages ville",
@@ -185,9 +281,18 @@
         "permis AM"
       ],
       "quickLinks": [
-        { "label": "Pilier VSP", "href": "/assurance-voiture-sans-permis/" },
-        { "label": "Permis AM", "href": "/assurance-voiture-sans-permis/permis-am/" },
-        { "label": "Par ville", "href": "/assurance-voiture-sans-permis/villes/" }
+        {
+          "label": "Pilier VSP",
+          "href": "/assurance-voiture-sans-permis/"
+        },
+        {
+          "label": "Permis AM",
+          "href": "/assurance-voiture-sans-permis/permis-am/"
+        },
+        {
+          "label": "Par ville",
+          "href": "/assurance-voiture-sans-permis/villes/"
+        }
       ],
       "seoPaths": [
         "/assurance-voiture-sans-permis/",
@@ -211,7 +316,10 @@
       "featured": true,
       "pageCount": 5,
       "cityPages": 0,
-      "partners": ["Heomi", "Ilona"],
+      "partners": [
+        "Heomi",
+        "Ilona"
+      ],
       "highlights": [
         "Pilier ANI / PME / DUE / panier de soins",
         "Landing + questionnaire entreprise",
@@ -227,9 +335,18 @@
         "panier de soins ANI"
       ],
       "quickLinks": [
-        { "label": "Pilier collectif", "href": "/assurance-sante-collective/" },
-        { "label": "ANI", "href": "/assurance-sante-collective/ani/" },
-        { "label": "Devis", "href": "/landings/sante-collective.html" }
+        {
+          "label": "Pilier collectif",
+          "href": "/assurance-sante-collective/"
+        },
+        {
+          "label": "ANI",
+          "href": "/assurance-sante-collective/ani/"
+        },
+        {
+          "label": "Devis",
+          "href": "/landings/sante-collective.html"
+        }
       ],
       "seoPaths": [
         "/assurance-sante-collective/",
@@ -252,8 +369,15 @@
       "priority": 4,
       "status": "planned",
       "eta": "T3 2026",
-      "highlights": ["Musiciens pro & amateurs", "Orchestres & écoles"],
-      "keywords": ["assurance instrument musique", "assurance guitare", "assurance piano"]
+      "highlights": [
+        "Musiciens pro & amateurs",
+        "Orchestres & écoles"
+      ],
+      "keywords": [
+        "assurance instrument musique",
+        "assurance guitare",
+        "assurance piano"
+      ]
     },
     {
       "id": "materiel-photo",
@@ -268,7 +392,11 @@
       "priority": 5,
       "status": "planned",
       "eta": "T3 2026",
-      "keywords": ["assurance matériel photo", "assurance drone", "assurance caméra pro"]
+      "keywords": [
+        "assurance matériel photo",
+        "assurance drone",
+        "assurance caméra pro"
+      ]
     },
     {
       "id": "bateau",
@@ -283,7 +411,11 @@
       "priority": 6,
       "status": "planned",
       "eta": "T4 2026",
-      "keywords": ["assurance bateau", "assurance bateau plaisance", "assurance voilier"]
+      "keywords": [
+        "assurance bateau",
+        "assurance bateau plaisance",
+        "assurance voilier"
+      ]
     },
     {
       "id": "caravane",
@@ -298,7 +430,10 @@
       "priority": 7,
       "status": "planned",
       "eta": "T4 2026",
-      "keywords": ["assurance camping-car", "assurance caravane"]
+      "keywords": [
+        "assurance camping-car",
+        "assurance caravane"
+      ]
     },
     {
       "id": "scolaire",
@@ -313,7 +448,11 @@
       "priority": 8,
       "status": "planned",
       "eta": "T4 2026",
-      "keywords": ["assurance scolaire", "assurance extra scolaire", "assurance sortie scolaire"]
+      "keywords": [
+        "assurance scolaire",
+        "assurance extra scolaire",
+        "assurance sortie scolaire"
+      ]
     },
     {
       "id": "collection",
@@ -328,7 +467,11 @@
       "priority": 9,
       "status": "planned",
       "eta": "2027",
-      "keywords": ["assurance collection", "assurance objets d'art", "assurance cave à vin"]
+      "keywords": [
+        "assurance collection",
+        "assurance objets d'art",
+        "assurance cave à vin"
+      ]
     },
     {
       "id": "foret",
@@ -342,7 +485,10 @@
       "priority": 10,
       "status": "planned",
       "eta": "2027",
-      "keywords": ["assurance forêt", "assurance propriété forestière"]
+      "keywords": [
+        "assurance forêt",
+        "assurance propriété forestière"
+      ]
     },
     {
       "id": "apiculture",
@@ -356,7 +502,10 @@
       "priority": 11,
       "status": "planned",
       "eta": "2027",
-      "keywords": ["assurance apiculteur", "assurance ruche"]
+      "keywords": [
+        "assurance apiculteur",
+        "assurance ruche"
+      ]
     },
     {
       "id": "moto-collection",
@@ -370,7 +519,10 @@
       "priority": 12,
       "status": "planned",
       "eta": "2027",
-      "keywords": ["assurance moto collection", "assurance voiture collection"]
+      "keywords": [
+        "assurance moto collection",
+        "assurance voiture collection"
+      ]
     },
     {
       "id": "drone-pro",
@@ -384,7 +536,10 @@
       "priority": 13,
       "status": "planned",
       "eta": "2027",
-      "keywords": ["assurance drone pro", "assurance télépilote"]
+      "keywords": [
+        "assurance drone pro",
+        "assurance télépilote"
+      ]
     },
     {
       "id": "association",
@@ -398,7 +553,10 @@
       "priority": 14,
       "status": "planned",
       "eta": "2027",
-      "keywords": ["assurance association", "assurance club sportif"]
+      "keywords": [
+        "assurance association",
+        "assurance club sportif"
+      ]
     },
     {
       "id": "piscine",
@@ -412,7 +570,284 @@
       "priority": 15,
       "status": "planned",
       "eta": "2027",
-      "keywords": ["assurance piscine", "assurance spa extérieur"]
+      "keywords": [
+        "assurance piscine",
+        "assurance spa extérieur"
+      ]
+    },
+    {
+      "id": "ramonage",
+      "slug": "assurance-ramonage",
+      "category": "pro",
+      "theme": "partenariat",
+      "emoji": "🧹",
+      "label": "Assurance ramoneur",
+      "tagline": "RC Pro ramonage, fumisterie, matériel et atelier",
+      "landing": "/landings/ramonage.html",
+      "landingExpress": "/landings/devis.html?need=rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "priority": 13,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "cityPages": 0,
+      "highlights": [
+        "Landing devis",
+        "Article SEO 2026",
+        "RC Pro + MRP"
+      ],
+      "keywords": [
+        "assurance ramoneur",
+        "rc pro ramonage",
+        "assurance ramonage"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing devis",
+          "href": "/landings/ramonage.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-ramoneur-rc-pro-multirisque-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/ramonage.html",
+        "/blog/assurance-ramoneur-rc-pro-multirisque-2026.html"
+      ]
+    },
+    {
+      "id": "esthetique",
+      "slug": "assurance-esthetique-bien-etre",
+      "category": "pro",
+      "theme": "partenariat",
+      "emoji": "💅",
+      "label": "Esthétique & bien-être",
+      "tagline": "Instituts, spas, coaching bien-être — RC Pro et locaux",
+      "landing": "/landings/esthetique-bien-etre.html",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "priority": 14,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing devis",
+        "Article SEO",
+        "RC Pro soins"
+      ],
+      "keywords": [
+        "assurance institut de beauté",
+        "rc pro esthétique",
+        "assurance bien-être"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/esthetique-bien-etre.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-institut-beaute-esthetique-rc-pro-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/esthetique-bien-etre.html",
+        "/blog/assurance-institut-beaute-esthetique-rc-pro-2026.html"
+      ]
+    },
+    {
+      "id": "salles-loisirs",
+      "slug": "assurance-salles-loisirs",
+      "category": "loisirs",
+      "theme": "partenariat",
+      "emoji": "🎢",
+      "label": "Salles de loisirs",
+      "tagline": "Escape game, accrobranche, trampoline parks",
+      "landing": "/landings/salles-loisirs.html",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "priority": 15,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Escape / accro / trampoline",
+        "RC + locaux",
+        "Landing + blog"
+      ],
+      "keywords": [
+        "assurance escape game",
+        "assurance accrobranche",
+        "assurance trampoline park"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/salles-loisirs.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-salle-loisirs-escape-game-accrobranche-trampoline-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/salles-loisirs.html",
+        "/blog/assurance-salle-loisirs-escape-game-accrobranche-trampoline-2026.html"
+      ]
+    },
+    {
+      "id": "padel",
+      "slug": "assurance-padel",
+      "category": "loisirs",
+      "theme": "partenariat",
+      "emoji": "🎾",
+      "label": "Clubs & terrains de padel",
+      "tagline": "RC exploitation, terrains, vestiaires",
+      "landing": "/landings/padel.html",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "priority": 16,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing devis",
+        "Article SEO padel"
+      ],
+      "keywords": [
+        "assurance padel",
+        "assurance club padel",
+        "assurance terrain de padel"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/padel.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-terrain-padel-club-rc-pro-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/padel.html",
+        "/blog/assurance-terrain-padel-club-rc-pro-2026.html"
+      ]
+    },
+    {
+      "id": "immeuble-pro",
+      "slug": "assurance-immeuble-professionnel",
+      "category": "pro",
+      "theme": "partenariat",
+      "emoji": "🏢",
+      "label": "Immeuble professionnel & MRP",
+      "tagline": "Immeubles pro, mixtes, travaux, classés — multirisque",
+      "landing": "/landings/immeuble-professionnel.html",
+      "questionnaire": "/landings/questionnaire.html?need=mrp&journey=standard",
+      "priority": 17,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Forte valeur commerciale",
+        "MRP / PNO",
+        "Landing + blog"
+      ],
+      "keywords": [
+        "assurance immeuble professionnel",
+        "multirisque professionnelle",
+        "PNO immeuble"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/immeuble-professionnel.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-immeuble-professionnel-multirisque-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/immeuble-professionnel.html",
+        "/blog/assurance-immeuble-professionnel-multirisque-2026.html"
+      ]
+    },
+    {
+      "id": "decennale",
+      "slug": "assurance-decennale",
+      "category": "pro",
+      "theme": "partenariat",
+      "emoji": "🔨",
+      "label": "Assurance décennale",
+      "tagline": "Artisans bâtiment — attestation et devis décennale",
+      "landing": "/landings/decennale.html",
+      "questionnaire": "/landings/questionnaire.html?need=decennale&journey=standard",
+      "priority": 18,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire décennale",
+        "Article SEO"
+      ],
+      "keywords": [
+        "assurance décennale",
+        "décennale artisan",
+        "devis décennale"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/decennale.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-decennale-artisan-guide-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/decennale.html",
+        "/blog/assurance-decennale-artisan-guide-2026.html"
+      ]
+    },
+    {
+      "id": "convoyage",
+      "slug": "assurance-convoyage-vehicules",
+      "category": "transport",
+      "theme": "partenariat",
+      "emoji": "🚚",
+      "label": "RC convoyage de véhicules",
+      "tagline": "RC Pro simple pour convoyeurs (hors circulation véhicule)",
+      "landing": "/landings/convoyage-vehicules.html",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "priority": 19,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Niche B2B",
+        "Landing + blog",
+        "Différencié VTC"
+      ],
+      "keywords": [
+        "assurance convoyeur véhicules",
+        "rc pro convoyage",
+        "assurance convoyage automobile"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/convoyage-vehicules.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-convoyeur-vehicules-rc-pro-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/convoyage-vehicules.html",
+        "/blog/assurance-convoyeur-vehicules-rc-pro-2026.html"
+      ]
     }
   ]
 }

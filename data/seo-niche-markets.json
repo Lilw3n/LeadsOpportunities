@@ -1,6 +1,6 @@
 {
-  "updated": "2026-08-16",
-  "strategy": "Indexer niches (chasse, équitation, animaux) + actu climat (incendies Gironde, restrictions d'eau) + présidentielle 2027 — blog mots-clés longue traîne vers landings.",
+  "updated": "2026-10-05",
+  "strategy": "Niches live (chasse, équitation, animaux, VSP, collective) + niches partenariat courtage (ramonage, esthétique, loisirs, padel, immeuble, décennale, convoyage) — blog + landings vers questionnaires RC Pro / MRP / décennale.",
   "whyNotOnGoogle": [
     "Google n'a pas encore indexé le domaine (site récent) — normal si Search Console pas finalisé",
     "Recherche « Leads Opportunities » ou « mutuelle » = concurrence massive vs LesFurets, Assurland, etc.",
@@ -285,6 +285,175 @@
       "landing": "/landings/questionnaire.html?need=association&journey=standard",
       "questionnaireReady": false,
       "eta": "2027"
+    },
+    {
+      "id": "ramonage",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Assurance ramoneur",
+      "primaryKeyword": "assurance ramoneur",
+      "longTail": [
+        "rc pro ramonage",
+        "assurance ramonage",
+        "responsabilité civile ramoneur"
+      ],
+      "pillarUrl": "/landings/ramonage.html",
+      "moneyUrls": [
+        "/landings/ramonage.html",
+        "/blog/assurance-ramoneur-rc-pro-multirisque-2026.html"
+      ],
+      "landing": "/landings/ramonage.html",
+      "pageCount": 2,
+      "whyWin": "Requête ultra-spécifique, quasi aucun comparateur SEO",
+      "blogUrls": [
+        "/blog/assurance-ramoneur-rc-pro-multirisque-2026.html"
+      ]
+    },
+    {
+      "id": "esthetique",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Esthétique & bien-être",
+      "primaryKeyword": "assurance institut de beauté",
+      "longTail": [
+        "rc pro esthétique",
+        "assurance esthéticienne",
+        "assurance salon bien-être"
+      ],
+      "pillarUrl": "/landings/esthetique-bien-etre.html",
+      "moneyUrls": [
+        "/landings/esthetique-bien-etre.html",
+        "/blog/assurance-institut-beaute-esthetique-rc-pro-2026.html"
+      ],
+      "landing": "/landings/esthetique-bien-etre.html",
+      "pageCount": 2,
+      "whyWin": "Volume de recherches locaux + intention devis forte",
+      "blogUrls": [
+        "/blog/assurance-institut-beaute-esthetique-rc-pro-2026.html"
+      ]
+    },
+    {
+      "id": "salles-loisirs",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Salles de loisirs",
+      "primaryKeyword": "assurance escape game",
+      "longTail": [
+        "assurance accrobranche",
+        "assurance trampoline park",
+        "rc pro salle de loisirs"
+      ],
+      "pillarUrl": "/landings/salles-loisirs.html",
+      "moneyUrls": [
+        "/landings/salles-loisirs.html",
+        "/blog/assurance-salle-loisirs-escape-game-accrobranche-trampoline-2026.html"
+      ],
+      "landing": "/landings/salles-loisirs.html",
+      "pageCount": 2,
+      "whyWin": "Peu de contenus assureurs dédiés ; leads B2B",
+      "blogUrls": [
+        "/blog/assurance-salle-loisirs-escape-game-accrobranche-trampoline-2026.html"
+      ]
+    },
+    {
+      "id": "padel",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Clubs de padel",
+      "primaryKeyword": "assurance club padel",
+      "longTail": [
+        "assurance padel",
+        "assurance terrain de padel",
+        "rc pro club sportif"
+      ],
+      "pillarUrl": "/landings/padel.html",
+      "moneyUrls": [
+        "/landings/padel.html",
+        "/blog/assurance-terrain-padel-club-rc-pro-2026.html"
+      ],
+      "landing": "/landings/padel.html",
+      "pageCount": 2,
+      "whyWin": "Marché en croissance, SERP quasi vide",
+      "blogUrls": [
+        "/blog/assurance-terrain-padel-club-rc-pro-2026.html"
+      ]
+    },
+    {
+      "id": "immeuble-pro",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "moyenne",
+      "label": "Immeuble professionnel",
+      "primaryKeyword": "assurance immeuble professionnel",
+      "longTail": [
+        "multirisque professionnelle",
+        "assurance immeuble en travaux",
+        "PNO professionnel"
+      ],
+      "pillarUrl": "/landings/immeuble-professionnel.html",
+      "moneyUrls": [
+        "/landings/immeuble-professionnel.html",
+        "/blog/assurance-immeuble-professionnel-multirisque-2026.html",
+        "/landings/questionnaire.html?need=mrp&journey=standard"
+      ],
+      "landing": "/landings/immeuble-professionnel.html",
+      "pageCount": 2,
+      "whyWin": "Forte valeur commerciale — priorité partenariat",
+      "blogUrls": [
+        "/blog/assurance-immeuble-professionnel-multirisque-2026.html"
+      ]
+    },
+    {
+      "id": "decennale",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "moyenne",
+      "label": "Assurance décennale",
+      "primaryKeyword": "assurance décennale",
+      "longTail": [
+        "décennale artisan",
+        "devis assurance décennale",
+        "obligation décennale"
+      ],
+      "pillarUrl": "/landings/decennale.html",
+      "moneyUrls": [
+        "/landings/decennale.html",
+        "/blog/assurance-decennale-artisan-guide-2026.html",
+        "/landings/questionnaire.html?need=decennale&journey=standard"
+      ],
+      "landing": "/landings/decennale.html",
+      "pageCount": 2,
+      "whyWin": "Produit déjà en catalogue — landing + blog pour indexer",
+      "blogUrls": [
+        "/blog/assurance-decennale-artisan-guide-2026.html"
+      ]
+    },
+    {
+      "id": "convoyage",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "RC convoyage véhicules",
+      "primaryKeyword": "assurance convoyeur véhicules",
+      "longTail": [
+        "rc pro convoyage",
+        "assurance convoyage automobile"
+      ],
+      "pillarUrl": "/landings/convoyage-vehicules.html",
+      "moneyUrls": [
+        "/landings/convoyage-vehicules.html",
+        "/blog/assurance-convoyeur-vehicules-rc-pro-2026.html"
+      ],
+      "landing": "/landings/convoyage-vehicules.html",
+      "pageCount": 2,
+      "whyWin": "Niche B2B claire, différenciée du VTC",
+      "blogUrls": [
+        "/blog/assurance-convoyeur-vehicules-rc-pro-2026.html"
+      ]
     }
   ],
   "indexationWeek1": [
@@ -319,7 +488,17 @@
     "/landings/vsp.html",
     "/assurance-chasse/bordeaux/",
     "/assurance-equitation/bordeaux/",
-    "/assurance-voiture-sans-permis/paris/"
+    "/assurance-voiture-sans-permis/paris/",
+    "/landings/ramonage.html",
+    "/landings/esthetique-bien-etre.html",
+    "/landings/salles-loisirs.html",
+    "/landings/padel.html",
+    "/landings/immeuble-professionnel.html",
+    "/landings/decennale.html",
+    "/landings/convoyage-vehicules.html",
+    "/blog/assurance-ramoneur-rc-pro-multirisque-2026.html",
+    "/blog/assurance-immeuble-professionnel-multirisque-2026.html",
+    "/blog/assurance-decennale-artisan-guide-2026.html"
   ],
   "blogActuNiches": [
     "/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html",
@@ -333,5 +512,24 @@
     "/blog/tarif-assurance-voiture-sans-permis-2026.html",
     "/blog/citroen-ami-assurance-sans-permis.html",
     "/blog/assurance-vsp-nancy-varangeville-meurthe-et-moselle.html"
+  ],
+  "partenariatNiches": [
+    "ramonage",
+    "esthetique",
+    "salles-loisirs",
+    "padel",
+    "immeuble-pro",
+    "decennale",
+    "convoyage"
+  ],
+  "blogPartenariatNiches": [
+    "/blog/assurance-ramoneur-rc-pro-multirisque-2026.html",
+    "/blog/assurance-institut-beaute-esthetique-rc-pro-2026.html",
+    "/blog/assurance-salle-loisirs-escape-game-accrobranche-trampoline-2026.html",
+    "/blog/assurance-terrain-padel-club-rc-pro-2026.html",
+    "/blog/assurance-immeuble-professionnel-multirisque-2026.html",
+    "/blog/assurance-decennale-artisan-guide-2026.html",
+    "/blog/assurance-convoyeur-vehicules-rc-pro-2026.html",
+    "/blog/niches-assurance-pro-ramonage-loisirs-padel-strategie-2026.html"
   ]
 }

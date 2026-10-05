@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16",
+  "updated": "2026-10-05",
   "sections": {
     "animaux": {
       "need": "animaux",
@@ -168,6 +168,90 @@
       "questionnaireLabel": "Questionnaire VSP (3 min)",
       "landingLabel": "Parcours VSP complet",
       "expressLabel": "Devis VSP rapide"
+    },
+    "ramonage": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/ramonage.html",
+      "express": "/landings/devis.html?need=rc-pro",
+      "hook": "Intervention chez le client : sans RC Pro ramonage, un sinistre peut tout coûter.",
+      "question": "Votre RC Pro ramoneur est-elle à jour ?",
+      "primaryLabel": "Devis assurance ramoneur",
+      "questionnaireLabel": "Questionnaire RC Pro (3 min)",
+      "landingLabel": "Parcours ramonage",
+      "expressLabel": "Devis express RC Pro"
+    },
+    "esthetique": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/esthetique-bien-etre.html",
+      "express": "/landings/devis.html?need=rc-pro",
+      "hook": "Soins et bien-être : une réaction client sans RC Pro met le salon en danger.",
+      "question": "Votre RC Pro esthétique couvre-t-elle tous vos actes ?",
+      "primaryLabel": "Devis esthétique / bien-être",
+      "questionnaireLabel": "Questionnaire RC Pro",
+      "landingLabel": "Parcours esthétique",
+      "expressLabel": "Devis express"
+    },
+    "salles-loisirs": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/salles-loisirs.html",
+      "express": "/landings/devis.html?need=rc-pro",
+      "hook": "Accueillir du public (escape, accro, trampoline) exige RC + locaux adaptés.",
+      "question": "Votre salle de loisirs est-elle correctement assurée ?",
+      "primaryLabel": "Devis salles de loisirs",
+      "questionnaireLabel": "Questionnaire RC Pro",
+      "landingLabel": "Parcours loisirs",
+      "expressLabel": "Devis express"
+    },
+    "padel": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/padel.html",
+      "express": "/landings/devis.html?need=rc-pro",
+      "hook": "Club de padel : RC exploitation et installations à sécuriser dès l’ouverture.",
+      "question": "Votre club de padel a-t-il une RC à jour ?",
+      "primaryLabel": "Devis assurance padel",
+      "questionnaireLabel": "Questionnaire RC Pro",
+      "landingLabel": "Parcours padel",
+      "expressLabel": "Devis express"
+    },
+    "immeuble-pro": {
+      "need": "mrp",
+      "questionnaire": "/landings/questionnaire.html?need=mrp&journey=standard",
+      "landing": "/landings/immeuble-professionnel.html",
+      "express": "/landings/devis.html?need=mrp",
+      "hook": "Immeuble pro / mixte / travaux : une MRP mal calée coûte cher en sinistre.",
+      "question": "Votre immeuble professionnel est-il correctement couvert ?",
+      "primaryLabel": "Devis immeuble / MRP",
+      "questionnaireLabel": "Questionnaire multirisque",
+      "landingLabel": "Parcours immeuble pro",
+      "expressLabel": "Devis MRP express"
+    },
+    "decennale": {
+      "need": "decennale",
+      "questionnaire": "/landings/questionnaire.html?need=decennale&journey=standard",
+      "landing": "/landings/decennale.html",
+      "express": "/landings/devis.html?need=decennale",
+      "hook": "Sans attestation décennale, pas de chantier sérieux.",
+      "question": "Votre décennale est-elle à jour pour vos corps d’état ?",
+      "primaryLabel": "Devis décennale",
+      "questionnaireLabel": "Questionnaire décennale",
+      "landingLabel": "Parcours décennale",
+      "expressLabel": "Devis décennale express"
+    },
+    "convoyage": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/convoyage-vehicules.html",
+      "express": "/landings/devis.html?need=rc-pro",
+      "hook": "Convoyage : une RC Pro simple protège votre activité hors circulation véhicule.",
+      "question": "Avez-vous une RC Pro convoyage ?",
+      "primaryLabel": "Devis RC convoyage",
+      "questionnaireLabel": "Questionnaire RC Pro",
+      "landingLabel": "Parcours convoyage",
+      "expressLabel": "Devis express"
     }
   },
   "keywordRules": [
@@ -765,6 +849,31 @@
       "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
       "landing": "/landings/credit-immo.html",
       "landingLabel": "Étude crédit 2e chance"
+    },
+    "assurance-ramoneur-rc-pro-multirisque-2026.html": {
+      "section": "ramonage"
+    },
+    "assurance-institut-beaute-esthetique-rc-pro-2026.html": {
+      "section": "esthetique"
+    },
+    "assurance-salle-loisirs-escape-game-accrobranche-trampoline-2026.html": {
+      "section": "salles-loisirs"
+    },
+    "assurance-terrain-padel-club-rc-pro-2026.html": {
+      "section": "padel"
+    },
+    "assurance-immeuble-professionnel-multirisque-2026.html": {
+      "section": "immeuble-pro"
+    },
+    "assurance-decennale-artisan-guide-2026.html": {
+      "section": "decennale"
+    },
+    "assurance-convoyeur-vehicules-rc-pro-2026.html": {
+      "section": "convoyage"
+    },
+    "niches-assurance-pro-ramonage-loisirs-padel-strategie-2026.html": {
+      "section": "immeuble-pro",
+      "hook": "Priorisez les niches pro à forte valeur : immeuble, décennale, loisirs."
     }
   }
 }
