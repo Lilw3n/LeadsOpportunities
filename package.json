@@ -12,6 +12,7 @@
     "verify:google-seo-starter": "node scripts/verify-google-seo-starter.cjs",
     "seo:images": "node scripts/download-seo-images.cjs",
     "verify:seo-vtc-idf": "node scripts/verify-seo-vtc-idf.cjs",
+    "verify:assurance-vtc-france": "node scripts/verify-assurance-vtc-france.cjs",
     "verify:vtc-garanties": "node scripts/verify-vtc-garanties.cjs",
     "verify:seo-pret-recherche": "node scripts/verify-seo-pret-recherche.cjs",
     "verify:seo-geo-piliers": "node scripts/verify-seo-geo-piliers.cjs",
