@@ -52,6 +52,18 @@ ok(
   "AVF URL reconstruite avec UTM + hash"
 );
 
+var lo = LeadOrigin.build({
+  utm_source: "google",
+  utm_medium: "cpc",
+  utm_campaign: "vtc_idf",
+  payload: { page: "/landings/vtc.html" },
+});
+ok(
+  lo.url ===
+    "https://www.leadsopportunities.fr/landings/vtc.html?utm_source=google&utm_medium=cpc&utm_campaign=vtc_idf",
+  "LO landing ne prend pas utm_source comme host"
+);
+
 var full = LeadOrigin.build({
   payload: {
     page_url:

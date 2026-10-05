@@ -43,24 +43,28 @@
   }
 
   function inferHost(lead, payload) {
-    var domain =
-      pick(lead, payload, ["site_domain", "siteDomain"]) ||
-      pick(lead, payload, ["utm_source", "source", "platform"]);
-    var host = hostFromDomain(domain);
-    if (host) return host;
-    var page = pick(lead, payload, ["page_url", "page", "landing_path", "landing_slug"]);
+    var siteDomain = pick(lead, payload, ["site_domain", "siteDomain"]);
+    if (siteDomain) {
+      var fromSite = hostFromDomain(siteDomain);
+      if (fromSite) return fromSite;
+    }
+
+    var page = pick(lead, payload, ["page_url", "pageUrl", "page", "landing_path", "landing_slug"]);
     if (/^https?:\/\//i.test(page)) {
       try {
-        return new URL(page).host.replace(/^www\./, "") === "assurancevtcfrance.com"
-          ? "assurancevtcfrance.com"
-          : new URL(page).host;
+        var u = new URL(page);
+        if (/assurancevtcfrance\.com$/i.test(u.hostname)) return "assurancevtcfrance.com";
+        return u.host;
       } catch (e) {
         /* ignore */
       }
     }
-    if (/assurancevtcfrance/i.test(String(lead && (lead.platform || lead.source || lead.utm_source) || ""))) {
-      return "assurancevtcfrance.com";
-    }
+
+    var platformHint = (
+      pick(lead, payload, ["platform", "source", "utm_source"]) || ""
+    ).toLowerCase();
+    if (/assurancevtcfrance/.test(platformHint)) return "assurancevtcfrance.com";
+
     return "www.leadsopportunities.fr";
   }
 
