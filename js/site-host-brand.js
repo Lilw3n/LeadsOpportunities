@@ -34,7 +34,7 @@
     },
     publicOrigin: function () {
       if (isBuchet()) return "https://www.buchetimmobilier.com";
-      if (isAssuranceVtcFrance()) return "https://www.assurancevtcfrance.com";
+      if (isAssuranceVtcFrance()) return "https://assurancevtcfrance.com";
       return "https://www.leadsopportunities.fr";
     },
     /** Sections blog prioritaires côté immobilier Buchet */

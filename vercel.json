@@ -1,12 +1,6 @@
 {
   "redirects": [
     {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
-      "destination": "https://www.assurancevtcfrance.com/:path*",
-      "permanent": true
-    },
-    {
       "source": "/blog",
       "destination": "/blog/",
       "permanent": true
@@ -97,6 +91,31 @@
   "rewrites": [
     {
       "source": "/",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/index.html"
+    },
+    {
+      "source": "/index.html",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/index.html"
+    },
+    {
+      "source": "/devis",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/devis.html"
+    },
+    {
+      "source": "/devis.html",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/devis.html"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/index.html"
+    },
+    {
+      "source": "/index.html",
       "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
       "destination": "/assurance-vtc-france/index.html"
     },

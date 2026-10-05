@@ -4,13 +4,16 @@ Domaine pub / SEO / leads VTC, même dépôt que Leads Opportunities.
 
 ## Objectif
 
-| Usage | URL |
+| Usage | URL (apex prioritaire) |
 |-------|-----|
-| Accueil pub | `https://www.assurancevtcfrance.com/` |
-| Devis express | `https://www.assurancevtcfrance.com/devis` |
+| **Page VTC directe** | `https://assurancevtcfrance.com/` |
+| Devis (alias) | `https://assurancevtcfrance.com/devis` |
+| Mention | « par leadsopportunities.fr » dans le header / footer |
 | Chemin aussi sur LO | `https://www.leadsopportunities.fr/assurance-vtc-france/` |
 
-Leads → `POST /api/lead` (Neon / CRM) avec `utm_source=assurancevtcfrance` et `site_domain=assurancevtcfrance.com`.
+`/` sur **apex et www** est réécrit vers la page VTC (`/assurance-vtc-france/index.html`) — jamais l’accueil multi-métiers LO. Middleware + `vercel.json` en double sécurité.
+
+Leads → `POST /api/lead` avec `utm_source=assurancevtcfrance` et `site_domain=assurancevtcfrance.com`.
 
 ## État actuel (zone o2switch)
 
@@ -25,7 +28,7 @@ Pour héberger le **site** sur Vercel **sans casser le mail**, ne touchez qu’a
 ## Étapes Vercel
 
 1. Vercel → projet **Leads Opportunities** (ou projet dédié même repo) → **Settings → Domains**
-2. Ajouter `assurancevtcfrance.com` et `www.assurancevtcfrance.com`
+2. Ajouter `assurancevtcfrance.com` et `www.assurancevtcfrance.com` (les deux doivent servir la **page VTC** en `/`)
 3. Vercel affiche les valeurs DNS à coller (souvent) :
    - **A** apex → `76.76.21.21`
    - **CNAME** `www` → `cname.vercel-dns.com`
@@ -33,6 +36,16 @@ Pour héberger le **site** sur Vercel **sans casser le mail**, ne touchez qu’a
    - **Éditer** l’A de `assurancevtcfrance.com` : remplacer `109.234.166.232` par l’IP Vercel indiquée
    - **Éditer** le CNAME `www` : cible `cname.vercel-dns.com` (plus `assurancevtcfrance.com`)
    - **Ne pas supprimer** : MX `mail`, A `mail`, TXT SPF / DKIM / DMARC, SRV CalDAV (sauf si vous migrez la messagerie)
+
+## Vérifier que `/` = page VTC
+
+```bash
+curl -sI https://assurancevtcfrance.com/ | head -10
+curl -sL https://assurancevtcfrance.com/ | grep -o 'Devis assurance VTC' | head -1
+curl -sL https://assurancevtcfrance.com/ | grep -o 'leadsopportunities.fr' | head -1
+```
+
+Le HTML doit contenir le formulaire VTC et la mention **leadsopportunities.fr** — pas l’accueil général LO.
 
 ## Propagation
 

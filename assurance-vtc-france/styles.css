@@ -47,12 +47,95 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   padding: 1.1rem 1.4rem;
   max-width: 1120px;
   margin: 0 auto;
   left: 0;
   right: 0;
   width: 100%;
+}
+
+.avf-brand-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.avf-byline {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 500;
+}
+
+.avf-byline a {
+  color: var(--amber);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.avf-kicker {
+  display: inline-block;
+  margin: 0 0 0.65rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(240, 162, 2, 0.18);
+  border: 1px solid rgba(240, 162, 2, 0.45);
+  color: #ffe6a8;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.avf-hero--form {
+  min-height: 100vh;
+  align-items: center;
+}
+
+.avf-hero-grid {
+  display: grid;
+  gap: 1.75rem;
+  align-items: end;
+  padding-top: 6.5rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (min-width: 900px) {
+  .avf-hero-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+  }
+}
+
+.avf-form--panel {
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--ink);
+  padding: 1.15rem 1.15rem 1.25rem;
+  border-radius: 16px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+.avf-form-title {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.avf-form--panel label {
+  color: var(--ink);
+}
+
+.avf-form--panel .avf-check {
+  color: var(--muted);
+}
+
+.avf-form--panel a {
+  color: var(--teal);
 }
 
 .avf-brand {
