@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-10-05T12:35:12.495Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -34,8 +34,140 @@
       "url": "",
       "source": "cafeyn",
       "note": "Angle assurance a preciser",
-      "status": "pending",
+      "status": "rejected",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "theme-lois-20261005b",
+      "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les emprunteurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac38872469941fab90d76c116fbe75f&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us",
+      "source": "bing",
+      "note": "Thème lois (Lemoine) → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-assurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-sedu"
+    },
+    {
+      "id": "theme-vtc-20261005b",
+      "title": "Ile-de-France : les chauffeurs VTC manifestent sur l’A1",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac38872d84a434eaf3ee8c0156b1e95&url=https%3a%2f%2fwww.leparisien.fr%2feconomie%2file-de-france-les-chauffeurs-vtc-ont-debute-leur-manifestation-sur-l-a1-15-12-2017-7454016.php&c=4479139036519426507&mkt=en-us",
+      "source": "bing",
+      "note": "Thème chauffeur VTC IDF manifestation → questionnaire vtc",
+      "status": "published",
+      "need": "vtc",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-ile-de-france-les-chauffeurs-vtc-manifestent-sur-l-a1"
+    },
+    {
+      "id": "theme-animaux-20261005b",
+      "title": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPOXhpRGF5ejJ6SUNEOGN0OUtmdW85WDExWTR5UHZvcHNvdkxJd3QySFRpREotdUd0Y3cySVZhUTFLbWZXSjM0S3M0bUNSV3kwZnNBTldia0c5Q1ZWZVo1VUh1c3lnODkybEZzTTJDSVBIRDQ3ZGhxNVYtdF8tcEdPM2xSRF9aTzBIV1MtYzMzbXFIeUJMUzlRbjZfaXVfRF9NZnVxUHR0NU4xSC1qaVhZcnpBOW5XUWdyQzR6emgxTjNvanRpbC1tX19fM0hreEFISzhpOGJXNlBYaE5xTE1fVm9EOC1MTkJkcFEtOF9iS0Z6ZFhwVF96ZmNn?oc=5",
+      "source": "google",
+      "note": "Thème chien/chat mutuelle → questionnaire animaux",
+      "status": "published",
+      "need": "animaux",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-mutuelle-pour-chien-ou-chat-est-ce-vraiment-utile-et-combien-coute-cette"
+    },
+    {
+      "id": "theme-pret-20261005b",
+      "title": "Prêt immobilier : voici les taux que les banques vont proposer en ce mois d’octobre 2026 - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxQSFRsSkVJV3BlaHZVYkNQcG1qR1VJUk5EV0lqWkZyQUN6Qi1XRE1mMzN5akFsZVZIbVkwMlM0ekduMTctdVMzaXUwWFBnNzFoMEs3QkxHVUVGR2QtRkFKWGx5Z1dkM0hRRDZ2NDh4Vy1kWXhJU3NPSEE4LTlPRWtiWkdxR0xyZFkxZzROVE1VXzdiRmtoNnBDZHc4VEFxZ0RwRTZ5c2s2aGgwclNqWDRvYjNYM25jTVZzMElCTllqNllTVXdZOFBLdlpKQUtPZ1V6bUxNTW9RUDFMUmd6bWFvZHlLZWt3N2JLazdLc3FRN3BmXzRiLVNGWjdfNUFuMHM?oc=5",
+      "source": "google",
+      "note": "Thème recherche prêt / taux octobre 2026 → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-pret-immobilier-voici-les-taux-que-les-banques-vont-proposer-en-ce-mois-"
+    },
+    {
+      "id": "theme-vente-20261005b",
+      "title": "Taxe foncière 2026 : achat ou vente en cours d’année, qui paie quoi ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac38873d28b440d8d8973df2c7800e5&url=https%3a%2f%2fwww.capital.fr%2fimmobilier%2ftaxe-fonciere-2026-achat-ou-vente-en-cours-dannee-qui-paie-quoi-1529620&c=4509617181241643392&mkt=en-us",
+      "source": "bing",
+      "note": "Thème vente/acquisition / taxe foncière → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-taxe-fonciere-2026-achat-ou-vente-en-cours-d-annee-qui-paie-quoi"
+    },
+    {
+      "id": "theme-location-20261005b",
+      "title": "Assurance habitation : de fortes disparités de prix en France - Presse Agence",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNa2Qyelp3MGRVbEhDRnZTSko0RWR1M2RpWFF5LV9LUTRvZEswRzBCQ0EzT21DWTViUWdpVVRwR2hub3hkM2pQWWRxaHdpdnRZOWFXZGtVMXhwWmJCaFFIRjFrNjMxQlAzNnVZQjdkeWxaQ0phZm9DN29Yd3VrMFpfTVBuT19NMkhObFZuNlZTODBhZGZzR2EzV09YMHJiZk1iYXJjN0FsM1NiLVE?oc=5",
+      "source": "google",
+      "note": "Thème recherche bien / prix habitation France → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-assurance-habitation-de-fortes-disparites-de-prix-en-france-presse-agenc"
+    },
+    {
+      "id": "theme-lois-20261005c",
+      "title": "Assurance emprunteur : quand faut-il envisager d’en changer ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac3995391494d25a4dd7ce1b96653b3&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fassurance-emprunteur-quand-faut-il-envisager-den-changer-1530114&c=1489360828370863417&mkt=en-us",
+      "source": "bing",
+      "note": "Thème lois / Lemoine changer emprunteur → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-assurance-emprunteur-quand-faut-il-envisager-d-en-changer"
+    },
+    {
+      "id": "theme-vtc-20261005c",
+      "title": "Assurance Protection partenaires avec Allianz Partners - Uber",
+      "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1Cb0FLNkxuay1rVEpyZjhlLVBTLXVfSXEydk9fdmx2UExJNHhtZUtkNklHVzUycTZoRGQ1dWY2NkI2TTItRFNwRk5MeGM2eTIzRmM3ckJn?oc=5",
+      "source": "google",
+      "note": "Thème chauffeur VTC Uber Allianz → questionnaire vtc",
+      "status": "published",
+      "need": "vtc",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-assurance-protection-partenaires-avec-allianz-partners-uber"
+    },
+    {
+      "id": "theme-animaux-20261005c",
+      "title": "Prix d'une opération pour chien : guide des tarifs et remboursements en 2026 - Le Comparateur Assurance",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQQXZJbmUzM3F0RGJBOGlGQ3dLOFJFZVBzR09LYll4OHFHM0oxbjV2UWhiTVFXR2xSSkxteUhEN1Yya3p5NUNaVjM1NDh4ZXlrM2RxS1lWb2tlc2hKS3hWcGx1R3NIYVduZHJqRjlsQmhTTGd5bHh5WHBWdk5ZMTMzYkwtbEhRMDVCc2g5R3lOd2RaZVZTaVFmWmdReGg1ZFpEeTA3eU9pZ0tESFFhRXc?oc=5",
+      "source": "google",
+      "note": "Thème chien opération vétérinaire → questionnaire animaux",
+      "status": "published",
+      "need": "animaux",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-prix-d-une-operation-pour-chien-guide-des-tarifs-et-remboursements-en-20"
+    },
+    {
+      "id": "theme-pret-20261005c",
+      "title": "Assurances : pourquoi le prix des assurances emprunteurs est-il le seul à baisser ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac39950173a4abe966477fbe0f3a21d&url=https%3a%2f%2fwww.ouest-france.fr%2feconomie%2fbudget%2fassurances-pourquoi-le-prix-des-assurances-emprunteurs-est-il-le-seul-a-baisser-6c6a8ef6-a52a-11f0-a483-88b21a3890bd&c=16937014068484670787&mkt=en-us",
+      "source": "edge",
+      "note": "Thème recherche prêt / prix emprunteur → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-assurances-pourquoi-le-prix-des-assurances-emprunteurs-est-il-le-seul-a-"
+    },
+    {
+      "id": "theme-vente-20261005c",
+      "title": "Le contrat vous interdit de céder votre bien de votre côté, mais pouvez-vous interrompre le contrat d'exclusivité avec une agence et refuser la vente d'un bien immobilier ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac399548842481ab01b3b80afbbe04c&url=https%3a%2f%2fwww.tf1info.fr%2fimmobilier%2fle-contrat-vous-interdit-de-ceder-votre-bien-de-votre-cote-mais-pouvez-vous-interrompre-le-contrat-d-exclusivite-avec-une-agence-et-refuser-la-vente-d-un-bien-immobilier-2404938.html&c=108443763768866992&mkt=en-us",
+      "source": "bing",
+      "note": "Thème vente/mandat exclusif → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-le-contrat-vous-interdit-de-ceder-votre-bien-de-votre-cote-mais-pouvez-v"
+    },
+    {
+      "id": "theme-location-20261005c",
+      "title": "Meilleure assurance habitation : classement octobre 2026 - LesFurets.com",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNRUpOeFRnRmZyNVJwQmF2aXFESDhNUV9hUWlwTkNVSldZN0NQZGNWWUgzaUQ1U2d2aTVfVjZVV1lIMUJRa3ZfRXRYLVBiUlhTS2lyX2ZnQndoZ0RqZUFFanhJU0NLMFZZRDEzYkZPWlFFbjFndTFMaGVKWGhZcURxcTlOS1NXSkJKTnQw?oc=5",
+      "source": "google",
+      "note": "Thème recherche bien / habitation octobre → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-meilleure-assurance-habitation-classement-octobre-2026-lesfurets-com"
     }
   ]
 }
