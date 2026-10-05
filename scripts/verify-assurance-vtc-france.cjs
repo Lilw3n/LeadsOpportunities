@@ -25,11 +25,17 @@ assert.ok(index.indexOf('name="need" value="vtc"') !== -1, "form need=vtc sur /"
 assert.ok(index.indexOf("data-quick-devis") !== -1, "form express sur home");
 assert.ok(index.indexOf("Wakam") !== -1, "angle Wakam");
 
+assert.ok(index.indexOf('href="/assurance-vtc-france/styles.css"') !== -1, "CSS absolu (rewrite /)");
+assert.ok(index.indexOf('src="/assurance-vtc-france/attr-boot.js"') !== -1, "attr-boot absolu");
+assert.ok(index.indexOf('href="./styles.css"') === -1, "pas de CSS relatif cassé");
+assert.ok(index.indexOf('src="./attr-boot.js"') === -1, "pas d'attr relatif cassé");
+
 var devis = read("assurance-vtc-france/devis.html");
 assert.ok(devis.indexOf('name="need" value="vtc"') !== -1, "need=vtc devis");
 assert.ok(devis.indexOf("assurancevtcfrance.com") !== -1, "site_domain devis");
 assert.ok(devis.indexOf("data-quick-devis") !== -1, "form express devis");
 assert.ok(devis.indexOf("leadsopportunities.fr") !== -1, "mention LO devis");
+assert.ok(devis.indexOf('href="/assurance-vtc-france/styles.css"') !== -1, "CSS absolu devis");
 assert.ok(devis.indexOf("/landings/tracking.js") !== -1 || devis.indexOf("landings/tracking.js") !== -1, "tracking");
 
 var brand = read("js/site-host-brand.js");

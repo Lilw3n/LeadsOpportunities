@@ -134,6 +134,10 @@ function rewriteAvfHome(request) {
     target = "/assurance-vtc-france/index.html";
   } else if (path === "/devis" || path === "/devis/" || path === "/devis.html") {
     target = "/assurance-vtc-france/devis.html";
+  } else if (path === "/styles.css") {
+    target = "/assurance-vtc-france/styles.css";
+  } else if (path === "/attr-boot.js") {
+    target = "/assurance-vtc-france/attr-boot.js";
   }
   if (!target) return null;
   var dest = new URL(target, request.url);
