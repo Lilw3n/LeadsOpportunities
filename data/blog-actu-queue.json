@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-05T11:23:05.418Z",
+  "updated": "2026-10-05T12:35:12.495Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -102,6 +102,72 @@
       "need": "habitation",
       "addedAt": "2026-10-05T11:22:56.472Z",
       "fromCandidateId": "rss-assurance-habitation-de-fortes-disparites-de-prix-en-france-presse-agenc"
+    },
+    {
+      "id": "theme-lois-20261005c",
+      "title": "Assurance emprunteur : quand faut-il envisager d’en changer ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac3995391494d25a4dd7ce1b96653b3&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fassurance-emprunteur-quand-faut-il-envisager-den-changer-1530114&c=1489360828370863417&mkt=en-us",
+      "source": "bing",
+      "note": "Thème lois / Lemoine changer emprunteur → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-assurance-emprunteur-quand-faut-il-envisager-d-en-changer"
+    },
+    {
+      "id": "theme-vtc-20261005c",
+      "title": "Assurance Protection partenaires avec Allianz Partners - Uber",
+      "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1Cb0FLNkxuay1rVEpyZjhlLVBTLXVfSXEydk9fdmx2UExJNHhtZUtkNklHVzUycTZoRGQ1dWY2NkI2TTItRFNwRk5MeGM2eTIzRmM3ckJn?oc=5",
+      "source": "google",
+      "note": "Thème chauffeur VTC Uber Allianz → questionnaire vtc",
+      "status": "published",
+      "need": "vtc",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-assurance-protection-partenaires-avec-allianz-partners-uber"
+    },
+    {
+      "id": "theme-animaux-20261005c",
+      "title": "Prix d'une opération pour chien : guide des tarifs et remboursements en 2026 - Le Comparateur Assurance",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQQXZJbmUzM3F0RGJBOGlGQ3dLOFJFZVBzR09LYll4OHFHM0oxbjV2UWhiTVFXR2xSSkxteUhEN1Yya3p5NUNaVjM1NDh4ZXlrM2RxS1lWb2tlc2hKS3hWcGx1R3NIYVduZHJqRjlsQmhTTGd5bHh5WHBWdk5ZMTMzYkwtbEhRMDVCc2g5R3lOd2RaZVZTaVFmWmdReGg1ZFpEeTA3eU9pZ0tESFFhRXc?oc=5",
+      "source": "google",
+      "note": "Thème chien opération vétérinaire → questionnaire animaux",
+      "status": "published",
+      "need": "animaux",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-prix-d-une-operation-pour-chien-guide-des-tarifs-et-remboursements-en-20"
+    },
+    {
+      "id": "theme-pret-20261005c",
+      "title": "Assurances : pourquoi le prix des assurances emprunteurs est-il le seul à baisser ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac39950173a4abe966477fbe0f3a21d&url=https%3a%2f%2fwww.ouest-france.fr%2feconomie%2fbudget%2fassurances-pourquoi-le-prix-des-assurances-emprunteurs-est-il-le-seul-a-baisser-6c6a8ef6-a52a-11f0-a483-88b21a3890bd&c=16937014068484670787&mkt=en-us",
+      "source": "edge",
+      "note": "Thème recherche prêt / prix emprunteur → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-assurances-pourquoi-le-prix-des-assurances-emprunteurs-est-il-le-seul-a-"
+    },
+    {
+      "id": "theme-vente-20261005c",
+      "title": "Le contrat vous interdit de céder votre bien de votre côté, mais pouvez-vous interrompre le contrat d'exclusivité avec une agence et refuser la vente d'un bien immobilier ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac399548842481ab01b3b80afbbe04c&url=https%3a%2f%2fwww.tf1info.fr%2fimmobilier%2fle-contrat-vous-interdit-de-ceder-votre-bien-de-votre-cote-mais-pouvez-vous-interrompre-le-contrat-d-exclusivite-avec-une-agence-et-refuser-la-vente-d-un-bien-immobilier-2404938.html&c=108443763768866992&mkt=en-us",
+      "source": "bing",
+      "note": "Thème vente/mandat exclusif → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-le-contrat-vous-interdit-de-ceder-votre-bien-de-votre-cote-mais-pouvez-v"
+    },
+    {
+      "id": "theme-location-20261005c",
+      "title": "Meilleure assurance habitation : classement octobre 2026 - LesFurets.com",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNRUpOeFRnRmZyNVJwQmF2aXFESDhNUV9hUWlwTkNVSldZN0NQZGNWWUgzaUQ1U2d2aTVfVjZVV1lIMUJRa3ZfRXRYLVBiUlhTS2lyX2ZnQndoZ0RqZUFFanhJU0NLMFZZRDEzYkZPWlFFbjFndTFMaGVKWGhZcURxcTlOS1NXSkJKTnQw?oc=5",
+      "source": "google",
+      "note": "Thème recherche bien / habitation octobre → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T12:35:00.039Z",
+      "fromCandidateId": "rss-meilleure-assurance-habitation-classement-octobre-2026-lesfurets-com"
     }
   ]
 }

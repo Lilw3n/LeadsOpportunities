@@ -2174,6 +2174,84 @@
       "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=ile-de-france-les-chauffeurs-vtc-manif",
       "matchedRule": "vtc",
       "species": null
+    },
+    {
+      "file": "assurances-pourquoi-le-prix-des-assurances-emprunteurs-est-il-le-seul-a-.html",
+      "title": "Assurances : pourquoi le prix des assurances emprunteurs est-il le seul à baisser ? : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurances-pourquoi-le-prix-des-assura",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "assurance-protection-partenaires-avec-allianz-partners-uber.html",
+      "title": "Assurance Protection partenaires avec Allianz Partners - Uber : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=assurance-protection-partenaires-avec-al",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "prix-d-une-operation-pour-chien-guide-des-tarifs-et-remboursements-en-20.html",
+      "title": "Prix d'une opération pour chien : guide des tarifs et remboursements en 2026 - Le Compa… : assurance animaux — que faire ?",
+      "section": "animaux",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=prix-d-une-operation-pour-chien-guide",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "meilleure-assurance-habitation-classement-octobre-2026-lesfurets-com.html",
+      "title": "Meilleure assurance habitation : classement octobre 2026 - LesFurets.com : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=meilleure-assurance-habitation-classem",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "assurance-emprunteur-quand-faut-il-envisager-d-en-changer.html",
+      "title": "Assurance emprunteur : quand faut-il envisager d’en changer ? : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-emprunteur-quand-faut-il-env",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "le-contrat-vous-interdit-de-ceder-votre-bien-de-votre-cote-mais-pouvez-v.html",
+      "title": "Le contrat vous interdit de céder votre bien de votre côté, mais pouvez-vous interrompr… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=le-contrat-vous-interdit-de-ceder-votre",
+      "matchedRule": "habitation",
+      "species": null
     }
   ]
 }
