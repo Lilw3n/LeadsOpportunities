@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16",
+  "updated": "2026-09-23",
   "sections": {
     "animaux": {
       "need": "animaux",
@@ -521,13 +521,16 @@
       "question": "Prêt à comparer votre VTC à garanties équivalentes en 3 minutes ?"
     },
     "gta-6-netflix-extended-look-immobilier-france-2026.html": {
-      "section": "finance",
-      "hook": "Après le trailer Netflix GTA 6 : séparez hype gaming et vrai projet immobilier.",
-      "question": "Avez-vous un achat ou un prêt prévu dans les 12 mois ?",
-      "landing": "/landings/credit-immo.html",
-      "questionnaire": "/landings/questionnaire.html?need=credit-immo&journey=standard",
-      "landingLabel": "Étude prêt immobilier",
-      "questionnaireLabel": "Questionnaire crédit"
+      "need": "gta6",
+      "hook": "Guides GTA VI : continuez sur le blog Leonida Vice.",
+      "question": "Continuer sur Leonida Vice — hub GTA VI ?",
+      "landing": "https://www.leonida-vice.com/?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-netflix-extended-look-immobilier-france-2026",
+      "questionnaire": "https://www.leonida-vice.com/blog?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-netflix-extended-look-immobilier-france-2026",
+      "express": null,
+      "primaryLabel": "Blog GTA VI — Leonida Vice",
+      "landingLabel": "Hub GTA VI — Leonida Vice",
+      "questionnaireLabel": "Blog GTA VI — Leonida Vice",
+      "partner": "leonida-vice"
     },
     "mutuelle-sante-5-criteres.html": {
       "hook": "5 critères lus, il reste à calibrer le bon niveau pour votre foyer.",
@@ -575,40 +578,40 @@
       "question": "Votre projet immo mérite une étude avant signature — prêt à faire le point ?"
     },
     "gta-6-precommande-ps5-pro-credit-conso-france.html": {
-      "need": "conso",
-      "hook": "PS5 Pro + GTA 6 : un pret conso de 1 000 €, c'est legal — mais le TAEG et la duree changent tout.",
-      "question": "Vous voulez simuler un credit consommation pour votre setup gaming ?",
-      "questionnaire": "/landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-ps5",
-      "landing": "/landings/questionnaire.html?need=conso&journey=standard",
-      "express": "/landings/devis-express.html?need=conso",
-      "primaryLabel": "Etude credit consommation",
-      "questionnaireLabel": "Questionnaire credit conso",
-      "landingLabel": "Simuler mon pret conso",
-      "expressLabel": "Rappel credit conso"
+      "need": "gta6",
+      "hook": "Console, précommande, goodies : boutique GTA VI sur Leonida Vice.",
+      "question": "Continuer sur Leonida Vice — hub GTA VI ?",
+      "landing": "https://www.leonida-vice.com/?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-precommande-ps5-pro-credit-conso-france",
+      "questionnaire": "https://www.leonida-vice.com/boutique?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-precommande-ps5-pro-credit-conso-france",
+      "express": null,
+      "primaryLabel": "Boutique GTA VI — Leonida Vice",
+      "landingLabel": "Hub GTA VI — Leonida Vice",
+      "questionnaireLabel": "Boutique GTA VI — Leonida Vice",
+      "partner": "leonida-vice"
     },
     "gta-6-ps5-pro-budget-1000-euros-pret-conso.html": {
-      "need": "conso",
-      "hook": "1 000 € pour GTA 6 et la PS5 Pro : 31 € ou 87 € par mois selon la duree et le TAEG.",
-      "question": "Combien vous couterait un pret conso de 1 000 € sur 12 ou 24 mois ?",
-      "questionnaire": "/landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-budget-1000",
-      "landing": "/landings/questionnaire.html?need=conso&journey=standard",
-      "express": "/landings/devis-express.html?need=conso",
-      "primaryLabel": "Simuler mon pret conso",
-      "questionnaireLabel": "Questionnaire credit conso",
-      "landingLabel": "Etude credit consommation",
-      "expressLabel": "Rappel credit conso"
+      "need": "gta6",
+      "hook": "Console, précommande, goodies : boutique GTA VI sur Leonida Vice.",
+      "question": "Continuer sur Leonida Vice — hub GTA VI ?",
+      "landing": "https://www.leonida-vice.com/?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-ps5-pro-budget-1000-euros-pret-conso",
+      "questionnaire": "https://www.leonida-vice.com/boutique?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-ps5-pro-budget-1000-euros-pret-conso",
+      "express": null,
+      "primaryLabel": "Boutique GTA VI — Leonida Vice",
+      "landingLabel": "Hub GTA VI — Leonida Vice",
+      "questionnaireLabel": "Boutique GTA VI — Leonida Vice",
+      "partner": "leonida-vice"
     },
     "pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html": {
-      "need": "conso",
-      "hook": "Pret personnel, credit magasin ou 3x : le meme panier a 1 000 € ne coute pas le meme prix.",
-      "question": "Quelle forme de credit conso correspond le mieux a votre budget gaming ?",
-      "questionnaire": "/landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-comparatif-conso",
-      "landing": "/landings/questionnaire.html?need=conso&journey=standard",
-      "express": "/landings/devis-express.html?need=conso",
-      "primaryLabel": "Comparer mon pret conso",
-      "questionnaireLabel": "Questionnaire credit conso",
-      "landingLabel": "Etude credit consommation",
-      "expressLabel": "Rappel credit conso"
+      "need": "gta6",
+      "hook": "Console, précommande, goodies : boutique GTA VI sur Leonida Vice.",
+      "question": "Continuer sur Leonida Vice — hub GTA VI ?",
+      "landing": "https://www.leonida-vice.com/?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=pret-conso-gaming-ps5-pro-gta6-comparatif-2026",
+      "questionnaire": "https://www.leonida-vice.com/boutique?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=pret-conso-gaming-ps5-pro-gta6-comparatif-2026",
+      "express": null,
+      "primaryLabel": "Boutique GTA VI — Leonida Vice",
+      "landingLabel": "Hub GTA VI — Leonida Vice",
+      "questionnaireLabel": "Boutique GTA VI — Leonida Vice",
+      "partner": "leonida-vice"
     },
     "incendies-gironde-feux-foret-assurance-habitation-2026.html": {
       "section": "habitat",
@@ -765,6 +768,66 @@
       "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
       "landing": "/landings/credit-immo.html",
       "landingLabel": "Étude crédit 2e chance"
+    },
+    "gta-6-sortie-assurance-gaming-materiel.html": {
+      "need": "gta6",
+      "hook": "Console, précommande, goodies : boutique GTA VI sur Leonida Vice.",
+      "question": "Continuer sur Leonida Vice — hub GTA VI ?",
+      "landing": "https://www.leonida-vice.com/?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-sortie-assurance-gaming-materiel",
+      "questionnaire": "https://www.leonida-vice.com/boutique?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-sortie-assurance-gaming-materiel",
+      "express": null,
+      "primaryLabel": "Boutique GTA VI — Leonida Vice",
+      "landingLabel": "Hub GTA VI — Leonida Vice",
+      "questionnaireLabel": "Boutique GTA VI — Leonida Vice",
+      "partner": "leonida-vice"
+    },
+    "gta-6-pret-immobilier-budget-gaming.html": {
+      "need": "gta6",
+      "hook": "Après la lecture : le hub GTA VI sur Leonida Vice.",
+      "question": "Continuer sur Leonida Vice — hub GTA VI ?",
+      "landing": "https://www.leonida-vice.com/?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-pret-immobilier-budget-gaming",
+      "questionnaire": "https://www.leonida-vice.com/?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-pret-immobilier-budget-gaming",
+      "express": null,
+      "primaryLabel": "Hub GTA VI — Leonida Vice",
+      "landingLabel": "Hub GTA VI — Leonida Vice",
+      "questionnaireLabel": "Hub GTA VI — Leonida Vice",
+      "partner": "leonida-vice"
+    },
+    "gta-6-fuites-cyberleek-memecoin-arnaque-france.html": {
+      "need": "gta6",
+      "hook": "Communauté et vigilance arnaques : fans Leonida Vice.",
+      "question": "Continuer sur Leonida Vice — hub GTA VI ?",
+      "landing": "https://www.leonida-vice.com/?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-fuites-cyberleek-memecoin-arnaque-france",
+      "questionnaire": "https://www.leonida-vice.com/fans?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-fuites-cyberleek-memecoin-arnaque-france",
+      "express": null,
+      "primaryLabel": "Fans & fuites — Leonida Vice",
+      "landingLabel": "Hub GTA VI — Leonida Vice",
+      "questionnaireLabel": "Fans & fuites — Leonida Vice",
+      "partner": "leonida-vice"
+    },
+    "gta-6-fuites-rockstar-cybersecurite-assurance.html": {
+      "need": "gta6",
+      "hook": "Fuites et day-one : actu GTA VI sur Leonida Vice.",
+      "question": "Continuer sur Leonida Vice — hub GTA VI ?",
+      "landing": "https://www.leonida-vice.com/?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-fuites-rockstar-cybersecurite-assurance",
+      "questionnaire": "https://www.leonida-vice.com/actu?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-fuites-rockstar-cybersecurite-assurance",
+      "express": null,
+      "primaryLabel": "Actu GTA VI — Leonida Vice",
+      "landingLabel": "Hub GTA VI — Leonida Vice",
+      "questionnaireLabel": "Actu GTA VI — Leonida Vice",
+      "partner": "leonida-vice"
+    },
+    "gta-6-leak-netflix-extended-look-precommande-budget.html": {
+      "need": "gta6",
+      "hook": "Guides GTA VI : continuez sur le blog Leonida Vice.",
+      "question": "Continuer sur Leonida Vice — hub GTA VI ?",
+      "landing": "https://www.leonida-vice.com/?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-leak-netflix-extended-look-precommande-budget",
+      "questionnaire": "https://www.leonida-vice.com/blog?utm_source=leadsopportunities&utm_medium=blog&utm_campaign=gta6&utm_content=gta-6-leak-netflix-extended-look-precommande-budget",
+      "express": null,
+      "primaryLabel": "Blog GTA VI — Leonida Vice",
+      "landingLabel": "Hub GTA VI — Leonida Vice",
+      "questionnaireLabel": "Blog GTA VI — Leonida Vice",
+      "partner": "leonida-vice"
     }
   }
 }
