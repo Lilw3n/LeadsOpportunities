@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-22",
+  "updated": "2026-10-05",
   "sections": [
     "actu",
     "animaux",
@@ -1939,6 +1939,58 @@
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
       "matchedRule": "vsp-sans-permis",
+      "species": null
+    },
+    {
+      "file": "wakam-acpr-assurance-vtc-bascule-2026.html",
+      "title": "Wakam VTC (ACPR) : combien de courses vous coûte un trou d’attestation ?",
+      "section": "vtc",
+      "hook": "Gel Wakam : un trou d’attestation = apps coupées et courses perdues.",
+      "question": "Votre échéance Wakam / Yeet / Solly est-elle dans les 90 jours ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html?utm_content=wakam-pub",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "yeet-vtc-wakam-bascule-attestation-2026.html",
+      "title": "Yeet VTC & Wakam : le score ne sauve pas l’échéance — basculez proprement",
+      "section": "vtc",
+      "hook": "Yeet + Wakam : le score de conduite ne prolonge pas le renouvellement.",
+      "question": "Besoin d’une attestation Uber/Bolt avant la fin Yeet ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html?utm_content=yeet-wakam",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "solly-zephir-wakam-marque-blanche-vtc-2026.html",
+      "title": "Solly Azar, Zéphir & co : si Wakam est le porteur, même course contre l’échéance",
+      "section": "vtc",
+      "hook": "Solly, Zéphir, +Simple : si le porteur est Wakam, même deadline.",
+      "question": "Avez-vous vérifié le porteur sur votre attestation ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html?utm_content=marque-blanche-wakam",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "wakam-vtc-opportunite-courtiers-portefeuille.html",
+      "title": "Courtiers : la vague Wakam sur Meta — sauvez le portefeuille avant les pubs concurrentes",
+      "section": "vtc",
+      "hook": "Vague Meta Wakam : vos clients VTC changent d’assureur — ou de courtier.",
+      "question": "Combien de dossiers Wakam avez-vous à basculer ce mois ?",
+      "need": "vtc",
+      "landing": "mailto:contact@leadsopportunities.fr?subject=Partenariat%20Wakam%20VTC%20pub",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "matchedRule": "vtc",
       "species": null
     },
     {
