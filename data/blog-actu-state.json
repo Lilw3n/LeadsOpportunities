@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-10-05T10:41:31.952Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMiswFBVV95cUxQT3JqdV9Hb3lSNFJzbG5GWFp1bnhJNXdZZFJMU05qZWstM01uT0tncUJDVkY5SUlxWkF5MGRkQUpPR041ZXUxS3VjOE9PYW9Sb1NKU0JncjZTRWdFbFVuTFhYOFJ3RjYtcnNFZUtwSXNUcUdXUXA0ZFl2Wks1dlJnVEZNOHZDbXU5aTE0TndXOUpuTWM3czdiWUpNQ2IxV0tSbWRSRWx4RTBlV2Y1WlpPZGlGOA?oc=5",
+    "https://news.google.com/rss/articles/CBMiigFBVV95cUxOMEJhSDYtTkpCRnREMDNLM0VpNU0wSW5Pd1JSUnFVNC1OUl9Mak9fUmI1VXNXYnNhYnk0TGpNZWY5NWJYRXJjWERqeEpUODRfR3p6S1VZMXRFS3NWaWdpOFd5WmVTWWtHN3UzTmdQR2lfSEtiNmx4X0FqbG5YaGFjWnBrN2R5UkVEa1E?oc=5",
+    "https://news.google.com/rss/articles/CBMivAFBVV95cUxPQmZ1U0ZnakZRdFl1Vm5tTzc2ZDhNNmN0bEtwTU50UC0xeFRIY1dzT0EyYk9QRFZQQ3lVM1BXTlF4Z2d4TWRLWXdndUxPaWYyT05YbFhGZzBNRjJOMUs5eW5jLW1YRVpCNHZzcEdzT2RDUEY4WlhkWE0yWUVwUXZLMVBVR0liOWpDYURaVm9INE9RTk0tRktITmhmTjNSZlhBZ2hBLU1tOWNSeHhZV2dPNHUyM1FvbnlKSnVOSA?oc=5",
+    "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNa2Qyelp3MGRVbEhDRnZTSko0RWR1M2RpWFF5LV9LUTRvZEswRzBCQ0EzT21DWTViUWdpVVRwR2hub3hkM2pQWWRxaHdpdnRZOWFXZGtVMXhwWmJCaFFIRjFrNjMxQlAzNnVZQjdkeWxaQ0phZm9DN29Yd3VrMFpfTVBuT19NMkhObFZuNlZTODBhZGZzR2EzV09YMHJiZk1iYXJjN0FsM1NiLVE?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac37ec3b33146bd929b3404d22965cc&url=https%3a%2f%2fwww.latribune.fr%2fsupplement%2fla-tribune-now%2fbail-de-location-meuble-les-regles-essentielles-pour-securiser-son-investissement-locatif-1011353.html&c=9561197414431228174&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMieEFVX3lxTE0zaHBwaXlzZHBmVTZiTE9NdUVhVzdWVS15MGd3cUVpaVZJaWZBajlucUM3eS0xRmhaa0RhNURtcEljMWN6OUJjdUJRWnlfSmtCLUhMOTBvNzk1dThKSzZ2bmdOVnl1TTYtSHVNUHA2VFp3U2EyN3VJdQ?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-10-05T10:41:33.647Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,50 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-10-05T10:41:33.647Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "crise-de-la-dette-france-assurance-emprunteur-immobilier-comparatif-et-c.html",
+          "title": "Crise de la dette France : assurance emprunteur immobilier, comparatif et changement po… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "top-10-des-meilleures-assurance-chien-comparatif-tarifs-2026-le-mag-de-l.html",
+          "title": "Top 10 des Meilleures Assurance Chien : comparatif tarifs 2026 ! - Le Mag de la Conso : assurance animaux — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "pret-immobilier-plus-cher-au-printemps-2026-deleguez-l-assurance-emprunt.html",
+          "title": "Prêt immobilier plus cher au printemps 2026 : déléguez l’assurance emprunteur - Magnoli… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "assurance-habitation-de-fortes-disparites-de-prix-en-france-presse-agenc.html",
+          "title": "Assurance habitation : de fortes disparités de prix en France - Presse Agence : assurance habitation — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "bail-de-location-meuble-les-regles-essentielles-pour-securiser-son-inves.html",
+          "title": "Bail de location meublé : les règles essentielles pour sécuriser son investissement loc… : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "vtc-combien-gagne-un-chauffeur-uber-lessentieldeleco-fr.html",
+          "title": "VTC : combien gagne un chauffeur Uber ? - lessentieldeleco.fr : assurance VTC — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
