@@ -43,14 +43,25 @@ Cela cree notamment :
 2. **Assurance chasse** — LIVE (189 villes)
 3. **Assurance equitation** — LIVE (189 villes)
 4. **Voiture sans permis (VSP)** — LIVE (SEO + Google Search + Meta discrète)
-5. Silos geo : `/assurance-chien/{ville}/`, `/assurance-chat/{ville}/`
-4. Assurance instrument musique
-5. Assurance materiel photo / video
-6. Assurance bateau plaisance
-7. Caravane / camping-car
-8. Assurance scolaire
+5. **Santé collective** — LIVE
+6. **Niches partenariat (landing + blog, sans silo geo)** — LIVE octobre 2026 :
+   - Ramonage, esthétique / bien-être, salles de loisirs (escape, accrobranche, trampoline), padel
+   - Immeuble professionnel / MRP, décennale, RC convoyage véhicules
+   - Vérif : `npm run verify:partenariat-niches`
+7. Assurance instrument musique (planned silo)
+8. Assurance materiel photo / video (planned)
+9. Assurance bateau plaisance (planned)
+10. Caravane / camping-car (planned)
+11. Assurance scolaire (planned)
 
-Pour activer une nouvelle niche :
+Pour activer une nouvelle niche **légère** (partenariat) :
+
+1. Landing `landings/<niche>.html` → questionnaire `need=rc-pro|mrp|decennale`
+2. Article(s) dans `scripts/blog-partenariat-niches-articles.cjs`
+3. Entrées `seo/niches.json` + `data/seo-niche-markets.json` (`status: "live"`)
+4. `npm run blog:build` + `npm run seo:build` + `npm run verify:partenariat-niches`
+
+Pour un **silo geo complet** (type chasse) :
 
 1. Ajouter l entree dans `seo/niches.json` (`status: "live"`).
 2. Dupliquer le bloc `ANIMAUX_PAGES` dans `scripts/niche-pages.cjs` (nouveau silo).

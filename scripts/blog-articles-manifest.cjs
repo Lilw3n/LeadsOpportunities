@@ -19,6 +19,7 @@ module.exports = {
     { id: "auto", title: "Auto & mobilite", cta: { href: "../landings/questionnaire.html?need=auto&journey=standard", label: "Questionnaire auto" } },
     { id: "prevoyance", title: "Prevoyance & protection", cta: { href: "../landings/questionnaire.html?need=prevoyance&journey=standard", label: "Questionnaire prevoyance" } },
     { id: "pro", title: "Professionnel & RC Pro", cta: { href: "../landings/questionnaire.html?need=rc-pro&journey=standard", label: "Questionnaire RC Pro" } },
+    { id: "partenariat", title: "Niches pro partenariat", cta: { href: "../assurances-niches.html", label: "Voir les niches" } },
     { id: "patrimoine", title: "Patrimoine & epargne", cta: { href: "../landings/questionnaire.html?need=assurance-vie&journey=standard", label: "Questionnaire patrimoine" } },
     { id: "finance", title: "Credit & immobilier", cta: { href: "../landings/questionnaire.html?need=credit-immo&journey=standard", label: "Questionnaire credit immo" } },
     { id: "animaux", title: "Assurance animaux (chien & chat)", cta: { href: "../landings/questionnaire.html?need=animaux&journey=standard", label: "Questionnaire animaux" } },
@@ -3221,6 +3222,11 @@ caniculeMutuelle.forEach(function (a) {
 
 const nichesActu = require("./blog-niches-actu-articles.cjs");
 nichesActu.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
+const partenariatNiches = require("./blog-partenariat-niches-articles.cjs");
+partenariatNiches.forEach(function (a) {
   module.exports.articles.push(a);
 });
 

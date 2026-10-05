@@ -86,6 +86,39 @@ Fichier stratégique : **`data/seo-niche-markets.json`**
 - « assurance chien pas cher comparatif »
 - « assurance voiture sans permis »
 - « devis vsp » / « permis AM assurance »
+- **Niches partenariat (landing + blog, sans silo geo pour l’instant) :**
+  - « assurance ramoneur » / « rc pro ramonage »
+  - « assurance institut de beauté » / « rc pro esthétique »
+  - « assurance escape game » / « accrobranche » / « trampoline park »
+  - « assurance club padel » / « assurance terrain de padel »
+  - « assurance immeuble professionnel » / « multirisque professionnelle »
+  - « assurance décennale » / « décennale artisan »
+  - « assurance convoyeur véhicules » / « rc pro convoyage »
+
+---
+
+## Niches partenariat courtage (octobre 2026)
+
+Priorité **valeur commerciale** (immeuble / MRP / décennale) + niches loisirs peu concurrentielles.
+
+| Niche | Landing | Blog pilier |
+|-------|---------|-------------|
+| Ramonage | `/landings/ramonage.html` | `/blog/assurance-ramoneur-rc-pro-multirisque-2026.html` |
+| Esthétique / bien-être | `/landings/esthetique-bien-etre.html` | `/blog/assurance-institut-beaute-esthetique-rc-pro-2026.html` |
+| Salles de loisirs | `/landings/salles-loisirs.html` | `/blog/assurance-salle-loisirs-escape-game-accrobranche-trampoline-2026.html` |
+| Padel | `/landings/padel.html` | `/blog/assurance-terrain-padel-club-rc-pro-2026.html` |
+| Immeuble pro / MRP | `/landings/immeuble-professionnel.html` | `/blog/assurance-immeuble-professionnel-multirisque-2026.html` |
+| Décennale | `/landings/decennale.html` | `/blog/assurance-decennale-artisan-guide-2026.html` |
+| Convoyage véhicules | `/landings/convoyage-vehicules.html` | `/blog/assurance-convoyeur-vehicules-rc-pro-2026.html` |
+
+```bash
+npm run blog:build
+npm run seo:build
+npm run verify:partenariat-niches
+npm run gsc:niches
+```
+
+Indexation GSC : landings + 3–5 articles/jour. SEA : 1 campagne = 1 landing.
 
 ---
 
@@ -94,7 +127,8 @@ Fichier stratégique : **`data/seo-niche-markets.json`**
 | Fichier | Rôle |
 |---------|------|
 | `data/seo-niche-markets.json` | Plan marchés + URLs indexation |
-| `seo/niches.json` | Catalogue 15 niches |
+| `seo/niches.json` | Catalogue niches (dont partenariat) |
+| `scripts/blog-partenariat-niches-articles.cjs` | Pack blog niches partenariat |
 | `assurances-niches.html` | Hub public indexable |
 | `docs/INDEXATION-GOOGLE-URGENT.md` | Accueil invisible — checklist |
 | `docs/RETOUR-GSC-CHECKLIST.md` | Liens GSC pas à pas |
