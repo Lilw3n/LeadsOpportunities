@@ -1,7 +1,10 @@
 /**
- * Niche ACPR Wakam (25 sept. 2026) → bascule assurance VTC.
- * Contenu original Leads Opportunities (pas de calque VTC Protect).
- * Exporte : articles (manifest) + deep (extraBlocks / keywords / FAQ).
+ * Niche ACPR Wakam — pack PUB / conversion (Meta + organique).
+ * Contenu 100 % Leads Opportunities : ne pas calquer VTC Protect
+ * (pas de « 7 assureurs », pas de tables sept–nov, pas de stats 15–20 %).
+ *
+ * Angle pub : courses perdues si attestation coupe, checklist action,
+ * CTA questionnaire / landing VTC dès le hero.
  */
 var h2 = function (t) {
   return { type: "h2", text: t };
@@ -17,124 +20,272 @@ var ul = function (items) {
 };
 var bridge = { type: "bridge" };
 
+var CTA_VTC =
+  '<a href="../landings/vtc.html?utm_content=wakam-pub"><strong>Devis VTC hors Wakam</strong></a> · <a href="../landings/questionnaire.html?need=vtc&journey=standard&utm_content=wakam-pub">questionnaire 3 min</a>';
+var CTA_YEET =
+  '<a href="../landings/vtc.html?utm_content=yeet-wakam"><strong>Remplacer Yeet sans trou</strong></a> · <a href="../landings/questionnaire.html?need=vtc&journey=standard&utm_content=yeet-wakam">questionnaire VTC</a>';
+var CTA_MB =
+  '<a href="../landings/vtc.html?utm_content=marque-blanche-wakam"><strong>Vérifier mon porteur + devis</strong></a> · <a href="../landings/questionnaire.html?need=vtc&journey=standard&utm_content=marque-blanche-wakam">questionnaire</a>';
+
 var deep = {
   "wakam-acpr-assurance-vtc-bascule-2026.html": {
     keywords: [
-      "Wakam VTC",
-      "ACPR Wakam septembre 2026",
-      "assurance VTC alternative Wakam",
-      "Yeet VTC Wakam",
-      "+Simple VTC Wakam",
-      "relevé d'information VTC",
-      "RC circulation à titre onéreux",
-      "RC Pro chauffeur VTC",
-      "Uber Bolt Heetch attestation",
-      "changer assurance VTC échéance",
-      "courtier ORIAS VTC",
-      "devis assurance VTC 2026",
-      "portefeuille Wakam",
+      "Wakam VTC ACPR",
+      "bascule assurance VTC 2026",
+      "attestation Uber hors Wakam",
+      "Yeet +Simple Solly Zéphir Wakam",
+      "relevé d'information chauffeur",
+      "zéro jour de trou VTC",
+      "RC à titre onéreux",
+      "RC Pro plateforme",
+      "devis assurance VTC urgent",
+      "courtier ORIAS Leads Opportunities",
+      "échéance assurance VTC",
       "Île-de-France VTC",
-      "bascule assurance sans trou",
+      "sinistre Wakam supervision",
+      "changer assureur VTC avant anniversaire",
+      "courses perdues attestation",
     ],
     extraBlocks: [
-      h2("Ce que l’ACPR a figé — et ce qu’elle n’a pas cassé"),
+      h2("Ce que ça coûte vraiment si Uber coupe demain"),
       p(
-        "Le <strong>25 septembre 2026</strong>, l’<strong>ACPR</strong> a notifié à <strong>Wakam</strong> une mesure conservatoire : interdiction de <strong>souscrire de nouveaux contrats</strong> et d’en <strong>renouveler</strong> les existants. Ce n’est pas une liquidation judiciaire. Les engagements en cours restent à honorer : sinistres, attestations, gestion courante, sous contrôle du superviseur. Pour un chauffeur VTC, la nuance change tout : vous n’êtes pas « radié demain matin », vous êtes sur un <strong>compte à rebours jusqu’à votre date d’anniversaire</strong>."
+        "Un compte plateforme désactivé pour attestation non conforme, ce n’est pas « un papier à refaire » : c’est <strong>zéro course</strong> le temps de trouver un porteur, de signer, d’uploader. En IDF aux heures de pointe, ça se compte en <strong>centaines d’euros de chiffre d’affaires</strong> — plus le stress du malus si vous tentez de rouler quand même. La décision ACPR du <strong>25 septembre 2026</strong> ne vous radié pas aujourd’hui ; elle fixe une <strong>deadline = votre date d’anniversaire</strong>."
       ),
-      h3("Pourquoi tant de marques sont touchées d’un coup"),
-      p(
-        "Wakam travaille souvent en <strong>marque blanche</strong>. Vous avez peut‑être souscrit chez <strong>Yeet</strong>, <strong>+Simple</strong>, un grossiste (Solly Azar, Zéphir, Axece…) ou un cabinet local — le <strong>porteur de risque</strong> sur l’attestation reste Wakam (mention type « WAKAM, 120‑122 rue Réaumur, 75002 Paris »). Quand le porteur est bloqué, <strong>toutes les étiquettes commerciales</strong> derrière lui le sont aussi. D’où la vague de bascules simultanées sur le marché VTC."
-      ),
-      bridge,
-      h2("Checklist 48 h : savoir si vous êtes concerné"),
+      h3("Ce que l’ACPR a figé (en clair)"),
       ul([
-        "<strong>Ouvrir l’attestation</strong> ou les conditions particulières : chercher « Wakam » / adresse Réaumur — pas seulement le logo du courtier.",
-        "<strong>Noter la date d’échéance</strong> (jour + heure si indiquée) : c’est votre deadline Uber / Bolt / Heetch.",
-        "<strong>Demander le relevé d’information (RI)</strong> à l’intermédiaire <em>maintenant</em> — sans RI propre, les autres porteurs ralentissent ou refusent.",
-        "<strong>Ne pas résilier</strong> tant que vous n’avez pas une <strong>nouvelle attestation conforme</strong> (RC circulation à titre onéreux + RC Pro).",
-        "<strong>Lister les plateformes</strong> actives (Uber, Bolt, Heetch, Free Now…) : chacune coupe le compte dès qu’une attestation expire ou n’est pas à jour.",
-      ]),
-      h2("La règle d’or : zéro jour de trou"),
-      p(
-        "Une attestation VTC non conforme = <strong>désactivation immédiate</strong> sur les apps. Une journée sans couverture = activité illégale + risque pénal (amende, suspension de permis, confiscation possible) et, en cas d’accident, un recours potentiellement ruineux du Fonds de garantie. La bascule se prépare donc comme un <strong>changement d’horaire de prise de service</strong> : nouvelle police effective à l’heure exacte de fin de l’ancienne."
-      ),
-      h3("Calendrier type (à adapter à votre échéance)"),
-      ul([
-        "<strong>J‑45 à J‑30</strong> : RI + 2 à 3 devis hors Wakam (profil, véhicule, zone).",
-        "<strong>J‑21</strong> : choisir une offre, fournir pièces (carte VTC, Kbis / SIRET, permis, historique).",
-        "<strong>J‑7</strong> : attestation de remplacement en main ; vérifier la mention « transport de personnes à titre onéreux ».",
-        "<strong>J‑0</strong> : prise d’effet alignée ; upload sur Uber / Bolt / Heetch le même jour.",
+        "Plus de <strong>nouvelles souscriptions</strong> chez Wakam",
+        "Plus de <strong>renouvellements</strong> à l’échéance",
+        "Les contrats <strong>en cours</strong> restent à gérer (sinistres inclus) sous supervision",
+        "Ce n’est <strong>pas</strong> une liquidation annoncée : c’est un gel de développement",
       ]),
       bridge,
-      h2("Ce que nous regardons pour vous placérer hors Wakam"),
-      p(
-        "Chez <strong>Leads Opportunities</strong> (courtier ORIAS), on ne se contente pas d’un prix affiché. On aligne les mêmes postes entre porteurs : <strong>RC circulation à titre onéreux</strong>, <strong>RC Pro</strong>, assistance, franchises, exclusions plateformes, usage IDF / aéroports, bonus‑malus, antécédents. Les fourchettes de marché observées (indicatif 2026) tournent souvent autour de <strong>150 à 350 € / mois</strong> selon ville, véhicule (thermique vs électrique), sinistralité et formule (Tiers / Tiers + / Tous risques) — à confirmer au devis."
-      ),
-      h3("Pistes de marché (indicatif, hors Wakam)"),
+      h2("60 secondes : êtes-vous vraiment chez Wakam ?"),
       ul([
-        "<strong>MFA</strong> — acteur historique pros de la route (souvent via co‑courtage / partenaires).",
-        "<strong>AXA / MAAF</strong> — capacités flottes ou indépendants selon codes et sélection.",
-        "<strong>MAT</strong> et spécialistes transport de personnes / taxis‑VTC.",
-        "<strong>Grossistes / cabinets spécialisés</strong> (ex. FlexiFleet, Assurmax, Integra, Direct Malus…) : packager RC onéreuse + RC Pro hors Wakam.",
+        "Ouvrir l’attestation PDF (pas le logo de l’app Yeet / du courtier)",
+        "Chercher « <strong>Wakam</strong> » ou « 120‑122 rue Réaumur »",
+        "Noter <strong>échéance</strong> (jour + heure si indiquée)",
+        "Lister Uber / Bolt / Heetch / Free Now actifs",
+        "Demander le <strong>relevé d’information</strong> par écrit à l’intermédiaire <em>aujourd’hui</em>",
       ]),
       p(
-        "Aucune liste n’est un engagement de placement : chaque dossier est soumis à la sélection du porteur. L’objectif n’est pas de « copier un comparateur », c’est d’obtenir une <strong>attestation conforme apps</strong> avant votre J‑0."
+        "Marques souvent concernées quand le porteur est Wakam : <strong>Yeet</strong>, <strong>+Simple</strong>, Solly Azar, Zéphir, Axece, cabinets locaux en marque blanche. Le nom commercial n’est pas le porteur — l’attestation, si."
       ),
-      h3("Profils qui doivent anticiper plus tôt"),
+      h2("Plan de bascule « zéro course perdue »"),
       ul([
-        "Échéance dans les <strong>90 jours</strong>",
-        "Chauffeur <strong>résilié</strong> ou malussé (délais d’étude plus longs)",
-        "Zone <strong>Paris / IDF / Marseille</strong> (primes et sélectivité plus élevées)",
-        "Flotte ou multi‑véhicules",
-        "Attestation « auto classique » sans mention à titre onéreux (non conforme apps)",
+        "<strong>J‑45 → J‑30</strong> : RI + 2 devis hors Wakam (même postes : RC onéreuse, RC Pro, franchises, assistance)",
+        "<strong>J‑21</strong> : pièces (carte VTC, SIRET, CG, permis, historique)",
+        "<strong>J‑7</strong> : attestation de remplacement en main — vérifier « <em>transport de personnes à titre onéreux</em> »",
+        "<strong>J‑0</strong> : prise d’effet alignée à l’heure ; upload plateformes le jour même",
       ]),
-      h2("Documents à préparer (évite les allers‑retours)"),
+      h3("Ne faites pas ça"),
       ul([
-        "Relevé d’information (3 à 5 ans si possible)",
-        "Attestation et conditions particulières actuelles",
-        "Carte professionnelle VTC + justificatif d’activité",
-        "Carte grise, permis, relevé de situation (malus)",
+        "Résilier avant d’avoir la nouvelle attestation",
+        "Uploader une auto « particulier » ou pro sans mention onéreuse",
+        "Attendre le dernier SMS d’Uber pour bouger",
+        "Comparer uniquement le prix mensuel (franchise 1 500 € vs 400 € = piège)",
+        "Croire que le score de conduite Yeet « suivra » chez un autre porteur",
+      ]),
+      bridge,
+      h2("Ce que Leads Opportunities place réellement"),
+      p(
+        "On n’est pas un comparateur grand public. Courtier <strong>ORIAS</strong> : on aligne les garanties pour que l’attestation <strong>passe les plateformes</strong>, puis on cherche la capacité hors Wakam via nos accords. Fourchettes de marché 2026 souvent vues : <strong>~150–350 € / mois</strong> selon zone (Paris / IDF plus sélectif), véhicule, sinistralité, formule. Confirmé au devis — pas au slogan. " +
+          CTA_VTC
+      ),
+      h3("Profils à traiter en priorité"),
+      ul([
+        "Échéance &lt; 90 jours",
+        "Résilié / malussé (délais d’étude plus longs)",
+        "Paris, petite couronne, Marseille, aéroports",
+        "Flotte / multi‑véhicules",
+        "Attestation sans mention à titre onéreux",
+      ]),
+      h2("Documents = vitesse de signature"),
+      ul([
+        "Relevé d’information (idéalement 3–5 ans)",
+        "Attestation + conditions particulières actuelles",
+        "Carte pro VTC + preuve d’activité",
+        "Carte grise, permis, situation malus",
         "SIRET / statut (AE, EURL, SASU…)",
       ]),
-      h2("Erreurs qui coûtent une semaine de courses"),
-      ul([
-        "Résilier Wakam avant d’avoir la nouvelle attestation en main",
-        "Uploader une attestation sans mention « à titre onéreux »",
-        "Attendre J‑7 pour demander le RI (délais intermédiaire + nouvel assureur)",
-        "Comparer uniquement le prix mensuel sans franchises / exclusions plateformes",
-        "Croire que Yeet ou +Simple « changera tout seul » de porteur sans votre action",
-      ]),
-      h2("FAQ métier — sans langue de bois"),
+      h2("Réponses nettes (pour Meta & WhatsApp)"),
       p(
-        "<strong>Mon sinistre Wakam sera‑t‑il payé ?</strong> Tant que le contrat est en vigueur, Wakam indique poursuivre la gestion des sinistres sous supervision ACPR. Déclarez dans les délais, conservez les preuves, suivez l’intermédiaire."
+        "<strong>Mon sinistre Wakam sera payé ?</strong> Tant que le contrat court, la gestion des sinistres continue sous supervision. Déclarez dans les délais."
       ),
       p(
-        "<strong>Le non‑renouvellement = résiliation pour faute ?</strong> Non. C’est un motif lié à la situation du <em>porteur</em>, pas à votre conduite. Précisez‑le au nouvel assureur avec le RI : ça évite d’être classé à tort « résilié sinistre / impayé »."
+        "<strong>Non‑renouvellement = résiliation pour faute ?</strong> Non. Motif porteur, pas votre conduite. Le RI + un mot du courtier évitent le mauvais classement."
       ),
       p(
-        "<strong>Et si l’ACPR lève la mesure ?</strong> Possible, aucune date publique fiable. Comparer maintenant ne vous engage pas ; attendre le dernier mois multiplie les refus et les trous de couverture."
+        "<strong>Et si le gel est levé ?</strong> Possible. Comparer maintenant ne coûte rien ; attendre J‑5 multiplie les refus."
       ),
     ],
     faq: [
       {
-        q: "Comment savoir si mon assurance VTC est portée par Wakam ?",
-        a: "Lisez l’attestation et les conditions particulières : le porteur de risque (Wakam) y figure même si le contrat a été vendu sous une autre marque (Yeet, +Simple, etc.). En cas de doute, demandez confirmation écrite à votre intermédiaire.",
+        q: "Comment savoir si mon VTC est porté par Wakam ?",
+        a: "Lisez l’attestation et les conditions particulières : le porteur (Wakam) y figure même si vous avez souscrit chez Yeet, +Simple ou un grossiste. Demandez confirmation écrite en cas de doute.",
       },
       {
-        q: "Dois-je résilier mon contrat Wakam tout de suite ?",
-        a: "Non. Gardez la couverture jusqu’à l’échéance et n’interrompez qu’avec une nouvelle attestation déjà émise et compatible Uber / Bolt / Heetch.",
+        q: "Dois-je résilier tout de suite ?",
+        a: "Non. Gardez la couverture jusqu’à l’échéance et basculez seulement avec une nouvelle attestation déjà émise et compatible plateformes.",
       },
       {
-        q: "Quelles garanties sont obligatoires pour continuer à rouler ?",
-        a: "RC circulation à titre onéreux (Code des assurances) et RC professionnelle exigée par les plateformes. Une auto « particulier » ne suffit pas.",
+        q: "Que faut-il pour rester actif sur Uber / Bolt / Heetch ?",
+        a: "RC circulation à titre onéreux + RC Pro. Sans ces mentions, le compte peut être coupé immédiatement.",
       },
       {
-        q: "Combien de temps avant l’échéance faut-il lancer les devis ?",
-        a: "Idéalement 30 à 45 jours avant. Plus tôt si vous êtes résilié, malussé, en IDF, ou si votre RI tarde.",
+        q: "Quand lancer les devis ?",
+        a: "30 à 45 jours avant l’échéance. Plus tôt si résilié, malussé, IDF, ou RI qui tarde.",
       },
       {
         q: "Leads Opportunities peut-il placer hors Wakam ?",
-        a: "Oui : nous étudions des solutions via nos accords courtiers / grossistes hors Wakam, avec attestation pour bascule à l’échéance. Devis via le questionnaire VTC ou la landing VTC.",
+        a: "Oui, via nos accords courtiers / grossistes. Passez par le devis VTC ou le questionnaire pour démarrer le dossier.",
+      },
+    ],
+  },
+
+  "yeet-vtc-wakam-bascule-attestation-2026.html": {
+    keywords: [
+      "Yeet VTC Wakam",
+      "Yeet assurance non renouvelée",
+      "boîtier Yeet score conduite",
+      "remplacer Yeet VTC",
+      "attestation Uber après Yeet",
+      "relevé information Yeet",
+      "ACPR Wakam Yeet",
+      "tarif fixe vs comportement VTC",
+      "rachat franchise VTC",
+      "devis hors Yeet",
+      "chauffeur VTC Lyon Yeet",
+      "DriveQuant VTC",
+      "bascule Yeet échéance",
+      "Leads Opportunities VTC",
+      "RC Pro après Yeet",
+    ],
+    extraBlocks: [
+      h2("Yeet, c’est une marque — Wakam, c’est le porteur"),
+      p(
+        "L’app, le boîtier, le score de conduite : c’est l’expérience <strong>Yeet</strong>. Sur l’attestation, c’est souvent <strong>Wakam</strong> qui porte le risque. Depuis le gel ACPR du 25 septembre 2026, ce porteur ne peut plus renouveler. Votre score 5 étoiles ne prolonge pas le contrat : seule l’<strong>échéance</strong> compte."
+      ),
+      h3("Ce que vous pourriez « perdre » en sortant de Yeet — et ce qui compte vraiment"),
+      ul([
+        "<strong>Remise comportementale</strong> : elle reste dans l’écosystème Yeet. Ailleurs, comparez un <em>tarif fixe</em> à garanties égales, pas « avec la remise ».",
+        "<strong>Rachat de franchise / options</strong> : rares ailleurs — notez le montant de franchise du nouveau contrat (400 € vs 1 500 € = vrai écart au sinistre).",
+        "<strong>RC onéreuse + RC Pro</strong> : non négociables pour Uber / Bolt — c’est le cœur de la bascule.",
+        "<strong>Boîtier</strong> : demandez par écrit la marche à suivre (restitution / désactivation) en même temps que le RI.",
+      ]),
+      bridge,
+      h2("Séquence Yeet → nouvel assureur (sans couper les apps)"),
+      ul([
+        "Noter l’échéance dans l’espace client Yeet / conditions particulières",
+        "Demander RI + motif de fin (non‑renouvellement porteur ≠ résiliation faute)",
+        "Lancer devis hors Wakam avec Leads Opportunities — " + CTA_YEET,
+        "Signer pour une prise d’effet à l’heure de fin Yeet",
+        "Uploader l’attestation le J‑0 (pas la veille « pour voir » si elle n’est pas encore active)",
+      ]),
+      h2("Piège Meta : « je change demain »"),
+      p(
+        "Les pubs concurrentes poussent le devis 2 minutes. Notre critère est plus dur : <strong>attestation conforme plateformes à la bonne date</strong>. Un devis trop bas sans mention onéreuse, c’est une fausse économie et un compte Uber coupé. On préfère un dossier un peu plus long qu’un trou de couverture."
+      ),
+      h3("Pour qui c’est urgent"),
+      ul([
+        "Échéance dans les 45 jours",
+        "Chauffeur IDF / aéroports (sélection plus serrée)",
+        "Malus ou sinistre récent",
+        "Flotte multi‑véhicules sous Yeet",
+      ]),
+    ],
+    faq: [
+      {
+        q: "Mon contrat Yeet est-il porté par Wakam ?",
+        a: "Souvent oui depuis le lancement du produit : vérifiez l’attestation. En cas de doute, demandez confirmation écrite à Yeet / votre intermédiaire.",
+      },
+      {
+        q: "Mon score de conduite sert-il ailleurs ?",
+        a: "En pratique non. Ce qui suit, c’est le relevé d’information et le bonus-malus officiel.",
+      },
+      {
+        q: "Yeet va-t-il me trouver un autre porteur ?",
+        a: "Ne comptez pas dessus pour une échéance proche. Sécurisez un devis hors Wakam en parallèle.",
+      },
+      {
+        q: "Puis-je garder le même prix qu’avec la remise Yeet ?",
+        a: "Pas garanti. Comparez des tarifs à garanties égales, sans la remise comportementale, et regardez la franchise.",
+      },
+      {
+        q: "Comment démarrer avec Leads Opportunities ?",
+        a: "Questionnaire VTC ou landing devis : on récupère l’échéance, le RI et on vise une attestation compatible apps.",
+      },
+    ],
+  },
+
+  "solly-zephir-wakam-marque-blanche-vtc-2026.html": {
+    keywords: [
+      "Solly Azar VTC Wakam",
+      "Zéphir VTC Wakam",
+      "marque blanche assurance VTC",
+      "porteur de risque attestation",
+      "non renouvellement Solly VTC",
+      "Zéphir échéance ACPR",
+      "grossiste VTC alternatif",
+      "Axece PlusSimple Wakam",
+      "attestation transport onéreux",
+      "bascule Solly Azar",
+      "courtier VTC hors Wakam",
+      "relevé information Solly",
+      "Uber attestation après Solly",
+      "Leads Opportunities Solly Zéphir",
+      "portefeuille marque blanche VTC",
+    ],
+    extraBlocks: [
+      h2("Marque blanche = un seul point de rupture"),
+      p(
+        "Solly Azar, Zéphir, +Simple, Axece… beaucoup vendent sous leur marque. Si le <strong>porteur</strong> sur l’attestation est Wakam, le gel ACPR du 25 septembre 2026 les touche tous de la même façon : <strong>pas de renouvellement</strong> à l’anniversaire. Ce n’est pas « Solly qui a mal fait » ni « Zéphir qui résilie pour faute » : c’est le porteur qui ne peut plus prolonger."
+      ),
+      h3("Comment lire l’attestation en 20 secondes"),
+      ul([
+        "Ignorez le logo commercial en haut",
+        "Cherchez la ligne assureur / porteur : Wakam ?",
+        "Notez l’adresse Réaumur si présente",
+        "Relevez l’échéance et le n° de contrat",
+        "Demandez le RI au grossiste / courtier qui gère le dossier",
+      ]),
+      bridge,
+      h2("Message à envoyer à votre intermédiaire (copier-coller)"),
+      p(
+        "« Bonjour, suite à la mesure ACPR concernant Wakam, merci de me confirmer par écrit (1) si Wakam est bien le porteur de mon contrat VTC, (2) ma date d’échéance exacte, (3) le motif de non‑renouvellement le cas échéant, et (4) de m’adresser mon relevé d’information sous 15 jours. »"
+      ),
+      h2("Ensuite : placement hors Wakam avec LO"),
+      p(
+        "Une fois le RI en main, on compare des capacités <strong>hors Wakam</strong> sur les mêmes postes (RC onéreuse, RC Pro, franchises, assistance). Objectif pub = <strong>pas de jour sans attestation conforme</strong>. " +
+          CTA_MB
+      ),
+      h3("Erreurs fréquentes après un article concurrent"),
+      ul([
+        "Résilier « pour être libre » trop tôt",
+        "Accepter un devis sans vérifier la mention plateformes",
+        "Oublier le RI → dossier refusé ou surprime injustifiée",
+        "Traiter Solly et Zéphir comme des situations différentes alors que le porteur est le même",
+      ]),
+    ],
+    faq: [
+      {
+        q: "Solly Azar et Zéphir sont-ils tous les deux concernés ?",
+        a: "Si l’attestation indique Wakam comme porteur, oui pour le non-renouvellement. Vérifiez toujours le PDF, pas seulement le nom commercial.",
+      },
+      {
+        q: "Mon contrat est-il annulé immédiatement ?",
+        a: "Non. Les contrats en cours restent valides jusqu’à l’échéance. Anticipez le remplacement avant cette date.",
+      },
+      {
+        q: "Qui demande le relevé d’information ?",
+        a: "Vous, par écrit, à l’intermédiaire qui gère le contrat (grossiste ou courtier). Conservez la preuve d’envoi.",
+      },
+      {
+        q: "Leads Opportunities travaille-t-il ces dossiers ?",
+        a: "Oui : bascule hors Wakam avec attestation compatible Uber/Bolt/Heetch, via devis ou questionnaire VTC.",
+      },
+      {
+        q: "Puis-je rester chez le même courtier commercial ?",
+        a: "Parfois via co-courtage / autre porteur. L’important est la capacité hors Wakam et la continuité d’attestation.",
       },
     ],
   },
@@ -142,99 +293,80 @@ var deep = {
   "wakam-vtc-opportunite-courtiers-portefeuille.html": {
     keywords: [
       "Wakam courtiers VTC",
-      "co-courtage VTC",
-      "portefeuille Wakam",
+      "co-courtage VTC MFA",
+      "portefeuille Wakam échéances",
       "grossiste assurance VTC",
-      "MFA VTC",
-      "KT Courtage VTC",
-      "FlexiFleet VTC",
-      "Assurmax VTC",
-      "Integra VTC",
-      "ORIAS courtier VTC",
-      "bascule portefeuille assurance",
-      "relevé d'information chauffeur",
-      "CRM échéances VTC",
+      "opportunité leads VTC 2026",
+      "KT Courtage FlexiFleet",
+      "Assurmax Integra VTC",
+      "CRM J-30 VTC",
+      "partenariat Leads Opportunities VTC",
       "commission co-courtage",
-      "opportunité marché VTC 2026",
+      "ORIAS bascule Wakam",
+      "flux chauffeurs Meta VTC",
+      "playbook courtier VTC",
+      "RI portefeuille Wakam",
+      "zéro trou Uber clients",
     ],
     extraBlocks: [
-      h2("Pourquoi c’est une fenêtre — pas seulement une crise"),
+      h2("La pub Meta chauffe — votre CRM doit suivre"),
       p(
-        "Quand un porteur massif comme Wakam est gelé par l’ACPR, le marché ne « disparaît » pas : il <strong>se redistribue</strong>. Des milliers de chauffeurs doivent changer de contrat avant leur date anniversaire. Pour un courtier ORIAS, c’est une <strong>vague de demande captive</strong> : le besoin est réel, urgent, documenté (RI, échéance, apps). Qui contacte en premier avec une capacité de placement hors Wakam gagne le renouvellement — et souvent le foyer (auto, habitation, mutuelle)."
+        "Pendant que les chauffeurs voient des pubs « Wakam / Yeet / Solly », vos clients Wakam scrollent aussi. Si vous n’avez pas de <strong>capacité hors Wakam</strong> et un tri d’échéances, un concurrent (ou un flux tipo Leads Opportunities) prendra le renouvellement. La fenêtre n’est pas « un jour » : c’est <strong>chaque anniversaire de contrat</strong> jusqu’à fin de mesure."
       ),
-      h3("Ce que les grands réseaux ne vous donneront pas facilement"),
+      h3("Capacité avant discours"),
       p(
-        "AXA, MAAF et autres ouvrent rarement des codes directs « VTC » aux cabinets indépendants. La voie réaliste reste le <strong>co‑courtage</strong> (partage de commission, vous gardez la relation client) ou les <strong>grossistes</strong> qui ont encore de la capacité. L’erreur classique : attendre d’avoir « le code parfait » pendant que les échéances filent."
+        "Codes AXA / MAAF VTC directs ? Rare pour un cabinet indépendant. Voie réaliste : <strong>co‑courtage</strong> (ex. accords type MFA / KT Courtage) ou <strong>grossistes</strong> encore ouverts (FlexiFleet, Assurmax, Integra, April / NetVox / Zéphir selon vos accès). Signez la convention avant d’appeler le premier client."
       ),
       bridge,
-      h2("Cartographier le portefeuille en 1 après‑midi"),
+      h2("Sprint CRM 1 après‑midi"),
       ul([
-        "Filtrer CRM : produit VTC / taxi + porteur ou marque Yeet / +Simple / Solly / Zéphir / Wakam.",
-        "Exporter les <strong>échéances</strong> : trier J‑30, J‑60, J‑90.",
-        "Tagger « RI demandé / RI reçu / devis envoyé / placé ».",
-        "Prioriser IDF, résiliés, flottes : délais plus longs.",
-        "Script SMS / mail : « Votre porteur est concerné par la mesure ACPR — on sécurise la bascule sans trou Uber/Bolt ».",
+        "Filtrer VTC + Wakam / Yeet / +Simple / Solly / Zéphir",
+        "Colonnes : échéance | RI | devis | placé",
+        "Priorité J‑30 puis J‑60",
+        "SMS type : « Votre porteur est gelé au renouvellement — on sécurise l’attestation Uber/Bolt sans trou »",
+        "Objectif semaine 1 : 100 % des J‑30 contactés + RI demandés",
       ]),
-      h2("Pistes de capacité (indicatif — à valider chez vous)"),
+      h2("Playbook J‑45 → J‑0"),
+      ul([
+        "J‑45 : appel + RI",
+        "J‑30 : 1–2 devis hors Wakam",
+        "J‑15 : closing + pièces",
+        "J‑3 : attestation prête",
+        "J‑0 : bascule horaire + tag CRM « hors Wakam »",
+      ]),
+      h2("Partenariat flux avec Leads Opportunities"),
       p(
-        "Selon les cabinets, des voies observées sur le marché incluent le co‑courtage vers des accords <strong>MFA</strong> (ex. partenariats type KT Courtage), des packagings <strong>Assurmax</strong>, <strong>FlexiFleet / FlexiCourtage</strong>, <strong>Integra</strong>, ou des demandes de capacité temporaire chez grossistes habituels (April, NetVox, Zéphir…). Aucune liste n’est exhaustive ni un engagement de placement : chaque dossier reste soumis à la sélection du porteur."
+        "On capte déjà la demande chauffeurs (landings + Meta blog convert). Courtiers : envoyez volume estimé Wakam + codes grossistes ouverts à <a href=\"mailto:contact@leadsopportunities.fr?subject=Partenariat%20Wakam%20VTC%20pub\"><strong>contact@leadsopportunities.fr</strong></a> — co‑placement selon convention."
       ),
-      h3("Convention avant le premier devis"),
+      h2("KPI qui comptent (pas le vanity)"),
       ul([
-        "Signer la convention de co‑courtage / grossiste sous 48 h si possible",
-        "Obtenir l’accès tarificateur + grille de commission écrite",
-        "Clarifier qui émet l’attestation et qui gère le sinistre",
-        "Aligner le discours client : motif = situation assureur, pas « vous êtes malussé »",
-      ]),
-      bridge,
-      h2("Playbook commercial « zéro jour de trou »"),
-      ul([
-        "<strong>J‑45</strong> : appel sortant + demande RI",
-        "<strong>J‑30</strong> : 1 à 2 devis concurrents hors Wakam",
-        "<strong>J‑15</strong> : closing + pièces complètes",
-        "<strong>J‑3</strong> : attestation prête ; rappel upload plateformes",
-        "<strong>J‑0</strong> : bascule horaire ; ticket CRM « placé — hors Wakam »",
-      ]),
-      h2("Comment Leads Opportunities vous aide à transformer la vague"),
-      p(
-        "Nous captons déjà la demande chauffeurs (landings + questionnaires VTC) et pouvons <strong>orienter / co‑produire</strong> des dossiers urgents hors Wakam. Objectif : attestation compatible apps, pas un PDF marketing. Si vous êtes courtier et cherchez un partenaire de flux ou de co‑placement, contactez‑nous avec votre volume estimé de dossiers Wakam et vos codes grossistes déjà ouverts — <a href=\"mailto:contact@leadsopportunities.fr?subject=Partenariat%20Wakam%20VTC\"><strong>contact@leadsopportunities.fr</strong></a>."
-      ),
-      h2("KPI à suivre la première semaine"),
-      ul([
-        "Nombre de contrats Wakam identifiés",
-        "% de RI reçus sous 7 jours",
-        "Taux de devis ≥ 2 options hors Wakam",
-        "Taux de bascule sans interruption (objectif 100 % des J‑0 traités)",
-        "Cross‑sell mutuelle / emprunteur / auto perso après placement VTC",
-      ]),
-      h2("Pièges à éviter côté cabinet"),
-      ul([
-        "Promettre un prix MFA / AXA avant sélection du dossier",
-        "Laisser les clients « se débrouiller » sur un comparateur grand public",
-        "Oublier le RI : sans historique, les porteurs alternatifs freinent",
-        "Traiter tous les dossiers au même rythme (les J‑30 d’abord)",
+        "Contrats Wakam identifiés",
+        "% RI &lt; 7 jours",
+        "≥ 2 devis hors Wakam par dossier chaud",
+        "0 interruption J‑0",
+        "Cross‑sell mutuelle / auto perso après placement",
       ]),
     ],
     faq: [
       {
-        q: "Puis-je encore placer du VTC si je n’ai pas de code AXA / MAAF ?",
-        a: "Oui, via co-courtage ou grossistes disposant encore de capacité hors Wakam. L’important est la convention signée et le process d’attestation avant l’échéance client.",
+        q: "Sans code AXA/MAAF, puis-je placer ?",
+        a: "Oui via co-courtage ou grossistes hors Wakam. Convention + process attestation avant l’échéance.",
       },
       {
-        q: "Comment prioriser mon portefeuille ?",
-        a: "Par date d’échéance croissante, puis par complexité (résiliés, IDF, flottes). Traitez les J‑30 en premier.",
+        q: "Comment prioriser ?",
+        a: "Échéance croissante, puis complexité (résiliés, IDF, flottes).",
       },
       {
-        q: "Le client doit-il résilier chez Wakam pour que je place ?",
-        a: "Non. On prépare le nouveau contrat pour une prise d’effet à l’échéance. Résilier trop tôt crée un trou Uber/Bolt.",
+        q: "Le client doit-il résilier chez Wakam ?",
+        a: "Non. Prise d’effet du nouveau contrat à l’échéance.",
       },
       {
-        q: "Que dire si le client panique après un article concurrent ?",
-        a: "Rappeler : contrats en cours valides jusqu’à l’anniversaire ; action = RI + devis hors Wakam ; vous pilotez la bascule.",
+        q: "Que répondre à un client paniqué par une pub concurrente ?",
+        a: "Contrats en cours valides ; action = RI + devis hors Wakam ; vous pilotez la bascule.",
       },
       {
-        q: "Leads Opportunities prend-il des dossiers chauffeurs en direct ?",
-        a: "Oui via nos parcours VTC / questionnaire. Les courtiers partenaires peuvent aussi coordonner un flux de co-placement selon convention.",
+        q: "LO prend-il des dossiers chauffeurs ?",
+        a: "Oui en direct via parcours VTC ; partenaires courtiers selon convention de flux.",
       },
     ],
   },
@@ -246,81 +378,152 @@ var articles = [
     section: "vtc",
     tag: "Wakam / ACPR",
     tagClass: "tag-vtc",
-    themes: ["wakam", "acpr", "vtc", "bascule", "yeet"],
-    title: "Wakam VTC interdit de renouveler (ACPR 25/09/2026) : bascule sans trou Uber/Bolt",
+    themes: ["wakam", "acpr", "vtc", "bascule", "pub"],
+    title: "Wakam VTC (ACPR) : combien de courses vous coûte un trou d’attestation ?",
     description:
-      "Décision ACPR contre Wakam : vos contrats Yeet / +Simple restent valides jusqu’à l’échéance. Checklist RI, calendrier J‑45→J‑0 et placement hors Wakam avec Leads Opportunities.",
-    meta: "12 min · Octobre 2026",
-    cardExcerpt: "Wakam gelé par l’ACPR : basculez avant l’échéance, zéro jour de trou.",
+      "Gel ACPR Wakam du 25/09/2026 : vérifiez Yeet / +Simple / Solly / Zéphir, récupérez le RI, basculez hors Wakam sans couper Uber ou Bolt. Devis courtier ORIAS.",
+    meta: "11 min · Octobre 2026",
+    cardExcerpt: "Gel Wakam : plan anti trou Uber/Bolt avant l’échéance.",
     keywords: deep["wakam-acpr-assurance-vtc-bascule-2026.html"].keywords,
-    cta: { href: "../landings/vtc.html?utm_content=wakam-bascule", label: "Devis VTC hors Wakam" },
+    cta: { href: "../landings/vtc.html?utm_content=wakam-pub", label: "Devis VTC hors Wakam" },
     blocks: [
       {
         type: "p",
         text:
-          "Si votre attestation VTC mentionne <strong>Wakam</strong> — y compris derrière <strong>Yeet</strong>, <strong>+Simple</strong> ou un grossiste — la décision de l’<strong>ACPR du 25 septembre 2026</strong> vous concerne : plus de nouvelles souscriptions, plus de renouvellements. Ce n’est pas une radiation du jour au lendemain. C’est une <strong>course contre votre date d’anniversaire</strong>. Voici le plan concret pour basculer <strong>sans interruption</strong> sur Uber, Bolt ou Heetch. <a href=\"../landings/vtc.html?utm_content=wakam-bascule\"><strong>Demander un devis hors Wakam</strong></a> · <a href=\"../landings/questionnaire.html?need=vtc&journey=standard&utm_content=wakam-bascule\">questionnaire VTC</a>.",
+          "Votre attestation mentionne <strong>Wakam</strong> — derrière <strong>Yeet</strong>, <strong>+Simple</strong>, Solly, Zéphir ou un cabinet local ? Depuis le <strong>25 septembre 2026</strong>, plus de renouvellement chez ce porteur. Ce n’est pas une radiation du jour au lendemain : c’est une <strong>course contre votre date d’anniversaire</strong>. Chaque jour sans attestation conforme = apps coupées. " +
+          CTA_VTC +
+          ".",
       },
       bridge,
       h2("En une phrase : ce qu’il faut faire cette semaine"),
       ul([
-        "Vérifier que le porteur est bien Wakam sur l’attestation",
+        "Confirmer Wakam sur l’attestation (pas le logo commercial)",
         "Noter l’échéance exacte",
         "Exiger le relevé d’information",
-        "Lancer 2–3 devis hors Wakam (pas une simple « auto pro » générique)",
+        "Lancer un devis hors Wakam avec un courtier ORIAS",
         "Aligner la prise d’effet à l’heure de fin de l’ancien contrat",
       ]),
       p(
-        "Le reste de l’article détaille le calendrier, les documents, les pièges et comment <strong>Leads Opportunities</strong> place les dossiers urgents. Voir aussi <a href=\"./assurance-vtc-uber-bolt-heetch.html\">exigences plateformes</a>, <a href=\"./assurance-vtc-renouvellement-resiliation.html\">renouvellement / résiliation</a> et <a href=\"./assurance-vtc-moins-cher-2026.html\">leviers de prime</a>."
+        "Guides liés : <a href=\"./yeet-vtc-wakam-bascule-attestation-2026.html\">cas Yeet</a>, <a href=\"./solly-zephir-wakam-marque-blanche-vtc-2026.html\">Solly / Zéphir / marque blanche</a>, <a href=\"./assurance-vtc-uber-bolt-heetch.html\">exigences plateformes</a>."
       ),
     ],
     related: [
-      { href: "./wakam-vtc-opportunite-courtiers-portefeuille.html", label: "Playbook courtiers Wakam" },
-      { href: "./assurance-vtc-uber-bolt-heetch.html", label: "Uber Bolt Heetch" },
-      { href: "./assurance-vtc-renouvellement-resiliation.html", label: "Renouvellement VTC" },
+      { href: "./yeet-vtc-wakam-bascule-attestation-2026.html", label: "Yeet → bascule" },
+      { href: "./solly-zephir-wakam-marque-blanche-vtc-2026.html", label: "Solly / Zéphir" },
+      { href: "./wakam-vtc-opportunite-courtiers-portefeuille.html", label: "Playbook courtiers" },
       { href: "../landings/vtc.html", label: "Landing devis VTC" },
-      { href: "../assurance-vtc/", label: "Hub assurance VTC" },
     ],
     faq: deep["wakam-acpr-assurance-vtc-bascule-2026.html"].faq,
+  },
+  {
+    file: "yeet-vtc-wakam-bascule-attestation-2026.html",
+    section: "vtc",
+    tag: "Yeet",
+    tagClass: "tag-vtc",
+    themes: ["yeet", "wakam", "vtc", "pub"],
+    title: "Yeet VTC & Wakam : le score ne sauve pas l’échéance — basculez proprement",
+    description:
+      "Contrat Yeet porté par Wakam : boîtier et remise comportementale ne prolongent pas le renouvellement. RI, devis hors Wakam, attestation Uber/Bolt à l’heure.",
+    meta: "9 min · Octobre 2026",
+    cardExcerpt: "Yeet + Wakam : sortir sans perdre les apps ni se faire piéger au tarif.",
+    keywords: deep["yeet-vtc-wakam-bascule-attestation-2026.html"].keywords,
+    cta: { href: "../landings/vtc.html?utm_content=yeet-wakam", label: "Remplacer Yeet" },
+    blocks: [
+      {
+        type: "p",
+        text:
+          "Vous roulez avec <strong>Yeet</strong> (app, boîtier, score) ? Le porteur sur l’attestation est souvent <strong>Wakam</strong>. Gel ACPR = <strong>pas de renouvellement</strong> à l’anniversaire. Le score ne suit pas ailleurs : ce qui compte, c’est le <strong>RI</strong> et une attestation <strong>à titre onéreux + RC Pro</strong>. " +
+          CTA_YEET +
+          ".",
+      },
+      bridge,
+      h2("Ce qu’on compare vraiment (pas la remise fantôme)"),
+      ul([
+        "Prix hors remise comportementale",
+        "Franchise réelle au premier sinistre",
+        "Mention plateformes sur l’attestation",
+        "Assistance / immobilisation si vous en avez besoin",
+      ]),
+    ],
+    related: [
+      { href: "./wakam-acpr-assurance-vtc-bascule-2026.html", label: "Guide général Wakam" },
+      { href: "./solly-zephir-wakam-marque-blanche-vtc-2026.html", label: "Autres marques blanches" },
+      { href: "./assurance-vtc-moins-cher-2026.html", label: "Leviers de prime VTC" },
+      { href: "../landings/vtc.html", label: "Devis VTC" },
+    ],
+    faq: deep["yeet-vtc-wakam-bascule-attestation-2026.html"].faq,
+  },
+  {
+    file: "solly-zephir-wakam-marque-blanche-vtc-2026.html",
+    section: "vtc",
+    tag: "Marque blanche",
+    tagClass: "tag-vtc",
+    themes: ["solly", "zephir", "wakam", "vtc", "pub"],
+    title: "Solly Azar, Zéphir & co : si Wakam est le porteur, même course contre l’échéance",
+    description:
+      "Marque blanche VTC (Solly, Zéphir, +Simple…) portée par Wakam : comment lire l’attestation, demander le RI, basculer hors porteur gelé sans trou Uber/Bolt.",
+    meta: "8 min · Octobre 2026",
+    cardExcerpt: "Solly / Zéphir / +Simple : même porteur Wakam → même plan de bascule.",
+    keywords: deep["solly-zephir-wakam-marque-blanche-vtc-2026.html"].keywords,
+    cta: { href: "../landings/vtc.html?utm_content=marque-blanche-wakam", label: "Devis hors Wakam" },
+    blocks: [
+      {
+        type: "p",
+        text:
+          "Vous voyez <strong>Solly Azar</strong> ou <strong>Zéphir</strong> sur vos docs, mais l’assureur écrit <strong>Wakam</strong> ? Alors le gel ACPR du 25/09/2026 vous concerne au renouvellement — comme Yeet ou +Simple. Un seul réflexe : <strong>attestation + échéance + RI</strong>, puis devis hors Wakam. " +
+          CTA_MB +
+          ".",
+      },
+      bridge,
+      h2("Pourquoi on regroupe ces marques (sans les confondre)"),
+      p(
+        "Commercialement, les offres diffèrent. Réglementairement, si le <strong>porteur</strong> est le même et qu’il ne peut plus renouveler, le plan chauffeur est identique : zéro jour de trou, attestation onéreuse, upload plateformes au J‑0. Voir aussi le <a href=\"./wakam-acpr-assurance-vtc-bascule-2026.html\">guide général Wakam</a>."
+      ),
+    ],
+    related: [
+      { href: "./wakam-acpr-assurance-vtc-bascule-2026.html", label: "Guide Wakam ACPR" },
+      { href: "./yeet-vtc-wakam-bascule-attestation-2026.html", label: "Cas Yeet" },
+      { href: "./comparatif-vtc-zephir-solly-azar.html", label: "Comparatif Zéphir / Solly" },
+      { href: "../landings/vtc.html", label: "Landing VTC" },
+    ],
+    faq: deep["solly-zephir-wakam-marque-blanche-vtc-2026.html"].faq,
   },
   {
     file: "wakam-vtc-opportunite-courtiers-portefeuille.html",
     section: "vtc",
     tag: "Courtiers",
     tagClass: "tag-vtc",
-    themes: ["wakam", "courtier", "co-courtage", "portefeuille", "vtc"],
-    title: "Wakam VTC : opportunités courtiers — sauver et développer le portefeuille",
+    themes: ["wakam", "courtier", "co-courtage", "pub"],
+    title: "Courtiers : la vague Wakam sur Meta — sauvez le portefeuille avant les pubs concurrentes",
     description:
-      "Après l’interdiction ACPR de renouveler chez Wakam : cartographier les échéances, co‑courtage MFA / grossistes, playbook zéro trou et partenariat leads avec Leads Opportunities.",
-    meta: "11 min · Octobre 2026",
-    cardExcerpt: "Vague Wakam : playbook CRM, co‑courtage et placement hors porteur gelé.",
+      "Clients VTC Yeet / Solly / Zéphir / Wakam : cartographier les échéances, ouvrir co‑courtage, playbook zéro trou, partenariat flux avec Leads Opportunities.",
+    meta: "10 min · Octobre 2026",
+    cardExcerpt: "CRM + capacité hors Wakam pendant que Meta chauffe les chauffeurs.",
     keywords: deep["wakam-vtc-opportunite-courtiers-portefeuille.html"].keywords,
     cta: {
-      href: "mailto:contact@leadsopportunities.fr?subject=Partenariat%20Wakam%20VTC",
+      href: "mailto:contact@leadsopportunities.fr?subject=Partenariat%20Wakam%20VTC%20pub",
       label: "Partenariat flux VTC",
     },
     blocks: [
       {
         type: "p",
         text:
-          "La mesure ACPR contre <strong>Wakam</strong> (25 septembre 2026) vide progressivement le marché du renouvellement VTC chez ce porteur. Pour vos clients chauffeurs — Yeet, +Simple, marques blanches — chaque échéance est un <strong>risque de départ</strong>… ou une <strong>opportunité de reconquête</strong> si vous avez déjà une capacité hors Wakam. Ce guide est écrit pour les <strong>courtiers ORIAS</strong> : CRM, co‑courtage, grossistes, discours client, KPI. <a href=\"./wakam-acpr-assurance-vtc-bascule-2026.html\"><strong>Version chauffeur (bascule)</strong></a> · <a href=\"mailto:contact@leadsopportunities.fr?subject=Partenariat%20Wakam%20VTC\"><strong>nous écrire</strong></a>.",
+          "Les chauffeurs voient déjà des pubs Wakam / Yeet / Solly. Vos clients aussi. Sans <strong>capacité hors Wakam</strong> et un tri d’échéances, vous perdez le renouvellement — et souvent le foyer. Playbook ORIAS + option flux avec <strong>Leads Opportunities</strong>. <a href=\"./wakam-acpr-assurance-vtc-bascule-2026.html\"><strong>Version chauffeur</strong></a> · <a href=\"mailto:contact@leadsopportunities.fr?subject=Partenariat%20Wakam%20VTC%20pub\"><strong>nous écrire</strong></a>.",
       },
       bridge,
       h2("Ordre de priorité (cette semaine)"),
       ul([
-        "Isoler tous les contrats VTC dont le porteur (ou la marque) pointe vers Wakam",
-        "Trier par échéance : J‑30 d’abord",
-        "Bloquer au moins une convention de co‑courtage / grossiste sous 48 h",
-        "Lancer les demandes de RI en masse",
-        "Standardiser le script « zéro jour de trou » pour Uber / Bolt / Heetch",
+        "Isoler tous les VTC Wakam / marques blanches",
+        "Trier J‑30 d’abord",
+        "Bloquer une convention co‑courtage / grossiste sous 48 h",
+        "Lancer les RI en masse",
+        "Standardiser le script « zéro trou Uber/Bolt »",
       ]),
-      p(
-        "Sans capacité de placement, le meilleur discours du monde ne retient pas un chauffeur à J‑7. Sans CRM d’échéances, vous découvrez les dossiers trop tard. Les deux leviers doivent avancer en parallèle."
-      ),
     ],
     related: [
-      { href: "./wakam-acpr-assurance-vtc-bascule-2026.html", label: "Guide chauffeur Wakam" },
-      { href: "./comparatif-vtc-zephir-solly-azar.html", label: "Comparatif porteurs VTC" },
-      { href: "./assurance-vtc-rc-pro-garanties.html", label: "RC Pro VTC" },
+      { href: "./wakam-acpr-assurance-vtc-bascule-2026.html", label: "Guide chauffeur" },
+      { href: "./yeet-vtc-wakam-bascule-attestation-2026.html", label: "Angle Yeet" },
+      { href: "./solly-zephir-wakam-marque-blanche-vtc-2026.html", label: "Solly / Zéphir" },
       { href: "../landings/vtc.html", label: "Parcours devis VTC" },
     ],
     faq: deep["wakam-vtc-opportunite-courtiers-portefeuille.html"].faq,

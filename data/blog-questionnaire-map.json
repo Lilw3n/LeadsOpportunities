@@ -520,6 +520,34 @@
       "section": "vtc",
       "question": "Prêt à comparer votre VTC à garanties équivalentes en 3 minutes ?"
     },
+    "wakam-acpr-assurance-vtc-bascule-2026.html": {
+      "section": "vtc",
+      "hook": "Gel Wakam : un trou d’attestation = apps coupées et courses perdues.",
+      "question": "Votre échéance Wakam / Yeet / Solly est-elle dans les 90 jours ?",
+      "landingLabel": "Devis VTC hors Wakam",
+      "questionnaireLabel": "Questionnaire bascule VTC"
+    },
+    "yeet-vtc-wakam-bascule-attestation-2026.html": {
+      "section": "vtc",
+      "hook": "Yeet + Wakam : le score de conduite ne prolonge pas le renouvellement.",
+      "question": "Besoin d’une attestation Uber/Bolt avant la fin Yeet ?",
+      "landingLabel": "Remplacer Yeet",
+      "questionnaireLabel": "Questionnaire Yeet → hors Wakam"
+    },
+    "solly-zephir-wakam-marque-blanche-vtc-2026.html": {
+      "section": "vtc",
+      "hook": "Solly, Zéphir, +Simple : si le porteur est Wakam, même deadline.",
+      "question": "Avez-vous vérifié le porteur sur votre attestation ?",
+      "landingLabel": "Devis hors Wakam",
+      "questionnaireLabel": "Questionnaire marque blanche"
+    },
+    "wakam-vtc-opportunite-courtiers-portefeuille.html": {
+      "section": "vtc",
+      "hook": "Vague Meta Wakam : vos clients VTC changent d’assureur — ou de courtier.",
+      "question": "Combien de dossiers Wakam avez-vous à basculer ce mois ?",
+      "landingLabel": "Parcours devis VTC",
+      "questionnaireLabel": "Signaler un flux partenaires"
+    },
     "gta-6-netflix-extended-look-immobilier-france-2026.html": {
       "section": "finance",
       "hook": "Après le trailer Netflix GTA 6 : séparez hype gaming et vrai projet immobilier.",

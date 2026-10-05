@@ -143,6 +143,8 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/blog/vtc-premiere-course-checklist-assurance.html",
   "/blog/assurance-vtc-uber-bolt-heetch.html",
   "/blog/wakam-acpr-assurance-vtc-bascule-2026.html",
+  "/blog/yeet-vtc-wakam-bascule-attestation-2026.html",
+  "/blog/solly-zephir-wakam-marque-blanche-vtc-2026.html",
   "/blog/wakam-vtc-opportunite-courtiers-portefeuille.html",
   "/assurance-vtc/pas-cher/",
   "/blog/mutuelle-sante-5-criteres.html",
