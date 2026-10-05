@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-10-05T13:38:15.861Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -34,8 +34,140 @@
       "url": "",
       "source": "cafeyn",
       "note": "Angle assurance a preciser",
-      "status": "pending",
+      "status": "rejected",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "theme-lois-20261005b",
+      "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les emprunteurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac38872469941fab90d76c116fbe75f&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us",
+      "source": "bing",
+      "note": "Thème lois (Lemoine) → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-assurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-sedu"
+    },
+    {
+      "id": "theme-vtc-20261005b",
+      "title": "Ile-de-France : les chauffeurs VTC manifestent sur l’A1",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac38872d84a434eaf3ee8c0156b1e95&url=https%3a%2f%2fwww.leparisien.fr%2feconomie%2file-de-france-les-chauffeurs-vtc-ont-debute-leur-manifestation-sur-l-a1-15-12-2017-7454016.php&c=4479139036519426507&mkt=en-us",
+      "source": "bing",
+      "note": "Thème chauffeur VTC IDF manifestation → questionnaire vtc",
+      "status": "published",
+      "need": "vtc",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-ile-de-france-les-chauffeurs-vtc-manifestent-sur-l-a1"
+    },
+    {
+      "id": "theme-animaux-20261005b",
+      "title": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPOXhpRGF5ejJ6SUNEOGN0OUtmdW85WDExWTR5UHZvcHNvdkxJd3QySFRpREotdUd0Y3cySVZhUTFLbWZXSjM0S3M0bUNSV3kwZnNBTldia0c5Q1ZWZVo1VUh1c3lnODkybEZzTTJDSVBIRDQ3ZGhxNVYtdF8tcEdPM2xSRF9aTzBIV1MtYzMzbXFIeUJMUzlRbjZfaXVfRF9NZnVxUHR0NU4xSC1qaVhZcnpBOW5XUWdyQzR6emgxTjNvanRpbC1tX19fM0hreEFISzhpOGJXNlBYaE5xTE1fVm9EOC1MTkJkcFEtOF9iS0Z6ZFhwVF96ZmNn?oc=5",
+      "source": "google",
+      "note": "Thème chien/chat mutuelle → questionnaire animaux",
+      "status": "published",
+      "need": "animaux",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-mutuelle-pour-chien-ou-chat-est-ce-vraiment-utile-et-combien-coute-cette"
+    },
+    {
+      "id": "theme-pret-20261005b",
+      "title": "Prêt immobilier : voici les taux que les banques vont proposer en ce mois d’octobre 2026 - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxQSFRsSkVJV3BlaHZVYkNQcG1qR1VJUk5EV0lqWkZyQUN6Qi1XRE1mMzN5akFsZVZIbVkwMlM0ekduMTctdVMzaXUwWFBnNzFoMEs3QkxHVUVGR2QtRkFKWGx5Z1dkM0hRRDZ2NDh4Vy1kWXhJU3NPSEE4LTlPRWtiWkdxR0xyZFkxZzROVE1VXzdiRmtoNnBDZHc4VEFxZ0RwRTZ5c2s2aGgwclNqWDRvYjNYM25jTVZzMElCTllqNllTVXdZOFBLdlpKQUtPZ1V6bUxNTW9RUDFMUmd6bWFvZHlLZWt3N2JLazdLc3FRN3BmXzRiLVNGWjdfNUFuMHM?oc=5",
+      "source": "google",
+      "note": "Thème recherche prêt / taux octobre 2026 → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-pret-immobilier-voici-les-taux-que-les-banques-vont-proposer-en-ce-mois-"
+    },
+    {
+      "id": "theme-vente-20261005b",
+      "title": "Taxe foncière 2026 : achat ou vente en cours d’année, qui paie quoi ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac38873d28b440d8d8973df2c7800e5&url=https%3a%2f%2fwww.capital.fr%2fimmobilier%2ftaxe-fonciere-2026-achat-ou-vente-en-cours-dannee-qui-paie-quoi-1529620&c=4509617181241643392&mkt=en-us",
+      "source": "bing",
+      "note": "Thème vente/acquisition / taxe foncière → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-taxe-fonciere-2026-achat-ou-vente-en-cours-d-annee-qui-paie-quoi"
+    },
+    {
+      "id": "theme-location-20261005b",
+      "title": "Assurance habitation : de fortes disparités de prix en France - Presse Agence",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNa2Qyelp3MGRVbEhDRnZTSko0RWR1M2RpWFF5LV9LUTRvZEswRzBCQ0EzT21DWTViUWdpVVRwR2hub3hkM2pQWWRxaHdpdnRZOWFXZGtVMXhwWmJCaFFIRjFrNjMxQlAzNnVZQjdkeWxaQ0phZm9DN29Yd3VrMFpfTVBuT19NMkhObFZuNlZTODBhZGZzR2EzV09YMHJiZk1iYXJjN0FsM1NiLVE?oc=5",
+      "source": "google",
+      "note": "Thème recherche bien / prix habitation France → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T11:22:56.472Z",
+      "fromCandidateId": "rss-assurance-habitation-de-fortes-disparites-de-prix-en-france-presse-agenc"
+    },
+    {
+      "id": "theme-lois-20261005d",
+      "title": "Assurance de prêt immobilier : ces 3 nouvelles mesures favorables aux emprunteurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac3a81d7c7a44b19d9b78e190bfee53&url=https%3a%2f%2fwww.boursorama.com%2fimmobilier%2fcredit%2factualites%2fassurance-de-pret-immobilier-ces-3-nouvelles-mesures-favorables-aux-emprunteurs-aba214d82291aa3882af10ec3daf7a34&c=5025052324863635030&mkt=en-us",
+      "source": "bing",
+      "note": "Thème lois / mesures emprunteur → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-assurance-de-pret-immobilier-ces-3-nouvelles-mesures-favorables-aux-empr"
+    },
+    {
+      "id": "theme-vtc-20261005d",
+      "title": "VTC : combien gagne un chauffeur Uber ? - L'Essentiel de l'Éco",
+      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE0zaHBwaXlzZHBmVTZiTE9NdUVhVzdWVS15MGd3cUVpaVZJaWZBajlucUM3eS0xRmhaa0RhNURtcEljMWN6OUJjdUJRWnlfSmtCLUhMOTBvNzk1dThKSzZ2bmdOVnl1TTYtSHVNUHA2VFp3U2EyN3VJdQ?oc=5",
+      "source": "google",
+      "note": "Thème chauffeur VTC revenus Uber → questionnaire vtc",
+      "status": "published",
+      "need": "vtc",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-vtc-combien-gagne-un-chauffeur-uber-l-essentiel-de-l-eco"
+    },
+    {
+      "id": "theme-animaux-20261005d",
+      "title": "Nos conseils pour obtenir une assurance chien ou chat pas chère",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac3a81e9f244b77ababb3ccde033f58&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2fassurance%2fnos-conseils-pour-obtenir-une-assurance-chien-ou-chat-pas-chere-12-10-2022-EOWTQOYUS5BHRAMIQOXT5AAJGI.php&c=10400719382239195249&mkt=en-us",
+      "source": "bing",
+      "note": "Thème chien/chat assurance pas chère → questionnaire animaux",
+      "status": "published",
+      "need": "animaux",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-nos-conseils-pour-obtenir-une-assurance-chien-ou-chat-pas-chere"
+    },
+    {
+      "id": "theme-pret-20261005d",
+      "title": "Prêt immobilier : la hausse du taux d’usure au 1er octobre va-t-elle vraiment vous aider à emprunter ? - SeLoger",
+      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQaGpucUhOUFpyUkd2V1BJQW9YTHJEMDVIRWNMV3ZhN09JdGRHVV8xM0p2ci1wMHlmNXNyRmswTXdoZW51dHU0NTc0R05lanFURDRHWW40XzItSWJrenRQdGdoUWVWckVjbDVEQTZtNXpGMkFGOWhKSzhnRTF2bnBnaFprY0o5cnBBTHdmbGY1eXVFVkZNRTdHelZ6b3NfRHVJeGVraVZ4aENVdlZfMW1ONGVGaUw3TzFiM1ZPS3ZEQ3p1Rjg?oc=5",
+      "source": "google",
+      "note": "Thème recherche prêt / taux usure octobre → questionnaire emprunteur",
+      "status": "published",
+      "need": "emprunteur",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-pret-immobilier-la-hausse-du-taux-d-usure-au-1er-octobre-va-t-elle-vraim"
+    },
+    {
+      "id": "theme-vente-20261005d",
+      "title": "Baromètre immobilier France – Août 2026 - LeSiteImmo",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPTDdybmFwMF9CWFNKbjYwZ1h3RVpndjcxRlNyOGplSVJrVm4tXzhmYThsOExBSE96TXBwVWFBNG5TUXpQanotMmhqOGJaOElCZDZJRV9zMmdIQm1ZYjZhQ1NzdHpiRUctaEloTURmcmU3SktIYnR0LXV0WE1EQ2NDYW5Icw?oc=5",
+      "source": "google",
+      "note": "Thème vente/acquisition / baromètre immo → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-barometre-immobilier-france-aout-2026-lesiteimmo"
+    },
+    {
+      "id": "theme-location-20261005d",
+      "title": "Louer son appartement avec un bail Code civil, ça change tout !",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac3a81ee2bb4c5c95ab9bac5d1f8722&url=https%3a%2f%2fwww.lopinion.fr%2fpatrimoine%2flouer-son-appartement-avec-un-bail-code-civil-ca-change-tout&c=13371034713285252061&mkt=en-us",
+      "source": "bing",
+      "note": "Thème recherche bien / bail Code civil location → questionnaire habitation",
+      "status": "published",
+      "need": "habitation",
+      "addedAt": "2026-10-05T13:38:05.775Z",
+      "fromCandidateId": "rss-louer-son-appartement-avec-un-bail-code-civil-ca-change-tout"
     }
   ]
 }
