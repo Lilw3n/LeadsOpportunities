@@ -1,5 +1,5 @@
 {
-  "lastFetch": "2026-10-07T08:57:46.302Z",
+  "lastFetch": "2026-10-07T09:05:22.833Z",
   "processedUrls": [
     "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
     "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPOXhpRGF5ejJ6SUNEOGN0OUtmdW85WDExWTR5UHZvcHNvdkxJd3QySFRpREotdUd0Y3cySVZhUTFLbWZXSjM0S3M0bUNSV3kwZnNBTldia0c5Q1ZWZVo1VUh1c3lnODkybEZzTTJDSVBIRDQ3ZGhxNVYtdF8tcEdPM2xSRF9aTzBIV1MtYzMzbXFIeUJMUzlRbjZfaXVfRF9NZnVxUHR0NU4xSC1qaVhZcnpBOW5XUWdyQzR6emgxTjNvanRpbC1tX19fM0hreEFISzhpOGJXNlBYaE5xTE1fVm9EOC1MTkJkcFEtOF9iS0Z6ZFhwVF96ZmNn?oc=5",
@@ -42,10 +42,16 @@
     "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac60922646c4dc9b7ca747eea67b226&url=https%3a%2f%2fwww.village-justice.com%2farticles%2fvente-bien-immobilier-france-dont-proprietaire-est-ressortissant-etranger%2c56835.html&c=1888982861943883255&mkt=en-us",
     "https://news.google.com/rss/articles/CBMitwFBVV95cUxPd1pwLXNsd2ZkQWJaM3RyUjJqZlEzQm1yN0ZDRk9fNTk2VjNxVDJOQm1BTFM5MnVQRGJCc3dfMjhSSmtzX2tvSE1MWXlFaXE0RlhzLWx2QmVRZ3hfR3FKaTQxVmJZc0FzdlhNcXBTSWdHSTdlejBzSzdnZEhfcUpab2E5SThoVmNxUm9hM1ZQbkFCTDVYUlQyVUlJcG1oQUctQ2lXNXE2c2xucmRSRHRxTUJzemFaRXM?oc=5",
     "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac60922839a49768781cb2a65d9909c&url=https%3a%2f%2fwww.latribune.fr%2fsupplement%2fla-tribune-now%2fbail-de-location-meuble-les-regles-essentielles-pour-securiser-son-investissement-locatif-1011353.html&c=9561197414431228174&mkt=en-us",
-    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac609899b8d447c9dddcd6cb22573c2&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us"
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac609899b8d447c9dddcd6cb22573c2&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQY2VLaHpSc1J0dk9KV3k4R1JmREJlbThCWWg2V0pmRHRFZExvZ21YTGlWZTdIWjBEaFhZV3BhVXlNUnRHVHN6TzZTdFg2UkNqLUZjM0FkZkF4YVZ1OURUYWtpV0swTlhkVnFiTDhOZUZIbnFvUllpUlB3RmRTZW5mN2JoOTdzcWRWT2pYc000bW1QRTUzRUVrZUZvUTJFMWhWd2VsNGk4TDd5TVQyR1RBZXZPcVJzelFYTEVxbzd6UXpKeDg?oc=5",
+    "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNRnFLV1ZPdHlfUHNQaWhrZ3FCUnA3di1DdmhwNC0yU1FXV0t6UnI2UVZBVzk3OEJkOV9GQ0p4ZFFzRW9oWGswS0paam1ndmhzdjEyXzNzU3d0aDBiRXY0MWgxWDdxa1RLMjZZM1RuVHZoNDY0bENSMHF2dndmWjNHclNHNHpzSlM1QmVEamU0dGktSmhXM19YanRTOWxVbFdxbXlPYjFxVXg?oc=5",
+    "https://news.google.com/rss/articles/CBMijwJBVV95cUxPUGY0TnpBd1V0SlBXNjJPRDZXajdJcEVrYV8yc284VTU4M1R5bnUtOGdhaWk3cDZ1TWEzSTh4Uk52SmJZS2lzdG1xZnNtRndZams1cG4tR1Q1OEtmbHlpZThUZ3JxTFJJeHl4dlloamNEOGp4bVZnTWNSU3FKRDZPSTNUbDNWWnNBZkRSLXVEVEV4NC00RW1FU2VKNTVJU3Atd3RUN1UtaXZvNmFxUXB0MjgzdGFZLUNDX1hCbjRJUVBSeFljc2hDaEF5RXQ4MWNwZlBjT3Fpb2J2Tk10NWRSSlB6RFFYZV8xcTNiWExodWJYZERjUmR2TXVDamJZaEZHWlg3Zzg3XzE3Nm1maEZF?oc=5",
+    "https://news.google.com/rss/articles/CBMie0FVX3lxTFBla3R1ek96Y3RubWw2RnY0QzRpNFR2R3JQdGJ0cThnNlI1NndWYVR4alU4THIxcWhGcXhaZENieVN6VGxBT1JBTVc2eGo0SzJrSVQ4MzAyVFpkT0FtOEVYQVNER2hJcUctVl90Uk9rd3VTeUY0UEtVRXN4cw?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac60a8f3a704ca19519023ad616b16b&url=https%3a%2f%2fwww.lefigaro.fr%2fsocietes%2fchauffeur-vtc-il-faudra-desormais-obligatoirement-passer-un-examen-20260812&c=997682499383111162&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac60b52598d4204bb27e98ced4749ba&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2fassurance-chien-ou-chat-quel-est-lage-limite-pour-assurer-votre-animal-14-09-2022-WDOQXVH6HFEVPOXVIFZ7Q6JRUA.php&c=8355931491327766299&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-10-07T08:57:48.352Z",
+  "lastAutoRun": "2026-10-07T09:05:24.703Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -351,6 +357,49 @@
           "file": "assurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoi-2.html",
           "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les empru… : pret et assurance emprunteur — que faire ?",
           "source": "Bing News — prêt immobilier",
+          "sourceType": "bing"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-07T09:05:24.703Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "les-services-financiers-de-carrefour-france-et-le-groupe-magnolia-lancen.html",
+          "title": "Les services financiers de Carrefour France et le groupe Magnolia lancent une offre en … : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "reforme-assurance-chomage-2026-les-nouveautes-juritravail.html",
+          "title": "Réforme assurance chômage 2026 : les nouveautés - Juritravail : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "cette-maison-est-vendue-a-bas-prix-mais-l-acheteur-devra-gerer-une-occup.html",
+          "title": "Cette maison est vendue à bas prix, mais l’acheteur devra gérer une occupante qui refus… : assurance habitation — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "taux-d-usure-en-hausse-ce-qui-change-pour-votre-credit-immobilier-des-le.html",
+          "title": "Taux d'usure en hausse : ce qui change pour votre crédit immobilier dès le 1er octobre … : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "chauffeur-vtc-il-faudra-desormais-obligatoirement-passer-un-examen.html",
+          "title": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen : assurance VTC — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "assurance-chien-ou-chat-quel-est-l-age-limite-pour-assurer-v-2.html",
+          "title": "Assurance chien ou chat : quel est l’âge limite pour assurer votre animal? : assurance animaux — que faire ?",
+          "source": "Bing News — chiens chats",
           "sourceType": "bing"
         }
       ]

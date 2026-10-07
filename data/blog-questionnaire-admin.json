@@ -2682,6 +2682,71 @@
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=finance&utm_content=credit-immobilier-la-flambee-des-taux",
       "matchedRule": "habitation",
       "species": null
+    },
+    {
+      "file": "les-services-financiers-de-carrefour-france-et-le-groupe-magnolia-lancen.html",
+      "title": "Les services financiers de Carrefour France et le groupe Magnolia lancent une offre en … : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=les-services-financiers-de-carrefour-fra",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "reforme-assurance-chomage-2026-les-nouveautes-juritravail.html",
+      "title": "Réforme assurance chômage 2026 : les nouveautés - Juritravail : pret et assurance emprunteur — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=reforme-assurance-chomage-2026-les-nou",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "cette-maison-est-vendue-a-bas-prix-mais-l-acheteur-devra-gerer-une-occup.html",
+      "title": "Cette maison est vendue à bas prix, mais l’acheteur devra gérer une occupante qui refus… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=cette-maison-est-vendue-a-bas-prix-mais",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "taux-d-usure-en-hausse-ce-qui-change-pour-votre-credit-immobilier-des-le.html",
+      "title": "Taux d'usure en hausse : ce qui change pour votre crédit immobilier dès le 1er octobre … : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=taux-d-usure-en-hausse-ce-qui-change-p",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "chauffeur-vtc-il-faudra-desormais-obligatoirement-passer-un-examen.html",
+      "title": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=chauffeur-vtc-il-faudra-desormais-obli",
+      "matchedRule": "vtc",
+      "species": null
     }
   ]
 }
