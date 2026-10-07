@@ -1,0 +1,188 @@
+.ls-totals {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .ls-totals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.ls-total {
+  background: #f8fafc;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.ls-total span {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted, #64748b);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.ls-total strong {
+  font-size: 1.35rem;
+  color: var(--text, #0f172a);
+}
+
+.ls-form {
+  display: grid;
+  gap: 14px;
+  max-width: 720px;
+}
+
+.ls-price-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 700px) {
+  .ls-price-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ls-preview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+  background: linear-gradient(135deg, #ecfdf5, #f0fdfa);
+  border: 1px solid #a7f3d0;
+  border-radius: 10px;
+}
+
+@media (max-width: 700px) {
+  .ls-preview {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ls-preview span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #065f46;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ls-preview strong {
+  font-size: 1.25rem;
+  color: #064e3b;
+}
+
+.ls-preview em {
+  font-style: normal;
+  font-size: 0.92rem;
+  color: #047857;
+  font-weight: 600;
+}
+
+.ls-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ls-status {
+  min-height: 1.2em;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.ls-status.is-ok {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.ls-status.is-error {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.ls-table-wrap {
+  overflow-x: auto;
+}
+
+.ls-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.ls-table th,
+.ls-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  vertical-align: middle;
+}
+
+.ls-table th {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted, #64748b);
+  background: #fafbfc;
+}
+
+.ls-empty {
+  text-align: center;
+  color: var(--muted, #64748b);
+  padding: 28px !important;
+}
+
+.ls-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.ls-badge--draft { background: #f1f5f9; color: #475569; }
+.ls-badge--link_sent { background: #dbeafe; color: #1d4ed8; }
+.ls-badge--paid { background: #dcfce7; color: #166534; }
+.ls-badge--sold_manual { background: #dcfce7; color: #166534; }
+.ls-badge--cancelled { background: #fee2e2; color: #991b1b; }
+
+.ls-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ls-actions button,
+.ls-actions a {
+  font-size: 0.78rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--line, #e2e8f0);
+  background: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text, #0f172a);
+  font-weight: 600;
+}
+
+.ls-actions button:hover,
+.ls-actions a:hover {
+  border-color: #0d9488;
+  color: #0f766e;
+}
+
+.ls-settled {
+  font-size: 0.75rem;
+  color: #15803d;
+  font-weight: 600;
+}

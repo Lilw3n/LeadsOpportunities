@@ -12,6 +12,7 @@ Disallow: /dashboard.html
 Disallow: /admin.html
 Disallow: /auth.html
 Disallow: /espace-client.html
+Disallow: /espace-leads/
 Disallow: /paiement.html
 Disallow: /paiement-success.html
 Disallow: /paiements/

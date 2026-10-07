@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion Espace Leads | Leads Opportunities</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/espace-leads/connexion.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./espace-leads.css" />
+</head>
+<body class="el-page">
+  <header class="el-top">
+    <a class="el-brand" href="./">Espace <span>Leads</span></a>
+    <nav><a href="./">Retour</a></nav>
+  </header>
+  <main class="el-main">
+    <div class="el-card">
+      <h1>Connexion</h1>
+      <p class="el-sub">E-mail professionnel + mot de passe d’accès. Requis pour débloquer un pack.</p>
+      <form id="elLoginForm">
+        <label class="el-label">E-mail
+          <input class="el-input" id="elEmail" type="email" required autocomplete="username" placeholder="vous@cabinet.fr" />
+        </label>
+        <label class="el-label">Mot de passe d’accès
+          <input class="el-input" id="elPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="6 caractères min." />
+        </label>
+        <button type="submit" class="el-btn el-btn-primary" style="width:100%;margin-top:8px">Entrer dans l’espace</button>
+        <p class="el-status" id="elStatus"></p>
+      </form>
+      <p class="el-note">
+        Première visite&nbsp;: le mot de passe que vous choisissez devient votre accès sur cet appareil.
+        Utilisez le même e-mail que celui du lien pack.
+      </p>
+    </div>
+  </main>
+  <script src="./espace-leads.js"></script>
+  <script>
+    document.getElementById("elLoginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = document.getElementById("elEmail").value.trim();
+      var pass = document.getElementById("elPassword").value;
+      var st = document.getElementById("elStatus");
+      try {
+        window.EspaceLeads.login(email, pass);
+        st.textContent = "Connecté.";
+        st.className = "el-status is-ok";
+        var next = new URLSearchParams(location.search).get("next") || "espace.html";
+        var pack = new URLSearchParams(location.search).get("pack");
+        if (pack) next = "acces.html?pack=" + encodeURIComponent(pack);
+        location.href = next;
+      } catch (err) {
+        st.textContent = err.message || "Erreur";
+        st.className = "el-status is-error";
+      }
+    });
+  </script>
+</body>
+</html>
