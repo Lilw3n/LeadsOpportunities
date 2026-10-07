@@ -30,6 +30,11 @@ ok(page.indexOf("canonical") !== -1 && page.indexOf("leads-professionnels.html")
 ok(page.indexOf("pilier-finance.jpg") !== -1, "hero image plein écran");
 ok(page.indexOf("Syne") !== -1, "police display Syne");
 
+ok(/tous secteurs|n['’]importe quel métier|multi-?secteurs|Et bien d['’]autres métiers/i.test(page), "message multi-secteurs");
+ok(page.indexOf("réseau partenaire") !== -1 || page.indexOf("reseau partenaire") !== -1, "origine réseau partenaire");
+ok(page.indexOf("pas seulement l’assurance") !== -1 || page.indexOf("pas limité à l’assurance") !== -1 || page.indexOf("Pas limité à l’assurance") !== -1 || /pas seulement l.assurance|pas limit. .*assurance/i.test(page), "pas limité assurance");
+ok(page.indexOf("Verticales disponibles") === -1, "plus de liste fermée « Verticales disponibles »");
+
 ok(!/\bRIB\b/i.test(page), "pas de mention RIB");
 ok(!/\bIBAN\b/i.test(page), "pas de mention IBAN");
 ok(!/coordonn[ée]es bancaires/i.test(page), "pas de coords bancaires");
