@@ -3270,6 +3270,11 @@ pubsPack.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const themesLeadsSep2026 = require("./blog-articles-themes-sep2026.cjs");
+themesLeadsSep2026.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 /* SEO intent volumes (mutuelle Nancy, devis sans engagement, VTC indépendant, crédit rapide) */
 module.exports.articles = seoIntentSep2026.concat(module.exports.articles);
 
