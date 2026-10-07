@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-10-07T10:06:49.200Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMiigFBVV95cUxOMEJhSDYtTkpCRnREMDNLM0VpNU0wSW5Pd1JSUnFVNC1OUl9Mak9fUmI1VXNXYnNhYnk0TGpNZWY5NWJYRXJjWERqeEpUODRfR3p6S1VZMXRFS3NWaWdpOFd5WmVTWWtHN3UzTmdQR2lfSEtiNmx4X0FqbG5YaGFjWnBrN2R5UkVEa1E?oc=5",
+    "https://news.google.com/rss/articles/CBMi_wFBVV95cUxQSFRsSkVJV3BlaHZVYkNQcG1qR1VJUk5EV0lqWkZyQUN6Qi1XRE1mMzN5akFsZVZIbVkwMlM0ekduMTctdVMzaXUwWFBnNzFoMEs3QkxHVUVGR2QtRkFKWGx5Z1dkM0hRRDZ2NDh4Vy1kWXhJU3NPSEE4LTlPRWtiWkdxR0xyZFkxZzROVE1VXzdiRmtoNnBDZHc4VEFxZ0RwRTZ5c2s2aGgwclNqWDRvYjNYM25jTVZzMElCTllqNllTVXdZOFBLdlpKQUtPZ1V6bUxNTW9RUDFMUmd6bWFvZHlLZWt3N2JLazdLc3FRN3BmXzRiLVNGWjdfNUFuMHM?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac6193269644cf4bbc80267df8a1a34&url=https%3a%2f%2fwww.boursorama.com%2fimmobilier%2fcredit%2factualites%2fassurance-de-pret-immobilier-ces-3-nouvelles-mesures-favorables-aux-emprunteurs-aba214d82291aa3882af10ec3daf7a34&c=5025052324863635030&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMitAFBVV95cUxOQ0ZQMkREUFpMSW9uR1dYUGhRVGlSVC1WLWp5bHdDMTlhRGFwd2VGRFVkZ180aklScWdXamZUSVhNOVFMeUx2dExtY2t1eV9SaXFKcGdrSnhYMVMxVm9uWS1MMk9FWTJ4LWdadHpCc1NMWmZQTFlPUjRYUHRObXVXc1Z0U3pvbktiT2FoaWd2eFZuaGhwZ0U5ZUdCNXFTNEI3eF9zMlB1SVh6UnhwSGxNT1pjekPSAboBQVVfeXFMUGtVUUdBM3JJU0Q5ajBZaW5NV1hfRDV1NnBwUXBZYlNjckJJN29GMW84cUhBSVdycnpmdVpLTDQ3TkRoR2FoOFBOSVBiUmYzQWdDQ0N2SDRfdk9ZcmExOFV5VFkwbVpmYmd4OVlpX2R2WHRscGpUWWZ6VHZnYTBoRmEtcGQtWll6cHY5cElSV3ZWZUJ5T1BsSFVBeE5tdTBUSzFWN1o3c1dNb1lldTVESXJIYnNhT0g4a2tR?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac61933294f46498aed383bdbc63c5f&url=https%3a%2f%2fwww.capital.fr%2fimmobilier%2ftaxe-fonciere-2026-achat-ou-vente-en-cours-dannee-qui-paie-quoi-1529620&c=4509617181241643392&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac61933c39c4d0d96d3add4be79d403&url=https%3a%2f%2fwww.latribune.fr%2fsupplement%2fla-tribune-now%2fbail-de-location-meuble-les-regles-essentielles-pour-securiser-son-investissement-locatif-1011353.html&c=9561197414431228174&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-10-07T10:06:52.431Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,50 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-10-07T10:06:52.431Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "top-10-des-meilleures-assurance-chien-comparatif-tarifs-2026-le-mag-de-l.html",
+          "title": "Top 10 des Meilleures Assurance Chien : comparatif tarifs 2026 ! - Le Mag de la Conso : assurance animaux — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "pret-immobilier-voici-les-taux-que-les-banques-vont-proposer-en-ce-mois-.html",
+          "title": "Prêt immobilier : voici les taux que les banques vont proposer en ce mois d’octobre 202… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "assurance-de-pret-immobilier-ces-3-nouvelles-mesures-favorables-aux-empr.html",
+          "title": "Assurance de prêt immobilier : ces 3 nouvelles mesures favorables aux emprunteurs : pret et assurance emprunteur — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "uber-france-offre-une-couverture-sociale-a-ses-chauffeurs-en-cas-d-accid.html",
+          "title": "Uber France offre une couverture sociale à ses chauffeurs en cas d'accident - Europe 1 : assurance VTC — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "taxe-fonciere-2026-achat-ou-vente-en-cours-d-annee-qui-paie-quoi.html",
+          "title": "Taxe foncière 2026 : achat ou vente en cours d’année, qui paie quoi ? : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "bail-de-location-meuble-les-regles-essentielles-pour-securiser-son-inves.html",
+          "title": "Bail de location meublé : les règles essentielles pour sécuriser son investissement loc… : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
