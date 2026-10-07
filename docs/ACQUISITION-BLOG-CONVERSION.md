@@ -161,6 +161,8 @@ Détails complets : `ads/meta-blog-conversions.csv` · checklist : `npm run veri
 
 ## Fichiers liés
 
+- **CRM** `/crm-blog-pubs.html` — catalogue créas Meta (filtre, aperçu, copie texte/titre/URL)
+- `data/blog-pubs-catalog.json` — généré via `npm run blog:pubs:catalog`
 - `ads/meta-blog-conversions.csv` — URLs et textes pub
 - `ads/google-ads-editor-ready-utm.csv` — Search landings chaudes
 - `ads/retargeting-assets.md` — audiences retargeting
