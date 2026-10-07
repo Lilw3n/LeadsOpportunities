@@ -1,6 +1,84 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-10-07T09:56:38.434Z",
   "items": [
+    {
+      "id": "theme-lois-ff47-0",
+      "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les emprunteurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac616fb83eb49e6855617a16419cf8f&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us",
+      "source": "bing",
+      "note": "Le marché de l’assurance emprunteur continue de se transformer depuis l’entrée en vigueur de la Loi Lemoine. En France, Carrefour, via Carrefour Banque et Carrefour Assurance, s’associe désormais à ...",
+      "section": "emprunteur",
+      "need": "emprunteur",
+      "tag": "loi-lemoine",
+      "status": "published",
+      "leadScore": 120,
+      "addedAt": "2026-10-07T09:55:59.080Z"
+    },
+    {
+      "id": "theme-vtc-ff47-1",
+      "title": "En colère, les chauffeurs VTC de Nantes perturbent une rencontre avec les cadres d’Uber France - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxORjFDbEFMWm1NUWVyMF9jQjhvb2lXcS1GZnJJYlc4Yzh0OU1pOEZ3andVZ2J3Yy12MVZGclZJQ0hpLWlER0tvWElIaWM4RjlvTm9GUFR3a0tOWFFvN09OQ3VHT2dvZVdZN3U2Q0FPV1lvaEhEbFBvWUxGaTFGQU5UNXk5am9zRmpjNHlmUnNncWZMNkwwQUgwdDNlaENrcHNvNG5iX241RFo4cUhRamxETmRITGlyWExHUjJRUmFLdXZxNGxYWHFkVGdkN3YyQ3BsSV9fVElFUmo1NEJxSlZjNVZkSXBIZFU3eV9NQzM2Mkw2VU5zdy1NVWxEaXVsa2dpVVdDcmlBZEUwTE5vOGhfaw?oc=5",
+      "source": "google",
+      "note": "<a href=\"https://news.google.com/rss/articles/CBMikAJBVV95cUxORjFDbEFMWm1NUWVyMF9jQjhvb2lXcS1GZnJJYlc4Yzh0OU1pOEZ3andVZ2J3Yy12MVZGclZJQ0hpLWlER0tvWElIaWM4RjlvTm9GUFR3a0tOWFFvN09OQ3VHT2dvZVdZN3U2Q0FPV1lvaEhEbFBvWUxGaTFGQU5UNXk5am9zRmpjNHlmUnNncWZMNkwwQUgwdDNlaENrcHNvNG5iX241RFo4cUhRamxETmRITGlyWExHUj",
+      "section": "vtc",
+      "need": "vtc",
+      "tag": "vtc",
+      "status": "published",
+      "leadScore": 120,
+      "addedAt": "2026-10-07T09:55:59.080Z"
+    },
+    {
+      "id": "theme-animaux-ff47-2",
+      "title": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPOXhpRGF5ejJ6SUNEOGN0OUtmdW85WDExWTR5UHZvcHNvdkxJd3QySFRpREotdUd0Y3cySVZhUTFLbWZXSjM0S3M0bUNSV3kwZnNBTldia0c5Q1ZWZVo1VUh1c3lnODkybEZzTTJDSVBIRDQ3ZGhxNVYtdF8tcEdPM2xSRF9aTzBIV1MtYzMzbXFIeUJMUzlRbjZfaXVfRF9NZnVxUHR0NU4xSC1qaVhZcnpBOW5XUWdyQzR6emgxTjNvanRpbC1tX19fM0hreEFISzhpOGJXNlBYaE5xTE1fVm9EOC1MTkJkcFEtOF9iS0Z6ZFhwVF96ZmNn?oc=5",
+      "source": "google",
+      "note": "<a href=\"https://news.google.com/rss/articles/CBMi-gFBVV95cUxPOXhpRGF5ejJ6SUNEOGN0OUtmdW85WDExWTR5UHZvcHNvdkxJd3QySFRpREotdUd0Y3cySVZhUTFLbWZXSjM0S3M0bUNSV3kwZnNBTldia0c5Q1ZWZVo1VUh1c3lnODkybEZzTTJDSVBIRDQ3ZGhxNVYtdF8tcEdPM2xSRF9aTzBIV1MtYzMzbXFIeUJMUzlRbjZfaXVfRF9NZnVxUHR0NU4xSC1qaVhZcnpBOW5XUWdyQz",
+      "section": "animaux",
+      "need": "animaux",
+      "tag": "animaux",
+      "status": "published",
+      "leadScore": 120,
+      "addedAt": "2026-10-07T09:55:59.080Z"
+    },
+    {
+      "id": "theme-pret-ff47-3",
+      "title": "Crédit immobilier : la flambée des taux ravive les craintes de blocage - Figaro Immobilier",
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPd1pwLXNsd2ZkQWJaM3RyUjJqZlEzQm1yN0ZDRk9fNTk2VjNxVDJOQm1BTFM5MnVQRGJCc3dfMjhSSmtzX2tvSE1MWXlFaXE0RlhzLWx2QmVRZ3hfR3FKaTQxVmJZc0FzdlhNcXBTSWdHSTdlejBzSzdnZEhfcUpab2E5SThoVmNxUm9hM1ZQbkFCTDVYUlQyVUlJcG1oQUctQ2lXNXE2c2xucmRSRHRxTUJzemFaRXM?oc=5",
+      "source": "google",
+      "note": "<a href=\"https://news.google.com/rss/articles/CBMitwFBVV95cUxPd1pwLXNsd2ZkQWJaM3RyUjJqZlEzQm1yN0ZDRk9fNTk2VjNxVDJOQm1BTFM5MnVQRGJCc3dfMjhSSmtzX2tvSE1MWXlFaXE0RlhzLWx2QmVRZ3hfR3FKaTQxVmJZc0FzdlhNcXBTSWdHSTdlejBzSzdnZEhfcUpab2E5SThoVmNxUm9hM1ZQbkFCTDVYUlQyVUlJcG1oQUctQ2lXNXE2c2xucmRSRHRxTUJzemFaRXM?oc",
+      "section": "emprunteur",
+      "need": "emprunteur",
+      "tag": "pret-immo",
+      "status": "published",
+      "leadScore": 120,
+      "addedAt": "2026-10-07T09:55:59.080Z"
+    },
+    {
+      "id": "theme-vente-ff47-4",
+      "title": "Vente d’un bien immobilier en France dont le propriétaire est un ressortissant étranger.",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac616fc30cd42a2aebaa6ea0bfe61a4&url=https%3a%2f%2fwww.village-justice.com%2farticles%2fvente-bien-immobilier-france-dont-proprietaire-est-ressortissant-etranger%2c56835.html&c=1888982861943883255&mkt=en-us",
+      "source": "bing",
+      "note": "La vente d’un bien immobilier situé en France par un ressortissant étranger soulève des enjeux juridiques et fiscaux complexes. Entre application du droit français, contraintes fiscales spécifiques et ...",
+      "section": "habitation",
+      "need": "habitation",
+      "tag": "vente-maison",
+      "status": "published",
+      "leadScore": 120,
+      "addedAt": "2026-10-07T09:55:59.080Z"
+    },
+    {
+      "id": "theme-location-ff47-5",
+      "title": "Bail de location meublé : les règles essentielles pour sécuriser son investissement locatif",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac616fc5891451b9ed2c6c80f8b8a4c&url=https%3a%2f%2fwww.latribune.fr%2fsupplement%2fla-tribune-now%2fbail-de-location-meuble-les-regles-essentielles-pour-securiser-son-investissement-locatif-1011353.html&c=9561197414431228174&mkt=en-us",
+      "source": "bing",
+      "note": "David Hallyday : « Je dois énormément à mon beau-père Tony Scotti, c'est lui m’a donné les outils pour faire de la musique une vie » Droits de reproduction et de diffusion réservés @LaTribune Alors ...",
+      "section": "habitation",
+      "need": "habitation",
+      "tag": "location",
+      "status": "published",
+      "leadScore": 120,
+      "addedAt": "2026-10-07T09:55:59.080Z"
+    },
     {
       "id": "edge-world-cup-iran-2026",
       "title": "Coupe du monde : fan flag et deplacement USA",
@@ -26,15 +104,6 @@
       "source": "firefox",
       "note": "Widget sport — voyage assurance",
       "status": "published",
-      "addedAt": "2026-06-17T08:00:00.000Z"
-    },
-    {
-      "id": "cafeyn-pending-template",
-      "title": "COLLEZ ICI le titre de la une Cafeyn (Le Figaro, Le Parisien…)",
-      "url": "",
-      "source": "cafeyn",
-      "note": "Angle assurance a preciser",
-      "status": "pending",
       "addedAt": "2026-06-17T08:00:00.000Z"
     }
   ]
