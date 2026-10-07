@@ -63,6 +63,7 @@ const ROUTES = {
   "e-invoicing": () => require("../_lib/routes/crm-e-invoicing"),
   "subscription-plans": () => require("../_lib/routes/crm-subscription-plans"),
   "partner-sites": () => require("../_lib/routes/crm-partner-sites"),
+  "lead-sales": () => require("../_lib/routes/crm-lead-sales"),
   april: () => require("../_lib/routes/crm-april"),
   "e-signature": () => require("../_lib/routes/e-signature"),
   "agent-tax-prefs": () => require("../_lib/routes/crm-agent-tax-prefs"),

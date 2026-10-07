@@ -12,6 +12,7 @@ const {
   saveAgentPaymentSplit,
 } = require("../_lib/stripe-payment-store");
 const { markSubscriptionCheckoutPaid } = require("../_lib/subscription-plans-store");
+const { markLeadSalePaidBySession } = require("../_lib/lead-sales-store");
 
 module.exports.config = {
   api: {
@@ -190,6 +191,19 @@ module.exports = async (req, res) => {
         }
       }
 
+      var leadSaleUpdated = null;
+      if (meta.appContext === "lead-sale" || meta.paymentKind === "lead_sale" || meta.leadSaleId) {
+        try {
+          leadSaleUpdated = await markLeadSalePaidBySession(session.id, {
+            paidAt: new Date().toISOString(),
+            amountEur: amountEur,
+            leadSaleId: meta.leadSaleId || (String(referenceId || "").indexOf("lsale_") === 0 ? referenceId : null),
+          });
+        } catch (lsErr) {
+          console.warn("[stripe/webhook] lead sale", lsErr.message);
+        }
+      }
+
       console.log("Stripe checkout complete:", {
         sessionId: session.id,
         customerEmail: email,
@@ -197,6 +211,7 @@ module.exports = async (req, res) => {
         quoteUpdated: !!updated,
         paymentLinkUpdated: !!paymentLink,
         subscriptionPlan: isSubscriptionPlan,
+        leadSaleUpdated: !!leadSaleUpdated,
       });
     }
 

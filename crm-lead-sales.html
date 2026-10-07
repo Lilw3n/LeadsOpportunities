@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vente de leads — prix &amp; dû partenaire | CRM</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-lead-sales.css" />
+</head>
+<body class="crm-subpage" data-admin-nav-page>
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Finance · Leads B2B</p>
+      <h2>Vente de leads</h2>
+      <p>
+        Tu ajustes le <strong>prix de vente</strong>. Le partenaire reçoit
+        <strong>50&nbsp;% de son prix fournisseur</strong> (pas de ton prix de vente).
+        Ex. fournisseur 80&nbsp;€ → il a 40&nbsp;€ ; tu vends 180&nbsp;€ → tu gardes 140&nbsp;€.
+      </p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-stripe.html" class="btn btn-ghost">Hub Stripe</a>
+      <a href="./dashboard.html?section=leads" class="btn btn-ghost">Gestion des leads</a>
+    </div>
+  </section>
+
+  <section class="crm-page-panel ls-totals" id="lsTotals" aria-live="polite">
+    <div class="ls-total">
+      <span>Dû partenaire (ouvert)</span>
+      <strong id="lsDueOpen">—</strong>
+    </div>
+    <div class="ls-total">
+      <span>Déjà réglé au partenaire</span>
+      <strong id="lsDueSettled">—</strong>
+    </div>
+    <div class="ls-total">
+      <span>Ta marge (ventes encaissées)</span>
+      <strong id="lsYouKeep">—</strong>
+    </div>
+    <div class="ls-total">
+      <span>Volume vendu</span>
+      <strong id="lsVolume">—</strong>
+    </div>
+  </section>
+
+  <section class="crm-page-panel" id="lsCreatePanel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Nouvelle vente</p>
+        <h2>Prix fournisseur + prix de vente</h2>
+        <p class="crm-muted-inline">Le prix de vente n’est pas montré au partenaire. Stripe encaisse le prix de vente.</p>
+      </div>
+    </div>
+    <form id="lsForm" class="ls-form">
+      <label class="crm-label">Libellé
+        <input class="crm-input" id="lsLabel" type="text" placeholder="Lead VTC IDF" required />
+      </label>
+      <label class="crm-label">Verticale
+        <input class="crm-input" id="lsVertical" type="text" placeholder="vtc / sante / credit-immo" />
+      </label>
+      <label class="crm-label">Nom fournisseur (pote)
+        <input class="crm-input" id="lsSupplierName" type="text" value="Partenaire" />
+      </label>
+      <div class="ls-price-grid">
+        <label class="crm-label">Prix fournisseur (€)
+          <input class="crm-input" id="lsSupplierPrice" type="number" min="0" step="0.01" placeholder="80" required />
+        </label>
+        <label class="crm-label">Part partenaire (%)
+          <input class="crm-input" id="lsPartnerPct" type="number" min="0" max="100" step="1" value="50" />
+        </label>
+        <label class="crm-label">Prix de vente (€)
+          <input class="crm-input" id="lsSalePrice" type="number" min="0" step="0.01" placeholder="180" required />
+        </label>
+      </div>
+      <div class="ls-preview" id="lsPreview" aria-live="polite">
+        <div><span>Dû partenaire</span><strong id="lsPrevDue">0 €</strong></div>
+        <div><span>Tu gardes</span><strong id="lsPrevKeep">0 €</strong></div>
+        <div><span>Vue partenaire</span><em id="lsPrevPartnerView">40 € (sans prix de vente)</em></div>
+      </div>
+      <label class="crm-label">E-mail acheteur (facultatif)
+        <input class="crm-input" id="lsBuyerEmail" type="email" placeholder="courtier@exemple.fr" />
+      </label>
+      <label class="crm-label">Notes internes
+        <textarea class="crm-input" id="lsNotes" rows="2" placeholder="Ex. flux test semaine 41"></textarea>
+      </label>
+      <div class="ls-form-actions">
+        <button type="submit" class="btn btn-primary" id="lsSubmit">Enregistrer la vente</button>
+        <button type="button" class="btn btn-ghost" id="lsSaveAndStripe">Enregistrer + lien Stripe</button>
+      </div>
+      <p class="ls-status" id="lsStatus"></p>
+    </form>
+  </section>
+
+  <section class="crm-page-panel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Historique</p>
+        <h2>Ventes &amp; règlements partenaire</h2>
+      </div>
+      <button type="button" class="btn btn-ghost" id="lsRefresh">Actualiser</button>
+    </div>
+    <div class="ls-table-wrap">
+      <table class="ls-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Libellé</th>
+            <th>Fournisseur</th>
+            <th>Prix fourn.</th>
+            <th>Vente</th>
+            <th>Dû pote</th>
+            <th>Tu gardes</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="lsTableBody">
+          <tr><td colspan="9" class="ls-empty">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="./js/lead-sale-split-lib.js"></script>
+  <script src="./js/crm-lead-sales.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
