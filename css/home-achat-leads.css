@@ -1,0 +1,180 @@
+/* Section importante — Achat de leads (accueil) */
+.home-achat-leads {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  padding: clamp(56px, 9vw, 96px) 0;
+}
+
+.home-achat-leads-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.home-achat-leads-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.home-achat-leads-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(105deg, rgba(6, 16, 24, 0.94) 0%, rgba(6, 16, 24, 0.82) 48%, rgba(15, 118, 110, 0.55) 100%),
+    linear-gradient(180deg, rgba(6, 16, 24, 0.2) 0%, rgba(6, 16, 24, 0.75) 100%);
+}
+
+.home-achat-leads .container {
+  position: relative;
+  z-index: 1;
+}
+
+.home-achat-leads-grid {
+  display: grid;
+  gap: 32px;
+  align-items: end;
+}
+
+@media (min-width: 900px) {
+  .home-achat-leads-grid {
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 48px;
+  }
+}
+
+.home-achat-leads-badge {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 6px 12px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f0e0b8;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(240, 224, 184, 0.35);
+}
+
+.home-achat-leads h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.7rem, 3.6vw, 2.55rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  max-width: 16ch;
+  color: #fff;
+}
+
+.home-achat-leads-lead {
+  margin: 0 0 22px;
+  font-size: 1.08rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 42ch;
+}
+
+.home-achat-leads-points {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.home-achat-leads-points li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.98rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.4;
+}
+
+.home-achat-leads-points li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  margin-top: 0.45em;
+  flex-shrink: 0;
+  background: #d4a24a;
+}
+
+.home-achat-leads-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.home-achat-leads-actions .btn-primary {
+  background: #d4a24a;
+  color: #061018;
+  border-color: transparent;
+}
+
+.home-achat-leads-actions .btn-primary:hover {
+  background: #e0b35a;
+  color: #061018;
+}
+
+.home-achat-leads-actions .btn-outline {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.45);
+  background: transparent;
+}
+
+.home-achat-leads-actions .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  color: #fff;
+}
+
+.home-achat-leads-aside {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 22px 22px 18px;
+  backdrop-filter: blur(8px);
+}
+
+.home-achat-leads-aside h3 {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+  color: #fff;
+}
+
+.home-achat-leads-aside p {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+.home-achat-leads-aside ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.home-achat-leads-aside li {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.88);
+  padding-left: 14px;
+  position: relative;
+}
+
+.home-achat-leads-aside li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #f0e0b8;
+  font-weight: 700;
+}
+
+.nav a[href="#achat-leads"],
+.mobile-menu a[href="#achat-leads"] {
+  font-weight: 700;
+  color: #0f766e;
+}
