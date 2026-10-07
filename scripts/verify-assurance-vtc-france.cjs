@@ -64,6 +64,7 @@ assert.ok(gcfg.indexOf("mergeClarity") !== -1, "google-config mergeClarity");
 var tracking = read("landings/tracking.js");
 assert.ok(tracking.indexOf("getAvfLeadDefaults") !== -1, "tracking force AVF");
 assert.ok(tracking.indexOf("assurancevtcfrance") !== -1, "tracking tag AVF");
+assert.ok(tracking.indexOf("page_url") !== -1, "tracking page_url AVF");
 
 var crmSources = read("crm-sources.html");
 assert.ok(crmSources.indexOf("assurancevtcfrance") !== -1, "CRM filtre AVF");
