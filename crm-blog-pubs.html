@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pubs articles blog | CRM</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./crm-blog-pubs.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Acquisition · Blog</p>
+      <h2>Pubs articles — créas Meta prêtes</h2>
+      <p>
+        Catalogue des articles et landings à pousser en pub : texte, titre, URL UTM, budget conseillé.
+        Règle : activer une créa seulement si l’article convertit déjà en organique (stats blog).
+      </p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-pubs.html" class="btn btn-primary">Gestion pubs Ads</a>
+      <a href="./crm-blog-stats.html" class="btn btn-ghost">Stats blog</a>
+      <a href="./blog-questionnaires.html" class="btn btn-ghost">Blog → questionnaires</a>
+      <a href="./docs/ACQUISITION-BLOG-CONVERSION.md" class="btn btn-ghost">Doc stratégie</a>
+      <a href="https://adsmanager.facebook.com/" target="_blank" rel="noopener" class="btn btn-ghost">Ads Manager ↗</a>
+      <button type="button" class="btn btn-ghost" id="btnBlogPubsRefresh">Actualiser</button>
+    </div>
+  </section>
+
+  <div class="blog-pubs-stats" id="blogPubsStats" aria-live="polite"></div>
+
+  <section class="panel blog-pubs-howto">
+    <div class="blog-pubs-howto-grid">
+      <div>
+        <p class="crm-eyebrow">Workflow</p>
+        <h3>Lancer une pub article en 4 gestes</h3>
+        <ol class="blog-pubs-steps">
+          <li><strong>Choisir</strong> une créa (filtre verticale / recherche).</li>
+          <li><strong>Copier</strong> le texte + le titre Meta.</li>
+          <li><strong>Coller l’URL</strong> article (UTM déjà inclus) dans Ads Manager.</li>
+          <li><strong>Objectif Lead</strong>, budget = plafond du jour, France.</li>
+        </ol>
+      </div>
+      <div class="blog-pubs-howto-aside">
+        <p><span class="acq-badge meta">Tiède</span> Article blog → CTA bridge vers landing</p>
+        <p><span class="acq-badge hot">Chaud</span> Landing directe (devis / rappel)</p>
+        <p class="blog-pubs-hint">Ne jamais payer pour un article sans <code>JourneyFormStart</code> organique.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="crm-toolbar acq-toolbar blog-pubs-toolbar">
+    <label>Verticale
+      <select id="blogPubsVertical" class="crm-input">
+        <option value="">Toutes</option>
+      </select>
+    </label>
+    <label>Destination
+      <select id="blogPubsDest" class="crm-input">
+        <option value="">Toutes</option>
+        <option value="blog_then_bridge">Article → bridge</option>
+        <option value="direct_landing">Landing directe</option>
+      </select>
+    </label>
+    <label class="blog-pubs-search-label">Recherche
+      <input type="search" id="blogPubsSearch" class="crm-input" placeholder="slug, campagne, titre…" autocomplete="off" />
+    </label>
+    <label>Tri
+      <select id="blogPubsSort" class="crm-input">
+        <option value="priority">Priorité CSV</option>
+        <option value="vertical">Verticale</option>
+        <option value="budget">Budget ↓</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="blog-pubs-chips" id="blogPubsChips" aria-label="Filtres rapides verticales"></div>
+
+  <section class="blog-pubs-grid" id="blogPubsGrid" aria-live="polite">
+    <p class="blog-pubs-loading">Chargement du catalogue…</p>
+  </section>
+
+  <section class="panel blog-pubs-footer-docs">
+    <h3>Fichiers &amp; docs</h3>
+    <ul id="blogPubsDocs" class="pub-doc-list"></ul>
+  </section>
+
+  <script src="./js/crm-lead-platform.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-blog-pubs.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
