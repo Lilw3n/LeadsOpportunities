@@ -8,28 +8,28 @@
       "tagClass": "tag-sante"
     },
     {
-      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur"],
+      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur", "taxe foncière", "taxe fonciere", "immobilier"],
       "section": "habitat",
       "need": "habitation",
       "tag": "Habitation",
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie", "recherche de prêt", "recherche de pret", "offre de prêt", "offre de pret", "capacité d'emprunt", "capacite d'emprunt", "dossier de crédit", "dossier de credit"],
+      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "crédit immobilier", "credit immobilier", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie", "recherche de prêt", "recherche de pret", "offre de prêt", "offre de pret", "capacité d'emprunt", "capacite d'emprunt", "dossier de crédit", "dossier de credit", "assurance de prêt", "assurance de pret", "assurance emprunteur"],
       "section": "finance",
       "need": "emprunteur",
       "tag": "Crédit & emprunteur",
       "tagClass": "tag-actu"
     },
     {
-      "keywords": ["vente de maison", "vente maison", "acquisition", "achat immobilier", "acheter une maison", "acheter un appartement", "compromis de vente", "notaire", "frais de notaire", "bien à vendre", "bien a vendre", "annonce immobilière", "annonce immobiliere", "marché immobilier", "marche immobilier"],
+      "keywords": ["vente de maison", "vente maison", "vente d'un bien", "vente d’un bien", "acquisition", "achat immobilier", "acheter une maison", "acheter un appartement", "compromis de vente", "notaire", "frais de notaire", "bien à vendre", "bien a vendre", "annonce immobilière", "annonce immobiliere", "marché immobilier", "marche immobilier", "ressortissant", "propriétaire est un"],
       "section": "habitat",
       "need": "habitation",
       "tag": "Vente & acquisition",
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["location", "à louer", "a louer", "bien à louer", "louer un appartement", "louer une maison", "bail", "loyers", "locataire", "bailleur", "recherche de bien", "visite immobilière", "visite immobiliere"],
+      "keywords": ["location", "à louer", "a louer", "bien à louer", "louer un appartement", "louer une maison", "bail", "loyers", "locataire", "bailleur", "recherche de bien", "visite immobilière", "visite immobiliere", "location meublé", "location meuble", "investissement locatif"],
       "section": "habitat",
       "need": "habitation",
       "tag": "Location & recherche",
