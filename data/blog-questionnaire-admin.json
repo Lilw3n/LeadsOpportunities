@@ -2125,6 +2125,58 @@
       "species": null
     },
     {
+      "file": "assurance-auto-tarifs-2026-comparer-sans-surpayer.html",
+      "title": "Assurance auto 2026 : comparez les tarifs sans surpayer (guide clair)",
+      "section": "auto",
+      "hook": "Bonus-malus, tiers ou tous risques : le mauvais choix se paie au sinistre.",
+      "question": "Et si vous compariez votre assurance auto à garanties équivalentes ?",
+      "need": "auto",
+      "landing": "../landings/devis.html?need=auto&utm_source=blog&utm_medium=article&utm_campaign=pubs_pack&utm_content=auto-tarifs",
+      "express": "../landings/devis-express.html?need=auto",
+      "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard",
+      "matchedRule": "auto",
+      "species": null
+    },
+    {
+      "file": "assurance-auto-resilier-loi-hamon-comparer-2026.html",
+      "title": "Résilier son assurance auto avec la loi Hamon et comparer en 2026",
+      "section": "auto",
+      "hook": "Bonus-malus, tiers ou tous risques : le mauvais choix se paie au sinistre.",
+      "question": "Et si vous compariez votre assurance auto à garanties équivalentes ?",
+      "need": "auto",
+      "landing": "../landings/devis.html?need=auto&utm_source=blog&utm_medium=article&utm_campaign=pubs_pack&utm_content=auto-hamon",
+      "express": "../landings/devis-express.html?need=auto",
+      "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard",
+      "matchedRule": "auto",
+      "species": null
+    },
+    {
+      "file": "assurance-habitation-degat-des-eaux-que-faire-2026.html",
+      "title": "Dégât des eaux : que faire et ce que couvre l’assurance habitation",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation&utm_source=blog&utm_medium=article&utm_campaign=pubs_pack&utm_content=mrh-eaux",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "assurance-emprunteur-changer-economiser-2026.html",
+      "title": "Changer d’assurance emprunteur en 2026 : économiser sans stress",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html?utm_source=blog&utm_medium=article&utm_campaign=pubs_pack&utm_content=emprunteur-change",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
       "title": "Investir en France sans y resider : assurance emprunteur et pret immo",
       "section": "finance",
