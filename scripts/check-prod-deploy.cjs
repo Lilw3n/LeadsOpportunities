@@ -7,6 +7,8 @@ const ORIGIN = process.env.PROD_ORIGIN || "https://www.leadsopportunities.fr";
 
 const checks = [
   { name: "crm-pubs.html", url: "/crm-pubs.html", expect: (r, t) => r.ok && t.includes("presetCampaigns") },
+  { name: "crm-blog-pubs.html", url: "/crm-blog-pubs.html", expect: (r, t) => r.ok && t.includes("blogPubsGrid") },
+  { name: "blog-pubs-catalog", url: "/data/blog-pubs-catalog.json", expect: (r, t) => r.ok && t.includes("meta-blog-conversions") },
   { name: "crm-trafic.html", url: "/crm-trafic.html", expect: (r) => r.ok },
   { name: "acquisition-focus", url: "/api/acquisition-focus", expect: (r, t) => r.ok && (t.includes("meta_vtc_p1_convert") || t.includes("vtc")) },
   { name: "meta-status", url: "/api/meta-status", expect: (r, t) => r.ok && t.includes("capi_configured") },

@@ -5,7 +5,11 @@
   if (!document.body.classList.contains("crm-subpage")) return;
 
   function boot() {
-    if (!localStorage.getItem("lo_token")) {
+    var host = location.hostname || "";
+    var preview =
+      /(?:^|[?&])preview=1(?:&|$)/.test(location.search || "") &&
+      (host === "127.0.0.1" || host === "localhost");
+    if (!localStorage.getItem("lo_token") && !preview) {
       location.href = "./crm.html";
       return;
     }
@@ -24,6 +28,7 @@
       "crm-leads.html": { subtitle: "Lead → prospect / interlocuteur — fusion, liaison, spam IP, validation admin" },
       "crm-sources.html": { subtitle: "Attribution UTM — plateforme, campagne, gclid, fbclid, ttclid" },
       "crm-pubs.html": { subtitle: "Liens Ads Manager Meta, Google, TikTok — campagne active et formulaires" },
+      "crm-blog-pubs.html": { subtitle: "Créas Meta articles & landings — textes, URL UTM, budget, copie Ads Manager" },
       "crm-meta-inbox.html": { subtitle: "Formulaires instantanés Facebook / Instagram — réponses devis" },
       "crm-private-offer-matching.html": { subtitle: "Matching privé VSP selon profil, source et critères partenaires" },
       "crm-leads-analysis.html": { subtitle: "Pré-analyse IA et qualification des demandes entrantes" },
