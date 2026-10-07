@@ -5,7 +5,11 @@
   if (!document.body.classList.contains("crm-subpage")) return;
 
   function boot() {
-    if (!localStorage.getItem("lo_token")) {
+    var host = location.hostname || "";
+    var preview =
+      /(?:^|[?&])preview=1(?:&|$)/.test(location.search || "") &&
+      (host === "127.0.0.1" || host === "localhost");
+    if (!localStorage.getItem("lo_token") && !preview) {
       location.href = "./crm.html";
       return;
     }

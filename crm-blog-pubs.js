@@ -1,7 +1,11 @@
 (function () {
   var TOKEN_KEY = "lo_token";
+  var host = location.hostname || "";
+  var preview =
+    /(?:^|[?&])preview=1(?:&|$)/.test(location.search || "") &&
+    (host === "127.0.0.1" || host === "localhost");
   var token = localStorage.getItem(TOKEN_KEY);
-  if (!token) {
+  if (!token && !preview) {
     location.href = "./crm.html";
     return;
   }
