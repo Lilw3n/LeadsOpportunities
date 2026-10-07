@@ -168,7 +168,8 @@ window.CrmSidebar = {
       items: [
         { type: "link", href: "./crm-financial.html", label: "Vue d'ensemble", icon: "financial" },
         { type: "link", href: "./crm-stripe.html", label: "Stripe — envoyer & payer", icon: "financial", highlight: true, desc: "Paiement unique, abonnement, acompte, page publique" },
-        { type: "link", href: "./crm-lead-sales.html", label: "Vente de leads", icon: "financial", highlight: true, desc: "Prix ajustable · 50 % du prix fournisseur au partenaire · Stripe" },
+        { type: "link", href: "./crm-lead-sales.html", label: "Vente de leads", icon: "financial", highlight: true, desc: "Prix ajustable · Espace Leads (connexion) · dû partenaire" },
+        { type: "link", href: "./crm-lead-sales-partenaire.html", label: "Vue fournisseur", icon: "financial", desc: "Sans prix de vente — à montrer au partenaire" },
         { type: "link", href: "./crm-subscription-plans.html", label: "Formules d’abonnement", icon: "financial", highlight: true, desc: "Grille publique /abonnements/ · Stripe Checkout adaptable" },
         { type: "link", href: "./crm-e-signature.html", label: "Signature électronique", icon: "document", highlight: true, desc: "Lien client gratuit · canvas · PDF signé (SES)" },
         { type: "link", href: "./crm-financial-payments.html", label: "Paiements" },

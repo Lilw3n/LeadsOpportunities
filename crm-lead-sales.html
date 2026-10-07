@@ -22,8 +22,26 @@
       </p>
     </div>
     <div class="crm-action-row">
+      <a href="./crm-lead-sales-partenaire.html" class="btn btn-primary">Vue fournisseur (sans prix vente)</a>
+      <a href="./espace-leads/" class="btn btn-ghost" target="_blank" rel="noopener">Espace Leads</a>
       <a href="./crm-stripe.html" class="btn btn-ghost">Hub Stripe</a>
-      <a href="./dashboard.html?section=leads" class="btn btn-ghost">Gestion des leads</a>
+    </div>
+  </section>
+
+  <section class="crm-page-panel" style="background:#f0fdfa;border:1px solid #99f6e4">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Ce que tu peux dire à ton pote</p>
+        <h2 style="font-size:1.15rem;margin:0 0 8px">Couverture « Espace Leads »</h2>
+        <p class="crm-muted-inline" style="max-width:720px">
+          « Les acheteurs doivent <strong>créer un compte et se connecter</strong> pour récupérer les contacts
+          (RGPD, preuve d’ouverture, anti-revente). On ne facture pas un lead en clair : c’est un
+          <strong>accès plateforme + pack</strong>. Toi tu es payé sur le <strong>barème fournisseur</strong>
+          qu’on a fixé (ex. 50&nbsp;% de ton prix 80&nbsp;€ = 40&nbsp;€) — pas sur le tarif plateforme. »
+          <br />Envoie-lui uniquement la <a href="./crm-lead-sales-partenaire.html">vue fournisseur</a>
+          ou un export imprimé — jamais cet écran-ci.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -55,8 +73,11 @@
       </div>
     </div>
     <form id="lsForm" class="ls-form">
-      <label class="crm-label">Libellé
-        <input class="crm-input" id="lsLabel" type="text" placeholder="Lead VTC IDF" required />
+      <label class="crm-label">Libellé interne (privé)
+        <input class="crm-input" id="lsLabel" type="text" placeholder="Pack VTC IDF — courtier X" required />
+      </label>
+      <label class="crm-label">Libellé Stripe / Espace (visible acheteur)
+        <input class="crm-input" id="lsProductLabel" type="text" value="Accès Espace Leads — pack sécurisé" />
       </label>
       <label class="crm-label">Verticale
         <input class="crm-input" id="lsVertical" type="text" placeholder="vtc / sante / credit-immo" />

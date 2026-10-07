@@ -64,8 +64,11 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: "Montant maximum " + CRM_MAX_AMOUNT_EUR + " EUR." });
   }
 
-  const label =
-    String(body.label || sale.label || "Lead professionnel").trim() || "Lead professionnel";
+  const productLabel =
+    String(
+      body.productLabel || sale.productLabel || "Accès Espace Leads — pack sécurisé"
+    ).trim() || "Accès Espace Leads — pack sécurisé";
+  const label = productLabel;
   const customerEmail = String(body.buyerEmail || sale.buyerEmail || "").trim();
   if (customerEmail && customerEmail.indexOf("@") === -1) {
     return res.status(400).json({ error: "Email acheteur invalide." });
@@ -81,6 +84,7 @@ module.exports = async (req, res) => {
   });
 
   try {
+    // Libellé opaque côté Stripe : « accès plateforme », pas « lead à 180 € »
     const sessionPayload = {
       mode: "payment",
       payment_method_types: ["card"],
@@ -91,14 +95,21 @@ module.exports = async (req, res) => {
             unit_amount: amountCents,
             product_data: {
               name: label,
-              description: "Achat lead professionnel · Leads Opportunities",
+              description:
+                "Déblocage via Espace Leads (connexion requise) · traçabilité RGPD · Leads Opportunities",
             },
           },
           quantity: 1,
         },
       ],
-      success_url: appUrl + "/paiement-success.html?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: appUrl + "/crm-lead-sales.html?canceled=1",
+      success_url:
+        appUrl +
+        "/espace-leads/acces.html?paid=1&session_id={CHECKOUT_SESSION_ID}" +
+        (sale.portalToken ? "&pack=" + encodeURIComponent(sale.portalToken) : ""),
+      cancel_url:
+        appUrl +
+        "/espace-leads/acces.html?canceled=1" +
+        (sale.portalToken ? "&pack=" + encodeURIComponent(sale.portalToken) : ""),
       metadata: {
         companyCode,
         appContext: "lead-sale",
@@ -114,18 +125,20 @@ module.exports = async (req, res) => {
         partnerSharePct: String(split.partnerSharePct),
         createdBy: user.id || user.email || "crm",
         label: label.slice(0, 80),
+        portalToken: sale.portalToken || "",
       },
     };
     if (customerEmail) sessionPayload.customer_email = customerEmail;
 
     const session = await stripe.checkout.sessions.create(sessionPayload);
 
-    await updateLeadSale(saleId, {
+    const refreshed = await updateLeadSale(saleId, {
       status: "link_sent",
       stripeSessionId: session.id,
       paymentUrl: session.url,
       salePriceEur: amountEur,
       buyerEmail: customerEmail || sale.buyerEmail,
+      productLabel: productLabel,
     });
 
     await savePaymentLink({
@@ -142,15 +155,22 @@ module.exports = async (req, res) => {
         partnerDueEur: split.partnerDueEur,
         supplierPriceEur: split.supplierPriceEur,
         youKeepEur: split.youKeepEur,
+        portalToken: (refreshed.sale && refreshed.sale.portalToken) || sale.portalToken,
       },
     });
+
+    const portalUrl =
+      (refreshed.sale && refreshed.sale.portalUrl) || sale.portalUrl || null;
 
     return res.status(200).json({
       ok: true,
       sessionId: session.id,
       url: session.url,
+      /** Lien à envoyer à l’acheteur : connexion Espace Leads, pas le Checkout brut */
+      portalUrl: portalUrl,
       amountEur: amountEur,
       saleId: saleId,
+      productLabel: productLabel,
       split: split,
       partnerView: LeadSaleSplit.partnerView(split),
     });

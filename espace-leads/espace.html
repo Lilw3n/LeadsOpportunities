@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon espace — packs | Espace Leads</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./espace-leads.css" />
+</head>
+<body class="el-page">
+  <header class="el-top">
+    <a class="el-brand" href="./">Espace <span>Leads</span></a>
+    <nav>
+      <span id="elWho" style="font-size:0.85rem;color:#5b6f78"></span>
+      <a href="#" id="elLogout">Déconnexion</a>
+    </nav>
+  </header>
+  <main class="el-main">
+    <section class="el-hero">
+      <h1>Vos packs</h1>
+      <p>Après connexion, ouvrez le lien pack reçu par e-mail pour débloquer les contacts.</p>
+    </section>
+    <div id="elPackList"></div>
+    <p class="el-note">Astuce : gardez le lien <code>acces.html?pack=…</code> — il est lié à votre compte une fois ouvert.</p>
+  </main>
+  <script src="./espace-leads.js"></script>
+  <script>
+    (function () {
+      var s = window.EspaceLeads.requireSession("espace.html");
+      if (!s) return;
+      document.getElementById("elWho").textContent = s.email;
+      document.getElementById("elLogout").addEventListener("click", function (e) {
+        e.preventDefault();
+        window.EspaceLeads.logout();
+        location.href = "./connexion.html";
+      });
+      var tokens = window.EspaceLeads.knownPacks();
+      var box = document.getElementById("elPackList");
+      if (!tokens.length) {
+        box.innerHTML = '<p class="el-pack-meta">Aucun pack sur cet appareil pour l’instant.</p>';
+        return;
+      }
+      box.innerHTML = "<ul class=\"el-points\" id=\"elUl\"></ul>";
+      var ul = document.getElementById("elUl");
+      tokens.reverse().forEach(function (t) {
+        var li = document.createElement("li");
+        li.innerHTML =
+          "<strong>Pack</strong><span><a href=\"./acces.html?pack=" +
+          encodeURIComponent(t) +
+          "\">Ouvrir</a> · <code style=\"font-size:0.75rem\">" +
+          t.slice(0, 14) +
+          "…</code></span>";
+        ul.appendChild(li);
+        window.EspaceLeads.fetchPack(t)
+          .then(function (p) {
+            li.innerHTML =
+              "<strong>" +
+              (p.title || "Pack") +
+              "</strong><span>" +
+              (p.unlocked ? "Débloqué" : p.amountEur + " €") +
+              ' · <a href="./acces.html?pack=' +
+              encodeURIComponent(t) +
+              '">Ouvrir</a></span>';
+          })
+          .catch(function () {});
+      });
+    })();
+  </script>
+</body>
+</html>

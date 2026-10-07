@@ -1,0 +1,278 @@
+:root {
+  --el-ink: #0b1f2a;
+  --el-sea: #0f766e;
+  --el-sea-deep: #115e59;
+  --el-mist: #f0fdfa;
+  --el-line: #d1e5e2;
+  --el-muted: #5b6f78;
+  --el-gold: #b45309;
+  --el-font: "Source Sans 3", "Segoe UI", sans-serif;
+  --el-display: "Syne", "Avenir Next", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body.el-page {
+  margin: 0;
+  font-family: var(--el-font);
+  color: var(--el-ink);
+  background: #f7fbfa;
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+.el-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px clamp(16px, 4vw, 40px);
+  border-bottom: 1px solid var(--el-line);
+  background: #fff;
+}
+
+.el-brand {
+  font-family: var(--el-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: var(--el-ink);
+  letter-spacing: -0.02em;
+}
+
+.el-brand span {
+  color: var(--el-sea);
+}
+
+.el-top nav {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.el-top a {
+  text-decoration: none;
+  color: var(--el-muted);
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.el-top a:hover {
+  color: var(--el-sea);
+}
+
+.el-main {
+  width: min(880px, 100%);
+  margin: 0 auto;
+  padding: clamp(28px, 6vh, 56px) clamp(16px, 4vw, 28px) 64px;
+}
+
+.el-hero h1 {
+  font-family: var(--el-display);
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 0 0 12px;
+}
+
+.el-hero p {
+  margin: 0 0 24px;
+  color: var(--el-muted);
+  font-size: 1.05rem;
+  max-width: 42ch;
+}
+
+.el-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.el-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.el-btn-primary {
+  background: var(--el-sea);
+  color: #fff;
+}
+
+.el-btn-primary:hover {
+  background: var(--el-sea-deep);
+}
+
+.el-btn-ghost {
+  background: #fff;
+  border-color: var(--el-line);
+  color: var(--el-ink);
+}
+
+.el-btn-ghost:hover {
+  border-color: var(--el-sea);
+  color: var(--el-sea);
+}
+
+.el-points {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 720px) {
+  .el-points {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.el-points li {
+  background: #fff;
+  border: 1px solid var(--el-line);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.el-points strong {
+  display: block;
+  font-family: var(--el-display);
+  margin-bottom: 6px;
+}
+
+.el-points span {
+  color: var(--el-muted);
+  font-size: 0.92rem;
+}
+
+.el-card {
+  background: #fff;
+  border: 1px solid var(--el-line);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 440px;
+}
+
+.el-card h1 {
+  font-family: var(--el-display);
+  font-size: 1.45rem;
+  margin: 0 0 8px;
+}
+
+.el-card .el-sub {
+  color: var(--el-muted);
+  margin: 0 0 20px;
+  font-size: 0.95rem;
+}
+
+.el-label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.el-input {
+  width: 100%;
+  margin-top: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--el-line);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.el-status {
+  min-height: 1.2em;
+  font-size: 0.9rem;
+  margin: 12px 0 0;
+}
+
+.el-status.is-ok {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.el-status.is-error {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.el-note {
+  margin-top: 18px;
+  padding: 12px 14px;
+  background: var(--el-mist);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: var(--el-sea-deep);
+}
+
+.el-pack {
+  background: #fff;
+  border: 1px solid var(--el-line);
+  border-radius: 12px;
+  padding: 22px;
+}
+
+.el-pack h1 {
+  font-family: var(--el-display);
+  font-size: 1.4rem;
+  margin: 0 0 8px;
+}
+
+.el-pack-meta {
+  color: var(--el-muted);
+  font-size: 0.92rem;
+  margin: 0 0 18px;
+}
+
+.el-amount {
+  font-family: var(--el-display);
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 16px;
+}
+
+.el-lock {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 8px;
+  color: #9a3412;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.el-unlocked {
+  background: var(--el-mist);
+  border: 1px solid #99f6e4;
+  border-radius: 8px;
+  padding: 14px;
+  color: var(--el-sea-deep);
+}
+
+.el-footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--el-muted);
+  font-size: 0.82rem;
+}
+
+.el-footer a {
+  color: var(--el-sea);
+}

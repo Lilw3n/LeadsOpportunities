@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue fournisseur — règlements | CRM</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-lead-sales.css" />
+  <style>
+    .ls-partner-banner {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      color: #065f46;
+      font-size: 0.92rem;
+    }
+    .ls-hide-hint {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin: 0 0 12px;
+    }
+  </style>
+</head>
+<body class="crm-subpage" data-admin-nav-page>
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Vue fournisseur</p>
+      <h2>Règlements partenaire</h2>
+      <p>Écran partageable : uniquement prix fournisseur + dû. <strong>Aucun prix de vente</strong>.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-lead-sales.html" class="btn btn-ghost">Retour ventes (privé)</a>
+      <button type="button" class="btn btn-primary" id="lsPrint">Imprimer / PDF</button>
+    </div>
+  </section>
+
+  <section class="crm-page-panel">
+    <div class="ls-partner-banner">
+      Livraison via <strong>Espace Leads</strong> (connexion acheteur obligatoire).
+      Votre rémunération suit le barème fournisseur convenu — pas le tarif plateforme facturé à l’acheteur.
+    </div>
+    <p class="ls-hide-hint">À montrer au partenaire / imprimer. Ne pas ouvrir la page « Vente de leads » à côté.</p>
+    <div class="ls-totals" style="grid-template-columns:repeat(2,1fr);margin-bottom:20px">
+      <div class="ls-total">
+        <span>Dû ouvert</span>
+        <strong id="lsDueOpen">—</strong>
+      </div>
+      <div class="ls-total">
+        <span>Déjà réglé</span>
+        <strong id="lsDueSettled">—</strong>
+      </div>
+    </div>
+    <div class="ls-table-wrap">
+      <table class="ls-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Réf. interne</th>
+            <th>Fournisseur</th>
+            <th>Prix fournisseur</th>
+            <th>Part %</th>
+            <th>Dû</th>
+            <th>Statut règlement</th>
+          </tr>
+        </thead>
+        <tbody id="lsTableBody">
+          <tr><td colspan="7" class="ls-empty">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="./js/lead-sale-split-lib.js"></script>
+  <script>
+    (function () {
+      var TOKEN_KEY = "lo_token";
+      var token = localStorage.getItem(TOKEN_KEY);
+      if (!token) {
+        location.href = "./crm.html";
+        return;
+      }
+      function euro(n) {
+        return (Number(n) || 0).toLocaleString("fr-FR", {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        }) + " €";
+      }
+      function esc(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;");
+      }
+      function fmtDate(iso) {
+        if (!iso) return "—";
+        return new Date(iso).toLocaleDateString("fr-FR");
+      }
+      fetch("/api/crm/lead-sales?limit=100", {
+        headers: { Authorization: "Bearer " + token },
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          if (!data.ok) throw new Error(data.error || "Erreur");
+          document.getElementById("lsDueOpen").textContent = euro(
+            data.totals && data.totals.partnerDueOpen
+          );
+          document.getElementById("lsDueSettled").textContent = euro(
+            data.totals && data.totals.partnerDueSettled
+          );
+          var body = document.getElementById("lsTableBody");
+          var sales = (data.sales || []).filter(function (s) {
+            return s.status !== "cancelled" && s.status !== "draft";
+          });
+          if (!sales.length) {
+            body.innerHTML =
+              '<tr><td colspan="7" class="ls-empty">Aucun règlement.</td></tr>';
+            return;
+          }
+          body.innerHTML = sales
+            .map(function (s) {
+              var settled = s.partnerSettledAt
+                ? "Réglé " + fmtDate(s.partnerSettledAt)
+                : s.status === "paid" || s.status === "sold_manual"
+                  ? "À régler"
+                  : "En cours";
+              return (
+                "<tr><td>" +
+                fmtDate(s.soldAt || s.createdAt) +
+                "</td><td><code>" +
+                esc(String(s.id).slice(0, 14)) +
+                "</code></td><td>" +
+                esc(s.supplierName) +
+                "</td><td>" +
+                euro(s.supplierPriceEur) +
+                "</td><td>" +
+                esc(s.partnerSharePct) +
+                " %</td><td><strong>" +
+                euro(s.partnerDueEur) +
+                "</strong></td><td>" +
+                esc(settled) +
+                "</td></tr>"
+              );
+            })
+            .join("");
+        })
+        .catch(function (e) {
+          document.getElementById("lsTableBody").innerHTML =
+            '<tr><td colspan="7" class="ls-empty">' + esc(e.message) + "</td></tr>";
+        });
+      document.getElementById("lsPrint").addEventListener("click", function () {
+        window.print();
+      });
+    })();
+  </script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

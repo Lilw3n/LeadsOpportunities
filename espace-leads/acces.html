@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Débloquer un pack | Espace Leads</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./espace-leads.css" />
+</head>
+<body class="el-page">
+  <header class="el-top">
+    <a class="el-brand" href="./">Espace <span>Leads</span></a>
+    <nav>
+      <a href="./espace.html">Mon espace</a>
+      <a href="./connexion.html" id="elNavAuth">Connexion</a>
+    </nav>
+  </header>
+  <main class="el-main">
+    <div class="el-pack" id="elPackBox">
+      <p class="el-pack-meta">Chargement du pack…</p>
+    </div>
+  </main>
+  <script src="./espace-leads.js"></script>
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var token = params.get("pack") || "";
+      var box = document.getElementById("elPackBox");
+      var session = window.EspaceLeads.session();
+
+      if (session) {
+        document.getElementById("elNavAuth").textContent = "Compte";
+        document.getElementById("elNavAuth").href = "./espace.html";
+      }
+
+      if (!token) {
+        box.innerHTML =
+          "<h1>Lien incomplet</h1><p class=\"el-pack-meta\">Il manque le paramètre <code>pack</code>. Demandez un nouveau lien.</p>";
+        return;
+      }
+
+      if (!session) {
+        box.innerHTML =
+          '<div class="el-lock">Connexion requise pour voir et débloquer ce pack (compte acheteur).</div>' +
+          '<a class="el-btn el-btn-primary" href="./connexion.html?pack=' +
+          encodeURIComponent(token) +
+          '">Se connecter pour continuer</a>';
+        return;
+      }
+
+      window.EspaceLeads
+        .fetchPack(token)
+        .then(function (pack) {
+          var html = "";
+          html += "<h1>" + esc(pack.title) + "</h1>";
+          html +=
+            '<p class="el-pack-meta">Connecté en tant que <strong>' +
+            esc(session.email) +
+            "</strong>" +
+            (pack.vertical ? " · " + esc(pack.vertical) : "") +
+            "</p>";
+
+          if (params.get("paid") === "1") {
+            html +=
+              '<div class="el-unlocked" style="margin-bottom:14px">Paiement reçu — actualisation du pack…</div>';
+          }
+
+          if (pack.unlocked) {
+            html +=
+              '<div class="el-unlocked"><strong>Pack débloqué.</strong><br>Les coordonnées (e-mail + téléphone) sont disponibles pour votre compte. Un conseiller peut aussi vous les transmettre par canal sécurisé si besoin.</div>';
+            html +=
+              '<p style="margin-top:16px"><a class="el-btn el-btn-ghost" href="./espace.html">Retour à mon espace</a></p>';
+          } else {
+            html += '<p class="el-amount">' + esc(String(pack.amountEur)) + " €</p>";
+            html +=
+              '<div class="el-lock">Paiement sécurisé Stripe · libellé « accès plateforme » · aucun détail fournisseur affiché ici.</div>';
+            if (pack.paymentUrl) {
+              html +=
+                '<a class="el-btn el-btn-primary" href="' +
+                esc(pack.paymentUrl) +
+                '">Débloquer via Stripe</a>';
+            } else {
+              html +=
+                '<p class="el-status is-error">Lien de paiement pas encore généré — contactez Leads Opportunities.</p>';
+            }
+          }
+          box.innerHTML = html;
+
+          if (params.get("paid") === "1" && !pack.unlocked) {
+            setTimeout(function () {
+              location.reload();
+            }, 2500);
+          }
+        })
+        .catch(function (err) {
+          box.innerHTML =
+            "<h1>Pack introuvable</h1><p class=\"el-pack-meta\">" +
+            esc(err.message || "Erreur") +
+            "</p>";
+        });
+
+      function esc(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/"/g, "&quot;");
+      }
+    })();
+  </script>
+</body>
+</html>

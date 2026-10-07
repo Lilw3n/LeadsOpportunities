@@ -44,6 +44,9 @@ async function ensureLeadSalesSchema(sql) {
     await sql`CREATE INDEX IF NOT EXISTS idx_lead_sales_status ON lead_sales(status, created_at DESC)`;
     await sql`CREATE INDEX IF NOT EXISTS idx_lead_sales_partner ON lead_sales(partner_settled_at, status)`;
     await sql`CREATE INDEX IF NOT EXISTS idx_lead_sales_stripe ON lead_sales(stripe_session_id)`;
+    await sql`ALTER TABLE lead_sales ADD COLUMN IF NOT EXISTS portal_token TEXT`;
+    await sql`ALTER TABLE lead_sales ADD COLUMN IF NOT EXISTS product_label TEXT`;
+    await sql`CREATE UNIQUE INDEX IF NOT EXISTS idx_lead_sales_portal_token ON lead_sales(portal_token) WHERE portal_token IS NOT NULL`;
     schemaReady = true;
     return true;
   } catch (e) {
@@ -51,6 +54,17 @@ async function ensureLeadSalesSchema(sql) {
     return false;
   }
 }
+
+function newPortalToken() {
+  return (
+    "elp_" +
+    Date.now().toString(36) +
+    Math.random().toString(36).slice(2, 10) +
+    Math.random().toString(36).slice(2, 8)
+  );
+}
+
+const DEFAULT_PRODUCT_LABEL = "Accès Espace Leads — pack sécurisé";
 
 function rowToSale(row) {
   if (!row) return null;
@@ -83,6 +97,11 @@ function rowToSale(row) {
     createdBy: row.created_by || null,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    portalToken: row.portal_token || null,
+    productLabel: row.product_label || DEFAULT_PRODUCT_LABEL,
+    portalUrl: row.portal_token
+      ? "/espace-leads/acces.html?pack=" + encodeURIComponent(row.portal_token)
+      : null,
     partnerView: LeadSaleSplit.partnerView(split),
   };
 }
@@ -149,15 +168,19 @@ async function createLeadSale(input, createdBy) {
     return { ok: false, error: "Indiquez au moins un prix fournisseur ou un prix de vente." };
   }
   var id = newSaleId();
+  var portalToken = newPortalToken();
+  var productLabel = String(
+    input.productLabel || DEFAULT_PRODUCT_LABEL
+  ).slice(0, 200);
   var rows = await sql`
     INSERT INTO lead_sales (
       id, lead_id, label, vertical, buyer_email, buyer_name, supplier_name,
       supplier_price_eur, partner_share_pct, partner_due_eur, sale_price_eur, you_keep_eur,
-      status, hide_sale_from_partner, notes, created_by
+      status, hide_sale_from_partner, notes, created_by, portal_token, product_label
     ) VALUES (
       ${id},
       ${input.leadId || null},
-      ${String(input.label || "Lead professionnel").slice(0, 200)},
+      ${String(input.label || "Pack Espace Leads").slice(0, 200)},
       ${String(input.vertical || "").slice(0, 80)},
       ${String(input.buyerEmail || "").slice(0, 200) || null},
       ${String(input.buyerName || "").slice(0, 160) || null},
@@ -170,7 +193,9 @@ async function createLeadSale(input, createdBy) {
       ${input.status || "draft"},
       ${input.hideSaleFromPartner !== false},
       ${String(input.notes || "").slice(0, 2000) || null},
-      ${createdBy || null}
+      ${createdBy || null},
+      ${portalToken},
+      ${productLabel}
     )
     RETURNING *
   `;
@@ -214,6 +239,12 @@ async function updateLeadSale(id, patch) {
     partnerSettledNote = String(patch.partnerSettledNote).slice(0, 500);
   }
 
+  var productLabel =
+    patch.productLabel != null
+      ? String(patch.productLabel).slice(0, 200)
+      : current.productLabel || DEFAULT_PRODUCT_LABEL;
+  var portalToken = current.portalToken || newPortalToken();
+
   var rows = await sql`
     UPDATE lead_sales SET
       lead_id = ${patch.leadId !== undefined ? patch.leadId || null : current.leadId},
@@ -253,6 +284,8 @@ async function updateLeadSale(id, patch) {
       partner_settled_note = ${partnerSettledNote || null},
       sold_at = ${soldAt},
       notes = ${patch.notes !== undefined ? String(patch.notes || "").slice(0, 2000) || null : current.notes || null},
+      portal_token = ${portalToken},
+      product_label = ${productLabel},
       updated_at = NOW()
     WHERE id = ${id}
     RETURNING *

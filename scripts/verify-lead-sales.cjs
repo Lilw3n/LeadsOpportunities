@@ -59,4 +59,23 @@ ok(hub.indexOf("crm-lead-sales.html") !== -1, "hub Stripe");
 
 ok(fs.existsSync(path.join(__dirname, "..", "css/crm-lead-sales.css")), "CSS");
 
+ok(fs.existsSync(path.join(__dirname, "..", "espace-leads/index.html")), "Espace Leads index");
+ok(fs.existsSync(path.join(__dirname, "..", "espace-leads/connexion.html")), "connexion");
+ok(fs.existsSync(path.join(__dirname, "..", "espace-leads/acces.html")), "acces pack");
+ok(fs.existsSync(path.join(__dirname, "..", "crm-lead-sales-partenaire.html")), "vue fournisseur");
+
+var portalApi = read("api/_lib/routes/public-espace-leads-pack.js");
+ok(portalApi.indexOf("portal_token") !== -1, "API pack public");
+ok(portalApi.indexOf("partner_due") === -1, "API pack sans dû partenaire");
+
+var publicApi = read("api/[action].js");
+ok(publicApi.indexOf("espace-leads-pack") !== -1, "route publique enregistrée");
+
+var stripeSale = read("api/_lib/routes/stripe-create-lead-sale-checkout.js");
+ok(stripeSale.indexOf("Accès Espace Leads") !== -1, "libellé Stripe opaque");
+ok(stripeSale.indexOf("espace-leads/acces.html") !== -1, "success → portail");
+
+var robots = read("robots.txt");
+ok(robots.indexOf("/espace-leads/") !== -1, "robots disallow portail");
+
 console.log("\nverify-lead-sales: OK");

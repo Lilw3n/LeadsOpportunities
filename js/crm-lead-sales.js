@@ -64,6 +64,10 @@
   function readForm() {
     return {
       label: document.getElementById("lsLabel").value.trim(),
+      productLabel:
+        (document.getElementById("lsProductLabel") &&
+          document.getElementById("lsProductLabel").value.trim()) ||
+        "Accès Espace Leads — pack sécurisé",
       vertical: document.getElementById("lsVertical").value.trim(),
       supplierName: document.getElementById("lsSupplierName").value.trim() || "Partenaire",
       supplierPriceEur: Number(document.getElementById("lsSupplierPrice").value),
@@ -140,8 +144,23 @@
         '"></td>';
       var actions = tr.querySelector(".ls-actions");
       if (s.status !== "cancelled" && s.status !== "paid") {
-        addBtn(actions, "Stripe", function () {
+        addBtn(actions, "Stripe + portail", function () {
           createStripe(s.id);
+        });
+      }
+      if (s.portalUrl) {
+        var ap = document.createElement("a");
+        ap.href = s.portalUrl;
+        ap.target = "_blank";
+        ap.rel = "noopener";
+        ap.textContent = "Lien Espace Leads";
+        ap.title = "À envoyer à l’acheteur (connexion requise)";
+        actions.appendChild(ap);
+        addBtn(actions, "Copier portail", function () {
+          var full = location.origin + s.portalUrl;
+          copyText(full).then(function () {
+            setStatus("Lien Espace Leads copié (envoyer ça, pas le Checkout brut).", true);
+          });
         });
       }
       if (s.paymentUrl) {
@@ -149,7 +168,7 @@
         a.href = s.paymentUrl;
         a.target = "_blank";
         a.rel = "noopener";
-        a.textContent = "Ouvrir lien";
+        a.textContent = "Checkout Stripe";
         actions.appendChild(a);
       }
       if (s.status !== "paid" && s.status !== "sold_manual" && s.status !== "cancelled") {
@@ -231,8 +250,21 @@
     }
   }
 
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    return Promise.resolve();
+  }
+
   async function createStripe(saleId) {
-    setStatus("Création du lien Stripe…", true);
+    setStatus("Création du lien Stripe + portail…", true);
     try {
       var res = await fetch("/api/stripe/create-lead-sale-checkout", {
         method: "POST",
@@ -244,17 +276,24 @@
         setStatus(data.error || "Stripe indisponible", false);
         return;
       }
+      var portalFull = data.portalUrl
+        ? location.origin + data.portalUrl
+        : data.url;
       setStatus(
-        "Lien prêt — dû partenaire " + euro(data.split && data.split.partnerDueEur) + " (interne).",
+        "Portail prêt — dû partenaire " +
+          euro(data.split && data.split.partnerDueEur) +
+          " (interne, invisible acheteur/pote).",
         true
       );
-      if (navigator.clipboard && data.url) {
-        try {
-          await navigator.clipboard.writeText(data.url);
-          setStatus("Lien Stripe copié. Dû partenaire : " + euro(data.split.partnerDueEur), true);
-        } catch (e) {}
-      }
-      window.open(data.url, "_blank", "noopener");
+      try {
+        await copyText(portalFull);
+        setStatus(
+          "Lien Espace Leads copié (connexion requise). Dû pote : " +
+            euro(data.split.partnerDueEur),
+          true
+        );
+      } catch (e) {}
+      window.open(portalFull, "_blank", "noopener");
       loadSales();
     } catch (e) {
       setStatus("Erreur Stripe", false);
@@ -293,6 +332,10 @@
       document.getElementById("lsForm").reset();
       document.getElementById("lsPartnerPct").value = "50";
       document.getElementById("lsSupplierName").value = "Partenaire";
+      if (document.getElementById("lsProductLabel")) {
+        document.getElementById("lsProductLabel").value =
+          "Accès Espace Leads — pack sécurisé";
+      }
       updatePreview();
       await loadSales();
       if (thenStripe && data.sale && data.sale.id) {
