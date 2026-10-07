@@ -113,9 +113,18 @@ var ANGLES = {
 function enrichFromCandidate(candidate) {
   var title = String(candidate.title || "").trim();
   var topic = matchTopic(title + " " + (candidate.summary || ""));
+  // File queued / agent : respecter section + need forcés (évite faux positifs matchTopic)
+  if (candidate.section) {
+    topic = Object.assign({}, topic, {
+      section: candidate.section,
+      need: candidate.need || topic.need,
+      tag: candidate.tag || topic.tag,
+      tagClass: candidate.tagClass || topic.tagClass,
+    });
+  }
   var need = candidate.need || topic.need || "habitation";
   var angle = isSportActu(title) ? ANGLES.sport : ANGLES[need] || ANGLES.habitation;
-  if (isSportActu(title)) {
+  if (isSportActu(title) && !candidate.section) {
     need = "sante";
     topic = Object.assign({}, topic, { tag: "Coupe du monde 2026", section: "actu", tagClass: "tag-actu" });
   }
