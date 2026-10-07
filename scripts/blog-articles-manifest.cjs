@@ -3265,6 +3265,11 @@ promoProduits.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const themesLeadsSep2026 = require("./blog-articles-themes-sep2026.cjs");
+themesLeadsSep2026.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const pubsPack = require("./blog-pubs-pack-articles.cjs");
 pubsPack.forEach(function (a) {
   module.exports.articles.push(a);
