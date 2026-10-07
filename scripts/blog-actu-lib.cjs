@@ -51,6 +51,16 @@ function existingFiles() {
   return files;
 }
 
+/** Évite faux positifs : « chat » dans « achat » / « rachat », etc. */
+function keywordInText(hay, kw) {
+  var k = String(kw || "").toLowerCase();
+  if (!k) return false;
+  if (/^(chat|chien|animal)$/i.test(k)) {
+    return new RegExp("(?:^|[^\\p{L}])" + k + "(?:[^\\p{L}]|$)", "iu").test(hay);
+  }
+  return hay.indexOf(k) !== -1;
+}
+
 function matchTopic(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
   var hay = String(text || "").toLowerCase();
@@ -59,7 +69,7 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (keywordInText(hay, kw)) score += 1;
     });
     if (score > bestScore) {
       bestScore = score;
@@ -143,7 +153,7 @@ function scoreLeadPotential(candidate) {
     "a louer",
     "bail",
   ].forEach(function (kw) {
-    if (title.indexOf(kw) !== -1) score += 10;
+    if (keywordInText(title, kw)) score += 10;
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
