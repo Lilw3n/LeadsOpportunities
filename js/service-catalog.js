@@ -99,6 +99,13 @@
       vertical: "syndic_copro",
       landing: "./landings/syndic.html",
     },
+    "leads-professionnels": {
+      need: "leads-professionnels",
+      label: "Leads professionnels",
+      category: "reseau",
+      vertical: "leads_b2b",
+      landing: "./landings/leads-professionnels.html",
+    },
     "apporteur-affaires": {
       need: "apporteur-affaires",
       label: "Apporteur d'affaires",

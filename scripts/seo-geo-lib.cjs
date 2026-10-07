@@ -1753,6 +1753,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/assurances/", priority: "0.96", changefreq: "weekly" },
     { loc: base + "/nos-services.html", priority: "0.95", changefreq: "weekly" },
     { loc: base + "/methode.html", priority: "0.88", changefreq: "monthly" },
+    { loc: base + "/landings/leads-professionnels.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/academie/", priority: "0.93", changefreq: "weekly" },
     { loc: base + "/forum/", priority: "0.92", changefreq: "daily" },
     { loc: base + "/academie/assurance/", priority: "0.9", changefreq: "weekly" },
