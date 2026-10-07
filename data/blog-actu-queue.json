@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-10-07T09:22:43.437Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -36,6 +36,66 @@
       "note": "Angle assurance a preciser",
       "status": "pending",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "theme-78f9-lois",
+      "title": "Crise de la dette France : assurance emprunteur immobilier, comparatif et changement pour payer moins quand les taux montent - Kohen Avocats",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQT3JqdV9Hb3lSNFJzbG5GWFp1bnhJNXdZZFJMU05qZWstM01uT0tncUJDVkY5SUlxWkF5MGRkQUpPR041ZXUxS3VjOE9PYW9Sb1NKU0JncjZTRWdFbFVuTFhYOFJ3RjYtcnNFZUtwSXNUcUdXUXA0ZFl2Wks1dlJnVEZNOHZDbXU5aTE0TndXOUpuTWM3czdiWUpNQ2IxV0tSbWRSRWx4RTBlV2Y1WlpPZGlGOA?oc=5",
+      "source": "google",
+      "need": "emprunteur",
+      "note": "Theme lois — angle assurance leads (automation 78f9)",
+      "status": "published",
+      "addedAt": "2026-10-07T09:22:09.831Z"
+    },
+    {
+      "id": "theme-78f9-vtc",
+      "title": "En colère, les chauffeurs VTC de Nantes perturbent une rencontre avec les cadres d’Uber France - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxORjFDbEFMWm1NUWVyMF9jQjhvb2lXcS1GZnJJYlc4Yzh0OU1pOEZ3andVZ2J3Yy12MVZGclZJQ0hpLWlER0tvWElIaWM4RjlvTm9GUFR3a0tOWFFvN09OQ3VHT2dvZVdZN3U2Q0FPV1lvaEhEbFBvWUxGaTFGQU5UNXk5am9zRmpjNHlmUnNncWZMNkwwQUgwdDNlaENrcHNvNG5iX241RFo4cUhRamxETmRITGlyWExHUjJRUmFLdXZxNGxYWHFkVGdkN3YyQ3BsSV9fVElFUmo1NEJxSlZjNVZkSXBIZFU3eV9NQzM2Mkw2VU5zdy1NVWxEaXVsa2dpVVdDcmlBZEUwTE5vOGhfaw?oc=5",
+      "source": "google",
+      "need": "vtc",
+      "note": "Theme vtc — angle assurance leads (automation 78f9)",
+      "status": "published",
+      "addedAt": "2026-10-07T09:22:09.831Z"
+    },
+    {
+      "id": "theme-78f9-animaux",
+      "title": "Mutuelle pour chien ou chat : est-ce vraiment utile et combien coûte cette assurance ? - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPOXhpRGF5ejJ6SUNEOGN0OUtmdW85WDExWTR5UHZvcHNvdkxJd3QySFRpREotdUd0Y3cySVZhUTFLbWZXSjM0S3M0bUNSV3kwZnNBTldia0c5Q1ZWZVo1VUh1c3lnODkybEZzTTJDSVBIRDQ3ZGhxNVYtdF8tcEdPM2xSRF9aTzBIV1MtYzMzbXFIeUJMUzlRbjZfaXVfRF9NZnVxUHR0NU4xSC1qaVhZcnpBOW5XUWdyQzR6emgxTjNvanRpbC1tX19fM0hreEFISzhpOGJXNlBYaE5xTE1fVm9EOC1MTkJkcFEtOF9iS0Z6ZFhwVF96ZmNn?oc=5",
+      "source": "google",
+      "need": "animaux",
+      "note": "Theme animaux — angle assurance leads (automation 78f9)",
+      "status": "published",
+      "addedAt": "2026-10-07T09:22:09.831Z"
+    },
+    {
+      "id": "theme-78f9-pret",
+      "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les emprunteurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac60f14af914fbcad74ea259f3ad701&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us",
+      "source": "bing",
+      "need": "emprunteur",
+      "note": "Theme pret — angle assurance leads (automation 78f9)",
+      "status": "published",
+      "addedAt": "2026-10-07T09:22:09.831Z"
+    },
+    {
+      "id": "theme-78f9-vente",
+      "title": "Vente d’un bien immobilier en France dont le propriétaire est un ressortissant étranger.",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac60f140d9146d08ab9423c92b9663c&url=https%3a%2f%2fwww.village-justice.com%2farticles%2fvente-bien-immobilier-france-dont-proprietaire-est-ressortissant-etranger%2c56835.html&c=1888982861943883255&mkt=en-us",
+      "source": "bing",
+      "need": "habitation",
+      "note": "Theme vente — angle assurance leads (automation 78f9)",
+      "status": "published",
+      "addedAt": "2026-10-07T09:22:09.831Z"
+    },
+    {
+      "id": "theme-78f9-location",
+      "title": "Bail de location meublé : les règles essentielles pour sécuriser son investissement locatif",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac60f144b1a4511883d991f51302aa2&url=https%3a%2f%2fwww.latribune.fr%2fsupplement%2fla-tribune-now%2fbail-de-location-meuble-les-regles-essentielles-pour-securiser-son-investissement-locatif-1011353.html&c=9561197414431228174&mkt=en-us",
+      "source": "bing",
+      "need": "habitation",
+      "note": "Theme location — angle assurance leads (automation 78f9)",
+      "status": "published",
+      "addedAt": "2026-10-07T09:22:09.831Z"
     }
   ]
 }
