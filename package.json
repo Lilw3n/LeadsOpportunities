@@ -138,7 +138,8 @@
     "verify:immo-synthese-totale": "node scripts/verify-immo-synthese-totale.cjs",
     "verify:immo-composition-draw-share": "node scripts/verify-immo-composition-draw-share.cjs",
     "verify:allo-mcp-appels": "node scripts/verify-allo-mcp-appels.cjs",
-    "verify:pack": "npm run verify:verifier-access"
+    "verify:pack": "npm run verify:verifier-access",
+    "verify:blog-pubs-pack": "node scripts/verify-blog-pubs-pack.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",
