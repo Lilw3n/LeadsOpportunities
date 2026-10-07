@@ -34,14 +34,25 @@ ok(page.indexOf("assets/leads-pro/accueil-client.jpg") !== -1, "visuel CTA");
 ok(page.indexOf("Syne") !== -1, "police display Syne");
 ok(page.indexOf("lp-nav-brand") !== -1, "logo nav");
 
-ok(/tous secteurs|n['’]importe quel métier|multi-?secteurs|Et bien d['’]autres métiers/i.test(page), "message multi-secteurs");
+ok(page.indexOf("Wendy Buchet") === -1, "pas de Wendy Buchet");
+ok(!/Wendy Buchet\s*[·•]\s*ORIAS/i.test(page), "pas de sous-titre Wendy · ORIAS");
+
+ok(/tous secteurs|n['’]importe quel métier|multi-?secteurs|Autres métiers/i.test(page), "message multi-secteurs");
 ok(page.indexOf("réseau partenaire") !== -1 || page.indexOf("reseau partenaire") !== -1, "origine réseau partenaire");
-ok(page.indexOf("pas seulement l’assurance") !== -1 || page.indexOf("pas limité à l’assurance") !== -1 || page.indexOf("Pas limité à l’assurance") !== -1 || /pas seulement l.assurance|pas limit. .*assurance/i.test(page), "pas limité assurance");
+ok(/pas seulement l.assurance|pas limit. .*assurance/i.test(page), "pas limité assurance");
 ok(page.indexOf("Verticales disponibles") === -1, "plus de liste fermée « Verticales disponibles »");
+
+ok(/stock limité|lots sur demande|Lots sur demande/i.test(page), "stock / lots limités");
+ok(/abonnement/i.test(page) && /illimit/i.test(page), "avertissement abonnement illimité");
+ok(/5(?:\s|&nbsp;)*000|5000/.test(page) && /6(?:\s|&nbsp;)*000|6000/.test(page), "ordre de grandeur stock");
+ok(page.indexOf("lp-samples") !== -1 || page.indexOf("lp-sample") !== -1, "aperçu leads");
+ok(page.indexOf("Demander un lot") !== -1, "CTA lot");
 
 ok(!/\bRIB\b/i.test(page), "pas de mention RIB");
 ok(!/\bIBAN\b/i.test(page), "pas de mention IBAN");
 ok(!/coordonn[ée]es bancaires/i.test(page), "pas de coords bancaires");
+ok(!/mandat SEPA/i.test(page), "pas de mention mandat SEPA");
+ok(!/prélèvement mensuel illimité|volume mensuel illimité/i.test(page) || /ne propose pas|Pas d/i.test(page), "pas de promesse de volume mensuel illimité");
 
 ok(fs.existsSync(path.join(root, "assets/leads-pro/hero-smartphone.jpg")), "fichier hero");
 ok(fs.existsSync(path.join(root, "assets/leads-pro/metier-chantier.jpg")), "fichier chantier");
@@ -52,6 +63,7 @@ ok(css.indexOf("--lp-sea") !== -1, "variables CSS");
 ok(css.indexOf("lp-ken") !== -1, "motion hero");
 ok(css.indexOf("lp-rise") !== -1, "motion texte");
 ok(css.indexOf("lp-band") !== -1 && css.indexOf("lp-split") !== -1, "bandes photo + split");
+ok(css.indexOf("lp-sample") !== -1 && css.indexOf("lp-offer") !== -1, "styles aperçu + offre");
 
 var hub = read("landings/index.html");
 ok(hub.indexOf("leads-professionnels.html") !== -1, "hub landings");
