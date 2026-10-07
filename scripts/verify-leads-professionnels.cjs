@@ -70,6 +70,11 @@ ok(hub.indexOf("leads-professionnels.html") !== -1, "hub landings");
 
 var index = read("index.html");
 ok(index.indexOf("leads-professionnels.html") !== -1, "lien accueil");
+ok(index.indexOf('id="achat-leads"') !== -1, "section accueil #achat-leads");
+ok(index.indexOf("home-achat-leads.css") !== -1, "CSS section achat leads");
+ok(index.indexOf("Achetez des leads professionnels") !== -1, "titre section achat leads");
+ok(index.indexOf("#achat-leads") !== -1, "lien nav achat leads");
+ok(fs.existsSync(path.join(root, "css/home-achat-leads.css")), "fichier CSS home-achat-leads");
 
 var catalog = read("js/service-catalog.js");
 ok(catalog.indexOf("leads-professionnels") !== -1, "service catalog");
