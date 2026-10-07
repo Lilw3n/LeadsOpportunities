@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T08:21:40.592Z",
+  "generated_at": "2026-10-07T08:52:28.124Z",
   "source": "ads/meta-blog-conversions.csv",
   "docs": [
     {
@@ -20,15 +20,15 @@
     }
   ],
   "counts": {
-    "total": 41,
-    "blog": 36,
+    "total": 45,
+    "blog": 40,
     "direct": 5,
     "verticals": {
       "vtc": 9,
       "sante": 9,
-      "finance": 10,
-      "habitat": 3,
-      "auto": 1,
+      "finance": 11,
+      "habitat": 4,
+      "auto": 3,
       "actu": 1,
       "chasse": 1,
       "equitation": 1,
@@ -745,6 +745,74 @@
       "budget_eur_day": 5,
       "notes": "Intent chaud direct.",
       "is_blog": false
+    },
+    {
+      "priority": "38",
+      "vertical": "auto",
+      "vertical_label": "Auto",
+      "slug": "assurance-auto-tarifs-2026-comparer-sans-surpayer",
+      "title": "Tarifs auto 2026 — devis gratuit",
+      "article_url": "https://www.leadsopportunities.fr/blog/assurance-auto-tarifs-2026-comparer-sans-surpayer.html?utm_source=meta&utm_medium=paid_social&utm_campaign=auto_blog_convert&utm_content=auto-tarifs-2026",
+      "destination_type": "blog_then_bridge",
+      "destination_label": "Article → bridge",
+      "conversion_landing": "https://www.leadsopportunities.fr/landings/devis.html?need=auto&utm_source=meta&utm_medium=paid_social&utm_campaign=auto_blog_convert&utm_content=bridge-auto-tarifs",
+      "meta_campaign": "auto_blog_convert",
+      "primary_text": "Assurance auto trop chère en 2026 ? Comparez sans surpayer.",
+      "headline": "Tarifs auto 2026 — devis gratuit",
+      "budget_eur_day": 5,
+      "notes": "Pack pubs articles — comparer tarifs.",
+      "is_blog": true
+    },
+    {
+      "priority": "39",
+      "vertical": "auto",
+      "vertical_label": "Auto",
+      "slug": "assurance-auto-resilier-loi-hamon-comparer-2026",
+      "title": "Résilier auto Hamon — devis",
+      "article_url": "https://www.leadsopportunities.fr/blog/assurance-auto-resilier-loi-hamon-comparer-2026.html?utm_source=meta&utm_medium=paid_social&utm_campaign=auto_blog_convert&utm_content=auto-hamon",
+      "destination_type": "blog_then_bridge",
+      "destination_label": "Article → bridge",
+      "conversion_landing": "https://www.leadsopportunities.fr/landings/devis.html?need=auto&utm_source=meta&utm_medium=paid_social&utm_campaign=auto_blog_convert&utm_content=bridge-auto-hamon",
+      "meta_campaign": "auto_blog_convert",
+      "primary_text": "Loi Hamon : changez d assurance auto après 1 an.",
+      "headline": "Résilier auto Hamon — devis",
+      "budget_eur_day": 5,
+      "notes": "Pack pubs — résiliation Hamon.",
+      "is_blog": true
+    },
+    {
+      "priority": "40",
+      "vertical": "habitat",
+      "vertical_label": "Habitation",
+      "slug": "assurance-habitation-degat-des-eaux-que-faire-2026",
+      "title": "Dégât des eaux — devis habitation",
+      "article_url": "https://www.leadsopportunities.fr/blog/assurance-habitation-degat-des-eaux-que-faire-2026.html?utm_source=meta&utm_medium=paid_social&utm_campaign=habitat_blog_convert&utm_content=degat-eaux",
+      "destination_type": "blog_then_bridge",
+      "destination_label": "Article → bridge",
+      "conversion_landing": "https://www.leadsopportunities.fr/landings/devis.html?need=habitation&utm_source=meta&utm_medium=paid_social&utm_campaign=habitat_blog_convert&utm_content=bridge-degat-eaux",
+      "meta_campaign": "habitat_blog_convert",
+      "primary_text": "Dégât des eaux : votre MRH est-elle à la hauteur ?",
+      "headline": "Dégât des eaux — devis habitation",
+      "budget_eur_day": 5,
+      "notes": "Pack pubs — sinistre MRH.",
+      "is_blog": true
+    },
+    {
+      "priority": "41",
+      "vertical": "finance",
+      "vertical_label": "Crédit / finance",
+      "slug": "assurance-emprunteur-changer-economiser-2026",
+      "title": "Étude emprunteur — loi Lemoine",
+      "article_url": "https://www.leadsopportunities.fr/blog/assurance-emprunteur-changer-economiser-2026.html?utm_source=meta&utm_medium=paid_social&utm_campaign=credit_blog_convert&utm_content=emprunteur-change",
+      "destination_type": "blog_then_bridge",
+      "destination_label": "Article → bridge",
+      "conversion_landing": "https://www.leadsopportunities.fr/landings/credit-immo.html?utm_source=meta&utm_medium=paid_social&utm_campaign=credit_blog_convert&utm_content=bridge-emprunteur-change",
+      "meta_campaign": "credit_blog_convert",
+      "primary_text": "Changez d assurance emprunteur et visez des économies.",
+      "headline": "Étude emprunteur — loi Lemoine",
+      "budget_eur_day": 5,
+      "notes": "Pack pubs — Lemoine économies.",
+      "is_blog": true
     }
   ]
 }
