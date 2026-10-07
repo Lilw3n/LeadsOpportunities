@@ -1,0 +1,83 @@
+.achat-perennite-banner {
+  padding: 24px 26px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 45%, #fff 100%);
+  border: 1px solid #99f6e4;
+  box-shadow: 0 6px 24px rgba(13, 148, 136, 0.07);
+  margin: 20px 0;
+}
+.achat-perennite-banner--compact {
+  padding: 18px 20px;
+}
+.achat-perennite-banner h2 {
+  margin: 8px 0 10px;
+  font-size: clamp(1.15rem, 2.4vw, 1.35rem);
+  line-height: 1.25;
+  color: #115e59;
+}
+.achat-perennite-lead {
+  margin: 0 0 16px;
+  color: #475569;
+  line-height: 1.55;
+  font-size: 0.93rem;
+  max-width: 68ch;
+}
+.achat-perennite-pillars {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+@media (min-width: 720px) {
+  .achat-perennite-pillars {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 960px) {
+  .achat-perennite-pillars {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.achat-perennite-pillar {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #ccfbf1;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.achat-perennite-pillar strong {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0f766e;
+  margin-bottom: 5px;
+}
+.achat-perennite-pillar p {
+  margin: 0;
+  font-size: 0.84rem;
+  color: #475569;
+  line-height: 1.45;
+}
+.achat-perennite-reassure {
+  background: #fff;
+  border: 1px solid #ccfbf1;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.achat-perennite-reassure strong {
+  display: block;
+  color: #0f766e;
+  margin-bottom: 6px;
+  font-size: 0.94rem;
+}
+.achat-perennite-reassure p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.5;
+}
+.achat-perennite-tagline {
+  margin: 12px 0 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0d9488;
+}

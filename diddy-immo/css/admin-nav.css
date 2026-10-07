@@ -1,0 +1,190 @@
+/* Navigation admin (visible si role === admin) */
+.admin-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 6px 4px 10px;
+  margin-right: 4px;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.admin-nav[hidden],
+.admin-nav-sidebar[hidden],
+.mobile-admin-nav[hidden],
+.crm-admin-nav[hidden],
+.footer-col-admin[hidden] {
+  display: none !important;
+}
+.admin-nav-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  padding-right: 6px;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.admin-nav a.admin-nav-link {
+  color: #e2e8f0 !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 9px;
+  border-radius: 8px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.admin-nav a.admin-nav-link:hover,
+.admin-nav a.admin-nav-link.is-active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff !important;
+}
+
+.mobile-admin-nav {
+  margin: 8px 0 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.mobile-admin-nav-title {
+  margin: 0 0 10px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+}
+.mobile-admin-nav a {
+  display: block;
+  color: #e2e8f0 !important;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.mobile-admin-nav a.is-active {
+  color: #5eead4 !important;
+}
+.mobile-admin-nav a:last-child {
+  border-bottom: none;
+}
+
+.admin-nav-sidebar {
+  padding: 8px 10px 14px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.admin-nav-sidebar-title {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  padding: 4px 12px 8px;
+}
+.admin-nav-sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  margin: 2px 0;
+  border-radius: 10px;
+  color: #cbd5e1 !important;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.admin-nav-sidebar a:hover,
+.admin-nav-sidebar a.is-active {
+  background: rgba(13, 148, 136, 0.22);
+  color: #fff !important;
+}
+.admin-nav-sidebar .admin-nav-user {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  padding: 0 12px 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.crm-admin-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line, #e2e8f0);
+}
+.crm-admin-nav a {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--primary, #0d9488);
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+}
+.crm-admin-nav a.is-active {
+  background: #0d9488;
+  color: #fff;
+  border-color: #0d9488;
+}
+
+.footer-col-admin a {
+  color: var(--primary, #0d9488);
+  font-weight: 600;
+}
+.footer-col-admin a.is-active {
+  font-weight: 800;
+}
+
+.admin-nav-floating {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 300;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.2);
+}
+.admin-nav-floating[hidden] {
+  display: none !important;
+}
+.admin-nav-floating .admin-nav-label {
+  margin-right: 4px;
+}
+.admin-nav-floating a {
+  color: #e2e8f0;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+.admin-nav-floating a:hover,
+.admin-nav-floating a.is-active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+body.admin-nav-floating-active {
+  padding-top: 46px;
+}
+
+@media (max-width: 768px) {
+  .topbar .admin-nav {
+    display: none !important;
+  }
+}

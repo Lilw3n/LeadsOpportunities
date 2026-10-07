@@ -1,0 +1,257 @@
+/* Galerie documents — aperçu + actions */
+
+.lo-doc-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.lo-doc-tile {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  min-height: 180px;
+}
+
+.lo-doc-tile.is-trashed {
+  opacity: 0.55;
+}
+
+.lo-doc-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #f1f5f9;
+  cursor: zoom-in;
+}
+
+.lo-doc-thumb img {
+  max-width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+}
+
+.lo-doc-icon {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #fff;
+}
+
+.lo-doc-icon--pdf {
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.lo-doc-icon--img {
+  color: #0369a1;
+  border-color: #bae6fd;
+}
+
+.lo-doc-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px 12px;
+  flex: 1;
+}
+
+.lo-doc-body strong {
+  font-size: 0.88rem;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.lo-doc-type,
+.lo-doc-meta {
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.lo-doc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.lo-doc-btn {
+  appearance: none;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+  border-radius: 8px;
+  padding: 5px 9px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.lo-doc-btn:hover {
+  border-color: #94a3b8;
+}
+
+.lo-doc-btn--ghost {
+  background: transparent;
+}
+
+.lo-doc-btn--warn {
+  border-color: #f59e0b;
+  color: #92400e;
+  background: #fffbeb;
+}
+
+.lo-doc-btn--danger {
+  border-color: #f87171;
+  color: #991b1b;
+  background: #fef2f2;
+}
+
+.lo-doc-trashed-badge {
+  font-size: 0.75rem;
+  color: #92400e;
+}
+
+.lo-doc-empty {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* Modal aperçu */
+html.lo-doc-modal-open {
+  overflow: hidden;
+}
+
+.lo-doc-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.lo-doc-modal[hidden] {
+  display: none !important;
+}
+
+.lo-doc-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.lo-doc-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(960px, 100%);
+  max-height: min(90vh, 900px);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+  overflow: hidden;
+}
+
+.lo-doc-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.lo-doc-modal-title {
+  font-size: 0.95rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lo-doc-modal-x {
+  border: 0;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #475569;
+}
+
+.lo-doc-modal-body {
+  flex: 1;
+  min-height: 280px;
+  background: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lo-doc-modal-img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.lo-doc-modal-frame {
+  width: 100%;
+  height: min(70vh, 720px);
+  border: 0;
+  background: #fff;
+}
+
+.lo-doc-modal-empty {
+  color: #e2e8f0;
+  padding: 24px;
+  text-align: center;
+}
+
+.lo-doc-modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.lo-doc-modal-open,
+.lo-doc-modal-close-btn {
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.86rem;
+  text-decoration: none;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.lo-doc-modal-open {
+  border-color: #6ee7b7;
+  background: #ecfdf5;
+  color: #047857;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .lo-doc-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+  .lo-doc-modal-panel {
+    max-height: 95vh;
+  }
+}
