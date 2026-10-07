@@ -1,4 +1,65 @@
 {
-  "updated": "2026-10-07T08:16:49.918Z",
-  "items": []
+  "updated": "2026-10-07T08:54:09.407Z",
+  "items": [
+    {
+      "id": "theme-lois-lemoine-change",
+      "title": "Assurance emprunteur : changez d'assureur sans perdre votre couverture",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac6089667f342ab96b2888a4762d93e&url=https%3a%2f%2fwww.boursorama.com%2fimmobilier%2fcredit%2factualites%2fassurance-emprunteur-changez-d-assureur-sans-perdre-votre-couverture-af4055ef32a74f6139891854ae82cac0&c=7982825533203031241&mkt=en-us",
+      "source": "bing",
+      "note": "Angle assurance emprunteur — theme pack automation",
+      "status": "published",
+      "addedAt": "2026-10-07T08:53:43.486Z",
+      "need": "emprunteur"
+    },
+    {
+      "id": "theme-vtc-uber-couverture",
+      "title": "Chauffeur VTC : compétence, formation et rémunération",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac6089603cb480190c1690592e06970&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fauto%2fg%25C3%25A9n%25C3%25A9ral%2fchauffeur-vtc-comp%25C3%25A9tence-formation-et-r%25C3%25A9mun%25C3%25A9ration%2far-AA1OzRuu&c=64282044721067413&mkt=en-us",
+      "source": "google",
+      "note": "Angle assurance vtc — theme pack automation",
+      "status": "published",
+      "addedAt": "2026-10-07T08:53:43.495Z",
+      "need": "vtc"
+    },
+    {
+      "id": "theme-animaux-avis",
+      "title": "Avis sur les assurances animaux (chien et chat)",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac60896ca284c608c5617e62d80f85f&url=https%3a%2f%2fwww.60millions-mag.com%2fforum%2fd%2f26600-avis-sur-les-assurances-animaux-chien-et-chat%3fpage%3d3&c=6836758537168466458&mkt=en-us",
+      "source": "bing",
+      "note": "Angle assurance animaux — theme pack automation",
+      "status": "published",
+      "addedAt": "2026-10-07T08:53:43.498Z",
+      "need": "animaux"
+    },
+    {
+      "id": "theme-pret-flambee-taux",
+      "title": "Crédit immobilier : la flambée des taux ravive les craintes de blocage - Figaro Immobilier",
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPd1pwLXNsd2ZkQWJaM3RyUjJqZlEzQm1yN0ZDRk9fNTk2VjNxVDJOQm1BTFM5MnVQRGJCc3dfMjhSSmtzX2tvSE1MWXlFaXE0RlhzLWx2QmVRZ3hfR3FKaTQxVmJZc0FzdlhNcXBTSWdHSTdlejBzSzdnZEhfcUpab2E5SThoVmNxUm9hM1ZQbkFCTDVYUlQyVUlJcG1oQUctQ2lXNXE2c2xucmRSRHRxTUJzemFaRXM?oc=5",
+      "source": "google",
+      "note": "Angle assurance emprunteur — theme pack automation",
+      "status": "published",
+      "addedAt": "2026-10-07T08:53:43.500Z",
+      "need": "emprunteur"
+    },
+    {
+      "id": "theme-vente-occupante",
+      "title": "Cette maison est vendue à bas prix, mais l’acheteur devra gérer une occupante qui refuse de partir - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxPUGY0TnpBd1V0SlBXNjJPRDZXajdJcEVrYV8yc284VTU4M1R5bnUtOGdhaWk3cDZ1TWEzSTh4Uk52SmJZS2lzdG1xZnNtRndZams1cG4tR1Q1OEtmbHlpZThUZ3JxTFJJeHl4dlloamNEOGp4bVZnTWNSU3FKRDZPSTNUbDNWWnNBZkRSLXVEVEV4NC00RW1FU2VKNTVJU3Atd3RUN1UtaXZvNmFxUXB0MjgzdGFZLUNDX1hCbjRJUVBSeFljc2hDaEF5RXQ4MWNwZlBjT3Fpb2J2Tk10NWRSSlB6RFFYZV8xcTNiWExodWJYZERjUmR2TXVDamJZaEZHWlg3Zzg3XzE3Nm1maEZF?oc=5",
+      "source": "google",
+      "note": "Angle assurance habitation — theme pack automation",
+      "status": "published",
+      "addedAt": "2026-10-07T08:53:43.503Z",
+      "need": "habitation"
+    },
+    {
+      "id": "theme-location-actu-immo",
+      "title": "Assurance habitation : des hausses de tarifs qui atteignent plus de 24% dans certains départements - franceinfo",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOc3VRSW16M1ZQSS1QODgzV3lYbmxISDBvWFBfZnFOZjd4X1lWNVpUNmJCdVFuUnZXdG1MWFFlbGFTX1ZnYUJybzFJQU1ZY0FvRXV3dl80RDE3QS03aVBJakZHZXpWZjRNUHBodlVaaGd5OHd6SGZEV2xKNU9WOXdYNmhoUjh1SHhDdHZzVU5GWTU2S0tpNWlYODdDSFhSVmZUbkIwRERaVjhTYzNwWUxpN2kya3FESUlieVdvQ1lCNzBKZWgwQ0x0THRHb09PNjVBblFrMGJzTnZZSlloZjNDaHdTSk1XOUZzM3c?oc=5",
+      "source": "google",
+      "note": "Angle assurance habitation — theme pack automation",
+      "status": "published",
+      "addedAt": "2026-10-07T08:53:43.505Z",
+      "need": "habitation"
+    }
+  ]
 }

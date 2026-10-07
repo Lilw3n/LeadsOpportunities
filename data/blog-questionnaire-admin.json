@@ -2565,6 +2565,97 @@
       "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=vtc-combien-gagne-un-chauffeur-uber",
       "matchedRule": "vtc",
       "species": null
+    },
+    {
+      "file": "uber-france-offre-une-couverture-sociale-a-ses-chauffeurs-en-cas-d-accid.html",
+      "title": "Uber France offre une couverture sociale à ses chauffeurs en cas d'accident - Europe 1 : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=uber-france-offre-une-couverture-sociale",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "chauffeur-vtc-competence-formation-et-remuneration.html",
+      "title": "Chauffeur VTC : compétence, formation et rémunération : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=chauffeur-vtc-competence-formation-et",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "credit-immobilier-la-flambee-des-taux-ravive-les-craintes-de-blocage-fig.html",
+      "title": "Crédit immobilier : la flambée des taux ravive les craintes de blocage - Figaro Immobilier : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=credit-immobilier-la-flambee-des-taux",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "assurance-habitation-des-hausses-de-tarifs-qui-atteignent-plus-de-24-dan.html",
+      "title": "Assurance habitation : des hausses de tarifs qui atteignent plus de 24% dans certains d… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=assurance-habitation-des-hausses-de-ta",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "assurance-emprunteur-changez-d-assureur-sans-perdre-votre-couverture.html",
+      "title": "Assurance emprunteur : changez d'assureur sans perdre votre couverture : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-emprunteur-changez-d-assureu",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "avis-sur-les-assurances-animaux-chien-et-chat.html",
+      "title": "Avis sur les assurances animaux (chien et chat) : assurance animaux — que faire ?",
+      "section": "animaux",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=avis-sur-les-assurances-animaux-chien-e",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "cette-maison-est-vendue-a-bas-prix-mais-l-acheteur-devra-gerer-une-occup.html",
+      "title": "Cette maison est vendue à bas prix, mais l’acheteur devra gérer une occupante qui refus… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=cette-maison-est-vendue-a-bas-prix-mais",
+      "matchedRule": "habitation",
+      "species": null
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "lastFetch": "2026-10-07T08:16:27.199Z",
+  "lastFetch": "2026-10-07T08:53:55.506Z",
   "processedUrls": [
     "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
     "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPOXhpRGF5ejJ6SUNEOGN0OUtmdW85WDExWTR5UHZvcHNvdkxJd3QySFRpREotdUd0Y3cySVZhUTFLbWZXSjM0S3M0bUNSV3kwZnNBTldia0c5Q1ZWZVo1VUh1c3lnODkybEZzTTJDSVBIRDQ3ZGhxNVYtdF8tcEdPM2xSRF9aTzBIV1MtYzMzbXFIeUJMUzlRbjZfaXVfRF9NZnVxUHR0NU4xSC1qaVhZcnpBOW5XUWdyQzR6emgxTjNvanRpbC1tX19fM0hreEFISzhpOGJXNlBYaE5xTE1fVm9EOC1MTkJkcFEtOF9iS0Z6ZFhwVF96ZmNn?oc=5",
@@ -30,10 +30,22 @@
     "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac5ff97bf294664ae3f47b49a2f9214&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fassurance-emprunteur-quand-faut-il-envisager-den-changer-1530114&c=1489360828370863417&mkt=en-us",
     "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac5ff97bf294664ae3f47b49a2f9214&url=https%3a%2f%2fwww.challenges.fr%2fentreprise%2fbanque-et-assurance%2fassurance-emprunteur-les-criteres-qui-changent-selon-votre-projet-immobilier_642554&c=15175187919075323192&mkt=en-us",
     "https://news.google.com/rss/articles/CBMiiAJBVV95cUxQM1FBSllpNHBXdVlNNm8yREQ1TUlmZ1FrNmQ4U3JwYVF0UFVZaUoyeEZTTGZrSGlpdVJNUlVvRWVJZnVRMXN3eWFSbGEzZlU4aDZ1b2gzNGk1TnZSTGZBUEtxOTJLM3lkZ21wR19YLVBwV3ZGYzlJQWJ5LXJGWUMwNVdpemo3bUZ5eF9Ub2tOeF9WZVNDWmdlTmFnSzdwZmdDWmR5TXd6S3BxcUhuMnhEc3lkT0lhRlMxUTF4akp1QUkyeFZSY2xVMFM1dTlnd01RX1lOd2FVZGJaNUNHSFZhVXdESmFURnNWUTVhSzFpRHloelFxMjA0Uk15UTYxT2FZbXRzZTRSbEM?oc=5",
-    "https://news.google.com/rss/articles/CBMieEFVX3lxTE0zaHBwaXlzZHBmVTZiTE9NdUVhVzdWVS15MGd3cUVpaVZJaWZBajlucUM3eS0xRmhaa0RhNURtcEljMWN6OUJjdUJRWnlfSmtCLUhMOTBvNzk1dThKSzZ2bmdOVnl1TTYtSHVNUHA2VFp3U2EyN3VJdQ?oc=5"
+    "https://news.google.com/rss/articles/CBMieEFVX3lxTE0zaHBwaXlzZHBmVTZiTE9NdUVhVzdWVS15MGd3cUVpaVZJaWZBajlucUM3eS0xRmhaa0RhNURtcEljMWN6OUJjdUJRWnlfSmtCLUhMOTBvNzk1dThKSzZ2bmdOVnl1TTYtSHVNUHA2VFp3U2EyN3VJdQ?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac6084758e64be9a3ef4304d24c20ea&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMitAFBVV95cUxOQ0ZQMkREUFpMSW9uR1dYUGhRVGlSVC1WLWp5bHdDMTlhRGFwd2VGRFVkZ180aklScWdXamZUSVhNOVFMeUx2dExtY2t1eV9SaXFKcGdrSnhYMVMxVm9uWS1MMk9FWTJ4LWdadHpCc1NMWmZQTFlPUjRYUHRObXVXc1Z0U3pvbktiT2FoaWd2eFZuaGhwZ0U5ZUdCNXFTNEI3eF9zMlB1SVh6UnhwSGxNT1pjekPSAboBQVVfeXFMUGtVUUdBM3JJU0Q5ajBZaW5NV1hfRDV1NnBwUXBZYlNjckJJN29GMW84cUhBSVdycnpmdVpLTDQ3TkRoR2FoOFBOSVBiUmYzQWdDQ0N2SDRfdk9ZcmExOFV5VFkwbVpmYmd4OVlpX2R2WHRscGpUWWZ6VHZnYTBoRmEtcGQtWll6cHY5cElSV3ZWZUJ5T1BsSFVBeE5tdTBUSzFWN1o3c1dNb1lldTVESXJIYnNhT0g4a2tR?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac608478b0f4166a6e8a7fd04b69a9e&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2fassurance-chien-ou-chat-quel-est-lage-limite-pour-assurer-votre-animal-14-09-2022-WDOQXVH6HFEVPOXVIFZ7Q6JRUA.php&c=8355931491327766299&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac608487dc44e5fbc94d07c1151d874&url=https%3a%2f%2fimmobilier.lefigaro.fr%2fannonces%2fimmobilier-location-appartement-penchard%2b77124.html%3foption%3drez_de_jardin&c=8425506611228217262&mkt=en-us",
+    "https://www.lefigaro.fr/conjoncture/je-ne-me-laisserai-pas-intimider-le-gouverneur-de-la-banque-de-france-repond-a-jean-luc-melenchon-20261007",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac60847aa3c496097afbbf4f4e5e28d&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsport%2fother%2fcoupe-du-monde-2026-france-espagne-kylian-mbapp%25C3%25A9-accuse-didier-deschamps%2far-AA2ctSo3&c=7730428786510799831&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac6089603cb480190c1690592e06970&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fauto%2fg%25C3%25A9n%25C3%25A9ral%2fchauffeur-vtc-comp%25C3%25A9tence-formation-et-r%25C3%25A9mun%25C3%25A9ration%2far-AA1OzRuu&c=64282044721067413&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMitwFBVV95cUxPd1pwLXNsd2ZkQWJaM3RyUjJqZlEzQm1yN0ZDRk9fNTk2VjNxVDJOQm1BTFM5MnVQRGJCc3dfMjhSSmtzX2tvSE1MWXlFaXE0RlhzLWx2QmVRZ3hfR3FKaTQxVmJZc0FzdlhNcXBTSWdHSTdlejBzSzdnZEhfcUpab2E5SThoVmNxUm9hM1ZQbkFCTDVYUlQyVUlJcG1oQUctQ2lXNXE2c2xucmRSRHRxTUJzemFaRXM?oc=5",
+    "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOc3VRSW16M1ZQSS1QODgzV3lYbmxISDBvWFBfZnFOZjd4X1lWNVpUNmJCdVFuUnZXdG1MWFFlbGFTX1ZnYUJybzFJQU1ZY0FvRXV3dl80RDE3QS03aVBJakZHZXpWZjRNUHBodlVaaGd5OHd6SGZEV2xKNU9WOXdYNmhoUjh1SHhDdHZzVU5GWTU2S0tpNWlYODdDSFhSVmZUbkIwRERaVjhTYzNwWUxpN2kya3FESUlieVdvQ1lCNzBKZWgwQ0x0THRHb09PNjVBblFrMGJzTnZZSlloZjNDaHdTSk1XOUZzM3c?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac6089667f342ab96b2888a4762d93e&url=https%3a%2f%2fwww.boursorama.com%2fimmobilier%2fcredit%2factualites%2fassurance-emprunteur-changez-d-assureur-sans-perdre-votre-couverture-af4055ef32a74f6139891854ae82cac0&c=7982825533203031241&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ac60896ca284c608c5617e62d80f85f&url=https%3a%2f%2fwww.60millions-mag.com%2fforum%2fd%2f26600-avis-sur-les-assurances-animaux-chien-et-chat%3fpage%3d3&c=6836758537168466458&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMijwJBVV95cUxPUGY0TnpBd1V0SlBXNjJPRDZXajdJcEVrYV8yc284VTU4M1R5bnUtOGdhaWk3cDZ1TWEzSTh4Uk52SmJZS2lzdG1xZnNtRndZams1cG4tR1Q1OEtmbHlpZThUZ3JxTFJJeHl4dlloamNEOGp4bVZnTWNSU3FKRDZPSTNUbDNWWnNBZkRSLXVEVEV4NC00RW1FU2VKNTVJU3Atd3RUN1UtaXZvNmFxUXB0MjgzdGFZLUNDX1hCbjRJUVBSeFljc2hDaEF5RXQ4MWNwZlBjT3Fpb2J2Tk10NWRSSlB6RFFYZV8xcTNiWExodWJYZERjUmR2TXVDamJZaEZHWlg3Zzg3XzE3Nm1maEZF?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-10-07T08:16:29.222Z",
+  "lastAutoRun": "2026-10-07T08:53:57.470Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -252,6 +264,92 @@
         {
           "file": "vtc-combien-gagne-un-chauffeur-uber-l-essentiel-de-l-eco.html",
           "title": "VTC : combien gagne un chauffeur Uber ? - L'Essentiel de l'Éco : assurance VTC — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-07T08:52:26.680Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoi-2.html",
+          "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les empru… : pret et assurance emprunteur — que faire ?",
+          "source": "Bing News — prêt immobilier",
+          "sourceType": "bing"
+        },
+        {
+          "file": "uber-france-offre-une-couverture-sociale-a-ses-chauffeurs-en-cas-d-accid.html",
+          "title": "Uber France offre une couverture sociale à ses chauffeurs en cas d'accident - Europe 1 : assurance VTC — que faire ?",
+          "source": "Google News — VTC Uber assurance",
+          "sourceType": "google"
+        },
+        {
+          "file": "assurance-chien-ou-chat-quel-est-l-age-limite-pour-assurer-v-2.html",
+          "title": "Assurance chien ou chat : quel est l’âge limite pour assurer votre animal? : assurance animaux — que faire ?",
+          "source": "Bing News — chiens chats",
+          "sourceType": "bing"
+        },
+        {
+          "file": "location-appartement-en-rez-de-jardin-a-penchard-77124-5-annonces.html",
+          "title": "Location Appartement en rez-de-jardin à Penchard (77124) : 5 annonces : assurance habitation — que faire ?",
+          "source": "Bing News — location biens",
+          "sourceType": "bing"
+        },
+        {
+          "file": "je-ne-me-laisserai-pas-intimider-le-gouverneur-de-la-banque-de-france-re.html",
+          "title": "«Je ne me laisserai pas intimider» : le gouverneur de la Banque de France répond à Jean… : pret et assurance emprunteur — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "coupe-du-monde-2026-france-espagne-kylian-mbappe-accuse-didier-deschamps.html",
+          "title": "Coupe du monde 2026 : France-Espagne, Kylian Mbappé accuse Didier Deschamps : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-07T08:53:57.470Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "chauffeur-vtc-competence-formation-et-remuneration.html",
+          "title": "Chauffeur VTC : compétence, formation et rémunération : assurance VTC — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "credit-immobilier-la-flambee-des-taux-ravive-les-craintes-de-blocage-fig.html",
+          "title": "Crédit immobilier : la flambée des taux ravive les craintes de blocage - Figaro Immobilier : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "assurance-habitation-des-hausses-de-tarifs-qui-atteignent-plus-de-24-dan.html",
+          "title": "Assurance habitation : des hausses de tarifs qui atteignent plus de 24% dans certains d… : assurance habitation — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "assurance-emprunteur-changez-d-assureur-sans-perdre-votre-couverture.html",
+          "title": "Assurance emprunteur : changez d'assureur sans perdre votre couverture : pret et assurance emprunteur — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "avis-sur-les-assurances-animaux-chien-et-chat.html",
+          "title": "Avis sur les assurances animaux (chien et chat) : assurance animaux — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "cette-maison-est-vendue-a-bas-prix-mais-l-acheteur-devra-gerer-une-occup.html",
+          "title": "Cette maison est vendue à bas prix, mais l’acheteur devra gérer une occupante qui refus… : assurance habitation — que faire ?",
           "source": "google",
           "sourceType": "google"
         }
