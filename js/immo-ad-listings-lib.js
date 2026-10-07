@@ -85,10 +85,16 @@
     if (!Array.isArray(arr)) arr = [];
     var out = [];
     arr.forEach(function (item) {
-      if (out.length >= 12) return;
+      if (out.length >= 24) return;
       var url = typeof item === "string" ? item : item && (item.url || item.src);
       if (!isSafeMediaUrl(url)) return;
-      out.push({ url: url, kind: item && item.kind === "capture" ? "capture" : "photo" });
+      var row = { url: url, kind: item && item.kind === "capture" ? "capture" : "photo" };
+      if (item && typeof item === "object") {
+        if (item.driveFileId) row.driveFileId = item.driveFileId;
+        if (item.webViewLink) row.webViewLink = item.webViewLink;
+        if (item.storage) row.storage = item.storage;
+      }
+      out.push(row);
     });
     return out;
   }
