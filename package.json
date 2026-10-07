@@ -97,6 +97,7 @@
     "verify:pret-refuse": "node scripts/verify-pret-refuse.cjs",
     "verify:collaborateurs-crm": "node scripts/verify-collaborateurs-crm.cjs",
     "verify:apporteur-public": "node scripts/verify-apporteur-public.cjs",
+    "verify:leads-professionnels": "node scripts/verify-leads-professionnels.cjs",
     "verify:chasseur-bien": "node scripts/verify-chasseur-bien.cjs",
     "verify:immo-location-syndic": "node scripts/verify-immo-location-syndic.cjs",
     "verify:immo-multi-units": "node scripts/verify-immo-multi-units.cjs",
