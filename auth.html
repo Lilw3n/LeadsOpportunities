@@ -777,10 +777,12 @@
       }
     })();
 
-    // LOGIN (+ code e-mail pour vérificateurs)
+    // LOGIN : e-mail + mdp → code sur boîte mail (admin et clients ; sans Google)
     var pendingLoginEmail = "";
-    function showLoginCodeStep(email, message) {
+    var pendingChallengeToken = "";
+    function showLoginCodeStep(email, message, challengeToken) {
       pendingLoginEmail = email;
+      pendingChallengeToken = challengeToken || "";
       document.getElementById("loginForm").style.display = "none";
       var google = document.getElementById("googleLoginLink");
       var divider = document.querySelector("#panel-login .auth-divider");
@@ -799,6 +801,7 @@
     }
     function resetLoginCodeStep() {
       pendingLoginEmail = "";
+      pendingChallengeToken = "";
       document.getElementById("loginForm").style.display = "";
       document.getElementById("loginCodeForm").style.display = "none";
       var google = document.getElementById("googleLoginLink");
@@ -824,7 +827,7 @@
         });
         if (data.ok && data.needsCode && data.email) {
           showMsg("authMsg", data.message || "Code envoyé", true);
-          showLoginCodeStep(data.email, data.message);
+          showLoginCodeStep(data.email, data.message, data.challengeToken);
         } else if (data.ok && data.token) {
           setAuth(data.token, data.user);
           showMsg("authMsg", "Connexion réussie ! Redirection...", true);
@@ -846,7 +849,8 @@
       try {
         var data = await apiCall("/api/auth/login", {
           email: pendingLoginEmail || document.getElementById("loginEmail").value,
-          code: document.getElementById("loginCode").value
+          code: document.getElementById("loginCode").value,
+          challengeToken: pendingChallengeToken
         });
         if (data.ok && data.token) {
           setAuth(data.token, data.user);
@@ -865,7 +869,12 @@
       hideMsg("authMsg");
       var email = pendingLoginEmail || document.getElementById("loginEmail").value;
       try {
-        var data = await apiCall("/api/auth/login", { email: email, resend: true });
+        var data = await apiCall("/api/auth/login", {
+          email: email,
+          resend: true,
+          challengeToken: pendingChallengeToken
+        });
+        if (data.ok && data.challengeToken) pendingChallengeToken = data.challengeToken;
         showMsg("authMsg", data.ok ? (data.message || "Code renvoyé") : (data.error || "Échec"), !!data.ok);
       } catch(err) {
         showMsg("authMsg", "Erreur réseau", false);

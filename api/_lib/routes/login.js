@@ -1,22 +1,18 @@
 /**
  * POST /api/auth/login
  *
- * Site verrouillé (Buchet SITE_LOCK=1 / LO SITE_LEGAL_LOCK=1, défaut OFF) :
- *   seuls admins + vérificateurs juridiques.
+ * Toute connexion e-mail/mot de passe (admin ou client) → code à 6 chiffres
+ * envoyé sur la boîte mail (Resend). Google OAuth reste sans code.
  *
- * Vérificateurs / admins :
- *   1) { email, password } → MrRollin / mdp stocké → code e-mail
- *   2) { email, code } → session JWT + cookie porte (Buchet)
- *   3) { email, resend: true } → renvoie le code
- *
- * Google OAuth = chemin séparé (admins uniquement pendant le lock).
+ * Stockage du code : challenge HMAC signé (pas de Neon obligatoire).
+ * Si Neon est down / non upgradé : admins + vérificateurs peuvent se connecter
+ * avec le mot de passe partagé + code e-mail (session offline).
  */
 const { randomUUID } = require("crypto");
 const {
   verifyPassword,
   hashPassword,
   signToken,
-  generateResetCode,
 } = require("../auth");
 const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
 const { sendViaResend } = require("../mail-send");
@@ -32,6 +28,12 @@ const {
   siteAccessForEmail,
   isAllowedLoginEmail,
 } = require("../site-lock-auth");
+const {
+  createLoginChallenge,
+  verifyLoginChallenge,
+  refreshLoginChallenge,
+  offlineUserId,
+} = require("../login-code-challenge");
 
 function userResponse(user, siteAccess) {
   const publicOnly = siteAccess === "public" || isPublicVerifierEmail(user.email);
@@ -54,13 +56,14 @@ function userResponse(user, siteAccess) {
     siteAccess: access,
     isPublicVerifier: publicOnly,
     publicAccess: publicOnly,
+    offline: !!user.offline,
   };
 }
 
 async function sendLoginCodeEmail(email, code) {
   return sendViaResend({
     to: email,
-    subject: "Code de connexion — Buchet Immobilier / Leads Opportunities",
+    subject: "Code de connexion — Leads Opportunities",
     text:
       "Votre code de sécurité : " +
       code +
@@ -77,25 +80,13 @@ async function sendLoginCodeEmail(email, code) {
   });
 }
 
-async function storeAndSendCode(sql, userId, email) {
-  const code = generateResetCode();
-  const expires = new Date(Date.now() + 15 * 60 * 1000).toISOString();
-  await sql`
-    UPDATE users SET reset_code = ${code}, reset_code_expires = ${expires}, updated_at = now()
-    WHERE id = ${userId}
-  `;
-  return sendLoginCodeEmail(email, code);
+async function sendCodeChallenge(user) {
+  const challenge = createLoginChallenge(user);
+  const sent = await sendLoginCodeEmail(challenge.email, challenge.code);
+  return { challenge: challenge, sent: sent };
 }
 
-async function issueSession(sql, res, user, locked) {
-  await sql`
-    UPDATE users SET
-      last_login_at = now(),
-      reset_code = NULL,
-      reset_code_expires = NULL,
-      updated_at = now()
-    WHERE id = ${user.id}
-  `;
+function issueSessionFromUser(res, user, locked) {
   const siteAccess =
     siteAccessForEmail(user.email) ||
     (isPublicVerifierEmail(user.email) ? "public" : user.role === "admin" ? "full" : null);
@@ -112,6 +103,7 @@ async function issueSession(sql, res, user, locked) {
     role: role,
     crmRole: crmRole || null,
     siteAccess: siteAccess,
+    offline: !!user.offline,
   });
   if (siteAccess) setGateCookieForEmail(res, user.email);
   return {
@@ -119,8 +111,55 @@ async function issueSession(sql, res, user, locked) {
     token: token,
     siteAccess: siteAccess,
     siteLocked: locked,
-    user: userResponse(user, siteAccess),
+    user: userResponse(
+      {
+        id: user.id,
+        email: user.email,
+        role: role,
+        crm_role: crmRole,
+        full_name: user.full_name || user.fullName || null,
+        phone: user.phone || null,
+        offline: !!user.offline,
+      },
+      siteAccess
+    ),
   };
+}
+
+function offlineAdminUser(email) {
+  const publicOnly = isPublicVerifierEmail(email) && !isAdminEmail(email);
+  return {
+    id: offlineUserId(email),
+    email: email,
+    role: publicOnly ? "user" : "admin",
+    crm_role: publicOnly ? null : "admin",
+    full_name: email.split("@")[0],
+    phone: null,
+    status: "active",
+    offline: true,
+  };
+}
+
+function getSql() {
+  const dbUrl = process.env.DATABASE_URL;
+  if (!dbUrl) return { sql: null, error: "missing" };
+  try {
+    const { neon } = require("@neondatabase/serverless");
+    return { sql: neon(dbUrl), error: null };
+  } catch (e) {
+    return { sql: null, error: e.message || "neon_init" };
+  }
+}
+
+async function dbQuery(sql, fn) {
+  if (!sql) return { ok: false, error: "no_db", rows: null };
+  try {
+    const rows = await fn(sql);
+    return { ok: true, rows: rows };
+  } catch (e) {
+    console.error("[auth/login] neon", e && e.message ? e.message : e);
+    return { ok: false, error: e.message || "db_error", rows: null };
+  }
 }
 
 module.exports = async (req, res) => {
@@ -142,6 +181,7 @@ module.exports = async (req, res) => {
   const password = body.password != null ? String(body.password) : "";
   const code = body.code != null ? String(body.code).trim() : "";
   const resendOnly = !!body.resend;
+  const challengeToken = body.challengeToken != null ? String(body.challengeToken) : "";
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: "Email invalide" });
@@ -157,50 +197,62 @@ module.exports = async (req, res) => {
     });
   }
 
-  const dbUrl = process.env.DATABASE_URL;
-  if (!dbUrl) return res.status(500).json({ error: "Base de données non configurée" });
-
   const verifierOk = isVerifierEmail(email);
+  const { sql } = getSql();
 
   try {
-    const { neon } = require("@neondatabase/serverless");
-    const sql = neon(dbUrl);
-
-    // ——— Étape 2 : code ———
+    // ——— Étape 2 : code (challenge signé, sans Neon) ———
     if (code) {
-      const rows = await sql`
-        SELECT id, email, password_hash, salt, role, crm_role, full_name, phone, status,
-               google_id, auth_provider, reset_code, reset_code_expires
-        FROM users WHERE email = ${email} LIMIT 1
-      `;
-      if (!rows.length || !rows[0].reset_code || String(rows[0].reset_code) !== code) {
-        return res.status(401).json({ error: "Code invalide ou expiré" });
+      if (!challengeToken) {
+        return res.status(400).json({
+          error: "Session de code manquante — recommencez avec e-mail + mot de passe.",
+        });
       }
-      if (!rows[0].reset_code_expires || new Date(rows[0].reset_code_expires) < new Date()) {
-        return res.status(401).json({ error: "Code expiré — renvoyez un nouveau code" });
+      const checked = verifyLoginChallenge(challengeToken, email, code);
+      if (!checked.ok) {
+        return res.status(401).json({ error: checked.error || "Code invalide ou expiré" });
       }
-      if (rows[0].status && rows[0].status !== "active") {
+      const profile = checked.profile;
+      if (profile.status && profile.status !== "active") {
         return res.status(403).json({ error: "Compte desactive. Contactez l administrateur." });
       }
-      return res.status(200).json(await issueSession(sql, res, rows[0], locked));
+      // Best-effort : nettoyer reset_code Neon si dispo
+      if (sql && profile.id && !profile.offline) {
+        await dbQuery(sql, (q) => q`
+          UPDATE users SET
+            last_login_at = now(),
+            reset_code = NULL,
+            reset_code_expires = NULL,
+            updated_at = now()
+          WHERE id = ${profile.id}
+        `);
+      }
+      return res.status(200).json(issueSessionFromUser(res, profile, locked));
     }
 
+    // ——— Renvoi code ———
     if (resendOnly) {
-      if (!verifierOk && !allowed) {
-        return res.status(403).json({ error: "Renvoi réservé aux comptes autorisés." });
-      }
-      const rows = await sql`SELECT id FROM users WHERE email = ${email} LIMIT 1`;
-      if (!rows.length) {
+      if (!challengeToken) {
         return res.status(400).json({ error: "Recommencez avec e-mail + mot de passe." });
       }
-      const sent = await storeAndSendCode(sql, rows[0].id, email);
+      const refreshed = refreshLoginChallenge(challengeToken, email);
+      if (!refreshed) {
+        return res.status(400).json({ error: "Session expirée — recommencez la connexion." });
+      }
+      const sent = await sendLoginCodeEmail(refreshed.email, refreshed.code);
       if (!sent.ok) {
-        return res.status(502).json({ error: sent.error || "Envoi impossible", needsCode: true, email });
+        return res.status(502).json({
+          error: sent.error || "Envoi impossible",
+          needsCode: true,
+          email: email,
+          challengeToken: refreshed.challengeToken,
+        });
       }
       return res.status(200).json({
         ok: true,
         needsCode: true,
-        email,
+        email: email,
+        challengeToken: refreshed.challengeToken,
         message: "Nouveau code envoyé à " + email,
       });
     }
@@ -212,116 +264,155 @@ module.exports = async (req, res) => {
     const sharedOk = isVerifierSharedPassword(password);
     const legalOnly = isPublicVerifierEmail(email) && !isAdminEmail(email);
 
-    let rows = await sql`
-      SELECT id, email, password_hash, salt, role, crm_role, full_name, phone, status, google_id, auth_provider
-      FROM users WHERE email = ${email}
-    `;
+    // ——— Chemin Neon (si dispo) ———
+    let user = null;
+    let neonDown = !sql;
 
-    // Création auto vérificateur / admin avec MrRollin
-    if (!rows.length && sharedOk && verifierOk) {
-      const userId = randomUUID();
-      const { hash, salt } = hashPassword(password);
-      const publicOnly = isPublicVerifierEmail(email);
-      const role = publicOnly ? "user" : isAdminEmail(email) ? "admin" : "user";
-      const crmRole = role === "admin" ? "admin" : null;
-      const fullName = email.split("@")[0];
-      await sql`
-        INSERT INTO users (
-          id, email, password_hash, salt, role, crm_role, full_name, status, auth_provider
-        ) VALUES (
-          ${userId}, ${email}, ${hash}, ${salt}, ${role}, ${crmRole}, ${fullName}, 'active', 'password'
-        )
-      `;
-      rows = [
-        {
-          id: userId,
-          email,
-          password_hash: hash,
-          salt,
-          role,
-          crm_role: crmRole,
-          full_name: fullName,
-          phone: null,
-          status: "active",
-          google_id: null,
-          auth_provider: "password",
-        },
-      ];
+    if (sql) {
+      const found = await dbQuery(
+        sql,
+        (q) => q`
+          SELECT id, email, password_hash, salt, role, crm_role, full_name, phone, status, google_id, auth_provider
+          FROM users WHERE email = ${email}
+        `
+      );
+      if (!found.ok) {
+        neonDown = true;
+      } else if (found.rows && found.rows.length) {
+        user = found.rows[0];
+      } else if (sharedOk && verifierOk) {
+        // Création auto vérificateur / admin
+        const userId = randomUUID();
+        const { hash, salt } = hashPassword(password);
+        const publicOnly = isPublicVerifierEmail(email);
+        const role = publicOnly ? "user" : isAdminEmail(email) ? "admin" : "user";
+        const crmRole = role === "admin" ? "admin" : null;
+        const fullName = email.split("@")[0];
+        const inserted = await dbQuery(
+          sql,
+          (q) => q`
+            INSERT INTO users (
+              id, email, password_hash, salt, role, crm_role, full_name, status, auth_provider
+            ) VALUES (
+              ${userId}, ${email}, ${hash}, ${salt}, ${role}, ${crmRole}, ${fullName}, 'active', 'password'
+            )
+          `
+        );
+        if (inserted.ok) {
+          user = {
+            id: userId,
+            email,
+            password_hash: hash,
+            salt,
+            role,
+            crm_role: crmRole,
+            full_name: fullName,
+            phone: null,
+            status: "active",
+            google_id: null,
+            auth_provider: "password",
+          };
+        } else {
+          neonDown = true;
+        }
+      }
     }
 
-    if (!rows.length) {
+    // ——— Fallback sans Neon : admins / vérificateurs uniquement ———
+    if (!user && neonDown) {
+      if (!verifierOk && !allowed) {
+        return res.status(503).json({
+          error:
+            "Base de données indisponible (Neon). Connexion e-mail temporairement réservée aux administrateurs — ou utilisez « Continuer avec Google ».",
+          neonDown: true,
+        });
+      }
+      if (!sharedOk) {
+        return res.status(401).json({
+          error:
+            "Base indisponible. Admins / vérificateurs : utilisez le mot de passe partagé, puis le code reçu par e-mail — ou Google.",
+          neonDown: true,
+        });
+      }
+      user = offlineAdminUser(email);
+    }
+
+    if (!user) {
       return res.status(401).json({ error: "Identifiants invalides" });
     }
 
-    const user = rows[0];
     if (user.status && user.status !== "active") {
       return res.status(403).json({ error: "Compte desactive. Contactez l administrateur." });
     }
 
-    if (isAdminEmail(email) && !legalOnly && user.role !== "admin") {
-      await sql`
-        UPDATE users SET role = 'admin', crm_role = 'admin', status = 'active', updated_at = now()
-        WHERE id = ${user.id}
-      `;
+    if (!user.offline && sql && isAdminEmail(email) && !legalOnly && user.role !== "admin") {
+      await dbQuery(
+        sql,
+        (q) => q`
+          UPDATE users SET role = 'admin', crm_role = 'admin', status = 'active', updated_at = now()
+          WHERE id = ${user.id}
+        `
+      );
       user.role = "admin";
       user.crm_role = "admin";
     }
 
-    const storedOk =
-      !!(user.password_hash && user.salt && verifyPassword(password, user.password_hash, user.salt));
-    const sharedAllowed = sharedOk && verifierOk;
+    if (!user.offline) {
+      const storedOk = !!(
+        user.password_hash &&
+        user.salt &&
+        verifyPassword(password, user.password_hash, user.salt)
+      );
+      const sharedAllowed = sharedOk && verifierOk;
 
-    // Vérificateurs publics : MrRollin obligatoire
-    if (legalOnly && !sharedOk) {
-      return res.status(401).json({
-        error: "Vérificateurs publics : mot de passe MrRollin obligatoire (+ code e-mail).",
-      });
-    }
-
-    if (!storedOk && !sharedAllowed) {
-      return res.status(401).json({
-        error: legalOnly
-          ? "Mot de passe incorrect. Utilisez MrRollin, puis le code reçu par e-mail."
-          : isPublicVerifierEmail(email)
-            ? "Mot de passe incorrect. Vérificateurs publics : utilisez MrRollin, puis le code reçu par e-mail."
-            : "Mot de passe incorrect. Admins : MrRollin + code, ou « Continuer avec Google ».",
-      });
-    }
-
-    if (sharedAllowed && (!user.password_hash || !storedOk)) {
-      const { hash, salt } = hashPassword(password);
-      await sql`
-        UPDATE users SET
-          password_hash = ${hash},
-          salt = ${salt},
-          auth_provider = CASE
-            WHEN google_id IS NOT NULL OR auth_provider = 'google' THEN 'both'
-            ELSE 'password'
-          END,
-          updated_at = now()
-        WHERE id = ${user.id}
-      `;
-    }
-
-    // Toujours code e-mail pour comptes autorisés (admins + vérifs)
-    if (verifierOk || allowed) {
-      const sent = await storeAndSendCode(sql, user.id, email);
-      if (!sent.ok) {
-        return res.status(502).json({
-          error: sent.error || "Impossible d’envoyer le code de sécurité.",
-          needsCode: false,
-          email,
+      if (legalOnly && !sharedOk) {
+        return res.status(401).json({
+          error: "Mot de passe incorrect. Utilisez le mot de passe partagé, puis le code reçu par e-mail.",
         });
       }
-      return res.status(200).json({
-        ok: true,
-        needsCode: true,
-        email,
-        message: "Un code de sécurité a été envoyé à " + email,
-      });
+
+      if (!storedOk && !sharedAllowed) {
+        return res.status(401).json({
+          error: "Mot de passe incorrect.",
+        });
+      }
+
+      if (sharedAllowed && (!user.password_hash || !storedOk) && sql) {
+        const { hash, salt } = hashPassword(password);
+        await dbQuery(
+          sql,
+          (q) => q`
+            UPDATE users SET
+              password_hash = ${hash},
+              salt = ${salt},
+              auth_provider = CASE
+                WHEN google_id IS NOT NULL OR auth_provider = 'google' THEN 'both'
+                ELSE 'password'
+              END,
+              updated_at = now()
+            WHERE id = ${user.id}
+          `
+        );
+      }
     }
 
-    return res.status(200).json(await issueSession(sql, res, user, locked));
+    // Toujours code e-mail (admin, vérificateur ou client) — challenge sans Neon
+    const { challenge, sent } = await sendCodeChallenge(user);
+    if (!sent.ok) {
+      return res.status(502).json({
+        error: sent.error || "Impossible d’envoyer le code de sécurité.",
+        needsCode: false,
+        email: email,
+      });
+    }
+    return res.status(200).json({
+      ok: true,
+      needsCode: true,
+      email: email,
+      challengeToken: challenge.challengeToken,
+      message: "Un code de sécurité a été envoyé à " + email,
+      neonDown: !!user.offline || neonDown,
+    });
   } catch (e) {
     console.error("[auth/login]", e);
     return res.status(500).json({ error: "Erreur serveur" });
