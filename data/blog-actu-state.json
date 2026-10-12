@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-10-12T12:46:42.097Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMivAFBVV95cUxPQmZ1U0ZnakZRdFl1Vm5tTzc2ZDhNNmN0bEtwTU50UC0xeFRIY1dzT0EyYk9QRFZQQ3lVM1BXTlF4Z2d4TWRLWXdndUxPaWYyT05YbFhGZzBNRjJOMUs5eW5jLW1YRVpCNHZzcEdzT2RDUEY4WlhkWE0yWUVwUXZLMVBVR0liOWpDYURaVm9INE9RTk0tRktITmhmTjNSZlhBZ2hBLU1tOWNSeHhZV2dPNHUyM1FvbnlKSnVOSA?oc=5",
+    "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1Cb0FLNkxuay1rVEpyZjhlLVBTLXVfSXEydk9fdmx2UExJNHhtZUtkNklHVzUycTZoRGQ1dWY2NkI2TTItRFNwRk5MeGM2eTIzRmM3ckJn?oc=5",
+    "https://news.google.com/rss/articles/CBMiigFBVV95cUxOMEJhSDYtTkpCRnREMDNLM0VpNU0wSW5Pd1JSUnFVNC1OUl9Mak9fUmI1VXNXYnNhYnk0TGpNZWY5NWJYRXJjWERqeEpUODRfR3p6S1VZMXRFS3NWaWdpOFd5WmVTWWtHN3UzTmdQR2lfSEtiNmx4X0FqbG5YaGFjWnBrN2R5UkVEa1E?oc=5",
+    "https://news.google.com/rss/articles/CBMikgJBVV95cUxQU0VPNkx1QjR2N1JMUWxiaVlHZ3p4X2U1X1ZfQUlSVXcyVzM0YTNyTngtTEVCVml0c1pvUXVUMUduV1BwMGJiUndMX202TnEteHpnUm1QZmdYa0JwUlMyXzZRVHdWSzNKcV8yMDI0ZnNwN0s4aXZOZFpvOEJtdUVjS29EUzdRQVZTRTVwb0tIc19pTjI1VUplaGR4c2gzS3VpV1FYMVhrUHFpSmpTb0xCMk5CQVJGNDUwN0FYWi1zZmdPaGkyZXp3a1YwT1NEUC1pVXNJeE5FQk5HeFptbGhLbnNBWG5zN1lhWk02QlZDSjJNVjBFTl9RLWNkU2duMW1EOXp1eFF0NGZHbE9jNGlLWk9n?oc=5",
+    "https://news.google.com/rss/articles/CBMilwJBVV95cUxQZExDX01kYXoxME1zcUpmQmNIbWlWS0NiVlBfaUYwMG1MNmJJOHJsMVdEUi01MXJTajZ0bXByZTg2Ym1Yd2dONzFJS3VoalFsYV9nakJGZHRndF9NQkFlbS1ZdW1CMDFVNS1RQzg5ZHpZRTluazdrYXpRRlBpNDEyR0JIQ0hfdDRHdTFFODZHR29mVFZpckRacTJWbWg4QnFZVXE0Mk9qS1Z5OHc5dEI3dFNjUnpKX0duOHo2UHZtbHRTZU4yX0M4ZjhLUWdyV3ZYYmZXTkE0eGpvQVFOYTVpMEI3Q1ZJSXFLQUlpd1hlQVdQa3dxNE9DaUY0R0ZseXpXbHdVXy1BT040UmJLeXRieFFfTUFqNVU?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6accd6645c094e6b874ddd293a391926&url=https%3a%2f%2fwww.village-justice.com%2farticles%2fvente-bien-immobilier-france-dont-proprietaire-est-ressortissant-etranger%2c56835.html&c=1888982861943883255&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-10-12T12:46:44.255Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,50 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-10-12T12:46:44.255Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "pret-immobilier-plus-cher-au-printemps-2026-deleguez-l-assurance-emprunt.html",
+          "title": "Prêt immobilier plus cher au printemps 2026 : déléguez l’assurance emprunteur - Magnoli… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "assurance-protection-partenaires-avec-allianz-partners-uber.html",
+          "title": "Assurance Protection partenaires avec Allianz Partners - Uber : assurance VTC — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "top-10-des-meilleures-assurance-chien-comparatif-tarifs-2026-le-mag-de-l.html",
+          "title": "Top 10 des Meilleures Assurance Chien : comparatif tarifs 2026 ! - Le Mag de la Conso : assurance animaux — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "ile-de-france-les-arnaqueurs-au-credit-immobilier-laissent-une-ardoise-d.html",
+          "title": "Île-de-France : les arnaqueurs au crédit immobilier laissent une ardoise de 9 millions … : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "immobilier-a-paris-comme-dans-les-grandes-metropoles-les-tensions-sur-le.html",
+          "title": "Immobilier : à Paris comme dans les grandes métropoles, les tensions sur les locations … : assurance habitation — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "vente-d-un-bien-immobilier-en-france-dont-le-proprietaire-est-un-ressort.html",
+          "title": "Vente d’un bien immobilier en France dont le propriétaire est un ressortissant étranger. : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
