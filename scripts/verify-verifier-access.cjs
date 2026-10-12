@@ -37,7 +37,18 @@ assert(login.indexOf("sendViaResend") !== -1, "envoi code Resend");
 assert(login.indexOf("isPublicVerifierEmail") !== -1, "login publicOnly");
 assert(login.indexOf("publicAccess") !== -1, "flag publicAccess");
 assert(login.indexOf("setGateCookieForEmail") !== -1, "login pose cookie porte Buchet");
+assert(login.indexOf("challengeToken") !== -1, "login challenge sans Neon");
+assert(login.indexOf("login-code-challenge") !== -1, "login utilise challenge HMAC");
+assert(login.indexOf("neonDown") !== -1, "login fallback Neon down");
 assert(login.indexOf("lilwen.song@gmail.com") === -1 || true, "login délègue listes à verifier-access");
+
+var challengeLib = fs.readFileSync(path.join(ROOT, "api/_lib/login-code-challenge.js"), "utf8");
+assert(challengeLib.indexOf("createLoginChallenge") !== -1, "createLoginChallenge");
+assert(challengeLib.indexOf("verifyLoginChallenge") !== -1, "verifyLoginChallenge");
+
+var authHtmlLogin = fs.readFileSync(path.join(ROOT, "auth.html"), "utf8");
+assert(authHtmlLogin.indexOf("challengeToken") !== -1, "auth.html envoie challengeToken");
+assert(authHtmlLogin.indexOf("pendingChallengeToken") !== -1, "auth.html garde challenge");
 
 var siteLock = fs.readFileSync(path.join(ROOT, "api/_lib/site-lock.js"), "utf8");
 assert(siteLock.indexOf("lilwen.song@gmail.com") !== -1 || siteLock.indexOf("verifier-access") !== -1, "site-lock lié vérifs");
