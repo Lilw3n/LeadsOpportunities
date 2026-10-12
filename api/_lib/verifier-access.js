@@ -14,7 +14,7 @@
  * Env :
  *   VERIFIER_SHARED_PASSWORD=MrRollin
  *   LEGAL_VERIFIER_EMAILS=...
- *   SITE_LEGAL_LOCK=1
+ *   SITE_LEGAL_LOCK=1  — opt-in uniquement (défaut OFF : site ouvert)
  */
 const { parseEmailList, isAdminEmail, getAdminEmails } = require("./admin-emails");
 const { safeEqual } = require("./security");
@@ -77,9 +77,10 @@ function isVerifierSharedPassword(password) {
 }
 
 function isSiteLegalLockEnabled() {
-  var v = String(process.env.SITE_LEGAL_LOCK || "1")
-    .trim()
-    .toLowerCase();
+  // Défaut OFF : ne jamais verrouiller l'auth LO sans SITE_LEGAL_LOCK=1 explicite.
+  var raw = process.env.SITE_LEGAL_LOCK;
+  if (raw == null || String(raw).trim() === "") return false;
+  var v = String(raw).trim().toLowerCase();
   return v === "1" || v === "true" || v === "yes" || v === "on";
 }
 

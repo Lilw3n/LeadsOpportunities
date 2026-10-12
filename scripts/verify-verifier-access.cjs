@@ -56,8 +56,8 @@ assert(mw.indexOf("SOCIAL_UA") !== -1 || mw.indexOf("facebookexternalhit") !== -
 
 var site = fs.readFileSync(path.join(ROOT, "api/_lib/routes/site-access.js"), "utf8");
 assert(site.indexOf("legalLock") !== -1, "site-access legalLock");
-assert(site.indexOf("publicVerifierEmails") !== -1, "site-access public verifiers");
-assert(site.indexOf("adminEmails") !== -1, "site-access admins");
+assert(site.indexOf("hintPassword: null") !== -1, "site-access n'expose pas le mdp");
+assert(site.indexOf("getVerifierSharedPassword") === -1, "pas de leak mdp site-access");
 
 var authAction = fs.readFileSync(path.join(ROOT, "api/auth/[action].js"), "utf8");
 assert(authAction.indexOf("site-access") !== -1, "wire site-access");
@@ -66,11 +66,10 @@ var authHtml = fs.readFileSync(path.join(ROOT, "auth.html"), "utf8");
 assert(authHtml.indexOf("authLockBanner") !== -1, "UI bannière lock");
 assert(authHtml.indexOf("revue juridique") !== -1, "texte revue juridique");
 assert(authHtml.indexOf("/api/auth/site-access") !== -1, "fetch site-access");
-assert(authHtml.indexOf("MrRollin") !== -1, "hint MrRollin");
+assert(authHtml.indexOf("MrRollin") === -1, "pas de hint MrRollin public");
 assert(authHtml.indexOf("loginCodeForm") !== -1, "UI saisie code");
 assert(authHtml.indexOf("needsCode") !== -1, "UI gère needsCode");
-assert(authHtml.indexOf("immobilier.email") !== -1, "hint immobilier.email");
-assert(authHtml.indexOf("lilwen.song@gmail.com") !== -1, "hint lilwen");
+assert(authHtml.indexOf("lilwen.song@gmail.com") === -1, "pas d'e-mail admin exposé");
 assert(authHtml.indexOf("publicAccess") !== -1, "redirect publicAccess");
 
 var v = require("../api/_lib/verifier-access");
@@ -81,6 +80,11 @@ assert(!v.isPublicVerifierEmail("wendy.buchet@gmail.com"), "wendy pas public-onl
 assert(v.isVerifierEmail("wendy.buchet@gmail.com"), "wendy est vérificateur (admin)");
 assert(v.isVerifierEmail("courtier972@gmail.com"), "courtier vérificateur (admin)");
 assert(v.isVerifierEmail("lilwen.song@gmail.com"), "lilwen est vérificateur");
+delete process.env.SITE_LEGAL_LOCK;
+assert(v.isSiteLegalLockEnabled() === false, "SITE_LEGAL_LOCK défaut OFF");
+process.env.SITE_LEGAL_LOCK = "1";
+assert(v.isSiteLegalLockEnabled() === true, "SITE_LEGAL_LOCK=1 active le verrou");
+delete process.env.SITE_LEGAL_LOCK;
 
 console.log(ok ? "verify:verifier-access OK" : "verify:verifier-access FAILED");
 process.exit(ok ? 0 : 1);
