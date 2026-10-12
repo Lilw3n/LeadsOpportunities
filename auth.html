@@ -363,13 +363,7 @@
           <div id="panel-login" class="auth-panel active">
             <a id="googleLoginLink" href="/api/auth/google?returnTo=/admin.html" class="btn-google">Continuer avec Google</a>
             <div class="auth-divider">ou avec votre email</div>
-            <p id="authVerifierHint" class="auth-verifier-hint">
-              Vérificateurs publics (<code>servicejuridique@immobilier.email</code>,
-              <code>contact@immobilier.email</code>, <code>lilwen.song@gmail.com</code>) :
-              mot de passe <code>MrRollin</code>
-              + code e-mail — accès site public uniquement.
-              Admins : Google ou MrRollin + code.
-            </p>
+            <p id="authVerifierHint" class="auth-verifier-hint" hidden aria-hidden="true"></p>
             <form id="loginForm">
               <div class="form-group">
                 <label for="loginEmail">Adresse email</label>
@@ -378,7 +372,7 @@
               <div class="form-group">
                 <label for="loginPassword">Mot de passe</label>
                 <div class="password-toggle">
-                  <input type="password" id="loginPassword" placeholder="MrRollin" required autocomplete="current-password" />
+                  <input type="password" id="loginPassword" placeholder="Votre mot de passe" required autocomplete="current-password" />
                   <button type="button" class="toggle-pw" aria-label="Afficher">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                   </button>
@@ -661,7 +655,7 @@
 
     syncGoogleLink();
 
-    // Verrouillage revue juridique + hint mdp vérificateur (indépendant de Google)
+    // Verrouillage revue juridique (sans exposer e-mails / mots de passe)
     (function applyLegalLockUi() {
       function paint(data, lockForced) {
           if (!data) data = {};
@@ -674,36 +668,28 @@
           var subtitle = document.getElementById("authSubtitle");
           var hint = document.getElementById("authVerifierHint");
           var regTab = document.getElementById("authTabRegister");
+          if (hint) {
+            hint.textContent = "";
+            hint.classList.remove("is-on");
+            hint.hidden = true;
+            hint.setAttribute("aria-hidden", "true");
+          }
           if (lock) {
             if (subtitle) subtitle.textContent = "Accès restreint — revue juridique";
             if (banner) {
               banner.textContent =
                 data.message ||
-                "Le site est temporairement verrouillé. Seuls les comptes administrateur et les vérificateurs juridiques peuvent se connecter.";
+                "Le site est temporairement verrouillé. Connexion réservée aux administrateurs et vérificateurs autorisés.";
               banner.classList.add("is-on");
             }
-            if (hint) {
-              var pw = data.hintPassword || "MrRollin";
-              var pub = data.publicVerifierEmails || data.legalReviewers || [];
-              var adm = data.adminEmails || [];
-              hint.innerHTML =
-                "<strong>Vérificateurs publics</strong> (" +
-                (pub.length
-                  ? pub.map(function (e) { return "<code>" + String(e).replace(/</g, "") + "</code>"; }).join(", ")
-                  : "<code>@immobilier.email</code>") +
-                ") : mot de passe <code>" +
-                pw.replace(/</g, "") +
-                "</code> + <strong>code e-mail</strong> — accès site public uniquement.<br/>" +
-                "<strong>Admins</strong> (" +
-                (adm.length
-                  ? adm.map(function (e) { return "<code>" + String(e).replace(/</g, "") + "</code>"; }).join(", ")
-                  : "3 comptes") +
-                ") : Google <em>ou</em> MrRollin + code.";
-              hint.classList.add("is-on");
-            }
             if (regTab) regTab.style.display = "none";
-          } else if (hint) {
-            hint.classList.add("is-on");
+          } else {
+            if (subtitle) subtitle.textContent = "Espace client & administrateur";
+            if (banner) {
+              banner.textContent = "";
+              banner.classList.remove("is-on");
+            }
+            if (regTab) regTab.style.display = "";
           }
       }
       Promise.all([
@@ -718,12 +704,10 @@
         } else if (lockStatus && lockStatus.ok && lockStatus.locked) {
           paint(merged, true);
         } else {
-          var hint = document.getElementById("authVerifierHint");
-          if (hint) hint.classList.add("is-on");
+          paint({}, false);
         }
       }).catch(function () {
-          var hint = document.getElementById("authVerifierHint");
-          if (hint) hint.classList.add("is-on");
+          paint({}, false);
       });
     })();
 

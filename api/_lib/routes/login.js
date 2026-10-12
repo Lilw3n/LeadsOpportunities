@@ -1,7 +1,7 @@
 /**
  * POST /api/auth/login
  *
- * Site verrouillé (Buchet SITE_LOCK / LO SITE_LEGAL_LOCK) :
+ * Site verrouillé (Buchet SITE_LOCK=1 / LO SITE_LEGAL_LOCK=1, défaut OFF) :
  *   seuls admins + vérificateurs juridiques.
  *
  * Vérificateurs / admins :
