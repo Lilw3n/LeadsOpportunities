@@ -364,6 +364,10 @@
             <a id="googleLoginLink" href="/api/auth/google?returnTo=/admin.html" class="btn-google">Continuer avec Google</a>
             <div class="auth-divider">ou avec votre email</div>
             <p id="authVerifierHint" class="auth-verifier-hint" hidden aria-hidden="true"></p>
+            <p id="loginStepsHint" style="font-size:0.88rem;color:#475569;margin:0 0 14px;line-height:1.45;text-align:center">
+              1) E-mail + mot de passe → <strong>Recevoir le code</strong><br/>
+              2) Saisir le code reçu → <strong>Valider le code</strong>
+            </p>
             <form id="loginForm">
               <div class="form-group">
                 <label for="loginEmail">Adresse email</label>
@@ -380,15 +384,17 @@
               </div>
               <button type="submit" class="auth-submit" id="loginBtn">Recevoir le code</button>
             </form>
-            <form id="loginCodeForm" style="display:none;margin-top:8px">
-              <p id="loginCodeHint" style="font-size:0.9rem;color:#475569;margin:0 0 12px;line-height:1.45"></p>
+            <form id="loginCodeForm" style="margin-top:16px;padding-top:16px;border-top:1px solid #e2e8f0">
+              <p id="loginCodeHint" style="font-size:0.9rem;color:#475569;margin:0 0 12px;line-height:1.45">
+                Après avoir reçu le code par e-mail, saisissez-le ci-dessous puis validez.
+              </p>
               <div class="form-group">
-                <label for="loginCode">Code reçu par e-mail</label>
-                <input type="text" id="loginCode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="123456" autocomplete="one-time-code" required />
+                <label for="loginCode">Code reçu par e-mail (6 chiffres)</label>
+                <input type="text" id="loginCode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="123456" autocomplete="one-time-code" />
               </div>
               <button type="submit" class="auth-submit" id="loginCodeBtn">Valider le code</button>
               <button type="button" class="auth-submit" id="loginCodeResend" style="margin-top:8px;background:#fff;color:var(--primary);border:1.5px solid var(--primary)">Renvoyer le code</button>
-              <button type="button" class="auth-link" id="loginCodeBack" style="display:block;width:100%;margin-top:10px;background:none;border:none;cursor:pointer;color:var(--primary);font-weight:600">← Changer d’e-mail</button>
+              <button type="button" class="auth-link" id="loginCodeBack" style="display:none;width:100%;margin-top:10px;background:none;border:none;cursor:pointer;color:var(--primary);font-weight:600">← Recommencer</button>
             </form>
             <div class="auth-link" id="loginForgotWrap">
               <button type="button" id="showForgot">Mot de passe oublié ?</button>
@@ -777,41 +783,57 @@
       }
     })();
 
-    // LOGIN : e-mail + mdp → code sur boîte mail (admin et clients ; sans Google)
+    // LOGIN : e-mail + mdp → Recevoir le code → Valider le code (les 2 boutons restent visibles)
     var pendingLoginEmail = "";
     var pendingChallengeToken = "";
     function showLoginCodeStep(email, message, challengeToken) {
       pendingLoginEmail = email;
       pendingChallengeToken = challengeToken || "";
-      document.getElementById("loginForm").style.display = "none";
-      var google = document.getElementById("googleLoginLink");
-      var divider = document.querySelector("#panel-login .auth-divider");
-      var hint = document.getElementById("authVerifierHint");
-      var forgot = document.getElementById("loginForgotWrap");
-      if (google) google.style.display = "none";
-      if (divider) divider.style.display = "none";
-      if (hint) hint.style.display = "none";
-      if (forgot) forgot.style.display = "none";
-      var codeForm = document.getElementById("loginCodeForm");
-      codeForm.style.display = "block";
-      document.getElementById("loginCodeHint").textContent =
-        message || ("Un code à 6 chiffres a été envoyé à " + email + " (vérifiez aussi les spams).");
-      document.getElementById("loginCode").value = "";
-      document.getElementById("loginCode").focus();
+      var hint = document.getElementById("loginCodeHint");
+      if (hint) {
+        hint.textContent =
+          message ||
+          ("Code envoyé à " + email + ". Saisissez-le ci-dessous puis cliquez sur « Valider le code » (vérifiez aussi les spams).");
+        hint.style.color = "#065f46";
+        hint.style.fontWeight = "600";
+      }
+      var codeInput = document.getElementById("loginCode");
+      if (codeInput) {
+        codeInput.value = "";
+        codeInput.required = true;
+        codeInput.focus();
+      }
+      var back = document.getElementById("loginCodeBack");
+      if (back) back.style.display = "block";
+      var steps = document.getElementById("loginStepsHint");
+      if (steps) {
+        steps.innerHTML =
+          "Code envoyé à <strong>" +
+          String(email).replace(/</g, "") +
+          "</strong> — étape 2 : <strong>Valider le code</strong>";
+      }
     }
     function resetLoginCodeStep() {
       pendingLoginEmail = "";
       pendingChallengeToken = "";
-      document.getElementById("loginForm").style.display = "";
-      document.getElementById("loginCodeForm").style.display = "none";
-      var google = document.getElementById("googleLoginLink");
-      var divider = document.querySelector("#panel-login .auth-divider");
-      var hint = document.getElementById("authVerifierHint");
-      var forgot = document.getElementById("loginForgotWrap");
-      if (google) google.style.display = "";
-      if (divider) divider.style.display = "";
-      if (hint) hint.style.display = "";
-      if (forgot) forgot.style.display = "";
+      var hint = document.getElementById("loginCodeHint");
+      if (hint) {
+        hint.textContent = "Après avoir reçu le code par e-mail, saisissez-le ci-dessous puis validez.";
+        hint.style.color = "#475569";
+        hint.style.fontWeight = "";
+      }
+      var codeInput = document.getElementById("loginCode");
+      if (codeInput) {
+        codeInput.value = "";
+        codeInput.required = false;
+      }
+      var back = document.getElementById("loginCodeBack");
+      if (back) back.style.display = "none";
+      var steps = document.getElementById("loginStepsHint");
+      if (steps) {
+        steps.innerHTML =
+          "1) E-mail + mot de passe → <strong>Recevoir le code</strong><br/>2) Saisir le code reçu → <strong>Valider le code</strong>";
+      }
       document.getElementById("loginBtn").textContent = "Recevoir le code";
     }
 
@@ -826,7 +848,7 @@
           password: document.getElementById("loginPassword").value
         });
         if (data.ok && data.needsCode && data.email) {
-          showMsg("authMsg", data.message || "Code envoyé", true);
+          showMsg("authMsg", (data.message || "Code envoyé") + " — saisissez-le puis « Valider le code ».", true);
           showLoginCodeStep(data.email, data.message, data.challengeToken);
         } else if (data.ok && data.token) {
           setAuth(data.token, data.user);
@@ -843,13 +865,22 @@
 
     document.getElementById("loginCodeForm").addEventListener("submit", async function(e) {
       e.preventDefault();
+      var codeVal = String(document.getElementById("loginCode").value || "").trim();
+      if (!/^\d{6}$/.test(codeVal)) {
+        showMsg("authMsg", "Entrez le code à 6 chiffres reçu par e-mail, puis Valider le code.", false);
+        return;
+      }
+      if (!pendingChallengeToken) {
+        showMsg("authMsg", "Cliquez d’abord sur « Recevoir le code » (e-mail + mot de passe).", false);
+        return;
+      }
       var btn = document.getElementById("loginCodeBtn");
       btn.disabled = true; btn.textContent = "Vérification...";
       hideMsg("authMsg");
       try {
         var data = await apiCall("/api/auth/login", {
           email: pendingLoginEmail || document.getElementById("loginEmail").value,
-          code: document.getElementById("loginCode").value,
+          code: codeVal,
           challengeToken: pendingChallengeToken
         });
         if (data.ok && data.token) {
@@ -868,13 +899,24 @@
     document.getElementById("loginCodeResend").addEventListener("click", async function() {
       hideMsg("authMsg");
       var email = pendingLoginEmail || document.getElementById("loginEmail").value;
+      var password = document.getElementById("loginPassword").value;
       try {
-        var data = await apiCall("/api/auth/login", {
-          email: email,
-          resend: true,
-          challengeToken: pendingChallengeToken
-        });
-        if (data.ok && data.challengeToken) pendingChallengeToken = data.challengeToken;
+        var data;
+        if (pendingChallengeToken) {
+          data = await apiCall("/api/auth/login", {
+            email: email,
+            resend: true,
+            challengeToken: pendingChallengeToken
+          });
+        } else if (email && password) {
+          data = await apiCall("/api/auth/login", { email: email, password: password });
+        } else {
+          showMsg("authMsg", "Renseignez e-mail + mot de passe, puis Recevoir le code.", false);
+          return;
+        }
+        if (data.ok && data.challengeToken) {
+          showLoginCodeStep(data.email || email, data.message, data.challengeToken);
+        }
         showMsg("authMsg", data.ok ? (data.message || "Code renvoyé") : (data.error || "Échec"), !!data.ok);
       } catch(err) {
         showMsg("authMsg", "Erreur réseau", false);
