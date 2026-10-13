@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-10-13T06:44:11.495Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMitgFBVV95cUxObnJkZlV0Nk5CWHZKd0NidVNwT0dsSThLSk9nX25ENkZUeWVaZVladWNtZDVfbFJTdEFGMFFxWENYRV9maW9nR0pkMUxHSzVWeXBGdHo0ak1xVFdGb25BMjJmSDVrZmczbkkzVzhVMnR2bHJZM0JkY2RNcnI3QmJNa3hZTElic0x1T25rNmZVOVV2aEpTanhxeVpJVkNWTmJ0WXoxSU5xWDdxanNPNl84cTAyRC1WZw?oc=5",
+    "https://news.google.com/rss/articles/CBMirgFBVV95cUxQQXZJbmUzM3F0RGJBOGlGQ3dLOFJFZVBzR09LYll4OHFHM0oxbjV2UWhiTVFXR2xSSkxteUhEN1Yya3p5NUNaVjM1NDh4ZXlrM2RxS1lWb2tlc2hKS3hWcGx1R3NIYVduZHJqRjlsQmhTTGd5bHh5WHBWdk5ZMTMzYkwtbEhRMDVCc2g5R3lOd2RaZVZTaVFmWmdReGg1ZFpEeTA3eU9pZ0tESFFhRXc?oc=5",
+    "https://news.google.com/rss/articles/CBMiuAJBVV95cUxPLVA0aFZHWVhKVjdzRjVYTnk4cjh5YnpLb1pHZHZfT29LRU9YeVN2ejQtcnVBQ1NvSk9iVWVIQ3FMTXFEZzZ0T3laenZTajhTeTEyU2lvVGxUUFNNRXo1a2hvVlU5MXlVck9fM1JyeGJJTXRqM1Z4Y1o3dkZaeXdoZS0yUDZieEpONUcwX2tLU01RVHJCX3pzRzl4a09wTzNRS3lVTFJ6bHVnQUhSUHh4dlI1dF9XcnJGMEpuY29GZ29RdlQ1SmRlNVNGTDJZa3JPTDBfTjBzZmdiN3o5aHRuTGRvXzhBeTVXNzVYVkhnSDk1cjN0cmpyREpwZkEzUjNOV3lrWDlEMUVwazBrM1Z5LWE4LUtVYlE1RmViUnE2QWVGQkFQdXhnN0lScFJBTEgxakNYSUh6Wi0?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6acdd2effc8c469fa46d9f94e56dde4b&url=https%3a%2f%2fwww.tf1info.fr%2fconso-argent%2fvideos%2fvideo-achat-immobilier-quand-le-permis-de-construire-est-refuse-que-faire-le-13h-a-vos-cotes-19255-2468799.html&c=8578614458797093599&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMipgJBVV95cUxQOTFXbjRmd0ZqTWZpaXN0VkdHR2VRNk5aSmJ6c0g0aGJ4Z0JRSHl2TkQzeXVKeE4zRXJ1N242VHJqZXB6LVRkY0xwZFhzdWt1bmF6N2NLZzdMY1JoVnNRY2FTdWlzNDhKdUdrQkliWTNIN1RvOWlXN3NOZnpvUXlzUGJCQVg0TnlvR1lwRGt6XzFiS0FBOTNLNHlpa0g3S1I2X3ZSeTdBeHdtdTVzOUtqSHhDWHlLMEJnUldOLTR4Y0J3ZmtNc3Z1OWxIT1A0Mlo4c2xDTl9DLUVrUDFuZjNhZ3JoXzh6aUZFZjBkUGppejZBbVhSZzRnTXphakF0MWZ5bUx3cEVJa0tMRFlsR0pEd1BUSFowNGZZQlFTdzlwOUJJeW1NQXc?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6acdd2eed239414e8906abfae1359724&url=https%3a%2f%2fwww.lefigaro.fr%2fsocietes%2fchauffeur-vtc-il-faudra-desormais-obligatoirement-passer-un-examen-20260812&c=997682499383111162&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-10-13T06:44:13.460Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,50 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-10-13T06:44:13.460Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "taux-pret-immobilier-2026-changer-d-assurance-emprunteur-pour-baisser-le.html",
+          "title": "Taux prêt immobilier 2026 : changer d'assurance emprunteur pour baisser le coût total d… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "prix-d-une-operation-pour-chien-guide-des-tarifs-et-remboursements-en-20.html",
+          "title": "Prix d'une opération pour chien : guide des tarifs et remboursements en 2026 - Le Compa… : assurance animaux — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "emprunteur-allianz-france-et-magnolia-creent-un-contrat-specialement-con.html",
+          "title": "Emprunteur : Allianz France et Magnolia créent un contrat spécialement conçu pour les c… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "achat-immobilier-quand-le-permis-de-construire-est-refuse-que-faire-le-1.html",
+          "title": "Achat immobilier : quand le permis de construire est refusé, que faire ? Le 13H à vos c… : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "je-crains-une-usurpation-d-identite-elle-envoie-ses-donnees-personnelles.html",
+          "title": "« Je crains une usurpation d’identité »: elle envoie ses données personnelles pour loue… : assurance habitation — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "chauffeur-vtc-il-faudra-desormais-obligatoirement-passer-un-examen.html",
+          "title": "Chauffeur VTC : il faudra désormais obligatoirement passer un examen : assurance VTC — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
