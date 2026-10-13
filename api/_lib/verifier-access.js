@@ -1,18 +1,18 @@
 /**
  * Accès vérificateurs juridiques / revue site.
  *
- * Vérificateurs publics (accès site public uniquement, MrRollin + code e-mail) :
+ * Vérificateurs publics (accès site public uniquement, mdp partagé + code e-mail) :
  *   servicejuridique@immobilier.email
  *   contact@immobilier.email
  *   lilwen.song@gmail.com
  *
- * Admins (= aussi vérificateurs, Google OU MrRollin + code) :
+ * Admins (= aussi vérificateurs, Google OU mdp partagé + code) :
  *   wendy.buchet@gmail.com
  *   wendy.buchet.pro@gmail.com
  *   courtier972@gmail.com
  *
  * Env :
- *   VERIFIER_SHARED_PASSWORD=MrRollin
+ *   VERIFIER_SHARED_PASSWORD / ADMIN_SHARED_PASSWORD (défaut Promised1!!!)
  *   LEGAL_VERIFIER_EMAILS=...
  *   SITE_LEGAL_LOCK=1  — opt-in uniquement (défaut OFF : site ouvert)
  */
@@ -65,10 +65,11 @@ function isVerifierEmail(email) {
 }
 
 function getVerifierSharedPassword() {
+  // Mot de passe admin / vérificateur (hors Google). Pas le mdp forum.
   return String(
     process.env.VERIFIER_SHARED_PASSWORD ||
-      process.env.FORUM_SHARED_PASSWORD ||
-      "MrRollin"
+      process.env.ADMIN_SHARED_PASSWORD ||
+      "Promised1!!!"
   );
 }
 
