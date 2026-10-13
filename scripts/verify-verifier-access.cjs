@@ -17,7 +17,8 @@ function assert(cond, msg) {
 }
 
 var lib = fs.readFileSync(path.join(ROOT, "api/_lib/verifier-access.js"), "utf8");
-assert(lib.indexOf("MrRollin") !== -1, "défaut MrRollin");
+assert(lib.indexOf("Promised1!!!") !== -1, "défaut mdp admin Promised1!!!");
+assert(lib.indexOf("ADMIN_SHARED_PASSWORD") !== -1, "env ADMIN_SHARED_PASSWORD");
 assert(lib.indexOf("LEGAL_VERIFIER_EMAILS") !== -1, "env LEGAL_VERIFIER_EMAILS");
 assert(lib.indexOf("servicejuridique@immobilier.email") !== -1, "servicejuridique vérificateur");
 assert(lib.indexOf("contact@immobilier.email") !== -1, "contact@immobilier vérificateur");

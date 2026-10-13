@@ -201,7 +201,7 @@ module.exports = async (req, res) => {
     if (isPublicVerifierEmail(email) && !isAdminEmail(email)) {
       return redirectAuth(res, {
         oauth_error:
-          "Vérificateurs publics : utilisez e-mail + MrRollin + code (pas Google).",
+          "Vérificateurs publics : utilisez e-mail + mot de passe partagé + code (pas Google).",
       });
     }
 
