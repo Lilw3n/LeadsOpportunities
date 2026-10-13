@@ -2333,6 +2333,84 @@
       "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=chauffeur-vtc-il-faudra-desormais-obli",
       "matchedRule": "vtc",
       "species": null
+    },
+    {
+      "file": "loi-lemoine-2026-ce-qui-change-pour-votre-assurance-emprunteur-magnolia-.html",
+      "title": "Loi Lemoine 2026 : ce qui change pour votre assurance emprunteur - Magnolia.fr : pret et assurance emprunteur — que faire ?",
+      "section": "emprunteur",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=loi-lemoine-2026-ce-qui-change-pour-vo",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "quelles-demarches-pour-devenir-chauffeur-vtc-le-comparateur-assurance.html",
+      "title": "▷ Quelles démarches pour devenir chauffeur VTC ? - Le Comparateur Assurance : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=quelles-demarches-pour-devenir-chauffe",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "hausse-des-taux-fin-2026-solutions-pour-preserver-sa-capacite-d-emprunt-.html",
+      "title": "Hausse des taux fin 2026 : solutions pour préserver sa capacité d'emprunt - Magnolia.fr : pret et assurance emprunteur — que faire ?",
+      "section": "emprunteur",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=hausse-des-taux-fin-2026-solutions-pou",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "le-bail-civil-une-parade-face-a-l-encadrement-des-loyers-actu-juridique.html",
+      "title": "Le bail civil, une parade face à l’encadrement des loyers ? - Actu-Juridique : assurance habitation — que faire ?",
+      "section": "habitation",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=le-bail-civil-une-parade-face-a-l-encad",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "combien-de-transactions-immobilieres-en-2026-immobilier-danger.html",
+      "title": "Combien de transactions immobilières en 2026 - Immobilier-danger : assurance habitation — que faire ?",
+      "section": "habitation",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=combien-de-transactions-immobilieres-en",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "chien-chat-la-banalisation-des-soins-dentaires-est-bien-reelle-ymanci.html",
+      "title": "Chien/chat : la banalisation des soins dentaires est bien réelle - Ymanci : assurance animaux — que faire ?",
+      "section": "animaux",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=chien-chat-la-banalisation-des-soins-d",
+      "matchedRule": "puces-chat",
+      "species": "chat"
     }
   ]
 }
