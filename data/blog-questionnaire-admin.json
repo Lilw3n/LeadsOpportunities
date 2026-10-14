@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-13",
+  "updated": "2026-10-14",
   "sections": [
     "actu",
     "animaux",
@@ -2411,6 +2411,84 @@
       "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=chien-chat-la-banalisation-des-soins-d",
       "matchedRule": "puces-chat",
       "species": "chat"
+    },
+    {
+      "file": "assurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-sedu.html",
+      "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les empru… : pret et assurance emprunteur — que faire ?",
+      "section": "emprunteur",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-de-pret-immobilier-carrefour",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "auchan-l-enseigne-de-la-grande-distribution-entre-sur-l-assurance-chiens.html",
+      "title": "Auchan : l’enseigne de la grande distribution entre sur l’assurance chiens et chats ave… : assurance animaux — que faire ?",
+      "section": "animaux",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=auchan-l-enseigne-de-la-grande-distrib",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "assurance-de-pret-immobilier-ces-3-nouvelles-mesures-favorables-aux-empr.html",
+      "title": "Assurance de prêt immobilier : ces 3 nouvelles mesures favorables aux emprunteurs : pret et assurance emprunteur — que faire ?",
+      "section": "emprunteur",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-de-pret-immobilier-ces-3-nou",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "immobilier-a-paris-comme-dans-les-grandes-metropoles-les-tensions-sur-le.html",
+      "title": "Immobilier : à Paris comme dans les grandes métropoles, les tensions sur les locations … : assurance habitation — que faire ?",
+      "section": "habitation",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=immobilier-a-paris-comme-dans-les-gran",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "uber-france-offre-une-couverture-sociale-a-ses-chauffeurs-en-cas-d-accid.html",
+      "title": "Uber France offre une couverture sociale à ses chauffeurs en cas d'accident - Europe 1 : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=uber-france-offre-une-couverture-sociale",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "barometre-immobilier-france-mai-juin-2026-les-prix-region-par-region-et-.html",
+      "title": "Baromètre immobilier France Mai – Juin 2026 : les prix région par région et les nouvell… : assurance habitation — que faire ?",
+      "section": "habitation",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=barometre-immobilier-france-mai-juin-2",
+      "matchedRule": "habitation",
+      "species": null
     }
   ]
 }
