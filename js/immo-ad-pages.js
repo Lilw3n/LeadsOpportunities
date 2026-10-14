@@ -266,12 +266,31 @@
           .join(" · ") || EMPTY
       ) +
       "</p></header>" +
+      '<section class="lbc-section immo-ad-price-offer" data-price-offer data-property-id="' +
+      esc(p.id || "") +
+      '" data-asking="' +
+      esc(p.price_fai != null ? p.price_fai : "") +
+      '">' +
+      "<h3>Combien seriez-vous prêt(e) à donner ?</h3>" +
+      "<p>Estimation indicative basée sur le prix affiché" +
+      (p.price_fai ? " (<strong>" + esc(priceOf(p)) + "</strong>)" : "") +
+      ". Une seule proposition par connexion (anti-abus). Commentaires facultatifs.</p>" +
+      '<form class="tour-price-offer-form" data-price-offer-form novalidate>' +
+      '<input type="text" name="_hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="tour-contact-hp" />' +
+      '<label>Montant (€) *<input name="amount" type="text" inputmode="numeric" required placeholder="Ex. 185000" /></label>' +
+      '<p class="tour-price-warn" data-price-warn hidden></p>' +
+      '<div class="tour-price-comments">' +
+      '<label>Point positif <span class="muted">(facultatif)</span><textarea name="comment_plus" rows="2" maxlength="600" placeholder="Ce que vous aimez…"></textarea></label>' +
+      '<label>Point négatif <span class="muted">(facultatif)</span><textarea name="comment_moins" rows="2" maxlength="600" placeholder="Ce qui freine…"></textarea></label>' +
+      "</div>" +
+      '<div class="gate-actions"><button type="submit" class="btn btn-primary">Envoyer mon estimation</button></div>' +
+      '<p class="gate-msg" data-price-msg role="status"></p>' +
+      "</form></section>" +
       '<section class="lbc-section"><h3>Critères</h3><dl class="lbc-criteria">' +
       criteriaHtml +
       "</dl>" +
       criteriaHint +
-      "</section>" +
-      '<section class="lbc-section"><h3>Description</h3><div class="lbc-desc' +
+      "</section>" +      '<section class="lbc-section"><h3>Description</h3><div class="lbc-desc' +
       (desc ? "" : " is-empty") +
       '">' +
       esc(desc || EMPTY) +
@@ -1004,6 +1023,109 @@
     }
   }
 
+  function bindPriceOffer(root, listing) {
+    var PriceOffer = window.ImmoTourPriceOffer;
+    var box = root && root.querySelector("[data-price-offer]");
+    if (!box || !PriceOffer) return;
+    var form = box.querySelector("[data-price-offer-form]");
+    if (!form || form.getAttribute("data-bound") === "1") return;
+    form.setAttribute("data-bound", "1");
+    var asking =
+      Number(box.getAttribute("data-asking")) ||
+      (listing && listing.price_fai) ||
+      null;
+    var amountInp = form.querySelector('[name="amount"]');
+    var warn = form.querySelector("[data-price-warn]");
+    var msg = form.querySelector("[data-price-msg]");
+
+    function paintWarn() {
+      if (!amountInp || !warn) return;
+      var amount = PriceOffer.parseAmount(amountInp.value);
+      if (amount == null) {
+        warn.hidden = true;
+        return;
+      }
+      var a = PriceOffer.assessOffer(amount, asking);
+      warn.hidden = !a.warn;
+      warn.textContent = a.warn || "";
+      warn.className = "tour-price-warn level-" + (a.level || "info");
+    }
+    if (amountInp) {
+      amountInp.addEventListener("input", paintWarn);
+      amountInp.addEventListener("change", paintWarn);
+    }
+
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var hp = form.querySelector('[name="_hp"]');
+      if (hp && hp.value) {
+        if (msg) {
+          msg.textContent = "Merci.";
+          msg.style.color = "#166534";
+        }
+        return;
+      }
+      var norm = PriceOffer.normalizePayload({
+        amount: amountInp && amountInp.value,
+        comment_plus: form.querySelector('[name="comment_plus"]') && form.querySelector('[name="comment_plus"]').value,
+        comment_moins: form.querySelector('[name="comment_moins"]') && form.querySelector('[name="comment_moins"]').value,
+      });
+      if (!norm.ok) {
+        if (msg) {
+          msg.textContent = norm.error;
+          msg.style.color = "#9a3412";
+        }
+        return;
+      }
+      var assessment = PriceOffer.assessOffer(norm.amount, asking);
+      if (assessment.level === "critical" && !confirm(assessment.warn + "\n\nEnvoyer quand même ?")) return;
+      if (msg) {
+        msg.textContent = "Envoi…";
+        msg.style.color = "#475569";
+      }
+      fetch("/api/immo-tour-access", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          action: "submit_price_offer",
+          property_id: box.getAttribute("data-property-id") || (listing && listing.id) || "",
+          amount: norm.amount,
+          comment_plus: norm.comment_plus,
+          comment_moins: norm.comment_moins,
+          visitor_id: PriceOffer.visitorKey(),
+          source: "listing",
+          utm_source: "biens",
+          _hp: hp ? hp.value : "",
+        }),
+      })
+        .then(function (r) {
+          return r.json().then(function (d) {
+            return { status: r.status, d: d };
+          });
+        })
+        .then(function (res) {
+          if (res.d && res.d.ok) {
+            if (msg) {
+              msg.textContent = res.d.duplicate
+                ? res.d.error || "Déjà envoyé depuis cette connexion."
+                : res.d.message || "Merci — estimation enregistrée.";
+              msg.style.color = "#166534";
+            }
+          } else if (msg) {
+            msg.textContent = (res.d && res.d.error) || "Envoi impossible.";
+            msg.style.color = "#9a3412";
+          }
+        })
+        .catch(function () {
+          if (msg) {
+            msg.textContent = "Erreur réseau.";
+            msg.style.color = "#9a3412";
+          }
+        });
+    });
+  }
+
   function showListing(listing, privateMode, opts) {
     opts = opts || {};
     var adminMode = !!opts.admin || isCrmAdminSession();
@@ -1014,6 +1136,7 @@
     if (mount) {
       mount.innerHTML = detailHtml(listing, privateMode, { admin: adminMode });
       bindGallery(mount);
+      bindPriceOffer(mount, listing);
       if (adminMode) bindAdminPhotoRetry(mount, listing);
     }
   }

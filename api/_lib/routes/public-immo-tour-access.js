@@ -3,19 +3,22 @@
  * - request_access { token, first_name, email, phone } → file d’attente (pas de code auto)
  * - verify_access { token, email, phone, email_code, phone_code? } → après validation Wendy
  * - view_tour { token, grant }
+ * - submit_price_offer { token|property_id, amount, comment_plus?, comment_moins? }
+ * - list_price_offers + Bearer CRM
  * - advisor_preview { token } + Bearer CRM
  * - list_requests / decide_request { approve | decline } + Bearer CRM
  * GET /api/immo-tour-access?token=… → méta publique (sans URL Matterport)
  * GET /api/immo-tour-access?inbox=1 + Bearer CRM → file des demandes
  */
 const { randomUUID } = require("crypto");
-const { applyApiGuards, rateLimit, getClientIp, parseJsonBody } = require("../security");
+const { applyApiGuards, rateLimit, getClientIp, parseJsonBody, isHoneypotFilled } = require("../security");
 const { getSql } = require("../db");
 const { getAuthUser } = require("../auth");
 const AdLib = require("../../../js/immo-ad-listings-lib.js");
 const Tour = require("../../../js/immo-tour-access-lib.js");
+const PriceOffer = require("../../../js/immo-tour-price-offer-lib.js");
 const { sendViaResend } = require("../mail-send");
-
+const { createHash } = require("crypto");
 async function loadProperties() {
   var sql = getSql();
   if (!sql) return [];
@@ -77,6 +80,85 @@ async function ensureTourRequestSchema(sql) {
   } catch (e) {
     console.warn("[immo-tour-access] request schema", e && e.message);
   }
+}
+
+async function ensureTourPriceOfferSchema(sql) {
+  if (!sql) return;
+  try {
+    await sql`
+      CREATE TABLE IF NOT EXISTS crm_immo_tour_price_offers (
+        id TEXT PRIMARY KEY,
+        tour_token TEXT,
+        property_id TEXT NOT NULL,
+        property_title TEXT,
+        amount INT NOT NULL,
+        asking_price INT,
+        ratio DOUBLE PRECISION,
+        level TEXT,
+        comment_plus TEXT,
+        comment_moins TEXT,
+        first_name TEXT,
+        email TEXT,
+        phone TEXT,
+        client_ip TEXT,
+        client_ua TEXT,
+        visitor_id TEXT,
+        conn_fp TEXT NOT NULL,
+        source TEXT NOT NULL DEFAULT 'visite',
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `;
+    await sql`CREATE UNIQUE INDEX IF NOT EXISTS idx_immo_price_offer_fp
+      ON crm_immo_tour_price_offers (property_id, conn_fp)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_immo_price_offer_prop
+      ON crm_immo_tour_price_offers (property_id, created_at DESC)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_immo_price_offer_token
+      ON crm_immo_tour_price_offers (tour_token, created_at DESC)`;
+  } catch (e) {
+    console.warn("[immo-tour-access] price offer schema", e && e.message);
+  }
+}
+
+function connectionFingerprint(ip, ua, visitorId) {
+  var raw =
+    String(ip || "").trim() +
+    "|" +
+    String(ua || "").trim().slice(0, 180) +
+    "|" +
+    String(visitorId || "").trim().slice(0, 120);
+  return createHash("sha256").update(raw).digest("hex").slice(0, 40);
+}
+
+function askingPriceOf(property, listing) {
+  if (listing && listing.price_fai != null && Number(listing.price_fai) > 0) {
+    return Math.round(Number(listing.price_fai));
+  }
+  if (property) {
+    var n = Number(property.price_fai != null ? property.price_fai : property.price);
+    if (isFinite(n) && n > 0) return Math.round(n);
+  }
+  return null;
+}
+
+function publicPriceOfferRow(row) {
+  if (!row) return null;
+  return {
+    id: row.id,
+    tour_token: row.tour_token || "",
+    property_id: row.property_id || "",
+    property_title: row.property_title || "",
+    amount: Number(row.amount) || 0,
+    asking_price: row.asking_price != null ? Number(row.asking_price) : null,
+    ratio: row.ratio != null ? Number(row.ratio) : null,
+    level: row.level || "",
+    comment_plus: row.comment_plus || "",
+    comment_moins: row.comment_moins || "",
+    first_name: row.first_name || "",
+    email: row.email || "",
+    phone: row.phone || "",
+    source: row.source || "visite",
+    created_at: row.created_at,
+  };
 }
 
 function publicRequestRow(row) {
@@ -391,10 +473,13 @@ function attachGrantCookie(req, res, grant) {
 }
 
 function publicHint(property, ad) {
+  var ask = askingPriceOf(property, null);
   return {
     title: (ad && ad.headline) || property.title || "Visite virtuelle",
     city: property.city || "",
     headline: ad && ad.headline,
+    asking_price: ask,
+    price_fai: ask,
   };
 }
 
@@ -564,6 +649,7 @@ module.exports = async function immoTourAccess(req, res) {
   if (sql) {
     await ensureTourSchema(sql);
     await ensureTourRequestSchema(sql);
+    await ensureTourPriceOfferSchema(sql);
   }
 
   if (req.method === "GET") {
@@ -1108,6 +1194,173 @@ module.exports = async function immoTourAccess(req, res) {
       ok: true,
       player_url: playerUrl,
       listing: AdLib.toAdListing(found, { includeTourUrl: false }),
+      asking_price: askingPriceOf(found, AdLib.toAdListing(found, { includeTourUrl: false })),
+    });
+  }
+
+  if (action === "list_price_offers") {
+    var userOffers = await getAuthUser(req);
+    if (!userOffers) return res.status(401).json({ error: "Connexion CRM requise" });
+    if (!sql) return res.status(503).json({ error: "Base indisponible" });
+    await ensureTourPriceOfferSchema(sql);
+    var propFilter = String(body.property_id || "").trim();
+    var tokenFilter = String(body.token || token || "").trim();
+    var rowsOffers = [];
+    try {
+      if (propFilter) {
+        rowsOffers = await sql`
+          SELECT * FROM crm_immo_tour_price_offers
+          WHERE property_id = ${propFilter}
+          ORDER BY created_at DESC
+          LIMIT 200
+        `;
+      } else if (Tour.isTourToken(tokenFilter)) {
+        rowsOffers = await sql`
+          SELECT * FROM crm_immo_tour_price_offers
+          WHERE tour_token = ${tokenFilter}
+          ORDER BY created_at DESC
+          LIMIT 200
+        `;
+      } else {
+        rowsOffers = await sql`
+          SELECT * FROM crm_immo_tour_price_offers
+          ORDER BY created_at DESC
+          LIMIT 200
+        `;
+      }
+    } catch (eOff) {
+      rowsOffers = [];
+    }
+    return res.status(200).json({
+      ok: true,
+      offers: (rowsOffers || []).map(publicPriceOfferRow),
+      count: (rowsOffers || []).length,
+    });
+  }
+
+  if (action === "submit_price_offer") {
+    if (isHoneypotFilled(body)) {
+      return res.status(200).json({ ok: true, duplicate: false, fake: true });
+    }
+    var rlOffer = rateLimit("immo-price-offer:" + ip, 6, 60 * 60 * 1000);
+    if (!rlOffer.allowed) {
+      return res.status(429).json({
+        ok: false,
+        error: "Trop de propositions depuis cette connexion. Réessayez plus tard.",
+      });
+    }
+    if (!sql) return res.status(503).json({ ok: false, error: "Service temporairement indisponible." });
+    await ensureTourPriceOfferSchema(sql);
+
+    var propId = String(body.property_id || "").trim();
+    var tourTok = Tour.isTourToken(token) ? token : "";
+    var foundOffer = null;
+    if (tourTok) {
+      var propsOffer = [];
+      try {
+        propsOffer = await loadProperties();
+      } catch (ePo) {
+        propsOffer = [];
+      }
+      foundOffer = AdLib.findByTourToken(propsOffer, tourTok);
+      if (!foundOffer) {
+        return res.status(404).json({ ok: false, error: "Lien de visite introuvable." });
+      }
+      propId = foundOffer.id;
+    } else if (propId) {
+      var propsById = [];
+      try {
+        propsById = await loadProperties();
+      } catch (ePi) {
+        propsById = [];
+      }
+      foundOffer = (propsById || []).find(function (p) {
+        return p && String(p.id) === propId;
+      });
+      if (!foundOffer) {
+        return res.status(404).json({ ok: false, error: "Bien introuvable." });
+      }
+    } else {
+      return res.status(400).json({ ok: false, error: "Identifiant manquant." });
+    }
+
+    var norm = PriceOffer.normalizePayload(body);
+    if (!norm.ok) return res.status(400).json({ ok: false, error: norm.error });
+
+    var listingOffer = AdLib.toAdListing(foundOffer, { includeTourUrl: false });
+    var ask = askingPriceOf(foundOffer, listingOffer);
+    var assessment = PriceOffer.assessOffer(norm.amount, ask);
+    var ua = String((req.headers && (req.headers["user-agent"] || req.headers["User-Agent"])) || "").slice(0, 300);
+    var visitorId = String(body.visitor_id || "").trim().slice(0, 120);
+    var fp = connectionFingerprint(ip, ua, visitorId);
+    var source = tourTok ? "visite" : String(body.source || "listing").slice(0, 40);
+    var offerId = "po_" + randomUUID().replace(/-/g, "").slice(0, 22);
+    var titleOffer =
+      (listingOffer && (listingOffer.headline || listingOffer.title)) || foundOffer.title || "";
+
+    try {
+      await sql`
+        INSERT INTO crm_immo_tour_price_offers (
+          id, tour_token, property_id, property_title, amount, asking_price, ratio, level,
+          comment_plus, comment_moins, first_name, email, phone,
+          client_ip, client_ua, visitor_id, conn_fp, source
+        ) VALUES (
+          ${offerId},
+          ${tourTok || null},
+          ${propId},
+          ${String(titleOffer).slice(0, 160)},
+          ${norm.amount},
+          ${ask},
+          ${assessment.ratio},
+          ${assessment.level},
+          ${norm.comment_plus || null},
+          ${norm.comment_moins || null},
+          ${norm.first_name || null},
+          ${norm.email || null},
+          ${norm.phone || null},
+          ${String(ip || "").slice(0, 80)},
+          ${ua || null},
+          ${visitorId || null},
+          ${fp},
+          ${source}
+        )
+      `;
+    } catch (eIns) {
+      var msgIns = String((eIns && eIns.message) || "");
+      if (/unique|duplicate/i.test(msgIns)) {
+        return res.status(200).json({
+          ok: true,
+          duplicate: true,
+          error: "Vous avez déjà soumis une proposition pour ce bien depuis cette connexion.",
+          assessment: assessment,
+          asking_price: ask,
+        });
+      }
+      console.warn("[immo-tour-access] price offer insert", msgIns);
+      return res.status(500).json({ ok: false, error: "Enregistrement impossible." });
+    }
+
+    try {
+      await recordLead(sql, {
+        token: tourTok || propId,
+        email: norm.email,
+        phone: norm.phone,
+        first_name: norm.first_name,
+        property_id: propId,
+        city: foundOffer.city || "",
+        title: titleOffer,
+        utm_source: body.utm_source || (tourTok ? "visite-offre" : "listing-offre"),
+      });
+    } catch (eLead) {}
+
+    return res.status(200).json({
+      ok: true,
+      duplicate: false,
+      id: offerId,
+      assessment: assessment,
+      asking_price: ask,
+      amount: norm.amount,
+      message: "Merci — votre estimation a bien été enregistrée.",
     });
   }
 

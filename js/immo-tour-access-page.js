@@ -3,7 +3,10 @@
  */
 (function () {
   var Protect = window.ImmoAdProtect;
+  var PriceOffer = window.ImmoTourPriceOffer;
   var lastMeta = null;
+  var lastListing = null;
+  var lastAsking = null;
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -84,6 +87,7 @@
 
   function paintMeta(meta) {
     lastMeta = meta;
+    lastAsking = resolveAsking(null, meta, meta && meta.asking_price);
     var title = el("tourTitle");
     var sub = el("tourSub");
     if (title) title.textContent = meta.name || meta.title || "Visite virtuelle";
@@ -169,6 +173,7 @@
     }
     if (!player) return;
     player.hidden = false;
+    lastListing = listing || lastListing;
     var head = listing
       ? "<h2>" +
         esc(listing.headline || listing.title || "Visite virtuelle") +
@@ -187,6 +192,157 @@
       esc(embedUrl) +
       '" referrerpolicy="same-origin" allow="xr-spatial-tracking; fullscreen" allowfullscreen></iframe>' +
       "</div>";
+    showPriceOfferPanel(listing);
+  }
+
+  function resolveAsking(listing, meta, apiAsk) {
+    if (apiAsk != null && Number(apiAsk) > 0) return Number(apiAsk);
+    if (listing && listing.price_fai != null && Number(listing.price_fai) > 0) return Number(listing.price_fai);
+    if (meta && meta.asking_price != null && Number(meta.asking_price) > 0) return Number(meta.asking_price);
+    if (meta && meta.price_fai != null && Number(meta.price_fai) > 0) return Number(meta.price_fai);
+    return null;
+  }
+
+  function paintPriceWarn() {
+    if (!PriceOffer) return;
+    var amountEl = el("tourPriceAmount");
+    var warn = el("tourPriceWarn");
+    if (!amountEl || !warn) return;
+    var amount = PriceOffer.parseAmount(amountEl.value);
+    if (amount == null) {
+      warn.hidden = true;
+      warn.textContent = "";
+      warn.className = "tour-price-warn";
+      return;
+    }
+    var a = PriceOffer.assessOffer(amount, lastAsking);
+    warn.hidden = !a.warn;
+    warn.textContent = a.warn || "";
+    warn.className = "tour-price-warn level-" + (a.level || "info");
+  }
+
+  function showPriceOfferPanel(listing) {
+    var box = el("tourPriceOffer");
+    if (!box) return;
+    box.hidden = false;
+    lastAsking = resolveAsking(listing, lastMeta, null);
+    var askNode = el("tourPriceAsk");
+    if (askNode) {
+      if (lastAsking && PriceOffer) {
+        askNode.hidden = false;
+        askNode.innerHTML =
+          "Prix affiché (référence) : <strong>" +
+          esc(PriceOffer.formatPrice(lastAsking)) +
+          "</strong> — basez-vous sur un montant réaliste.";
+      } else {
+        askNode.hidden = false;
+        askNode.textContent =
+          "Prix de référence non affiché ici — proposez un montant cohérent avec le marché.";
+      }
+    }
+    bindPriceOfferForm();
+  }
+
+  function bindPriceOfferForm() {
+    var form = el("tourPriceOfferForm");
+    if (!form || form.getAttribute("data-bound") === "1") return;
+    form.setAttribute("data-bound", "1");
+    var amountEl = el("tourPriceAmount");
+    if (amountEl) {
+      amountEl.addEventListener("input", paintPriceWarn);
+      amountEl.addEventListener("change", paintPriceWarn);
+    }
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var msg = el("tourPriceMsg");
+      var hp = el("tourPriceHp");
+      if (hp && hp.value) {
+        if (msg) {
+          msg.textContent = "Merci.";
+          msg.style.color = "#166534";
+        }
+        return;
+      }
+      if (!PriceOffer) {
+        if (msg) msg.textContent = "Module indisponible.";
+        return;
+      }
+      var norm = PriceOffer.normalizePayload({
+        amount: amountEl && amountEl.value,
+        comment_plus: el("tourPricePlus") && el("tourPricePlus").value,
+        comment_moins: el("tourPriceMoins") && el("tourPriceMoins").value,
+        first_name: (el("tourFirst") && el("tourFirst").value) || (el("tourContactFirst") && el("tourContactFirst").value),
+        email: (el("tourEmail") && el("tourEmail").value) || (el("tourContactEmail") && el("tourContactEmail").value),
+        phone: (el("tourPhone") && el("tourPhone").value) || (el("tourContactPhone") && el("tourContactPhone").value),
+      });
+      if (!norm.ok) {
+        if (msg) {
+          msg.textContent = norm.error;
+          msg.style.color = "#9a3412";
+        }
+        return;
+      }
+      var assessment = PriceOffer.assessOffer(norm.amount, lastAsking);
+      if (assessment.level === "critical") {
+        var go = confirm(assessment.warn + "\n\nEnvoyer quand même cette estimation ?");
+        if (!go) return;
+      }
+      var btn = el("tourPriceSubmit");
+      if (btn) btn.disabled = true;
+      if (msg) {
+        msg.textContent = "Envoi…";
+        msg.style.color = "#475569";
+      }
+      post({
+        action: "submit_price_offer",
+        token: tokenOf(),
+        amount: norm.amount,
+        comment_plus: norm.comment_plus,
+        comment_moins: norm.comment_moins,
+        first_name: norm.first_name,
+        email: norm.email,
+        phone: norm.phone,
+        visitor_id: PriceOffer.visitorKey(),
+        utm_source: params().get("utm_source") || "visite-virtuelle",
+        _hp: hp ? hp.value : "",
+      })
+        .then(function (res) {
+          if (btn) btn.disabled = false;
+          if (res.d && res.d.ok) {
+            if (msg) {
+              msg.textContent =
+                res.d.duplicate
+                  ? res.d.error || "Proposition déjà enregistrée pour cette connexion."
+                  : res.d.message || "Merci — estimation enregistrée.";
+              msg.style.color = "#166534";
+            }
+            if (!res.d.duplicate && form) {
+              form.querySelectorAll("input:not([type=hidden]), textarea").forEach(function (inp) {
+                if (inp.id !== "tourPriceHp") inp.value = "";
+              });
+              paintPriceWarn();
+            }
+            if (res.d.assessment && res.d.assessment.warn && el("tourPriceWarn")) {
+              var w = el("tourPriceWarn");
+              w.hidden = false;
+              w.textContent = res.d.assessment.warn;
+              w.className = "tour-price-warn level-" + (res.d.assessment.level || "info");
+            }
+          } else {
+            if (msg) {
+              msg.textContent = (res.d && res.d.error) || "Envoi impossible.";
+              msg.style.color = "#9a3412";
+            }
+          }
+        })
+        .catch(function () {
+          if (btn) btn.disabled = false;
+          if (msg) {
+            msg.textContent = "Erreur réseau.";
+            msg.style.color = "#9a3412";
+          }
+        });
+    });
   }
 
   function termsOk() {
@@ -297,6 +453,10 @@
             src = "/api/immo-tour-player?t=" + encodeURIComponent(token);
           }
           showPlayer(src, res.d.listing || listing);
+          if (res.d.asking_price != null) {
+            lastAsking = Number(res.d.asking_price) || lastAsking;
+            showPriceOfferPanel(res.d.listing || listing);
+          }
         } else {
           showError((res.d && res.d.error) || "Impossible d’ouvrir la visite.", (res.d && res.d.contact) || (lastMeta && lastMeta.contact));
         }
