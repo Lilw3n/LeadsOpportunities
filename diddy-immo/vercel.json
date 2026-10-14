@@ -1,0 +1,83 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/google-config-env",
+      "destination": "/api/auth/google-config-env"
+    },
+    {
+      "source": "/api/auth/:action",
+      "destination": "/api/auth/[action]?action=:action"
+    },
+    {
+      "source": "/api/immo-network/:op",
+      "destination": "/api/immo-network?op=:op"
+    },
+    {
+      "source": "/api/crm/:action",
+      "destination": "/api/crm/[action]?action=:action"
+    },
+    {
+      "source": "/api/drive/:action",
+      "destination": "/api/drive/[action]?action=:action"
+    },
+    {
+      "source": "/api/:action",
+      "destination": "/api/[action]?action=:action"
+    },
+    {
+      "source": "/bareme-honoraires",
+      "destination": "/bareme-honoraires/index.html"
+    },
+    {
+      "source": "/bareme-honoraires/",
+      "destination": "/bareme-honoraires/index.html"
+    },
+    {
+      "source": "/immobilier/location",
+      "destination": "/immobilier/location/index.html"
+    },
+    {
+      "source": "/immobilier/location/",
+      "destination": "/immobilier/location/index.html"
+    },
+    {
+      "source": "/immobilier/syndic",
+      "destination": "/immobilier/syndic/index.html"
+    },
+    {
+      "source": "/immobilier/syndic/",
+      "destination": "/immobilier/syndic/index.html"
+    },
+    {
+      "source": "/immobilier/visite.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i)(facebookexternalhit|facebot|meta-externalagent|whatsapp|twitterbot|linkedinbot|slackbot|discordbot|telegrambot)"
+        }
+      ],
+      "destination": "/api/immo-tour-og"
+    },
+    {
+      "source": "/immobilier/visite",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i)(facebookexternalhit|facebot|meta-externalagent|whatsapp|twitterbot|linkedinbot|slackbot|discordbot|telegrambot)"
+        }
+      ],
+      "destination": "/api/immo-tour-og"
+    },
+    {
+      "source": "/immobilier/visite",
+      "destination": "/immobilier/visite.html"
+    },
+    {
+      "source": "/immobilier/visite/",
+      "destination": "/immobilier/visite.html"
+    }
+  ]
+}

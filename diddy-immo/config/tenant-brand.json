@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "note": "Marque Buchet Immobilier — pack diddy-immo exporté depuis LO",
+  "org": {
+    "id": "buchet-immo",
+    "name": "Buchet Immobilier",
+    "legalName": "Wendy Buchet",
+    "code": "BI"
+  },
+  "domain": {
+    "primary": "buchet-immobilier.vercel.app",
+    "appUrlEnv": "APP_URL"
+  },
+  "contact": {
+    "email": "contact@leadsopportunities.fr",
+    "phone": "0651366222",
+    "phoneDisplay": "06 51 36 62 22",
+    "phoneE164": "+33651366222",
+    "orias": "15005935"
+  },
+  "branding": {
+    "logoPath": "/assets/logo.png",
+    "logoIconPath": "/assets/brand/logo-mark.png",
+    "tagline": "Wendy Buchet · Immobilier Nancy 54",
+    "primaryColor": "#1e4f8a",
+    "accentColor": "#c4a35a",
+    "accentDark": "#0A1931"
+  },
+  "modules": {
+    "immo_crm": true,
+    "baremes": true,
+    "visites": true,
+    "matching": true
+  }
+}

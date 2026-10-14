@@ -1,0 +1,1026 @@
+/* Vitrine pubs mandats + démo privée vendeur */
+:root {
+  --immo-ad-ink: #0f2744;
+  --immo-ad-accent: #1e5a8a;
+  --immo-ad-sand: #e8eef4;
+  --immo-ad-line: #c5d0dc;
+  --immo-ad-warn: #9a3412;
+}
+
+.immo-ad-page {
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(30, 90, 138, 0.12), transparent 55%),
+    linear-gradient(180deg, #f3f6fa 0%, #eef2f6 40%, #f7f9fb 100%);
+  color: var(--immo-ad-ink);
+  min-height: 100vh;
+}
+
+.immo-ad-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 48px 0 36px;
+  background:
+    linear-gradient(115deg, rgba(15, 39, 68, 0.88), rgba(30, 90, 138, 0.72)),
+    url("../assets/piliers/pilier-immobilier.jpg") center / cover no-repeat;
+  color: #fff;
+}
+
+.immo-ad-hero .container { position: relative; z-index: 1; }
+.immo-ad-hero h1 {
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 8px 0 10px;
+  max-width: 18ch;
+}
+.immo-ad-hero .lead {
+  max-width: 42rem;
+  opacity: 0.92;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0 0 18px;
+}
+.immo-ad-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.immo-ad-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.immo-ad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+  padding: 28px 0 48px;
+}
+
+.immo-ad-card {
+  background: #fff;
+  border: 1px solid var(--immo-ad-line);
+  border-radius: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.immo-ad-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(15, 39, 68, 0.1);
+}
+.immo-ad-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--immo-ad-sand);
+  overflow: hidden;
+}
+.immo-ad-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.immo-ad-card__price {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: rgba(15, 39, 68, 0.9);
+  color: #fff;
+  font-weight: 800;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+}
+.immo-ad-card__tour-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(30, 90, 138, 0.92);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 5px 8px;
+}
+.immo-ad-hub-intro {
+  margin: 22px 0 0;
+  max-width: 46rem;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.immo-ad-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 4px;
+}
+.immo-ad-filter {
+  appearance: none;
+  border: 1px solid var(--immo-ad-line);
+  background: #fff;
+  color: var(--immo-ad-ink);
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.immo-ad-filter:hover {
+  border-color: var(--immo-ad-accent);
+}
+.immo-ad-filter.is-active {
+  background: var(--immo-ad-ink);
+  border-color: var(--immo-ad-ink);
+  color: #fff;
+}
+.immo-ad-card__body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.immo-ad-card__body h2 { margin: 0; font-size: 1.05rem; line-height: 1.35; }
+.immo-ad-card__meta { color: #5b6b7c; font-size: 0.86rem; margin: 0; }
+.immo-ad-card__desc {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #334155;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.immo-ad-card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+.immo-ad-card__tags span {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--immo-ad-accent);
+  border-bottom: 1px solid var(--immo-ad-line);
+  padding-bottom: 2px;
+}
+
+.immo-ad-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #5b6b7c;
+  border: 1px dashed var(--immo-ad-line);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Annonce type Leboncoin — grande photo + critères */
+.lbc-listing {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 12px 0 56px;
+  background: #fff;
+}
+.lbc-gallery {
+  margin: 0 0 18px;
+  background: #0f172a;
+}
+.lbc-gallery__stage {
+  position: relative;
+  width: 100%;
+  min-height: min(72vh, 620px);
+  height: min(72vh, 620px);
+  background: #0f172a;
+  overflow: hidden;
+}
+.lbc-gallery__stage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #0f172a;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.lbc-gallery__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  height: 100%;
+  color: #94a3b8;
+  font-weight: 700;
+  padding: 40px;
+  text-align: center;
+}
+.lbc-gallery__admin-retry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 26rem;
+  width: 100%;
+  pointer-events: auto;
+}
+.lbc-gallery__admin-help {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.4;
+}
+.lbc-gallery__empty--admin {
+  justify-content: flex-start;
+  padding-top: 28px;
+}
+.lbc-gallery__admin-retry.is-dragover {
+  outline: 2px dashed #5eead4;
+  outline-offset: 4px;
+  background: rgba(15, 23, 42, 0.35);
+}
+.lbc-gallery__admin-advanced {
+  width: 100%;
+  text-align: left;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.lbc-gallery__admin-advanced summary {
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+.lbc-gallery__admin-advanced .btn {
+  margin-top: 8px;
+}
+.lbc-gallery__admin-paste {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #475569;
+  background: #0b1220;
+  color: #e2e8f0;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 8px 10px;
+  resize: vertical;
+  min-height: 64px;
+  pointer-events: auto;
+}
+.lbc-gallery__admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.lbc-gallery__admin-retry .btn {
+  pointer-events: auto;
+}
+.lbc-gallery__admin-status {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #cbd5e1;
+}
+.lbc-gallery__admin-status.is-ok {
+  color: #86efac;
+}
+.lbc-gallery__admin-status.is-err {
+  color: #fca5a5;
+}
+.lbc-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #0f172a;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+.lbc-zoom-hint {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 2;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.82);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  cursor: zoom-in;
+}
+.lbc-gallery__stage img { cursor: zoom-in; }
+
+/* Lightbox zoom XXL */
+body.lbc-lightbox-open { overflow: hidden; }
+.lbc-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(2, 6, 23, 0.96);
+  display: flex;
+  flex-direction: column;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.lbc-lightbox__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  color: #fff;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.lbc-lightbox__tools { display: flex; gap: 8px; flex-wrap: wrap; }
+.lbc-lightbox__tools button {
+  min-width: 44px;
+  height: 40px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.lbc-lightbox__tools button:hover { background: rgba(255, 255, 255, 0.28); }
+.lbc-lightbox__viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  cursor: zoom-in;
+}
+.lbc-lightbox__viewport.is-dragging { cursor: grabbing; }
+.lbc-lightbox__viewport img {
+  max-width: 96vw;
+  max-height: 82vh;
+  object-fit: contain;
+  transform-origin: center center;
+  transition: transform 0.08s ease-out;
+  pointer-events: auto;
+  -webkit-user-drag: none;
+}
+.lbc-lightbox__viewport img.is-zoomed {
+  max-width: none;
+  max-height: none;
+  width: auto;
+  height: auto;
+  max-width: 96vw;
+  max-height: 82vh;
+  cursor: grab;
+}
+.lbc-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #0f172a;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.lbc-lightbox__nav--prev { left: 12px; }
+.lbc-lightbox__nav--next { right: 12px; }
+.lbc-lightbox__hint {
+  margin: 0;
+  padding: 8px 14px 14px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+.lbc-counter {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  background: rgba(15, 23, 42, 0.75);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 6px;
+  z-index: 2;
+}
+.lbc-gallery__thumbs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 12px;
+  background: #fff;
+  border-bottom: 1px solid var(--immo-ad-line);
+}
+.lbc-gallery__thumbs button {
+  flex: 0 0 96px;
+  width: 96px;
+  height: 72px;
+  border: 2px solid transparent;
+  padding: 0;
+  background: #e2e8f0;
+  cursor: pointer;
+  overflow: hidden;
+}
+.lbc-gallery__thumbs button.is-active { border-color: #f97316; }
+.lbc-gallery__thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.lbc-head {
+  padding: 8px 16px 4px;
+}
+.lbc-head h2 {
+  margin: 0 0 6px;
+  font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+  line-height: 1.25;
+  color: #0f172a;
+}
+.lbc-price {
+  margin: 0 0 4px;
+  font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+  font-weight: 800;
+  color: #ea580c;
+}
+.lbc-loc {
+  margin: 0 0 8px;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.lbc-section {
+  padding: 14px 16px 6px;
+  border-top: 1px solid #e2e8f0;
+}
+.lbc-section h3 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  color: #0f172a;
+}
+.lbc-criteria {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .lbc-criteria { grid-template-columns: 1fr; }
+  .lbc-gallery__stage {
+    min-height: 52vh;
+    height: 52vh;
+  }
+}
+.lbc-crit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 10px 8px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.9rem;
+}
+.lbc-crit dt {
+  margin: 0;
+  color: #64748b;
+  font-weight: 600;
+}
+.lbc-crit dd {
+  margin: 0;
+  color: #0f172a;
+  font-weight: 700;
+  text-align: right;
+}
+.lbc-crit.is-empty dd {
+  color: #94a3b8;
+  font-weight: 500;
+  font-style: italic;
+}
+.lbc-criteria-hint {
+  margin: 12px 0 0;
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.45;
+}
+.lbc-criteria-hint a {
+  color: #c2410c;
+  font-weight: 600;
+}
+.lbc-desc {
+  margin: 0 0 12px;
+  line-height: 1.6;
+  color: #334155;
+  white-space: pre-wrap;
+}
+.lbc-desc.is-empty {
+  color: #94a3b8;
+  font-style: italic;
+}
+.lbc-note {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 8px 0 0;
+}
+
+.immo-ad-detail {
+  display: none; /* legacy */
+}
+
+.immo-ad-media-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+.immo-ad-platforms {
+  margin: 8px 16px 24px;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--immo-ad-line);
+}
+.immo-ad-platforms h3 { margin: 0 0 8px; font-size: 0.95rem; }
+.immo-ad-platforms ul { margin: 0; padding-left: 1.1rem; color: #475569; }
+
+/* Compact hero on demo detail pages */
+.immo-ad-page--listing .immo-ad-hero {
+  padding: 20px 0 16px;
+}
+.immo-ad-page--listing .immo-ad-hero h1 {
+  font-size: 1.35rem;
+  max-width: none;
+}
+.immo-ad-page--listing .immo-ad-hero .lead {
+  font-size: 0.92rem;
+  margin-bottom: 0;
+}
+
+/* Anti-copie */
+.immo-ad-protect,
+.immo-ad-protect * {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+.immo-ad-protect--watermark {
+  position: relative;
+}
+.immo-tour-page .immo-ad-protect--watermark::after {
+  content: "Visite acquéreur · Leads Opportunities · ne pas transférer";
+}
+.immo-ad-protect--watermark::after {
+  content: "Démonstration privée · Leads Opportunities · copie interdite";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background-image: repeating-linear-gradient(
+    -28deg,
+    transparent,
+    transparent 120px,
+    rgba(15, 39, 68, 0.035) 120px,
+    rgba(15, 39, 68, 0.035) 160px
+  );
+  mix-blend-mode: multiply;
+}
+.immo-ad-private-banner {
+  background: #fff7ed;
+  color: var(--immo-ad-warn);
+  border-bottom: 1px solid #fdba74;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.immo-ad-gate {
+  max-width: 420px;
+  margin: 24px auto 40px;
+  background: #fff;
+  border: 1px solid var(--immo-ad-line);
+  padding: 20px 18px;
+}
+.immo-ad-gate h2 { margin: 0 0 8px; font-size: 1.15rem; }
+.immo-ad-gate p { margin: 0 0 14px; color: #5b6b7c; font-size: 0.9rem; line-height: 1.45; }
+.immo-ad-gate [hidden] { display: none !important; }
+.immo-ad-gate label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 10px; }
+.immo-ad-gate input {
+  padding: 10px 12px; border: 1px solid var(--immo-ad-line); border-radius: 8px; font: inherit; background: #f8fafc;
+}
+.immo-ad-gate .gate-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.immo-ad-gate .gate-msg { font-size: 0.84rem; margin-top: 10px; color: #334155; }
+.immo-ad-gate .gate-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.immo-ad-gate .gate-tabs button {
+  flex: 1; border: 1px solid var(--immo-ad-line); background: #fff; padding: 8px; cursor: pointer; font-weight: 700;
+}
+.immo-ad-gate .gate-tabs button.is-active { background: var(--immo-ad-ink); color: #fff; border-color: var(--immo-ad-ink); }
+.immo-ad-gate .tour-step {
+  margin: 14px 0 0;
+  padding: 12px 12px 10px;
+  border: 1px solid var(--immo-ad-line);
+  border-radius: 10px;
+  background: #f8fafc;
+}
+.immo-ad-gate .tour-step h3 { margin: 0 0 6px; font-size: 0.95rem; color: #0f172a; }
+.immo-ad-gate .tour-step > p { margin: 0 0 10px; }
+
+.tour-player { margin: 8px 0 40px; }
+.tour-player-copy h2 { margin: 0 0 6px; font-size: 1.25rem; }
+.tour-player-copy p { margin: 0 0 12px; color: #5b6b7c; font-size: 0.92rem; }
+.tour-frame-wrap {
+  position: relative;
+  background: #0f172a;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 420px;
+  box-shadow: 0 12px 32px rgba(15, 39, 68, 0.16);
+}
+.tour-frame-wrap iframe {
+  display: block;
+  width: 100%;
+  height: min(70vh, 640px);
+  border: 0;
+}
+.tour-req-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #64748b;
+  background: #f1f5f9;
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+.tour-req-badge.is-hot {
+  color: #9a3412;
+  background: #ffedd5;
+}
+.tour-req-card {
+  background: #fff;
+  border: 1px solid #dbe3ee;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 10px 0 0;
+}
+.tour-req-card.tour-req-pending { border-color: #fdba74; background: #fff7ed; }
+.tour-req-card.tour-req-approved { border-color: #86efac; background: #f0fdf4; }
+.tour-req-card.tour-req-declined { border-color: #fecaca; background: #fef2f2; }
+.tour-req-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+.tour-req-st { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #9a3412; }
+.tour-req-approved .tour-req-st { color: #166534; }
+.tour-req-declined .tour-req-st { color: #991b1b; }
+.tour-req-meta { margin: 4px 0 0; color: #64748b; font-size: 0.82rem; }
+.tour-req-actions { margin-top: 8px; }
+.tour-req-inbox {
+  margin: 0 0 16px;
+}
+
+.pub-tour-box {
+  background: #ecfdf5;
+  border: 1px solid #99f6e4;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-top: 10px;
+}
+.pub-tour-box label { margin-bottom: 8px; }
+.pub-tour-url {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  word-break: break-all;
+  background: #fff;
+  border: 1px dashed #99f6e4;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 8px 0;
+}
+.tour-copyright-check {
+  flex-direction: row !important;
+  align-items: flex-start;
+  gap: 10px !important;
+  font-weight: 500 !important;
+  color: #334155 !important;
+}
+.tour-copyright-check input { width: auto; margin-top: 3px; }
+.tour-legal {
+  margin: 28px auto 40px;
+  max-width: 720px;
+  padding: 16px 18px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.5;
+}
+.tour-legal h3 { margin: 0 0 8px; font-size: 0.95rem; color: #0f2744; }
+.tour-wendy-card {
+  max-width: 520px;
+  margin: 16px auto 28px;
+  padding: 18px 16px;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 12px;
+}
+.tour-wendy-card h2 { margin: 0 0 8px; font-size: 1.1rem; }
+.tour-channel-list { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+.tour-channel-list button { font-size: 0.78rem; }
+
+.immo-ad-fade-in {
+  animation: immoAdFade 0.55s ease both;
+}
+@keyframes immoAdFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.immo-ad-card:nth-child(2) { animation-delay: 0.06s; }
+.immo-ad-card:nth-child(3) { animation-delay: 0.12s; }
+.immo-ad-card:nth-child(4) { animation-delay: 0.18s; }
+
+
+/* tour-direct-layout — accès libre : visionnage + infos importantes à côté */
+.tour-stage {
+  display: block;
+  margin: 8px 0 24px;
+}
+.tour-stage-main { min-width: 0; }
+.tour-stage-side { min-width: 0; }
+.tour-important {
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #f59e0b;
+  background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+  color: #78350f;
+}
+.tour-important-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #b45309;
+}
+.tour-important h2 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  color: #92400e;
+}
+.tour-important p { margin: 0; font-size: 0.88rem; line-height: 1.45; }
+
+/* Visite élargie : player dominant, sidebars compactes */
+body.immo-tour-page--direct .immo-ad-hero {
+  padding: 8px 0 6px !important;
+}
+body.immo-tour-page--direct .immo-ad-hero h1 {
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  margin-bottom: 2px;
+}
+body.immo-tour-page--direct .immo-ad-hero .lead {
+  font-size: 0.85rem;
+  margin: 0;
+}
+body.immo-tour-page--direct #tourProtect.container {
+  width: min(1920px, 99.5vw);
+  max-width: none;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+body.immo-tour-page--direct .tour-stage {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr) minmax(160px, 200px);
+  gap: 10px;
+  align-items: stretch;
+  margin: 0 0 12px;
+  min-height: min(88vh, 980px);
+}
+body.immo-tour-page--direct .tour-stage-contact {
+  position: sticky;
+  top: 4px;
+  max-height: calc(100vh - 12px);
+  overflow: auto;
+  order: 1;
+}
+body.immo-tour-page--direct .tour-stage-main {
+  order: 2;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+body.immo-tour-page--direct .tour-stage-side {
+  position: sticky;
+  top: 4px;
+  max-height: calc(100vh - 12px);
+  overflow: auto;
+  order: 3;
+}
+body.immo-tour-page--direct #tourGate {
+  max-width: none;
+  margin: 0;
+  padding: 10px;
+}
+body.immo-tour-page--direct #tourGate h2 {
+  font-size: 0.95rem;
+}
+body.immo-tour-page--direct .tour-step--direct-hidden {
+  display: none !important;
+}
+body.immo-tour-page--direct .tour-player {
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+body.immo-tour-page--direct .tour-player-copy {
+  display: none;
+}
+body.immo-tour-page--direct .tour-frame-wrap {
+  flex: 1;
+  min-height: min(86vh, 980px);
+  border-radius: 8px;
+}
+body.immo-tour-page--direct .tour-frame-wrap iframe {
+  height: min(90vh, 1080px);
+}
+body.immo-tour-page--direct .tour-legal {
+  max-width: 72ch;
+  margin-top: 8px;
+  font-size: 0.82rem;
+}
+
+/* Formulaire contact visite — colonne gauche + pastille rouge */
+.tour-stage-contact {
+  min-width: 0;
+}
+.tour-contact {
+  margin: 0;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #b91c1c;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+  background: linear-gradient(180deg, #fff7f7 0%, #fee2e2 55%, #fef2f2 100%);
+  color: #7f1d1d;
+}
+body.immo-tour-page--direct .tour-contact h2 {
+  font-size: 0.98rem;
+}
+body.immo-tour-page--direct .tour-contact-lead {
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+body.immo-tour-page--direct .tour-important {
+  padding: 10px;
+}
+body.immo-tour-page--direct .tour-important h2 {
+  font-size: 0.95rem;
+}
+.tour-contact-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #b91c1c;
+}
+.tour-contact-pulse {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55);
+  animation: tour-contact-pulse 1.4s ease-out infinite;
+  flex-shrink: 0;
+}
+@keyframes tour-contact-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+.tour-contact h2 {
+  margin: 0 0 6px;
+  font-size: 1.08rem;
+  color: #991b1b;
+}
+.tour-contact-lead {
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #7f1d1d;
+}
+.tour-contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #991b1b;
+}
+.tour-contact-form input,
+.tour-contact-form textarea {
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 9px 10px;
+  font: inherit;
+  color: #0f172a;
+  background: #fff;
+}
+.tour-contact-form input:focus,
+.tour-contact-form textarea:focus {
+  outline: 2px solid #f87171;
+  outline-offset: 1px;
+}
+.tour-contact-hp {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.tour-contact-alt {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  color: #991b1b;
+}
+.tour-contact-alt a { color: #b91c1c; font-weight: 700; }
+.tour-contact .btn.btn-primary,
+.tour-contact #tourContactSubmit {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+.tour-contact .btn.btn-primary:hover,
+.tour-contact #tourContactSubmit:hover {
+  background: #b91c1c;
+  border-color: #b91c1b;
+}
+
+@media (max-width: 1100px) {
+  body.immo-tour-page--direct .tour-stage {
+    grid-template-columns: minmax(170px, 210px) minmax(0, 1fr);
+    min-height: min(84vh, 900px);
+  }
+  body.immo-tour-page--direct .tour-stage-side {
+    grid-column: 1 / -1;
+    position: static;
+    order: 3;
+    max-height: none;
+  }
+  body.immo-tour-page--direct .tour-frame-wrap {
+    min-height: min(78vh, 860px);
+  }
+  body.immo-tour-page--direct .tour-frame-wrap iframe {
+    height: min(82vh, 920px);
+  }
+}
+
+@media (max-width: 900px) {
+  body.immo-tour-page--direct #tourProtect.container {
+    width: min(1200px, 96vw);
+  }
+  body.immo-tour-page--direct .tour-stage {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  body.immo-tour-page--direct .tour-stage-contact {
+    position: static;
+    order: 1;
+    max-height: none;
+  }
+  body.immo-tour-page--direct .tour-stage-main {
+    order: 2;
+  }
+  body.immo-tour-page--direct .tour-stage-side {
+    position: static;
+    order: 3;
+    max-height: none;
+  }
+  body.immo-tour-page--direct .tour-frame-wrap {
+    min-height: 62vh;
+  }
+  body.immo-tour-page--direct .tour-frame-wrap iframe {
+    height: min(72vh, 720px);
+  }
+}

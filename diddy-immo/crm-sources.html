@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Origine des leads | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Attribution</p>
+      <h2>D’où viennent vos leads ?</h2>
+      <p>Meta, Google, TikTok, site web — par plateforme, campagne UTM et identifiants de clic (gclid, fbclid, ttclid).</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-trafic.html" class="btn btn-ghost">Trafic & visites</a>
+      <a href="./crm-pubs.html" class="btn btn-primary">Gestion des pubs</a>
+      <a href="./crm-acquisition.html" class="btn btn-ghost">Pipeline leads</a>
+      <a href="./crm-meta-inbox.html" class="btn btn-ghost">Inbox Meta</a>
+    </div>
+  </section>
+
+  <div class="crm-toolbar acq-toolbar">
+    <label>Période
+      <select id="srcDays" class="crm-input">
+        <option value="7">7 jours</option>
+        <option value="30" selected>30 jours</option>
+        <option value="90">90 jours</option>
+      </select>
+    </label>
+    <label>Plateforme
+      <select id="srcPlatform" class="crm-input">
+        <option value="">Toutes</option>
+        <option value="facebook">Facebook / Meta</option>
+        <option value="instagram">Instagram</option>
+        <option value="google">Google Ads</option>
+        <option value="tiktok">TikTok</option>
+        <option value="site_web">Site web</option>
+        <option value="withallo">Allo</option>
+        <option value="bing">Bing</option>
+        <option value="autre">Autre</option>
+      </select>
+    </label>
+    <button type="button" class="btn btn-primary" id="btnSrcRefresh">Actualiser</button>
+  </div>
+
+  <div class="acq-stats" id="srcKpis"></div>
+
+  <section class="panel pub-hub-section">
+    <h2>Liens rapides — ouvrir les plateformes pub</h2>
+    <div class="pub-platform-grid" id="platformLinks"></div>
+  </section>
+
+  <div class="src-grid">
+    <section class="panel">
+      <h2>Par plateforme</h2>
+      <div id="tblPlatform"></div>
+    </section>
+    <section class="panel">
+      <h2>Par campagne (utm_campaign)</h2>
+      <div id="tblCampaign"></div>
+    </section>
+    <section class="panel">
+      <h2>Par medium (utm_medium)</h2>
+      <div id="tblMedium"></div>
+    </section>
+    <section class="panel">
+      <h2>Par produit (vertical)</h2>
+      <div id="tblVertical"></div>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top:18px">
+    <h2>Derniers leads — détail attribution</h2>
+    <div id="srcRecent"></div>
+  </section>
+
+  <script src="./js/crm-lead-platform.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-sources.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

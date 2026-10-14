@@ -1,0 +1,257 @@
+/* Projection d'achat — coût réel du logement */
+.proj-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+  gap: 22px;
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .proj-layout { grid-template-columns: 1fr; }
+}
+
+.proj-panel {
+  background: #fff;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 16px;
+  padding: 18px 18px 8px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+}
+.proj-panel + .proj-panel { margin-top: 14px; }
+.proj-panel h3 {
+  margin: 0 0 12px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.proj-panel .grid { margin-bottom: 6px; }
+
+.proj-hint {
+  font-size: 0.8rem;
+  color: var(--muted, #64748b);
+  margin: -4px 0 12px;
+  line-height: 1.45;
+}
+
+.proj-results {
+  position: sticky;
+  top: 88px;
+}
+@media (max-width: 960px) {
+  .proj-results { position: static; }
+}
+
+.proj-hero-kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.proj-kpi {
+  background: linear-gradient(180deg, #f8fafc, #fff);
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 12px 12px 10px;
+}
+.proj-kpi .lbl {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.proj-kpi .val {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+  margin-top: 2px;
+}
+.proj-kpi .sub {
+  display: block;
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+.proj-kpi--main {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #0f766e 0%, #0d9488 55%, #6366f1 140%);
+  border: 0;
+  color: #fff;
+}
+.proj-kpi--main .lbl,
+.proj-kpi--main .sub { color: rgba(255, 255, 255, 0.82); }
+.proj-kpi--main .val { color: #fff; font-size: 1.7rem; }
+
+.proj-verdict {
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border: 1px solid transparent;
+}
+.proj-verdict strong { display: block; font-size: 1.02rem; margin-bottom: 4px; }
+.proj-verdict p { margin: 0; font-size: 0.88rem; line-height: 1.45; }
+.proj-verdict--ok { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+.proj-verdict--mid { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+.proj-verdict--tight { background: #fff7ed; border-color: #fed7aa; color: #9a3412; }
+.proj-verdict--no { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+
+.proj-score-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.proj-score-bar {
+  flex: 1;
+  height: 8px;
+  border-radius: 99px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+.proj-score-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #f43f5e, #f59e0b, #10b981);
+}
+
+.proj-flags { list-style: none; margin: 0 0 14px; padding: 0; }
+.proj-flags li {
+  font-size: 0.84rem;
+  line-height: 1.4;
+  padding: 8px 10px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+.proj-flags li.ok { background: #ecfdf5; border-color: #a7f3d0; }
+.proj-flags li.tight { background: #fff7ed; border-color: #fed7aa; }
+.proj-flags li.no { background: #fef2f2; border-color: #fecaca; }
+.proj-flags li.mid { background: #eff6ff; border-color: #bfdbfe; }
+
+.proj-bars { margin: 4px 0 12px; }
+.proj-bar-row { margin-bottom: 8px; }
+.proj-bar-row .meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+.proj-bar-row .meta span:last-child { color: #0f172a; white-space: nowrap; }
+.proj-bar-track {
+  height: 8px;
+  border-radius: 99px;
+  background: #f1f5f9;
+  overflow: hidden;
+}
+.proj-bar-track > span {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: #0d9488;
+}
+.proj-bar-row[data-id="pret"] .proj-bar-track > span { background: #4f46e5; }
+.proj-bar-row[data-id="ade"] .proj-bar-track > span { background: #6366f1; }
+.proj-bar-row[data-id="tf"] .proj-bar-track > span { background: #db2777; }
+.proj-bar-row[data-id="elec"] .proj-bar-track > span { background: #f59e0b; }
+.proj-bar-row[data-id="gaz"] .proj-bar-track > span { background: #f97316; }
+.proj-bar-row[data-id="eau"] .proj-bar-track > span { background: #0ea5e9; }
+.proj-bar-row[data-id="copro"] .proj-bar-track > span { background: #64748b; }
+.proj-bar-row[data-id="mrh"] .proj-bar-track > span { background: #14b8a6; }
+
+.proj-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin: 0 0 12px;
+}
+.proj-table th,
+.proj-table td {
+  text-align: right;
+  padding: 7px 6px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.proj-table th:first-child,
+.proj-table td:first-child { text-align: left; }
+.proj-table th { color: #64748b; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; }
+.proj-table .tone-ok { color: #047857; font-weight: 700; }
+.proj-table .tone-mid { color: #1d4ed8; font-weight: 700; }
+.proj-table .tone-tight { color: #c2410c; font-weight: 700; }
+.proj-table .tone-no { color: #b91c1c; font-weight: 700; }
+
+.proj-mini-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.proj-mini {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 10px;
+}
+.proj-mini .lbl { font-size: 0.72rem; color: #64748b; font-weight: 700; }
+.proj-mini .val { font-size: 1.02rem; font-weight: 800; }
+
+.proj-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 8px;
+}
+.proj-cta-row .btn { flex: 1 1 160px; }
+
+.proj-legal {
+  font-size: 0.75rem;
+  color: #64748b;
+  line-height: 1.45;
+  margin: 8px 0 12px;
+}
+
+.proj-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin: 4px 0 12px;
+}
+.proj-toggle input { width: 18px; height: 18px; }
+
+.field-check-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.field-check-row label {
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+  background: #fff;
+}
+.field-check-row label:has(input:checked) {
+  border-color: #0d9488;
+  background: #ccfbf1;
+  color: #115e59;
+}
+.field-check-row input { margin-right: 4px; }
+
+.proj-method {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.55;
+}
+.proj-method h3 { margin: 18px 0 6px; font-size: 1rem; color: #0f172a; }
+.proj-method ul { margin: 0 0 8px; padding-left: 18px; }
+
+.landing-topbar-inner { max-width: 1180px; }
+.page .container.proj-container { max-width: 1180px; }

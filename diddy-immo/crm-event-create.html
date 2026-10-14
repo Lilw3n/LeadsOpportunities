@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Créer un RDV | Agenda CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .ev-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:16px; }
+    @media (max-width:900px){ .ev-grid { grid-template-columns:1fr; } }
+    .ev-panel { background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px; }
+    .ev-panel h3 { margin:0 0 12px; color:#1e4f8a; font-size:1rem; }
+    .ev-panel label { display:flex; flex-direction:column; gap:4px; font-size:.8rem; font-weight:700; color:#64748b; margin-bottom:10px; }
+    .ev-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .ev-suggest { border:1px solid var(--line); border-radius:8px; max-height:160px; overflow:auto; display:none; background:#fff; }
+    .ev-suggest button { display:block; width:100%; text-align:left; border:0; background:#fff; padding:8px 10px; cursor:pointer; font:inherit; }
+    .ev-suggest button:hover { background:#eff6ff; }
+    .ev-check { display:flex; align-items:center; gap:8px; font-size:.85rem; font-weight:600; color:#334155; margin:8px 0; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Agenda</p>
+      <h2>Modification / création d'événement</h2>
+      <p>RDV lié contact + bien optionnel — sync Google Calendar et Todoist à l'enregistrement.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-event-manager.html" class="btn btn-ghost">← Gestionnaire</a>
+      <a href="./crm-calendar.html" class="btn btn-ghost">Agenda</a>
+      <a href="./crm-events.html" class="btn btn-ghost">Liste</a>
+    </div>
+  </section>
+
+  <form id="evForm" class="ev-grid">
+    <section class="ev-panel">
+      <h3>Rendez-vous</h3>
+      <label>Type
+        <select name="eventType" id="eventType"></select>
+      </label>
+      <label>Sujet / titre *
+        <input name="title" class="crm-input" required placeholder="Estimation — NOM Client" />
+      </label>
+      <div class="ev-row">
+        <label>Date *
+          <input type="date" name="eventDate" required />
+        </label>
+        <label>Ou JJ/MM/AAAA
+          <input type="text" name="eventDateText" class="crm-input" placeholder="12/08/2026" autocomplete="off" />
+        </label>
+      </div>
+      <div class="ev-row">
+        <label>Début
+          <input type="time" name="eventTime" value="11:00" />
+        </label>
+        <label>Fin
+          <input type="time" name="eventEndTime" value="12:00" />
+        </label>
+      </div>
+      <label class="ev-check"><input type="checkbox" name="allDay" /> Journée entière</label>
+      <label class="ev-check"><input type="checkbox" name="confidential" /> Confidentiel</label>
+      <label>Mode de RDV
+        <select name="mode" id="eventMode"></select>
+      </label>
+      <label>Lieu
+        <input name="location" class="crm-input" placeholder="Adresse du bien / agence / lien visio" />
+      </label>
+      <label>Rappel
+        <select name="reminderMinutes">
+          <option value="15">15 min avant</option>
+          <option value="60" selected>1 heure avant</option>
+          <option value="1440">1 jour avant</option>
+          <option value="0">Sans rappel</option>
+        </select>
+      </label>
+      <label>Priorité
+        <select name="priority">
+          <option value="medium">Moyenne</option>
+          <option value="high">Haute</option>
+          <option value="urgent">Urgente</option>
+          <option value="low">Faible</option>
+        </select>
+      </label>
+      <label>Description
+        <textarea name="description" class="crm-input" rows="4" placeholder="Notes internes…"></textarea>
+      </label>
+    </section>
+
+    <section class="ev-panel">
+      <h3>Contacts concernés</h3>
+      <label>Rechercher un contact *
+        <input type="search" id="contactSearch" class="crm-input" placeholder="Nom, email, téléphone…" autocomplete="off" />
+      </label>
+      <div id="contactSuggest" class="ev-suggest"></div>
+      <label>ID contact *
+        <input name="contactId" id="contactId" class="crm-input" required placeholder="ct_…" pattern="ct_[a-zA-Z0-9_-]+" />
+      </label>
+      <p id="contactLabel" style="color:var(--muted);font-size:.85rem;margin:0 0 12px"></p>
+
+      <h3>Interlocuteurs du dossier</h3>
+      <p style="color:var(--muted);font-size:.8rem;margin:0 0 10px">Les personnes à suivre pour ce dossier (banque, notaire, co-emprunteur, partenaire…).</p>
+      <div id="interlocutorsBox"></div>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnAddInterlocutor">+ Interlocuteur</button>
+
+      <h3>Bien(s)</h3>
+      <label>ID bien immo (optionnel)
+        <input name="propertyId" id="propertyId" class="crm-input" placeholder="prop_…" />
+      </label>
+      <p style="color:var(--muted);font-size:.8rem">Lien vers la fiche intelligente — aussi poussé dans la description Google Calendar.</p>
+
+      <button type="submit" class="btn btn-primary" style="margin-top:16px;width:100%">Enregistrer (→ Google + Todoist si connectés)</button>
+      <p id="evMsg" style="margin-top:12px"></p>
+    </section>
+  </form>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-prefill-contact-id.js"></script>
+  <script src="./js/crm-agenda-types.js"></script>
+  <script src="./js/crm-dossier-interlocutors.js"></script>
+  <script src="./crm-event-create.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

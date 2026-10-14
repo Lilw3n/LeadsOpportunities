@@ -1,0 +1,228 @@
+/* Switcher Prêts · Assurance immo · Patrimoine · Banque + sous-menus */
+.imf-nav {
+  --imf-blue: #1e3a8a;
+  --imf-blue-2: #2563eb;
+  --imf-teal: #0f766e;
+  --imf-teal-2: #0d9488;
+  --imf-amber: #b45309;
+  --imf-amber-2: #d97706;
+  --imf-slate: #334155;
+  --imf-slate-2: #475569;
+  margin: 0 0 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.imf-switch {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.imf-switch a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.86rem;
+  color: #475569;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.imf-switch a:hover {
+  background: #fff;
+  color: #0f172a;
+}
+
+.imf-switch a.on-prets {
+  background: var(--imf-blue);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(30, 58, 138, 0.25);
+}
+
+.imf-switch a.on-assurance {
+  background: var(--imf-teal);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(15, 118, 110, 0.25);
+}
+
+.imf-switch a.on-patrimoine {
+  background: var(--imf-amber);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(180, 83, 9, 0.25);
+}
+
+.imf-switch a.on-banque {
+  background: var(--imf-slate);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(51, 65, 85, 0.28);
+}
+
+.imf-switch .imf-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.imf-switch a[class*="on-"] .imf-dot {
+  opacity: 1;
+  background: #fff;
+}
+
+.imf-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: #e2e8f0;
+}
+
+.imf-bar.prets {
+  background: var(--imf-blue);
+}
+
+.imf-bar.assurance {
+  background: var(--imf-teal);
+}
+
+.imf-bar.patrimoine {
+  background: var(--imf-amber);
+}
+
+.imf-bar.banque {
+  background: var(--imf-slate);
+}
+
+.imf-bar a,
+.imf-bar button {
+  border: 0;
+  background: transparent;
+  color: #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.imf-bar a:hover,
+.imf-bar a.active,
+.imf-bar button:hover,
+.imf-bar .imf-dd.open > button {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.imf-bar.prets a.active,
+.imf-bar.prets a:hover,
+.imf-bar.prets button:hover,
+.imf-bar.prets .imf-dd.open > button {
+  background: var(--imf-blue-2);
+}
+
+.imf-bar.assurance a.active,
+.imf-bar.assurance a:hover {
+  background: var(--imf-teal-2);
+}
+
+.imf-bar.patrimoine a.active,
+.imf-bar.patrimoine a:hover {
+  background: var(--imf-amber-2);
+}
+
+.imf-bar.banque a.active,
+.imf-bar.banque a:hover {
+  background: var(--imf-slate-2);
+}
+
+.imf-dd {
+  position: relative;
+}
+
+.imf-dd-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 220px;
+  background: #fff;
+  color: #0f172a;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  z-index: 30;
+  padding: 6px 0;
+}
+
+.imf-dd.open .imf-dd-menu {
+  display: block;
+}
+
+.imf-dd-menu a {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  border: 0;
+  background: #fff;
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+
+.imf-dd-menu a:hover {
+  background: #eff6ff;
+}
+
+.imf-sub {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  min-width: 160px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  padding: 6px 0;
+}
+
+.imf-dd-menu .has-sub {
+  position: relative;
+}
+
+.imf-dd-menu .has-sub:hover .imf-sub {
+  display: block;
+}
+
+.imf-sep {
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.22);
+  margin: 0 4px;
+}
+
+@media (max-width: 700px) {
+  .imf-switch {
+    width: 100%;
+  }
+  .imf-switch a {
+    flex: 1;
+    justify-content: center;
+  }
+}

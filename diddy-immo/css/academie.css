@@ -1,0 +1,220 @@
+/* Académie — cours métiers (étend piliers-hub) */
+.academie-page {
+  --aca-ink: #0f172a;
+  --aca-muted: #475569;
+  --aca-line: #e2e8f0;
+  --aca-surface: #ffffff;
+  --aca-soft: #f8fafc;
+}
+
+.academie-kicker {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pilier-accent, #0d9488);
+  margin-bottom: 0.5rem;
+}
+
+.academie-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--aca-muted);
+  font-size: 0.95rem;
+}
+
+.academie-meta li::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pilier-accent, #0d9488);
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.academie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 2.5rem;
+}
+
+.academie-course-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--aca-surface);
+  border: 1px solid var(--aca-line);
+  border-radius: 12px;
+  padding: 1.25rem 1.35rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.academie-course-card:hover {
+  border-color: var(--pilier-accent, #0d9488);
+  transform: translateY(-2px);
+}
+
+.academie-course-card strong {
+  font-size: 1.15rem;
+  color: var(--aca-ink);
+}
+
+.academie-course-card p {
+  margin: 0.5rem 0 0;
+  color: var(--aca-muted);
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.academie-course-card .aca-go {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: var(--pilier-accent, #0d9488);
+  font-size: 0.9rem;
+}
+
+.academie-objectives {
+  background: var(--aca-soft);
+  border-left: 3px solid var(--pilier-accent, #0d9488);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.academie-objectives h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+}
+
+.academie-objectives ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.academie-objectives li {
+  margin: 0.35rem 0;
+}
+
+.academie-lesson-list {
+  counter-reset: lesson;
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+}
+
+.academie-lesson-list > li {
+  counter-increment: lesson;
+  border-bottom: 1px solid var(--aca-line);
+}
+
+.academie-lesson-list a {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr auto;
+  gap: 0.75rem 1rem;
+  align-items: start;
+  padding: 1.1rem 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.academie-lesson-list a:hover strong {
+  color: var(--pilier-accent, #0d9488);
+}
+
+.academie-lesson-num {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--pilier-accent, #0d9488);
+  line-height: 1.2;
+}
+
+.academie-lesson-num::before {
+  content: counter(lesson, decimal-leading-zero);
+}
+
+.academie-lesson-list .dur {
+  font-size: 0.85rem;
+  color: var(--aca-muted);
+  white-space: nowrap;
+}
+
+.academie-lesson-body {
+  max-width: 42rem;
+}
+
+.academie-lesson-body h2 {
+  margin: 2rem 0 0.75rem;
+  font-size: 1.25rem;
+}
+
+.academie-lesson-body p {
+  margin: 0 0 1rem;
+  color: #334155;
+  line-height: 1.7;
+}
+
+.academie-nav-lessons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2.5rem 0 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--aca-line);
+}
+
+.academie-nav-lessons a {
+  font-weight: 600;
+  color: var(--pilier-accent, #0d9488);
+  text-decoration: none;
+}
+
+.academie-cta-band {
+  margin: 2.5rem 0;
+  padding: 1.5rem 1.75rem;
+  background: linear-gradient(135deg, var(--pilier-soft, #ccfbf1), #fff);
+  border-radius: 14px;
+  border: 1px solid var(--aca-line);
+}
+
+.academie-cta-band h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.academie-cta-band p {
+  margin: 0 0 1rem;
+  color: var(--aca-muted);
+}
+
+.academie-breadcrumb {
+  font-size: 0.9rem;
+  color: var(--aca-muted);
+  margin: 0 0 1rem;
+}
+
+.academie-breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.academie-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .academie-lesson-list a {
+    grid-template-columns: 2rem 1fr;
+  }
+  .academie-lesson-list .dur {
+    grid-column: 2;
+  }
+}

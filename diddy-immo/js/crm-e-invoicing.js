@@ -1,0 +1,612 @@
+(function () {
+  var token = localStorage.getItem("lo_token");
+  if (!token) {
+    location.href = "./crm.html";
+    return;
+  }
+
+  var CHECKLIST_LABELS = {
+    identifiedActors: "Cartographier acteurs (fournisseurs, clients B2B, expert-comptable)",
+    chosenPdpOrAccountingTool: "Choisir une PDP ou un outil compatible (compta / banque)",
+    designatedReceptionPlatform: "Désigner la plateforme de réception",
+    updatedSupplierContacts: "Informer les fournisseurs de la plateforme de réception",
+    sirenClientsCollected: "Collecter les SIREN clients B2B pour les factures émises",
+    invoiceMentionsReady: "Mentions obligatoires prêtes (SIREN client, nature ops, livraison, TVA débits)",
+    retentionProcessDefined: "Processus de conservation 6 ans défini",
+    expertComptableBriefed: "Expert-comptable briefé / trajectoire documentée",
+  };
+
+  function headers() {
+    return { Authorization: "Bearer " + token, "Content-Type": "application/json" };
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function fillForm(form, data) {
+    if (!form || !data) return;
+    Array.prototype.forEach.call(form.elements, function (el) {
+      if (!el.name) return;
+      if (el.type === "checkbox") {
+        el.checked = !!data[el.name];
+      } else if (data[el.name] != null) {
+        el.value = data[el.name];
+      }
+    });
+  }
+
+  function formObject(form) {
+    var out = {};
+    Array.prototype.forEach.call(form.elements, function (el) {
+      if (!el.name || el.disabled) return;
+      if (el.type === "checkbox") out[el.name] = !!el.checked;
+      else out[el.name] = el.value;
+    });
+    return out;
+  }
+
+  function renderBanner(r) {
+    var el = document.getElementById("einvBanner");
+    if (!el || !r) return;
+    var cls = "ok";
+    var msg =
+      "Réception : échéance " +
+      r.receiveDeadline +
+      " (" +
+      r.daysUntilReceive +
+      " j). Émission (" +
+      (r.companySize || "") +
+      ") : " +
+      r.emitDeadline +
+      ".";
+    if (r.status === "critical" || (r.daysUntilReceive <= 7 && r.blockers && r.blockers.length && !r.pdpTrajectory)) {
+      cls = "critical";
+      msg =
+        "URGENT — J-" +
+        Math.max(0, r.daysUntilReceive) +
+        " avant l’obligation de réception (1er sept. 2026). " +
+        (r.blockers && r.blockers[0] ? r.blockers[0] : "Finalisez la désignation PDP.");
+    } else if (r.status === "waiting" || r.tiimeIdentityPending) {
+      cls = "warn";
+      msg =
+        "Tiime créé — pièce d'identité en validation. J-" +
+        Math.max(0, r.daysUntilReceive) +
+        ". Ensuite : activer PDP + brancher Make Free.";
+    } else if (r.blockers && r.blockers.length) {
+      cls = "warn";
+      msg = "En cours — " + r.blockers[0];
+    } else {
+      msg = "Trajectoire OK — " + msg;
+    }
+    el.className = "einv-banner " + cls;
+    el.textContent = msg;
+  }
+
+  function renderKpis(data) {
+    var el = document.getElementById("einvKpis");
+    if (!el || !data) return;
+    var r = data.readiness || {};
+    var c = data.counts || {};
+    var ch = r.checklist || {};
+    el.innerHTML =
+      '<div class="kpi-card"><div class="kpi-label">Jours avant réception</div><div class="kpi-value">' +
+      esc(String(r.daysUntilReceive != null ? r.daysUntilReceive : "—")) +
+      '</div></div><div class="kpi-card"><div class="kpi-label">Checklist</div><div class="kpi-value">' +
+      esc(String(ch.done || 0)) +
+      "/" +
+      esc(String(ch.total || 8)) +
+      '</div></div><div class="kpi-card"><div class="kpi-label">PDP</div><div class="kpi-value">' +
+      (r.pdpOk ? "OK" : "À faire") +
+      '</div></div><div class="kpi-card"><div class="kpi-label">Reçues / Émises</div><div class="kpi-value">' +
+      esc(String(c.received || 0)) +
+      " / " +
+      esc(String(c.issued || 0)) +
+      "</div></div>";
+  }
+
+  function renderChecklist(settings) {
+    var form = document.getElementById("einvChecklist");
+    if (!form) return;
+    var cl = (settings && settings.checklist) || {};
+    var html = "";
+    Object.keys(CHECKLIST_LABELS).forEach(function (key) {
+      html +=
+        "<label><input type=\"checkbox\" name=\"" +
+        key +
+        "\"" +
+        (cl[key] ? " checked" : "") +
+        " /> <span>" +
+        esc(CHECKLIST_LABELS[key]) +
+        "</span></label>";
+    });
+    html += '<button type="submit" class="btn btn-ghost" style="margin-top:12px">Sauver checklist</button>';
+    form.innerHTML = html;
+  }
+
+  function roleLabel(role) {
+    var map = {
+      pdp_primary: "PDP légale",
+      pdp_alternative: "Alternative PDP",
+      accounting: "Compta",
+      bank: "Banque",
+      erp_later: "ERP plus tard",
+      commercial: "Commercial",
+      automation: "Automation",
+      ops_hub: "Ops / Notion",
+    };
+    return map[role] || role || "";
+  }
+
+  function renderSmartMix(mix, settings) {
+    if (!mix) return;
+    var ruleEl = document.getElementById("einvMixRule");
+    if (ruleEl && mix.rule) ruleEl.textContent = mix.rule;
+
+    var reco = document.getElementById("einvMixReco");
+    if (reco) {
+      var chosen = mix.chosen || {};
+      reco.innerHTML =
+        "<strong>Reco LO (EI) :</strong> PDP = <strong>Tiime</strong> (0 €) + CRM/Stripe + Make Free. " +
+        "Optionnel : Indy (compta) ou Shine (banque). Éviter Abby+Tiime en double, et Odoo pour l’instant.<br/>" +
+        "Choix actuel : <strong>" +
+        esc(chosen.primaryName || settings.stackPrimaryPdp || "—") +
+        "</strong>" +
+        (chosen.alignedWithRecommendation ? " ✓ aligné reco" : " (hors reco)");
+    }
+
+    var toolsEl = document.getElementById("einvMixTools");
+    if (toolsEl && mix.tools) {
+      var primaryId = (mix.chosen && mix.chosen.primaryPdp) || "tiime";
+      toolsEl.innerHTML = mix.tools
+        .map(function (t) {
+          var cls = "einv-tool-card";
+          if (t.id === primaryId) cls += " primary";
+          if (t.role === "erp_later" || t.role === "pdp_alternative") cls += " avoid";
+          var link =
+            t.url && t.url.indexOf("http") === 0
+              ? ' <a href="' + esc(t.url) + '" target="_blank" rel="noopener">site</a>'
+              : "";
+          return (
+            '<div class="' +
+            cls +
+            '"><span class="role">' +
+            esc(roleLabel(t.role)) +
+            "</span><strong>" +
+            esc(t.name) +
+            "</strong><div>" +
+            esc(t.price) +
+            "</div><p class=\"einv-muted\" style=\"margin:6px 0 0\">" +
+            esc(t.useInMix) +
+            link +
+            "</p></div>"
+          );
+        })
+        .join("");
+    }
+
+    var form = document.getElementById("einvMixForm");
+    if (form && settings) {
+      var sel = form.primaryPdp;
+      if (sel) sel.value = settings.stackPrimaryPdp || "tiime";
+      var companions = settings.stackCompanions || [];
+      form.companion_indy.checked = companions.indexOf("indy") !== -1;
+      form.companion_shine.checked = companions.indexOf("shine") !== -1;
+      if (form.companion_make) form.companion_make.checked = companions.indexOf("make") !== -1 || companions.length === 0;
+      if (form.companion_notion) form.companion_notion.checked = companions.indexOf("notion") !== -1 || companions.length === 0;
+    }
+  }
+
+  function renderNotionStatus(notionInfo) {
+    var el = document.getElementById("einvNotionStatus");
+    if (!el) return;
+    var n = notionInfo || {};
+    el.textContent = n.configured
+      ? "Notion API : configurée (NOTION_TOKEN OK)."
+      : "Notion : crée la base + Make module, ou renseigne NOTION_TOKEN + NOTION_EINVOICE_DATABASE_ID (0 €).";
+  }
+
+  function renderMakeStatus(makeInfo) {
+    var el = document.getElementById("einvMakeStatus");
+    if (!el) return;
+    var m = makeInfo || {};
+    function pill(ok, label, detail) {
+      return (
+        '<div class="einv-make-pill ' +
+        (ok ? "ok" : "warn") +
+        '"><strong>' +
+        esc(label) +
+        "</strong><div>" +
+        esc(detail) +
+        "</div></div>"
+      );
+    }
+    el.innerHTML =
+      pill(!!m.outboundConfigured, "Make → sortie", m.outboundConfigured ? "Webhook configuré" : "Ajouter MAKE_EINVOICE_WEBHOOK_URL") +
+      pill(!!m.inboundSecretConfigured, "Make → entrée", m.inboundSecretConfigured ? "Secret OK" : "Ajouter MAKE_EINVOICE_WEBHOOK_SECRET") +
+      pill(true, "URL inbound", m.inboundUrl || "/api/webhooks/make-einvoice") +
+      pill(true, "Sync reçus", String(m.syncCount != null ? m.syncCount : 0) + " event(s)");
+  }
+
+  function downloadXml(id, filename) {
+    return fetch("/api/crm/e-invoicing?sub=xml&id=" + encodeURIComponent(id), {
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("Téléchargement impossible");
+        return r.text().then(function (text) {
+          return { text: text, name: filename || id + "-factur-x.xml" };
+        });
+      })
+      .then(function (file) {
+        var blob = new Blob([file.text], { type: "application/xml" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = file.name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      })
+      .catch(function (err) {
+        alert(err.message || "Erreur téléchargement");
+      });
+  }
+
+  function renderTable(targetId, rows, columns) {
+    var el = document.getElementById(targetId);
+    if (!el) return;
+    if (!rows || !rows.length) {
+      el.innerHTML = '<p class="einv-muted">Aucune entrée pour le moment.</p>';
+      return;
+    }
+    var head = columns
+      .map(function (c) {
+        return "<th>" + esc(c.label) + "</th>";
+      })
+      .join("");
+    var body = rows
+      .map(function (row) {
+        return (
+          "<tr>" +
+          columns
+            .map(function (c) {
+              var v = typeof c.value === "function" ? c.value(row) : row[c.key];
+              return "<td>" + (c.html ? v : esc(v == null ? "—" : v)) + "</td>";
+            })
+            .join("") +
+          "</tr>"
+        );
+      })
+      .join("");
+    el.innerHTML = '<table class="einv-table"><thead><tr>' + head + "</tr></thead><tbody>" + body + "</tbody></table>";
+    Array.prototype.forEach.call(el.querySelectorAll("[data-xml-id]"), function (btn) {
+      btn.addEventListener("click", function () {
+        downloadXml(btn.getAttribute("data-xml-id"), btn.getAttribute("data-xml-name"));
+      });
+    });
+  }
+
+  function saveSettingsPatch(patch) {
+    return fetch("/api/crm/e-invoicing", {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify({ action: "save-settings", settings: patch }),
+    }).then(function (r) {
+      return r.json();
+    });
+  }
+
+  function loadAll() {
+    return fetch("/api/crm/e-invoicing?sub=status", { headers: headers() })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (data) {
+        if (!data.ok) {
+          document.getElementById("einvBanner").className = "einv-banner critical";
+          document.getElementById("einvBanner").textContent = data.error || "Impossible de charger le module.";
+          return data;
+        }
+        renderBanner(data.readiness);
+        renderKpis(data);
+        renderChecklist(data.settings);
+        renderSmartMix(data.smartMix, data.settings);
+        renderMakeStatus(data.make);
+        renderNotionStatus(data.notion);
+        fillForm(document.getElementById("einvPdpForm"), data.settings);
+        fillForm(document.getElementById("einvIdentityForm"), data.settings);
+        return data;
+      });
+  }
+
+  function loadLists() {
+    fetch("/api/crm/e-invoicing?sub=received", { headers: headers() })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        renderTable("einvRecvList", res.invoices || [], [
+          { label: "Date", key: "invoice_date" },
+          { label: "Fournisseur", key: "supplier_name" },
+          { label: "SIREN", key: "supplier_siren" },
+          { label: "N°", key: "invoice_number" },
+          { label: "TTC", key: "amount_ttc" },
+          { label: "Canal", key: "channel" },
+        ]);
+      });
+    fetch("/api/crm/e-invoicing?sub=issued", { headers: headers() })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        renderTable("einvIssuedList", res.invoices || [], [
+          { label: "Date", key: "invoice_date" },
+          { label: "N°", key: "invoice_number" },
+          { label: "Client", key: "buyer_name" },
+          { label: "SIREN", key: "buyer_siren" },
+          { label: "TTC", key: "amount_ttc" },
+          { label: "Statut", key: "status" },
+          {
+            label: "XML",
+            html: true,
+            value: function (row) {
+              return (
+                '<button type="button" class="btn btn-ghost" data-xml-id="' +
+                esc(row.id) +
+                '" data-xml-name="' +
+                esc((row.invoice_number || row.id) + "-factur-x.xml") +
+                '">Télécharger</button>'
+              );
+            },
+          },
+        ]);
+      });
+  }
+
+  document.getElementById("einvChecklist").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var cl = formObject(e.target);
+    saveSettingsPatch({ checklist: cl }).then(function () {
+      return loadAll();
+    });
+  });
+
+  document.getElementById("einvPdpForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var data = formObject(e.target);
+    saveSettingsPatch(data).then(function () {
+      return loadAll();
+    });
+  });
+
+  document.getElementById("einvIdentityForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var data = formObject(e.target);
+    saveSettingsPatch(data).then(function () {
+      return loadAll();
+    });
+  });
+
+  document.getElementById("einvIssueForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var data = formObject(e.target);
+    data.action = "issue";
+    data.amountHt = Number(data.amountHt);
+    data.vatRate = Number(data.vatRate || 20);
+    var box = document.getElementById("einvIssueResult");
+    fetch("/api/crm/e-invoicing", {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify(data),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        box.hidden = false;
+        if (!res.ok) {
+          box.innerHTML =
+            "<strong>Erreur</strong><ul>" +
+            (res.errors || [res.error || "Échec"])
+              .map(function (x) {
+                return "<li>" + esc(x) + "</li>";
+              })
+              .join("") +
+            "</ul>";
+          return;
+        }
+        box.innerHTML =
+          "<strong>Facture " +
+          esc(res.invoiceNumber) +
+          " créée.</strong> " +
+          '<button type="button" class="btn btn-ghost" id="einvDlXml">Télécharger le XML Factur-X</button>' +
+          "<p>" +
+          esc(res.warning || "") +
+          "</p><p>Mentions :</p><ul>" +
+          (res.mentions || [])
+            .map(function (m) {
+              return "<li>" + esc(m) + "</li>";
+            })
+            .join("") +
+          "</ul>";
+        var dl = document.getElementById("einvDlXml");
+        if (dl) {
+          dl.addEventListener("click", function () {
+            downloadXml(res.id, res.invoiceNumber + "-factur-x.xml");
+          });
+        }
+        loadLists();
+        loadAll();
+      });
+  });
+
+  document.getElementById("einvRecvForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var data = formObject(e.target);
+    data.action = "register-received";
+    if (data.amountTtc) data.amountTtc = Number(data.amountTtc);
+    fetch("/api/crm/e-invoicing", {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify(data),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        if (res.ok) {
+          e.target.reset();
+          loadLists();
+          loadAll();
+        } else {
+          alert(res.error || "Erreur");
+        }
+      });
+  });
+
+  document.getElementById("einvMixForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var form = e.target;
+    var companions = ["crm_lo"];
+    if (form.companion_indy.checked) companions.push("indy");
+    if (form.companion_shine.checked) companions.push("shine");
+    if (form.companion_make && form.companion_make.checked) companions.push("make");
+    if (form.companion_notion && form.companion_notion.checked) companions.push("notion");
+    fetch("/api/crm/e-invoicing", {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify({
+        action: "apply-smart-mix",
+        primaryPdp: form.primaryPdp.value,
+        companions: companions,
+        markDesignated: !!form.markDesignated.checked,
+      }),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        if (!res.ok) {
+          alert(res.error || "Erreur mix");
+          return;
+        }
+        if (res.message) alert(res.message);
+        loadAll();
+      });
+  });
+
+  document.getElementById("einvMixRecommend").addEventListener("click", function () {
+    var form = document.getElementById("einvMixForm");
+    form.primaryPdp.value = "tiime";
+    form.companion_indy.checked = false;
+    form.companion_shine.checked = false;
+    form.markDesignated.checked = false;
+  });
+
+  var testMakeBtn = document.getElementById("einvTestMake");
+  if (testMakeBtn) {
+    testMakeBtn.addEventListener("click", function () {
+      var out = document.getElementById("einvMakeTestResult");
+      out.textContent = "Envoi…";
+      fetch("/api/crm/e-invoicing", {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ action: "test-make" }),
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (res) {
+          var m = res.make || {};
+          if (m.skipped) {
+            out.textContent = "Pas encore configuré : définis MAKE_EINVOICE_WEBHOOK_URL sur Vercel.";
+            return;
+          }
+          out.textContent = m.ok
+            ? "OK — Make a répondu (HTTP " + m.status + ")."
+            : "Échec Make : " + (m.error || m.bodyPreview || "HTTP " + m.status);
+        })
+        .catch(function () {
+          out.textContent = "Erreur réseau";
+        });
+    });
+  }
+
+
+  function postCrmAction(action, doneMsg) {
+    return fetch("/api/crm/e-invoicing", {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify({ action: action }),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        if (!res.ok) {
+          alert(res.error || "Erreur");
+          return;
+        }
+        if (res.message || doneMsg) alert(res.message || doneMsg);
+        loadAll();
+      });
+  }
+
+  var markTiime = document.getElementById("einvMarkTiimeOk");
+  if (markTiime) {
+    markTiime.addEventListener("click", function () {
+      postCrmAction("mark-tiime-verified");
+    });
+  }
+  var markMake = document.getElementById("einvMarkMakeOk");
+  if (markMake) {
+    markMake.addEventListener("click", function () {
+      postCrmAction("mark-make-ready");
+    });
+  }
+
+
+  var testNotionBtn = document.getElementById("einvTestNotion");
+  if (testNotionBtn) {
+    testNotionBtn.addEventListener("click", function () {
+      var out = document.getElementById("einvNotionStatus");
+      out.textContent = "Test Notion…";
+      fetch("/api/crm/e-invoicing", {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ action: "test-notion" }),
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (res) {
+          var n = res.notion || {};
+          if (n.skipped) {
+            out.textContent = "Notion non configuré : NOTION_TOKEN + NOTION_EINVOICE_DATABASE_ID, ou utilise Make→Notion.";
+            return;
+          }
+          out.textContent = n.ok
+            ? "OK Notion — page " + (n.pageId || "créée") + (n.url ? " " + n.url : "")
+            : "Échec Notion : " + (n.error || n.bodyPreview || "HTTP " + n.status);
+        })
+        .catch(function () {
+          out.textContent = "Erreur réseau Notion";
+        });
+    });
+  }
+
+  var markNotion = document.getElementById("einvMarkNotionOk");
+  if (markNotion) {
+    markNotion.addEventListener("click", function () {
+      postCrmAction("mark-notion-ready");
+    });
+  }
+
+  loadAll().then(loadLists);
+})();

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Demandes de visite | CRM Immobilier</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/immo-ad-listings.css?v=20260908tour4" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier · Visites</p>
+      <h2>Demandes de visite virtuelle</h2>
+      <p>Valider une demande envoie le code. Décliner coupe l’accès — aucune visite sans ton accord.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-immo-pubs.html" class="btn btn-ghost">Pubs mandats</a>
+      <a href="./crm-immo-properties.html" class="btn btn-ghost">Piges &amp; biens</a>
+    </div>
+  </section>
+
+  <section class="panel pub-tour-box" id="tourRequestMount"></section>
+
+  <script src="./js/crm-immo-tour-requests.js"></script>
+  <script>
+    (function () {
+      if (window.CrmImmoTourRequests) {
+        window.CrmImmoTourRequests.mount(document.getElementById("tourRequestMount"), {
+          title: "File à valider ou décliner",
+        });
+      }
+    })();
+  </script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
