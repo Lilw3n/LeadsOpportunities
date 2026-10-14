@@ -51,6 +51,15 @@ var authHtmlLogin = fs.readFileSync(path.join(ROOT, "auth.html"), "utf8");
 assert(authHtmlLogin.indexOf("challengeToken") !== -1, "auth.html envoie challengeToken");
 assert(authHtmlLogin.indexOf("pendingChallengeToken") !== -1, "auth.html garde challenge");
 
+var meJs = fs.readFileSync(path.join(ROOT, "api/_lib/routes/me.js"), "utf8");
+assert(meJs.indexOf("userFromJwt") !== -1, "me JWT fallback Neon down");
+assert(meJs.indexOf("neonDown") !== -1, "me signale neonDown");
+assert(meJs.indexOf("canUseJwtFallback") !== -1, "me garde session admin offline");
+
+var gcb = fs.readFileSync(path.join(ROOT, "api/_lib/routes/google-callback.js"), "utf8");
+assert(gcb.indexOf("offlineUserId") !== -1, "Google callback offline si Neon down");
+assert(gcb.indexOf("offlineSession") !== -1, "Google session offline flag");
+
 var siteLock = fs.readFileSync(path.join(ROOT, "api/_lib/site-lock.js"), "utf8");
 assert(siteLock.indexOf("lilwen.song@gmail.com") !== -1 || siteLock.indexOf("verifier-access") !== -1, "site-lock lié vérifs");
 assert(siteLock.indexOf("buchetimmobilier") !== -1, "site-lock hôte Buchet");

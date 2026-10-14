@@ -58,14 +58,17 @@ module.exports = async (req, res) => {
   }
 
   const sql = getSql();
-  if (!sql) {
-    return redirectAuth(res, { oauth_error: "Base de donnees indisponible" });
+  if (!sql && (oauthPurpose === "google_drive" || oauthPurpose === "google_calendar" || oauthPurpose === "external_client")) {
+    return redirectAuth(res, { oauth_error: "Base de donnees indisponible (Neon)" });
   }
 
   try {
     const tokens = await exchangeCodeForTokens(code);
 
     if (oauthPurpose === "google_drive") {
+      if (!sql) {
+        return redirectAuth(res, { oauth_error: "Base de donnees indisponible (Neon)" });
+      }
       const expectedEmail = (process.env.GOOGLE_DRIVE_USER_EMAIL || "courtier972@gmail.com")
         .trim()
         .toLowerCase();
@@ -212,63 +215,84 @@ module.exports = async (req, res) => {
       });
     }
 
-    let rows = await sql`
-      SELECT id, email, role, crm_role, full_name, google_id, auth_provider
-      FROM users WHERE google_id = ${googleId} OR email = ${email}
-      LIMIT 1
-    `;
+    const { offlineUserId } = require("../login-code-challenge");
 
     let userId;
     let role;
     let crmRole;
+    let offlineSession = false;
 
-    if (rows.length) {
-      const u = rows[0];
-      userId = u.id;
-      role = u.role;
-      crmRole = u.role === "admin" ? u.crm_role || "admin" : u.crm_role;
-      // Co-admin Google (ex. wendy.buchet.pro@gmail.com / Matterport) : promouvoir si listé dans ADMIN_EMAILS
-      if (isAdminEmail(email) && role !== "admin") {
-        role = "admin";
-        crmRole = "admin";
-        await sql`
-          UPDATE users SET
-            role = 'admin',
-            crm_role = 'admin',
-            google_id = ${googleId},
-            auth_provider = CASE WHEN auth_provider = 'password' THEN 'both' ELSE 'google' END,
-            avatar_url = COALESCE(${avatarUrl}, avatar_url),
-            full_name = COALESCE(full_name, ${fullName}),
-            last_login_at = NOW(),
-            updated_at = NOW()
-          WHERE id = ${userId}
-        `;
+    async function loadOrCreateGoogleUser() {
+      if (!sql) throw new Error("neon_unavailable");
+      let rows = await sql`
+        SELECT id, email, role, crm_role, full_name, google_id, auth_provider
+        FROM users WHERE google_id = ${googleId} OR email = ${email}
+        LIMIT 1
+      `;
+      if (rows.length) {
+        const u = rows[0];
+        userId = u.id;
+        role = u.role;
+        crmRole = u.role === "admin" ? u.crm_role || "admin" : u.crm_role;
+        if (isAdminEmail(email) && role !== "admin") {
+          role = "admin";
+          crmRole = "admin";
+          await sql`
+            UPDATE users SET
+              role = 'admin',
+              crm_role = 'admin',
+              google_id = ${googleId},
+              auth_provider = CASE WHEN auth_provider = 'password' THEN 'both' ELSE 'google' END,
+              avatar_url = COALESCE(${avatarUrl}, avatar_url),
+              full_name = COALESCE(full_name, ${fullName}),
+              last_login_at = NOW(),
+              updated_at = NOW()
+            WHERE id = ${userId}
+          `;
+        } else {
+          await sql`
+            UPDATE users SET
+              google_id = ${googleId},
+              auth_provider = CASE WHEN auth_provider = 'password' THEN 'both' ELSE 'google' END,
+              avatar_url = COALESCE(${avatarUrl}, avatar_url),
+              full_name = COALESCE(full_name, ${fullName}),
+              last_login_at = NOW(),
+              updated_at = NOW()
+            WHERE id = ${userId}
+          `;
+        }
       } else {
+        role = isAdminEmail(email) ? "admin" : "user";
+        crmRole = role === "admin" ? "admin" : null;
+        userId = randomUUID();
+        const { hash, salt } = hashPassword(randomUUID() + randomUUID());
         await sql`
-          UPDATE users SET
-            google_id = ${googleId},
-            auth_provider = CASE WHEN auth_provider = 'password' THEN 'both' ELSE 'google' END,
-            avatar_url = COALESCE(${avatarUrl}, avatar_url),
-            full_name = COALESCE(full_name, ${fullName}),
-            last_login_at = NOW(),
-            updated_at = NOW()
-          WHERE id = ${userId}
+          INSERT INTO users (
+            id, email, password_hash, salt, role, crm_role, full_name,
+            google_id, auth_provider, avatar_url, status
+          ) VALUES (
+            ${userId}, ${email}, ${hash}, ${salt}, ${role}, ${crmRole}, ${fullName},
+            ${googleId}, 'google', ${avatarUrl}, 'active'
+          )
         `;
       }
-    } else {
-      role = isAdminEmail(email) ? "admin" : "user";
-      crmRole = role === "admin" ? "admin" : null;
-      userId = randomUUID();
-      const { hash, salt } = hashPassword(randomUUID() + randomUUID());
-      await sql`
-        INSERT INTO users (
-          id, email, password_hash, salt, role, crm_role, full_name,
-          google_id, auth_provider, avatar_url, status
-        ) VALUES (
-          ${userId}, ${email}, ${hash}, ${salt}, ${role}, ${crmRole}, ${fullName},
-          ${googleId}, 'google', ${avatarUrl}, 'active'
-        )
-      `;
+    }
+
+    try {
+      await loadOrCreateGoogleUser();
+    } catch (dbErr) {
+      console.error("[auth/google-callback] neon", dbErr && dbErr.message ? dbErr.message : dbErr);
+      if (!isAdminEmail(email) && !isAllowedLoginEmail(email)) {
+        return redirectAuth(res, {
+          oauth_error:
+            "Base Neon saturée / indisponible. Admins : reconnectez-vous, ou utilisez e-mail + mot de passe + code.",
+        });
+      }
+      // Session admin offline (sans Neon)
+      offlineSession = true;
+      userId = offlineUserId(email);
+      role = "admin";
+      crmRole = "admin";
     }
 
     const siteAccess = siteAccessForEmail(email) || (isAdminEmail(email) || role === "admin" ? "full" : null);
@@ -278,6 +302,7 @@ module.exports = async (req, res) => {
       role: role,
       crmRole: crmRole || null,
       siteAccess: siteAccess,
+      offline: offlineSession,
     });
 
     const allowedReturns = [

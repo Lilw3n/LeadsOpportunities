@@ -151,10 +151,18 @@ function getSql() {
   }
 }
 
-async function dbQuery(sql, fn) {
+async function dbQuery(sql, fn, timeoutMs) {
   if (!sql) return { ok: false, error: "no_db", rows: null };
+  timeoutMs = timeoutMs == null ? 2500 : timeoutMs;
   try {
-    const rows = await fn(sql);
+    const rows = await Promise.race([
+      fn(sql),
+      new Promise(function (_, reject) {
+        setTimeout(function () {
+          reject(new Error("neon_timeout"));
+        }, timeoutMs);
+      }),
+    ]);
     return { ok: true, rows: rows };
   } catch (e) {
     console.error("[auth/login] neon", e && e.message ? e.message : e);
@@ -265,10 +273,15 @@ module.exports = async (req, res) => {
     const legalOnly = isPublicVerifierEmail(email) && !isAdminEmail(email);
 
     // ——— Chemin Neon (si dispo) ———
+    // Admins + mdp partagé : ne pas solliciter Neon saturé (session offline + code mail).
     let user = null;
     let neonDown = !sql;
+    const preferOfflineAdmin = sharedOk && verifierOk;
 
-    if (sql) {
+    if (preferOfflineAdmin) {
+      user = offlineAdminUser(email);
+      neonDown = true;
+    } else if (sql) {
       const found = await dbQuery(
         sql,
         (q) => q`
