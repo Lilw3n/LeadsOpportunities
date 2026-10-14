@@ -289,6 +289,73 @@
 .lbc-gallery__admin-status.is-err {
   color: #fca5a5;
 }
+.lbc-gallery__admin-retry--bar {
+  max-width: none;
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border: 1px dashed #94a3b8;
+  border-radius: 12px;
+  background: #f8fafc;
+  align-items: stretch;
+}
+.lbc-gallery__admin-retry--bar .lbc-gallery__admin-help {
+  color: #334155;
+}
+.lbc-gallery__admin-retry--bar .lbc-gallery__admin-actions {
+  justify-content: flex-start;
+}
+.lbc-gallery__admin-retry--bar .lbc-gallery__admin-status {
+  color: #64748b;
+}
+.lbc-gallery__admin-retry--bar .lbc-gallery__admin-status.is-ok {
+  color: #15803d;
+}
+.lbc-gallery__admin-retry--bar .lbc-gallery__admin-status.is-err {
+  color: #b91c1c;
+}
+.lbc-gallery__admin-retry--bar .lbc-gallery__admin-advanced {
+  color: #64748b;
+}
+.lbc-gallery__admin-retry--bar .lbc-gallery__admin-paste {
+  background: #fff;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+.lbc-gallery__thumbs .lbc-thumb-wrap {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+.lbc-gallery__thumbs .lbc-thumb-btn {
+  display: block;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #e2e8f0;
+  cursor: pointer;
+}
+.lbc-gallery__thumbs .lbc-thumb-btn.is-active {
+  border-color: #38bdf8;
+}
+.lbc-gallery__thumbs .lbc-thumb-del {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.78);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+}
+.lbc-gallery__thumbs .lbc-thumb-del:hover {
+  background: #b91c1c;
+}
 .lbc-nav {
   position: absolute;
   top: 50%;
