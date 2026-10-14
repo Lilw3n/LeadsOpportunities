@@ -368,6 +368,10 @@
               1) E-mail + mot de passe → <strong>Recevoir le code</strong><br/>
               2) Saisir le code reçu → <strong>Valider le code</strong>
             </p>
+            <div id="neonDownBanner" class="auth-lock-banner" role="status" style="display:none">
+              Neon (base de données) est saturé ou indisponible. Les admins peuvent quand même se connecter :
+              e-mail + mot de passe admin → Recevoir le code → Valider le code (ou Google).
+            </div>
             <form id="loginForm">
               <div class="form-group">
                 <label for="loginEmail">Adresse email</label>
@@ -786,6 +790,22 @@
     // LOGIN : e-mail + mdp → Recevoir le code → Valider le code (les 2 boutons restent visibles)
     var pendingLoginEmail = "";
     var pendingChallengeToken = "";
+    function setNeonDownBanner(on) {
+      var nb = document.getElementById("neonDownBanner");
+      if (!nb) return;
+      if (on) {
+        nb.style.display = "block";
+        nb.classList.add("is-on");
+        try { sessionStorage.setItem("lo_neon_down", "1"); } catch (e) {}
+      } else {
+        nb.style.display = "none";
+        nb.classList.remove("is-on");
+        try { sessionStorage.removeItem("lo_neon_down"); } catch (e) {}
+      }
+    }
+    try {
+      if (sessionStorage.getItem("lo_neon_down") === "1") setNeonDownBanner(true);
+    } catch (e) {}
     function showLoginCodeStep(email, message, challengeToken) {
       pendingLoginEmail = email;
       pendingChallengeToken = challengeToken || "";
@@ -847,6 +867,7 @@
           email: document.getElementById("loginEmail").value,
           password: document.getElementById("loginPassword").value
         });
+        if (data.neonDown) setNeonDownBanner(true);
         if (data.ok && data.needsCode && data.email) {
           showMsg("authMsg", (data.message || "Code envoyé") + " — saisissez-le puis « Valider le code ».", true);
           showLoginCodeStep(data.email, data.message, data.challengeToken);
