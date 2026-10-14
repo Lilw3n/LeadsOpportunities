@@ -1,32 +1,149 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-10-14T05:52:34.782Z",
   "items": [
     {
-      "id": "edge-world-cup-iran-2026",
-      "title": "Coupe du monde : fan flag et deplacement USA",
-      "url": "",
-      "source": "edge",
-      "note": "Angle assurance voyage sante etranger",
+      "id": "theme-lois-20261014-r3-0",
+      "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les emprunteurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6acf18572d594db89b7da1395d09500b&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us",
+      "source": "bing",
+      "note": "Angle lois — CTA questionnaire need=emprunteur",
       "status": "published",
-      "addedAt": "2026-06-17T08:00:00.000Z"
+      "section": "emprunteur",
+      "need": "emprunteur",
+      "leadScore": 120,
+      "addedAt": "2026-10-14T05:52:15.504Z"
     },
     {
-      "id": "firefox-g7-evian",
-      "title": "G7 d'Evian : a quoi sert le Groupe des sept",
-      "url": "",
-      "source": "firefox",
-      "note": "Courrier international — prevoyance patrimoine credit",
+      "id": "theme-vtc-20261014-r3-1",
+      "title": "Uber France offre une couverture sociale à ses chauffeurs en cas d'accident - Europe 1",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOQ0ZQMkREUFpMSW9uR1dYUGhRVGlSVC1WLWp5bHdDMTlhRGFwd2VGRFVkZ180aklScWdXamZUSVhNOVFMeUx2dExtY2t1eV9SaXFKcGdrSnhYMVMxVm9uWS1MMk9FWTJ4LWdadHpCc1NMWmZQTFlPUjRYUHRObXVXc1Z0U3pvbktiT2FoaWd2eFZuaGhwZ0U5ZUdCNXFTNEI3eF9zMlB1SVh6UnhwSGxNT1pjekPSAboBQVVfeXFMUGtVUUdBM3JJU0Q5ajBZaW5NV1hfRDV1NnBwUXBZYlNjckJJN29GMW84cUhBSVdycnpmdVpLTDQ3TkRoR2FoOFBOSVBiUmYzQWdDQ0N2SDRfdk9ZcmExOFV5VFkwbVpmYmd4OVlpX2R2WHRscGpUWWZ6VHZnYTBoRmEtcGQtWll6cHY5cElSV3ZWZUJ5T1BsSFVBeE5tdTBUSzFWN1o3c1dNb1lldTVESXJIYnNhT0g4a2tR?oc=5",
+      "source": "google",
+      "note": "Angle vtc — CTA questionnaire need=vtc",
       "status": "published",
-      "addedAt": "2026-06-17T08:00:00.000Z"
+      "section": "vtc",
+      "need": "vtc",
+      "leadScore": 120,
+      "addedAt": "2026-10-14T05:52:15.504Z"
     },
     {
-      "id": "firefox-france-senegal",
-      "title": "France vs Senegal Coupe du monde",
-      "url": "",
-      "source": "firefox",
-      "note": "Widget sport — voyage assurance",
+      "id": "theme-animaux-20261014-r3-2",
+      "title": "Auchan : l’enseigne de la grande distribution entre sur l’assurance chiens et chats avec une offre digitale",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6acf18587dfd487aa1e4b0a242e82b1b&url=https%3a%2f%2fwww.argusdelassurance.com%2fassurance-dommages%2fassurance-des-particuliers%2fassurance-chiens-chats%2fauchan-lenseigne-de-la-grande-distribution-entre-sur-lassurance-chiens-et-chats-avec-une-offre-digitale.JUB6GGNQMFCWTJ6NM6TDRKXW6M.html&c=14328870916284569112&mkt=en-us",
+      "source": "bing",
+      "note": "Angle animaux — CTA questionnaire need=animaux",
       "status": "published",
-      "addedAt": "2026-06-17T08:00:00.000Z"
+      "section": "animaux",
+      "need": "animaux",
+      "leadScore": 120,
+      "addedAt": "2026-10-14T05:52:15.504Z"
+    },
+    {
+      "id": "theme-pret-20261014-r3-3",
+      "title": "Assurance de prêt immobilier : ces 3 nouvelles mesures favorables aux emprunteurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6acf18572d594db89b7da1395d09500b&url=https%3a%2f%2fwww.boursorama.com%2fimmobilier%2fcredit%2factualites%2fassurance-de-pret-immobilier-ces-3-nouvelles-mesures-favorables-aux-emprunteurs-aba214d82291aa3882af10ec3daf7a34&c=5025052324863635030&mkt=en-us",
+      "source": "bing",
+      "note": "Angle pret — CTA questionnaire need=emprunteur",
+      "status": "published",
+      "section": "emprunteur",
+      "need": "emprunteur",
+      "leadScore": 120,
+      "addedAt": "2026-10-14T05:52:15.504Z"
+    },
+    {
+      "id": "theme-vente-20261014-r3-4",
+      "title": "Baromètre immobilier France Mai – Juin 2026 : les prix région par région et les nouvelles tendances du marché - LeSiteImmo",
+      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQTVlwN2NTX3ZVUEs0d1g5aUFJOExvWjVncWhxSXRKaDd2Qi1CUWxtQXh0QjN2MWpTd2RFQkJnbWNqb2xsZWtmZ1RGVWRhaTJjSVlwbnJMc2hCMlJCVmpoVVRsUG1wUVVvRnl3QmQ2OVdva29zdXBLaTRVS3NTSW9iSjRERXlUMXJx?oc=5",
+      "source": "google",
+      "note": "Angle vente — CTA questionnaire need=habitation",
+      "status": "published",
+      "section": "habitation",
+      "need": "habitation",
+      "leadScore": 120,
+      "addedAt": "2026-10-14T05:52:15.504Z"
+    },
+    {
+      "id": "theme-location-20261014-r3-5",
+      "title": "Immobilier : à Paris comme dans les grandes métropoles, les tensions sur les locations gagnent toutes les catégories sociales - Le Monde.fr",
+      "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxQZExDX01kYXoxME1zcUpmQmNIbWlWS0NiVlBfaUYwMG1MNmJJOHJsMVdEUi01MXJTajZ0bXByZTg2Ym1Yd2dONzFJS3VoalFsYV9nakJGZHRndF9NQkFlbS1ZdW1CMDFVNS1RQzg5ZHpZRTluazdrYXpRRlBpNDEyR0JIQ0hfdDRHdTFFODZHR29mVFZpckRacTJWbWg4QnFZVXE0Mk9qS1Z5OHc5dEI3dFNjUnpKX0duOHo2UHZtbHRTZU4yX0M4ZjhLUWdyV3ZYYmZXTkE0eGpvQVFOYTVpMEI3Q1ZJSXFLQUlpd1hlQVdQa3dxNE9DaUY0R0ZseXpXbHdVXy1BT040UmJLeXRieFFfTUFqNVU?oc=5",
+      "source": "google",
+      "note": "Angle location — CTA questionnaire need=habitation",
+      "status": "published",
+      "section": "habitation",
+      "need": "habitation",
+      "leadScore": 120,
+      "addedAt": "2026-10-14T05:52:15.504Z"
+    },
+    {
+      "id": "theme-lois-20261013-r2-0",
+      "title": "Loi Lemoine 2026 : ce qui change pour votre assurance emprunteur - Magnolia.fr",
+      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9qSmFSWFhRZDBTT3NBMG9sVHlmSGZibTBQMFRrdEdZN1VTYVlCa2t4UFhjV0s4dUlXYUFaSllMUHl1d0xTRmNJVG1wLURpaVdSZ3Jwb0k4ZTY2VU5HeTZGUXlkTTJXOVRwZmJOR2l2MA?oc=5",
+      "source": "google",
+      "note": "Angle lois — CTA questionnaire need=emprunteur",
+      "status": "published",
+      "section": "emprunteur",
+      "need": "emprunteur",
+      "leadScore": 120,
+      "addedAt": "2026-10-13T06:50:57.951Z"
+    },
+    {
+      "id": "theme-vtc-20261013-r2-1",
+      "title": "▷ Quelles démarches pour devenir chauffeur VTC ? - Le Comparateur Assurance",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOYXdpTFlWZV90eXFzNGRHLWpfRnREU1hYaU5VZW9YaEUtcjFBclZJS0dqOHQyajBCUEE4UmhMRmxqa2NXelRGbHNWeFVoTWFXOHdYRUxqMVh6QXZLbHhDbjJZU3ZGRkthQzc2VEJKVDZ4V1JDb0pPdlpXY2tHYnBET3o5NDRXaHBlS1BDRFNkaWFlZUQwTlREWkVnZVVfbEdIOGp0c2ZB?oc=5",
+      "source": "google",
+      "note": "Angle vtc — CTA questionnaire need=vtc",
+      "status": "published",
+      "section": "vtc",
+      "need": "vtc",
+      "leadScore": 120,
+      "addedAt": "2026-10-13T06:50:57.951Z"
+    },
+    {
+      "id": "theme-animaux-20261013-r2-2",
+      "title": "Chien/chat : la banalisation des soins dentaires est bien réelle - Ymanci",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOU09aTnUzVW5qWHhNaFd4MHVpSjNOTG9STThzTS1lc3RsMUxxM2xIZm9QOU9yamdGZHZLTmtDMTlvSEZOcWozRU01TFYxdW04Q0o0akRHN1R5bDNFMU9TRWFTZWp6SWU1NTZmMl9IcUxnSnRCZjVGZGxJdmM1MFJxUklOaWJJNG51T1FfaHR2ejBmMG5uSHdB?oc=5",
+      "source": "google",
+      "note": "Angle animaux — CTA questionnaire need=animaux",
+      "status": "published",
+      "section": "animaux",
+      "need": "animaux",
+      "leadScore": 120,
+      "addedAt": "2026-10-13T06:50:57.951Z"
+    },
+    {
+      "id": "theme-pret-20261013-r2-3",
+      "title": "Hausse des taux fin 2026 : solutions pour préserver sa capacité d'emprunt - Magnolia.fr",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQTGMxTTJ3MkhRdGV1Rjc3V28xOHVrMkU3eXE0Ri1zQ09iV3hOb1dWSmRFQV9OR21WMHNRdWg1dDZrMXU5VXR0M0xBZnNtRXpPbThFNjNEdjZsdzdpVllTc0htQk8wcnBaR2t1bFU0Rk9iZXVBMWdqcXVRQXNBWjVHaWpSVktua0xwTTFIS1BocXZDeXBpYnVub3pOS2FvSVczakpDV0p3?oc=5",
+      "source": "google",
+      "note": "Angle pret — CTA questionnaire need=emprunteur",
+      "status": "published",
+      "section": "emprunteur",
+      "need": "emprunteur",
+      "leadScore": 120,
+      "addedAt": "2026-10-13T06:50:57.951Z"
+    },
+    {
+      "id": "theme-vente-20261013-r2-4",
+      "title": "Combien de transactions immobilières en 2026 - Immobilier-danger",
+      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9TLWI0OHA5R3ZEa0g1MzhEX2hoNW01aVRwRWNzMmZNYkpHMmxQWjFKaDlBZDFXT0pET3RlNDhQaG1OUGFLUUJWazdUdDlKeXJjTFhkcFJqQW00c2pscFljMTRDY0JkWlN0eVBkU0I4SzM4ck9EY3hiLXlKNA?oc=5",
+      "source": "google",
+      "note": "Angle vente — CTA questionnaire need=habitation",
+      "status": "published",
+      "section": "habitation",
+      "need": "habitation",
+      "leadScore": 120,
+      "addedAt": "2026-10-13T06:50:57.951Z"
+    },
+    {
+      "id": "theme-location-20261013-r2-5",
+      "title": "Le bail civil, une parade face à l’encadrement des loyers ? - Actu-Juridique",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPZ0R1VWtVNlk2Ukd6cGRJZTVZdGV4SGtROEFrR2MzNTR1REFBXzJvUEstSnNpZVVwbHprQldHRkl2bzNEWi1aRFdzTHpJTHFVUTdJZFlDVWZRTFBjYUFBV29XQUNCMlNhejJCNkIwOHk4bnhYS01GZ3V3RXd5ZmlqbFFuSC1YV1oyaUhjYzFXSGQwenR3Z0pFSThoakN1VkFUSVc2MllfUWMtWVFCYlQ5QkRR?oc=5",
+      "source": "google",
+      "note": "Angle location — CTA questionnaire need=habitation",
+      "status": "published",
+      "section": "habitation",
+      "need": "habitation",
+      "leadScore": 120,
+      "addedAt": "2026-10-13T06:50:57.951Z"
     },
     {
       "id": "cafeyn-pending-template",
@@ -35,7 +152,7 @@
       "source": "cafeyn",
       "note": "Angle assurance a preciser",
       "status": "pending",
-      "addedAt": "2026-06-17T08:00:00.000Z"
+      "addedAt": "2026-10-13T06:50:57.951Z"
     }
   ]
 }
