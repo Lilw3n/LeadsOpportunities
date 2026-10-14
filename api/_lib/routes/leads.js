@@ -4,7 +4,7 @@ const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
 
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
-const VALID_SORT = ["created_at", "lead_score", "vertical", "email", "status"];
+const VALID_SORT = ["created_at", "lead_score", "vertical", "email", "phone", "status", "utm_source", "source"];
 
 function sanitizeVertical(v) {
   var s = String(v || "")
@@ -46,9 +46,9 @@ async function fetchLeadsStandard(sql, opts) {
   const orderAsc = opts.orderAsc;
   return sql`
     SELECT
-      id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+      id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
       COALESCE(status, 'new') AS status, notes, created_at, updated_at, payload,
-      landing_slug, seo_city, seo_product, is_duplicate, parent_lead_id, client_ip, contact_id
+      landing_slug, seo_city, seo_product, is_duplicate, parent_lead_id, client_ip, contact_id, platform
     FROM site_leads
     WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
       AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
@@ -57,6 +57,10 @@ async function fetchLeadsStandard(sql, opts) {
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(utm_source, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(utm_medium, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(utm_campaign, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(landing_slug, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(
           CASE
@@ -64,7 +68,15 @@ async function fetchLeadsStandard(sql, opts) {
             WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
             ELSE NULL
           END, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN COALESCE(payload::jsonb->>'page_url', payload::jsonb->>'page', payload::jsonb->>'site_domain')
+            ELSE NULL
+          END, '')) LIKE LOWER(${opts.searchPattern})
       ))
+      AND (${opts.emailPattern}::text IS NULL OR LOWER(COALESCE(email, '')) LIKE LOWER(${opts.emailPattern}))
+      AND (${opts.phonePattern}::text IS NULL OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.phonePattern}))
       AND (${opts.ipPattern}::text IS NULL OR (
         LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
         OR LOWER(COALESCE(
@@ -112,6 +124,12 @@ async function fetchLeadsStandard(sql, opts) {
       CASE WHEN ${sortCol} = 'vertical' AND ${orderAsc} = false THEN vertical END DESC,
       CASE WHEN ${sortCol} = 'email' AND ${orderAsc} = true THEN email END ASC NULLS LAST,
       CASE WHEN ${sortCol} = 'email' AND ${orderAsc} = false THEN email END DESC NULLS LAST,
+      CASE WHEN ${sortCol} = 'phone' AND ${orderAsc} = true THEN phone END ASC NULLS LAST,
+      CASE WHEN ${sortCol} = 'phone' AND ${orderAsc} = false THEN phone END DESC NULLS LAST,
+      CASE WHEN ${sortCol} = 'utm_source' AND ${orderAsc} = true THEN utm_source END ASC NULLS LAST,
+      CASE WHEN ${sortCol} = 'utm_source' AND ${orderAsc} = false THEN utm_source END DESC NULLS LAST,
+      CASE WHEN ${sortCol} = 'source' AND ${orderAsc} = true THEN source END ASC NULLS LAST,
+      CASE WHEN ${sortCol} = 'source' AND ${orderAsc} = false THEN source END DESC NULLS LAST,
       CASE WHEN ${sortCol} = 'status' AND ${orderAsc} = true THEN status END ASC NULLS LAST,
       CASE WHEN ${sortCol} = 'status' AND ${orderAsc} = false THEN status END DESC NULLS LAST,
       CASE WHEN ${sortCol} = 'created_at' AND ${orderAsc} = true THEN created_at END ASC,
@@ -133,6 +151,10 @@ async function countLeadsStandard(sql, opts) {
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(utm_source, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(utm_medium, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(utm_campaign, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(landing_slug, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(
           CASE
@@ -140,7 +162,15 @@ async function countLeadsStandard(sql, opts) {
             WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
             ELSE NULL
           END, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN COALESCE(payload::jsonb->>'page_url', payload::jsonb->>'page', payload::jsonb->>'site_domain')
+            ELSE NULL
+          END, '')) LIKE LOWER(${opts.searchPattern})
       ))
+      AND (${opts.emailPattern}::text IS NULL OR LOWER(COALESCE(email, '')) LIKE LOWER(${opts.emailPattern}))
+      AND (${opts.phonePattern}::text IS NULL OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.phonePattern}))
       AND (${opts.ipPattern}::text IS NULL OR (
         LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
         OR LOWER(COALESCE(
@@ -207,6 +237,8 @@ async function fetchLeadsMinimal(sql, opts) {
             ELSE NULL
           END, '')) LIKE LOWER(${opts.searchPattern})
       ))
+      AND (${opts.emailPattern}::text IS NULL OR LOWER(COALESCE(email, '')) LIKE LOWER(${opts.emailPattern}))
+      AND (${opts.phonePattern}::text IS NULL OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.phonePattern}))
       AND (${opts.ipPattern}::text IS NULL OR (
         LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
         OR LOWER(COALESCE(
@@ -244,6 +276,8 @@ async function countLeadsMinimal(sql, opts) {
             ELSE NULL
           END, '')) LIKE LOWER(${opts.searchPattern})
       ))
+      AND (${opts.emailPattern}::text IS NULL OR LOWER(COALESCE(email, '')) LIKE LOWER(${opts.emailPattern}))
+      AND (${opts.phonePattern}::text IS NULL OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.phonePattern}))
       AND (${opts.ipPattern}::text IS NULL OR (
         LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
         OR LOWER(COALESCE(
@@ -312,11 +346,17 @@ module.exports = async (req, res) => {
   const listFilters = parseLeadListFilters(url);
   const viewVal = listFilters.view;
   const platformVal = listFilters.platform ? String(listFilters.platform).slice(0, 40) : null;
+  const emailVal = listFilters.email ? sanitizeSearch(listFilters.email) : null;
+  const phoneVal = listFilters.phone ? sanitizeSearch(listFilters.phone) : null;
+  const emailPattern = emailVal ? "%" + emailVal + "%" : null;
+  const phonePattern = phoneVal ? "%" + phoneVal + "%" : null;
 
   const queryOpts = {
     statusVal,
     verticalVal,
     searchPattern,
+    emailPattern,
+    phonePattern,
     ipPattern,
     scoreMin,
     sortCol,

@@ -495,10 +495,13 @@
       return {
         visitor_id: localStorage.getItem(KEY_VISITOR) || "",
         landing_path: path,
+        page_url: (typeof window !== "undefined" && window.location && window.location.href) || "",
+        page_hash: (typeof window !== "undefined" && window.location && window.location.hash) || "",
         seo_city: parseSeoCityFromPath(path) || parseSeoCityFromPath(window.location.pathname),
         seo_product: parseSeoProductFromPath(path) || parseSeoProductFromPath(window.location.pathname),
         landing_at: bag.landing_at || "",
         referrer_first: bag.referrer_first || "",
+        referrer: (typeof document !== "undefined" && document.referrer) || bag.referrer_first || "",
         attr_first_utm_source: ft.utm_source || "",
         attr_first_utm_medium: ft.utm_medium || "",
         attr_first_utm_campaign: ft.utm_campaign || "",
