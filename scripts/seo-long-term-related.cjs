@@ -80,7 +80,53 @@ var VTC_IDF = [
   link("/blog/assurance-vtc-moins-cher-2026.html", "Payer moins cher"),
   link("/blog/vtc-premiere-course-checklist-assurance.html", "Checklist 1re course"),
   link("/blog/assurance-vtc-uber-bolt-heetch.html", "Uber, Bolt, Heetch"),
+  link("https://www.assurancevtcfrance.com/", "Assurance VTC France"),
 ];
+
+var PARTENARIAT = {
+  ramonage: [
+    link("/blog/assurance-ramoneur-rc-pro-multirisque-2026.html", "Guide ramoneur"),
+    link("/landings/ramonage.html", "Devis ramoneur"),
+    link("/landings/decennale.html", "Décennale artisan"),
+    link("/landings/immeuble-professionnel.html", "Immeuble professionnel"),
+  ],
+  esthetique: [
+    link("/blog/assurance-institut-beaute-esthetique-rc-pro-2026.html", "Guide esthétique"),
+    link("/landings/esthetique-bien-etre.html", "Devis esthétique"),
+    link("/landings/salles-loisirs.html", "Salles de loisirs"),
+    link("/landings/padel.html", "Club de padel"),
+  ],
+  "salles-loisirs": [
+    link("/blog/assurance-salle-loisirs-escape-game-accrobranche-trampoline-2026.html", "Guide salles de loisirs"),
+    link("/landings/salles-loisirs.html", "Devis salles de loisirs"),
+    link("/landings/padel.html", "Club de padel"),
+    link("/landings/esthetique-bien-etre.html", "Esthétique et bien-être"),
+  ],
+  padel: [
+    link("/blog/assurance-terrain-padel-club-rc-pro-2026.html", "Guide padel"),
+    link("/landings/padel.html", "Devis club de padel"),
+    link("/landings/salles-loisirs.html", "Salles de loisirs"),
+    link("/assurance-equitation/", "Assurance équitation"),
+  ],
+  "immeuble-pro": [
+    link("/blog/assurance-immeuble-professionnel-multirisque-2026.html", "Guide immeuble pro"),
+    link("/landings/immeuble-professionnel.html", "Devis immeuble professionnel"),
+    link("/landings/decennale.html", "Décennale artisan"),
+    link("/landings/ramonage.html", "Ramonage"),
+  ],
+  decennale: [
+    link("/blog/assurance-decennale-artisan-guide-2026.html", "Guide décennale"),
+    link("/landings/decennale.html", "Devis décennale"),
+    link("/landings/immeuble-professionnel.html", "Immeuble professionnel"),
+    link("/landings/ramonage.html", "Ramonage"),
+  ],
+  convoyage: [
+    link("/blog/assurance-convoyeur-vehicules-rc-pro-2026.html", "Guide convoyage"),
+    link("/landings/convoyage-vehicules.html", "Devis convoyage"),
+    link("/assurance-vtc/", "Assurance VTC"),
+    link("/landings/decennale.html", "Décennale artisan"),
+  ],
+};
 
 var SILOS_IMMO = [
   link("/pret-immobilier/", "Prêt immobilier — villes"),
@@ -113,6 +159,7 @@ module.exports = {
   NICHES_VSP: NICHES_VSP,
   ACTU_CLIMAT_HABITATION: ACTU_CLIMAT_HABITATION,
   VTC_IDF: VTC_IDF,
+  PARTENARIAT: PARTENARIAT,
   SILOS_IMMO: SILOS_IMMO,
   mergeUnique: mergeUnique,
   link: link,

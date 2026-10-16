@@ -1,0 +1,41 @@
+---
+generated: true
+type: "silo"
+id: "moto-collection"
+status: "planned"
+competition: "faible"
+keyword: "assurance moto collection"
+pages: 0
+tags:
+  - "seo"
+  - "silo"
+  - "planned"
+---
+
+# Moto & collection
+
+Niches live (chasse, équitation, animaux, VSP, collective) + niches partenariat courtage (ramonage, esthétique, loisirs, padel, immeuble, décennale, convoyage) — blog + landings vers questionnaires RC Pro / MRP / décennale.
+
+- Requête : **assurance moto collection**
+- Concurrence : faible
+- Statut : planned
+- Pages : —
+
+## URLs
+
+- [[Pages/landings — questionnaire|Landing]] — https://www.leadsopportunities.fr/landings/questionnaire.html?need=moto&journey=standard
+
+## Longue traîne
+
+- assurance voiture collection
+- assurance véhicule ancien
+
+## Silos voisins
+
+- Aucun voisin déclaré
+
+## Netlinking
+
+Silo planifié : pas de netlinking externe tant que les pages ne sont pas live.
+
+Voir [[Netlinking/MOC Netlinking]] et [[Netlinking/Liens entrants]].

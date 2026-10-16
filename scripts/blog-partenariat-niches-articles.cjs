@@ -4,6 +4,34 @@
  * immeuble pro / MRP, décennale, RC convoyage.
  * Chargé par blog-articles-manifest.cjs.
  */
+var LT = require("./seo-long-term-related.cjs");
+
+function siblingsForLanding(landing, file) {
+  var key = String(landing || "");
+  if (key.indexOf("../") === 0) key = key.slice(2);
+  if (key.charAt(0) !== "/") key = "/" + key;
+  var groups = LT.PARTENARIAT || {};
+  var ids = Object.keys(groups);
+  for (var i = 0; i < ids.length; i++) {
+    var arr = groups[ids[i]];
+    var hit = arr.some(function (l) {
+      return l.href === key;
+    });
+    if (!hit) continue;
+    return arr
+      .filter(function (l) {
+        if (l.href === key) return false;
+        if (file && l.href.indexOf(file) >= 0) return false;
+        return true;
+      })
+      .slice(0, 3)
+      .map(function (l) {
+        return { href: ".." + l.href, label: l.label };
+      });
+  }
+  return [];
+}
+
 function utm(path, campaign) {
   var sep = path.indexOf("?") >= 0 ? "&" : "?";
   return (
@@ -38,7 +66,7 @@ function article(opts) {
     related: opts.related || [
       { href: "../assurances-niches.html", label: "Assurances de niche" },
       { href: utm("../landings/questionnaire.html?need=" + need + "&journey=standard", campaign), label: "Questionnaire" },
-    ],
+    ].concat(siblingsForLanding(landing, opts.file)),
   };
 }
 
