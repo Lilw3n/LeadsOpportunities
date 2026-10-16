@@ -104,6 +104,7 @@ assert(ingest.indexOf("isIpBlocked") >= 0, "ingest ignore les IP bloquées");
 var dash = read("dashboard.html");
 assert(dash.indexOf("filterIp") >= 0, "dashboard : filtre IP");
 assert(dash.indexOf("bulkDeleteLeads") >= 0, "dashboard : suppression groupée");
+assert(dash.indexOf("purgeNoiseLeads") >= 0, "dashboard : supprimer le bruit");
 assert(dash.indexOf("btnBlockIp") >= 0, "dashboard : bloquer IP");
 assert(dash.indexOf("data-unblock-ip") >= 0, "dashboard : débloquer IP");
 assert(dash.indexOf("lead-row-check") >= 0, "dashboard : cases à cocher");
@@ -119,6 +120,13 @@ assert(leadsApi.indexOf("Math.min(250") >= 0, "API leads : jusqu’à 250 par pa
 
 var del = read("api/_lib/routes/lead-delete.js");
 assert(del.indexOf("leadIds") >= 0, "API suppression multiple");
+assert(del.indexOf('purge === "no-contact"') >= 0, "API suppression du bruit sans contact");
+
+var delLib = require("../api/_lib/lead-delete-lib");
+assert(delLib.leadLacksEmailAndPhone("", "") === true, "bruit : vide");
+assert(delLib.leadLacksEmailAndPhone("  ", "12") === true, "bruit : téléphone trop court");
+assert(delLib.leadLacksEmailAndPhone("a@b.fr", "") === false, "e-mail conservé");
+assert(delLib.leadLacksEmailAndPhone("", "06 12 34 56 78") === false, "téléphone conservé");
 
 var ipApi = read("api/_lib/routes/ip-block.js");
 assert(ipApi.indexOf("setIpBlock") >= 0, "API ip-block");
@@ -127,6 +135,7 @@ var dashRouter = read("api/dashboard/[action].js");
 assert(dashRouter.indexOf("ip-block") >= 0, "route dashboard ip-block");
 
 assert(js.indexOf("lhBulkDelete") >= 0, "CRM : suppression groupée");
+assert(js.indexOf("lhPurgeNoise") >= 0, "CRM : supprimer le bruit");
 assert(js.indexOf("data-block-ip") >= 0, "CRM : bloquer IP");
 assert(page.indexOf("lhIp") >= 0, "CRM : champ filtre IP");
 
