@@ -5,6 +5,7 @@ const { applyApiGuards, sanitizeEnum } = require("../security");
 const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
 const { loadHubConfig } = require("../ad-platform-hub");
+const { classifyLeadOrigin } = require("../leads-filters");
 
 const PLATFORMS = [
   "facebook", "instagram", "google", "tiktok", "linkedin", "youtube",
@@ -76,7 +77,7 @@ async function fetchRows(sql, days) {
       SELECT id, source, vertical, lead_score, email, phone,
              utm_source, utm_medium, utm_campaign, utm_content,
              gclid, fbclid, ttclid, msclkid, visitor_id, platform,
-             form_id, created_at, payload, city, postal_code
+             form_id, created_at, payload, city, postal_code, client_ip
       FROM site_leads
       WHERE created_at >= ${since}
       ORDER BY created_at DESC
@@ -135,6 +136,11 @@ module.exports = async (req, res) => {
     var avfCount = 0;
     var avfRecent = [];
     var recent = [];
+    var byOrigin = {};
+    var inboundTotal = 0;
+    var manualTotal = 0;
+    var metaPreviewTotal = 0;
+    var recentInbound = [];
 
     PLATFORMS.forEach(function (p) {
       byPlatform[p] = 0;
@@ -142,7 +148,30 @@ module.exports = async (req, res) => {
 
     rows.forEach(function (row) {
       var payload = parsePayloadSafe(row.payload);
+      var origin = classifyLeadOrigin(row, payload);
       var platform = detectPlatform(row);
+      bump(byOrigin, origin.label);
+      if (origin.id === "manual") manualTotal++;
+      else if (origin.id === "meta_preview") metaPreviewTotal++;
+      else {
+        inboundTotal++;
+        if (recentInbound.length < 40) {
+          recentInbound.push({
+            id: row.id,
+            origin_id: origin.id,
+            origin_label: origin.label,
+            platform: platform,
+            vertical: row.vertical,
+            lead_score: row.lead_score,
+            email: row.email,
+            phone: row.phone,
+            source: row.source,
+            utm_source: row.utm_source || payload.utm_source,
+            utm_campaign: row.utm_campaign || payload.utm_campaign,
+            created_at: row.created_at,
+          });
+        }
+      }
       if (platformFilter && platform !== platformFilter) return;
 
       byPlatform[platform] = (byPlatform[platform] || 0) + 1;
@@ -205,6 +234,8 @@ module.exports = async (req, res) => {
           visitor_id: row.visitor_id || payload.visitor_id,
           form_id: row.form_id || payload.meta_form_id,
           source: row.source,
+          origin_id: origin.id,
+          origin_label: origin.label,
           created_at: row.created_at,
         });
       }
@@ -232,6 +263,13 @@ module.exports = async (req, res) => {
       by_vertical: topEntries(byVertical, 12),
       by_site_domain: topEntries(bySiteDomain, 12),
       by_form_id: topEntries(byForm, 10),
+      inbound: {
+        total: inboundTotal,
+        manual: manualTotal,
+        meta_preview: metaPreviewTotal,
+        by_origin: topEntries(byOrigin, 12),
+        recent: recentInbound,
+      },
       assurancevtcfrance: {
         count: avfCount,
         recent: avfRecent,

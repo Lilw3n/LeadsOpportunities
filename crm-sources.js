@@ -100,7 +100,7 @@
       return;
     }
     el.innerHTML =
-      "<table><thead><tr><th>Date</th><th>Lead</th><th>Plateforme</th><th>Domaine</th><th>Campagne</th><th>IDs clic</th><th></th></tr></thead><tbody>" +
+            "<table><thead><tr><th>Date</th><th>Lead</th><th>Origine</th><th>Plateforme</th><th>Domaine</th><th>Campagne</th><th>IDs clic</th><th></th></tr></thead><tbody>" +
       recent
         .map(function (l) {
           var pm = window.CrmLeadPlatform.meta(l.platform);
@@ -118,6 +118,8 @@
             " · score " +
             esc(l.lead_score != null ? l.lead_score : "—") +
             "</small></td><td>" +
+            esc(l.origin_label || "—") +
+            "</td><td>" +
             pm.icon +
             " " +
             esc(pm.label) +
@@ -128,6 +130,53 @@
             "</small></td><td>" +
             esc(ids.join(", ") || "—") +
             "</td><td><a href=\"./crm-lead-detail.html?id=" +
+            encodeURIComponent(l.id) +
+            '" class="btn btn-ghost btn-sm">Fiche</a></td></tr>'
+          );
+        })
+        .join("") +
+      "</tbody></table>";
+  }
+
+  function renderInbound(inbound) {
+    var kpis = document.getElementById("inboundKpis");
+    var table = document.getElementById("tblOrigin");
+    var list = document.getElementById("inboundRecent");
+    if (!kpis || !table || !list) return;
+    inbound = inbound || {};
+    kpis.innerHTML =
+      '<span class="acq-stat">Entrants <strong>' +
+      (inbound.total || 0) +
+      "</strong></span>" +
+      '<span class="acq-stat">Saisie CRM <strong>' +
+      (inbound.manual || 0) +
+      "</strong></span>" +
+      '<span class="acq-stat">Test Meta <strong>' +
+      (inbound.meta_preview || 0) +
+      "</strong></span>";
+    table.innerHTML = tableFromEntries(inbound.by_origin);
+    var recent = inbound.recent || [];
+    if (!recent.length) {
+      list.innerHTML =
+        '<p style="color:var(--muted)">Aucun lead entrant sur la période. Les saisies CRM et les tests Meta (57.141) ne sont pas comptés ici.</p>';
+      return;
+    }
+    list.innerHTML =
+      "<table><thead><tr><th>Date</th><th>Contact</th><th>Origine</th><th>Campagne</th><th></th></tr></thead><tbody>" +
+      recent
+        .map(function (l) {
+          return (
+            "<tr><td>" +
+            esc(l.created_at ? new Date(l.created_at).toLocaleString("fr-FR") : "—") +
+            "</td><td>" +
+            esc(l.email || l.phone || l.id) +
+            "<br><small>" +
+            esc(l.vertical || l.source || "") +
+            "</small></td><td>" +
+            esc(l.origin_label || "—") +
+            "</td><td><small>" +
+            esc(l.utm_campaign || l.utm_source || "—") +
+            "</small></td><td><a href=\"./crm-lead-detail.html?id=" +
             encodeURIComponent(l.id) +
             '" class="btn btn-ghost btn-sm">Fiche</a></td></tr>'
           );
@@ -218,6 +267,7 @@
           tr.with_ttclid +
           "</strong></span>";
 
+        renderInbound(res.inbound);
         renderAvf(res.assurancevtcfrance, tr);
         renderPlatformLinks(res.platform_links);
         document.getElementById("tblPlatform").innerHTML = tableFromEntries(res.by_platform);

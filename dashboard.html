@@ -2027,6 +2027,18 @@
               <option value="40">Score ≥ 40</option>
               <option value="1">Score &gt; 0</option>
             </select>
+            <select class="filter-select" id="filterOrigin" title="Filtre la page affichée. Entrants = hors saisie CRM et hors test Meta (57.141).">
+              <option value="">Toutes origines</option>
+              <option value="inbound">Entrants (pas saisis, pas test Meta)</option>
+              <option value="meta_ads">Pub Meta</option>
+              <option value="google_ads">Pub Google</option>
+              <option value="tiktok_ads">Pub TikTok</option>
+              <option value="avf">Assurance VTC France</option>
+              <option value="site">Formulaire du site</option>
+              <option value="withallo">Withallo</option>
+              <option value="manual">Saisie CRM</option>
+              <option value="meta_preview">Test Meta (57.141…)</option>
+            </select>
             <select class="filter-select" id="filterVisitorCat" title="Type de visiteur (IP / comportement)">
               <option value="">Tous visiteurs</option>
               <option value="prospect">Prospects</option>
@@ -2089,7 +2101,7 @@
                   <th>Téléphone</th>
                   <th>IP</th>
                   <th data-sort="status">Statut</th>
-                  <th>Réseau</th>
+                  <th>Origine</th>
                   <th>Pertinence</th>
                   <th>Actions</th>
                 </tr>
@@ -3080,6 +3092,9 @@
       var visitorCatFilter = document.getElementById("filterVisitorCat")
         ? document.getElementById("filterVisitorCat").value
         : "";
+      var originFilter = document.getElementById("filterOrigin")
+        ? document.getElementById("filterOrigin").value
+        : "";
 
       var limitEl = document.getElementById("filterLimit");
       if (limitEl) leadsLimit = parseInt(limitEl.value, 10) || 100;
@@ -3112,9 +3127,17 @@
             return visitorCatMatchesFilter(leadVisitorCat(l), visitorCatFilter);
           });
         }
+        if (originFilter) {
+          leadsList = leadsList.filter(function (l) {
+            if (originFilter === "inbound") {
+              return l.origin_id && l.origin_id !== "manual" && l.origin_id !== "meta_preview";
+            }
+            return l.origin_id === originFilter;
+          });
+        }
         if (!leadsList.length) {
           tbody.innerHTML =
-            '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';var vc=document.getElementById(\'filterVisitorCat\');if(vc)vc.value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
+            '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';var vc=document.getElementById(\'filterVisitorCat\');if(vc)vc.value=\'\';var og=document.getElementById(\'filterOrigin\');if(og)og.value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
         } else {
           window.__lastLeadsList = leadsList;
           leadsList.forEach(function(l) {
@@ -3172,7 +3195,8 @@
               '<td>' + esc(l.phone) + '</td>' +
               '<td>' + ipHtml + '</td>' +
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
-              '<td>' + esc(l.platform || l.utm_source || l.source) + '</td>' +
+              '<td title="' + esc([l.source, l.utm_source, l.utm_campaign].filter(Boolean).join(" · ")) + '">' +
+              esc(l.origin_label || l.platform || l.utm_source || l.source) + '</td>' +
               '<td>' + relevanceLabel(rel) + '</td>' +
               '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> ' +
               (l.contact_id
@@ -3212,6 +3236,25 @@
 
         var pg = data.pagination || { page: currentPage, limit: leadsLimit, total: (data.leads || []).length, totalPages: 1 };
         renderLeadsPagination(pg);
+        if (originFilter || visitorCatFilter) {
+          var kept = leadsList.length;
+          var pageNote =
+            kept +
+            " sur cette page après le filtre " +
+            (originFilter ? "Origine" : "visiteur") +
+            ". Le total de la période est sur Origine des leads.";
+          var infoEl = document.getElementById("paginationInfo");
+          var infoTop = document.getElementById("paginationInfoTop");
+          if (infoEl) infoEl.textContent = pageNote;
+          if (infoTop) infoTop.textContent = pageNote;
+          var banner = document.getElementById("leadsTotalBanner");
+          if (banner) {
+            banner.innerHTML =
+              "<strong>" +
+              kept +
+              "</strong> lead(s) de cette page passent le filtre. Pour toute la base (hors saisie CRM et hors test Meta) : <a href=\"./crm-sources.html\">Origine des leads</a>.";
+          }
+        }
       } catch(e) {
         console.error(e);
         tbody.innerHTML = '<tr><td colspan="11" style="color:var(--red)">Erreur réseau</td></tr>';
@@ -3303,6 +3346,13 @@
     document.getElementById("filterVertical").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterPlatform").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterScore").addEventListener("change", function() { currentPage = 1; loadLeads(); });
+    var filterOrigin = document.getElementById("filterOrigin");
+    if (filterOrigin) {
+      filterOrigin.addEventListener("change", function () {
+        currentPage = 1;
+        loadLeads();
+      });
+    }
     var filterVisitorCat = document.getElementById("filterVisitorCat");
     if (filterVisitorCat) {
       filterVisitorCat.addEventListener("change", function () {
@@ -3619,7 +3669,7 @@
             '<div class="detail-item"><div class="dlabel">Vertical</div><div class="dvalue">' + esc(l.vertical) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Score</div><div class="dvalue">' + (l.lead_score != null ? l.lead_score + '/100' : '—') + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Date</div><div class="dvalue">' + fmtDate(l.created_at) + '</div></div>' +
-            '<div class="detail-item"><div class="dlabel">Réseau</div><div class="dvalue">' + esc(l.platform || l.utm_source || l.source) + '</div></div>' +
+            '<div class="detail-item"><div class="dlabel">Origine</div><div class="dvalue">' + esc(l.origin_label || l.platform || l.utm_source || l.source) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Pertinence</div><div class="dvalue">' + relevanceLabel(l.relevance || (payload.relevance)) + '</div></div>' +
             (l.opened_at || payload.openedAt ? '<div class="detail-item"><div class="dlabel">Ouvert le</div><div class="dvalue">' + fmtDate(l.opened_at || payload.openedAt) + '</div></div>' : '<div class="detail-item"><div class="dlabel">Ouverture</div><div class="dvalue">Jamais ouvert</div></div>') +
             '<div class="detail-item"><div class="dlabel">Source</div><div class="dvalue">' + esc(l.utm_source || l.source) + '</div></div>' +

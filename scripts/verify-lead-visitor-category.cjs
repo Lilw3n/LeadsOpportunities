@@ -54,7 +54,40 @@ var noise = Cat.categorize({
 });
 ok(noise.id === "noise", "wizard sans contact → noise");
 
-ok(Cat.badgeHtml(meta).indexOf("Bot Meta") >= 0, "badge html");
+ok(Cat.badgeHtml(meta).indexOf("Plage Meta") >= 0, "badge html");
 ok(Cat.detailHtml(prospect).indexOf("Prospect") >= 0, "detail html");
+
+var Origin = require("../api/_lib/leads-filters.js");
+
+function originOf(row) {
+  return Origin.classifyLeadOrigin(row, row.payload || {});
+}
+
+ok(originOf({ source: "crm_create_complete" }).id === "manual", "crm_create_complete → saisie CRM");
+ok(originOf({ source: "crm-agenda" }).id === "manual", "crm-agenda → saisie CRM");
+ok(originOf({ source: "CRM" }).id === "manual", "CRM → saisie CRM");
+ok(
+  originOf({ source: "landing_form", client_ip: "57.141.24.10", fbclid: "abc" }).id === "meta_preview",
+  "57.141 + fbclid → test Meta, pas un prospect"
+);
+ok(originOf({ source: "landing_form", fbclid: "abc", client_ip: "82.66.1.2" }).id === "meta_ads", "fbclid → pub Meta");
+ok(originOf({ source: "meta_lead_ads", client_ip: "82.66.1.2" }).id === "meta_ads", "meta_lead_ads → pub Meta");
+ok(originOf({ source: "landing_form", gclid: "g", client_ip: "82.66.1.2" }).id === "google_ads", "gclid → pub Google");
+ok(originOf({ source: "landing_form", ttclid: "t", client_ip: "82.66.1.2" }).id === "tiktok_ads", "ttclid → pub TikTok");
+ok(
+  originOf({ source: "landing_form", platform: "assurancevtcfrance", client_ip: "82.66.1.2" }).id === "avf",
+  "assurancevtcfrance → AVF"
+);
+ok(originOf({ source: "withallo_call", client_ip: "82.66.1.2" }).id === "withallo", "withallo → Withallo");
+ok(originOf({ source: "landing_form", client_ip: "82.66.1.2" }).id === "site", "formulaire sans clic pub → site");
+
+var enriched = Origin.enrichLeadRow({
+  source: "landing_quick",
+  client_ip: "176.184.46.237",
+  email: "a@free.fr",
+  phone: "0612345678",
+});
+ok(enriched.origin_id === "site" && enriched.is_manual === false, "enrichLeadRow pose origin_id");
+ok(Origin.enrichLeadRow({ source: "crm_staff_upload" }).is_manual === true, "enrichLeadRow marque la saisie");
 
 console.log("\nCatégories visiteurs : OK.");

@@ -1,4 +1,48 @@
 /** Filtres liste leads — enrichissement côté application. */
+const Cat = require("../../js/lead-visitor-category-lib");
+
+function isManualLead(row, payload) {
+  var source = String((row && row.source) || (payload && payload.source) || "").toLowerCase();
+  return source === "crm" || source.indexOf("crm_") === 0 || source.indexOf("crm-") === 0;
+}
+
+function classifyLeadOrigin(row, payload) {
+  payload = payload || {};
+  if (isManualLead(row, payload)) {
+    return { id: "manual", label: "Saisie CRM" };
+  }
+  var ip = (row && row.client_ip) || payload.clientIp || payload.client_ip || "";
+  var cat = Cat.categorize({
+    client_ip: ip,
+    email: row && row.email,
+    phone: row && row.phone,
+    lead_score: row && row.lead_score,
+    source: row && row.source,
+    platform: row && row.platform,
+    utm_source: row && row.utm_source,
+  });
+  if (cat.id === "bot_meta") {
+    return { id: "meta_preview", label: "Test Meta (pas un prospect)" };
+  }
+  var source = String((row && row.source) || payload.source || "").toLowerCase();
+  var platform = String((row && row.platform) || payload.platform || "").toLowerCase();
+  if (source === "meta_lead_ads" || (row && row.fbclid) || payload.fbclid) {
+    return { id: "meta_ads", label: "Pub Meta" };
+  }
+  if ((row && (row.gclid || row.msclkid)) || payload.gclid || payload.msclkid) {
+    return { id: "google_ads", label: "Pub Google" };
+  }
+  if ((row && row.ttclid) || payload.ttclid) {
+    return { id: "tiktok_ads", label: "Pub TikTok" };
+  }
+  if (platform === "assurancevtcfrance" || source.indexOf("assurancevtcfrance") >= 0) {
+    return { id: "avf", label: "Assurance VTC France" };
+  }
+  if (platform === "withallo" || source.indexOf("withallo") >= 0) {
+    return { id: "withallo", label: "Withallo" };
+  }
+  return { id: "site", label: "Formulaire du site" };
+}
 
 
 
@@ -64,6 +108,11 @@ function enrichLeadRow(row) {
     row.client_ip = p.clientIp || p.client_ip || p.ip || null;
   }
 
+  var origin = classifyLeadOrigin(row, p || {});
+  row.origin_id = origin.id;
+  row.origin_label = origin.label;
+  row.is_manual = origin.id === "manual";
+
   return row;
 
 }
@@ -75,6 +124,7 @@ module.exports = {
   parseLeadListFilters,
 
   enrichLeadRow,
+  classifyLeadOrigin,
 
 };
 

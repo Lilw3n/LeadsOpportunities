@@ -21,6 +21,7 @@ Les notes dans `Journal/` ne sont pas écrasées.
 - [[SEO/File GSC|File d’indexation]]
 - [[Netlinking/Plan|Plan]]
 - [[Journal/Modeles IA|Modèles IA disponibles ici]]
+- [[Journal/Provenance leads|Provenance des leads]]
 
 ## Graphe
 

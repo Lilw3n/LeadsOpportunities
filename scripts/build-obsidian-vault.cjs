@@ -685,6 +685,7 @@ function writeMocs(pageCount) {
       "- " + wikilink("SEO/File GSC", "File d’indexation"),
       "- " + wikilink("Netlinking/Plan", "Plan"),
       "- " + wikilink("Journal/Modeles IA", "Modèles IA disponibles ici"),
+      "- " + wikilink("Journal/Provenance leads", "Provenance des leads"),
       "",
       "## Graphe",
       "",
