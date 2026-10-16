@@ -36,8 +36,8 @@ Niche B2B claire, différenciée du VTC
 
 ## Silos voisins
 
+- [[Silos/transport-logistique]]
 - [[Silos/vsp]]
-- [[Silos/decennale]]
 
 ## Netlinking
 

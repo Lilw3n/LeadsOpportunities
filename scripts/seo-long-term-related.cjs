@@ -117,14 +117,53 @@ var PARTENARIAT = {
   decennale: [
     link("/blog/assurance-decennale-artisan-guide-2026.html", "Guide décennale"),
     link("/landings/decennale.html", "Devis décennale"),
+    link("/landings/metiers-batiment.html", "Métiers du bâtiment"),
     link("/landings/immeuble-professionnel.html", "Immeuble professionnel"),
     link("/landings/ramonage.html", "Ramonage"),
   ],
   convoyage: [
     link("/blog/assurance-convoyeur-vehicules-rc-pro-2026.html", "Guide convoyage"),
     link("/landings/convoyage-vehicules.html", "Devis convoyage"),
+    link("/landings/transport-logistique.html", "Transport et logistique"),
     link("/assurance-vtc/", "Assurance VTC"),
     link("/landings/decennale.html", "Décennale artisan"),
+  ],
+  garage: [
+    link("/blog/assurance-garage-negociant-auto-rc-mrp-2026.html", "Guide garage"),
+    link("/landings/garage-negociant-auto.html", "Devis garage"),
+    link("/landings/multirisque-professionnelle.html", "Multirisque professionnelle"),
+    link("/landings/convoyage-vehicules.html", "Convoyage"),
+  ],
+  mrp: [
+    link("/blog/assurance-multirisque-professionnelle-locaux-2026.html", "Guide MRP"),
+    link("/landings/multirisque-professionnelle.html", "Devis MRP"),
+    link("/landings/immeuble-professionnel.html", "Immeuble professionnel"),
+    link("/landings/rc-pro.html", "RC Pro"),
+  ],
+  "rc-pro": [
+    link("/blog/assurance-rc-pro-entreprise-guide-2026.html", "Guide RC Pro"),
+    link("/landings/rc-pro.html", "Devis RC Pro"),
+    link("/landings/metiers-batiment.html", "Métiers du bâtiment"),
+    link("/landings/multirisque-professionnelle.html", "Multirisque professionnelle"),
+  ],
+  "metiers-batiment": [
+    link("/blog/assurance-metiers-batiment-decennale-rc-2026.html", "Guide bâtiment"),
+    link("/landings/metiers-batiment.html", "Parcours bâtiment"),
+    link("/landings/decennale.html", "Décennale artisan"),
+    link("/landings/rc-pro.html", "RC Pro"),
+    link("/landings/sante-collective.html", "Santé collective"),
+  ],
+  "transport-logistique": [
+    link("/blog/assurance-transport-logistique-marchandises-2026.html", "Guide logistique"),
+    link("/landings/transport-logistique.html", "Devis logistique"),
+    link("/landings/transport-voyageurs.html", "Transport de voyageurs"),
+    link("/landings/convoyage-vehicules.html", "Convoyage"),
+  ],
+  "transport-voyageurs": [
+    link("/blog/assurance-transport-voyageurs-commun-2026.html", "Guide voyageurs"),
+    link("/landings/transport-voyageurs.html", "Devis voyageurs"),
+    link("/assurance-vtc/", "Assurance VTC"),
+    link("/landings/transport-logistique.html", "Transport et logistique"),
   ],
 };
 

@@ -241,6 +241,78 @@
       "landingLabel": "Parcours décennale",
       "expressLabel": "Devis décennale express"
     },
+    "garage": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/garage-negociant-auto.html",
+      "express": "/landings/devis.html?need=rc-pro",
+      "hook": "Garage ou négociant : dépôt, essais et atelier se déclarent à part de l’auto du dirigeant.",
+      "question": "Vos véhicules en dépôt sont-ils couverts ?",
+      "primaryLabel": "Devis garage",
+      "questionnaireLabel": "Questionnaire RC Pro",
+      "landingLabel": "Parcours garage",
+      "expressLabel": "Devis express"
+    },
+    "mrp": {
+      "need": "mrp",
+      "questionnaire": "/landings/questionnaire.html?need=mrp&journey=standard",
+      "landing": "/landings/multirisque-professionnelle.html",
+      "express": "/landings/devis.html?need=mrp",
+      "hook": "La MRP couvre locaux, stock et matériel. Elle ne remplace pas la RC.",
+      "question": "Vos locaux professionnels sont-ils assurés pour l’activité réelle ?",
+      "primaryLabel": "Devis MRP",
+      "questionnaireLabel": "Questionnaire multirisque",
+      "landingLabel": "Parcours MRP",
+      "expressLabel": "Devis MRP express"
+    },
+    "rc-pro": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/rc-pro.html",
+      "express": "/landings/devis.html?need=rc-pro",
+      "hook": "La RC Pro suit l’activité déclarée. Une activité oubliée est une garantie absente.",
+      "question": "Votre RC Pro décrit-elle vraiment votre métier ?",
+      "primaryLabel": "Devis RC Pro",
+      "questionnaireLabel": "Questionnaire RC Pro",
+      "landingLabel": "Parcours RC Pro",
+      "expressLabel": "Devis express"
+    },
+    "metiers-batiment": {
+      "need": "decennale",
+      "questionnaire": "/landings/questionnaire.html?need=decennale&journey=standard",
+      "landing": "/landings/metiers-batiment.html",
+      "express": "/landings/devis.html?need=decennale",
+      "hook": "Bâtiment : décennale, RC chantier et atelier sont trois contrats.",
+      "question": "Votre attestation décennale couvre-t-elle vos corps d’état ?",
+      "primaryLabel": "Devis bâtiment",
+      "questionnaireLabel": "Questionnaire décennale",
+      "landingLabel": "Parcours bâtiment",
+      "expressLabel": "Devis décennale express"
+    },
+    "transport-logistique": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/transport-logistique.html",
+      "express": "/landings/devis.html?need=rc-pro",
+      "hook": "Le camion assuré ne veut pas dire la marchandise assurée.",
+      "question": "La marchandise transportée est-elle dans le contrat ?",
+      "primaryLabel": "Devis logistique",
+      "questionnaireLabel": "Questionnaire activité",
+      "landingLabel": "Parcours logistique",
+      "expressLabel": "Devis express"
+    },
+    "transport-voyageurs": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/transport-voyageurs.html",
+      "express": "/landings/devis.html?need=rc-pro",
+      "hook": "Autocar, scolaire et lignes ne passent pas par le questionnaire VTC.",
+      "question": "Transportez-vous des voyageurs hors VTC / taxi ?",
+      "primaryLabel": "Devis voyageurs",
+      "questionnaireLabel": "Questionnaire activité",
+      "landingLabel": "Parcours voyageurs",
+      "expressLabel": "Devis express"
+    },
     "convoyage": {
       "need": "rc-pro",
       "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
@@ -874,6 +946,12 @@
     "niches-assurance-pro-ramonage-loisirs-padel-strategie-2026.html": {
       "section": "immeuble-pro",
       "hook": "Priorisez les niches pro à forte valeur : immeuble, décennale, loisirs."
-    }
+    },
+    "assurance-garage-negociant-auto-rc-mrp-2026.html": { "section": "garage" },
+    "assurance-multirisque-professionnelle-locaux-2026.html": { "section": "mrp" },
+    "assurance-rc-pro-entreprise-guide-2026.html": { "section": "rc-pro" },
+    "assurance-metiers-batiment-decennale-rc-2026.html": { "section": "metiers-batiment" },
+    "assurance-transport-logistique-marchandises-2026.html": { "section": "transport-logistique" },
+    "assurance-transport-voyageurs-commun-2026.html": { "section": "transport-voyageurs" }
   }
 }

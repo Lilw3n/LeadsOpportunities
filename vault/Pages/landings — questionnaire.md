@@ -3,18 +3,18 @@ generated: true
 type: "page"
 url: "https://www.leadsopportunities.fr/landings/questionnaire.html"
 path: "/landings/questionnaire.html"
-silo: "decennale"
+silo: "mrp"
 tags:
   - "seo"
   - "page"
-  - "silo/decennale"
+  - "silo/mrp"
 ---
 
 # landings — questionnaire
 
 URL : https://www.leadsopportunities.fr/landings/questionnaire.html
 
-Silo : [[Silos/decennale]]
+Silo : [[Silos/mrp]]
 
 ## Dans le graphe
 
@@ -28,5 +28,6 @@ Silo : [[Silos/decennale]]
 - [[Silos/association]]
 - [[Silos/immeuble-pro]]
 - [[Silos/decennale]]
+- [[Silos/mrp]]
 
 Retour : [[SEO/MOC SEO]]

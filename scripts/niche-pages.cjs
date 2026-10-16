@@ -294,6 +294,18 @@ function getNicheSitemapEntries(base) {
     "/assurance-sante-collective/pme/",
     "/assurance-sante-collective/due/",
     "/assurance-sante-collective/panier-de-soins/",
+    "/landings/garage-negociant-auto.html",
+    "/landings/multirisque-professionnelle.html",
+    "/landings/rc-pro.html",
+    "/landings/metiers-batiment.html",
+    "/landings/transport-logistique.html",
+    "/landings/transport-voyageurs.html",
+    "/blog/assurance-garage-negociant-auto-rc-mrp-2026.html",
+    "/blog/assurance-multirisque-professionnelle-locaux-2026.html",
+    "/blog/assurance-rc-pro-entreprise-guide-2026.html",
+    "/blog/assurance-metiers-batiment-decennale-rc-2026.html",
+    "/blog/assurance-transport-logistique-marchandises-2026.html",
+    "/blog/assurance-transport-voyageurs-commun-2026.html",
   ];
   const pagePaths = ALL_NICHE_PAGES.map(function (p) {
     return "/" + p.file.replace(/index\.html$/, "");

@@ -10,7 +10,7 @@ tags:
 
 Niches live (chasse, équitation, animaux, VSP, collective) + niches partenariat courtage (ramonage, esthétique, loisirs, padel, immeuble, décennale, convoyage) — blog + landings vers questionnaires RC Pro / MRP / décennale.
 
-Pages dans le graphe : **192**.
+Pages dans le graphe : **204**.
 
 ## Pourquoi le site reste discret sur Google
 
@@ -33,6 +33,12 @@ Pages dans le graphe : **192**.
 - [[Silos/immeuble-pro|Immeuble professionnel]] — assurance immeuble professionnel
 - [[Silos/decennale|Assurance décennale]] — assurance décennale
 - [[Silos/convoyage|RC convoyage véhicules]] — assurance convoyeur véhicules
+- [[Silos/garage|Garage et négociant auto]] — assurance garage automobile
+- [[Silos/mrp|Multirisque professionnelle]] — multirisque professionnelle
+- [[Silos/rc-pro|RC Pro]] — responsabilité civile professionnelle
+- [[Silos/metiers-batiment|Métiers du bâtiment]] — assurance métiers du bâtiment
+- [[Silos/transport-logistique|Transport et logistique]] — assurance transport marchandises
+- [[Silos/transport-voyageurs|Transport de voyageurs]] — assurance transport de voyageurs
 
 ## Silos planifiés
 

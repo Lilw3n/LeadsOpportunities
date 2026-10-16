@@ -3230,6 +3230,11 @@ partenariatNiches.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const proMetiers = require("./blog-pro-metiers-articles.cjs");
+proMetiers.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const vspArticles = require("./blog-vsp-articles.cjs");
 vspArticles.forEach(function (a) {
   module.exports.articles.push(a);

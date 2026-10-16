@@ -96,6 +96,7 @@
     "verify:acquisition-priorites": "node scripts/verify-acquisition-priorites.cjs",
     "verify:niches-actu": "node scripts/verify-niches-actu.cjs",
     "verify:partenariat-niches": "node scripts/verify-partenariat-niches.cjs",
+    "verify:pro-metiers": "node scripts/verify-pro-metiers.cjs",
     "verify:pret-refuse": "node scripts/verify-pret-refuse.cjs",
     "verify:collaborateurs-crm": "node scripts/verify-collaborateurs-crm.cjs",
     "verify:apporteur-public": "node scripts/verify-apporteur-public.cjs",

@@ -37,6 +37,12 @@ var landingFiles = {
   "/landings/immeuble-professionnel.html": "landings/immeuble-professionnel.html",
   "/landings/decennale.html": "landings/decennale.html",
   "/landings/convoyage-vehicules.html": "landings/convoyage-vehicules.html",
+  "/landings/garage-negociant-auto.html": "landings/garage-negociant-auto.html",
+  "/landings/multirisque-professionnelle.html": "landings/multirisque-professionnelle.html",
+  "/landings/rc-pro.html": "landings/rc-pro.html",
+  "/landings/metiers-batiment.html": "landings/metiers-batiment.html",
+  "/landings/transport-logistique.html": "landings/transport-logistique.html",
+  "/landings/transport-voyageurs.html": "landings/transport-voyageurs.html",
 };
 
 var blogByLanding = {};

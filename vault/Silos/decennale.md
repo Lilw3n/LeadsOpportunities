@@ -38,6 +38,7 @@ Produit déjà en catalogue — landing + blog pour indexer
 
 ## Silos voisins
 
+- [[Silos/metiers-batiment]]
 - [[Silos/immeuble-pro]]
 - [[Silos/ramonage]]
 

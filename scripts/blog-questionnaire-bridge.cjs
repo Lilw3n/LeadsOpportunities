@@ -52,12 +52,12 @@ function resolveBridge(article) {
   var section = map.sections[article.section] || map.sections.actu;
   var fileKey = article.file;
   var override = (map.articles && map.articles[fileKey]) || {};
+  var fromRule = null;
   if (override.section && map.sections[override.section]) {
     section = map.sections[override.section];
-  }
-  var fromRule = matchKeywordRule(normalizeText(article), map.keywordRules);
-  if (article.section === "actu") {
-    fromRule = null;
+  } else {
+    fromRule = matchKeywordRule(normalizeText(article), map.keywordRules);
+    if (article.section === "actu") fromRule = null;
   }
   var ruleSection = fromRule && fromRule.section ? map.sections[fromRule.section] : null;
   var base = Object.assign({}, ruleSection || section);

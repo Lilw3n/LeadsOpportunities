@@ -21,6 +21,8 @@ Un lien éditorial depuis un site du même sujet. Pas de réseau de sites, pas d
 - [ ] [[Netlinking/Cibles/centres-equestres|Centres équestres et annuaires FFE]] → `https://www.leadsopportunities.fr/assurance-equitation/`
 - [ ] [[Netlinking/Cibles/clubs-padel|Clubs de padel]] → `https://www.leadsopportunities.fr/landings/padel.html`
 - [ ] [[Netlinking/Cibles/cma-artisans|CMA et annuaires artisans]] → `https://www.leadsopportunities.fr/landings/decennale.html`
+- [ ] [[Netlinking/Cibles/garages-negociants|Garages et négociants auto]] → `https://www.leadsopportunities.fr/landings/garage-negociant-auto.html`
+- [ ] [[Netlinking/Cibles/transporteurs|Transporteurs et autocaristes]] → `https://www.leadsopportunities.fr/landings/transport-logistique.html`
 - [ ] [[Netlinking/Cibles/chauffeurs-vtc|Groupes chauffeurs VTC]] → `https://www.assurancevtcfrance.com/`
 - [ ] [[Netlinking/Cibles/bing|Bing Webmaster]] → `https://www.leadsopportunities.fr/sitemap.xml`
 

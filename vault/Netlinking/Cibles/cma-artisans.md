@@ -17,6 +17,6 @@ tags:
 - Ancre suggérée : **assurance décennale artisan**
 - Silo : [[Silos/decennale]]
 
-Décennale et ramonage : chambres de métiers, annuaires artisans. Une page = un métier.
+Décennale et ramonage : chambres de métiers, annuaires artisans. Une page = un métier. Hub : /landings/metiers-batiment.html.
 
 Liste : [[Netlinking/Liens entrants]]

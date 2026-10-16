@@ -494,7 +494,7 @@ function hasVisualBlock(blocks) {
 }
 
 function applyArticleImages(article) {
-  if (!article || article.heroImage) return article;
+  if (!article || article.heroImage || article.skipImages) return article;
   var cfg = MAP[article.file] || SECTION_DEFAULT[article.section];
   if (!cfg) return article;
 

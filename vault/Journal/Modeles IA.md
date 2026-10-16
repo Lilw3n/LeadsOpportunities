@@ -21,6 +21,8 @@ L’agent principal de cette session reste Grok 4.7. Opus 5.5 max prend les tâc
 
 Non, pas depuis cet agent. **GPT-6 Astra** (`gpt-6-astra`) existe chez OpenAI, mais il n’est pas dans la liste des modèles que cet environnement peut appeler.
 
+Le 16 octobre 2026, le VSIX officiel Codex (`openai.chatgpt` 26.51007.21434, linux-x64) a été téléchargé depuis le marketplace VS Code. Le paquet ne mentionne pas Astra. Il cite `gpt-6.1-sol`, `gpt-6-luna` et `gpt-5.3-codex`, et il exige une connexion ChatGPT. L’installer ici ne branche pas Astra sur cet agent.
+
 Le modèle OpenAI disponible ici est **GPT-5.6 Sol** (high, medium, max, xhigh, et variantes rapides).
 
 ## Top du top

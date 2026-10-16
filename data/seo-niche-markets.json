@@ -454,6 +454,153 @@
       "blogUrls": [
         "/blog/assurance-convoyeur-vehicules-rc-pro-2026.html"
       ]
+    },
+    {
+      "id": "garage",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "moyenne",
+      "label": "Garage et négociant auto",
+      "primaryKeyword": "assurance garage automobile",
+      "longTail": [
+        "assurance négociant auto",
+        "véhicules en dépôt",
+        "assurance atelier carrosserie"
+      ],
+      "pillarUrl": "/landings/garage-negociant-auto.html",
+      "moneyUrls": [
+        "/landings/garage-negociant-auto.html",
+        "/blog/assurance-garage-negociant-auto-rc-mrp-2026.html"
+      ],
+      "landing": "/landings/garage-negociant-auto.html",
+      "pageCount": 2,
+      "whyWin": "Le garage est souvent mal classé en assurance auto particulière",
+      "blogUrls": [
+        "/blog/assurance-garage-negociant-auto-rc-mrp-2026.html"
+      ]
+    },
+    {
+      "id": "mrp",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "moyenne",
+      "label": "Multirisque professionnelle",
+      "primaryKeyword": "multirisque professionnelle",
+      "longTail": [
+        "assurance locaux professionnels",
+        "MRP commerce",
+        "perte d exploitation"
+      ],
+      "pillarUrl": "/landings/multirisque-professionnelle.html",
+      "moneyUrls": [
+        "/landings/multirisque-professionnelle.html",
+        "/blog/assurance-multirisque-professionnelle-locaux-2026.html",
+        "/landings/questionnaire.html?need=mrp&journey=standard"
+      ],
+      "landing": "/landings/multirisque-professionnelle.html",
+      "pageCount": 2,
+      "whyWin": "Produit déjà au questionnaire, page dédiée distincte de l immeuble",
+      "blogUrls": [
+        "/blog/assurance-multirisque-professionnelle-locaux-2026.html"
+      ]
+    },
+    {
+      "id": "rc-pro",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "forte",
+      "label": "RC Pro",
+      "primaryKeyword": "responsabilité civile professionnelle",
+      "longTail": [
+        "rc pro entreprise",
+        "devis rc pro",
+        "rc exploitation"
+      ],
+      "pillarUrl": "/landings/rc-pro.html",
+      "moneyUrls": [
+        "/landings/rc-pro.html",
+        "/blog/assurance-rc-pro-entreprise-guide-2026.html"
+      ],
+      "landing": "/landings/rc-pro.html",
+      "pageCount": 2,
+      "whyWin": "Porte d entrée des métiers qui n ont pas encore de landing métier",
+      "blogUrls": [
+        "/blog/assurance-rc-pro-entreprise-guide-2026.html"
+      ]
+    },
+    {
+      "id": "metiers-batiment",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "moyenne",
+      "label": "Métiers du bâtiment",
+      "primaryKeyword": "assurance métiers du bâtiment",
+      "longTail": [
+        "assurance artisan bâtiment",
+        "décennale et rc pro",
+        "corps d état"
+      ],
+      "pillarUrl": "/landings/metiers-batiment.html",
+      "moneyUrls": [
+        "/landings/metiers-batiment.html",
+        "/landings/decennale.html",
+        "/blog/assurance-metiers-batiment-decennale-rc-2026.html"
+      ],
+      "landing": "/landings/metiers-batiment.html",
+      "pageCount": 2,
+      "whyWin": "Hub qui oriente vers décennale, RC et MRP sans les mélanger",
+      "blogUrls": [
+        "/blog/assurance-metiers-batiment-decennale-rc-2026.html"
+      ]
+    },
+    {
+      "id": "transport-logistique",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "moyenne",
+      "label": "Transport et logistique",
+      "primaryKeyword": "assurance transport marchandises",
+      "longTail": [
+        "assurance logistique",
+        "rc transporteur",
+        "assurance entrepôt"
+      ],
+      "pillarUrl": "/landings/transport-logistique.html",
+      "moneyUrls": [
+        "/landings/transport-logistique.html",
+        "/blog/assurance-transport-logistique-marchandises-2026.html"
+      ],
+      "landing": "/landings/transport-logistique.html",
+      "pageCount": 2,
+      "whyWin": "Sépare la marchandise du camion et du convoyage",
+      "blogUrls": [
+        "/blog/assurance-transport-logistique-marchandises-2026.html"
+      ]
+    },
+    {
+      "id": "transport-voyageurs",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "moyenne",
+      "label": "Transport de voyageurs",
+      "primaryKeyword": "assurance transport de voyageurs",
+      "longTail": [
+        "assurance autocar",
+        "transport scolaire assurance",
+        "transport en commun"
+      ],
+      "pillarUrl": "/landings/transport-voyageurs.html",
+      "moneyUrls": [
+        "/landings/transport-voyageurs.html",
+        "/assurance-vtc/",
+        "/blog/assurance-transport-voyageurs-commun-2026.html"
+      ],
+      "landing": "/landings/transport-voyageurs.html",
+      "pageCount": 2,
+      "whyWin": "Autocar et scolaire hors du tunnel VTC",
+      "blogUrls": [
+        "/blog/assurance-transport-voyageurs-commun-2026.html"
+      ]
     }
   ],
   "indexationWeek1": [
@@ -498,7 +645,13 @@
     "/landings/convoyage-vehicules.html",
     "/blog/assurance-ramoneur-rc-pro-multirisque-2026.html",
     "/blog/assurance-immeuble-professionnel-multirisque-2026.html",
-    "/blog/assurance-decennale-artisan-guide-2026.html"
+    "/blog/assurance-decennale-artisan-guide-2026.html",
+    "/landings/garage-negociant-auto.html",
+    "/landings/multirisque-professionnelle.html",
+    "/landings/rc-pro.html",
+    "/landings/metiers-batiment.html",
+    "/landings/transport-logistique.html",
+    "/landings/transport-voyageurs.html"
   ],
   "blogActuNiches": [
     "/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html",
@@ -520,7 +673,13 @@
     "padel",
     "immeuble-pro",
     "decennale",
-    "convoyage"
+    "convoyage",
+    "garage",
+    "mrp",
+    "rc-pro",
+    "metiers-batiment",
+    "transport-logistique",
+    "transport-voyageurs"
   ],
   "blogPartenariatNiches": [
     "/blog/assurance-ramoneur-rc-pro-multirisque-2026.html",
@@ -530,6 +689,12 @@
     "/blog/assurance-immeuble-professionnel-multirisque-2026.html",
     "/blog/assurance-decennale-artisan-guide-2026.html",
     "/blog/assurance-convoyeur-vehicules-rc-pro-2026.html",
-    "/blog/niches-assurance-pro-ramonage-loisirs-padel-strategie-2026.html"
+    "/blog/niches-assurance-pro-ramonage-loisirs-padel-strategie-2026.html",
+    "/blog/assurance-garage-negociant-auto-rc-mrp-2026.html",
+    "/blog/assurance-multirisque-professionnelle-locaux-2026.html",
+    "/blog/assurance-rc-pro-entreprise-guide-2026.html",
+    "/blog/assurance-metiers-batiment-decennale-rc-2026.html",
+    "/blog/assurance-transport-logistique-marchandises-2026.html",
+    "/blog/assurance-transport-voyageurs-commun-2026.html"
   ]
 }

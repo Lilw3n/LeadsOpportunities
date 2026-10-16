@@ -848,6 +848,240 @@
         "/landings/convoyage-vehicules.html",
         "/blog/assurance-convoyeur-vehicules-rc-pro-2026.html"
       ]
+    },
+    {
+      "id": "garage",
+      "slug": "assurance-garage-negociant",
+      "category": "transport",
+      "theme": "pro-metiers",
+      "emoji": "🚗",
+      "label": "Garage et négociant auto",
+      "tagline": "Dépôt, essais, atelier — pas l’auto du dirigeant",
+      "landing": "/landings/garage-negociant-auto.html",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "priority": 20,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "keywords": [
+        "assurance garage",
+        "négociant auto",
+        "véhicules en dépôt"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/garage-negociant-auto.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-garage-negociant-auto-rc-mrp-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/garage-negociant-auto.html",
+        "/blog/assurance-garage-negociant-auto-rc-mrp-2026.html"
+      ]
+    },
+    {
+      "id": "mrp",
+      "slug": "multirisque-professionnelle",
+      "category": "pro",
+      "theme": "pro-metiers",
+      "emoji": "🏢",
+      "label": "Multirisque professionnelle",
+      "tagline": "Locaux, stock, matériel, perte d’exploitation",
+      "landing": "/landings/multirisque-professionnelle.html",
+      "questionnaire": "/landings/questionnaire.html?need=mrp&journey=standard",
+      "priority": 20,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "keywords": [
+        "multirisque professionnelle",
+        "MRP",
+        "assurance locaux pro"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/multirisque-professionnelle.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-multirisque-professionnelle-locaux-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/multirisque-professionnelle.html",
+        "/blog/assurance-multirisque-professionnelle-locaux-2026.html"
+      ]
+    },
+    {
+      "id": "rc-pro",
+      "slug": "rc-pro",
+      "category": "pro",
+      "theme": "pro-metiers",
+      "emoji": "📋",
+      "label": "RC Pro",
+      "tagline": "Activité déclarée, plafonds, hors décennale et hors murs",
+      "landing": "/landings/rc-pro.html",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "priority": 20,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "keywords": [
+        "rc pro",
+        "responsabilité civile professionnelle",
+        "devis rc pro"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/rc-pro.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-rc-pro-entreprise-guide-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/rc-pro.html",
+        "/blog/assurance-rc-pro-entreprise-guide-2026.html"
+      ]
+    },
+    {
+      "id": "metiers-batiment",
+      "slug": "metiers-batiment",
+      "category": "pro",
+      "theme": "pro-metiers",
+      "emoji": "🏗️",
+      "label": "Métiers du bâtiment",
+      "tagline": "Décennale, RC chantier, atelier, salariés",
+      "landing": "/landings/metiers-batiment.html",
+      "questionnaire": "/landings/questionnaire.html?need=decennale&journey=standard",
+      "priority": 20,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "keywords": [
+        "assurance bâtiment",
+        "décennale artisan",
+        "métiers du bâtiment"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/metiers-batiment.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-metiers-batiment-decennale-rc-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/metiers-batiment.html",
+        "/blog/assurance-metiers-batiment-decennale-rc-2026.html"
+      ]
+    },
+    {
+      "id": "transport-logistique",
+      "slug": "transport-logistique",
+      "category": "transport",
+      "theme": "pro-metiers",
+      "emoji": "📦",
+      "label": "Transport et logistique",
+      "tagline": "Marchandises, commissionnaire, entrepôt",
+      "landing": "/landings/transport-logistique.html",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "priority": 20,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "keywords": [
+        "assurance transport",
+        "logistique",
+        "marchandises"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/transport-logistique.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-transport-logistique-marchandises-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/transport-logistique.html",
+        "/blog/assurance-transport-logistique-marchandises-2026.html"
+      ]
+    },
+    {
+      "id": "transport-voyageurs",
+      "slug": "transport-voyageurs",
+      "category": "transport",
+      "theme": "pro-metiers",
+      "emoji": "🚌",
+      "label": "Transport de voyageurs",
+      "tagline": "Autocar, scolaire, lignes — VTC à part",
+      "landing": "/landings/transport-voyageurs.html",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "priority": 20,
+      "status": "live",
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "keywords": [
+        "transport de voyageurs",
+        "autocar",
+        "transport scolaire"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/transport-voyageurs.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-transport-voyageurs-commun-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/transport-voyageurs.html",
+        "/blog/assurance-transport-voyageurs-commun-2026.html"
+      ]
     }
   ]
 }

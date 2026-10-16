@@ -48,7 +48,8 @@ Intent B2B employeur, moins saturé que mutuelle individuelle ; landing + questi
 
 ## Silos voisins
 
-- [[Silos/animaux]]
+- [[Silos/metiers-batiment]]
+- [[Silos/mrp]]
 
 ## Netlinking
 

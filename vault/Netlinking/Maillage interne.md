@@ -18,5 +18,11 @@ Chaque groupe est un bloc de liens déjà branché dans `scripts/seo-long-term-r
 - [[Maillage/partenariat-immeuble-pro]]
 - [[Maillage/partenariat-decennale]]
 - [[Maillage/partenariat-convoyage]]
+- [[Maillage/partenariat-garage]]
+- [[Maillage/partenariat-mrp]]
+- [[Maillage/partenariat-rc-pro]]
+- [[Maillage/partenariat-metiers-batiment]]
+- [[Maillage/partenariat-transport-logistique]]
+- [[Maillage/partenariat-transport-voyageurs]]
 
 Source code : `scripts/seo-long-term-related.cjs`.
