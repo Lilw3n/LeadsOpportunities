@@ -20,6 +20,7 @@ Les notes dans `Journal/` ne sont pas écrasées.
 - [[Netlinking/MOC Netlinking|Netlinking — maillage et liens entrants]]
 - [[SEO/File GSC|File d’indexation]]
 - [[Netlinking/Plan|Plan]]
+- [[Journal/Modeles IA|Modèles IA disponibles ici]]
 
 ## Graphe
 

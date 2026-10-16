@@ -684,6 +684,7 @@ function writeMocs(pageCount) {
       "- " + wikilink("Netlinking/MOC Netlinking", "Netlinking — maillage et liens entrants"),
       "- " + wikilink("SEO/File GSC", "File d’indexation"),
       "- " + wikilink("Netlinking/Plan", "Plan"),
+      "- " + wikilink("Journal/Modeles IA", "Modèles IA disponibles ici"),
       "",
       "## Graphe",
       "",
