@@ -18,5 +18,7 @@ Pas de silo niche (page cœur ou locale).
 ## Dans le graphe
 
 - GSC
+- [[Maillage/caravane]]
+- [[Maillage/piscine]]
 
 Retour : [[SEO/MOC SEO]]

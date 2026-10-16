@@ -44,6 +44,9 @@ var landingFiles = {
   "/landings/transport-logistique.html": "landings/transport-logistique.html",
   "/landings/transport-voyageurs.html": "landings/transport-voyageurs.html",
 };
+require("./metiers-suite-catalog.cjs").forEach(function (item) {
+  landingFiles["/landings/" + item.file] = "landings/" + item.file;
+});
 
 var blogByLanding = {};
 Object.keys(LT.PARTENARIAT).forEach(function (id) {

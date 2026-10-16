@@ -22,5 +22,7 @@ Silo : [[Silos/transport-voyageurs]]
 - [[Silos/transport-voyageurs]]
 - [[Maillage/transport-logistique]]
 - [[Maillage/transport-voyageurs]]
+- [[Maillage/bateau]]
+- [[Maillage/scolaire]]
 
 Retour : [[SEO/MOC SEO]]

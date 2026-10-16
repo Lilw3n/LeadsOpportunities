@@ -23,5 +23,6 @@ Silo : [[Silos/salles-loisirs]]
 - [[Maillage/esthetique]]
 - [[Maillage/salles-loisirs]]
 - [[Maillage/padel]]
+- [[Maillage/association]]
 
 Retour : [[SEO/MOC SEO]]

@@ -5,8 +5,8 @@
     "intro": "Verticales peu concurrentielles sur Google : silos SEO dédiés (300+ pages par pilier), landings questionnaire, devis express et accompagnement courtier ORIAS partout en France.",
     "lead": "Nous ciblons les requêtes longue traîne là où les gros comparateurs ne investissent pas : assurance chien pas cher, RC chasseur, équitation par ville, voiture sans permis (VSP), instrument pro…",
     "stats": {
-      "plannedNiches": 11,
-      "liveNiches": 12,
+      "plannedNiches": 0,
+      "liveNiches": 36,
       "seoPagesApprox": 950,
       "cityPagesApprox": 567,
       "departmentsApprox": 96
@@ -364,19 +364,35 @@
       "emoji": "🎸",
       "label": "Assurance instrument de musique",
       "tagline": "Vol, casse, transport pro et scène",
-      "landing": "/landings/devis.html?need=instrument",
+      "landing": "/landings/assurance-instrument.html",
       "questionnaire": "/landings/questionnaire.html?need=instrument&journey=standard",
       "priority": 4,
-      "status": "planned",
-      "eta": "T3 2026",
+      "status": "live",
       "highlights": [
-        "Musiciens pro & amateurs",
-        "Orchestres & écoles"
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
       ],
       "keywords": [
         "assurance instrument musique",
         "assurance guitare",
         "assurance piano"
+      ],
+      "featured": true,
+      "pageCount": 2,
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-instrument.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-instrument-musique-vol-transport-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-instrument.html",
+        "/blog/assurance-instrument-musique-vol-transport-2026.html"
       ]
     },
     {
@@ -387,15 +403,35 @@
       "emoji": "📷",
       "label": "Assurance matériel photo / vidéo",
       "tagline": "Reflex, drone, studio et reportage",
-      "landing": "/landings/devis.html?need=materiel-photo",
+      "landing": "/landings/assurance-materiel-photo.html",
       "questionnaire": "/landings/questionnaire.html?need=materiel-photo&journey=standard",
       "priority": 5,
-      "status": "planned",
-      "eta": "T3 2026",
+      "status": "live",
       "keywords": [
         "assurance matériel photo",
         "assurance drone",
         "assurance caméra pro"
+      ],
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-materiel-photo.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-materiel-photo-video-reportage-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-materiel-photo.html",
+        "/blog/assurance-materiel-photo-video-reportage-2026.html"
       ]
     },
     {
@@ -406,15 +442,35 @@
       "emoji": "⛵",
       "label": "Assurance bateau plaisance",
       "tagline": "Voilier, semi-rigide, multirisque navigation",
-      "landing": "/landings/devis.html?need=bateau",
+      "landing": "/landings/assurance-bateau.html",
       "questionnaire": "/landings/questionnaire.html?need=bateau&journey=standard",
       "priority": 6,
-      "status": "planned",
-      "eta": "T4 2026",
+      "status": "live",
       "keywords": [
         "assurance bateau",
         "assurance bateau plaisance",
         "assurance voilier"
+      ],
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-bateau.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-bateau-plaisance-voilier-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-bateau.html",
+        "/blog/assurance-bateau-plaisance-voilier-2026.html"
       ]
     },
     {
@@ -425,14 +481,34 @@
       "emoji": "🚐",
       "label": "Caravane & camping-car",
       "tagline": "Contenu, responsabilité civile et assistance",
-      "landing": "/landings/devis.html?need=caravane",
+      "landing": "/landings/assurance-caravane.html",
       "questionnaire": "/landings/questionnaire.html?need=caravane&journey=standard",
       "priority": 7,
-      "status": "planned",
-      "eta": "T4 2026",
+      "status": "live",
       "keywords": [
         "assurance camping-car",
         "assurance caravane"
+      ],
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-caravane.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-caravane-camping-car-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-caravane.html",
+        "/blog/assurance-caravane-camping-car-2026.html"
       ]
     },
     {
@@ -443,15 +519,35 @@
       "emoji": "🎒",
       "label": "Assurance scolaire & extra-scolaire",
       "tagline": "Sorties, sport, responsabilité et individuelle accident",
-      "landing": "/landings/devis.html?need=famille",
+      "landing": "/landings/assurance-scolaire.html",
       "questionnaire": "/landings/questionnaire.html?need=famille&journey=standard",
       "priority": 8,
-      "status": "planned",
-      "eta": "T4 2026",
+      "status": "live",
       "keywords": [
         "assurance scolaire",
         "assurance extra scolaire",
         "assurance sortie scolaire"
+      ],
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-scolaire.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-scolaire-extrascolaire-enfant-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-scolaire.html",
+        "/blog/assurance-scolaire-extrascolaire-enfant-2026.html"
       ]
     },
     {
@@ -462,15 +558,35 @@
       "emoji": "🏺",
       "label": "Assurance collection & objets d’art",
       "tagline": "Vins, montres, œuvres, collection privée",
-      "landing": "/landings/devis.html?need=collection",
-      "questionnaire": "/landings/questionnaire.html?need=collection&journey=standard",
+      "landing": "/landings/assurance-collection.html",
+      "questionnaire": "/landings/questionnaire.html?need=autre&journey=standard",
       "priority": 9,
-      "status": "planned",
-      "eta": "2027",
+      "status": "live",
       "keywords": [
         "assurance collection",
         "assurance objets d'art",
         "assurance cave à vin"
+      ],
+      "featured": true,
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-collection.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-collection-objets-art-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-collection.html",
+        "/blog/assurance-collection-objets-art-2026.html"
       ]
     },
     {
@@ -481,13 +597,34 @@
       "emoji": "🌲",
       "label": "Assurance forêt & propriétés rurales",
       "tagline": "Bois, chasse associée, responsabilité terrain",
-      "landing": "/landings/devis.html?need=foret",
+      "landing": "/landings/assurance-foret.html",
       "priority": 10,
-      "status": "planned",
-      "eta": "2027",
+      "status": "live",
       "keywords": [
         "assurance forêt",
         "assurance propriété forestière"
+      ],
+      "featured": true,
+      "questionnaire": "/landings/questionnaire.html?need=autre&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-foret.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-foret-propriete-boisee-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-foret.html",
+        "/blog/assurance-foret-propriete-boisee-2026.html"
       ]
     },
     {
@@ -498,13 +635,34 @@
       "emoji": "🐝",
       "label": "Assurance apiculture",
       "tagline": "Ruches, RC exploitation, perte de colonies",
-      "landing": "/landings/devis.html?need=apiculture",
+      "landing": "/landings/assurance-apiculture.html",
       "priority": 11,
-      "status": "planned",
-      "eta": "2027",
+      "status": "live",
       "keywords": [
         "assurance apiculteur",
         "assurance ruche"
+      ],
+      "featured": true,
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-apiculture.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-apiculture-ruches-rc-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-apiculture.html",
+        "/blog/assurance-apiculture-ruches-rc-2026.html"
       ]
     },
     {
@@ -515,13 +673,34 @@
       "emoji": "🏍️",
       "label": "Moto & véhicule de collection",
       "tagline": "Valeur agréée, garage, usage loisir",
-      "landing": "/landings/devis.html?need=moto",
+      "landing": "/landings/moto-collection.html",
       "priority": 12,
-      "status": "planned",
-      "eta": "2027",
+      "status": "live",
       "keywords": [
         "assurance moto collection",
         "assurance voiture collection"
+      ],
+      "featured": true,
+      "questionnaire": "/landings/questionnaire.html?need=moto&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/moto-collection.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-moto-vehicule-collection-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/moto-collection.html",
+        "/blog/assurance-moto-vehicule-collection-2026.html"
       ]
     },
     {
@@ -532,13 +711,34 @@
       "emoji": "🛸",
       "label": "Assurance drone professionnel",
       "tagline": "RC exploitation, matériel, vol en zone réglementée",
-      "landing": "/landings/devis.html?need=drone",
+      "landing": "/landings/assurance-drone-pro.html",
       "priority": 13,
-      "status": "planned",
-      "eta": "2027",
+      "status": "live",
       "keywords": [
         "assurance drone pro",
         "assurance télépilote"
+      ],
+      "featured": true,
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-drone-pro.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-drone-professionnel-telepilote-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-drone-pro.html",
+        "/blog/assurance-drone-professionnel-telepilote-2026.html"
       ]
     },
     {
@@ -549,13 +749,34 @@
       "emoji": "🤝",
       "label": "Assurance association & club",
       "tagline": "RC mandataires, locaux, manifestations",
-      "landing": "/landings/devis.html?need=association",
+      "landing": "/landings/assurance-association.html",
       "priority": 14,
-      "status": "planned",
-      "eta": "2027",
+      "status": "live",
       "keywords": [
         "assurance association",
         "assurance club sportif"
+      ],
+      "featured": true,
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-association.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-association-club-rc-1901-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-association.html",
+        "/blog/assurance-association-club-rc-1901-2026.html"
       ]
     },
     {
@@ -566,13 +787,34 @@
       "emoji": "🏊",
       "label": "Assurance piscine & spa",
       "tagline": "Construction, dommages ouvrage, RC propriétaire",
-      "landing": "/landings/devis.html?need=piscine",
+      "landing": "/landings/assurance-piscine.html",
       "priority": 15,
-      "status": "planned",
-      "eta": "2027",
+      "status": "live",
       "keywords": [
         "assurance piscine",
         "assurance spa extérieur"
+      ],
+      "featured": true,
+      "questionnaire": "/landings/questionnaire.html?need=habitation&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-piscine.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-piscine-proprietaire-constructeur-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-piscine.html",
+        "/blog/assurance-piscine-proprietaire-constructeur-2026.html"
       ]
     },
     {
@@ -1081,6 +1323,240 @@
       "seoPaths": [
         "/landings/transport-voyageurs.html",
         "/blog/assurance-transport-voyageurs-commun-2026.html"
+      ]
+    },
+    {
+      "id": "flotte",
+      "slug": "flotte-vehicules",
+      "category": "transport",
+      "theme": "pro-metiers",
+      "emoji": "🚐",
+      "label": "Flotte de véhicules",
+      "tagline": "Flotte — le parc n'est pas l'auto du gérant",
+      "priority": 40,
+      "keywords": [
+        "assurance flotte véhicules",
+        "assurance parc auto",
+        "flotte utilitaires entreprise"
+      ],
+      "status": "live",
+      "featured": true,
+      "landing": "/landings/flotte-vehicules.html",
+      "questionnaire": "/landings/questionnaire.html?need=flotte&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/flotte-vehicules.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-flotte-vehicules-professionnels-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/flotte-vehicules.html",
+        "/blog/assurance-flotte-vehicules-professionnels-2026.html"
+      ]
+    },
+    {
+      "id": "dirigeant",
+      "slug": "assurance-dirigeant",
+      "category": "pro",
+      "theme": "pro-metiers",
+      "emoji": "👔",
+      "label": "Assurance dirigeant",
+      "tagline": "Dirigeant — la personne, pas l'activité",
+      "priority": 40,
+      "keywords": [
+        "assurance homme clé",
+        "assurance dirigeant",
+        "prévoyance mandataire social"
+      ],
+      "status": "live",
+      "featured": true,
+      "landing": "/landings/assurance-dirigeant.html",
+      "questionnaire": "/landings/questionnaire.html?need=dirigeant&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-dirigeant.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-dirigeant-homme-cle-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-dirigeant.html",
+        "/blog/assurance-dirigeant-homme-cle-2026.html"
+      ]
+    },
+    {
+      "id": "tns",
+      "slug": "prevoyance-tns",
+      "category": "pro",
+      "theme": "pro-metiers",
+      "emoji": "🩺",
+      "label": "Prévoyance TNS",
+      "tagline": "TNS — maintenir le revenu, pas seulement se soigner",
+      "priority": 40,
+      "keywords": [
+        "prévoyance tns",
+        "indemnité journalière indépendant",
+        "prévoyance madelin"
+      ],
+      "status": "live",
+      "featured": true,
+      "landing": "/landings/prevoyance-tns.html",
+      "questionnaire": "/landings/questionnaire.html?need=tns&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/prevoyance-tns.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/prevoyance-tns-independant-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/prevoyance-tns.html",
+        "/blog/prevoyance-tns-independant-2026.html"
+      ]
+    },
+    {
+      "id": "pj-pro",
+      "slug": "protection-juridique-pro",
+      "category": "pro",
+      "theme": "pro-metiers",
+      "emoji": "⚖️",
+      "label": "Protection juridique pro",
+      "tagline": "Protection juridique — se défendre, pas indemniser",
+      "priority": 40,
+      "keywords": [
+        "protection juridique professionnelle",
+        "pj pro artisan",
+        "assurance litige entreprise"
+      ],
+      "status": "live",
+      "featured": true,
+      "landing": "/landings/protection-juridique-pro.html",
+      "questionnaire": "/landings/questionnaire.html?need=pj-pro&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/protection-juridique-pro.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/protection-juridique-professionnelle-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/protection-juridique-pro.html",
+        "/blog/protection-juridique-professionnelle-2026.html"
+      ]
+    },
+    {
+      "id": "credit-pro",
+      "slug": "credit-professionnel",
+      "category": "pro",
+      "theme": "pro-metiers",
+      "emoji": "💶",
+      "label": "Crédit professionnel",
+      "tagline": "Crédit pro — financer, puis assurer à part",
+      "priority": 40,
+      "keywords": [
+        "crédit professionnel",
+        "financement matériel artisan",
+        "crédit trésorerie tpe"
+      ],
+      "status": "live",
+      "featured": true,
+      "landing": "/landings/credit-professionnel.html",
+      "questionnaire": "/landings/questionnaire.html?need=credit-pro&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/credit-professionnel.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/credit-professionnel-tresorerie-materiel-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/credit-professionnel.html",
+        "/blog/credit-professionnel-tresorerie-materiel-2026.html"
+      ]
+    },
+    {
+      "id": "temporaire",
+      "slug": "assurance-auto-temporaire",
+      "category": "transport",
+      "theme": "pro-metiers",
+      "emoji": "📅",
+      "label": "Assurance auto temporaire",
+      "tagline": "Temporaire — couvrir des jours, pas une année",
+      "priority": 40,
+      "keywords": [
+        "assurance auto temporaire",
+        "assurance voiture quelques jours",
+        "assurance provisoire import"
+      ],
+      "status": "live",
+      "featured": true,
+      "landing": "/landings/assurance-auto-temporaire.html",
+      "questionnaire": "/landings/questionnaire.html?need=temporaire&journey=standard",
+      "pageCount": 2,
+      "highlights": [
+        "Landing dédiée",
+        "Questionnaire",
+        "Article SEO"
+      ],
+      "quickLinks": [
+        {
+          "label": "Landing",
+          "href": "/landings/assurance-auto-temporaire.html"
+        },
+        {
+          "label": "Guide blog",
+          "href": "/blog/assurance-auto-temporaire-quelques-jours-2026.html"
+        }
+      ],
+      "seoPaths": [
+        "/landings/assurance-auto-temporaire.html",
+        "/blog/assurance-auto-temporaire-quelques-jours-2026.html"
       ]
     }
   ]

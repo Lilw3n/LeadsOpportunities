@@ -10,7 +10,7 @@ tags:
 
 Niches live (chasse, équitation, animaux, VSP, collective) + niches partenariat courtage (ramonage, esthétique, loisirs, padel, immeuble, décennale, convoyage) — blog + landings vers questionnaires RC Pro / MRP / décennale.
 
-Pages dans le graphe : **204**.
+Pages dans le graphe : **241**.
 
 ## Pourquoi le site reste discret sur Google
 
@@ -26,6 +26,13 @@ Pages dans le graphe : **204**.
 - [[Silos/equitation|Assurance équitation]] — assurance équitation
 - [[Silos/vsp|Voiture sans permis]] — assurance voiture sans permis
 - [[Silos/collective|Santé collective]] — mutuelle collective entreprise
+- [[Silos/instrument|Instrument de musique]] — assurance instrument musique
+- [[Silos/materiel-photo|Matériel photo et vidéo]] — assurance matériel photo
+- [[Silos/bateau|Bateau de plaisance]] — assurance bateau plaisance
+- [[Silos/caravane|Caravane et camping-car]] — assurance camping-car
+- [[Silos/scolaire|Assurance scolaire]] — assurance scolaire
+- [[Silos/moto-collection|Moto et véhicule de collection]] — assurance moto collection
+- [[Silos/association|Association et club]] — assurance association
 - [[Silos/ramonage|Assurance ramoneur]] — assurance ramoneur
 - [[Silos/esthetique|Esthétique & bien-être]] — assurance institut de beauté
 - [[Silos/salles-loisirs|Salles de loisirs]] — assurance escape game
@@ -39,16 +46,21 @@ Pages dans le graphe : **204**.
 - [[Silos/metiers-batiment|Métiers du bâtiment]] — assurance métiers du bâtiment
 - [[Silos/transport-logistique|Transport et logistique]] — assurance transport marchandises
 - [[Silos/transport-voyageurs|Transport de voyageurs]] — assurance transport de voyageurs
+- [[Silos/flotte|Flotte de véhicules]] — assurance flotte véhicules
+- [[Silos/dirigeant|Assurance dirigeant]] — assurance homme clé
+- [[Silos/tns|Prévoyance TNS]] — prévoyance tns
+- [[Silos/pj-pro|Protection juridique pro]] — protection juridique professionnelle
+- [[Silos/credit-pro|Crédit professionnel]] — crédit professionnel
+- [[Silos/temporaire|Assurance auto temporaire]] — assurance auto temporaire
+- [[Silos/collection|Collection et objets d'art]] — assurance objets d'art
+- [[Silos/foret|Forêt et propriété boisée]] — assurance forêt
+- [[Silos/apiculture|Apiculture]] — assurance apiculteur
+- [[Silos/drone-pro|Drone professionnel]] — assurance drone professionnel
+- [[Silos/piscine|Piscine]] — assurance piscine
 
 ## Silos planifiés
 
-- [[Silos/instrument|Instrument de musique]]
-- [[Silos/materiel-photo|Matériel photo / vidéo]]
-- [[Silos/bateau|Bateau plaisance]]
-- [[Silos/caravane|Caravane & camping-car]]
-- [[Silos/scolaire|Assurance scolaire]]
-- [[Silos/moto-collection|Moto & collection]]
-- [[Silos/association|Association & club]]
+
 
 Détail : [[SEO/Silos planifies]]
 

@@ -21,5 +21,6 @@ Silo : [[Silos/vsp]]
 - GSC
 - [[Silos/vsp]]
 - [[Clusters/vsp]]
+- [[Maillage/moto-collection]]
 
 Retour : [[SEO/MOC SEO]]

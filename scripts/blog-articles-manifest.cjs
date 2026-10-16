@@ -3235,6 +3235,11 @@ proMetiers.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const metiersSuite = require("./blog-metiers-suite-articles.cjs");
+metiersSuite.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const vspArticles = require("./blog-vsp-articles.cjs");
 vspArticles.forEach(function (a) {
   module.exports.articles.push(a);

@@ -19,5 +19,7 @@ Pas de silo niche (page cœur ou locale).
 
 - GSC
 - [[Clusters/mutuelle]]
+- [[Maillage/tns]]
+- [[Maillage/scolaire]]
 
 Retour : [[SEO/MOC SEO]]

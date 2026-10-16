@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-05",
+  "updated": "2026-10-16",
   "strategy": "Niches live (chasse, équitation, animaux, VSP, collective) + niches partenariat courtage (ramonage, esthétique, loisirs, padel, immeuble, décennale, convoyage) — blog + landings vers questionnaires RC Pro / MRP / décennale.",
   "whyNotOnGoogle": [
     "Google n'a pas encore indexé le domaine (site récent) — normal si Search Console pas finalisé",
@@ -176,115 +176,158 @@
     },
     {
       "id": "instrument",
-      "status": "planned",
-      "tier": "tier3_planned",
+      "status": "live",
+      "tier": "tier1_indexNow",
       "competition": "faible",
       "label": "Instrument de musique",
       "primaryKeyword": "assurance instrument musique",
       "longTail": [
         "assurance guitare",
         "assurance piano vol",
-        "assurance matériel musicien pro"
+        "assurance matériel musicien"
       ],
       "pillarUrl": "/assurance-instrument-musique/",
-      "moneyUrls": [],
-      "landing": "/landings/questionnaire.html?need=instrument&journey=standard",
+      "moneyUrls": [
+        "/landings/assurance-instrument.html"
+      ],
+      "landing": "/landings/assurance-instrument.html",
       "questionnaireReady": true,
-      "eta": "T3 2026",
-      "whyWin": "Questionnaire déjà codé — silo SEO à générer (copier animaux)"
+      "whyWin": "Un instrument qui voyage ne reste pas dans le contrat habitation",
+      "blogUrls": [
+        "/blog/assurance-instrument-musique-vol-transport-2026.html"
+      ]
     },
     {
       "id": "materiel-photo",
-      "status": "planned",
-      "tier": "tier3_planned",
+      "status": "live",
+      "tier": "tier1_indexNow",
       "competition": "faible",
-      "label": "Matériel photo / vidéo",
+      "label": "Matériel photo et vidéo",
       "primaryKeyword": "assurance matériel photo",
       "longTail": [
-        "assurance drone pro",
+        "assurance reflex",
         "assurance caméra professionnelle",
-        "assurance reflex vol"
+        "assurance matériel reportage"
       ],
-      "landing": "/landings/questionnaire.html?need=materiel-photo&journey=standard",
+      "landing": "/landings/assurance-materiel-photo.html",
       "questionnaireReady": true,
-      "eta": "T3 2026"
+      "moneyUrls": [
+        "/landings/assurance-materiel-photo.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-materiel-photo-video-reportage-2026.html"
+      ],
+      "whyWin": "Boîtier, optiques et vol en déplacement sortent de l'habitation"
     },
     {
       "id": "bateau",
-      "status": "planned",
-      "tier": "tier3_planned",
+      "status": "live",
+      "tier": "tier1_indexNow",
       "competition": "moyenne",
-      "label": "Bateau plaisance",
+      "label": "Bateau de plaisance",
       "primaryKeyword": "assurance bateau plaisance",
       "longTail": [
         "assurance voilier",
         "assurance semi-rigide",
         "assurance bateau moteur"
       ],
-      "landing": "/landings/questionnaire.html?need=bateau&journey=standard",
+      "landing": "/landings/assurance-bateau.html",
       "questionnaireReady": true,
-      "eta": "T4 2026"
+      "moneyUrls": [
+        "/landings/assurance-bateau.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-bateau-plaisance-voilier-2026.html"
+      ],
+      "whyWin": "La plaisance n'est ni une auto ni un transport de passagers payant"
     },
     {
       "id": "caravane",
-      "status": "planned",
-      "tier": "tier3_planned",
+      "status": "live",
+      "tier": "tier1_indexNow",
       "competition": "moyenne",
-      "label": "Caravane & camping-car",
+      "label": "Caravane et camping-car",
       "primaryKeyword": "assurance camping-car",
       "longTail": [
         "assurance caravane",
-        "assurance van aménagé"
+        "assurance van aménagé",
+        "assurance résidence mobile"
       ],
-      "landing": "/landings/questionnaire.html?need=caravane&journey=standard",
+      "landing": "/landings/assurance-caravane.html",
       "questionnaireReady": true,
-      "eta": "T4 2026"
+      "moneyUrls": [
+        "/landings/assurance-caravane.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-caravane-camping-car-2026.html"
+      ],
+      "whyWin": "La cellule habitable n'est pas le contrat de la voiture qui tracte"
     },
     {
       "id": "scolaire",
-      "status": "planned",
-      "tier": "tier3_planned",
+      "status": "live",
+      "tier": "tier1_indexNow",
       "competition": "moyenne",
       "label": "Assurance scolaire",
       "primaryKeyword": "assurance scolaire",
       "longTail": [
-        "assurance extra scolaire",
-        "assurance sortie scolaire",
-        "assurance individuelle accident scolaire"
+        "assurance extra-scolaire",
+        "assurance individuelle accident scolaire",
+        "assurance sortie scolaire"
       ],
-      "landing": "/landings/questionnaire.html?need=famille&journey=standard",
+      "landing": "/landings/assurance-scolaire.html",
       "questionnaireReady": true,
-      "eta": "T4 2026"
+      "moneyUrls": [
+        "/landings/assurance-scolaire.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-scolaire-extrascolaire-enfant-2026.html"
+      ],
+      "whyWin": "L'enfant à l'école n'est pas le contrat de l'autocariste"
     },
     {
       "id": "moto-collection",
-      "status": "planned",
-      "tier": "tier3_planned",
+      "status": "live",
+      "tier": "tier1_indexNow",
       "competition": "faible",
-      "label": "Moto & collection",
+      "label": "Moto et véhicule de collection",
       "primaryKeyword": "assurance moto collection",
       "longTail": [
-        "assurance voiture collection",
-        "assurance véhicule ancien"
+        "assurance moto",
+        "assurance véhicule de collection",
+        "valeur agréée moto"
       ],
-      "landing": "/landings/questionnaire.html?need=moto&journey=standard",
+      "landing": "/landings/moto-collection.html",
       "questionnaireReady": true,
-      "eta": "2027"
+      "moneyUrls": [
+        "/landings/moto-collection.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-moto-vehicule-collection-2026.html"
+      ],
+      "whyWin": "La collection roule peu et s'assure en valeur agréée, pas comme une moto quotidienne"
     },
     {
       "id": "association",
-      "status": "planned",
-      "tier": "tier3_planned",
+      "status": "live",
+      "tier": "tier1_indexNow",
       "competition": "faible",
-      "label": "Association & club",
+      "label": "Association et club",
       "primaryKeyword": "assurance association",
       "longTail": [
+        "rc association loi 1901",
         "assurance club sportif",
-        "rc association loi 1901"
+        "assurance manifestation"
       ],
-      "landing": "/landings/questionnaire.html?need=association&journey=standard",
-      "questionnaireReady": false,
-      "eta": "2027"
+      "landing": "/landings/assurance-association.html",
+      "questionnaireReady": true,
+      "moneyUrls": [
+        "/landings/assurance-association.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-association-club-rc-1901-2026.html"
+      ],
+      "whyWin": "La structure loi 1901 n'est pas l'assurance personnelle des adhérents"
     },
     {
       "id": "ramonage",
@@ -601,6 +644,248 @@
       "blogUrls": [
         "/blog/assurance-transport-voyageurs-commun-2026.html"
       ]
+    },
+    {
+      "id": "flotte",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Flotte de véhicules",
+      "primaryKeyword": "assurance flotte véhicules",
+      "longTail": [
+        "assurance parc auto entreprise",
+        "assurance flotte utilitaires",
+        "devis flotte professionnelle"
+      ],
+      "landing": "/landings/flotte-vehicules.html",
+      "moneyUrls": [
+        "/landings/flotte-vehicules.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-flotte-vehicules-professionnels-2026.html"
+      ],
+      "whyWin": "Le parc pro n'est ni l'auto du dirigeant ni le stock d'un négociant",
+      "questionnaireReady": true
+    },
+    {
+      "id": "dirigeant",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Assurance dirigeant",
+      "primaryKeyword": "assurance homme clé",
+      "longTail": [
+        "assurance dirigeant",
+        "prévoyance mandataire social",
+        "homme clé entreprise"
+      ],
+      "landing": "/landings/assurance-dirigeant.html",
+      "moneyUrls": [
+        "/landings/assurance-dirigeant.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-dirigeant-homme-cle-2026.html"
+      ],
+      "whyWin": "La personne qui fait tourner la société n'est pas la RC de l'activité",
+      "questionnaireReady": true
+    },
+    {
+      "id": "tns",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Prévoyance TNS",
+      "primaryKeyword": "prévoyance tns",
+      "longTail": [
+        "prévoyance travailleur non salarié",
+        "indemnité journalière indépendant",
+        "madelin prévoyance"
+      ],
+      "landing": "/landings/prevoyance-tns.html",
+      "moneyUrls": [
+        "/landings/prevoyance-tns.html"
+      ],
+      "blogUrls": [
+        "/blog/prevoyance-tns-independant-2026.html"
+      ],
+      "whyWin": "L'indépendant n'a pas les indemnités d'un salarié",
+      "questionnaireReady": true
+    },
+    {
+      "id": "pj-pro",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Protection juridique pro",
+      "primaryKeyword": "protection juridique professionnelle",
+      "longTail": [
+        "pj pro artisan",
+        "défense pénale et recours",
+        "assurance litige entreprise"
+      ],
+      "landing": "/landings/protection-juridique-pro.html",
+      "moneyUrls": [
+        "/landings/protection-juridique-pro.html"
+      ],
+      "blogUrls": [
+        "/blog/protection-juridique-professionnelle-2026.html"
+      ],
+      "whyWin": "La PJ défend, la RC indemnise : les deux ne se remplacent pas",
+      "questionnaireReady": true
+    },
+    {
+      "id": "credit-pro",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Crédit professionnel",
+      "primaryKeyword": "crédit professionnel",
+      "longTail": [
+        "crédit trésorerie entreprise",
+        "financement matériel pro",
+        "prêt professionnel artisan"
+      ],
+      "landing": "/landings/credit-professionnel.html",
+      "moneyUrls": [
+        "/landings/credit-professionnel.html"
+      ],
+      "blogUrls": [
+        "/blog/credit-professionnel-tresorerie-materiel-2026.html"
+      ],
+      "whyWin": "Financer un outil n'est pas l'assurer",
+      "questionnaireReady": true
+    },
+    {
+      "id": "temporaire",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Assurance auto temporaire",
+      "primaryKeyword": "assurance auto temporaire",
+      "longTail": [
+        "assurance voiture quelques jours",
+        "assurance provisoire",
+        "assurance pour importer un véhicule"
+      ],
+      "landing": "/landings/assurance-auto-temporaire.html",
+      "moneyUrls": [
+        "/landings/assurance-auto-temporaire.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-auto-temporaire-quelques-jours-2026.html"
+      ],
+      "whyWin": "Quelques jours de circulation ne sont pas un contrat annuel",
+      "questionnaireReady": true
+    },
+    {
+      "id": "collection",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Collection et objets d'art",
+      "primaryKeyword": "assurance objets d'art",
+      "longTail": [
+        "assurance collection",
+        "assurance cave à vin",
+        "assurance montres"
+      ],
+      "landing": "/landings/assurance-collection.html",
+      "moneyUrls": [
+        "/landings/assurance-collection.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-collection-objets-art-2026.html"
+      ],
+      "whyWin": "Une collection nommée dépasse le forfait habitation",
+      "questionnaireReady": true
+    },
+    {
+      "id": "foret",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Forêt et propriété boisée",
+      "primaryKeyword": "assurance forêt",
+      "longTail": [
+        "assurance propriété forestière",
+        "responsabilité terrain boisé",
+        "assurance parcelle bois"
+      ],
+      "landing": "/landings/assurance-foret.html",
+      "moneyUrls": [
+        "/landings/assurance-foret.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-foret-propriete-boisee-2026.html"
+      ],
+      "whyWin": "Une parcelle boisée n'est ni une habitation ni une RC chasse",
+      "questionnaireReady": true
+    },
+    {
+      "id": "apiculture",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Apiculture",
+      "primaryKeyword": "assurance apiculteur",
+      "longTail": [
+        "assurance ruche",
+        "rc apiculture",
+        "assurance ruchers"
+      ],
+      "landing": "/landings/assurance-apiculture.html",
+      "moneyUrls": [
+        "/landings/assurance-apiculture.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-apiculture-ruches-rc-2026.html"
+      ],
+      "whyWin": "Les ruches sont un cheptel et une responsabilité, pas une MRP de bureau",
+      "questionnaireReady": true
+    },
+    {
+      "id": "drone-pro",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Drone professionnel",
+      "primaryKeyword": "assurance drone professionnel",
+      "longTail": [
+        "assurance télépilote",
+        "rc exploitation drone",
+        "assurance aéronef sans équipage"
+      ],
+      "landing": "/landings/assurance-drone-pro.html",
+      "moneyUrls": [
+        "/landings/assurance-drone-pro.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-drone-professionnel-telepilote-2026.html"
+      ],
+      "whyWin": "Le vol professionnel est une RC d'exploitation, pas seulement un objet dans un sac",
+      "questionnaireReady": true
+    },
+    {
+      "id": "piscine",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Piscine",
+      "primaryKeyword": "assurance piscine",
+      "longTail": [
+        "assurance piscine responsabilité",
+        "dommage ouvrage piscine",
+        "piscine et habitation"
+      ],
+      "landing": "/landings/assurance-piscine.html",
+      "moneyUrls": [
+        "/landings/assurance-piscine.html"
+      ],
+      "blogUrls": [
+        "/blog/assurance-piscine-proprietaire-constructeur-2026.html"
+      ],
+      "whyWin": "Le bassin du propriétaire n'est pas la décennale du pisciniste",
+      "questionnaireReady": true
     }
   ],
   "indexationWeek1": [
@@ -651,7 +936,43 @@
     "/landings/rc-pro.html",
     "/landings/metiers-batiment.html",
     "/landings/transport-logistique.html",
-    "/landings/transport-voyageurs.html"
+    "/landings/transport-voyageurs.html",
+    "/landings/flotte-vehicules.html",
+    "/blog/assurance-flotte-vehicules-professionnels-2026.html",
+    "/landings/assurance-dirigeant.html",
+    "/blog/assurance-dirigeant-homme-cle-2026.html",
+    "/landings/prevoyance-tns.html",
+    "/blog/prevoyance-tns-independant-2026.html",
+    "/landings/protection-juridique-pro.html",
+    "/blog/protection-juridique-professionnelle-2026.html",
+    "/landings/credit-professionnel.html",
+    "/blog/credit-professionnel-tresorerie-materiel-2026.html",
+    "/landings/assurance-auto-temporaire.html",
+    "/blog/assurance-auto-temporaire-quelques-jours-2026.html",
+    "/landings/assurance-instrument.html",
+    "/blog/assurance-instrument-musique-vol-transport-2026.html",
+    "/landings/assurance-materiel-photo.html",
+    "/blog/assurance-materiel-photo-video-reportage-2026.html",
+    "/landings/assurance-bateau.html",
+    "/blog/assurance-bateau-plaisance-voilier-2026.html",
+    "/landings/assurance-caravane.html",
+    "/blog/assurance-caravane-camping-car-2026.html",
+    "/landings/assurance-scolaire.html",
+    "/blog/assurance-scolaire-extrascolaire-enfant-2026.html",
+    "/landings/assurance-collection.html",
+    "/blog/assurance-collection-objets-art-2026.html",
+    "/landings/assurance-foret.html",
+    "/blog/assurance-foret-propriete-boisee-2026.html",
+    "/landings/assurance-apiculture.html",
+    "/blog/assurance-apiculture-ruches-rc-2026.html",
+    "/landings/moto-collection.html",
+    "/blog/assurance-moto-vehicule-collection-2026.html",
+    "/landings/assurance-drone-pro.html",
+    "/blog/assurance-drone-professionnel-telepilote-2026.html",
+    "/landings/assurance-association.html",
+    "/blog/assurance-association-club-rc-1901-2026.html",
+    "/landings/assurance-piscine.html",
+    "/blog/assurance-piscine-proprietaire-constructeur-2026.html"
   ],
   "blogActuNiches": [
     "/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html",
@@ -679,7 +1000,25 @@
     "rc-pro",
     "metiers-batiment",
     "transport-logistique",
-    "transport-voyageurs"
+    "transport-voyageurs",
+    "flotte",
+    "dirigeant",
+    "tns",
+    "pj-pro",
+    "credit-pro",
+    "temporaire",
+    "instrument",
+    "materiel-photo",
+    "bateau",
+    "caravane",
+    "scolaire",
+    "collection",
+    "foret",
+    "apiculture",
+    "moto-collection",
+    "drone-pro",
+    "association",
+    "piscine"
   ],
   "blogPartenariatNiches": [
     "/blog/assurance-ramoneur-rc-pro-multirisque-2026.html",
@@ -695,6 +1034,24 @@
     "/blog/assurance-rc-pro-entreprise-guide-2026.html",
     "/blog/assurance-metiers-batiment-decennale-rc-2026.html",
     "/blog/assurance-transport-logistique-marchandises-2026.html",
-    "/blog/assurance-transport-voyageurs-commun-2026.html"
+    "/blog/assurance-transport-voyageurs-commun-2026.html",
+    "/blog/assurance-flotte-vehicules-professionnels-2026.html",
+    "/blog/assurance-dirigeant-homme-cle-2026.html",
+    "/blog/prevoyance-tns-independant-2026.html",
+    "/blog/protection-juridique-professionnelle-2026.html",
+    "/blog/credit-professionnel-tresorerie-materiel-2026.html",
+    "/blog/assurance-auto-temporaire-quelques-jours-2026.html",
+    "/blog/assurance-instrument-musique-vol-transport-2026.html",
+    "/blog/assurance-materiel-photo-video-reportage-2026.html",
+    "/blog/assurance-bateau-plaisance-voilier-2026.html",
+    "/blog/assurance-caravane-camping-car-2026.html",
+    "/blog/assurance-scolaire-extrascolaire-enfant-2026.html",
+    "/blog/assurance-collection-objets-art-2026.html",
+    "/blog/assurance-foret-propriete-boisee-2026.html",
+    "/blog/assurance-apiculture-ruches-rc-2026.html",
+    "/blog/assurance-moto-vehicule-collection-2026.html",
+    "/blog/assurance-drone-professionnel-telepilote-2026.html",
+    "/blog/assurance-association-club-rc-1901-2026.html",
+    "/blog/assurance-piscine-proprietaire-constructeur-2026.html"
   ]
 }

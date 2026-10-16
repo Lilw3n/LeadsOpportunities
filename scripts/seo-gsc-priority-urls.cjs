@@ -204,6 +204,12 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/mentions-legales.html",
 ];
 
+require("./metiers-suite-catalog.cjs").forEach(function (item) {
+  GSC_INDEX_NOW_PRIORITY.push("/landings/" + item.file);
+  GSC_INDEX_NOW_PRIORITY.push("/blog/" + item.blog);
+});
+GSC_INDEX_NOW_PRIORITY.push("/blog/assurance-metiers-quel-contrat-choisir-2026.html");
+
 function absoluteUrls() {
   return GSC_INDEX_NOW_PRIORITY.map(function (path) {
     if (path.indexOf("http") === 0) return path;

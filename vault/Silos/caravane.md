@@ -2,40 +2,44 @@
 generated: true
 type: "silo"
 id: "caravane"
-status: "planned"
+status: "live"
 competition: "moyenne"
 keyword: "assurance camping-car"
 pages: 0
 tags:
   - "seo"
   - "silo"
-  - "planned"
+  - "live"
 ---
 
-# Caravane & camping-car
+# Caravane et camping-car
 
-Niches live (chasse, équitation, animaux, VSP, collective) + niches partenariat courtage (ramonage, esthétique, loisirs, padel, immeuble, décennale, convoyage) — blog + landings vers questionnaires RC Pro / MRP / décennale.
+La cellule habitable n'est pas le contrat de la voiture qui tracte
 
 - Requête : **assurance camping-car**
 - Concurrence : moyenne
-- Statut : planned
+- Statut : live
 - Pages : —
 
 ## URLs
 
-- [[Pages/landings — questionnaire|Landing]] — https://www.leadsopportunities.fr/landings/questionnaire.html?need=caravane&journey=standard
+- [[Pages/landings — assurance-caravane|Landing]] — https://www.leadsopportunities.fr/landings/assurance-caravane.html
+- [[Pages/landings — assurance-caravane|/landings/assurance-caravane.html]] — https://www.leadsopportunities.fr/landings/assurance-caravane.html
+- [[Pages/blog — assurance-caravane-camping-car-2026|Article]] — https://www.leadsopportunities.fr/blog/assurance-caravane-camping-car-2026.html
 
 ## Longue traîne
 
 - assurance caravane
 - assurance van aménagé
+- assurance résidence mobile
 
 ## Silos voisins
 
-- Aucun voisin déclaré
+- [[Silos/bateau]]
+- [[Silos/temporaire]]
 
 ## Netlinking
 
-Silo planifié : pas de netlinking externe tant que les pages ne sont pas live.
+Netlinking externe autorisé vers le pilier ou la landing, ancre = requête principale ou longue traîne.
 
 Voir [[Netlinking/MOC Netlinking]] et [[Netlinking/Liens entrants]].

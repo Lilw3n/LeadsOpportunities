@@ -137,9 +137,12 @@ var html =
   (niches.hub.stats.seoPagesApprox || "900+") +
   ' pages SEO dont pages par ville.</p>\n    <div class="niche-alert"><strong>Pas visible sur Google ?</strong> Normal si le domaine est récent. Indexez d\'abord <a href="./">l\'accueil</a> et les piliers ci-dessous via <a href="https://search.google.com/search-console">Search Console</a> — voir <code>docs/PLAN-VISIBILITE-NICHES.md</code>.</div>\n    <h2>Niches en ligne (devis disponible)</h2>\n    <div class="niche-grid">\n' +
   live.map(card).join("") +
-  '    </div>\n    <h2>Prochaines niches (questionnaire ou silo à venir)</h2>\n    <table class="niche-table">\n      <thead><tr><th>Niche</th><th>Mots-clés cibles</th><th>ETA</th><th>Statut</th><th>Action</th></tr></thead>\n      <tbody>\n' +
-  planned.map(plannedRow).join("") +
-  "      </tbody>\n    </table>\n" +
+  "    </div>\n" +
+  (planned.length
+    ? '    <h2>Prochaines niches (questionnaire ou silo à venir)</h2>\n    <table class="niche-table">\n      <thead><tr><th>Niche</th><th>Mots-clés cibles</th><th>ETA</th><th>Statut</th><th>Action</th></tr></thead>\n      <tbody>\n' +
+      planned.map(plannedRow).join("") +
+      "      </tbody>\n    </table>\n"
+    : "") +
   blogList(markets.blogActuNiches, "Actu & longue traîne (indexation prioritaire)") +
   (liveBlogBlocks
     ? "<h2>Guides par niche live</h2>\n<div class=\"niche-blog-grid\">" + liveBlogBlocks + "</div>\n"

@@ -307,6 +307,11 @@ function getNicheSitemapEntries(base) {
     "/blog/assurance-transport-logistique-marchandises-2026.html",
     "/blog/assurance-transport-voyageurs-commun-2026.html",
   ];
+  require("./metiers-suite-catalog.cjs").forEach(function (item) {
+    staticPaths.push("/landings/" + item.file);
+    staticPaths.push("/blog/" + item.blog);
+  });
+  staticPaths.push("/blog/assurance-metiers-quel-contrat-choisir-2026.html");
   const pagePaths = ALL_NICHE_PAGES.map(function (p) {
     return "/" + p.file.replace(/index\.html$/, "");
   });

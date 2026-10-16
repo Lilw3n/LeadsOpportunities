@@ -19,5 +19,7 @@ Pas de silo niche (page cœur ou locale).
 
 - GSC
 - [[Clusters/credit-immo]]
+- [[Maillage/credit-pro]]
+- [[Maillage/foret]]
 
 Retour : [[SEO/MOC SEO]]

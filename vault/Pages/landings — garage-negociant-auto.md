@@ -21,5 +21,8 @@ Silo : [[Silos/garage]]
 - GSC
 - [[Silos/garage]]
 - [[Maillage/garage]]
+- [[Maillage/flotte]]
+- [[Maillage/temporaire]]
+- [[Maillage/moto-collection]]
 
 Retour : [[SEO/MOC SEO]]

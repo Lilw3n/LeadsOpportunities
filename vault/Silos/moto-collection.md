@@ -2,40 +2,44 @@
 generated: true
 type: "silo"
 id: "moto-collection"
-status: "planned"
+status: "live"
 competition: "faible"
 keyword: "assurance moto collection"
 pages: 0
 tags:
   - "seo"
   - "silo"
-  - "planned"
+  - "live"
 ---
 
-# Moto & collection
+# Moto et véhicule de collection
 
-Niches live (chasse, équitation, animaux, VSP, collective) + niches partenariat courtage (ramonage, esthétique, loisirs, padel, immeuble, décennale, convoyage) — blog + landings vers questionnaires RC Pro / MRP / décennale.
+La collection roule peu et s'assure en valeur agréée, pas comme une moto quotidienne
 
 - Requête : **assurance moto collection**
 - Concurrence : faible
-- Statut : planned
+- Statut : live
 - Pages : —
 
 ## URLs
 
-- [[Pages/landings — questionnaire|Landing]] — https://www.leadsopportunities.fr/landings/questionnaire.html?need=moto&journey=standard
+- [[Pages/landings — moto-collection|Landing]] — https://www.leadsopportunities.fr/landings/moto-collection.html
+- [[Pages/landings — moto-collection|/landings/moto-collection.html]] — https://www.leadsopportunities.fr/landings/moto-collection.html
+- [[Pages/blog — assurance-moto-vehicule-collection-2026|Article]] — https://www.leadsopportunities.fr/blog/assurance-moto-vehicule-collection-2026.html
 
 ## Longue traîne
 
-- assurance voiture collection
-- assurance véhicule ancien
+- assurance moto
+- assurance véhicule de collection
+- valeur agréée moto
 
 ## Silos voisins
 
-- Aucun voisin déclaré
+- [[Silos/garage]]
+- [[Silos/collection]]
 
 ## Netlinking
 
-Silo planifié : pas de netlinking externe tant que les pages ne sont pas live.
+Netlinking externe autorisé vers le pilier ou la landing, ancre = requête principale ou longue traîne.
 
 Voir [[Netlinking/MOC Netlinking]] et [[Netlinking/Liens entrants]].

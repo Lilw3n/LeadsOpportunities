@@ -2,28 +2,30 @@
 generated: true
 type: "silo"
 id: "bateau"
-status: "planned"
+status: "live"
 competition: "moyenne"
 keyword: "assurance bateau plaisance"
 pages: 0
 tags:
   - "seo"
   - "silo"
-  - "planned"
+  - "live"
 ---
 
-# Bateau plaisance
+# Bateau de plaisance
 
-Niches live (chasse, équitation, animaux, VSP, collective) + niches partenariat courtage (ramonage, esthétique, loisirs, padel, immeuble, décennale, convoyage) — blog + landings vers questionnaires RC Pro / MRP / décennale.
+La plaisance n'est ni une auto ni un transport de passagers payant
 
 - Requête : **assurance bateau plaisance**
 - Concurrence : moyenne
-- Statut : planned
+- Statut : live
 - Pages : —
 
 ## URLs
 
-- [[Pages/landings — questionnaire|Landing]] — https://www.leadsopportunities.fr/landings/questionnaire.html?need=bateau&journey=standard
+- [[Pages/landings — assurance-bateau|Landing]] — https://www.leadsopportunities.fr/landings/assurance-bateau.html
+- [[Pages/landings — assurance-bateau|/landings/assurance-bateau.html]] — https://www.leadsopportunities.fr/landings/assurance-bateau.html
+- [[Pages/blog — assurance-bateau-plaisance-voilier-2026|Article]] — https://www.leadsopportunities.fr/blog/assurance-bateau-plaisance-voilier-2026.html
 
 ## Longue traîne
 
@@ -33,10 +35,11 @@ Niches live (chasse, équitation, animaux, VSP, collective) + niches partenariat
 
 ## Silos voisins
 
-- Aucun voisin déclaré
+- [[Silos/caravane]]
+- [[Silos/transport-voyageurs]]
 
 ## Netlinking
 
-Silo planifié : pas de netlinking externe tant que les pages ne sont pas live.
+Netlinking externe autorisé vers le pilier ou la landing, ancre = requête principale ou longue traîne.
 
 Voir [[Netlinking/MOC Netlinking]] et [[Netlinking/Liens entrants]].

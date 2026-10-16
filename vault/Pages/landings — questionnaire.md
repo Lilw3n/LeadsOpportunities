@@ -19,13 +19,6 @@ Silo : [[Silos/mrp]]
 ## Dans le graphe
 
 - GSC
-- [[Silos/instrument]]
-- [[Silos/materiel-photo]]
-- [[Silos/bateau]]
-- [[Silos/caravane]]
-- [[Silos/scolaire]]
-- [[Silos/moto-collection]]
-- [[Silos/association]]
 - [[Silos/immeuble-pro]]
 - [[Silos/decennale]]
 - [[Silos/mrp]]

@@ -19,5 +19,6 @@ Pas de silo niche (page cœur ou locale).
 
 - GSC
 - [[Clusters/vtc]]
+- [[Maillage/temporaire]]
 
 Retour : [[SEO/MOC SEO]]

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-05",
+  "updated": "2026-10-16",
   "sections": {
     "animaux": {
       "need": "animaux",
@@ -324,6 +324,186 @@
       "questionnaireLabel": "Questionnaire RC Pro",
       "landingLabel": "Parcours convoyage",
       "expressLabel": "Devis express"
+    },
+    "flotte": {
+      "need": "flotte",
+      "questionnaire": "/landings/questionnaire.html?need=flotte&journey=standard",
+      "landing": "/landings/flotte-vehicules.html",
+      "hook": "Une flotte se déclare en parc : véhicules, conducteurs, usage. Pas comme une auto personnelle.",
+      "question": "Votre parc est-il encore assuré véhicule par véhicule ?",
+      "primaryLabel": "Décrire la flotte",
+      "questionnaireLabel": "Questionnaire Flotte de véhicules",
+      "landingLabel": "Décrire la flotte"
+    },
+    "dirigeant": {
+      "need": "dirigeant",
+      "questionnaire": "/landings/questionnaire.html?need=dirigeant&journey=standard",
+      "landing": "/landings/assurance-dirigeant.html",
+      "hook": "L'homme clé couvre l'absence du dirigeant. Il ne remplace ni la RC Pro ni la mutuelle des salariés.",
+      "question": "Que se passe-t-il pour l'entreprise si vous vous arrêtez ?",
+      "primaryLabel": "Décrire le mandat",
+      "questionnaireLabel": "Questionnaire Assurance dirigeant",
+      "landingLabel": "Décrire le mandat"
+    },
+    "tns": {
+      "need": "tns",
+      "questionnaire": "/landings/questionnaire.html?need=tns&journey=standard",
+      "landing": "/landings/prevoyance-tns.html",
+      "hook": "Le TNS n'a pas les indemnités d'un salarié. La prévoyance ne se confond pas avec la mutuelle.",
+      "question": "Combien de jours tenez-vous sans revenu ?",
+      "primaryLabel": "Décrire l'activité TNS",
+      "questionnaireLabel": "Questionnaire Prévoyance TNS",
+      "landingLabel": "Décrire l'activité TNS"
+    },
+    "pj-pro": {
+      "need": "pj-pro",
+      "questionnaire": "/landings/questionnaire.html?need=pj-pro&journey=standard",
+      "landing": "/landings/protection-juridique-pro.html",
+      "hook": "La protection juridique finance le litige. Elle ne verse pas les dommages et intérêts à la place de la RC.",
+      "question": "Un désaccord commercial vous coûte-t-il surtout en procédure ?",
+      "primaryLabel": "Décrire les litiges",
+      "questionnaireLabel": "Questionnaire Protection juridique pro",
+      "landingLabel": "Décrire les litiges"
+    },
+    "credit-pro": {
+      "need": "credit-pro",
+      "questionnaire": "/landings/questionnaire.html?need=credit-pro&journey=standard",
+      "landing": "/landings/credit-professionnel.html",
+      "hook": "Le crédit pro finance l'outil de travail. Il ne remplace ni la MRP du local ni un prêt immobilier.",
+      "question": "Vous financez un outil, ou vous achetez votre résidence ?",
+      "primaryLabel": "Décrire le besoin de financement",
+      "questionnaireLabel": "Questionnaire Crédit professionnel",
+      "landingLabel": "Décrire le besoin de financement"
+    },
+    "temporaire": {
+      "need": "temporaire",
+      "questionnaire": "/landings/questionnaire.html?need=temporaire&journey=standard",
+      "landing": "/landings/assurance-auto-temporaire.html",
+      "hook": "L'assurance temporaire couvre une période courte. Elle ne devient pas toute seule un contrat annuel.",
+      "question": "Vous avez besoin de rouler quelques jours, ou toute l'année ?",
+      "primaryLabel": "Décrire la durée",
+      "questionnaireLabel": "Questionnaire Assurance auto temporaire",
+      "landingLabel": "Décrire la durée"
+    },
+    "instrument": {
+      "need": "instrument",
+      "questionnaire": "/landings/questionnaire.html?need=instrument&journey=standard",
+      "landing": "/landings/assurance-instrument.html",
+      "hook": "Un instrument de tournée ne se contente pas du plafond habitation. On déclare la valeur et le transport.",
+      "question": "L'instrument voyage-t-il, ou reste-t-il chez vous ?",
+      "primaryLabel": "Décrire l'instrument",
+      "questionnaireLabel": "Questionnaire Instrument de musique",
+      "landingLabel": "Décrire l'instrument"
+    },
+    "materiel-photo": {
+      "need": "materiel-photo",
+      "questionnaire": "/landings/questionnaire.html?need=materiel-photo&journey=standard",
+      "landing": "/landings/assurance-materiel-photo.html",
+      "hook": "Le matériel de reportage se nomme et se valorise. Le drone qui facture une prestation n'est pas seulement un objet.",
+      "question": "Le sac photo quitte-t-il votre domicile pour le travail ?",
+      "primaryLabel": "Décrire le matériel",
+      "questionnaireLabel": "Questionnaire Matériel photo et vidéo",
+      "landingLabel": "Décrire le matériel"
+    },
+    "bateau": {
+      "need": "bateau",
+      "questionnaire": "/landings/questionnaire.html?need=bateau&journey=standard",
+      "landing": "/landings/assurance-bateau.html",
+      "hook": "La plaisance couvre votre bateau et votre responsabilité. Le transport payant de passagers est un autre contrat.",
+      "question": "Vous naviguez pour vous, ou vous faites payer la place ?",
+      "primaryLabel": "Décrire le bateau",
+      "questionnaireLabel": "Questionnaire Bateau de plaisance",
+      "landingLabel": "Décrire le bateau"
+    },
+    "caravane": {
+      "need": "caravane",
+      "questionnaire": "/landings/questionnaire.html?need=caravane&journey=standard",
+      "landing": "/landings/assurance-caravane.html",
+      "hook": "Le camping-car et la caravane ne se règlent pas avec la seule assurance de la voiture qui tracte.",
+      "question": "Vous assurez la cellule, la voiture, ou les deux ?",
+      "primaryLabel": "Décrire le véhicule",
+      "questionnaireLabel": "Questionnaire Caravane et camping-car",
+      "landingLabel": "Décrire le véhicule"
+    },
+    "scolaire": {
+      "need": "famille",
+      "questionnaire": "/landings/questionnaire.html?need=famille&journey=standard",
+      "landing": "/landings/assurance-scolaire.html",
+      "hook": "L'assurance scolaire vise l'enfant. Elle n'assure pas l'autocar ni le club qui organise le séjour.",
+      "question": "Vous assurez un élève, ou une entreprise de transport ?",
+      "primaryLabel": "Décrire l'enfant",
+      "questionnaireLabel": "Questionnaire Assurance scolaire",
+      "landingLabel": "Décrire l'enfant"
+    },
+    "collection": {
+      "need": "autre",
+      "questionnaire": "/landings/questionnaire.html?need=autre&journey=standard",
+      "landing": "/landings/assurance-collection.html",
+      "hook": "Une collection s'inventorie. Le forfait mobilier de l'habitation ne la décrit pas.",
+      "question": "Vos objets dépassent-ils le plafond habitation ?",
+      "primaryLabel": "Décrire la collection",
+      "questionnaireLabel": "Questionnaire Collection et objets d'art",
+      "landingLabel": "Décrire la collection"
+    },
+    "foret": {
+      "need": "autre",
+      "questionnaire": "/landings/questionnaire.html?need=autre&journey=standard",
+      "landing": "/landings/assurance-foret.html",
+      "hook": "La forêt s'assure comme une parcelle : incendie, tempête, responsabilité. Pas comme une habitation.",
+      "question": "Vous assurez des bois, une maison, ou une action de chasse ?",
+      "primaryLabel": "Décrire la parcelle",
+      "questionnaireLabel": "Questionnaire Forêt et propriété boisée",
+      "landingLabel": "Décrire la parcelle"
+    },
+    "apiculture": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/assurance-apiculture.html",
+      "hook": "L'apiculteur déclare ses ruches et sa responsabilité. Une exploitation n'est pas un rucher de jardin.",
+      "question": "Vous vendez le miel, ou les ruches restent un loisir ?",
+      "primaryLabel": "Décrire les ruches",
+      "questionnaireLabel": "Questionnaire Apiculture",
+      "landingLabel": "Décrire les ruches"
+    },
+    "moto-collection": {
+      "need": "moto",
+      "questionnaire": "/landings/questionnaire.html?need=moto&journey=standard",
+      "landing": "/landings/moto-collection.html",
+      "hook": "La moto quotidienne et le véhicule de collection ne partagent pas le même usage ni la même valeur.",
+      "question": "Elle roule tous les jours, ou elle sort pour les rassemblements ?",
+      "primaryLabel": "Décrire la moto",
+      "questionnaireLabel": "Questionnaire Moto et véhicule de collection",
+      "landingLabel": "Décrire la moto"
+    },
+    "drone-pro": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/assurance-drone-pro.html",
+      "hook": "Le drone professionnel se déclare en activité aérienne. Le sac photo ne suffit pas.",
+      "question": "Vous facturez des vols, ou le drone reste un loisir ?",
+      "primaryLabel": "Décrire l'activité drone",
+      "questionnaireLabel": "Questionnaire Drone professionnel",
+      "landingLabel": "Décrire l'activité drone"
+    },
+    "association": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/assurance-association.html",
+      "hook": "L'association a sa propre RC. Elle ne se confond pas avec l'assurance personnelle des membres.",
+      "question": "Vous assurez la structure, ou seulement vos adhérents un par un ?",
+      "primaryLabel": "Décrire l'association",
+      "questionnaireLabel": "Questionnaire Association et club",
+      "landingLabel": "Décrire l'association"
+    },
+    "piscine": {
+      "need": "habitation",
+      "questionnaire": "/landings/questionnaire.html?need=habitation&journey=standard",
+      "landing": "/landings/assurance-piscine.html",
+      "hook": "Une piscine chez soi se déclare à l'habitation. La construire pour un client, c'est la décennale.",
+      "question": "Vous êtes propriétaire du bassin, ou vous le construisez ?",
+      "primaryLabel": "Décrire la piscine",
+      "questionnaireLabel": "Questionnaire Piscine",
+      "landingLabel": "Décrire la piscine"
     }
   },
   "keywordRules": [
@@ -947,11 +1127,80 @@
       "section": "immeuble-pro",
       "hook": "Priorisez les niches pro à forte valeur : immeuble, décennale, loisirs."
     },
-    "assurance-garage-negociant-auto-rc-mrp-2026.html": { "section": "garage" },
-    "assurance-multirisque-professionnelle-locaux-2026.html": { "section": "mrp" },
-    "assurance-rc-pro-entreprise-guide-2026.html": { "section": "rc-pro" },
-    "assurance-metiers-batiment-decennale-rc-2026.html": { "section": "metiers-batiment" },
-    "assurance-transport-logistique-marchandises-2026.html": { "section": "transport-logistique" },
-    "assurance-transport-voyageurs-commun-2026.html": { "section": "transport-voyageurs" }
+    "assurance-garage-negociant-auto-rc-mrp-2026.html": {
+      "section": "garage"
+    },
+    "assurance-multirisque-professionnelle-locaux-2026.html": {
+      "section": "mrp"
+    },
+    "assurance-rc-pro-entreprise-guide-2026.html": {
+      "section": "rc-pro"
+    },
+    "assurance-metiers-batiment-decennale-rc-2026.html": {
+      "section": "metiers-batiment"
+    },
+    "assurance-transport-logistique-marchandises-2026.html": {
+      "section": "transport-logistique"
+    },
+    "assurance-transport-voyageurs-commun-2026.html": {
+      "section": "transport-voyageurs"
+    },
+    "assurance-flotte-vehicules-professionnels-2026.html": {
+      "section": "flotte"
+    },
+    "assurance-dirigeant-homme-cle-2026.html": {
+      "section": "dirigeant"
+    },
+    "prevoyance-tns-independant-2026.html": {
+      "section": "tns"
+    },
+    "protection-juridique-professionnelle-2026.html": {
+      "section": "pj-pro"
+    },
+    "credit-professionnel-tresorerie-materiel-2026.html": {
+      "section": "credit-pro"
+    },
+    "assurance-auto-temporaire-quelques-jours-2026.html": {
+      "section": "temporaire"
+    },
+    "assurance-instrument-musique-vol-transport-2026.html": {
+      "section": "instrument"
+    },
+    "assurance-materiel-photo-video-reportage-2026.html": {
+      "section": "materiel-photo"
+    },
+    "assurance-bateau-plaisance-voilier-2026.html": {
+      "section": "bateau"
+    },
+    "assurance-caravane-camping-car-2026.html": {
+      "section": "caravane"
+    },
+    "assurance-scolaire-extrascolaire-enfant-2026.html": {
+      "section": "scolaire"
+    },
+    "assurance-collection-objets-art-2026.html": {
+      "section": "collection"
+    },
+    "assurance-foret-propriete-boisee-2026.html": {
+      "section": "foret"
+    },
+    "assurance-apiculture-ruches-rc-2026.html": {
+      "section": "apiculture"
+    },
+    "assurance-moto-vehicule-collection-2026.html": {
+      "section": "moto-collection"
+    },
+    "assurance-drone-professionnel-telepilote-2026.html": {
+      "section": "drone-pro"
+    },
+    "assurance-association-club-rc-1901-2026.html": {
+      "section": "association"
+    },
+    "assurance-piscine-proprietaire-constructeur-2026.html": {
+      "section": "piscine"
+    },
+    "assurance-metiers-quel-contrat-choisir-2026.html": {
+      "section": "pro"
+    }
   }
 }

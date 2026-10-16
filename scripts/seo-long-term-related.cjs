@@ -189,6 +189,18 @@ function mergeUnique() {
   return out;
 }
 
+var suiteCatalog = require("./metiers-suite-catalog.cjs");
+suiteCatalog.forEach(function (item) {
+  var links = [
+    link("/blog/" + item.blog, "Guide " + item.tag),
+    link("/landings/" + item.file, item.primary),
+  ];
+  item.links.forEach(function (l) {
+    links.push(link(l.href, l.label));
+  });
+  PARTENARIAT[item.id] = links;
+});
+
 module.exports = {
   CANICULE_MUTUELLE: CANICULE_MUTUELLE,
   PRET_REFUSE: PRET_REFUSE,

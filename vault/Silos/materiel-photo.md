@@ -2,41 +2,44 @@
 generated: true
 type: "silo"
 id: "materiel-photo"
-status: "planned"
+status: "live"
 competition: "faible"
 keyword: "assurance matériel photo"
 pages: 0
 tags:
   - "seo"
   - "silo"
-  - "planned"
+  - "live"
 ---
 
-# Matériel photo / vidéo
+# Matériel photo et vidéo
 
-Niches live (chasse, équitation, animaux, VSP, collective) + niches partenariat courtage (ramonage, esthétique, loisirs, padel, immeuble, décennale, convoyage) — blog + landings vers questionnaires RC Pro / MRP / décennale.
+Boîtier, optiques et vol en déplacement sortent de l'habitation
 
 - Requête : **assurance matériel photo**
 - Concurrence : faible
-- Statut : planned
+- Statut : live
 - Pages : —
 
 ## URLs
 
-- [[Pages/landings — questionnaire|Landing]] — https://www.leadsopportunities.fr/landings/questionnaire.html?need=materiel-photo&journey=standard
+- [[Pages/landings — assurance-materiel-photo|Landing]] — https://www.leadsopportunities.fr/landings/assurance-materiel-photo.html
+- [[Pages/landings — assurance-materiel-photo|/landings/assurance-materiel-photo.html]] — https://www.leadsopportunities.fr/landings/assurance-materiel-photo.html
+- [[Pages/blog — assurance-materiel-photo-video-reportage-2026|Article]] — https://www.leadsopportunities.fr/blog/assurance-materiel-photo-video-reportage-2026.html
 
 ## Longue traîne
 
-- assurance drone pro
+- assurance reflex
 - assurance caméra professionnelle
-- assurance reflex vol
+- assurance matériel reportage
 
 ## Silos voisins
 
-- Aucun voisin déclaré
+- [[Silos/drone-pro]]
+- [[Silos/instrument]]
 
 ## Netlinking
 
-Silo planifié : pas de netlinking externe tant que les pages ne sont pas live.
+Netlinking externe autorisé vers le pilier ou la landing, ancre = requête principale ou longue traîne.
 
 Voir [[Netlinking/MOC Netlinking]] et [[Netlinking/Liens entrants]].

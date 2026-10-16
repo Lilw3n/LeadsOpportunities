@@ -39,6 +39,9 @@ var SILO_NEIGHBORS = {
   "transport-logistique": ["transport-voyageurs", "convoyage"],
   "transport-voyageurs": ["transport-logistique", "convoyage"],
 };
+require("./metiers-suite-catalog.cjs").forEach(function (item) {
+  SILO_NEIGHBORS[item.id] = item.neighbors || [];
+});
 
 var CIBLES = [
   {
@@ -711,6 +714,7 @@ function writeMocs(pageCount) {
       "- " + wikilink("Journal/Modeles IA", "Modèles IA disponibles ici"),
       "- " + wikilink("Journal/Provenance leads", "Provenance des leads"),
       "- " + wikilink("Journal/Cluster pro et transport", "Cluster pro et transport"),
+      "- " + wikilink("Journal/Appels Free", "Appels Free"),
       "",
       "## Graphe",
       "",
