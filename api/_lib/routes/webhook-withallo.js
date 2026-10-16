@@ -30,7 +30,38 @@ function normalizeAlloEventType(p) {
 }
 
 function pickSummary(p) {
+  if (p && p.call_summary_structured && p.call_summary_structured.summary) {
+    return p.call_summary_structured.summary;
+  }
   return p.summary || p.resume || p.call_summary || p.transcription_summary || p.notes || "";
+}
+
+function attachCallSummary(p, enriched) {
+  var transcript = p.transcript || p.transcription || p.call_transcript || "";
+  var text = [transcript, p.summary || p.resume || p.call_summary || p.transcription_summary || p.notes || ""]
+    .filter(Boolean)
+    .join("\n");
+  if (!text.trim()) return;
+  try {
+    var local = require("../call-summary").summarizeCallLocal({
+      transcript: text,
+      consentSource: "withallo",
+      phone: p.phone || p.contact_phone || "",
+    });
+    enriched.callSummary = {
+      summary: local.summary,
+      metier: local.metier,
+      nextStep: local.nextStep,
+      provider: local.provider,
+      audio: false,
+    };
+    p.call_summary_structured = enriched.callSummary;
+    if (local.metier && (!enriched.vertical || enriched.vertical === "general")) {
+      enriched.vertical = local.metier.id;
+    }
+  } catch (e) {
+    console.warn("[withallo] summary skipped", e.message);
+  }
 }
 
 async function parseWithalloBody(req) {
@@ -145,6 +176,7 @@ module.exports = async (req, res) => {
     relevanceReasons: rel.relevanceReasons,
     serverReceivedAt: new Date().toISOString(),
   });
+  attachCallSummary(p, enriched);
 
   var stored = false;
   var dbUrl = process.env.DATABASE_URL;

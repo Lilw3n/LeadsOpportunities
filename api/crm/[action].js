@@ -71,6 +71,7 @@ const ROUTES = {
   immo: () => require("../_lib/routes/crm-immo"),
   "immo-users-contact": () => require("../_lib/routes/crm-immo-users-contact"),
   relations: () => require("../_lib/routes/crm-relations"),
+  "call-summary": () => require("../_lib/routes/crm-call-summary"),
 };
 
 module.exports = async (req, res) => {

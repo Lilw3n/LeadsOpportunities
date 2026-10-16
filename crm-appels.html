@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appels Free | CRM</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Téléphone Free</p>
+      <h2>Résumé d’appel</h2>
+      <p>Free (Freebox) donne le journal : numéro, sens, durée. Il ne donne pas l’audio. Le texte vient de WithAllo ou d’un collage, après avoir prévenu le correspondant.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-sources.html" class="btn btn-ghost">Origine leads</a>
+      <a href="./dashboard.html?section=leads" class="btn btn-primary">Leads</a>
+    </div>
+  </section>
+
+  <section class="panel" id="callFormPanel">
+    <h2>Transcrire un appel</h2>
+    <p style="color:var(--muted)">Cochez uniquement si la personne a été informée. Sans cette case, rien n’est résumé ni enregistré.</p>
+    <label style="display:flex;gap:8px;align-items:flex-start;margin:12px 0">
+      <input type="checkbox" id="callConsent" />
+      <span>Le correspondant a été informé que l’appel peut être transcrit et résumé.</span>
+    </label>
+    <div class="crm-toolbar">
+      <label>Téléphone
+        <input id="callPhone" class="crm-input" type="tel" placeholder="06 12 34 56 78" autocomplete="off" />
+      </label>
+      <label>Id lead (facultatif)
+        <input id="callLeadId" class="crm-input" type="text" placeholder="uuid" autocomplete="off" />
+      </label>
+    </div>
+    <label>Transcript ou notes
+      <textarea id="callTranscript" class="crm-input" rows="8" placeholder="Coller le transcript WithAllo ou vos notes après l’appel."></textarea>
+    </label>
+    <label style="display:block;margin-top:12px">Journal Freebox (JSON)
+      <textarea id="callFreebox" class="crm-input" rows="5" placeholder='{"result":[{"type":"incoming","number":"0612345678","duration":95,"datetime":1710000000}]}'></textarea>
+    </label>
+    <p id="freeboxStatus" style="color:var(--muted)"></p>
+    <div class="crm-action-row">
+      <button type="button" class="btn btn-ghost" id="btnFreebox">Lire la Freebox</button>
+      <button type="button" class="btn btn-primary" id="btnSummarize">Résumer</button>
+    </div>
+  </section>
+
+  <section class="panel" id="callResult" hidden>
+    <h2>Résumé</h2>
+    <div id="callResultBody"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Derniers résumés enregistrés</h2>
+    <div id="callHistory"></div>
+  </section>
+
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-appels.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

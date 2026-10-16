@@ -27,6 +27,7 @@
       "crm-acquisition.html": { subtitle: "Leads Google, Meta, TikTok, Instagram, Allo — tri, assignation, archivage" },
       "crm-leads.html": { subtitle: "Lead → prospect / interlocuteur — fusion, liaison, spam IP, validation admin" },
       "crm-sources.html": { subtitle: "Attribution UTM — plateforme, campagne, gclid, fbclid, ttclid" },
+      "crm-appels.html": { subtitle: "Journal Free (numéro, durée) + transcript informé — pas d’audio Free" },
       "crm-pubs.html": { subtitle: "Liens Ads Manager Meta, Google, TikTok — campagne active et formulaires" },
       "crm-blog-pubs.html": { subtitle: "Créas Meta articles & landings — textes, URL UTM, budget, copie Ads Manager" },
       "crm-meta-inbox.html": { subtitle: "Formulaires instantanés Facebook / Instagram — réponses devis" },
