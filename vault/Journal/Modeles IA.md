@@ -13,9 +13,9 @@ Constat du 16 octobre 2026, pour l’agent qui travaille dans ce dépôt.
 
 ## Claude Opus 5.5
 
-Oui. On peut lancer un sous-agent **Claude Opus 5.5** (niveaux high, medium, max, xhigh, et variantes rapides).
+Oui. Le plus haut niveau lançable ici est **Claude Opus 5.5, niveau max**. Vérifié le 16 octobre 2026 : le modèle a répondu.
 
-L’agent principal de cette session reste Grok 4.7. Opus 5.5 s’utilise en lui confiant une tâche, pas en remplaçant toute la conversation.
+L’agent principal de cette session reste Grok 4.7. Opus 5.5 max prend les tâches lourdes (SEO, coffre, texte), il ne remplace pas toute la conversation.
 
 ## OpenAI Astra
 
@@ -23,8 +23,14 @@ Non, pas depuis cet agent. **GPT-6 Astra** (`gpt-6-astra`) existe chez OpenAI, m
 
 Le modèle OpenAI disponible ici est **GPT-5.6 Sol** (high, medium, max, xhigh, et variantes rapides).
 
+## Top du top
+
+1. **Claude Opus 5.5 max** — le plus haut qu’on puisse lancer ici. C’est le choix par défaut pour la suite.
+2. **GPT-5.6 Sol max** — le plus haut OpenAI de cet environnement.
+3. **GPT-6 Astra** — au-dessus sur le papier, pas branché ici.
+
 ## À retenir
 
 - SEO, maillage, coffre : rester dans `vault/` ([[Accueil]]).
-- Pour un passage Opus 5.5 : le demander explicitement.
+- Suite des gros sujets : Opus 5.5 max.
 - Ne pas supposer qu’Astra est branché tant que `gpt-6-astra` n’apparaît pas dans les modèles de l’agent.
