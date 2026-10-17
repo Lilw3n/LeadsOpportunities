@@ -28,6 +28,7 @@ Les notes dans `Journal/` ne sont pas écrasées.
 - [[Journal/Communes de France|Communes de France]]
 - [[Journal/Actu 17 octobre 2026|Actu 17 octobre 2026]]
 - [[Journal/n8n reseaux|n8n réseaux]]
+- [[Journal/o2switch|o2switch]]
 
 ## Graphe
 

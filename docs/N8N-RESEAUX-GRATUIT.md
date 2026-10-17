@@ -55,6 +55,10 @@ npm run social:queue
 
 n8n mémorise les URL déjà publiées. Quand la file est épuisée, il ne republie pas.
 
+## o2switch
+
+o2switch reste le DNS (`assurancevtcfrance.com`) et le mail de secours (Roundcube, MX priorité 10). L'hébergement mutualisé ne lance pas n8n : pas de Docker, un processus qui reste ouvert peut être coupé, une tâche cron wget s'arrête à 360 secondes, et ce cron ne voit pas n8n sur `127.0.0.1`. Note Obsidian : `vault/Journal/o2switch.md`.
+
 ## Oracle, seulement si le PC est éteint à 10 h
 
 1. Compte Oracle Cloud, région d'accueil en Europe (Francfort ou Amsterdam).

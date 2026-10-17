@@ -46,6 +46,8 @@ assert(compose.indexOf("N8N_LICENSE") === -1, "pas de licence payante");
 var doc = fs.readFileSync(path.join(__dirname, "..", "docs/N8N-RESEAUX-GRATUIT.md"), "utf8");
 assert(doc.indexOf("./demarrer.sh") >= 0 && doc.indexOf("15005935") >= 0, "mode d'emploi");
 assert(doc.indexOf("À prendre") >= 0 && doc.indexOf("./demarrer.sh") >= 0 && doc.indexOf("Oracle Cloud Always Free") >= 0, "chemin 0 €");
+var o2 = fs.readFileSync(path.join(__dirname, "..", "vault/Journal/o2switch.md"), "utf8");
+assert(o2.indexOf("generated: false") >= 0 && o2.indexOf("sodium.o2switch.net") >= 0 && o2.indexOf("127.0.0.1") >= 0, "note Obsidian o2switch");
 assert(doc.indexOf("Trop cher") >= 0 && doc.indexOf("Supabase") >= 0 && doc.indexOf("Heroku") >= 0 && doc.indexOf("Render gratuit") >= 0, "hébergeurs payants écartés");
 
 var serveur = fs.readFileSync(path.join(__dirname, "..", "n8n/docker-compose.serveur.yml"), "utf8");
