@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-10-17T19:21:23.274Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,408 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "assurance-emprunteur-comment-profiter-de-la-loi-lemoine-en-2026-magnolia.html",
+      "section": "finance",
+      "tag": "Crédit & lois",
+      "tagClass": "tag-actu",
+      "title": "Assurance emprunteur : comment profiter de la loi Lemoine en 2026 ? - Magnolia.fr : pret et assurance emprunteur — que faire ?",
+      "description": "Assurance emprunteur : comment profiter de la loi Lemoine en 2026 ? - Magnolia.fr — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Assurance emprunteur : comment profiter de la loi Lemoine en 2026 ? - Magnolia.fr — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-emprunteur-comment-profiter",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Assurance emprunteur : comment profiter de la loi Lemoine en 2026 ? - Magnolia.fr</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "prix-des-vaccins-pour-chien-en-2026-tarifs-et-remboursements-le-comparat.html",
+      "section": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-sante",
+      "title": "Prix des vaccins pour chien en 2026 : tarifs et remboursements - Le Comparateur Assurance : assurance animaux — que faire ?",
+      "description": "Prix des vaccins pour chien en 2026 : tarifs et remboursements - Le Comparateur Assurance — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Prix des vaccins pour chien en 2026 : tarifs et remboursements - Le Comparateur Assurance — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=prix-des-vaccins-pour-chien-en-2026-ta",
+        "label": "Questionnaire animaux (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Prix des vaccins pour chien en 2026 : tarifs et remboursements - Le Comparateur Assurance</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Une urgence veterinaire peut depasser 1 000 EUR sans assurance animaux."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Plafond annuel et franchise",
+            "Maladies hereditaires et exclusions",
+            "Prevention et vermifuge",
+            "Age du chien ou chat a la souscription",
+            "Delai de carence"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire animaux : espece, age, antecedents."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-animaux-comment-choisir.html",
+          "label": "Choisir assurance animaux"
+        },
+        {
+          "href": "../assurance-animaux/",
+          "label": "Assurance animaux"
+        }
+      ]
+    },
+    {
+      "file": "assurance-emprunteur-le-ccsf-propose-plusieurs-evolutions-des-contrats-c.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Assurance emprunteur : le CCSF propose plusieurs évolutions des contrats - Club Patrimoine : pret et assurance emprunteur — que faire ?",
+      "description": "Assurance emprunteur : le CCSF propose plusieurs évolutions des contrats - Club Patrimoine — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Assurance emprunteur : le CCSF propose plusieurs évolutions des contrats - Club Patrimoine — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-emprunteur-le-ccsf-propose-p",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Assurance emprunteur : le CCSF propose plusieurs évolutions des contrats - Club Patrimoine</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "en-quoi-roulent-les-chauffeurs-uber-en-france-pour-la-moitie-d-entre-eux.html",
+      "section": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "title": "En quoi roulent les chauffeurs Uber en France ? Pour la moitié d'entre eux, ils ont cho… : assurance VTC — que faire ?",
+      "description": "En quoi roulent les chauffeurs Uber en France ? Pour la moitié d'entre eux, ils ont choisi une seule et unique marque - L'Automobile Magazine — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "En quoi roulent les chauffeurs Uber en France ? Pour la moitié d'entre eux, ils ont choisi une seule et unique — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=en-quoi-roulent-les-chauffeurs-uber-en-f",
+        "label": "Questionnaire VTC (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>En quoi roulent les chauffeurs Uber en France ? Pour la moitié d'entre eux, ils ont cho…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un contrat VTC inadapte peut bloquer Uber, Bolt ou Heetch — et couter cher au sinistre."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "RC Pro plateforme et activite",
+            "Vehicule : usage professionnel declare",
+            "Assistance et perte d'exploitation",
+            "Franchise et conducteurs secondaires",
+            "Attestation a jour avant chaque course"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire VTC : plateforme, vehicule, anciennete."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-vtc-moins-cher-2026.html",
+          "label": "VTC moins cher"
+        },
+        {
+          "href": "../assurance-vtc/",
+          "label": "Assurance VTC"
+        }
+      ]
+    },
+    {
+      "file": "immobilier-combien-de-temps-pour-vendre-un-bien-en-france-les-ecarts-sel.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Immobilier : combien de temps pour vendre un bien en France ? Les écarts selon les vill… : assurance habitation — que faire ?",
+      "description": "Immobilier : combien de temps pour vendre un bien en France ? Les écarts selon les villes - Ouest-France — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Immobilier : combien de temps pour vendre un bien en France ? Les écarts selon les villes - Ouest-France — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=immobilier-combien-de-temps-pour-vendr",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Immobilier : combien de temps pour vendre un bien en France ? Les écarts selon les vill…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "le-gouvernement-veut-raboter-des-2027-les-avantages-fiscaux-de-la-locati.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Le gouvernement veut raboter dès 2027 les avantages fiscaux de la location meublée pour… : assurance habitation — que faire ?",
+      "description": "Le gouvernement veut raboter dès 2027 les avantages fiscaux de la location meublée pour gommer les déséquilibres sur le marché et économiser 200 millions d — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Oct 2026",
+      "cardExcerpt": "Le gouvernement veut raboter dès 2027 les avantages fiscaux de la location meublée pour gommer les déséquilibr — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=le-gouvernement-veut-raboter-des-2027-le",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Google News</strong> (<strong>Le gouvernement veut raboter dès 2027 les avantages fiscaux de la location meublée pour…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
         }
       ]
     }
