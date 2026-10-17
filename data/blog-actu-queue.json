@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-10-17T19:33:02.904Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -36,6 +36,84 @@
       "note": "Angle assurance a preciser",
       "status": "pending",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "round9-lois-20261017",
+      "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les emprunteurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3cc2ec4ef188e79ecf9cfb5d42&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us",
+      "source": "bing",
+      "note": "Le marché de l’assurance emprunteur continue de se transformer depuis l’entrée en vigueur de la Loi Lemoine. En France, Carrefour, via Carrefour Banque et Carrefour Assurance, s’associe désormais à ... | thème=lois",
+      "section": "actu",
+      "need": "emprunteur",
+      "tag": "Lois & réglementation",
+      "status": "published",
+      "addedAt": "2026-10-17T19:32:27.462Z",
+      "theme": "lois"
+    },
+    {
+      "id": "round9-vtc-20261017",
+      "title": "Assurance auto, taxi et VTC : comprendre les garanties",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3c0ea74a06854fc1e8f684ccf8&url=https%3a%2f%2fwww.autojournal.fr%2fpratique%2fassurance-auto-taxi-et-vtc-comprendre-les-garanties-427949.html&c=13410281966971550492&mkt=en-us",
+      "source": "bing",
+      "note": "Pour un chauffeur professionnel, choisir la bonne assurance est important. Découvrez nos conseils pratiques pour sélectionner les garanties adaptées à votre activité et rouler en toute sérénité. | thème=vtc",
+      "section": "vtc",
+      "need": "vtc",
+      "tag": "VTC",
+      "status": "published",
+      "addedAt": "2026-10-17T19:32:27.462Z",
+      "theme": "vtc"
+    },
+    {
+      "id": "round9-animaux-20261017",
+      "title": "Auchan lance une offre d’assurance dédiée aux animaux de compagnie",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3c190648d2a6ee7dc2a51bad93&url=https%3a%2f%2fwww.zonebourse.com%2factualite-bourse%2fauchan-lance-une-offre-d-assurance-dediee-aux-animaux-de-compagnie-ce7e50dadf81f22d&c=5500286205907736925&mkt=en-us",
+      "source": "bing",
+      "note": "Auchan lance son assurance Assur’animaux. Face aux coûts vétérinaires de plus en plus élevés, cette offre s’adresse aux propriétaires de chat et de chien qui recherchent une assurance sur mesure, ... | thème=animaux",
+      "section": "animaux",
+      "need": "animaux",
+      "tag": "Animaux",
+      "status": "published",
+      "addedAt": "2026-10-17T19:32:27.462Z",
+      "theme": "animaux"
+    },
+    {
+      "id": "round9-pret-20261017",
+      "title": "Prêt immobilier refusé : 6 raisons fréquentes et comment rebondir",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3cc2ec4ef188e79ecf9cfb5d42&url=https%3a%2f%2fedito.seloger.com%2ffinancement%2fcredits-immobiliers%2fpret-immobilier-refuse-6-raisons-frequentes-rebondir-article-23929&c=14165844303807140467&mkt=en-us",
+      "source": "bing",
+      "note": "Les taux de crédit immobilier repartent à la hausse cet automne et les banques regardent les dossiers de plus près. Un refus n’a pourtant rien de définitif : il pointe souvent un défaut précis, que vo ... | thème=pret",
+      "section": "finance",
+      "need": "emprunteur",
+      "tag": "Crédit & emprunteur",
+      "status": "published",
+      "addedAt": "2026-10-17T19:32:27.462Z",
+      "theme": "pret"
+    },
+    {
+      "id": "round9-vente-20261017",
+      "title": "Achat immobilier : quand le permis de construire est refusé, que faire ? Le 13H à vos côtés",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3da23c432e9ed48508cdae2b11&url=https%3a%2f%2fwww.tf1info.fr%2fconso-argent%2fvideos%2fvideo-achat-immobilier-quand-le-permis-de-construire-est-refuse-que-faire-le-13h-a-vos-cotes-19255-2468799.html&c=8578614458797093599&mkt=en-us",
+      "source": "bing",
+      "note": "▶️ La fille d’Alexandra a acheté un terrain afin d’y construire sa maison. La promesse de vente a été signée, mais entre-temps, la mairie a décidé de déclarer le terrain impropre à la construction. Le ... | thème=vente",
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Vente & acquisition",
+      "status": "published",
+      "addedAt": "2026-10-17T19:32:27.462Z",
+      "theme": "vente"
+    },
+    {
+      "id": "round9-recherche_bien-20261017",
+      "title": "Louer son appartement avec un bail Code civil, ça change tout !",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3db5b04bceaa5ac965a659e6e6&url=https%3a%2f%2fwww.lopinion.fr%2fpatrimoine%2flouer-son-appartement-avec-un-bail-code-civil-ca-change-tout&c=13371034713285252061&mkt=en-us",
+      "source": "bing",
+      "note": "Si le bail Code civil est mal ficelé, il peut se transformer en cauchemar pour le propriétaire, contre lequel le locataire peut se retourner et demander la requalification de son bail. Mais si tout se ... | thème=recherche_bien",
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Location & recherche",
+      "status": "published",
+      "addedAt": "2026-10-17T19:32:27.462Z",
+      "theme": "recherche_bien"
     }
   ]
 }

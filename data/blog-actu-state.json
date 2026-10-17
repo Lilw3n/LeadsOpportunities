@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-10-17T19:33:00.809Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3cc2ec4ef188e79ecf9cfb5d42&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3c0ea74a06854fc1e8f684ccf8&url=https%3a%2f%2fwww.autojournal.fr%2fpratique%2fassurance-auto-taxi-et-vtc-comprendre-les-garanties-427949.html&c=13410281966971550492&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3c190648d2a6ee7dc2a51bad93&url=https%3a%2f%2fwww.zonebourse.com%2factualite-bourse%2fauchan-lance-une-offre-d-assurance-dediee-aux-animaux-de-compagnie-ce7e50dadf81f22d&c=5500286205907736925&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3cc2ec4ef188e79ecf9cfb5d42&url=https%3a%2f%2fedito.seloger.com%2ffinancement%2fcredits-immobiliers%2fpret-immobilier-refuse-6-raisons-frequentes-rebondir-article-23929&c=14165844303807140467&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3da23c432e9ed48508cdae2b11&url=https%3a%2f%2fwww.tf1info.fr%2fconso-argent%2fvideos%2fvideo-achat-immobilier-quand-le-permis-de-construire-est-refuse-que-faire-le-13h-a-vos-cotes-19255-2468799.html&c=8578614458797093599&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3cd3db5b04bceaa5ac965a659e6e6&url=https%3a%2f%2fwww.lopinion.fr%2fpatrimoine%2flouer-son-appartement-avec-un-bail-code-civil-ca-change-tout&c=13371034713285252061&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-10-17T19:33:02.904Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,50 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-10-17T19:33:02.904Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-sedu.html",
+          "title": "Assurance de prêt immobilier : Carrefour mise sur la Loi Lemoine pour séduire les empru… : pret et assurance emprunteur — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "assurance-auto-taxi-et-vtc-comprendre-les-garanties.html",
+          "title": "Assurance auto, taxi et VTC : comprendre les garanties : assurance VTC — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "auchan-lance-une-offre-d-assurance-dediee-aux-animaux-de-compagnie.html",
+          "title": "Auchan lance une offre d’assurance dédiée aux animaux de compagnie : assurance animaux — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "pret-immobilier-refuse-6-raisons-frequentes-et-comment-rebondir.html",
+          "title": "Prêt immobilier refusé : 6 raisons fréquentes et comment rebondir : pret et assurance emprunteur — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "achat-immobilier-quand-le-permis-de-construire-est-refuse-que-faire-le-1.html",
+          "title": "Achat immobilier : quand le permis de construire est refusé, que faire ? Le 13H à vos c… : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "louer-son-appartement-avec-un-bail-code-civil-ca-change-tout.html",
+          "title": "Louer son appartement avec un bail Code civil, ça change tout ! : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
