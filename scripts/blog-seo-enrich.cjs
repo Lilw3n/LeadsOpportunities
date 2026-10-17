@@ -144,13 +144,37 @@ function defaultKeywords(article) {
   return base;
 }
 
+function leadFaq(article) {
+  var own = (article.faq || []).slice();
+  var hasDevis = own.some(function (item) {
+    return /devis/i.test(item.q || "");
+  });
+  if (hasDevis) return own;
+  var query = (article.keywords && article.keywords[0]) || "cette activité";
+  own.push({
+    q: "Comment demander un devis " + query + " ?",
+    a: "Le questionnaire est gratuit et sans engagement. Il sert à décrire l’activité réelle, pas à afficher un prix. Un courtier ORIAS reprend le dossier avant toute souscription.",
+  });
+  return own;
+}
+
 function enrichArticle(article, override) {
   var keywords = (override && override.keywords) || article.keywords || defaultKeywords(article);
   var baseBlocks = (override && override.blocks) || article.blocks || [];
   var extra = (override && override.extraBlocks) || [];
+  var extraFaq = (override && override.faq) || [];
+  if (article.leadSeo) {
+    return Object.assign({}, article, {
+      keywords: keywords,
+      blocks: baseBlocks.concat(extra),
+      faq: leadFaq(article).concat(extraFaq),
+      meta: article.meta || (override && override.meta) || estimateMeta(baseBlocks, article.faq),
+      description: (override && override.description) || article.description,
+      dateModified: article.dateModified || "2026-10-17",
+    });
+  }
   var autoBlocks = buildAutoBlocks(article, keywords);
   var baseFaq = buildAutoFaq(article, keywords);
-  var extraFaq = (override && override.faq) || [];
   var faq = baseFaq.concat(extraFaq);
   var blocks = baseBlocks.concat(extra).concat(autoBlocks);
   return Object.assign({}, article, {

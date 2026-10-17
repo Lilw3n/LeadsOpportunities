@@ -66,7 +66,13 @@ var hub = JSON.parse(read("data/assurances-hub-meta.json"));
 var shelf = read("blog/index.html");
 assert(shelf.indexOf('id="articles-metiers"') >= 0, "rayon métiers sur le blog");
 assert((shelf.match(/class="metier-blog-card"/g) || []).length >= 24, "au moins 24 cartes métiers");
+assert(shelf.indexOf("Assurance garage automobile") >= 0, "requête garage dans l'index");
 assert(shelf.indexOf('id="blog-sections"') >= 0, "mosaïque des sections");
+var garageHtml = read("blog/assurance-garage-negociant-auto-rc-mrp-2026.html");
+assert(garageHtml.indexOf("Mots-cles") < 0, "description garage sans bourrage");
+assert(garageHtml.indexOf("Comment demander un devis assurance garage automobile") >= 0, "FAQ devis garage");
+assert(garageHtml.indexOf("BreadcrumbList") >= 0, "fil d'Ariane garage");
+assert(garageHtml.indexOf("Pourquoi ce sujet compte") < 0, "pas de bloc générique garage");
 ["pro", "collective", "partenariat", "vtc", "sante", "finance"].forEach(function (id) {
   assert(shelf.indexOf('id="blog-section-' + id + '"') >= 0, "section blog " + id);
 });

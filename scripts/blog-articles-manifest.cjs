@@ -3232,11 +3232,15 @@ partenariatNiches.forEach(function (a) {
 
 const proMetiers = require("./blog-pro-metiers-articles.cjs");
 proMetiers.forEach(function (a) {
+  a.leadSeo = true;
+  a.dateModified = "2026-10-17";
   module.exports.articles.push(a);
 });
 
 const metiersSuite = require("./blog-metiers-suite-articles.cjs");
 metiersSuite.forEach(function (a) {
+  a.leadSeo = true;
+  a.dateModified = "2026-10-17";
   module.exports.articles.push(a);
 });
 
@@ -3247,6 +3251,8 @@ vspArticles.forEach(function (a) {
 
 const collectiveArticles = require("./blog-collective-articles.cjs");
 collectiveArticles.forEach(function (a) {
+  a.leadSeo = true;
+  a.dateModified = "2026-10-17";
   module.exports.articles.push(a);
 });
 

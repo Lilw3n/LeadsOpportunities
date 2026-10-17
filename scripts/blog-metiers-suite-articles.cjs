@@ -25,7 +25,6 @@ function articleFrom(item) {
     if (section.items) blocks.push({ type: "ul", items: section.items });
     if (section.p) blocks.push({ type: "p", text: section.p });
   });
-  blocks.push({ type: "bridge" });
   return {
     file: item.blog,
     section: item.blogSection,
@@ -88,7 +87,6 @@ var pillar = {
       type: "p",
       text: "Instrument, photo, bateau, caravane, moto de collection, piscine, forêt : le bien se décrit. L’habitation ou l’auto du quotidien ne les absorbe pas dès que la valeur ou l’usage sort du cadre. Le <a href=\"../landings/transport-voyageurs.html\">transport de voyageurs</a> et le <a href=\"../landings/transport-logistique.html\">transport de marchandises</a> restent les hubs déjà ouverts.",
     },
-    { type: "bridge" },
   ],
   faq: [
     {

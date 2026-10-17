@@ -16,6 +16,7 @@ const BLOG_CSS = "/blog/blog.css";
 
 const blogDir = path.join(__dirname, "..", "blog");
 const force = process.argv.includes("--force");
+const leadOnly = process.argv.includes("--lead-seo");
 
 function esc(s) {
   return String(s)
@@ -158,6 +159,16 @@ function renderJsonLd(a, canonical) {
       about: a.section || "assurance",
     },
   ];
+  if (a.leadSeo) {
+    graph.unshift({
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Accueil", item: base + "/" },
+        { "@type": "ListItem", position: 2, name: "Blog", item: base + "/blog/" },
+        { "@type": "ListItem", position: 3, name: a.tag || "Article", item: canonical },
+      ],
+    });
+  }
   if (faq.length) {
     graph.push({
       "@type": "FAQPage",
@@ -273,8 +284,16 @@ manifest.articles.forEach(function (raw) {
     skipped++;
     return;
   }
+  if (leadOnly && !raw.leadSeo) {
+    skipped++;
+    return;
+  }
   var out = path.join(blogDir, raw.file);
-  if (fs.existsSync(out) && !force) {
+  if (fs.existsSync(out) && !force && !raw.leadSeo) {
+    skipped++;
+    return;
+  }
+  if (fs.existsSync(out) && !force && raw.leadSeo && !leadOnly) {
     skipped++;
     return;
   }

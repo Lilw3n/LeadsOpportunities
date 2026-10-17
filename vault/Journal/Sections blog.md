@@ -25,6 +25,22 @@ Les articles ne sont plus une seule liste. Chaque section du manifeste (`scripts
 - `#blog-section-sante` — mutuelle individuelle
 - `#blog-section-finance` — crédit et immobilier
 
+## SEO qui mène au devis
+
+Les articles métiers (`leadSeo`) ne reçoivent pas le bloc générique ni la liste « Mots-clés » dans la balise description. La requête vient du silo :
+
+- [[Silos/garage]] — assurance garage automobile
+- [[Silos/mrp]] — multirisque professionnelle
+- [[Silos/rc-pro]] — responsabilité civile professionnelle
+- [[Silos/metiers-batiment]] — assurance métiers du bâtiment
+- [[Silos/transport-logistique]] — assurance transport marchandises
+- [[Silos/transport-voyageurs]] — assurance transport de voyageurs
+- [[Silos/collective]] — mutuelle collective entreprise
+
+Chaque page a une FAQ « Comment demander un devis », un fil d’Ariane, et un lien vers le questionnaire. Régénérer seulement ces pages : `node scripts/generate-blog-articles.cjs --lead-seo`. Ne pas lancer `blog:build --force`.
+
+File d’indexation : les six guides sont dans `scripts/seo-gsc-priority-urls.cjs`, à côté des landings.
+
 Silos liés : [[Silos/garage]], [[Silos/mrp]], [[Silos/rc-pro]], [[Silos/decennale]], [[Silos/collective]], [[Silos/metiers-batiment]], [[Silos/transport-logistique]], [[Silos/transport-voyageurs]].
 
 Carte du cluster : [[Journal/Cluster pro et transport]].

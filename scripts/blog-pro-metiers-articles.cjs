@@ -53,8 +53,9 @@ function article(opts) {
     blocks: opts.blocks,
     faq: opts.faq || [],
     related: [
+      { href: "./assurance-metiers-quel-contrat-choisir-2026.html", label: "Quel contrat selon le métier" },
+      { href: "./index.html#blog-section-pro", label: "Section professionnel du blog" },
       { href: "../assurances-niches.html", label: "Assurances de niche" },
-      { href: "../landings/metiers-batiment.html", label: "Métiers du bâtiment" },
     ].concat(siblingsForLanding(opts.landing, opts.file)),
   };
 }
@@ -66,9 +67,9 @@ module.exports = [
     campaign: "garage_negociant",
     landing: "../landings/garage-negociant-auto.html",
     themes: ["pro", "auto"],
-    title: "Assurance garage et négociant auto : dépôt, atelier, essai",
+    title: "Assurance garage automobile : dépôt, essai et atelier",
     description:
-      "Garage, carrosserie, négociant automobile : RC exploitation, véhicules en dépôt, essai, MRP atelier. Ce que le courtier doit déclarer avant le devis.",
+      "Assurance garage automobile : véhicules en dépôt, essais et atelier. Le négoce se déclare à part de l’auto du dirigeant. Devis gratuit, sans engagement.",
     cardExcerpt: "Un garage n’est pas une auto particulière : dépôt, essai et atelier se déclarent à part.",
     keywords: [
       "assurance garage automobile",
@@ -105,7 +106,6 @@ module.exports = [
         type: "p",
         text: "La RC couvre le dommage causé à un tiers. L’incendie du local, le vol du pont ou la perte d’exploitation relèvent de la <a href=\"../landings/multirisque-professionnelle.html\">multirisque professionnelle</a>. Les deux contrats se lisent ensemble, pas l’un à la place de l’autre.",
       },
-      { type: "bridge" },
     ],
     faq: [
       {
@@ -127,7 +127,7 @@ module.exports = [
     themes: ["pro"],
     title: "Multirisque professionnelle : locaux, stock, perte d’exploitation",
     description:
-      "MRP pour commerces, ateliers et bureaux : incendie, dégât des eaux, vol, bris, perte d’exploitation. Différence avec l’assurance immeuble et la RC Pro.",
+      "Multirisque professionnelle : incendie, vol, stock et perte d’exploitation des locaux. Elle ne remplace ni la RC Pro ni la décennale. Devis gratuit.",
     cardExcerpt: "La MRP protège ce que vous occupez et votre matériel. Elle ne remplace pas la RC ni la décennale.",
     keywords: [
       "multirisque professionnelle",
@@ -165,7 +165,6 @@ module.exports = [
         type: "p",
         text: "Dès qu’il y a des salariés, la <a href=\"../landings/sante-collective.html\">mutuelle collective</a> est un sujet employeur distinct de la MRP. On ne le glisse pas dans la même prime.",
       },
-      { type: "bridge" },
     ],
     faq: [
       {
@@ -181,9 +180,9 @@ module.exports = [
     campaign: "rc_pro",
     landing: "../landings/rc-pro.html",
     themes: ["pro"],
-    title: "RC Pro : ce qu’elle couvre, et ce qu’elle ne remplace pas",
+    title: "Responsabilité civile professionnelle : ce qu’elle ne remplace pas",
     description:
-      "Responsabilité civile professionnelle : dommages aux tiers, activité déclarée, plafond, franchise. Pourquoi elle ne remplace ni la décennale, ni la MRP, ni l’auto.",
+      "Responsabilité civile professionnelle : dommages aux tiers et activité déclarée. Elle ne remplace ni la décennale, ni la MRP, ni l’auto. Devis RC Pro gratuit.",
     cardExcerpt: "La RC Pro suit l’activité déclarée. Une activité oubliée est une garantie absente.",
     keywords: [
       "rc pro",
@@ -220,7 +219,6 @@ module.exports = [
         type: "p",
         text: "Deux devis à la même prime peuvent avoir un plafond corporel très différent. On compare le plafond, la franchise et les exclusions d’activité, pas seulement le prix annuel. Pour le bâtiment, partir du <a href=\"../landings/metiers-batiment.html\">parcours métiers du bâtiment</a>.",
       },
-      { type: "bridge" },
     ],
     faq: [
       {
@@ -236,9 +234,9 @@ module.exports = [
     campaign: "metiers_batiment",
     landing: "../landings/metiers-batiment.html",
     themes: ["pro"],
-    title: "Métiers du bâtiment : décennale, RC chantier et atelier",
+    title: "Assurance métiers du bâtiment : décennale, RC et atelier",
     description:
-      "Maçon, couvreur, électricien, plombier, second œuvre : quel contrat pour l’ouvrage, le chantier et l’atelier. Parcours courtier pour artisans du bâtiment.",
+      "Assurance métiers du bâtiment : décennale pour l’ouvrage, RC pour le chantier, MRP pour l’atelier. Devis artisan gratuit, sans engagement.",
     cardExcerpt: "Bâtiment : la décennale n’est qu’une pièce. RC chantier et MRP atelier complètent le dossier.",
     keywords: [
       "assurance métiers du bâtiment",
@@ -276,7 +274,6 @@ module.exports = [
         type: "p",
         text: "L’utilitaire qui va au chantier n’est pas une assurance marchandises. S’il y a livraison ou enlèvement pour compte d’autrui, ouvrir aussi le <a href=\"../landings/transport-logistique.html\">parcours transport</a>.",
       },
-      { type: "bridge" },
     ],
     faq: [
       {
@@ -292,9 +289,9 @@ module.exports = [
     campaign: "transport_logistique",
     landing: "../landings/transport-logistique.html",
     themes: ["pro", "auto"],
-    title: "Assurance transport et logistique : marchandises, lot, entrepôt",
+    title: "Assurance transport marchandises : lot, entrepôt, camion",
     description:
-      "Transporteur, commissionnaire, entrepositaire : RC exploitation, marchandises transportées, entrepôt. À ne pas confondre avec l’assurance du camion ni avec le convoyage.",
+      "Assurance transport marchandises : lot, commissionnaire et entrepôt. Le camion assuré ne couvre pas la marchandise. Devis gratuit, sans engagement.",
     cardExcerpt: "Le camion assuré ne veut pas dire la marchandise assurée.",
     keywords: [
       "assurance transport marchandises",
@@ -332,7 +329,6 @@ module.exports = [
         type: "p",
         text: "Le bâtiment d’exploitation (quai, bureau, atelier de maintenance) se regarde avec la <a href=\"../landings/multirisque-professionnelle.html\">multirisque professionnelle</a>, à part de la marchandise confiée.",
       },
-      { type: "bridge" },
     ],
     faq: [
       {
@@ -348,9 +344,9 @@ module.exports = [
     campaign: "transport_voyageurs",
     landing: "../landings/transport-voyageurs.html",
     themes: ["pro", "vtc"],
-    title: "Transport de voyageurs : autocar, lignes, VTC et commun",
+    title: "Assurance transport de voyageurs : autocar et lignes",
     description:
-      "Transport de personnes : VTC et taxi d’un côté, autocar, navette et transport scolaire de l’autre. Activité, capacité, lignes. Parcours distinct du convoyage.",
+      "Assurance transport de voyageurs : autocar, lignes et transport scolaire. Distinct du VTC et du convoyage. Devis gratuit, sans engagement.",
     cardExcerpt: "Transporter des personnes n’est pas convoyer une voiture vide.",
     keywords: [
       "assurance transport de voyageurs",
@@ -388,7 +384,6 @@ module.exports = [
         type: "p",
         text: "Le transport de colis reste sur la page <a href=\"../landings/transport-logistique.html\">logistique</a>. Le déplacement d’un véhicule sans passager commercial reste sur le <a href=\"../landings/convoyage-vehicules.html\">convoyage</a>. Mélanger les trois dans un seul formulaire produit un devis inutilisable.",
       },
-      { type: "bridge" },
     ],
     faq: [
       {
