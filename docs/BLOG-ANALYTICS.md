@@ -108,7 +108,7 @@ Complémentaire à GA4 : GA4 = chiffres agrégés ; Clarity = vision qualitative
 
 ## CRM — stats concrètes sur le site
 
-Page CRM : **`/crm-blog-stats.html`** (sidebar → *Stats blog & forum*).
+Page CRM : **`/crm-blog-stats.html`** (sidebar → *Stats blog & forum*). La liste **`/dashboard.html?section=leads`** utilise la même règle : le compteur « Questionnaires remplis » ignore les vues et les formulaires vides, et l’article source est affiché à côté du lead, avec ses clics.
 
 API : `GET /api/crm/blog-stats?days=30` (auth CRM).
 

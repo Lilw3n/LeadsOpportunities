@@ -110,6 +110,9 @@ assert(dash.indexOf("lead-row-check") >= 0, "dashboard : cases à cocher");
 assert(dash.indexOf("filterScore") >= 0, "dashboard : filtre score");
 assert(dash.indexOf("acheteur_immo") >= 0, "dashboard : vertical acheteur immo");
 assert(dash.indexOf("leadStatTotal") >= 0, "dashboard : KPI tous les leads");
+assert(dash.indexOf("leadStatQuestionnaires") >= 0, "dashboard : compteur questionnaires remplis");
+assert(dash.indexOf("leadArticlesBody") >= 0, "dashboard : articles à côté des leads");
+assert(dash.indexOf("leadArticleCell") >= 0, "dashboard : colonne article du lead");
 assert(dash.indexOf("filterLimit") >= 0, "dashboard : 100 par page");
 assert(dash.indexOf("renderLeadsPagination") >= 0, "dashboard : pagination lisible");
 assert(dash.indexOf("leads au total") >= 0, "dashboard : total explicite");
@@ -133,11 +136,33 @@ assert(page.indexOf("lhIp") >= 0, "CRM : champ filtre IP");
 var side = read("js/crm-sidebar.js");
 assert(side.indexOf("crm-leads.html") >= 0, "sidebar : page leads");
 
-["js/lead-identity-lib.js", "crm-leads.js", "api/_lib/routes/crm-leads-hub.js", "api/_lib/routes/crm-lead-lifecycle.js", "api/_lib/ip-blocks.js", "api/_lib/routes/ip-block.js", "api/_lib/routes/lead-delete.js"].forEach(
+["js/lead-identity-lib.js", "crm-leads.js", "api/_lib/routes/crm-leads-hub.js", "api/_lib/routes/crm-lead-lifecycle.js", "api/_lib/ip-blocks.js", "api/_lib/routes/ip-block.js", "api/_lib/routes/lead-delete.js", "api/_lib/lead-article.js", "api/_lib/routes/leads.js", "api/_lib/routes/lead-detail.js"].forEach(
   function (rel) {
     require("child_process").execFileSync(process.execPath, ["--check", path.join(__dirname, "..", rel)]);
     assert(true, "syntaxe " + rel);
   }
+);
+
+var summarized = require("../api/_lib/lead-article").summarizeQuestionnaireLeads(
+  [
+    {
+      source: "landing_form",
+      email: "client@example.fr",
+      phone: "0612345678",
+      questionnaire_step: 4,
+      payload: { utm_content: "assurance-garage-negociant-auto-rc-mrp-2026" },
+    },
+    { source: "landing_form", email: "", phone: "", questionnaire_step: 2, payload: {} },
+  ],
+  { "assurance-garage-negociant-auto-rc-mrp-2026": 11 }
+);
+assert(summarized.questionnaire_total === 1, "compteur ignore le formulaire vide");
+assert(
+  summarized.articles[0] &&
+    summarized.articles[0].slug === "assurance-garage-negociant-auto-rc-mrp-2026" &&
+    summarized.articles[0].clicks === 11 &&
+    summarized.articles[0].questionnaire_leads === 1,
+  "article source à côté du questionnaire"
 );
 
 if (failed) {

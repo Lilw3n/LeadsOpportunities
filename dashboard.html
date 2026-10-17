@@ -459,7 +459,7 @@
     }
     .btn-ip-name:hover { background: #e0e7ff; }
     .ip-cell-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
-    .lead-mgmt-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    .lead-mgmt-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
     .lead-mgmt-stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
     .lead-mgmt-stat strong { font-size: 1.4rem; display: block; }
     .lead-mgmt-stat.lead-mgmt-stat-total { border-color: var(--primary); background: var(--accent-light, #eef2ff); }
@@ -1965,7 +1965,7 @@
         <div class="dash-topbar">
           <div>
             <h1>Gestion des Leads</h1>
-            <p class="subtitle">Tous les leads reçus sont ici (liste complète). Qualification spam/prospect : <a href="./crm-leads.html" style="color:var(--primary);font-weight:600">Leads → prospects</a> · <a href="./crm-acquisition.html" style="color:var(--primary);font-weight:600">Devis remplis</a></p>
+            <p class="subtitle">Un lead compte seulement avec un e-mail ou un téléphone et un questionnaire envoyé. L’article qui l’a amené est à côté, avec ses clics. La liste complète reste dessous. Qualification : <a href="./crm-leads.html" style="color:var(--primary);font-weight:600">Leads → prospects</a> · <a href="./crm-acquisition.html" style="color:var(--primary);font-weight:600">Devis remplis</a></p>
           </div>
           <div class="topbar-actions">
             <button class="btn-refresh" id="refreshLeads">
@@ -1976,12 +1976,21 @@
         </div>
 
         <div class="lead-mgmt-stats">
-          <div class="lead-mgmt-stat lead-mgmt-stat-total"><span class="muted">Tous les leads</span><strong id="leadStatTotal">—</strong></div>
+          <div class="lead-mgmt-stat lead-mgmt-stat-total"><span class="muted">Questionnaires remplis</span><strong id="leadStatQuestionnaires">—</strong></div>
+          <div class="lead-mgmt-stat"><span class="muted">Enregistrements</span><strong id="leadStatTotal">—</strong></div>
           <div class="lead-mgmt-stat"><span class="muted">Nouveaux (non ouverts)</span><strong id="leadStatNew">—</strong></div>
           <div class="lead-mgmt-stat"><span class="muted">Jamais ouverts</span><strong id="leadStatUnopened">—</strong></div>
           <div class="lead-mgmt-stat"><span class="muted">Pertinents</span><strong id="leadStatRelevant">—</strong></div>
         </div>
         <div class="leads-total-banner" id="leadsTotalBanner">Vos leads sont tous dans ce tableau. Par défaut 100 par page (plus de pagination à 20).</div>
+
+        <div class="dash-panel" style="margin-bottom:16px">
+          <div class="panel-header"><h2>Articles qui ont amené les questionnaires</h2></div>
+          <div class="panel-body" style="overflow-x:auto;padding-top:0">
+            <p style="color:var(--muted);font-size:0.85rem;margin-top:0">Clics de l’article (30 jours) à côté du nombre de questionnaires vraiment envoyés. Une vue ou un formulaire vide ne compte pas.</p>
+            <div id="leadArticlesBody"><p class="muted">Chargement…</p></div>
+          </div>
+        </div>
 
         <div class="dash-panel">
           <div class="filters-bar">
@@ -2102,12 +2111,13 @@
                   <th>IP</th>
                   <th data-sort="status">Statut</th>
                   <th>Origine</th>
+                  <th>Article</th>
                   <th>Pertinence</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="leadsTableBody">
-                <tr><td colspan="11" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
+                <tr><td colspan="12" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
               </tbody>
             </table>
           </div>
@@ -2362,6 +2372,7 @@
     var USER_KEY = D.USER_KEY;
     var currentPage = 1;
     var leadsLimit = 100;
+    var leadArticleSummary = { total: 0, capped: false, articles: [] };
     var currentSort = "created_at";
     var currentOrder = "desc";
     var lastNotifyAt = new Date().toISOString();
@@ -2689,6 +2700,58 @@
       pollNewLeads();
     }
 
+    function leadArticleCell(l) {
+      if (!l || !l.article_slug) {
+        return l && l.questionnaire_filled ? '<span class="lead-pill lead-pill-high">rempli</span>' : "—";
+      }
+      var clicks = Number(l.article_clicks || 0);
+      var href = l.article_path || "/blog/" + l.article_slug + ".html";
+      if (href.charAt(0) === "/") href = "." + href;
+      return (
+        '<a href="' +
+        esc(href) +
+        '" target="_blank" rel="noopener">' +
+        esc(l.article_title || l.article_slug) +
+        "</a>" +
+        (l.questionnaire_filled ? ' <span class="lead-pill lead-pill-high">rempli</span>' : "") +
+        '<div style="color:var(--muted);font-size:0.75rem;margin-top:2px">' +
+        clicks +
+        " clic" +
+        (clicks > 1 ? "s" : "") +
+        "</div>"
+      );
+    }
+
+    function renderLeadArticles(rows) {
+      var el = document.getElementById("leadArticlesBody");
+      if (!el) return;
+      if (!rows || !rows.length) {
+        el.innerHTML =
+          '<p style="color:var(--muted);margin:0">Aucun questionnaire rempli sur ce filtre. Une vue ou un formulaire sans contact ne compte pas.</p>';
+        return;
+      }
+      el.innerHTML =
+        "<table class=\"leads-table\"><thead><tr><th>Article</th><th>Clics</th><th>Questionnaires remplis</th></tr></thead><tbody>" +
+        rows
+          .map(function (r) {
+            var href = r.path ? (r.path.charAt(0) === "/" ? "." + r.path : r.path) : "";
+            var title = href
+              ? '<a href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(r.title || r.slug) + "</a>"
+              : esc(r.title || "Sans article");
+            return (
+              "<tr><td>" +
+              title +
+              "</td><td><strong>" +
+              (r.clicks || 0) +
+              "</strong></td><td><strong>" +
+              (r.questionnaire_leads || 0) +
+              "</strong></td></tr>"
+            );
+          })
+          .join("") +
+        "</tbody></table>";
+    }
+
     function renderLeadsPagination(pg) {
       var total = Number(pg.total || 0);
       var page = Number(pg.page || 1);
@@ -2707,25 +2770,39 @@
       if (infoTop) infoTop.textContent = info;
       if (document.getElementById("leadStatTotal")) document.getElementById("leadStatTotal").textContent = total;
       var banner = document.getElementById("leadsTotalBanner");
+      var qTotal = leadArticleSummary && leadArticleSummary.total != null ? leadArticleSummary.total : null;
+      var qNote =
+        qTotal == null
+          ? ""
+          : "<strong>" +
+            qTotal +
+            " questionnaires remplis</strong> (e-mail ou téléphone, formulaire envoyé)" +
+            (leadArticleSummary.capped ? ", sur les 1&nbsp;500 derniers de ce filtre" : "") +
+            ". ";
+      if (document.getElementById("leadStatQuestionnaires") && qTotal != null) {
+        document.getElementById("leadStatQuestionnaires").textContent = qTotal;
+      }
       if (banner) {
-        if (!total) {
+        if (!total && !qTotal) {
           banner.textContent = "Aucun lead pour ces filtres. Choisissez « Tous (chrono) » pour voir toute la base.";
         } else if (totalPages > 1) {
           banner.innerHTML =
+            qNote +
             "<strong>" +
             total +
-            " leads</strong> sont tous ici. Cette vue en montre " +
+            " leads au total</strong> dans cette vue (visites et formulaires vides inclus). Affichage " +
             (to - from + 1) +
             " (page " +
             page +
             " / " +
             totalPages +
-            "). Cliquez <strong>Suivant</strong> ou passez à <strong>100 par page</strong> / <strong>Tous (250)</strong>.";
+            ").";
         } else {
           banner.innerHTML =
+            qNote +
             "<strong>" +
             total +
-            " leads</strong> en base — tous affichés dans le tableau ci-dessous. Rien n’a été déplacé ni perdu.";
+            " leads au total</strong> dans cette vue — enregistrements affichés dans le tableau. Le compteur questionnaires ignore les vues et les formulaires vides.";
         }
       }
       ["leadsPagination", "leadsPaginationTop"].forEach(function (id) {
@@ -3080,7 +3157,7 @@
     // LOAD LEADS
     async function loadLeads() {
       var tbody = document.getElementById("leadsTableBody");
-      tbody.innerHTML = '<tr><td colspan="11" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="12" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
 
       var status = document.getElementById("filterStatus").value;
       var vertical = document.getElementById("filterVertical").value;
@@ -3113,13 +3190,19 @@
         if (data.status === 403) leadErr = "Session expiree";
         if (data.detail) leadErr += " — " + esc(data.detail);
         tbody.innerHTML =
-          '<tr><td colspan="11"><div class="empty-state">' +
+          '<tr><td colspan="12"><div class="empty-state">' +
           leadErr +
           '<br><a href="./auth.html">Reconnectez-vous</a> · <button type="button" class="btn btn-ghost btn-sm" onclick="loadLeads()">Reessayer</button></div></td></tr>';
         return;
       }
 
       try {
+        leadArticleSummary = {
+          total: data.questionnaire_total != null ? Number(data.questionnaire_total) : 0,
+          capped: !!data.questionnaire_capped,
+          articles: data.lead_articles || [],
+        };
+        renderLeadArticles(leadArticleSummary.articles);
         tbody.innerHTML = "";
         var leadsList = data.leads || [];
         if (visitorCatFilter) {
@@ -3137,7 +3220,7 @@
         }
         if (!leadsList.length) {
           tbody.innerHTML =
-            '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';var vc=document.getElementById(\'filterVisitorCat\');if(vc)vc.value=\'\';var og=document.getElementById(\'filterOrigin\');if(og)og.value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
+            '<tr><td colspan="12"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';var vc=document.getElementById(\'filterVisitorCat\');if(vc)vc.value=\'\';var og=document.getElementById(\'filterOrigin\');if(og)og.value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
         } else {
           window.__lastLeadsList = leadsList;
           leadsList.forEach(function(l) {
@@ -3197,6 +3280,7 @@
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
               '<td title="' + esc([l.source, l.utm_source, l.utm_campaign].filter(Boolean).join(" · ")) + '">' +
               esc(l.origin_label || l.platform || l.utm_source || l.source) + '</td>' +
+              '<td>' + leadArticleCell(l) + '</td>' +
               '<td>' + relevanceLabel(rel) + '</td>' +
               '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> ' +
               (l.contact_id
@@ -3222,6 +3306,7 @@
               if (e.target.closest(".btn-ip-filter")) return;
               if (e.target.closest(".btn-ip-name")) return;
               if (e.target.closest("[data-block-ip]")) return;
+              if (e.target.closest("a")) return;
               if (e.target.closest(".btn-lead-open")) {
                 e.stopPropagation();
                 openLeadDetail(l.id);
@@ -3257,7 +3342,7 @@
         }
       } catch(e) {
         console.error(e);
-        tbody.innerHTML = '<tr><td colspan="11" style="color:var(--red)">Erreur réseau</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="12" style="color:var(--red)">Erreur réseau</td></tr>';
       }
     }
 
@@ -3670,6 +3755,7 @@
             '<div class="detail-item"><div class="dlabel">Score</div><div class="dvalue">' + (l.lead_score != null ? l.lead_score + '/100' : '—') + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Date</div><div class="dvalue">' + fmtDate(l.created_at) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Origine</div><div class="dvalue">' + esc(l.origin_label || l.platform || l.utm_source || l.source) + '</div></div>' +
+            '<div class="detail-item detail-full"><div class="dlabel">Article</div><div class="dvalue">' + leadArticleCell(l) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Pertinence</div><div class="dvalue">' + relevanceLabel(l.relevance || (payload.relevance)) + '</div></div>' +
             (l.opened_at || payload.openedAt ? '<div class="detail-item"><div class="dlabel">Ouvert le</div><div class="dvalue">' + fmtDate(l.opened_at || payload.openedAt) + '</div></div>' : '<div class="detail-item"><div class="dlabel">Ouverture</div><div class="dvalue">Jamais ouvert</div></div>') +
             '<div class="detail-item"><div class="dlabel">Source</div><div class="dvalue">' + esc(l.utm_source || l.source) + '</div></div>' +

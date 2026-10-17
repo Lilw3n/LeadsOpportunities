@@ -2,6 +2,7 @@ const { requireDashboardAdmin } = require("../dashboard-admin");
 const { applyApiGuards } = require("../security");
 const { getSql } = require("../db");
 const { enrichLeadRow } = require("../leads-filters");
+const { decorateLeadArticle, loadArticleClickMap } = require("../lead-article");
 const { markLeadOpened } = require("../lead-workflow");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
 const { findExistingContact } = require("../crm-ingest-from-lead");
@@ -97,6 +98,12 @@ module.exports = async (req, res) => {
 
     const lead = enrichLeadRow(rows[0]);
     lead.payload = parsePayload(lead.payload);
+    try {
+      var clickMap = await loadArticleClickMap(sql);
+      decorateLeadArticle(lead, clickMap);
+    } catch (artErr) {
+      decorateLeadArticle(lead, {});
+    }
 
     if (!lead.contact_id) {
       try {

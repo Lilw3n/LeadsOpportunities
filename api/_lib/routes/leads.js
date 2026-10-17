@@ -2,6 +2,7 @@ const { getAuthUser } = require("../auth");
 const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
 const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
+const { decorateLeadArticle, summarizeQuestionnaireLeads, loadArticleClickMap } = require("../lead-article");
 
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
 const VALID_SORT = ["created_at", "lead_score", "vertical", "email", "status"];
@@ -258,6 +259,67 @@ async function countLeadsMinimal(sql, opts) {
   return rows[0].total;
 }
 
+async function fetchQuestionnaireCandidates(sql, opts) {
+  const view = opts.viewVal || "";
+  const plat = opts.platformVal || "";
+  try {
+    return await sql`
+      SELECT source, email, phone, payload, is_duplicate, parent_lead_id, questionnaire_step
+      FROM site_leads
+      WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
+        AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+        AND (${opts.searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
+          OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
+          OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.searchPattern})
+        ))
+        AND (${opts.ipPattern}::text IS NULL OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern}))
+        AND (${opts.scoreMin}::int IS NULL OR COALESCE(lead_score, 0) >= ${opts.scoreMin})
+        AND (${view} = '' OR ${view} != 'relevant' OR COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'relevance')
+            ELSE NULL
+          END, '') = 'high')
+        AND (${view} = '' OR ${view} != 'unopened' OR COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
+            ELSE NULL
+          END, '') = '')
+        AND (${view} = '' OR ${view} != 'new' OR (
+          COALESCE(status, 'new') = 'new'
+          AND COALESCE(
+            CASE
+              WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+              WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
+              ELSE NULL
+            END, '') = ''))
+        AND (${plat} = '' OR ${plat} != 'google' OR (
+          LOWER(COALESCE(utm_source, '')) LIKE '%google%'
+          OR COALESCE(gclid, '') <> ''))
+        AND (${plat} = '' OR ${plat} NOT IN ('facebook', 'meta') OR (
+          LOWER(COALESCE(utm_source, '')) LIKE '%facebook%'
+          OR LOWER(COALESCE(utm_source, '')) LIKE '%meta%'
+          OR LOWER(COALESCE(utm_source, '')) LIKE '%instagram%'))
+        AND (${plat} = '' OR ${plat} IN ('google', 'facebook', 'meta') OR (
+          COALESCE(source, '') = ${plat}
+          OR LOWER(COALESCE(utm_source, '')) = LOWER(${plat})))
+      ORDER BY created_at DESC
+      LIMIT 1500
+    `;
+  } catch (e) {
+    return sql`
+      SELECT source, email, phone, payload
+      FROM site_leads
+      ORDER BY created_at DESC
+      LIMIT 1500
+    `;
+  }
+}
+
 async function loadLeadsList(sql, opts) {
   try {
     const rows = await fetchLeadsStandard(sql, opts);
@@ -334,12 +396,33 @@ module.exports = async (req, res) => {
     await ensureSiteLeadsSchema(sql);
 
     const result = await loadLeadsList(sql, queryOpts);
-    const leads = result.rows.map(enrichLeadRow);
+    var clickMap = {};
+    try {
+      clickMap = await loadArticleClickMap(sql);
+    } catch (clickErr) {
+      clickMap = {};
+    }
+    var qSource = result.rows;
+    var questionnaireCapped = false;
+    try {
+      qSource = await fetchQuestionnaireCandidates(sql, queryOpts);
+      questionnaireCapped = qSource.length >= 1500;
+    } catch (qErr) {
+      console.warn("[dashboard/leads] questionnaire window", qErr.message);
+      qSource = result.rows;
+    }
+    const summary = summarizeQuestionnaireLeads(qSource, clickMap);
+    const leads = result.rows.map(function (row) {
+      return decorateLeadArticle(enrichLeadRow(row), clickMap);
+    });
     const total = result.total;
 
     return res.status(200).json({
       ok: true,
       leads,
+      questionnaire_total: summary.questionnaire_total,
+      questionnaire_capped: questionnaireCapped,
+      lead_articles: summary.articles,
       pagination: {
         page,
         limit,
