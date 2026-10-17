@@ -97,6 +97,7 @@
     "verify:partners-credit": "node scripts/verify-partners-credit.cjs",
     "verify:acquisition-priorites": "node scripts/verify-acquisition-priorites.cjs",
     "verify:niches-actu": "node scripts/verify-niches-actu.cjs",
+    "verify:actu-17-octobre": "node scripts/verify-actu-17-octobre.cjs",
     "verify:partenariat-niches": "node scripts/verify-partenariat-niches.cjs",
     "verify:pro-metiers": "node scripts/verify-pro-metiers.cjs",
     "verify:metiers-suite": "node scripts/verify-metiers-suite.cjs",

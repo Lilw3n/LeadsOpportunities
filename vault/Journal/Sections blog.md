@@ -41,6 +41,8 @@ Chaque page a une FAQ « Comment demander un devis », un fil d’Ariane, et un 
 
 File d’indexation : les six guides sont dans `scripts/seo-gsc-priority-urls.cjs`, à côté des landings.
 
+Actu du 17 octobre 2026 (casse, commerce fermé, L. 121-8) : [[Journal/Actu 17 octobre 2026]].
+
 Suivi CRM : `/crm-blog-stats.html` et `/dashboard.html?section=leads`. Chaque article montre ses clics et les questionnaires vraiment envoyés (e-mail ou téléphone). Sur la liste des leads, l’article source est à côté du lead. Une vue, une saisie CRM ou un formulaire vide ne compte pas comme lead.
 
 Silos liés : [[Silos/garage]], [[Silos/mrp]], [[Silos/rc-pro]], [[Silos/decennale]], [[Silos/collective]], [[Silos/metiers-batiment]], [[Silos/transport-logistique]], [[Silos/transport-voyageurs]].

@@ -26,6 +26,7 @@ Les notes dans `Journal/` ne sont pas écrasées.
 - [[Journal/Sections blog|Sections du blog]]
 - [[Journal/Appels Free|Appels Free]]
 - [[Journal/Communes de France|Communes de France]]
+- [[Journal/Actu 17 octobre 2026|Actu 17 octobre 2026]]
 
 ## Graphe
 

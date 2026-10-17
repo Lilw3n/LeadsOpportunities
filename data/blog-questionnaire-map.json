@@ -1201,6 +1201,11 @@
     },
     "assurance-metiers-quel-contrat-choisir-2026.html": {
       "section": "pro"
+    },
+    "manifestation-17-octobre-2026-casse-assurance-commerce.html": {
+      "section": "mrp",
+      "hook": "Vitrine, stock ou journée fermée : seules les garanties souscrites peuvent jouer.",
+      "question": "Votre commerce a-t-il une multirisque à jour pour les locaux et le stock ?"
     }
   }
 }

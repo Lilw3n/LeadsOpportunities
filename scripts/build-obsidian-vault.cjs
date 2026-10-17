@@ -717,6 +717,7 @@ function writeMocs(pageCount) {
       "- " + wikilink("Journal/Sections blog", "Sections du blog"),
       "- " + wikilink("Journal/Appels Free", "Appels Free"),
       "- " + wikilink("Journal/Communes de France", "Communes de France"),
+      "- " + wikilink("Journal/Actu 17 octobre 2026", "Actu 17 octobre 2026"),
       "",
       "## Graphe",
       "",

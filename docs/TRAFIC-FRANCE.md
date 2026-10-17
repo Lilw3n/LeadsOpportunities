@@ -18,6 +18,7 @@ Réduire le bruit analytics (visiteurs US / international sans intention d’ach
 - **Scoring** : `scripts/france-audience-lib.cjs` pénalise les sujets internationaux (World Cup USA, Trump, GTA, F1, gaming…) et booste mutuelle, ORIAS, villes FR.
 - **Publication auto** : `auto-actu-publish.cjs` ignore les candidats actu clairement internationaux.
 - **Robots** : articles actu internationaux existants en `noindex,follow` (toujours accessibles, pas indexés Google).
+- **17 octobre 2026** : `/blog/manifestation-17-octobre-2026-casse-assurance-commerce.html` — casse, commerce fermé, article L. 121-8. Le régime émeutes de la loi n° 2026-103 attend son décret. Note : `vault/Journal/Actu 17 octobre 2026.md`.
 
 Fichiers concernés : voir `INTL_ACTU_FILES` dans `france-audience-lib.cjs`.
 

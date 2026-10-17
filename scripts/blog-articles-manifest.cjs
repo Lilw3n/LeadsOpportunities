@@ -3286,6 +3286,11 @@ pubsPack.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const actu17octobre = require("./blog-actu-17-octobre-2026.cjs");
+actu17octobre.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 /* SEO intent volumes (mutuelle Nancy, devis sans engagement, VTC indépendant, crédit rapide) */
 module.exports.articles = seoIntentSep2026.concat(module.exports.articles);
 

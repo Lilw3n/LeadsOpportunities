@@ -133,6 +133,7 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/landings/transport-voyageurs.html",
   "/blog/assurance-garage-negociant-auto-rc-mrp-2026.html",
   "/blog/assurance-multirisque-professionnelle-locaux-2026.html",
+  "/blog/manifestation-17-octobre-2026-casse-assurance-commerce.html",
   "/blog/assurance-rc-pro-entreprise-guide-2026.html",
   "/blog/assurance-metiers-batiment-decennale-rc-2026.html",
   "/blog/assurance-transport-logistique-marchandises-2026.html",
