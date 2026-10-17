@@ -115,8 +115,9 @@ API : `GET /api/crm/blog-stats?days=30` (auth CRM).
 Données affichées :
 - pages vues `/blog` et `/forum` (`journey_events.page_view`)
 - clics rattachés à l’article : carte de l’index ou du rayon métiers (`blog_card_click` → slug de la cible), CTA et liens partis de l’article (`blog_cta_click`, `blog_link_click`)
+- questionnaires remplis : e-mail ou téléphone, formulaire envoyé, rattaché à l’article (`utm_content`, `blog_article` ou dernière page blog du visiteur). Une vue, une saisie CRM, un doublon, un lead Meta Ads ou un formulaire sans contact ne compte pas
 - lectures 100 % (`blog_read_complete`)
-- leads CRM dont landing/UTM touche blog ou forum
+- leads blog/forum au sens large (y compris formulaires vides), séparés du compteur questionnaires
 - inventaire d’articles publiés + liens GA4 / Clarity / Search Console
 
 Vérif : `npm run verify:blog-stats-crm`

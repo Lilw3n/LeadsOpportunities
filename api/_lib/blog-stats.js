@@ -372,6 +372,31 @@ function attributeBlogClick(row) {
   return { slug: pageSlug || slugFromPath(pathOnly(row && row.page_path)) || "(autre)", kind: "other" };
 }
 
+function hasContact(row, payload) {
+  var email = String((row && row.email) || (payload && payload.email) || "").trim();
+  if (email.indexOf("@") > 0 && email.indexOf(".") > email.indexOf("@")) return true;
+  var phone = String((row && row.phone) || (payload && payload.phone) || "").replace(/\D/g, "");
+  return phone.length >= 9;
+}
+
+/** Lead joignable qui a envoyé le questionnaire, pas une vue ni une saisie CRM. */
+function isFilledQuestionnaireLead(row) {
+  var payload = parsePayloadSafe(row && row.payload);
+  var source = String((row && row.source) || payload.source || "").toLowerCase();
+  if (source === "crm" || source.indexOf("crm_") === 0 || source.indexOf("crm-") === 0) return false;
+  if (source === "meta_lead_ads") return false;
+  if (row && (row.is_duplicate || row.parent_lead_id)) return false;
+  if (payload.duplicate_of || payload.is_duplicate || payload.parent_lead_id) return false;
+  if (!hasContact(row, payload)) return false;
+  var step = Number(
+    (row && row.questionnaire_step) || payload.questionnaire_step || payload.formStep || payload.step || 0
+  );
+  if (step > 0) return true;
+  if (source === "landing_form" || source === "landing_quick" || source.indexOf("questionnaire") >= 0) return true;
+  if (payload.answers && typeof payload.answers === "object" && Object.keys(payload.answers).length) return true;
+  return false;
+}
+
 function clickTotal(row) {
   if (!row) return 0;
   if (row.clicks) return row.clicks;
@@ -393,6 +418,7 @@ function bump(map, key, field, n) {
       scroll_50: 0,
       scroll_100: 0,
       leads: 0,
+      questionnaire_leads: 0,
     };
   }
   map[k][field] = (map[k][field] || 0) + (n || 1);
@@ -566,7 +592,8 @@ async function buildBlogStats(options) {
     leadRows = await sql`
       SELECT id, source, vertical, lead_score, email, phone,
              utm_source, utm_medium, utm_campaign, utm_content,
-             form_id, created_at, payload, city, visitor_id
+             form_id, created_at, payload, city, visitor_id,
+             questionnaire_step, questionnaire_total, is_duplicate, parent_lead_id
       FROM site_leads
       WHERE created_at >= ${since}
       ORDER BY created_at DESC
@@ -640,6 +667,9 @@ async function buildBlogStats(options) {
   var leads7d = 0;
   var leadsPrev7d = 0;
   var leadsByArticle = {};
+  var questionnaireByArticle = {};
+  var questionnaire7d = 0;
+  var questionnairePrev7d = 0;
   leadRows.forEach(function (row) {
     var resolved = resolveLeadArticle(row);
     var fromJourney =
@@ -667,9 +697,20 @@ async function buildBlogStats(options) {
 
     bump(bySlug, slug, "leads", 1);
     leadsByArticle[slug] = (leadsByArticle[slug] || 0) + 1;
+    var filled = isFilledQuestionnaireLead(row);
+    var countableSlug = slug && slug !== "index" && slug !== "(landing blog/forum)";
+    if (filled && countableSlug) {
+      bump(bySlug, slug, "questionnaire_leads", 1);
+      questionnaireByArticle[slug] = (questionnaireByArticle[slug] || 0) + 1;
+    }
     var created = new Date(row.created_at).getTime();
-    if (created >= Date.parse(weekAgo)) leads7d++;
-    else if (created >= Date.parse(twoWeeksAgo)) leadsPrev7d++;
+    if (created >= Date.parse(weekAgo)) {
+      leads7d++;
+      if (filled && countableSlug) questionnaire7d++;
+    } else if (created >= Date.parse(twoWeeksAgo)) {
+      leadsPrev7d++;
+      if (filled && countableSlug) questionnairePrev7d++;
+    }
 
     var inv = invBySlug[slug] || {};
     var articlePath =
@@ -700,6 +741,7 @@ async function buildBlogStats(options) {
         "/blog-questionnaires.html?q=" + encodeURIComponent(String(slug).replace(/^forum:/, "")),
       email: row.email ? "oui" : "non",
       phone: row.phone ? "oui" : "non",
+      questionnaire_filled: filled && countableSlug,
       lead_score: row.lead_score || 0,
     });
   });
@@ -749,6 +791,7 @@ async function buildBlogStats(options) {
       scroll_50: 0,
       scroll_100: 0,
       leads: 0,
+      questionnaire_leads: 0,
       title: inv.title,
       path: inv.path,
       file: inv.file,
@@ -766,14 +809,14 @@ async function buildBlogStats(options) {
   });
 
   articlesTable.sort(function (a, b) {
-    var scoreA = clickTotal(b) * 5 + (b.leads || 0) * 10 + (b.views || 0);
-    var scoreB = clickTotal(a) * 5 + (a.leads || 0) * 10 + (a.views || 0);
+    var scoreA = (b.questionnaire_leads || 0) * 20 + clickTotal(b) * 5 + (b.views || 0);
+    var scoreB = (a.questionnaire_leads || 0) * 20 + clickTotal(a) * 5 + (a.views || 0);
     if (scoreA !== scoreB) return scoreA - scoreB;
     return String(b.date_published || "").localeCompare(String(a.date_published || ""));
   });
   var clickArticles = articlesTable
     .filter(function (r) {
-      return clickTotal(r) > 0 && r.slug !== "index";
+      return (clickTotal(r) > 0 || (r.questionnaire_leads || 0) > 0) && r.slug !== "index";
     })
     .slice(0, 40);
   /* Garder le top trafic + les 40 plus récents sans trafic pour la lisibilité */
@@ -866,6 +909,11 @@ async function buildBlogStats(options) {
         last_week: leadsPrev7d,
         growth_pct: pctGrowth(leads7d, leadsPrev7d),
       },
+      questionnaire_leads: {
+        this_week: questionnaire7d,
+        last_week: questionnairePrev7d,
+        growth_pct: pctGrowth(questionnaire7d, questionnairePrev7d),
+      },
     },
     event_counts: eventCounts,
     blog_events_period: k.blog_events_period || 0,
@@ -890,11 +938,18 @@ async function buildBlogStats(options) {
           title: inv.title || titleBySlug[slug] || slug,
           path: inv.path || (slug.indexOf("forum:") === 0 ? null : "/blog/" + slug + ".html"),
           leads: leadsByArticle[slug],
+          questionnaire_leads: questionnaireByArticle[slug] || 0,
+          clicks: clickTotal(bySlug[slug] || {}),
           date_published: inv.date_published || null,
         };
       })
+      .filter(function (row) {
+        return (row.questionnaire_leads || 0) > 0 && row.slug !== "index" && row.slug !== "(landing blog/forum)";
+      })
       .sort(function (a, b) {
-        return b.leads - a.leads;
+        var q = (b.questionnaire_leads || 0) - (a.questionnaire_leads || 0);
+        if (q) return q;
+        return (b.clicks || 0) - (a.clicks || 0);
       })
       .slice(0, 20),
     trend: trend.map(function (r) {
@@ -908,7 +963,7 @@ async function buildBlogStats(options) {
     }),
     analytics_links: analyticsLinks,
     note:
-      "Un clic de carte sur l’index ou le rayon métiers est compté sur l’article ouvert. Un clic CTA ou lien est compté sur l’article qui l’a produit. Leads = utm_content, blog_article, landing /blog, ou dernier parcours du visiteur.",
+      "Clics = cartes vers l’article + CTA et liens partis de l’article. Questionnaire rempli = e-mail ou téléphone, formulaire envoyé, rattaché à l’article. Les saisies CRM, les doublons et les formulaires vides ne comptent pas.",
   };
 }
 
@@ -920,6 +975,7 @@ module.exports = {
   slugFromUtmContent,
   attributeBlogClick,
   clickTotal,
+  isFilledQuestionnaireLead,
   resolveLeadArticle,
   leadTouchesBlog,
   BLOG_EVENT_TYPES,

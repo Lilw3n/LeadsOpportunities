@@ -39,6 +39,9 @@
       '<span class="acq-stat">Clics CTA 7j <strong>' +
       (cta.this_week || 0) +
       "</strong></span>" +
+      '<span class="acq-stat">Questionnaires remplis 7j <strong>' +
+      ((cmp.questionnaire_leads && cmp.questionnaire_leads.this_week) || 0) +
+      "</strong></span>" +
       '<span class="acq-stat">Leads blog 7j <strong>' +
       (leads.this_week || 0) +
       "</strong></span>" +
@@ -61,6 +64,7 @@
       { key: "article_views", label: "Vues article (event)" },
       { key: "cta_clicks", label: "Clics CTA" },
       { key: "reads_complete", label: "Lectures 100 %" },
+      { key: "questionnaire_leads", label: "Questionnaires remplis" },
       { key: "leads_blog", label: "Leads blog/forum" },
     ];
     document.getElementById("blogStatsCompare").innerHTML = items
@@ -150,7 +154,7 @@
     return (rows || []).slice().sort(function (a, b) {
       var diff = 0;
       if (mode === "views") diff = (b.views || 0) - (a.views || 0);
-      else if (mode === "leads") diff = (b.leads || 0) - (a.leads || 0);
+      else if (mode === "leads") diff = (b.questionnaire_leads || 0) - (a.questionnaire_leads || 0);
       else diff = clickTotal(b) - clickTotal(a);
       if (diff) return diff;
       return (b.views || 0) - (a.views || 0);
@@ -167,7 +171,7 @@
     if (!el) return;
     var q = ((document.getElementById("blogStatsSearch") || {}).value || "").trim().toLowerCase();
     var filtered = sortArticles(rows || []).filter(function (r) {
-      if (clickTotal(r) <= 0 || r.slug === "index") return false;
+      if ((clickTotal(r) <= 0 && !(r.questionnaire_leads || 0)) || r.slug === "index") return false;
       if (!q) return true;
       return [r.title, r.slug, r.section].join(" ").toLowerCase().indexOf(q) !== -1;
     });
@@ -177,7 +181,7 @@
       return;
     }
     el.innerHTML =
-      "<table><thead><tr><th>Article</th><th>Vers l’article</th><th>CTA</th><th>Liens</th><th>Total</th><th>CTA / vues</th><th>Leads</th></tr></thead><tbody>" +
+      "<table><thead><tr><th>Article</th><th>Vers l’article</th><th>CTA</th><th>Liens</th><th>Total clics</th><th>Questionnaires</th><th>Quest. / clics</th></tr></thead><tbody>" +
       filtered
         .map(function (r) {
           var url = articleUrl(r);
@@ -198,10 +202,10 @@
             (r.link_clicks || 0) +
             '</td><td><strong>' +
             clickTotal(r) +
+            "</strong></td><td><strong>" +
+            (r.questionnaire_leads || 0) +
             "</strong></td><td>" +
-            rateLabel(r.cta_clicks || 0, r.views || 0) +
-            "</td><td>" +
-            (r.leads || 0) +
+            rateLabel(r.questionnaire_leads || 0, clickTotal(r)) +
             "</td></tr>"
           );
         })
@@ -225,7 +229,7 @@
       return;
     }
     el.innerHTML =
-      "<table><thead><tr><th>Date</th><th>Article</th><th>Questionnaire</th><th>Vues</th><th>Clics</th><th>CTA</th><th>Lecture 100%</th><th>Leads</th></tr></thead><tbody>" +
+      "<table><thead><tr><th>Date</th><th>Article</th><th>Questionnaire</th><th>Vues</th><th>Clics</th><th>CTA</th><th>Lecture 100%</th><th>Quest. remplis</th></tr></thead><tbody>" +
       filtered
         .map(function (r) {
           var url = articleUrl(r);
@@ -282,7 +286,7 @@
             "</td><td>" +
             (r.reads_complete || r.scroll_100 || 0) +
             "</td><td>" +
-            (r.leads || 0) +
+            (r.questionnaire_leads || 0) +
             "</td></tr>"
           );
         })
@@ -406,6 +410,7 @@
             "</td><td>" +
             (l.email === "oui" ? "✉" : "") +
             (l.phone === "oui" ? " ☎" : "") +
+            (l.questionnaire_filled ? " rempli" : "") +
             "</td><td>" +
             (l.lead_score || 0) +
             "</td></tr>"
@@ -419,14 +424,14 @@
     var el = document.getElementById("blogStatsLeadsByArticle");
     if (!el) return;
     if (!rows || !rows.length) {
-      el.innerHTML = '<p style="color:var(--muted)">Pas encore de leads rattachés à un article.</p>';
+      el.innerHTML = '<p style="color:var(--muted)">Aucun questionnaire rempli rattaché à un article sur cette période.</p>';
       return;
     }
     var origin =
       (window.LoSiteBrand && window.LoSiteBrand.publicOrigin && window.LoSiteBrand.publicOrigin()) ||
       "https://www.leadsopportunities.fr";
     el.innerHTML =
-      "<table><thead><tr><th>Article</th><th>Date pub.</th><th>Leads</th></tr></thead><tbody>" +
+      "<table><thead><tr><th>Article</th><th>Clics</th><th>Questionnaires remplis</th></tr></thead><tbody>" +
       rows
         .map(function (r) {
           var url = r.path ? (r.path.indexOf("http") === 0 ? r.path : origin + r.path) : "#";
@@ -435,10 +440,10 @@
             esc(url) +
             '" target="_blank" rel="noopener">' +
             esc(r.title || r.slug) +
-            "</a></td><td class=\"blog-stats-date\">" +
-            esc(r.date_published || "—") +
+            "</a></td><td>" +
+            (r.clicks || 0) +
             "</td><td><strong>" +
-            r.leads +
+            (r.questionnaire_leads || 0) +
             "</strong></td></tr>"
           );
         })

@@ -41,7 +41,7 @@ Chaque page a une FAQ « Comment demander un devis », un fil d’Ariane, et un 
 
 File d’indexation : les six guides sont dans `scripts/seo-gsc-priority-urls.cjs`, à côté des landings.
 
-Suivi CRM : `/crm-blog-stats.html`, bloc « Articles qui amènent des clics ». Un clic de carte compte pour l’article ouvert. Un clic devis compte pour l’article qui l’a produit.
+Suivi CRM : `/crm-blog-stats.html`. Chaque article montre ses clics et les questionnaires vraiment envoyés (e-mail ou téléphone). Une vue, une saisie CRM ou un formulaire vide ne compte pas comme lead.
 
 Silos liés : [[Silos/garage]], [[Silos/mrp]], [[Silos/rc-pro]], [[Silos/decennale]], [[Silos/collective]], [[Silos/metiers-batiment]], [[Silos/transport-logistique]], [[Silos/transport-voyageurs]].
 

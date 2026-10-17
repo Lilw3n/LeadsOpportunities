@@ -72,6 +72,8 @@ assert(html.indexOf("/api/crm/blog-stats") === -1, "HTML sans fetch inline (JS s
 var js = read("crm-blog-stats.js");
 assert(js.indexOf("blog-stats-article-link") !== -1, "titres articles cliquables");
 assert(js.indexOf("renderClickArticles") !== -1, "rendu du classement clics");
+assert(js.indexOf("questionnaire_leads") !== -1, "colonne questionnaires remplis");
+assert(lib.indexOf("isFilledQuestionnaireLead") !== -1, "filtre questionnaire rempli");
 assert(js.indexOf("date_published") !== -1 || js.indexOf("formatDate") !== -1, "affichage date article");
 assert(js.indexOf("questionnaires_admin_url") !== -1, "lien mapping questionnaire");
 assert(js.indexOf("article_source") !== -1 || js.indexOf("Article source") !== -1, "colonne article source leads");
@@ -82,7 +84,57 @@ var bq = read("blog-questionnaires-admin.js");
 assert(bq.indexOf("queryParam") !== -1, "préremplissage ?q= sur questionnaires");
 assert(bq.indexOf("crm-blog-stats.html") !== -1, "lien retour stats depuis questionnaires");
 
-var { resolveLeadArticle, slugFromUtmContent, attributeBlogClick } = require("../api/_lib/blog-stats.js");
+var { resolveLeadArticle, slugFromUtmContent, attributeBlogClick, isFilledQuestionnaireLead } = require("../api/_lib/blog-stats.js");
+assert(
+  isFilledQuestionnaireLead({
+    source: "landing_form",
+    email: "client@example.fr",
+    phone: "0612345678",
+    questionnaire_step: 4,
+    payload: { utm_content: "assurance-garage-negociant-auto-rc-mrp-2026" },
+  }),
+  "questionnaire rempli avec contact"
+);
+assert(
+  !isFilledQuestionnaireLead({
+    source: "landing_form",
+    email: "",
+    phone: "",
+    questionnaire_step: 4,
+    payload: {},
+  }),
+  "formulaire sans contact exclu"
+);
+assert(
+  !isFilledQuestionnaireLead({
+    source: "crm",
+    email: "wendy@example.fr",
+    questionnaire_step: 5,
+    payload: {},
+  }),
+  "saisie CRM exclue"
+);
+assert(
+  !isFilledQuestionnaireLead({
+    source: "landing_form",
+    email: "dup@example.fr",
+    phone: "0612345678",
+    is_duplicate: true,
+    questionnaire_step: 3,
+    payload: {},
+  }),
+  "doublon exclu"
+);
+assert(
+  !isFilledQuestionnaireLead({
+    source: "meta_lead_ads",
+    email: "meta@example.fr",
+    phone: "0612345678",
+    questionnaire_step: 1,
+    payload: {},
+  }),
+  "lead Meta Ads exclu"
+);
 assert(
   attributeBlogClick({
     event_type: "blog_card_click",
