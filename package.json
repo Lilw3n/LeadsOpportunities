@@ -147,7 +147,9 @@
     "verify:immo-composition-draw-share": "node scripts/verify-immo-composition-draw-share.cjs",
     "verify:allo-mcp-appels": "node scripts/verify-allo-mcp-appels.cjs",
     "verify:pack": "npm run verify:verifier-access",
-    "verify:blog-pubs-pack": "node scripts/verify-blog-pubs-pack.cjs"
+    "verify:blog-pubs-pack": "node scripts/verify-blog-pubs-pack.cjs",
+    "social:queue": "node scripts/build-social-queue.cjs",
+    "verify:n8n-social": "node scripts/verify-n8n-social.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

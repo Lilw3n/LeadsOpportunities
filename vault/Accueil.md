@@ -27,6 +27,7 @@ Les notes dans `Journal/` ne sont pas écrasées.
 - [[Journal/Appels Free|Appels Free]]
 - [[Journal/Communes de France|Communes de France]]
 - [[Journal/Actu 17 octobre 2026|Actu 17 octobre 2026]]
+- [[Journal/n8n reseaux|n8n réseaux]]
 
 ## Graphe
 

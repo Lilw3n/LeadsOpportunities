@@ -1,5 +1,7 @@
 # Automatisation Make / n8n — 3 scenarios
 
+Réseaux sociaux sans abonnement n8n : **`docs/N8N-RESEAUX-GRATUIT.md`** (`n8n/docker-compose.yml`, file `social/queue.json`).
+
 Configurer `LEAD_WEBHOOK_URL` sur Vercel vers votre scenario Make ou n8n.
 
 ## Scenario 1 — Lead chaud (score >= 70)
