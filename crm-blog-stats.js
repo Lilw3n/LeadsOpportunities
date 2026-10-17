@@ -139,10 +139,80 @@
     return "—";
   }
 
+  function clickTotal(r) {
+    if (!r) return 0;
+    if (r.clicks) return r.clicks;
+    return (r.cta_clicks || 0) + (r.card_clicks || 0) + (r.link_clicks || 0);
+  }
+
+  function sortArticles(rows) {
+    var mode = ((document.getElementById("blogStatsSort") || {}).value) || "clicks";
+    return (rows || []).slice().sort(function (a, b) {
+      var diff = 0;
+      if (mode === "views") diff = (b.views || 0) - (a.views || 0);
+      else if (mode === "leads") diff = (b.leads || 0) - (a.leads || 0);
+      else diff = clickTotal(b) - clickTotal(a);
+      if (diff) return diff;
+      return (b.views || 0) - (a.views || 0);
+    });
+  }
+
+  function rateLabel(part, views) {
+    if (!views) return "—";
+    return Math.round((part / views) * 100) + " %";
+  }
+
+  function renderClickArticles(rows) {
+    var el = document.getElementById("blogStatsClickArticles");
+    if (!el) return;
+    var q = ((document.getElementById("blogStatsSearch") || {}).value || "").trim().toLowerCase();
+    var filtered = sortArticles(rows || []).filter(function (r) {
+      if (clickTotal(r) <= 0 || r.slug === "index") return false;
+      if (!q) return true;
+      return [r.title, r.slug, r.section].join(" ").toLowerCase().indexOf(q) !== -1;
+    });
+    if (!filtered.length) {
+      el.innerHTML =
+        '<p style="color:var(--muted)">Aucun clic d’article sur cette période. Ouvrez le blog, cliquez une carte ou un devis : le chiffre se range sur l’article, pas sur l’index.</p>';
+      return;
+    }
+    el.innerHTML =
+      "<table><thead><tr><th>Article</th><th>Vers l’article</th><th>CTA</th><th>Liens</th><th>Total</th><th>CTA / vues</th><th>Leads</th></tr></thead><tbody>" +
+      filtered
+        .map(function (r) {
+          var url = articleUrl(r);
+          return (
+            '<tr><td><a class="blog-stats-article-link" href="' +
+            esc(url) +
+            '" target="_blank" rel="noopener">' +
+            esc(r.title || r.slug) +
+            "</a>" +
+            (r.section
+              ? ' <span class="acq-badge muted" style="font-size:0.65rem">' + esc(r.section) + "</span>"
+              : "") +
+            '</td><td>' +
+            (r.card_clicks || 0) +
+            "</td><td>" +
+            (r.cta_clicks || 0) +
+            "</td><td>" +
+            (r.link_clicks || 0) +
+            '</td><td><strong>' +
+            clickTotal(r) +
+            "</strong></td><td>" +
+            rateLabel(r.cta_clicks || 0, r.views || 0) +
+            "</td><td>" +
+            (r.leads || 0) +
+            "</td></tr>"
+          );
+        })
+        .join("") +
+      "</tbody></table>";
+  }
+
   function renderArticles(rows) {
     var el = document.getElementById("blogStatsArticles");
     var q = ((document.getElementById("blogStatsSearch") || {}).value || "").trim().toLowerCase();
-    var filtered = (rows || []).filter(function (r) {
+    var filtered = sortArticles(rows).filter(function (r) {
       if (!q) return true;
       return [r.title, r.slug, r.section, r.questionnaire_need, r.date_published, r.meta]
         .join(" ")
@@ -155,7 +225,7 @@
       return;
     }
     el.innerHTML =
-      "<table><thead><tr><th>Date</th><th>Article</th><th>Questionnaire</th><th>Vues</th><th>CTA</th><th>Lecture 100%</th><th>Leads</th></tr></thead><tbody>" +
+      "<table><thead><tr><th>Date</th><th>Article</th><th>Questionnaire</th><th>Vues</th><th>Clics</th><th>CTA</th><th>Lecture 100%</th><th>Leads</th></tr></thead><tbody>" +
       filtered
         .map(function (r) {
           var url = articleUrl(r);
@@ -205,6 +275,8 @@
               : "") +
             "</td><td><strong>" +
             (r.views || 0) +
+            "</strong></td><td><strong>" +
+            clickTotal(r) +
             "</strong></td><td>" +
             (r.cta_clicks || 0) +
             "</td><td>" +
@@ -225,12 +297,20 @@
       return;
     }
     el.innerHTML =
-      "<table><thead><tr><th>Bouton / zone</th><th>Clics</th></tr></thead><tbody>" +
+      "<table><thead><tr><th>Bouton</th><th>Article</th><th>Clics</th></tr></thead><tbody>" +
       rows
         .map(function (r) {
+          var url = r.path ? articleUrl(r) : "";
+          var articleCell = r.title
+            ? url
+              ? '<a class="blog-stats-article-link" href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(r.title) + "</a>"
+              : esc(r.title)
+            : "—";
           return (
             "<tr><td>" +
             esc(r.label) +
+            "</td><td>" +
+            articleCell +
             "</td><td><strong>" +
             r.clicks +
             "</strong></td></tr>"
@@ -403,6 +483,7 @@
         renderSummary(res.comparison || {}, res.inventory || {}, res.leads_total);
         renderCompare(res.comparison || {});
         renderChart(res.trend);
+        renderClickArticles(articlesCache);
         renderArticles(articlesCache);
         renderCtas(res.top_ctas);
         renderTopPages(res.top_pages);
@@ -436,9 +517,17 @@
 
   document.getElementById("btnBlogStatsRefresh").onclick = load;
   document.getElementById("blogStatsDays").onchange = load;
+  var sortEl = document.getElementById("blogStatsSort");
+  if (sortEl) {
+    sortEl.addEventListener("change", function () {
+      renderClickArticles(articlesCache);
+      renderArticles(articlesCache);
+    });
+  }
   var searchEl = document.getElementById("blogStatsSearch");
   if (searchEl) {
     searchEl.addEventListener("input", function () {
+      renderClickArticles(articlesCache);
       renderArticles(articlesCache);
     });
     try {

@@ -20,6 +20,15 @@
     };
   }
 
+  function slugFromHref(href) {
+    try {
+      var u = new URL(href, location.origin);
+      var m = u.pathname.match(/\/blog\/([^/]+?)(?:\.html)?\/?$/);
+      if (m && m[1] && m[1] !== "index") return decodeURIComponent(m[1]);
+    } catch (e) {}
+    return "";
+  }
+
   function articleSlug() {
     var m = location.pathname.match(/\/blog\/([^/]+?)(?:\.html)?\/?$/);
     if (m) return m[1];
@@ -227,12 +236,15 @@
     document.addEventListener(
       "click",
       function (ev) {
-        var card = ev.target.closest(".blog-card");
+        var card = ev.target.closest(".blog-card, .metier-blog-card");
         if (card) {
+          var heading = card.querySelector("h2, strong");
           track("blog_card_click", {
             link_url: card.href || "",
-            link_text: (card.querySelector("h2") && card.querySelector("h2").textContent) || "",
-            card_tag: (card.querySelector(".blog-card-tag") && card.querySelector(".blog-card-tag").textContent) || "",
+            link_text: heading ? heading.textContent : "",
+            card_tag: (card.querySelector(".blog-card-tag, span") && card.querySelector(".blog-card-tag, span").textContent) || "",
+            target_slug: slugFromHref(card.href || ""),
+            click_source: card.classList.contains("metier-blog-card") ? "metier_shelf" : "blog_grid",
           });
           return;
         }
@@ -258,6 +270,7 @@
           link_text: String(link.textContent || "").trim().slice(0, 120),
           link_zone: zone,
           need: (bridge && bridge.getAttribute("data-need")) || "",
+          target_slug: slugFromHref(link.href || ""),
           is_outbound: link.hostname && link.hostname !== location.hostname,
         });
       },

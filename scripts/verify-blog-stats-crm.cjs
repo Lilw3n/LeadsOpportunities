@@ -36,6 +36,8 @@ var analytics = read("js/blog-reading-analytics.js");
 assert(analytics.indexOf("mirrorJourney") !== -1, "miroir journey dans blog-reading-analytics");
 assert(analytics.indexOf("/api/journey-event") !== -1, "POST journey-event");
 assert(analytics.indexOf("blog_cta_click") !== -1, "événement CTA");
+assert(analytics.indexOf("metier-blog-card") !== -1, "clic rayon métiers");
+assert(analytics.indexOf("target_slug") !== -1, "slug cible du clic");
 
 var lib = read("api/_lib/blog-stats.js");
 assert(lib.indexOf("buildBlogStats") !== -1, "buildBlogStats exporté");
@@ -61,12 +63,15 @@ assert(
 
 var html = read("crm-blog-stats.html");
 assert(html.indexOf("blogStatsArticles") !== -1, "table articles dans HTML");
+assert(html.indexOf("blogStatsClickArticles") !== -1, "bloc articles qui amènent des clics");
+assert(html.indexOf("blogStatsSort") !== -1, "tri par clics");
 assert(html.indexOf("blog-questionnaires.html") !== -1, "lien HTML vers questionnaires");
 assert(html.indexOf("blogStatsSearch") !== -1, "champ recherche articles");
 assert(html.indexOf("/api/crm/blog-stats") === -1, "HTML sans fetch inline (JS séparé)");
 
 var js = read("crm-blog-stats.js");
 assert(js.indexOf("blog-stats-article-link") !== -1, "titres articles cliquables");
+assert(js.indexOf("renderClickArticles") !== -1, "rendu du classement clics");
 assert(js.indexOf("date_published") !== -1 || js.indexOf("formatDate") !== -1, "affichage date article");
 assert(js.indexOf("questionnaires_admin_url") !== -1, "lien mapping questionnaire");
 assert(js.indexOf("article_source") !== -1 || js.indexOf("Article source") !== -1, "colonne article source leads");
@@ -77,7 +82,29 @@ var bq = read("blog-questionnaires-admin.js");
 assert(bq.indexOf("queryParam") !== -1, "préremplissage ?q= sur questionnaires");
 assert(bq.indexOf("crm-blog-stats.html") !== -1, "lien retour stats depuis questionnaires");
 
-var { resolveLeadArticle, slugFromUtmContent } = require("../api/_lib/blog-stats.js");
+var { resolveLeadArticle, slugFromUtmContent, attributeBlogClick } = require("../api/_lib/blog-stats.js");
+assert(
+  attributeBlogClick({
+    event_type: "blog_card_click",
+    page_path: "/blog/",
+    meta: {
+      article_slug: "index",
+      link_url: "https://www.leadsopportunities.fr/blog/assurance-garage-negociant-auto-rc-mrp-2026.html",
+    },
+  }).slug === "assurance-garage-negociant-auto-rc-mrp-2026",
+  "clic carte index → article garage"
+);
+assert(
+  attributeBlogClick({
+    event_type: "blog_cta_click",
+    page_path: "/blog/assurance-garage-negociant-auto-rc-mrp-2026.html",
+    meta: {
+      article_slug: "assurance-garage-negociant-auto-rc-mrp-2026",
+      link_url: "/landings/questionnaire.html?need=rc-pro",
+    },
+  }).slug === "assurance-garage-negociant-auto-rc-mrp-2026",
+  "clic CTA reste sur l'article source"
+);
 assert(slugFromUtmContent("foo-bar.html") === "foo-bar", "slugFromUtmContent");
 assert(
   resolveLeadArticle({ utm_source: "blog", utm_content: "pret-immobilier-refuse-que-faire-2026", payload: {} }).slug ===

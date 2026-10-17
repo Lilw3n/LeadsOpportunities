@@ -341,6 +341,43 @@ function loadArticleInventory() {
   };
 }
 
+function pathOnly(value) {
+  var s = String(value || "");
+  if (!s) return "";
+  try {
+    if (s.indexOf("http") === 0) s = new URL(s).pathname;
+  } catch (e) {
+    /* keep raw */
+  }
+  return s.split("?")[0].split("#")[0];
+}
+
+/** Article qui reçoit ou qui produit le clic. Les cartes de l'index pointent vers la cible, pas vers /blog/. */
+function attributeBlogClick(row) {
+  var meta = parsePayloadSafe(row && row.meta);
+  var eventType = row && row.event_type;
+  var pageSlug = meta.article_slug || slugFromPath(pathOnly(row && row.page_path)) || "";
+  if (eventType === "blog_card_click") {
+    var target = String(meta.target_slug || "").replace(/\.html$/i, "");
+    if (!target) target = slugFromPath(pathOnly(meta.link_url));
+    if (target && target !== "index") return { slug: target, kind: "card" };
+  }
+  if (eventType === "blog_cta_click" || eventType === "blog_link_click") {
+    var src = pageSlug && pageSlug !== "index" ? pageSlug : slugFromPath(pathOnly(row && row.page_path));
+    return {
+      slug: src || "(autre)",
+      kind: eventType === "blog_cta_click" ? "cta" : "link",
+    };
+  }
+  return { slug: pageSlug || slugFromPath(pathOnly(row && row.page_path)) || "(autre)", kind: "other" };
+}
+
+function clickTotal(row) {
+  if (!row) return 0;
+  if (row.clicks) return row.clicks;
+  return (row.cta_clicks || 0) + (row.card_clicks || 0) + (row.link_clicks || 0);
+}
+
 function bump(map, key, field, n) {
   var k = key || "(inconnu)";
   if (!map[k]) {
@@ -351,6 +388,7 @@ function bump(map, key, field, n) {
       cta_clicks: 0,
       link_clicks: 0,
       card_clicks: 0,
+      clicks: 0,
       reads_complete: 0,
       scroll_50: 0,
       scroll_100: 0,
@@ -483,10 +521,8 @@ async function buildBlogStats(options) {
 
   blogEvents.forEach(function (row) {
     var meta = parsePayloadSafe(row.meta);
-    var slug =
-      meta.article_slug ||
-      slugFromPath(row.page_path) ||
-      (row.event_type === "page_view" ? slugFromPath(row.page_path) : "(autre)");
+    var attributed = attributeBlogClick(row);
+    var slug = attributed.slug;
     eventCounts[row.event_type] = (eventCounts[row.event_type] || 0) + 1;
 
     if (row.event_type === "page_view" || row.event_type === "blog_article_view") {
@@ -494,11 +530,20 @@ async function buildBlogStats(options) {
     }
     if (row.event_type === "blog_cta_click") {
       bump(bySlug, slug, "cta_clicks", 1);
+      bump(bySlug, slug, "clicks", 1);
       var label = String(meta.link_text || meta.link_zone || "CTA").trim().slice(0, 80) || "CTA";
-      ctaByLabel[label] = (ctaByLabel[label] || 0) + 1;
+      var ctaKey = label + "\u0001" + slug;
+      if (!ctaByLabel[ctaKey]) ctaByLabel[ctaKey] = { label: label, slug: slug, clicks: 0 };
+      ctaByLabel[ctaKey].clicks += 1;
     }
-    if (row.event_type === "blog_link_click") bump(bySlug, slug, "link_clicks", 1);
-    if (row.event_type === "blog_card_click") bump(bySlug, slug, "card_clicks", 1);
+    if (row.event_type === "blog_link_click") {
+      bump(bySlug, slug, "link_clicks", 1);
+      bump(bySlug, slug, "clicks", 1);
+    }
+    if (row.event_type === "blog_card_click") {
+      bump(bySlug, slug, "card_clicks", 1);
+      bump(bySlug, slug, "clicks", 1);
+    }
     if (row.event_type === "blog_read_complete") bump(bySlug, slug, "reads_complete", 1);
     if (row.event_type === "blog_scroll_depth") {
       var pct = Number(meta.percent_scrolled || meta.scroll_depth_threshold || 0);
@@ -699,6 +744,7 @@ async function buildBlogStats(options) {
       cta_clicks: 0,
       link_clicks: 0,
       card_clicks: 0,
+      clicks: 0,
       reads_complete: 0,
       scroll_50: 0,
       scroll_100: 0,
@@ -720,14 +766,19 @@ async function buildBlogStats(options) {
   });
 
   articlesTable.sort(function (a, b) {
-    var scoreA = (b.views || 0) + (b.cta_clicks || 0) * 3 + (b.leads || 0) * 10;
-    var scoreB = (a.views || 0) + (a.cta_clicks || 0) * 3 + (a.leads || 0) * 10;
+    var scoreA = clickTotal(b) * 5 + (b.leads || 0) * 10 + (b.views || 0);
+    var scoreB = clickTotal(a) * 5 + (a.leads || 0) * 10 + (a.views || 0);
     if (scoreA !== scoreB) return scoreA - scoreB;
     return String(b.date_published || "").localeCompare(String(a.date_published || ""));
   });
+  var clickArticles = articlesTable
+    .filter(function (r) {
+      return clickTotal(r) > 0 && r.slug !== "index";
+    })
+    .slice(0, 40);
   /* Garder le top trafic + les 40 plus récents sans trafic pour la lisibilité */
   var withTraffic = articlesTable.filter(function (r) {
-    return (r.views || 0) + (r.cta_clicks || 0) + (r.leads || 0) > 0;
+    return (r.views || 0) + clickTotal(r) + (r.leads || 0) > 0;
   });
   var withoutTraffic = articlesTable
     .filter(function (r) {
@@ -737,8 +788,16 @@ async function buildBlogStats(options) {
   articlesTable = withTraffic.concat(withoutTraffic).slice(0, 80);
 
   var topCtas = Object.keys(ctaByLabel)
-    .map(function (label) {
-      return { label: label, clicks: ctaByLabel[label] };
+    .map(function (key) {
+      var row = ctaByLabel[key];
+      var inv = invBySlug[row.slug] || {};
+      return {
+        label: row.label,
+        slug: row.slug,
+        title: inv.title || titleBySlug[row.slug] || row.slug,
+        path: inv.path || (row.slug && row.slug !== "(autre)" ? "/blog/" + row.slug + ".html" : ""),
+        clicks: row.clicks,
+      };
     })
     .sort(function (a, b) {
       return b.clicks - a.clicks;
@@ -819,6 +878,7 @@ async function buildBlogStats(options) {
       };
     }),
     articles: articlesTable,
+    click_articles: clickArticles,
     top_ctas: topCtas,
     leads: blogLeads.slice(0, 40),
     leads_total: blogLeads.length,
@@ -848,7 +908,7 @@ async function buildBlogStats(options) {
     }),
     analytics_links: analyticsLinks,
     note:
-      "Vues/clics = journey_events. Leads blog = site_leads rattachés à un article via utm_content, blog_article, landing/referrer /blog, ou dernier parcours journey du visitor_id. GA4/Clarity restent la référence SEO globale.",
+      "Un clic de carte sur l’index ou le rayon métiers est compté sur l’article ouvert. Un clic CTA ou lien est compté sur l’article qui l’a produit. Leads = utm_content, blog_article, landing /blog, ou dernier parcours du visiteur.",
   };
 }
 
@@ -858,6 +918,8 @@ module.exports = {
   isBlogOrForumPath,
   slugFromPath,
   slugFromUtmContent,
+  attributeBlogClick,
+  clickTotal,
   resolveLeadArticle,
   leadTouchesBlog,
   BLOG_EVENT_TYPES,
