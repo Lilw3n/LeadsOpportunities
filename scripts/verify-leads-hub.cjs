@@ -112,7 +112,7 @@ assert(dash.indexOf("acheteur_immo") >= 0, "dashboard : vertical acheteur immo")
 assert(dash.indexOf("leadStatTotal") >= 0, "dashboard : KPI tous les leads");
 assert(dash.indexOf("leadStatQuestionnaires") >= 0, "dashboard : compteur questionnaires remplis");
 assert(dash.indexOf("leadArticlesBody") >= 0, "dashboard : articles à côté des leads");
-assert(dash.indexOf("callQueueBody") >= 0 && dash.indexOf("À appeler") >= 0, "dashboard : file d'appels");
+assert(dash.indexOf("callQueueBody") >= 0 && dash.indexOf("Clients à rappeler") >= 0, "dashboard : file d'appels");
 assert(fs.readFileSync(path.join(__dirname, "..", "blog/index.html"), "utf8").indexOf("need=vtc") >= 0, "blog : devis VTC en tête");
 assert(dash.indexOf("leadArticleCell") >= 0, "dashboard : colonne article du lead");
 assert(dash.indexOf("filterLimit") >= 0, "dashboard : 100 par page");
@@ -173,11 +173,11 @@ var queue = require("../api/_lib/lead-article").buildCallQueue([
     source: "landing_form",
     vertical: "vtc",
     email: "chauffeur@example.fr",
-    phone: "06 12 34 56 78",
+    phone: "06 18 23 47 59",
     status: "new",
     created_at: "2026-10-17T08:00:00.000Z",
     questionnaire_step: 3,
-    payload: {},
+    payload: { firstName: "Camille", lastName: "Martin" },
   },
   {
     id: "mail-only",
@@ -201,7 +201,18 @@ var queue = require("../api/_lib/lead-article").buildCallQueue([
   },
 ]);
 assert(queue.length === 1 && queue[0].id === "vtc-1" && queue[0].product === "VTC", "file d'appel : téléphone et dossier ouvert");
-assert(queue[0].tel === "tel:+33612345678", "lien d'appel");
+assert(queue[0].tel === "tel:+33618234759" && queue[0].phone === "06 18 23 47 59", "lien d'appel");
+assert(queue[0].name === "Camille Martin", "nom du client");
+
+var junk = require("../api/_lib/lead-article").buildCallQueue([
+  { id: "exemple", source: "landing_form", vertical: "vtc", phone: "0612345678", status: "new", questionnaire_step: 2, payload: {} },
+  { id: "cabinet", source: "landing_form", vertical: "sante", phone: "06 51 36 62 22", status: "new", questionnaire_step: 2, payload: {} },
+  { id: "court", source: "landing_form", vertical: "auto", phone: "+3363258758", status: "new", questionnaire_step: 2, payload: {} },
+  { id: "caledonie", source: "landing_form", vertical: "mrp", phone: ",+68788811983", status: "new", questionnaire_step: 2, payload: {} },
+  { id: "client", source: "landing_form", vertical: "vtc", phone: "06 67 26 63 09", status: "new", created_at: "2026-10-17", questionnaire_step: 2, payload: { firstName: "Inès" } },
+  { id: "doublon", source: "landing_form", vertical: "vtc", phone: "0667266309", status: "new", created_at: "2026-10-16", questionnaire_step: 2, payload: {} },
+]);
+assert(junk.length === 1 && junk[0].id === "client" && junk[0].name === "Inès" && junk[0].phone === "06 67 26 63 09", "file d'appel : exemples et indicatifs hors France écartés");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");
