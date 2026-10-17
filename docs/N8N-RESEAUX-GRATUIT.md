@@ -29,7 +29,7 @@ cd n8n
 ./demarrer.sh
 ```
 
-Ouvrir http://127.0.0.1:5678 et créer le compte propriétaire (stocké en local).
+Cette commande installe Docker s'il manque, démarre n8n, importe le workflow et crée le compte. L'adresse, l'e-mail et le mot de passe s'affichent à la fin. Ils restent dans `n8n/.env`.
 
 Arrêter : `docker compose stop` dans `n8n/`. Les workflows restent dans `n8n/data/`.
 
