@@ -25,6 +25,7 @@ Les notes dans `Journal/` ne sont pas écrasées.
 - [[Journal/Cluster pro et transport|Cluster pro et transport]]
 - [[Journal/Sections blog|Sections du blog]]
 - [[Journal/Appels Free|Appels Free]]
+- [[Journal/Communes de France|Communes de France]]
 
 ## Graphe
 

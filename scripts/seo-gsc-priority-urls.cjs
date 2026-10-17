@@ -10,6 +10,8 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/nos-services.html",
   "/assurances/",
   "/france/",
+  "/france/communes/",
+  "/france/communes/meurthe-et-moselle/",
   /* Landings chaudes */
   "/landings/vtc.html",
   "/landings/sante.html",

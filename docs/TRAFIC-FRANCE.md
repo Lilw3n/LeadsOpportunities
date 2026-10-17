@@ -39,6 +39,17 @@ Pour Google Ads / Meta, voir `docs/SEO-SEA-FRANCE-CIBLAGE.md` (branche `cursor/s
 2. Surveiller les requêtes avec intent FR (`mutuelle`, `devis assurance`, `ORIAS`, noms de villes).
 3. Les pages `noindex` actu internationales disparaîtront progressivement de l’index (normal).
 
+## Communes
+
+Le code officiel géographique est dans `seo/france-communes.json` et l’annuaire `/france/communes/`. Chaque département liste ses communes (code INSEE, habitants). Les pages devis par ville restent celles de `seo/france-cities.json` : pas une page produit par hameau.
+
+```bash
+npm run communes:build
+npm run verify:france-communes
+```
+
+Note Obsidian : `vault/Journal/Communes de France.md`.
+
 ## Regénérer le site
 
 ```bash

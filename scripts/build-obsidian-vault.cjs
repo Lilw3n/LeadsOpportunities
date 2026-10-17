@@ -716,6 +716,7 @@ function writeMocs(pageCount) {
       "- " + wikilink("Journal/Cluster pro et transport", "Cluster pro et transport"),
       "- " + wikilink("Journal/Sections blog", "Sections du blog"),
       "- " + wikilink("Journal/Appels Free", "Appels Free"),
+      "- " + wikilink("Journal/Communes de France", "Communes de France"),
       "",
       "## Graphe",
       "",
