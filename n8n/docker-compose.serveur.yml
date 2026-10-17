@@ -1,5 +1,6 @@
-# Droplet DigitalOcean, toujours allumé. Pas de facture à l'exécution.
-# Lancer : ./serveur.sh  après l'enregistrement DNS A de N8N_HOST vers l'IP du droplet.
+# Instance Oracle Cloud Always Free (0 €), toujours allumée.
+# Forme VM.Standard.A1.Flex, 1 OCPU, 6 Go. Lancer : ./serveur.sh
+# Le DNS A de N8N_HOST doit pointer vers cette instance.
 services:
   n8n:
     image: n8nio/n8n:1.109.2

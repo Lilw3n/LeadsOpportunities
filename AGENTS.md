@@ -18,7 +18,7 @@
 - **Signature électronique gratuite (SES)** : `/crm-e-signature.html` · lien client `/landings/signature-electronique.html` · `docs/E-SIGNATURE-GRATUITE.md` · `npm run verify:e-signature`
 - **Google Workspace** : MX + DKIM + mails CRM + Drive miroir contact@ · `docs/GOOGLE-WORKSPACE-DNS.md` · `npm run verify:workspace-mail-drive`
 - **Domaine niche VTC** : `assurancevtcfrance.com` — microsite `/assurance-vtc-france/` · DNS o2switch→Vercel `docs/ASSURANCE-VTC-FRANCE-DNS.md` · pubs `ads/meta-assurancevtcfrance.csv` · `npm run verify:assurance-vtc-france`
-- **n8n réseaux** : droplet DigitalOcean 6 €/mois (`n8n/serveur.sh`) ou essai local (`n8n/demarrer.sh`) · `docs/N8N-RESEAUX-GRATUIT.md` · `npm run verify:n8n-social`
+- **n8n réseaux (0 €)** : ordinateur `n8n/demarrer.sh` · sinon Oracle Always Free `n8n/serveur.sh` · `docs/N8N-RESEAUX-GRATUIT.md` · `npm run verify:n8n-social`
 
 ## Blog actu (leads qualifiés)
 

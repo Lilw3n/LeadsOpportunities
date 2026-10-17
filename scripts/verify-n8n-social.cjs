@@ -45,8 +45,8 @@ assert(compose.indexOf("N8N_LICENSE") === -1, "pas de licence payante");
 
 var doc = fs.readFileSync(path.join(__dirname, "..", "docs/N8N-RESEAUX-GRATUIT.md"), "utf8");
 assert(doc.indexOf("./demarrer.sh") >= 0 && doc.indexOf("15005935") >= 0, "mode d'emploi");
-assert(doc.indexOf("DigitalOcean") >= 0 && doc.indexOf("./serveur.sh") >= 0, "compromis droplet");
-assert(doc.indexOf("Supabase") >= 0 && doc.indexOf("Heroku") >= 0 && doc.indexOf("Render gratuit") >= 0, "autres hébergeurs écartés dans le mode d'emploi");
+assert(doc.indexOf("À prendre") >= 0 && doc.indexOf("./demarrer.sh") >= 0 && doc.indexOf("Oracle Cloud Always Free") >= 0, "chemin 0 €");
+assert(doc.indexOf("Trop cher") >= 0 && doc.indexOf("Supabase") >= 0 && doc.indexOf("Heroku") >= 0 && doc.indexOf("Render gratuit") >= 0, "hébergeurs payants écartés");
 
 var serveur = fs.readFileSync(path.join(__dirname, "..", "n8n/docker-compose.serveur.yml"), "utf8");
 assert(serveur.indexOf("n8nio/n8n:1.109.2") >= 0 && serveur.indexOf("caddy:2.8") >= 0, "HTTPS sur le droplet");

@@ -1,5 +1,5 @@
 #!/bin/sh
-# n8n sur un serveur toujours allumé (droplet). Le jeton et la clé restent dans n8n/.env.
+# n8n sur une instance Oracle Always Free (0 €). Le jeton et la clé restent dans n8n/.env.
 set -e
 cd "$(dirname "$0")"
 if ! command -v docker >/dev/null 2>&1; then
