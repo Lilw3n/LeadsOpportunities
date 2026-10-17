@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-10-17T12:06:33.820Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMijAJBVV95cUxOZVpoU2Rpam5vWE5sYlRXRWtMVVJpek8xODhwaTFFREY1RTZ5YUpDdEVIdktkdGJwWjRQLTBjMi1VMW9ZY3YxeGQ5WFUwdGllUGRzdWJIckNwZW9LWDNHT1RtOHBDX1dEY0NQVTJ0M2RqOTA3RWFWdFRCQ2RmNjhFOUZvV0VzR2ljMVdCeU5Hbl9JUGw1S1RhZU8wMGNNTFZvZmNaOXpRZlJVUVZGWFpUQ1RNa1FkQVB6MFpmVWhrMEtSVG9FdDJQVTQ1Q0JuV3hBQm5EWUowYW42X2NrN1BQQVg3SGRXV3c0LW80VEktY1BvWDFjTUc4SFpic0o2MExENm9ESHFmQm4yV3ZU?oc=5",
+    "https://news.google.com/rss/articles/CBMirgFBVV95cUxQQXZJbmUzM3F0RGJBOGlGQ3dLOFJFZVBzR09LYll4OHFHM0oxbjV2UWhiTVFXR2xSSkxteUhEN1Yya3p5NUNaVjM1NDh4ZXlrM2RxS1lWb2tlc2hKS3hWcGx1R3NIYVduZHJqRjlsQmhTTGd5bHh5WHBWdk5ZMTMzYkwtbEhRMDVCc2g5R3lOd2RaZVZTaVFmWmdReGg1ZFpEeTA3eU9pZ0tESFFhRXc?oc=5",
+    "https://news.google.com/rss/articles/CBMi_wFBVV95cUxQSFRsSkVJV3BlaHZVYkNQcG1qR1VJUk5EV0lqWkZyQUN6Qi1XRE1mMzN5akFsZVZIbVkwMlM0ekduMTctdVMzaXUwWFBnNzFoMEs3QkxHVUVGR2QtRkFKWGx5Z1dkM0hRRDZ2NDh4Vy1kWXhJU3NPSEE4LTlPRWtiWkdxR0xyZFkxZzROVE1VXzdiRmtoNnBDZHc4VEFxZ0RwRTZ5c2s2aGgwclNqWDRvYjNYM25jTVZzMElCTllqNllTVXdZOFBLdlpKQUtPZ1V6bUxNTW9RUDFMUmd6bWFvZHlLZWt3N2JLazdLc3FRN3BmXzRiLVNGWjdfNUFuMHM?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3649af7b44c24a5ed9e346845157f&url=https%3a%2f%2fwww.leparisien.fr%2feconomie%2file-de-france-les-chauffeurs-vtc-ont-debute-leur-manifestation-sur-l-a1-15-12-2017-7454016.php&c=4479139036519426507&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMilwJBVV95cUxQZExDX01kYXoxME1zcUpmQmNIbWlWS0NiVlBfaUYwMG1MNmJJOHJsMVdEUi01MXJTajZ0bXByZTg2Ym1Yd2dONzFJS3VoalFsYV9nakJGZHRndF9NQkFlbS1ZdW1CMDFVNS1RQzg5ZHpZRTluazdrYXpRRlBpNDEyR0JIQ0hfdDRHdTFFODZHR29mVFZpckRacTJWbWg4QnFZVXE0Mk9qS1Z5OHc5dEI3dFNjUnpKX0duOHo2UHZtbHRTZU4yX0M4ZjhLUWdyV3ZYYmZXTkE0eGpvQVFOYTVpMEI3Q1ZJSXFLQUlpd1hlQVdQa3dxNE9DaUY0R0ZseXpXbHdVXy1BT040UmJLeXRieFFfTUFqNVU?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3649b1bb84dc39e555d5c9ac011fa&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2factualite%2fother%2fimmobilier-%25C3%25A0-nancy-l%25C3%25A9ger-recul-des-prix-de-vente-en-octobre%2far-AA2eh4Kv&c=2422233720107287979&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-10-17T12:06:35.730Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,50 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-10-17T12:06:35.730Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "loi-de-finances-2027-ce-qui-change-en-matiere-de-fiscalite-des-donations.html",
+          "title": "Loi de finances 2027 : ce qui change en matière de fiscalité, des donations à l’assuran… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "prix-d-une-operation-pour-chien-guide-des-tarifs-et-remboursements-en-20.html",
+          "title": "Prix d'une opération pour chien : guide des tarifs et remboursements en 2026 - Le Compa… : assurance animaux — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "pret-immobilier-voici-les-taux-que-les-banques-vont-proposer-en-ce-mois-.html",
+          "title": "Prêt immobilier : voici les taux que les banques vont proposer en ce mois d’octobre 202… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "ile-de-france-les-chauffeurs-vtc-manifestent-sur-l-a1.html",
+          "title": "Ile-de-France : les chauffeurs VTC manifestent sur l’A1 : assurance VTC — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "immobilier-a-paris-comme-dans-les-grandes-metropoles-les-tensions-sur-le.html",
+          "title": "Immobilier : à Paris comme dans les grandes métropoles, les tensions sur les locations … : assurance habitation — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "immobilier-a-nancy-leger-recul-des-prix-de-vente-en-octobre.html",
+          "title": "Immobilier à Nancy : léger recul des prix de vente en octobre : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
