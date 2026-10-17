@@ -2,7 +2,7 @@ const { getAuthUser } = require("../auth");
 const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
 const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
-const { decorateLeadArticle, summarizeQuestionnaireLeads, loadArticleClickMap } = require("../lead-article");
+const { decorateLeadArticle, summarizeQuestionnaireLeads, buildCallQueue, loadArticleClickMap } = require("../lead-article");
 
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
 const VALID_SORT = ["created_at", "lead_score", "vertical", "email", "status"];
@@ -264,7 +264,9 @@ async function fetchQuestionnaireCandidates(sql, opts) {
   const plat = opts.platformVal || "";
   try {
     return await sql`
-      SELECT source, email, phone, payload, is_duplicate, parent_lead_id, questionnaire_step
+      SELECT id, source, vertical, landing_slug, seo_product, email, phone, payload,
+        is_duplicate, parent_lead_id, questionnaire_step,
+        COALESCE(status, 'new') AS status, created_at
       FROM site_leads
       WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
         AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
@@ -312,7 +314,7 @@ async function fetchQuestionnaireCandidates(sql, opts) {
     `;
   } catch (e) {
     return sql`
-      SELECT source, email, phone, payload
+      SELECT id, source, email, phone, payload, COALESCE(status, 'new') AS status, created_at
       FROM site_leads
       ORDER BY created_at DESC
       LIMIT 1500
@@ -412,6 +414,7 @@ module.exports = async (req, res) => {
       qSource = result.rows;
     }
     const summary = summarizeQuestionnaireLeads(qSource, clickMap);
+    const callQueue = buildCallQueue(qSource, clickMap);
     const leads = result.rows.map(function (row) {
       return decorateLeadArticle(enrichLeadRow(row), clickMap);
     });
@@ -423,6 +426,7 @@ module.exports = async (req, res) => {
       questionnaire_total: summary.questionnaire_total,
       questionnaire_capped: questionnaireCapped,
       lead_articles: summary.articles,
+      call_queue: callQueue,
       pagination: {
         page,
         limit,

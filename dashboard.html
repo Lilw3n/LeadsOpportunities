@@ -1984,6 +1984,14 @@
         </div>
         <div class="leads-total-banner" id="leadsTotalBanner">Vos leads sont tous dans ce tableau. Par défaut 100 par page (plus de pagination à 20).</div>
 
+        <div class="dash-panel" style="margin-bottom:16px" id="callQueuePanel">
+          <div class="panel-header"><h2>À appeler — seuls ces numéros peuvent rapporter</h2></div>
+          <div class="panel-body" style="padding-top:0">
+            <p style="color:var(--muted);font-size:0.85rem;margin-top:0">Questionnaire envoyé et téléphone. VTC et mutuelle d’abord, puis les dossiers pro, l’emprunteur et le prêt. Après l’appel, le grossiste tarife. Tu ne fixes pas un prix ici.</p>
+            <div id="callQueueBody"><p class="muted">Chargement…</p></div>
+          </div>
+        </div>
+
         <div class="dash-panel" style="margin-bottom:16px">
           <div class="panel-header"><h2>Articles qui ont amené les questionnaires</h2></div>
           <div class="panel-body" style="overflow-x:auto;padding-top:0">
@@ -2752,6 +2760,69 @@
         "</tbody></table>";
     }
 
+    function renderCallQueue(rows) {
+      var el = document.getElementById("callQueueBody");
+      if (!el) return;
+      if (!rows || !rows.length) {
+        el.innerHTML =
+          '<p style="margin:0">Aucun numéro à appeler sur ce filtre. Un questionnaire sans téléphone reste dans le tableau, il ne se rappelle pas tout seul.</p>';
+        return;
+      }
+      el.innerHTML = rows
+        .map(function (row) {
+          var phone = esc(row.phone || "");
+          var call = row.tel
+            ? '<a class="btn btn-primary" href="' + esc(row.tel) + '">Appeler ' + phone + "</a>"
+            : phone;
+          var article = row.article_path
+            ? '<a href=".' + esc(row.article_path) + '" target="_blank" rel="noopener">' + esc(row.article_title || "Article") + "</a>"
+            : "Questionnaire direct";
+          var mark =
+            row.id && row.status !== "contacted"
+              ? '<button type="button" class="btn btn-ghost btn-sm" data-call-done="' + esc(row.id) + '">Noter l’appel</button>'
+              : row.status === "contacted"
+                ? '<span class="lead-pill">appel noté</span>'
+                : "";
+          return (
+            '<article style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line)">' +
+            "<div><strong>" +
+            esc(row.product || "Dossier") +
+            "</strong><div style='color:var(--muted);font-size:0.85rem;margin-top:4px'>" +
+            esc(row.step || "") +
+            "</div><div style='font-size:0.8rem;margin-top:4px'>" +
+            article +
+            "</div></div><div style='display:flex;gap:8px;align-items:center;flex-wrap:wrap'>" +
+            call +
+            mark +
+            "</div></article>"
+          );
+        })
+        .join("");
+      el.querySelectorAll("[data-call-done]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          markCallDone(btn.getAttribute("data-call-done"), btn);
+        });
+      });
+    }
+
+    async function markCallDone(leadId, btn) {
+      if (!leadId) return;
+      btn.disabled = true;
+      btn.textContent = "Enregistrement…";
+      var data = await D.api("/api/dashboard/lead-update", {
+        method: "POST",
+        body: JSON.stringify({ leadId: leadId, status: "contacted" }),
+      });
+      if (!data.ok) {
+        btn.disabled = false;
+        btn.textContent = "Noter l’appel";
+        toast(data.error || "Appel non noté", "error");
+        return;
+      }
+      toast("Appel noté. Le grossiste peut recevoir le dossier.");
+      loadLeads();
+    }
+
     function renderLeadsPagination(pg) {
       var total = Number(pg.total || 0);
       var page = Number(pg.page || 1);
@@ -3203,6 +3274,7 @@
           articles: data.lead_articles || [],
         };
         renderLeadArticles(leadArticleSummary.articles);
+        renderCallQueue(data.call_queue || []);
         tbody.innerHTML = "";
         var leadsList = data.leads || [];
         if (visitorCatFilter) {

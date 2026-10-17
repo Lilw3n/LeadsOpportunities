@@ -32,3 +32,9 @@ Page CRM **Origine des leads** : `/crm-sources.html`, bloc « Leads que vous n�
 Dans le tableau de bord, filtre **Origine → Entrants**. Ce filtre ne s’applique qu’à la page affichée (250 lignes max). Pour le total de la période, rester sur `/crm-sources.html`.
 
 La colonne et la fiche affichent le libellé (Pub Meta, Formulaire du site, etc.). Le survol de la cellule garde `source`, `utm_source` et `utm_campaign`.
+
+## Ce qui peut rapporter
+
+Sur `/dashboard.html?section=leads`, le bloc **À appeler** ne garde que les questionnaires envoyés qui ont un téléphone. L’ordre est VTC, mutuelle, professionnel, emprunteur, prêt. Le bouton note l’appel (`contacted`). Le prix reste chez le grossiste.
+
+Sur `/blog/`, quatre devis sont en tête : VTC, mutuelle, commerce, prêt.

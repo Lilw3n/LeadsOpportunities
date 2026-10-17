@@ -305,6 +305,16 @@ var html =
   '</style>\n</head>\n<body data-blog-page="index" data-market-intent="FR">\n  <header class="blog-topbar">\n    <div class="blog-topbar-inner">\n      <a class="blog-back" href="../index.html">Accueil</a>\n      ' +
   blogLogoBlock() +
   '\n    </div>\n  </header>\n  <main class="blog-container blog-container--index">\n    <div class="blog-hero">\n      <h1>Blog &amp; conseils assurance</h1>\n      <p>Guides en <strong>France</strong>, rangés par section : professionnel, santé collective, VTC, habitation, crédit. Le premier bloc liste les métiers cités.</p>\n      <p class="blog-hero-link"><a href="../assurances/">Voir toutes nos assurances</a> · <a href="#blog-sections">Voir les sections</a></p>\n    </div>\n\n' +
+  '    <section class="blog-money-bar" aria-label="Demander un devis">\n' +
+  '      <h2>Un devis gratuit, un rappel</h2>\n' +
+  "      <p>Le questionnaire décrit le besoin. Un courtier ORIAS reprend le dossier. Aucun prix n’est affiché avant l’étude.</p>\n" +
+  '      <div class="blog-money-actions">\n' +
+  '        <a class="btn btn-primary" href="../landings/questionnaire.html?need=vtc&journey=standard">Devis VTC</a>\n' +
+  '        <a class="btn btn-primary" href="../landings/questionnaire.html?need=sante&journey=standard">Devis mutuelle</a>\n' +
+  '        <a class="btn btn-primary" href="../landings/questionnaire.html?need=mrp&journey=standard">Devis commerce</a>\n' +
+  '        <a class="btn btn-primary" href="../landings/questionnaire.html?need=credit-immo&journey=standard">Devis prêt</a>\n' +
+  "      </div>\n" +
+  "    </section>\n\n" +
   metierShelf.html("./") +
   "\n" +
   sectionNavHtml(sections).replace('class="blog-section-nav"', 'class="blog-section-nav" id="blog-sections"') +

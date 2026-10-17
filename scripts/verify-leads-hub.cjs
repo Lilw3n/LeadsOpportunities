@@ -112,6 +112,8 @@ assert(dash.indexOf("acheteur_immo") >= 0, "dashboard : vertical acheteur immo")
 assert(dash.indexOf("leadStatTotal") >= 0, "dashboard : KPI tous les leads");
 assert(dash.indexOf("leadStatQuestionnaires") >= 0, "dashboard : compteur questionnaires remplis");
 assert(dash.indexOf("leadArticlesBody") >= 0, "dashboard : articles à côté des leads");
+assert(dash.indexOf("callQueueBody") >= 0 && dash.indexOf("À appeler") >= 0, "dashboard : file d'appels");
+assert(fs.readFileSync(path.join(__dirname, "..", "blog/index.html"), "utf8").indexOf("need=vtc") >= 0, "blog : devis VTC en tête");
 assert(dash.indexOf("leadArticleCell") >= 0, "dashboard : colonne article du lead");
 assert(dash.indexOf("filterLimit") >= 0, "dashboard : 100 par page");
 assert(dash.indexOf("renderLeadsPagination") >= 0, "dashboard : pagination lisible");
@@ -164,6 +166,42 @@ assert(
     summarized.articles[0].questionnaire_leads === 1,
   "article source à côté du questionnaire"
 );
+
+var queue = require("../api/_lib/lead-article").buildCallQueue([
+  {
+    id: "vtc-1",
+    source: "landing_form",
+    vertical: "vtc",
+    email: "chauffeur@example.fr",
+    phone: "06 12 34 56 78",
+    status: "new",
+    created_at: "2026-10-17T08:00:00.000Z",
+    questionnaire_step: 3,
+    payload: {},
+  },
+  {
+    id: "mail-only",
+    source: "landing_form",
+    vertical: "sante",
+    email: "sans-tel@example.fr",
+    phone: "",
+    status: "new",
+    questionnaire_step: 2,
+    payload: {},
+  },
+  {
+    id: "lost",
+    source: "landing_form",
+    vertical: "vtc",
+    email: "perdu@example.fr",
+    phone: "0699887766",
+    status: "lost",
+    questionnaire_step: 2,
+    payload: {},
+  },
+]);
+assert(queue.length === 1 && queue[0].id === "vtc-1" && queue[0].product === "VTC", "file d'appel : téléphone et dossier ouvert");
+assert(queue[0].tel === "tel:+33612345678", "lien d'appel");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");
