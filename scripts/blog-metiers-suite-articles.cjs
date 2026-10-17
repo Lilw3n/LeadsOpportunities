@@ -1,6 +1,6 @@
 /**
  * Articles des métiers activés (flotte, TNS, plaisance, scolaire, etc.).
- * skipImages : pas de photo stock hors sujet.
+ * Chaque article reçoit une photo de la banque d'images du blog.
  */
 var catalog = require("./metiers-suite-catalog.cjs");
 
@@ -28,7 +28,6 @@ function articleFrom(item) {
   return {
     file: item.blog,
     section: item.blogSection,
-    skipImages: true,
     tag: item.tag,
     tagClass: "tag-pro",
     themes: item.themes,
@@ -53,7 +52,6 @@ function articleFrom(item) {
 var pillar = {
   file: "assurance-metiers-quel-contrat-choisir-2026.html",
   section: "pro",
-  skipImages: true,
   tag: "Métiers",
   tagClass: "tag-pro",
   themes: ["pro"],

@@ -1,6 +1,6 @@
 /**
  * Actu assurance du 17 octobre 2026 : mobilisation, casse, journée d'activité difficile.
- * leadSeo : pas de bourrage de mots-clés. skipImages : pas de photo stock hors sujet.
+ * leadSeo : pas de bourrage générique. Les mots-clés utiles sont écrits dans l'article.
  */
 module.exports = [
   {
@@ -8,24 +8,34 @@ module.exports = [
     section: "actu",
     audience: "france",
     leadSeo: true,
-    skipImages: true,
     dateModified: "2026-10-17",
     tag: "17 octobre",
     tagClass: "tag-actu",
     themes: ["assurance", "commerce", "emeute"],
     title: "Manifestation du 17 octobre 2026 : casse, commerce fermé et assurance",
     description:
-      "17 octobre 2026 : que faire si une vitrine, un logement ou une voiture est dégradé pendant la mobilisation, et ce qu'une journée sans chiffre d'affaires change au contrat. Le régime émeutes voté en février attend encore son décret.",
+      "Manifestation 17 octobre 2026 : vitrine cassée, vandalisme, émeute, mouvement populaire, multirisque professionnelle, assurance auto et habitation. Perte d'exploitation si le commerce est seulement fermé. Article L. 121-8. Décret du régime émeutes non publié.",
     meta: "9 min · Octobre 2026",
-    cardExcerpt: "Casse, vitrine, voiture, boutique fermée : le contrat d'aujourd'hui, pas le fonds de 2026.",
+    cardExcerpt: "Vitrine cassée, voiture dégradée, commerce fermé : mots-clés, photos et contrat du 17 octobre 2026.",
     keywords: [
-      "manifestation 17 octobre 2026 assurance",
+      "manifestation 17 octobre 2026",
+      "assurance manifestation casse",
       "vitrine cassée assurance commerce",
-      "émeute mouvement populaire code des assurances",
-      "multirisque professionnelle vandalisme",
+      "vandalisme multirisque professionnelle",
+      "émeute mouvement populaire assurance",
+      "article L.121-8 code des assurances",
       "perte d'exploitation commerce fermé",
-      "article L.121-8 assurance",
+      "déclaration sinistre 5 jours",
+      "assurance auto vandalisme manifestation",
+      "assurance habitation dégradation",
+      "loi finances 2026 émeutes",
+      "qui paie dégâts manifestation",
     ],
+    heroImage: {
+      src: "./images/actu/commerce-ferme-17-octobre.jpg",
+      alt: "Rue commerçante en France, rideaux de fer baissés et vitrine recouverte de contreplaqué",
+      caption: "Image d'illustration : commerce fermé et vitrine bâchée. Ce n'est pas la photo d'une boutique précise du 17 octobre.",
+    },
     cta: {
       href: "../landings/questionnaire.html?need=mrp&journey=standard",
       label: "Questionnaire multirisque",
@@ -38,6 +48,27 @@ module.exports = [
       {
         type: "p",
         text: "Dans la matinée, le direct de La Dépêche comptait 24 interpellations à Toulouse avant le cortège de l'après-midi, et décrivait des rassemblements calmes à Tarbes, Cahors, Agen, Auch et Foix. À Marseille, des gaz lacrymogènes ont été signalés près de la gare Saint-Charles. Un véhicule en feu boulevard Carnot, à Toulouse, a été présenté comme un incident mécanique, sans lien avec la journée. Cet article ne dresse pas le bilan des vitrines. Il répond à la question d'assurance dès qu'il y a <strong>casse</strong>, ou dès qu'un commerce n'a pas pu travailler.",
+      },
+      {
+        type: "gallery",
+        label: "Trois situations du 17 octobre : commerce fermé, vitrine, voiture",
+        items: [
+          {
+            src: "./images/actu/commerce-ferme-17-octobre.jpg",
+            alt: "Commerces aux rideaux baissés dans une rue française",
+            caption: "Activité difficile : rideau baissé, sans casse visible",
+          },
+          {
+            src: "./images/actu/vitrine-constat-assurance.jpg",
+            alt: "Vitrine fissurée photographiée pour une déclaration d'assurance",
+            caption: "Casse : photo, constat, déclaration écrite",
+          },
+          {
+            src: "./images/actu/voiture-degradee-rue.jpg",
+            alt: "Voiture à la vitre brisée stationnée dans une rue française",
+            caption: "Auto : vandalisme selon la formule souscrite",
+          },
+        ],
       },
       { type: "bridge" },
       { type: "h2", text: "Le contrat signé reste la règle du jour" },
@@ -82,6 +113,30 @@ module.exports = [
         text: "Dans le vocabulaire des assureurs, « activité difficile » désigne aussi un métier plus dur à placer : nuit, événementiel, déchets, démolition, accueil du public. La journée du 17 octobre ne change pas le code d'activité. Un questionnaire utile décrit le métier réel, les locaux et le stock. Le courtier ne promet ni un tarif ni une acceptation.",
       },
       { type: "bridge" },
+      {
+        type: "figure",
+        src: "./images/actu/declaration-sinistre-commerce.jpg",
+        alt: "Dossier de déclaration : photos de vitrine, formulaire, clés et mètre",
+        caption: "Image d'illustration : photos, formulaire et mesures avant de tout remettre en état.",
+      },
+      { type: "h2", text: "Mots-clés pour chercher la bonne garantie" },
+      {
+        type: "p",
+        text: "Les recherches du jour tournent autour de quelques formules. Chacune correspond à une page du contrat, pas à un paiement automatique.",
+      },
+      {
+        type: "ul",
+        items: [
+          "<strong>manifestation 17 octobre 2026</strong> : le contexte, pas une garantie en soi",
+          "<strong>vitrine cassée assurance commerce</strong> et <strong>vandalisme multirisque professionnelle</strong> : bris de glace et vandalisme, s'ils sont souscrits",
+          "<strong>émeute mouvement populaire assurance</strong> et <strong>article L.121-8</strong> : l'exclusion que l'assureur doit prouver",
+          "<strong>perte d'exploitation commerce fermé</strong> : le chiffre d'affaires manqué, seulement si la clause existe",
+          "<strong>déclaration sinistre 5 jours</strong> : cinq jours ouvrés, deux jours ouvrés en cas de vol",
+          "<strong>assurance auto vandalisme manifestation</strong> et <strong>assurance habitation dégradation</strong> : la formule du contrat, pas le titre",
+          "<strong>loi finances 2026 émeutes</strong> : régime voté, décret non publié le 17 octobre 2026",
+          "<strong>qui paie dégâts manifestation</strong> : assureur si la garantie est acquise, auteurs identifiés, et éventuellement l'État sous l'article L. 211-10",
+        ],
+      },
       { type: "h2", text: "Délais de déclaration" },
       {
         type: "p",

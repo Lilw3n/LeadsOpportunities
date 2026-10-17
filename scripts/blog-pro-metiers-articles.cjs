@@ -40,7 +40,6 @@ function article(opts) {
   return {
     file: opts.file,
     section: "pro",
-    skipImages: true,
     tag: opts.tag,
     tagClass: "tag-pro",
     themes: opts.themes || ["pro"],
@@ -52,6 +51,7 @@ function article(opts) {
     cta: { href: utm(opts.landing, opts.campaign), label: opts.ctaLabel },
     blocks: opts.blocks,
     faq: opts.faq || [],
+    heroImage: opts.heroImage,
     related: [
       { href: "./assurance-metiers-quel-contrat-choisir-2026.html", label: "Quel contrat selon le métier" },
       { href: "./index.html#blog-section-pro", label: "Section professionnel du blog" },
@@ -138,6 +138,11 @@ module.exports = [
       "devis multirisque pro",
     ],
     ctaLabel: "Devis multirisque pro",
+    heroImage: {
+      src: "./images/actu/commerce-ferme-17-octobre.jpg",
+      alt: "Locaux commerciaux en rez-de-chaussée, rideaux baissés",
+      caption: "Locaux professionnels : la multirisque joue sur le bâtiment occupé, le stock et le matériel si ces garanties sont au contrat.",
+    },
     blocks: [
       {
         type: "p",

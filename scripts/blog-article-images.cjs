@@ -308,6 +308,26 @@ var I = {
     "Intelligence artificielle au travail — assurance et metiers",
     "IA et tarification assurance en 2026."
   ),
+  commerceFerme: img(
+    "./images/actu/commerce-ferme-17-octobre.jpg",
+    "Rue commerçante en France, rideaux de fer baissés et vitrine bâchée",
+    "Illustration : commerce fermé et vitrine protégée."
+  ),
+  vitrineConstat: img(
+    "./images/actu/vitrine-constat-assurance.jpg",
+    "Vitrine fissurée photographiée pour une déclaration d'assurance",
+    "Illustration : photo et dossier avant nettoyage."
+  ),
+  voitureDegradee: img(
+    "./images/actu/voiture-degradee-rue.jpg",
+    "Voiture à la vitre brisée dans une rue française",
+    "Illustration : dégradation d'un véhicule."
+  ),
+  dossierSinistre: img(
+    "./images/actu/declaration-sinistre-commerce.jpg",
+    "Photos, formulaire et clés pour une déclaration de sinistre commerce",
+    "Illustration : pièces du dossier de déclaration."
+  ),
   retroGaming: img(
     "./images/actu/collection-retro.jpg",
     "Collection retro gaming",
@@ -468,6 +488,36 @@ var MAP = {
     figure: "freelance",
   },
   "ia-metiers-assurance-tarification-2026.html": { hero: "iaBureau", figure: "freelance" },
+  "manifestation-17-octobre-2026-casse-assurance-commerce.html": {
+    hero: "commerceFerme",
+    figure: "vitrineConstat",
+  },
+  "assurance-garage-negociant-auto-rc-mrp-2026.html": { hero: "voiture", figure: "artisan" },
+  "assurance-multirisque-professionnelle-locaux-2026.html": { hero: "commerceFerme", figure: "factures" },
+  "assurance-rc-pro-entreprise-guide-2026.html": { hero: "freelance", figure: "artisan" },
+  "assurance-metiers-batiment-decennale-rc-2026.html": { hero: "artisan", figure: "maisonFamille" },
+  "assurance-transport-logistique-marchandises-2026.html": { hero: "voiture", figure: "freelance" },
+  "assurance-transport-voyageurs-commun-2026.html": { hero: "taxiVille", figure: "voiture" },
+  "assurance-flotte-vehicules-professionnels-2026.html": { hero: "voiture", figure: "vtcChauffeur" },
+  "assurance-decennale-artisan-guide-2026.html": { hero: "artisan", figure: "maisonFamille" },
+  "assurance-convoyeur-vehicules-rc-pro-2026.html": { hero: "voiture", figure: "freelance" },
+  "assurance-auto-temporaire-quelques-jours-2026.html": { hero: "voiture", figure: "jeuneCond" },
+  "assurance-moto-vehicule-collection-2026.html": { hero: "voiture", figure: "bonusMalus" },
+  "assurance-caravane-camping-car-2026.html": { hero: "voiture", figure: "maisonFamille" },
+  "assurance-bateau-plaisance-voilier-2026.html": { hero: "voyageFoot", figure: "maisonFamille" },
+  "assurance-piscine-proprietaire-constructeur-2026.html": { hero: "maisonFamille", figure: "canicule" },
+  "assurance-foret-propriete-boisee-2026.html": { hero: "caniculeClimat", figure: "maisonFamille" },
+  "assurance-apiculture-ruches-rc-2026.html": { hero: "caniculeClimat", figure: "famProtect" },
+  "assurance-scolaire-extrascolaire-enfant-2026.html": { hero: "familyHealth", figure: "famProtect" },
+  "assurance-dirigeant-homme-cle-2026.html": { hero: "indepBureau", figure: "freelance" },
+  "prevoyance-tns-independant-2026.html": { hero: "indepBureau", figure: "famProtect" },
+  "protection-juridique-professionnelle-2026.html": { hero: "factures", figure: "freelance" },
+  "credit-professionnel-tresorerie-materiel-2026.html": { hero: "signaturePret", figure: "budgetFam" },
+  "assurance-drone-professionnel-telepilote-2026.html": { hero: "iaBureau", figure: "freelance" },
+  "assurance-materiel-photo-video-reportage-2026.html": { hero: "iaBureau", figure: "freelance" },
+  "assurance-instrument-musique-vol-transport-2026.html": { hero: "retroGaming", figure: "factures" },
+  "assurance-collection-objets-art-2026.html": { hero: "retroGaming", figure: "factures" },
+  "gta-6-netflix-extended-look-immobilier-france-2026.html": { hero: "retroGaming", figure: "maisonFamille" },
   "ligue-champions-assurance-voyage-deplacement.html": { hero: "voyageFoot", figure: "voiture" },
   "coupe-monde-2026-assurance-voyage-sante.html": { hero: "voyageFoot", figure: "familyHealth" },
   "coupe-monde-voyage-assurance-sante-etranger-2026.html": { hero: "voyageFoot", figure: "medecinConsult" },
@@ -484,6 +534,8 @@ var SECTION_DEFAULT = {
   prevoyance: { hero: "famProtect", figure: "obseques" },
   patrimoine: { hero: "epargneRetraite", figure: "budgetFam" },
   pro: { hero: "artisan", figure: "freelance" },
+  partenariat: { hero: "artisan", figure: "freelance" },
+  collective: { hero: "mutuelleDocs", figure: "familyHealth" },
   actu: { hero: "politique", figure: "factures" },
 };
 
@@ -494,7 +546,11 @@ function hasVisualBlock(blocks) {
 }
 
 function applyArticleImages(article) {
-  if (!article || article.heroImage || article.skipImages) return article;
+  if (!article) return article;
+  if (typeof article.heroImage === "string" && article.heroImage) {
+    article.heroImage = { src: article.heroImage, alt: article.title || "", caption: "" };
+  }
+  if (article.heroImage || article.skipImages) return article;
   var cfg = MAP[article.file] || SECTION_DEFAULT[article.section];
   if (!cfg) return article;
 

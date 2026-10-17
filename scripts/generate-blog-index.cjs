@@ -13,11 +13,27 @@ const {
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
 const metierShelf = require("./blog-metiers-shelf.cjs");
+const { applyArticleImages } = require("./blog-article-images.cjs");
 const { franceMetaBlock, blogLogoBlock, brandIconsMeta } = require("./france-brand.cjs");
 const CLARITY_HEAD = clarityInlineHtml();
 const BLOG_CSS = "/blog/blog.css";
 
 const indexPath = path.join(__dirname, "..", "blog", "index.html");
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function resolveCardImage(a) {
+  if (a.heroImage && a.heroImage.src) return a.heroImage;
+  var copy = Object.assign({}, a, { blocks: a.blocks ? a.blocks.slice() : [] });
+  applyArticleImages(copy);
+  return copy.heroImage || null;
+}
 
 function card(a) {
   var themes = resolveThemes(a);
@@ -31,13 +47,23 @@ function card(a) {
     displayThemes.unshift(a.section);
   }
   displayThemes = displayThemes.slice(0, 4);
+  var visual = resolveCardImage(a);
+  var visualHtml = visual
+    ? '        <span class="blog-card-visual"><img src="' +
+      esc(visual.src) +
+      '" alt="' +
+      esc(visual.alt || a.title) +
+      '" loading="lazy" decoding="async" width="1280" height="720" /></span>\n'
+    : "";
 
   return (
     '      <a class="blog-card" href="./' +
     a.file +
     '" data-themes="' +
     themes.join(",") +
-    '">\n        <div class="blog-card-head">\n          <span class="blog-card-tag ' +
+    '">\n' +
+    visualHtml +
+    '        <div class="blog-card-body">\n        <div class="blog-card-head">\n          <span class="blog-card-tag ' +
     a.tagClass +
     '">' +
     a.tag +
@@ -49,7 +75,7 @@ function card(a) {
     (a.cardExcerpt || a.description) +
     '</p>\n        <span class="blog-card-meta">' +
     a.meta +
-    "</span>\n      </a>\n"
+    "</span>\n        </div>\n      </a>\n"
   );
 }
 

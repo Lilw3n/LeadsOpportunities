@@ -14,6 +14,8 @@ Note manuelle. `npm run vault:seo` ne l’écrase pas.
 
 Article : https://www.leadsopportunities.fr/blog/manifestation-17-octobre-2026-casse-assurance-commerce.html
 
+Images d'illustration (pas des photos d'un commerce précis) : `blog/images/actu/commerce-ferme-17-octobre.jpg`, `vitrine-constat-assurance.jpg`, `voiture-degradee-rue.jpg`, `declaration-sinistre-commerce.jpg`. Les cartes de `/blog/` affichent le visuel de chaque article.
+
 Source : `scripts/blog-actu-17-octobre-2026.cjs`. Régénérer cette page seule avec `node scripts/generate-blog-articles.cjs` tant que le fichier HTML n’existe pas. Ne pas lancer `blog:build --force` ni `blog:feed` : le flux RSS réécrit toutes les dates.
 
 ## Ce que la page dit
