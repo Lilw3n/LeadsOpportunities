@@ -1,41 +1,80 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-10-17T12:06:35.730Z",
   "items": [
     {
-      "id": "edge-world-cup-iran-2026",
-      "title": "Coupe du monde : fan flag et deplacement USA",
-      "url": "",
-      "source": "edge",
-      "note": "Angle assurance voyage sante etranger",
+      "id": "queue-oct17-lois",
+      "title": "Loi de finances 2027 : ce qui change en matière de fiscalité, des donations à l’assurance-vie - Le Monde.fr",
+      "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxOZVpoU2Rpam5vWE5sYlRXRWtMVVJpek8xODhwaTFFREY1RTZ5YUpDdEVIdktkdGJwWjRQLTBjMi1VMW9ZY3YxeGQ5WFUwdGllUGRzdWJIckNwZW9LWDNHT1RtOHBDX1dEY0NQVTJ0M2RqOTA3RWFWdFRCQ2RmNjhFOUZvV0VzR2ljMVdCeU5Hbl9JUGw1S1RhZU8wMGNNTFZvZmNaOXpRZlJVUVZGWFpUQ1RNa1FkQVB6MFpmVWhrMEtSVG9FdDJQVTQ1Q0JuV3hBQm5EWUowYW42X2NrN1BQQVg3SGRXV3c0LW80VEktY1BvWDFjTUc4SFpic0o2MExENm9ESHFmQm4yV3ZU?oc=5",
+      "source": "google",
+      "note": "Loi finances 2027 — fiscalité donations assurance-vie / angle emprunteur",
+      "section": "lois",
+      "need": "emprunteur",
       "status": "published",
-      "addedAt": "2026-06-17T08:00:00.000Z"
+      "addedAt": "2026-10-17T12:06:15.196Z"
     },
     {
-      "id": "firefox-g7-evian",
-      "title": "G7 d'Evian : a quoi sert le Groupe des sept",
-      "url": "",
-      "source": "firefox",
-      "note": "Courrier international — prevoyance patrimoine credit",
+      "id": "queue-oct17-vtc",
+      "title": "Ile-de-France : les chauffeurs VTC manifestent sur l’A1",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3649af7b44c24a5ed9e346845157f&url=https%3a%2f%2fwww.leparisien.fr%2feconomie%2file-de-france-les-chauffeurs-vtc-ont-debute-leur-manifestation-sur-l-a1-15-12-2017-7454016.php&c=4479139036519426507&mkt=en-us",
+      "source": "bing",
+      "note": "Manifestation chauffeurs VTC IDF — angle assurance plateforme",
+      "section": "vtc",
+      "need": "vtc",
       "status": "published",
-      "addedAt": "2026-06-17T08:00:00.000Z"
+      "addedAt": "2026-10-17T12:06:15.196Z"
     },
     {
-      "id": "firefox-france-senegal",
-      "title": "France vs Senegal Coupe du monde",
-      "url": "",
-      "source": "firefox",
-      "note": "Widget sport — voyage assurance",
+      "id": "queue-oct17-animaux",
+      "title": "Prix d'une opération pour chien : guide des tarifs et remboursements en 2026 - Le Comparateur Assurance",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQQXZJbmUzM3F0RGJBOGlGQ3dLOFJFZVBzR09LYll4OHFHM0oxbjV2UWhiTVFXR2xSSkxteUhEN1Yya3p5NUNaVjM1NDh4ZXlrM2RxS1lWb2tlc2hKS3hWcGx1R3NIYVduZHJqRjlsQmhTTGd5bHh5WHBWdk5ZMTMzYkwtbEhRMDVCc2g5R3lOd2RaZVZTaVFmWmdReGg1ZFpEeTA3eU9pZ0tESFFhRXc?oc=5",
+      "source": "google",
+      "note": "Prix opération chien 2026 — frais vétérinaires / assurance animaux",
+      "section": "animaux",
+      "need": "animaux",
       "status": "published",
-      "addedAt": "2026-06-17T08:00:00.000Z"
+      "addedAt": "2026-10-17T12:06:15.196Z"
+    },
+    {
+      "id": "queue-oct17-pret",
+      "title": "Prêt immobilier : voici les taux que les banques vont proposer en ce mois d’octobre 2026 - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxQSFRsSkVJV3BlaHZVYkNQcG1qR1VJUk5EV0lqWkZyQUN6Qi1XRE1mMzN5akFsZVZIbVkwMlM0ekduMTctdVMzaXUwWFBnNzFoMEs3QkxHVUVGR2QtRkFKWGx5Z1dkM0hRRDZ2NDh4Vy1kWXhJU3NPSEE4LTlPRWtiWkdxR0xyZFkxZzROVE1VXzdiRmtoNnBDZHc4VEFxZ0RwRTZ5c2s2aGgwclNqWDRvYjNYM25jTVZzMElCTllqNllTVXdZOFBLdlpKQUtPZ1V6bUxNTW9RUDFMUmd6bWFvZHlLZWt3N2JLazdLc3FRN3BmXzRiLVNGWjdfNUFuMHM?oc=5",
+      "source": "google",
+      "note": "Taux prêt immo octobre 2026 — recherche de prêt / comparaison banques",
+      "section": "emprunteur",
+      "need": "emprunteur",
+      "status": "published",
+      "addedAt": "2026-10-17T12:06:15.196Z"
+    },
+    {
+      "id": "queue-oct17-vente",
+      "title": "Immobilier à Nancy : léger recul des prix de vente en octobre",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3649b1bb84dc39e555d5c9ac011fa&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2factualite%2fother%2fimmobilier-%25C3%25A0-nancy-l%25C3%25A9ger-recul-des-prix-de-vente-en-octobre%2far-AA2eh4Kv&c=2422233720107287979&mkt=en-us",
+      "source": "bing",
+      "note": "Prix vente Nancy octobre — bassin nancéien / acquisition maison",
+      "section": "habitation",
+      "need": "habitation",
+      "status": "published",
+      "addedAt": "2026-10-17T12:06:15.196Z"
+    },
+    {
+      "id": "queue-oct17-location",
+      "title": "Immobilier : à Paris comme dans les grandes métropoles, les tensions sur les locations gagnent toutes les catégories sociales - Le Monde.fr",
+      "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxQZExDX01kYXoxME1zcUpmQmNIbWlWS0NiVlBfaUYwMG1MNmJJOHJsMVdEUi01MXJTajZ0bXByZTg2Ym1Yd2dONzFJS3VoalFsYV9nakJGZHRndF9NQkFlbS1ZdW1CMDFVNS1RQzg5ZHpZRTluazdrYXpRRlBpNDEyR0JIQ0hfdDRHdTFFODZHR29mVFZpckRacTJWbWg4QnFZVXE0Mk9qS1Z5OHc5dEI3dFNjUnpKX0duOHo2UHZtbHRTZU4yX0M4ZjhLUWdyV3ZYYmZXTkE0eGpvQVFOYTVpMEI3Q1ZJSXFLQUlpd1hlQVdQa3dxNE9DaUY0R0ZseXpXbHdVXy1BT040UmJLeXRieFFfTUFqNVU?oc=5",
+      "source": "google",
+      "note": "Tensions locations métropoles — recherche bien à louer",
+      "section": "habitation",
+      "need": "habitation",
+      "status": "published",
+      "addedAt": "2026-10-17T12:06:15.196Z"
     },
     {
       "id": "cafeyn-pending-template",
       "title": "COLLEZ ICI le titre de la une Cafeyn (Le Figaro, Le Parisien…)",
       "url": "",
       "source": "cafeyn",
-      "note": "Angle assurance a preciser",
+      "note": "Angle assurance a preciser — pas de login bot; utiliser inbox ou RSS",
       "status": "pending",
-      "addedAt": "2026-06-17T08:00:00.000Z"
+      "addedAt": "2026-10-17T12:06:15.196Z"
     }
   ]
 }
