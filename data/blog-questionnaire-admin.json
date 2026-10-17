@@ -2653,6 +2653,84 @@
       "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=credit-immobilier-cette-astuce-pour-ec",
       "matchedRule": "emprunteur",
       "species": null
+    },
+    {
+      "file": "assurance-de-pret-immobilier-ces-3-nouvelles-mesures-favorables-aux-empr.html",
+      "title": "Assurance de prêt immobilier : ces 3 nouvelles mesures favorables aux emprunteurs : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-de-pret-immobilier-ces-3-nou",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "assurance-protection-partenaires-avec-allianz-partners-uber.html",
+      "title": "Assurance Protection partenaires avec Allianz Partners - Uber : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=assurance-protection-partenaires-avec-al",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "prix-d-une-operation-pour-chien-guide-des-tarifs-et-remboursements-en-20.html",
+      "title": "Prix d'une opération pour chien : guide des tarifs et remboursements en 2026 - Le Compa… : assurance animaux — que faire ?",
+      "section": "animaux",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=prix-d-une-operation-pour-chien-guide",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "pret-immobilier-en-cours-moody-s-juge-la-france-le-23-octobre-ce-qu-une-.html",
+      "title": "Prêt immobilier en cours ? Moody's juge la France le 23 octobre, ce qu'une note abaissé… : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=pret-immobilier-en-cours-moody-s-juge",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "marcial-proprietaire-d-un-appartement-en-location-je-ne-le-loue-qu-a-des.html",
+      "title": "Marcial, propriétaire d'un appartement en location : \"Je ne le loue qu'à des connaissan… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=marcial-proprietaire-d-un-appartement-e",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "immobilier-la-vente-a-terme-une-alternative-au-viager.html",
+      "title": "Immobilier : la vente à terme, une alternative au viager : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=immobilier-la-vente-a-terme-une-alter",
+      "matchedRule": "habitation",
+      "species": null
     }
   ]
 }

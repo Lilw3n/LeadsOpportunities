@@ -1,5 +1,5 @@
 {
-  "lastFetch": "2026-10-17T13:50:19.120Z",
+  "lastFetch": "2026-10-17T19:18:11.522Z",
   "processedUrls": [
     "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
     "https://news.google.com/rss/articles/CBMiiAJBVV95cUxQM1FBSllpNHBXdVlNNm8yREQ1TUlmZ1FrNmQ4U3JwYVF0UFVZaUoyeEZTTGZrSGlpdVJNUlVvRWVJZnVRMXN3eWFSbGEzZlU4aDZ1b2gzNGk1TnZSTGZBUEtxOTJLM3lkZ21wR19YLVBwV3ZGYzlJQWJ5LXJGWUMwNVdpemo3bUZ5eF9Ub2tOeF9WZVNDWmdlTmFnSzdwZmdDWmR5TXd6S3BxcUhuMnhEc3lkT0lhRlMxUTF4akp1QUkyeFZSY2xVMFM1dTlnd01RX1lOd2FVZGJaNUNHSFZhVXdESmFURnNWUTVhSzFpRHloelFxMjA0Uk15UTYxT2FZbXRzZTRSbEM?oc=5",
@@ -7,10 +7,16 @@
     "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad37ce992e248c090a7b06a18f81a08&url=https%3a%2f%2fwww.zonebourse.com%2factualite-bourse%2fauchan-lance-une-offre-d-assurance-dediee-aux-animaux-de-compagnie-ce7e50dadf81f22d&c=5500286205907736925&mkt=en-us",
     "https://news.google.com/rss/articles/CBMijwJBVV95cUxPUGY0TnpBd1V0SlBXNjJPRDZXajdJcEVrYV8yc284VTU4M1R5bnUtOGdhaWk3cDZ1TWEzSTh4Uk52SmJZS2lzdG1xZnNtRndZams1cG4tR1Q1OEtmbHlpZThUZ3JxTFJJeHl4dlloamNEOGp4bVZnTWNSU3FKRDZPSTNUbDNWWnNBZkRSLXVEVEV4NC00RW1FU2VKNTVJU3Atd3RUN1UtaXZvNmFxUXB0MjgzdGFZLUNDX1hCbjRJUVBSeFljc2hDaEF5RXQ4MWNwZlBjT3Fpb2J2Tk10NWRSSlB6RFFYZV8xcTNiWExodWJYZERjUmR2TXVDamJZaEZHWlg3Zzg3XzE3Nm1maEZF?oc=5",
     "https://news.google.com/rss/articles/CBMilwJBVV95cUxQZExDX01kYXoxME1zcUpmQmNIbWlWS0NiVlBfaUYwMG1MNmJJOHJsMVdEUi01MXJTajZ0bXByZTg2Ym1Yd2dONzFJS3VoalFsYV9nakJGZHRndF9NQkFlbS1ZdW1CMDFVNS1RQzg5ZHpZRTluazdrYXpRRlBpNDEyR0JIQ0hfdDRHdTFFODZHR29mVFZpckRacTJWbWg4QnFZVXE0Mk9qS1Z5OHc5dEI3dFNjUnpKX0duOHo2UHZtbHRTZU4yX0M4ZjhLUWdyV3ZYYmZXTkE0eGpvQVFOYTVpMEI3Q1ZJSXFLQUlpd1hlQVdQa3dxNE9DaUY0R0ZseXpXbHdVXy1BT040UmJLeXRieFFfTUFqNVU?oc=5",
-    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad37ce8563d420f88afdc483b29c251&url=https%3a%2f%2fwww.moneyvox.fr%2fcredit%2factualites%2f110795%2fcredit-immobilier-cette-astuce-pour-economiser-jusqua-10-000-euros-et-faciliter-votre-emprunt&c=9476615913923203724&mkt=en-us"
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad37ce8563d420f88afdc483b29c251&url=https%3a%2f%2fwww.moneyvox.fr%2fcredit%2factualites%2f110795%2fcredit-immobilier-cette-astuce-pour-economiser-jusqua-10-000-euros-et-faciliter-votre-emprunt&c=9476615913923203724&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3c9c1c4da40dbbc10c417fd0efa5d&url=https%3a%2f%2fwww.boursorama.com%2fimmobilier%2fcredit%2factualites%2fassurance-de-pret-immobilier-ces-3-nouvelles-mesures-favorables-aux-emprunteurs-aba214d82291aa3882af10ec3daf7a34&c=5025052324863635030&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1Cb0FLNkxuay1rVEpyZjhlLVBTLXVfSXEydk9fdmx2UExJNHhtZUtkNklHVzUycTZoRGQ1dWY2NkI2TTItRFNwRk5MeGM2eTIzRmM3ckJn?oc=5",
+    "https://news.google.com/rss/articles/CBMirgFBVV95cUxQQXZJbmUzM3F0RGJBOGlGQ3dLOFJFZVBzR09LYll4OHFHM0oxbjV2UWhiTVFXR2xSSkxteUhEN1Yya3p5NUNaVjM1NDh4ZXlrM2RxS1lWb2tlc2hKS3hWcGx1R3NIYVduZHJqRjlsQmhTTGd5bHh5WHBWdk5ZMTMzYkwtbEhRMDVCc2g5R3lOd2RaZVZTaVFmWmdReGg1ZFpEeTA3eU9pZ0tESFFhRXc?oc=5",
+    "https://news.google.com/rss/articles/CBMimgFBVV95cUxQYmotNmpEbmZiNTFLTEF0MUdOb1pfajlJQk4tR2NmejBXQUpYSXdBN0xOUGFwQmQ4VHMwLW9YVlgyZEYySnpRMkU5QW9OUEVlVVBublUtUmh5SVdNdVBxeU0yQlg3V1FsY2NZUlRST3NHaTZYTFJPSjJCZ3RkT2ZYS291NnMwS2NOWEdhM2lWd0VoY2QxQ2lfRkZR?oc=5",
+    "https://news.google.com/rss/articles/CBMilAJBVV95cUxNX3lGUk5NQjN0ZGkzZjFGLXZxTmIxUTRJeDJGc18ySi1mYldwNXY4V3AtbkJPX3ZfV1ZwMVkyanNFanh4LVpkTEV5eTJtaldBWkttR1MwNzNUSU9BMVd5aG1jTGtJdlRjc1ItdU9JT1lsUDBCZU9MQklJYzZHRzFIcnRSQVYyZF9GQUhvMlNDdF9LSEtjMlBsX0M0UDNMdHFZNTJxVkxuam1tQ3lVcjdnbTZ4NWRYcVozZkpHSGQ0NGpuVHNWMDVSdkFfTTRDc2J1Q1FRZi1fbkQ4azQ1d0doalRYd2xQRnUzUHFBUWsyYkI5bGdwYVA0OFJxWVJva2VpSE42OWFSRUVFUEFyMlNrX25tNVk?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3c9c2ee5d406a9a92a9588170a8b5&url=https%3a%2f%2fwww.lexpress.fr%2fargent%2fplacements%2fimmobilier-la-vente-a-terme-une-alternative-au-viager-ZQNH6MFBOBGK7FG5PBILOLQNVA%2f&c=3351149531496165603&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-10-17T13:50:21.666Z",
+  "lastAutoRun": "2026-10-17T19:18:13.478Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -64,6 +70,49 @@
           "title": "Crédit immobilier : cette astuce pour économiser jusqu'à 10 000 euros et faciliter votr… : pret et assurance emprunteur — que faire ?",
           "source": "bing",
           "sourceType": "bing"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-17T19:18:13.478Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-de-pret-immobilier-ces-3-nouvelles-mesures-favorables-aux-empr.html",
+          "title": "Assurance de prêt immobilier : ces 3 nouvelles mesures favorables aux emprunteurs : pret et assurance emprunteur — que faire ?",
+          "source": "edge",
+          "sourceType": "edge"
+        },
+        {
+          "file": "assurance-protection-partenaires-avec-allianz-partners-uber.html",
+          "title": "Assurance Protection partenaires avec Allianz Partners - Uber : assurance VTC — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "prix-d-une-operation-pour-chien-guide-des-tarifs-et-remboursements-en-20.html",
+          "title": "Prix d'une opération pour chien : guide des tarifs et remboursements en 2026 - Le Compa… : assurance animaux — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "pret-immobilier-en-cours-moody-s-juge-la-france-le-23-octobre-ce-qu-une-.html",
+          "title": "Prêt immobilier en cours ? Moody's juge la France le 23 octobre, ce qu'une note abaissé… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "marcial-proprietaire-d-un-appartement-en-location-je-ne-le-loue-qu-a-des.html",
+          "title": "Marcial, propriétaire d'un appartement en location : \"Je ne le loue qu'à des connaissan… : assurance habitation — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "immobilier-la-vente-a-terme-une-alternative-au-viager.html",
+          "title": "Immobilier : la vente à terme, une alternative au viager : assurance habitation — que faire ?",
+          "source": "edge",
+          "sourceType": "edge"
         }
       ]
     }
