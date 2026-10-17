@@ -1,14 +1,16 @@
 {
-  "updated": "2026-10-05",
+  "updated": "2026-10-17",
   "sections": [
     "actu",
     "animaux",
     "auto",
     "chasse",
     "collective",
+    "emprunteur",
     "equitation",
     "finance",
     "habitat",
+    "habitation",
     "partenariat",
     "patrimoine",
     "prevoyance",
@@ -145,7 +147,7 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
-      "matchedRule": "mutuelle",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -158,7 +160,7 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
-      "matchedRule": "mutuelle",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -171,7 +173,7 @@
       "landing": "../landings/devis.html?need=habitation",
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -184,7 +186,7 @@
       "landing": "../landings/devis.html?need=habitation",
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -193,11 +195,11 @@
       "section": "sante",
       "hook": "Seniors et canicule : astuces pour rester au frais — mutuelle à jour pour les urgences.",
       "question": "Votre mutuelle couvre-t-elle téléconsultation et hospitalisation canicule ?",
-      "need": "habitation",
+      "need": "sante",
       "landing": "../landings/sante.html",
-      "express": "../landings/devis-express.html?need=habitation",
-      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -232,11 +234,11 @@
       "section": "sante",
       "hook": "Lacunes publiques face à la chaleur : mutuelle senior pour limiter le reste à charge.",
       "question": "Prêt à comparer une mutuelle senior avant la prochaine canicule ?",
-      "need": "habitation",
+      "need": "sante",
       "landing": "../landings/sante.html",
-      "express": "../landings/devis-express.html?need=habitation",
-      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -245,11 +247,11 @@
       "section": "finance",
       "hook": "Canicule : panneaux solaires, aides publiques et prêt pour financer l'autoconsommation.",
       "question": "Souhaitez-vous une étude financement travaux énergie (eco-PTZ, crédit conso) ?",
-      "need": "credit-immo",
+      "need": "habitation",
       "landing": "../landings/credit-immo.html",
-      "express": "../landings/devis-express.html?need=credit-immo",
-      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "emprunteur",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -440,11 +442,11 @@
       "section": "finance",
       "hook": "Robot cuiseur à 1 400 € : le prêt conso peut coûter 100 € de plus que le comptant.",
       "question": "Souhaitez-vous une simulation crédit conso pour équiper votre cuisine ?",
-      "need": "habitation",
-      "landing": "../landings/devis.html?need=habitation",
-      "express": "../landings/devis-express.html?need=habitation",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=robot-cuiseur",
-      "matchedRule": "habitation",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -535,7 +537,7 @@
       "landing": "../landings/credit-immo.html",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard",
-      "matchedRule": "emprunteur",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -561,7 +563,7 @@
       "landing": "../landings/devis.html?need=habitation",
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -574,7 +576,7 @@
       "landing": "../landings/devis.html?need=habitation",
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -678,8 +680,8 @@
       "landing": "../landings/animaux.html",
       "express": "../landings/animaux-express.html",
       "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
-      "matchedRule": "puces-chat",
-      "species": "chat"
+      "matchedRule": null,
+      "species": null
     },
     {
       "file": "chat-puces-tiques-assurance-remboursement.html",
@@ -769,7 +771,7 @@
       "landing": "../landings/vtc.html",
       "express": "../landings/devis-rapide.html",
       "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
-      "matchedRule": "vtc",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -873,7 +875,7 @@
       "landing": "../landings/credit-immo.html",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "emprunteur",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -977,7 +979,7 @@
       "landing": "../landings/vtc.html",
       "express": "../landings/devis-rapide.html",
       "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
-      "matchedRule": "vtc",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -990,7 +992,7 @@
       "landing": "../landings/credit-immo.html",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard",
-      "matchedRule": "emprunteur",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1003,7 +1005,7 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
-      "matchedRule": "mutuelle",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1016,7 +1018,7 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
-      "matchedRule": "mutuelle",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1029,7 +1031,7 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
-      "matchedRule": "mutuelle",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1042,7 +1044,7 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
-      "matchedRule": "mutuelle",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1055,7 +1057,7 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
-      "matchedRule": "mutuelle",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1068,7 +1070,7 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
-      "matchedRule": "mutuelle",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1081,7 +1083,7 @@
       "landing": "../landings/devis.html?need=habitation",
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "incendie-foret",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1089,12 +1091,12 @@
       "title": "Pompiers et feux de forêt : sinistre habitation, arrêt de travail et prévoyance",
       "section": "prevoyance",
       "hook": "Après l'incendie : habitation pour le bien, prévoyance pour les revenus.",
-      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
-      "need": "habitation",
+      "question": "Vos revenus sont-ils protégés en cas d'imprévu ?",
+      "need": "prevoyance",
       "landing": "../landings/devis.html?need=prevoyance",
-      "express": "../landings/devis-express.html?need=habitation",
-      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "incendie-foret",
+      "express": "../landings/devis-express.html?need=prevoyance",
+      "questionnaire": "../landings/questionnaire.html?need=prevoyance&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1107,7 +1109,7 @@
       "landing": "../landings/devis.html?need=habitation",
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "incendie-foret",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1120,7 +1122,7 @@
       "landing": "../landings/devis.html?need=habitation",
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "restriction-eau",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1146,7 +1148,7 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=prevoyance",
       "questionnaire": "../landings/questionnaire.html?need=prevoyance&journey=standard",
-      "matchedRule": "presidentielle",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1159,7 +1161,7 @@
       "landing": "../landings/chasse.html",
       "express": "../landings/devis.html?need=chasse",
       "questionnaire": "../landings/questionnaire.html?need=chasse&journey=standard",
-      "matchedRule": "chasse-rc",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1167,12 +1169,12 @@
       "title": "Assurance chien de chasse : RC, blessures et comparatif 2026",
       "section": "animaux",
       "hook": "Chien de chasse : frais véto + RC — comparez animaux et chasse.",
-      "question": "Votre RC chasseur est-elle à jour pour la saison ?",
-      "need": "chasse",
+      "question": "Avez-vous pensé à assurer votre compagnon ?",
+      "need": "animaux",
       "landing": "../landings/animaux.html",
-      "express": "../landings/devis.html?need=chasse",
-      "questionnaire": "../landings/questionnaire.html?need=chasse&journey=standard",
-      "matchedRule": "chasse-rc",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1185,7 +1187,7 @@
       "landing": "../landings/equitation.html",
       "express": "../landings/devis.html?need=equitation",
       "questionnaire": "../landings/questionnaire.html?need=equitation&journey=standard",
-      "matchedRule": "equitation-rc",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1198,7 +1200,7 @@
       "landing": "../landings/equitation.html",
       "express": "../landings/devis.html?need=equitation",
       "questionnaire": "../landings/questionnaire.html?need=equitation&journey=standard",
-      "matchedRule": "equitation-rc",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1206,12 +1208,12 @@
       "title": "Feux de forêt et animaux : évacuation, frais véto et assurance chien/chat",
       "section": "animaux",
       "hook": "Feux de forêt : kit évacuation + assurance animaux pour les frais véto.",
-      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
-      "need": "habitation",
+      "question": "Avez-vous pensé à assurer votre compagnon ?",
+      "need": "animaux",
       "landing": "../landings/animaux.html",
-      "express": "../landings/devis-express.html?need=habitation",
-      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "incendie-foret",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1224,46 +1226,46 @@
       "landing": "../landings/devis.html?need=auto",
       "express": "../landings/devis-express.html?need=auto",
       "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard",
-      "matchedRule": "auto",
+      "matchedRule": null,
       "species": null
     },
     {
       "file": "assurance-ramoneur-rc-pro-multirisque-2026.html",
       "title": "Assurance ramoneur 2026 : RC Pro, locaux et matériel",
       "section": "partenariat",
-      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
-      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
-      "need": "habitation",
+      "hook": "Intervention chez le client : sans RC Pro ramonage, un sinistre peut tout coûter.",
+      "question": "Votre RC Pro ramoneur est-elle à jour ?",
+      "need": "rc-pro",
       "landing": "../landings/ramonage.html?utm_source=blog&utm_medium=article&utm_campaign=ramonage",
-      "express": "../landings/devis-express.html?need=habitation",
-      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "express": "../landings/devis.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
       "file": "assurance-institut-beaute-esthetique-rc-pro-2026.html",
       "title": "Assurance institut de beauté & esthétique : RC Pro et locaux 2026",
       "section": "partenariat",
-      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
-      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
-      "need": "habitation",
+      "hook": "Soins et bien-être : une réaction client sans RC Pro met le salon en danger.",
+      "question": "Votre RC Pro esthétique couvre-t-elle tous vos actes ?",
+      "need": "rc-pro",
       "landing": "../landings/esthetique-bien-etre.html?utm_source=blog&utm_medium=article&utm_campaign=esthetique",
-      "express": "../landings/devis-express.html?need=habitation",
-      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "express": "../landings/devis.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
       "file": "assurance-salle-loisirs-escape-game-accrobranche-trampoline-2026.html",
       "title": "Assurance salle de loisirs 2026 : escape game, accrobranche, trampoline",
       "section": "partenariat",
-      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
-      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
-      "need": "habitation",
+      "hook": "Accueillir du public (escape, accro, trampoline) exige RC + locaux adaptés.",
+      "question": "Votre salle de loisirs est-elle correctement assurée ?",
+      "need": "rc-pro",
       "landing": "../landings/salles-loisirs.html?utm_source=blog&utm_medium=article&utm_campaign=salles_loisirs",
-      "express": "../landings/devis-express.html?need=habitation",
-      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "express": "../landings/devis.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1283,39 +1285,39 @@
       "file": "assurance-immeuble-professionnel-multirisque-2026.html",
       "title": "Assurance immeuble professionnel & multirisque 2026",
       "section": "pro",
-      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
-      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
-      "need": "habitation",
+      "hook": "Immeuble pro / mixte / travaux : une MRP mal calée coûte cher en sinistre.",
+      "question": "Votre immeuble professionnel est-il correctement couvert ?",
+      "need": "mrp",
       "landing": "../landings/immeuble-professionnel.html?utm_source=blog&utm_medium=article&utm_campaign=immeuble_pro",
-      "express": "../landings/devis-express.html?need=habitation",
-      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "express": "../landings/devis.html?need=mrp",
+      "questionnaire": "../landings/questionnaire.html?need=mrp&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
       "file": "assurance-decennale-artisan-guide-2026.html",
       "title": "Assurance décennale artisan 2026 : obligations, devis, corps d’état",
       "section": "partenariat",
-      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
-      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
-      "need": "habitation",
+      "hook": "Sans attestation décennale, pas de chantier sérieux.",
+      "question": "Votre décennale est-elle à jour pour vos corps d’état ?",
+      "need": "decennale",
       "landing": "../landings/decennale.html?utm_source=blog&utm_medium=article&utm_campaign=decennale",
-      "express": "../landings/devis-express.html?need=habitation",
-      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "express": "../landings/devis.html?need=decennale",
+      "questionnaire": "../landings/questionnaire.html?need=decennale&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
       "file": "assurance-convoyeur-vehicules-rc-pro-2026.html",
       "title": "Assurance convoyeur de véhicules : RC Pro simple 2026",
       "section": "partenariat",
-      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
-      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
-      "need": "vtc",
+      "hook": "Convoyage : une RC Pro simple protège votre activité hors circulation véhicule.",
+      "question": "Avez-vous une RC Pro convoyage ?",
+      "need": "rc-pro",
       "landing": "../landings/convoyage-vehicules.html?utm_source=blog&utm_medium=article&utm_campaign=convoyage",
-      "express": "../landings/devis-rapide.html",
-      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
-      "matchedRule": "vtc",
+      "express": "../landings/devis.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1323,12 +1325,319 @@
       "title": "Niches assurance pro 2026 : ramonage, loisirs, padel, immeuble",
       "section": "partenariat",
       "hook": "Priorisez les niches pro à forte valeur : immeuble, décennale, loisirs.",
-      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
-      "need": "habitation",
+      "question": "Votre immeuble professionnel est-il correctement couvert ?",
+      "need": "mrp",
       "landing": "../assurances-niches.html?utm_source=blog&utm_medium=article&utm_campaign=partenariat_niches",
-      "express": "../landings/devis-express.html?need=habitation",
+      "express": "../landings/devis.html?need=mrp",
+      "questionnaire": "../landings/questionnaire.html?need=mrp&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-garage-negociant-auto-rc-mrp-2026.html",
+      "title": "Assurance garage automobile : dépôt, essai et atelier",
+      "section": "pro",
+      "hook": "Garage ou négociant : dépôt, essais et atelier se déclarent à part de l’auto du dirigeant.",
+      "question": "Vos véhicules en dépôt sont-ils couverts ?",
+      "need": "rc-pro",
+      "landing": "../landings/garage-negociant-auto.html?utm_source=blog&utm_medium=article&utm_campaign=garage_negociant",
+      "express": "../landings/devis.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-multirisque-professionnelle-locaux-2026.html",
+      "title": "Multirisque professionnelle : locaux, stock, perte d’exploitation",
+      "section": "pro",
+      "hook": "La MRP couvre locaux, stock et matériel. Elle ne remplace pas la RC.",
+      "question": "Vos locaux professionnels sont-ils assurés pour l’activité réelle ?",
+      "need": "mrp",
+      "landing": "../landings/multirisque-professionnelle.html?utm_source=blog&utm_medium=article&utm_campaign=mrp",
+      "express": "../landings/devis.html?need=mrp",
+      "questionnaire": "../landings/questionnaire.html?need=mrp&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-rc-pro-entreprise-guide-2026.html",
+      "title": "Responsabilité civile professionnelle : ce qu’elle ne remplace pas",
+      "section": "pro",
+      "hook": "La RC Pro suit l’activité déclarée. Une activité oubliée est une garantie absente.",
+      "question": "Votre RC Pro décrit-elle vraiment votre métier ?",
+      "need": "rc-pro",
+      "landing": "../landings/rc-pro.html?utm_source=blog&utm_medium=article&utm_campaign=rc_pro",
+      "express": "../landings/devis.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-metiers-batiment-decennale-rc-2026.html",
+      "title": "Assurance métiers du bâtiment : décennale, RC et atelier",
+      "section": "pro",
+      "hook": "Bâtiment : décennale, RC chantier et atelier sont trois contrats.",
+      "question": "Votre attestation décennale couvre-t-elle vos corps d’état ?",
+      "need": "decennale",
+      "landing": "../landings/metiers-batiment.html?utm_source=blog&utm_medium=article&utm_campaign=metiers_batiment",
+      "express": "../landings/devis.html?need=decennale",
+      "questionnaire": "../landings/questionnaire.html?need=decennale&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-transport-logistique-marchandises-2026.html",
+      "title": "Assurance transport marchandises : lot, entrepôt, camion",
+      "section": "pro",
+      "hook": "Le camion assuré ne veut pas dire la marchandise assurée.",
+      "question": "La marchandise transportée est-elle dans le contrat ?",
+      "need": "rc-pro",
+      "landing": "../landings/transport-logistique.html?utm_source=blog&utm_medium=article&utm_campaign=transport_logistique",
+      "express": "../landings/devis.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-transport-voyageurs-commun-2026.html",
+      "title": "Assurance transport de voyageurs : autocar et lignes",
+      "section": "pro",
+      "hook": "Autocar, scolaire et lignes ne passent pas par le questionnaire VTC.",
+      "question": "Transportez-vous des voyageurs hors VTC / taxi ?",
+      "need": "rc-pro",
+      "landing": "../landings/transport-voyageurs.html?utm_source=blog&utm_medium=article&utm_campaign=transport_voyageurs",
+      "express": "../landings/devis.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-flotte-vehicules-professionnels-2026.html",
+      "title": "Assurance flotte : parc auto, conducteurs, usage professionnel",
+      "section": "pro",
+      "hook": "Une flotte se déclare en parc : véhicules, conducteurs, usage. Pas comme une auto personnelle.",
+      "question": "Votre parc est-il encore assuré véhicule par véhicule ?",
+      "need": "flotte",
+      "landing": "../landings/flotte-vehicules.html?utm_source=blog&utm_medium=article&utm_campaign=landing_flotte",
+      "questionnaire": "../landings/questionnaire.html?need=flotte&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-dirigeant-homme-cle-2026.html",
+      "title": "Assurance dirigeant et homme clé : ce que la RC Pro ne fait pas",
+      "section": "prevoyance",
+      "hook": "L'homme clé couvre l'absence du dirigeant. Il ne remplace ni la RC Pro ni la mutuelle des salariés.",
+      "question": "Que se passe-t-il pour l'entreprise si vous vous arrêtez ?",
+      "need": "dirigeant",
+      "landing": "../landings/assurance-dirigeant.html?utm_source=blog&utm_medium=article&utm_campaign=landing_dirigeant",
+      "questionnaire": "../landings/questionnaire.html?need=dirigeant&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "prevoyance-tns-independant-2026.html",
+      "title": "Prévoyance TNS : arrêt de travail de l'indépendant",
+      "section": "prevoyance",
+      "hook": "Le TNS n'a pas les indemnités d'un salarié. La prévoyance ne se confond pas avec la mutuelle.",
+      "question": "Combien de jours tenez-vous sans revenu ?",
+      "need": "tns",
+      "landing": "../landings/prevoyance-tns.html?utm_source=blog&utm_medium=article&utm_campaign=landing_tns",
+      "questionnaire": "../landings/questionnaire.html?need=tns&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "protection-juridique-professionnelle-2026.html",
+      "title": "Protection juridique professionnelle : litige n'est pas RC Pro",
+      "section": "pro",
+      "hook": "La protection juridique finance le litige. Elle ne verse pas les dommages et intérêts à la place de la RC.",
+      "question": "Un désaccord commercial vous coûte-t-il surtout en procédure ?",
+      "need": "pj-pro",
+      "landing": "../landings/protection-juridique-pro.html?utm_source=blog&utm_medium=article&utm_campaign=landing_pj_pro",
+      "questionnaire": "../landings/questionnaire.html?need=pj-pro&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "credit-professionnel-tresorerie-materiel-2026.html",
+      "title": "Crédit professionnel : trésorerie et matériel, hors prêt immo",
+      "section": "finance",
+      "hook": "Le crédit pro finance l'outil de travail. Il ne remplace ni la MRP du local ni un prêt immobilier.",
+      "question": "Vous financez un outil, ou vous achetez votre résidence ?",
+      "need": "credit-pro",
+      "landing": "../landings/credit-professionnel.html?utm_source=blog&utm_medium=article&utm_campaign=landing_credit_pro",
+      "questionnaire": "../landings/questionnaire.html?need=credit-pro&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-auto-temporaire-quelques-jours-2026.html",
+      "title": "Assurance auto temporaire : quelques jours, une plaque, un conducteur",
+      "section": "auto",
+      "hook": "L'assurance temporaire couvre une période courte. Elle ne devient pas toute seule un contrat annuel.",
+      "question": "Vous avez besoin de rouler quelques jours, ou toute l'année ?",
+      "need": "temporaire",
+      "landing": "../landings/assurance-auto-temporaire.html?utm_source=blog&utm_medium=article&utm_campaign=landing_temporaire",
+      "questionnaire": "../landings/questionnaire.html?need=temporaire&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-instrument-musique-vol-transport-2026.html",
+      "title": "Assurance instrument de musique : vol, casse et transport",
+      "section": "patrimoine",
+      "hook": "Un instrument de tournée ne se contente pas du plafond habitation. On déclare la valeur et le transport.",
+      "question": "L'instrument voyage-t-il, ou reste-t-il chez vous ?",
+      "need": "instrument",
+      "landing": "../landings/assurance-instrument.html?utm_source=blog&utm_medium=article&utm_campaign=landing_instrument",
+      "questionnaire": "../landings/questionnaire.html?need=instrument&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-materiel-photo-video-reportage-2026.html",
+      "title": "Assurance matériel photo : reportage, vol, et drone à part",
+      "section": "pro",
+      "hook": "Le matériel de reportage se nomme et se valorise. Le drone qui facture une prestation n'est pas seulement un objet.",
+      "question": "Le sac photo quitte-t-il votre domicile pour le travail ?",
+      "need": "materiel-photo",
+      "landing": "../landings/assurance-materiel-photo.html?utm_source=blog&utm_medium=article&utm_campaign=landing_photo",
+      "questionnaire": "../landings/questionnaire.html?need=materiel-photo&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-bateau-plaisance-voilier-2026.html",
+      "title": "Assurance bateau de plaisance : coque, zone, responsabilité",
+      "section": "auto",
+      "hook": "La plaisance couvre votre bateau et votre responsabilité. Le transport payant de passagers est un autre contrat.",
+      "question": "Vous naviguez pour vous, ou vous faites payer la place ?",
+      "need": "bateau",
+      "landing": "../landings/assurance-bateau.html?utm_source=blog&utm_medium=article&utm_campaign=landing_bateau",
+      "questionnaire": "../landings/questionnaire.html?need=bateau&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-caravane-camping-car-2026.html",
+      "title": "Assurance caravane et camping-car : cellule, contenu, traction",
+      "section": "auto",
+      "hook": "Le camping-car et la caravane ne se règlent pas avec la seule assurance de la voiture qui tracte.",
+      "question": "Vous assurez la cellule, la voiture, ou les deux ?",
+      "need": "caravane",
+      "landing": "../landings/assurance-caravane.html?utm_source=blog&utm_medium=article&utm_campaign=landing_caravane",
+      "questionnaire": "../landings/questionnaire.html?need=caravane&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-scolaire-extrascolaire-enfant-2026.html",
+      "title": "Assurance scolaire : l'élève, l'extrascolaire, pas l'autocar",
+      "section": "prevoyance",
+      "hook": "L'assurance scolaire vise l'enfant. Elle n'assure pas l'autocar ni le club qui organise le séjour.",
+      "question": "Vous assurez un élève, ou une entreprise de transport ?",
+      "need": "famille",
+      "landing": "../landings/assurance-scolaire.html?utm_source=blog&utm_medium=article&utm_campaign=landing_scolaire",
+      "questionnaire": "../landings/questionnaire.html?need=famille&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-collection-objets-art-2026.html",
+      "title": "Assurance collection : objets d'art, montres, cave",
+      "section": "patrimoine",
+      "hook": "Une collection s'inventorie. Le forfait mobilier de l'habitation ne la décrit pas.",
+      "question": "Vos objets dépassent-ils le plafond habitation ?",
+      "need": "autre",
+      "landing": "../landings/assurance-collection.html?utm_source=blog&utm_medium=article&utm_campaign=landing_collection",
+      "questionnaire": "../landings/questionnaire.html?need=autre&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-foret-propriete-boisee-2026.html",
+      "title": "Assurance forêt : incendie, tempête, responsabilité du propriétaire",
+      "section": "habitat",
+      "hook": "La forêt s'assure comme une parcelle : incendie, tempête, responsabilité. Pas comme une habitation.",
+      "question": "Vous assurez des bois, une maison, ou une action de chasse ?",
+      "need": "autre",
+      "landing": "../landings/assurance-foret.html?utm_source=blog&utm_medium=article&utm_campaign=landing_foret",
+      "questionnaire": "../landings/questionnaire.html?need=autre&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-apiculture-ruches-rc-2026.html",
+      "title": "Assurance apiculture : ruches, transhumance, responsabilité",
+      "section": "pro",
+      "hook": "L'apiculteur déclare ses ruches et sa responsabilité. Une exploitation n'est pas un rucher de jardin.",
+      "question": "Vous vendez le miel, ou les ruches restent un loisir ?",
+      "need": "rc-pro",
+      "landing": "../landings/assurance-apiculture.html?utm_source=blog&utm_medium=article&utm_campaign=landing_apiculture",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-moto-vehicule-collection-2026.html",
+      "title": "Assurance moto et collection : usage, kilométrage, valeur agréée",
+      "section": "auto",
+      "hook": "La moto quotidienne et le véhicule de collection ne partagent pas le même usage ni la même valeur.",
+      "question": "Elle roule tous les jours, ou elle sort pour les rassemblements ?",
+      "need": "moto",
+      "landing": "../landings/moto-collection.html?utm_source=blog&utm_medium=article&utm_campaign=landing_moto",
+      "questionnaire": "../landings/questionnaire.html?need=moto&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-drone-professionnel-telepilote-2026.html",
+      "title": "Assurance drone professionnel : RC du vol et matériel",
+      "section": "pro",
+      "hook": "Le drone professionnel se déclare en activité aérienne. Le sac photo ne suffit pas.",
+      "question": "Vous facturez des vols, ou le drone reste un loisir ?",
+      "need": "rc-pro",
+      "landing": "../landings/assurance-drone-pro.html?utm_source=blog&utm_medium=article&utm_campaign=landing_drone",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-association-club-rc-1901-2026.html",
+      "title": "Assurance association : RC loi 1901, bénévoles, manifestations",
+      "section": "pro",
+      "hook": "L'association a sa propre RC. Elle ne se confond pas avec l'assurance personnelle des membres.",
+      "question": "Vous assurez la structure, ou seulement vos adhérents un par un ?",
+      "need": "rc-pro",
+      "landing": "../landings/assurance-association.html?utm_source=blog&utm_medium=article&utm_campaign=landing_association",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-piscine-proprietaire-constructeur-2026.html",
+      "title": "Assurance piscine : propriétaire d'un côté, pisciniste de l'autre",
+      "section": "habitat",
+      "hook": "Une piscine chez soi se déclare à l'habitation. La construire pour un client, c'est la décennale.",
+      "question": "Vous êtes propriétaire du bassin, ou vous le construisez ?",
+      "need": "habitation",
+      "landing": "../landings/assurance-piscine.html?utm_source=blog&utm_medium=article&utm_campaign=landing_piscine",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
-      "matchedRule": "habitation",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-metiers-quel-contrat-choisir-2026.html",
+      "title": "Quel contrat selon le métier : RC, MRP, décennale, flotte",
+      "section": "pro",
+      "hook": "Un litige client ou un dommage causé à un tiers peut menacer votre activité.",
+      "question": "Votre RC Pro couvre-t-elle vraiment votre métier ?",
+      "need": "rc-pro",
+      "landing": "../assurances-niches.html",
+      "express": "../landings/devis-express.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1341,7 +1650,7 @@
       "landing": "../landings/vsp.html?utm_source=blog&utm_medium=article&utm_campaign=vsp",
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
-      "matchedRule": "vsp-sans-permis",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1354,7 +1663,7 @@
       "landing": "../landings/vsp.html?utm_source=blog&utm_medium=article&utm_campaign=vsp",
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
-      "matchedRule": "vsp-sans-permis",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1367,7 +1676,7 @@
       "landing": "../landings/vsp.html?utm_source=blog&utm_medium=article&utm_campaign=vsp",
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
-      "matchedRule": "vsp-sans-permis",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1380,7 +1689,7 @@
       "landing": "../landings/vsp.html?utm_source=blog&utm_medium=article&utm_campaign=vsp",
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
-      "matchedRule": "vsp-sans-permis",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1393,7 +1702,7 @@
       "landing": "../landings/vsp.html?utm_source=blog&utm_medium=article&utm_campaign=vsp",
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
-      "matchedRule": "vsp-sans-permis",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1406,7 +1715,7 @@
       "landing": "../landings/vsp.html?utm_source=blog&utm_medium=article&utm_campaign=vsp",
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
-      "matchedRule": "vsp-sans-permis",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1419,7 +1728,7 @@
       "landing": "../landings/vsp.html?utm_source=blog&utm_medium=article&utm_campaign=vsp",
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
-      "matchedRule": "vsp-sans-permis",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1432,7 +1741,7 @@
       "landing": "../landings/vsp.html?utm_source=blog&utm_medium=article&utm_campaign=vsp",
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
-      "matchedRule": "vsp-sans-permis",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1445,7 +1754,7 @@
       "landing": "../landings/vsp.html?utm_source=blog&utm_medium=article&utm_campaign=vsp",
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
-      "matchedRule": "vsp-sans-permis",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1458,7 +1767,7 @@
       "landing": "../landings/vsp.html?utm_source=blog&utm_medium=article&utm_campaign=vsp",
       "express": "../landings/devis.html?need=vsp",
       "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
-      "matchedRule": "vsp-sans-permis",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1575,7 +1884,7 @@
       "landing": "../landings/credit-immo.html?utm_content=pret-refuse",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "emprunteur",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1588,7 +1897,7 @@
       "landing": "../landings/credit-immo.html?utm_content=endettement-35",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "pret-refuse",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1601,7 +1910,7 @@
       "landing": "../landings/credit-immo.html",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "pret-refuse",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1614,7 +1923,7 @@
       "landing": "../landings/credit-immo.html?utm_content=statut-pro",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "pret-refuse",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1627,7 +1936,7 @@
       "landing": "../landings/credit-immo.html#formules",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "emprunteur",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1640,7 +1949,7 @@
       "landing": "../landings/credit-immo.html?utm_content=ficp",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "pret-refuse",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1653,7 +1962,7 @@
       "landing": "../landings/credit-immo.html?utm_content=courtier-2e-chance",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "pret-refuse",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1666,7 +1975,7 @@
       "landing": "../landings/credit-immo.html?utm_content=rachat-conso",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "pret-refuse",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1679,7 +1988,7 @@
       "landing": "../landings/credit-immo.html?utm_content=primo",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "pret-refuse",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1692,7 +2001,7 @@
       "landing": "../landings/credit-immo.html?utm_content=co-emprunteur",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "pret-refuse",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1705,7 +2014,7 @@
       "landing": "../landings/credit-immo.html?utm_content=delai-refus",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "pret-refuse",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -1718,7 +2027,7 @@
       "landing": "../landings/projection-achat.html",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
-      "matchedRule": "pret-refuse",
+      "matchedRule": null,
       "species": null
     },
     {
@@ -2047,6 +2356,149 @@
       "species": null
     },
     {
+      "file": "assurance-auto-tarifs-2026-comparer-sans-surpayer.html",
+      "title": "Assurance auto 2026 : comparez les tarifs sans surpayer (guide clair)",
+      "section": "auto",
+      "hook": "Bonus-malus, tiers ou tous risques : le mauvais choix se paie au sinistre.",
+      "question": "Et si vous compariez votre assurance auto à garanties équivalentes ?",
+      "need": "auto",
+      "landing": "../landings/devis.html?need=auto&utm_source=blog&utm_medium=article&utm_campaign=pubs_pack&utm_content=auto-tarifs",
+      "express": "../landings/devis-express.html?need=auto",
+      "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard",
+      "matchedRule": "auto",
+      "species": null
+    },
+    {
+      "file": "assurance-auto-resilier-loi-hamon-comparer-2026.html",
+      "title": "Résilier son assurance auto avec la loi Hamon et comparer en 2026",
+      "section": "auto",
+      "hook": "Bonus-malus, tiers ou tous risques : le mauvais choix se paie au sinistre.",
+      "question": "Et si vous compariez votre assurance auto à garanties équivalentes ?",
+      "need": "auto",
+      "landing": "../landings/devis.html?need=auto&utm_source=blog&utm_medium=article&utm_campaign=pubs_pack&utm_content=auto-hamon",
+      "express": "../landings/devis-express.html?need=auto",
+      "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard",
+      "matchedRule": "auto",
+      "species": null
+    },
+    {
+      "file": "assurance-habitation-degat-des-eaux-que-faire-2026.html",
+      "title": "Dégât des eaux : que faire et ce que couvre l’assurance habitation",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation&utm_source=blog&utm_medium=article&utm_campaign=pubs_pack&utm_content=mrh-eaux",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "assurance-emprunteur-changer-economiser-2026.html",
+      "title": "Changer d’assurance emprunteur en 2026 : économiser sans stress",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html?utm_source=blog&utm_medium=article&utm_campaign=pubs_pack&utm_content=emprunteur-change",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "manifestation-17-octobre-2026-casse-assurance-commerce.html",
+      "title": "Manifestation du 17 octobre 2026 : casse, commerce fermé et assurance",
+      "section": "actu",
+      "hook": "Vitrine, stock ou journée fermée : seules les garanties souscrites peuvent jouer.",
+      "question": "Votre commerce a-t-il une multirisque à jour pour les locaux et le stock ?",
+      "need": "mrp",
+      "landing": "../landings/multirisque-professionnelle.html",
+      "express": "../landings/devis.html?need=mrp",
+      "questionnaire": "../landings/questionnaire.html?need=mrp&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "lois-assurance-credit-lemoine-hamon-chatel-2026.html",
+      "title": "Lois assurance et crédit 2026 : Lemoine, Hamon, Chatel — ce qui change pour vous",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=lois_2026",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "devenir-chauffeur-vtc-carte-pro-assurance-2026.html",
+      "title": "Devenir chauffeur VTC en 2026 : carte pro, véhicule et assurance obligatoire",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=devenir_vtc_2026",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "assurance-chien-chat-guide-frais-veterinaires-2026.html",
+      "title": "Assurance chien et chat 2026 : frais véto, RC et comment choisir",
+      "section": "animaux",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=chien_chat_2026",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "recherche-pret-immobilier-comparer-banques-courtier-2026.html",
+      "title": "Recherche de prêt immobilier 2026 : comparer banques et courtier",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=recherche_pret_2026",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "vente-acquisition-maison-etapes-notaire-assurance-2026.html",
+      "title": "Vente et acquisition de maison 2026 : étapes, notaire et assurances",
+      "section": "habitat",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=vente_acquisition_2026",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "recherche-bien-a-vendre-ou-a-louer-methodes-2026.html",
+      "title": "Recherche de bien à vendre ou à louer : méthodes qui marchent en 2026",
+      "section": "finance",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=article&utm_campaign=recherche_bien_2026",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
       "title": "Investir en France sans y resider : assurance emprunteur et pret immo",
       "section": "finance",
@@ -2122,6 +2574,84 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "prix-des-vaccins-pour-chien-en-2026-tarifs-et-remboursements-le-comparat.html",
+      "title": "Prix des vaccins pour chien en 2026 : tarifs et remboursements - Le Comparateur Assurance : assurance animaux — que faire ?",
+      "section": "animaux",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=animaux&utm_content=prix-des-vaccins-pour-chien-en-2026-ta",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "location-appartement-a-port-01-7-annonces.html",
+      "title": "Location Appartement à Port (01) : 7 annonces : assurance habitation — que faire ?",
+      "section": "habitation",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=location-appartement-a-port-01-7-ann",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "achat-immobilier-quand-le-permis-de-construire-est-refuse-que-faire-le-1.html",
+      "title": "Achat immobilier : quand le permis de construire est refusé, que faire ? Le 13H à vos c… : assurance habitation — que faire ?",
+      "section": "habitation",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=achat-immobilier-quand-le-permis-de-co",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "pret-immobilier-refuse-6-raisons-frequentes-et-comment-rebondir.html",
+      "title": "Prêt immobilier refusé : 6 raisons fréquentes et comment rebondir : pret et assurance emprunteur — que faire ?",
+      "section": "emprunteur",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=pret-immobilier-refuse-6-raisons-frequ",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "il-y-en-a-trop-qui-roulent-sans-permis-les-vtc-dans-le-viseur-de-la-poli.html",
+      "title": "« Il y en a trop qui roulent sans permis » : les VTC dans le viseur de la police autour… : assurance VTC — que faire ?",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=vtc&utm_content=il-y-en-a-trop-qui-roulent-sans-permis",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "adoption-en-deuxieme-lecture-du-projet-de-loi-relatif-a-l-assurance-chom.html",
+      "title": "Adoption, en deuxième lecture, du projet de loi relatif à l’assurance chômage - Assembl… : pret et assurance emprunteur — que faire ?",
+      "section": "emprunteur",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=adoption-en-deuxieme-lecture-du-projet",
+      "matchedRule": "emprunteur",
       "species": null
     }
   ]

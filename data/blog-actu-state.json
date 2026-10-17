@@ -1,10 +1,22 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-10-17T13:21:27.387Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3761e18e94e0582df176052cf591e&url=https%3a%2f%2fwww.lerevenu.com%2finvestir-immobilier%2fcredits-immo%2fassurance-de-pret-immobilier-carrefour-mise-sur-la-loi-lemoine-pour-seduire-les-emprunteurs%2f&c=17228739455454074857&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1Cb0FLNkxuay1rVEpyZjhlLVBTLXVfSXEydk9fdmx2UExJNHhtZUtkNklHVzUycTZoRGQ1dWY2NkI2TTItRFNwRk5MeGM2eTIzRmM3ckJn?oc=5",
+    "https://news.google.com/rss/articles/CBMiigFBVV95cUxOMEJhSDYtTkpCRnREMDNLM0VpNU0wSW5Pd1JSUnFVNC1OUl9Mak9fUmI1VXNXYnNhYnk0TGpNZWY5NWJYRXJjWERqeEpUODRfR3p6S1VZMXRFS3NWaWdpOFd5WmVTWWtHN3UzTmdQR2lfSEtiNmx4X0FqbG5YaGFjWnBrN2R5UkVEa1E?oc=5",
+    "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOdldUdlU2ZG5aQ2gwcGliTC1rTGE2cktwSm9qek1NVWxpTlJORXkyenBVZ3NIMC1iZldYZkxybnJLZnVkaDJmUEVmTTdZVkR1WHh1X1FFMThkeE9MSTVtbmg5bDNBcTBiQ0RlbEMzVmI3QVNCQzB3MWlHX0gtREZ4bERzTDRWeTE4MzRReUJvUHpzZ3BsTnRQaF9ZbU8wLVBnRTJqTFpzcEZGUFV1RVBVNlg1V25SWkFVVk1GT3pCX3d5blhSMjR0RUZVZWhBS2drRzJOaHJJR1FpWUhERnF6cFEwOVQtV050cGc?oc=5",
+    "https://www.lefigaro.fr/elections/presidentielles/il-y-a-des-mesures-fortes-a-prendre-pour-defendre-le-pouvoir-d-achat-des-francais-affirme-fabien-roussel-20261017",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3761bdc5148a3887f1707591cd8b6&url=https%3a%2f%2fwww.sudouest.fr%2fcharente%2fchateaubernard-une-mutuelle-communale-va-etre-mise-en-place-pour-les-habitants-30969444.php&c=17466584160932626762&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMiqgFBVV95cUxObGdySjE4UWlJR2JxbF9jbDFPYk5MN1dQTHoxbjNQS2lJVzhSNXZXM2FqUVVlaVZUaXZDdUZtMWpQUmdIRkFiZVR0eVVvOG1MbXp6MFlla0paYUVIaVNFeENHb2dsdkxXM052VTFLTkdLM2NEbTdTZ1dFb2xiWWxZUXFKdlJEWWRQY1kyRmZrdnlHaW4zTWtfdUx4TUFTTmd3OUREXzhESnVGUQ?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3761fdf5f42be9420dbcbbc2d0194&url=https%3a%2f%2fimmobilier.lefigaro.fr%2fannonces%2fimmobilier-location-appartement-port%2b01460.html&c=16787325420730132840&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3761fc19346b2970a3c835d3f78d3&url=https%3a%2f%2fwww.tf1info.fr%2fconso-argent%2fvideos%2fvideo-achat-immobilier-quand-le-permis-de-construire-est-refuse-que-faire-le-13h-a-vos-cotes-19255-2468799.html&c=8578614458797093599&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3761e18e94e0582df176052cf591e&url=https%3a%2f%2fedito.seloger.com%2ffinancement%2fcredits-immobiliers%2fpret-immobilier-refuse-6-raisons-frequentes-rebondir-article-23929&c=14165844303807140467&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMilgJBVV95cUxPX1pRS1MwVFNfcl9obWFKTGpZMUdmYktkUUlhano3SmZjZElNbE5KdGdnVmtDX3NHYURQbFZndERnWGJFNS1rUzVRTTZibDJ0RF9uaHlGb19pWktidk44VTh1dmVDTDNfWG5iRWx4WUp0RERnU2pLZWo2OXpEYnpCenExamVNNmktTno2QnphZjZzd1pWcDN3X0VheGtqVkpCTUg3UTZzckJyUXdBSTh0aUxnc0JiLWNNOVpza1dmZ3RmUmVNWm80OEVRUy0xN2xpUG9KWnZ0ZURGZUdhMnFMejFobmh3TVpmckFwNmphU1ZjU1A5TEFCcndicUVMUGNERGlTT2lkZWQ4eTJtSXphblhiQjVVdw?oc=5",
+    "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQcGdCVE1aclpDeW93dTdKUmlVLWItRHZsOTN4MGxhN294NEt5MHRwbUVqRHFHY09PU2g2NkliZWxQNmNKZzA0MzFqUFM1dVhkcGtFZGI1WjdVWlJLbjgwWjlkcE9DQWZsbG5PVDg3bG4yX0xJVjZaWDAxT3NuTjM2TjNjTWgydHZGbmNIOW0zRXMwZUhidERFX1ZCNlgxb0ZORmx0Z1dmdkl1WEFxdnYwWEgtaGtWRFJjdGJGZnBNSHVBV3FpNXlqN0duNmJoR0RPb0Fj?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-10-17T13:21:29.351Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +29,50 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-10-17T13:21:29.351Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "prix-des-vaccins-pour-chien-en-2026-tarifs-et-remboursements-le-comparat.html",
+          "title": "Prix des vaccins pour chien en 2026 : tarifs et remboursements - Le Comparateur Assurance : assurance animaux — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "location-appartement-a-port-01-7-annonces.html",
+          "title": "Location Appartement à Port (01) : 7 annonces : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "achat-immobilier-quand-le-permis-de-construire-est-refuse-que-faire-le-1.html",
+          "title": "Achat immobilier : quand le permis de construire est refusé, que faire ? Le 13H à vos c… : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "pret-immobilier-refuse-6-raisons-frequentes-et-comment-rebondir.html",
+          "title": "Prêt immobilier refusé : 6 raisons fréquentes et comment rebondir : pret et assurance emprunteur — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "il-y-en-a-trop-qui-roulent-sans-permis-les-vtc-dans-le-viseur-de-la-poli.html",
+          "title": "« Il y en a trop qui roulent sans permis » : les VTC dans le viseur de la police autour… : assurance VTC — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "adoption-en-deuxieme-lecture-du-projet-de-loi-relatif-a-l-assurance-chom.html",
+          "title": "Adoption, en deuxième lecture, du projet de loi relatif à l’assurance chômage - Assembl… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
