@@ -177,6 +177,7 @@ var queue = require("../api/_lib/lead-article").buildCallQueue([
     status: "new",
     created_at: "2026-10-17T08:00:00.000Z",
     questionnaire_step: 3,
+    landing_slug: "vtc",
     payload: { firstName: "Camille", lastName: "Martin" },
   },
   {
@@ -203,16 +204,20 @@ var queue = require("../api/_lib/lead-article").buildCallQueue([
 assert(queue.length === 1 && queue[0].id === "vtc-1" && queue[0].product === "VTC", "file d'appel : téléphone et dossier ouvert");
 assert(queue[0].tel === "tel:+33618234759" && queue[0].phone === "06 18 23 47 59", "lien d'appel");
 assert(queue[0].name === "Camille Martin", "nom du client");
+assert(queue[0].origin.indexOf("landing_form") >= 0 && queue[0].origin.indexOf("vtc") >= 0, "origine du numéro");
 
-var junk = require("../api/_lib/lead-article").buildCallQueue([
+var kept = require("../api/_lib/lead-article").buildCallQueue([
   { id: "exemple", source: "landing_form", vertical: "vtc", phone: "0612345678", status: "new", questionnaire_step: 2, payload: {} },
   { id: "cabinet", source: "landing_form", vertical: "sante", phone: "06 51 36 62 22", status: "new", questionnaire_step: 2, payload: {} },
   { id: "court", source: "landing_form", vertical: "auto", phone: "+3363258758", status: "new", questionnaire_step: 2, payload: {} },
-  { id: "caledonie", source: "landing_form", vertical: "mrp", phone: ",+68788811983", status: "new", questionnaire_step: 2, payload: {} },
+  { id: "caledonie", source: "landing_form", landing_slug: "commerce", phone: ",+68788811983", status: "new", created_at: "2026-10-17T09:00:00.000Z", questionnaire_step: 2, payload: {} },
   { id: "client", source: "landing_form", vertical: "vtc", phone: "06 67 26 63 09", status: "new", created_at: "2026-10-17", questionnaire_step: 2, payload: { firstName: "Inès" } },
   { id: "doublon", source: "landing_form", vertical: "vtc", phone: "0667266309", status: "new", created_at: "2026-10-16", questionnaire_step: 2, payload: {} },
 ]);
-assert(junk.length === 1 && junk[0].id === "client" && junk[0].name === "Inès" && junk[0].phone === "06 67 26 63 09", "file d'appel : exemples et indicatifs hors France écartés");
+var keptIds = kept.map(function (row) { return row.id; }).sort().join(",");
+assert(kept.length === 6 && keptIds.indexOf("exemple") >= 0 && keptIds.indexOf("caledonie") >= 0, "file d'appel : tous les numéros saisis restent");
+var caledonie = kept.filter(function (row) { return row.id === "caledonie"; })[0];
+assert(caledonie && caledonie.phone === ",+68788811983" && caledonie.origin.indexOf("commerce") >= 0, "origine conservée telle que saisie");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");

@@ -35,6 +35,6 @@ La colonne et la fiche affichent le libellé (Pub Meta, Formulaire du site, etc.
 
 ## Ce qui peut rapporter
 
-Sur `/dashboard.html?section=leads`, le bloc **Clients à rappeler** ne garde qu’un mobile ou un fixe français laissé dans un questionnaire. Le 06 51 36 62 22 du cabinet, les exemples (`06 12 34 56 78`) et les indicatifs hors France n’y figurent pas. L’ordre est VTC, mutuelle, professionnel, emprunteur, prêt. Le bouton note l’appel (`contacted`). Le prix reste chez le grossiste.
+Sur `/dashboard.html?section=leads`, le bloc **Clients à rappeler** affiche le champ `phone` déjà enregistré sur le dossier, avec la source, la page et la date. L’ordre est VTC, mutuelle, professionnel, emprunteur, prêt. Le bouton note l’appel (`contacted`). Le prix reste chez le grossiste.
 
 Sur `/blog/`, quatre devis sont en tête : VTC, mutuelle, commerce, prêt.

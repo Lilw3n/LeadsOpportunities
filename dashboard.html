@@ -1987,7 +1987,7 @@
         <div class="dash-panel" style="margin-bottom:16px" id="callQueuePanel">
           <div class="panel-header"><h2>Clients à rappeler</h2></div>
           <div class="panel-body" style="padding-top:0">
-            <p style="color:var(--muted);font-size:0.85rem;margin-top:0">Le numéro affiché est celui du client, laissé dans son questionnaire. Mobile ou fixe français, une seule fois. Le 06 51 36 62 22 du cabinet reste le tien. VTC et mutuelle d’abord. Après l’appel, le grossiste tarife.</p>
+            <p style="color:var(--muted);font-size:0.85rem;margin-top:0">Chaque numéro est celui déjà enregistré sur le dossier, tel qu’il a été saisi. Dessous : la source, la page et la date. VTC et mutuelle d’abord.</p>
             <div id="callQueueBody"><p class="muted">Chargement…</p></div>
           </div>
         </div>
@@ -2773,8 +2773,8 @@
           var who = esc(row.name || "Client sans nom");
           var phone = esc(row.phone || "");
           var call = row.tel
-            ? '<a class="btn btn-primary" href="' + esc(row.tel) + '">Appeler le client</a>'
-            : "";
+            ? '<a class="btn btn-primary" href="' + esc(row.tel) + '">Appeler ' + phone + "</a>"
+            : phone;
           var article = row.article_path
             ? '<a href=".' + esc(row.article_path) + '" target="_blank" rel="noopener">' + esc(row.article_title || "Article") + "</a>"
             : "Questionnaire direct";
@@ -2792,6 +2792,8 @@
             esc(row.product || "Dossier") +
             "<div style='font-size:1rem;margin-top:4px'>" +
             phone +
+            "</div><div style='color:var(--muted);font-size:0.85rem;margin-top:4px'>" +
+            esc(row.origin || "") +
             "</div><div style='color:var(--muted);font-size:0.85rem;margin-top:4px'>" +
             esc(row.step || "") +
             "</div><div style='font-size:0.8rem;margin-top:4px'>" +

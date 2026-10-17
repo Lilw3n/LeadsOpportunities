@@ -55,58 +55,8 @@ var MONEY_PRODUCTS = [
   { re: /auto/, rank: 6, label: "Auto", step: "Rappeler, puis envoyer au grossiste auto." },
 ];
 
-var OFFICE_NATIONAL = "0651366222";
-try {
-  var brandPhone = require("../../scripts/france-brand.cjs").PHONE_NATIONAL;
-  if (brandPhone) OFFICE_NATIONAL = String(brandPhone).replace(/\D/g, "");
-} catch (e) {
-  /* numéro du cabinet déjà posé */
-}
-
-var PLACEHOLDER_PHONES = {
-  "0612345678": 1,
-  "0123456789": 1,
-  "0102030405": 1,
-  "0601020304": 1,
-  "0701020304": 1,
-  "0611111111": 1,
-  "0600000000": 1,
-  "0700000000": 1,
-  "0900000000": 1,
-  "0606060606": 1,
-};
-
-function isPlaceholderPhone(national) {
-  if (PLACEHOLDER_PHONES[national]) return true;
-  var body = national.slice(1);
-  if (/^(\d)\1{8}$/.test(body)) return true;
-  if (body === "123456789" || body === "987654321" || body === "012345678") return true;
-  var asc = true;
-  var desc = true;
-  for (var i = 1; i < body.length; i++) {
-    var prev = Number(body.charAt(i - 1));
-    var cur = Number(body.charAt(i));
-    if (cur !== (prev + 1) % 10) asc = false;
-    if (cur !== (prev + 9) % 10) desc = false;
-  }
-  return asc || desc;
-}
-
-/** Mobile ou fixe français à 10 chiffres. Hors : cabinet, exemple, indicatif étranger. */
-function frenchCallablePhone(value) {
-  var raw = String(value || "").trim();
-  if (!raw || /[a-z]/i.test(raw)) return "";
-  var d = raw.replace(/\D/g, "");
-  if (d.indexOf("0033") === 0) d = d.slice(2);
-  if (d.indexOf("330") === 0 && d.length === 12) d = "0" + d.slice(3);
-  else if (d.indexOf("33") === 0 && d.length === 11) d = "0" + d.slice(2);
-  if (!/^0[1-79]\d{8}$/.test(d)) return "";
-  if (d === OFFICE_NATIONAL || isPlaceholderPhone(d)) return "";
-  return d;
-}
-
-function formatFrenchPhone(national) {
-  return String(national || "").replace(/(\d{2})(?=\d)/g, "$1 ").trim();
+function phoneDigits(value) {
+  return String(value || "").replace(/\D/g, "");
 }
 
 function clientName(row) {
@@ -142,9 +92,21 @@ function moneyMeta(row) {
   return { rank: 9, label: "Autre dossier", step: "Rappeler. Le questionnaire dit quel contrat envoyer au grossiste." };
 }
 
-function telHref(national) {
-  if (!national || national.length !== 10) return "";
-  return "tel:+33" + national.slice(1);
+function telHref(phone) {
+  var digits = phoneDigits(phone);
+  if (digits.length === 10 && digits.charAt(0) === "0") digits = "33" + digits.slice(1);
+  if (digits.length >= 9) return "tel:+" + digits;
+  return "";
+}
+
+function originLabel(row) {
+  var payload = payloadObject(row);
+  var source = String((row && row.source) || payload.source || "").trim();
+  var landing = String(
+    (row && row.landing_slug) || payload.landing_slug || payload.landing_path || payload.page_path || ""
+  ).trim();
+  var when = row && row.created_at ? String(row.created_at).slice(0, 16).replace("T", " ") : "";
+  return [source, landing, when].filter(Boolean).join(" · ").slice(0, 180);
 }
 
 function buildCallQueue(rows, clickMap) {
@@ -152,18 +114,20 @@ function buildCallQueue(rows, clickMap) {
   (rows || []).forEach(function (row) {
     var copy = decorateLeadArticle(Object.assign({}, row), clickMap);
     if (!copy.questionnaire_filled) return;
-    var national = frenchCallablePhone(copy.phone);
-    if (!national) return;
+    var rawPhone = String(copy.phone || "").trim();
+    if (phoneDigits(rawPhone).length < 9) return;
     var status = String(copy.status || "new").toLowerCase();
     if (status === "lost" || status === "converted" || status === "won") return;
     var money = moneyMeta(copy);
     queue.push({
       id: copy.id || null,
       name: clientName(copy),
-      phone: formatFrenchPhone(national),
-      phone_national: national,
-      tel: telHref(national),
+      phone: rawPhone,
+      tel: telHref(rawPhone),
       email: copy.email || "",
+      origin: originLabel(copy),
+      source: String(copy.source || ""),
+      landing_slug: String(copy.landing_slug || ""),
       status: status,
       created_at: copy.created_at || null,
       product: money.label,
@@ -179,12 +143,6 @@ function buildCallQueue(rows, clickMap) {
     var bNew = b.status === "new" ? 0 : 1;
     if (aNew !== bNew) return aNew - bNew;
     return String(b.created_at || "").localeCompare(String(a.created_at || ""));
-  });
-  var seen = {};
-  queue = queue.filter(function (item) {
-    if (seen[item.phone_national]) return false;
-    seen[item.phone_national] = 1;
-    return true;
   });
   return queue.slice(0, 15);
 }
@@ -250,7 +208,6 @@ module.exports = {
   decorateLeadArticle,
   summarizeQuestionnaireLeads,
   buildCallQueue,
-  frenchCallablePhone,
   loadArticleClickMap,
   articleCatalog,
 };
