@@ -11,8 +11,9 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 | « Il faut email + mot de passe Cafeyn » | Oui **pour vous** dans l’app / le site Cafeyn |
 | « Le bot peut se connecter avec » | **Non** — CGU Cafeyn, risque de bannissement, pas d’API officielle, sessions anti-bot |
 | « Comment récupérer mes articles Cafeyn ? » | **1)** RSS automatique (mêmes journaux) **2)** Favori 1 clic (vous êtes déjà connecté) |
+| « Et Google News, Bing, Yahoo, Edge, Firefox ? » | Flux RSS publics et requêtes d'actualité, sans compte personnel |
 
-Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
+Le favori = vous lisez Cafeyn **normalement** (avec votre login, dans votre navigateur uniquement) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké, transmis ou commit.**
 
 ---
 
@@ -81,13 +82,13 @@ GitHub → repo **LeadsOpportunities** → **Settings** → **Secrets and variab
 
 Optionnel : `OPENAI_API_KEY`, `POCKET_CONSUMER_KEY`, `POCKET_ACCESS_TOKEN`
 
-Mergez la PR **#32** (workflow `.github/workflows/blog-actu-auto.yml`) sur `main`.
+Vérifiez que le workflow `.github/workflows/blog-actu-auto.yml` est présent sur `main`.
 
 ---
 
 ## Étape 5 — Favori Cafeyn (2 min, une fois)
 
-1. Connectez-vous à **Cafeyn** comme d’habitude (email + mot de passe **uniquement sur le site Cafeyn**)
+1. Connectez-vous à **Cafeyn** comme d’habitude (email + mot de passe **uniquement sur le site Cafeyn**, par exemple `https://www.cafeyn.co/fr/newsstand`)
 2. Ouvrez : `https://www.leadsopportunities.fr/blog/actu-inbox.html`
 3. Collez le **jeton** (étape 1) → **Enregistrer le jeton**
 4. Glissez le bouton vert **« Sauver actu Cafeyn »** dans la barre de favoris
@@ -122,6 +123,10 @@ npm run blog:actu:verify-quality
 | `BLOG_ACTU_INGEST_SECRET` | ❌ | Jeton technique favori → API |
 | `GEMINI_API_KEY` | ❌ | Rédaction articles |
 | `DATABASE_URL` | ❌ | File d’attente Neon |
+
+## Sources automatiques complémentaires
+
+Le bot collecte aussi les informations via des sources publiques : Google News, Bing News, Yahoo Actualités / Finance, flux équivalents Edge et flux médias souvent remontés par Firefox. La configuration est dans `data/blog-actu-feeds.json` et reste compatible avec l'inbox Cafeyn prioritaire.
 
 ---
 
