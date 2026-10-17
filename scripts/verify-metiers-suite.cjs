@@ -57,6 +57,20 @@ var map = JSON.parse(read("data/blog-questionnaire-map.json"));
 assert(map.articles["assurance-flotte-vehicules-professionnels-2026.html"].section === "flotte", "CTA flotte explicite");
 assert(map.sections.caravane.need === "caravane", "section caravane");
 
+var hub = JSON.parse(read("data/assurances-hub-meta.json"));
+["mrp", "decennale", "flotte", "dirigeant", "bateau", "instrument", "garage", "transport-logistique", "transport-voyageurs", "metiers-batiment"].forEach(function (id) {
+  var row = hub.services[id] || {};
+  var blogs = row.blogUrls || (row.blogUrl ? [row.blogUrl] : []);
+  assert(blogs.length > 0, "catalogue article " + id);
+});
+var shelf = read("blog/index.html");
+assert(shelf.indexOf('id="articles-metiers"') >= 0, "rayon métiers sur le blog");
+assert((shelf.match(/class="metier-blog-card"/g) || []).length >= 24, "au moins 24 cartes métiers");
+var hubPage = read("assurances/index.html");
+assert(hubPage.indexOf('<section class="metier-blog-shelf" id="articles-metiers">') >= 0, "rayon métiers sur le catalogue");
+assert(hubPage.indexOf("METIERS-BLOG-<section") < 0, "rayon catalogue hors commentaire");
+assert(hubPage.indexOf("\n    SHELF\n") < 0, "placeholder SHELF retiré");
+
 if (failed) {
   console.log(failed, "échecs");
   process.exit(1);

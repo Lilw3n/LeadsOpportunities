@@ -12,6 +12,7 @@ const {
 } = require("./blog-themes.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
+const metierShelf = require("./blog-metiers-shelf.cjs");
 const { franceMetaBlock, blogLogoBlock, brandIconsMeta } = require("./france-brand.cjs");
 const CLARITY_HEAD = clarityInlineHtml();
 const BLOG_CSS = "/blog/blog.css";
@@ -155,9 +156,13 @@ var html =
   CLARITY_HEAD +
   '\n  <script src="/js/clarity-init.js" defer></script>\n  <link rel="stylesheet" href="' +
   BLOG_CSS +
-  '" />\n</head>\n<body data-blog-page="index" data-market-intent="FR">\n  <header class="blog-topbar">\n    <div class="blog-topbar-inner">\n      <a class="blog-back" href="../index.html">Accueil</a>\n      ' +
+  '" />\n  <style>' +
+  metierShelf.CSS +
+  '</style>\n</head>\n<body data-blog-page="index" data-market-intent="FR">\n  <header class="blog-topbar">\n    <div class="blog-topbar-inner">\n      <a class="blog-back" href="../index.html">Accueil</a>\n      ' +
   blogLogoBlock() +
   '\n    </div>\n  </header>\n  <main class="blog-container blog-container--index">\n    <div class="blog-hero">\n      <h1>Blog &amp; conseils assurance</h1>\n      <p>Guides mutuelle, habitation, emprunteur et credit en <strong>France</strong> — filtrez par <strong>produit</strong> ou par <strong>sujet</strong> (canicule, seniors, voyage…).</p>\n      <p class="blog-hero-link"><a href="../assurances/">Voir toutes nos assurances</a></p>\n    </div>\n\n' +
+  metierShelf.html("./") +
+  "\n" +
   filtersHtml +
   "\n" +
   gridHtml +
