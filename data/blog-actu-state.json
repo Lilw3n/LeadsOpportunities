@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-10-17T20:07:31.441Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMie0FVX3lxTFAwcTczWUllYnpDTTZFdEdPZS13Q0RmR1lXM0RLVkZLWWlCNHRpWmVUaHhoa2lCZVVJNEVfQjdObDRMZ21JdmwySmhtZ0xaWGJrV3JVby1EOWh3TDZWcFNFdzc5dHBFR1lSYnJvS1N4eXc1cHU1MVc3ZjFHVQ?oc=5",
+    "https://news.google.com/rss/articles/CBMirgFBVV95cUxQQXZJbmUzM3F0RGJBOGlGQ3dLOFJFZVBzR09LYll4OHFHM0oxbjV2UWhiTVFXR2xSSkxteUhEN1Yya3p5NUNaVjM1NDh4ZXlrM2RxS1lWb2tlc2hKS3hWcGx1R3NIYVduZHJqRjlsQmhTTGd5bHh5WHBWdk5ZMTMzYkwtbEhRMDVCc2g5R3lOd2RaZVZTaVFmWmdReGg1ZFpEeTA3eU9pZ0tESFFhRXc?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3d555f1ab4517b3bbe5085659c09a&url=https%3a%2f%2fwww.france24.com%2ffr%2f20171025-uber-offre-une-couverture-sociale-a-chauffeurs-cas-daccident&c=13906729394176111030&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMimgFBVV95cUxQYmotNmpEbmZiNTFLTEF0MUdOb1pfajlJQk4tR2NmejBXQUpYSXdBN0xOUGFwQmQ4VHMwLW9YVlgyZEYySnpRMkU5QW9OUEVlVVBublUtUmh5SVdNdVBxeU0yQlg3V1FsY2NZUlRST3NHaTZYTFJPSjJCZ3RkT2ZYS291NnMwS2NOWEdhM2lWd0VoY2QxQ2lfRkZR?oc=5",
+    "https://news.google.com/rss/articles/CBMilwJBVV95cUxQZExDX01kYXoxME1zcUpmQmNIbWlWS0NiVlBfaUYwMG1MNmJJOHJsMVdEUi01MXJTajZ0bXByZTg2Ym1Yd2dONzFJS3VoalFsYV9nakJGZHRndF9NQkFlbS1ZdW1CMDFVNS1RQzg5ZHpZRTluazdrYXpRRlBpNDEyR0JIQ0hfdDRHdTFFODZHR29mVFZpckRacTJWbWg4QnFZVXE0Mk9qS1Z5OHc5dEI3dFNjUnpKX0duOHo2UHZtbHRTZU4yX0M4ZjhLUWdyV3ZYYmZXTkE0eGpvQVFOYTVpMEI3Q1ZJSXFLQUlpd1hlQVdQa3dxNE9DaUY0R0ZseXpXbHdVXy1BT040UmJLeXRieFFfTUFqNVU?oc=5",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6ad3d5553e324752ad7fcf7bd016aaac&url=https%3a%2f%2fwww.village-justice.com%2farticles%2fvente-bien-immobilier-france-dont-proprietaire-est-ressortissant-etranger%2c56835.html&c=1888982861943883255&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-10-17T20:07:33.598Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,50 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-10-17T20:07:33.598Z",
+      "count": 6,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-emprunteur-le-ccsf-propose-plusieurs-evolutions-des-contrats-c.html",
+          "title": "Assurance emprunteur : le CCSF propose plusieurs évolutions des contrats - Club Patrimoine : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "prix-d-une-operation-pour-chien-guide-des-tarifs-et-remboursements-en-20.html",
+          "title": "Prix d'une opération pour chien : guide des tarifs et remboursements en 2026 - Le Compa… : assurance animaux — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "uber-offre-une-couverture-sociale-a-ses-chauffeurs-en-cas-d-accident.html",
+          "title": "Uber offre une couverture sociale à ses chauffeurs en cas d'accident : assurance VTC — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        },
+        {
+          "file": "pret-immobilier-en-cours-moody-s-juge-la-france-le-23-octobre-ce-qu-une-.html",
+          "title": "Prêt immobilier en cours ? Moody's juge la France le 23 octobre, ce qu'une note abaissé… : pret et assurance emprunteur — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "immobilier-a-paris-comme-dans-les-grandes-metropoles-les-tensions-sur-le.html",
+          "title": "Immobilier : à Paris comme dans les grandes métropoles, les tensions sur les locations … : assurance habitation — que faire ?",
+          "source": "google",
+          "sourceType": "google"
+        },
+        {
+          "file": "vente-d-un-bien-immobilier-en-france-dont-le-proprietaire-est-un-ressort.html",
+          "title": "Vente d’un bien immobilier en France dont le propriétaire est un ressortissant étranger. : assurance habitation — que faire ?",
+          "source": "bing",
+          "sourceType": "bing"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
