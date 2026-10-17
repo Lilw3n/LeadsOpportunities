@@ -11,6 +11,8 @@
   if (!grid || !filterRoot) return;
 
   var cards = Array.prototype.slice.call(grid.querySelectorAll(".blog-card"));
+  var sections = Array.prototype.slice.call(grid.querySelectorAll(".blog-theme-section"));
+  var sectionNav = document.querySelector(".blog-section-nav");
   var active = new Set();
 
   function readUrlThemes() {
@@ -54,6 +56,12 @@
       card.classList.toggle("is-filtered-out", !show);
       if (show) visible += 1;
     });
+
+    sections.forEach(function (section) {
+      var any = section.querySelector(".blog-card:not([hidden])");
+      section.hidden = !any;
+    });
+    if (sectionNav) sectionNav.hidden = active.size > 0;
 
     if (countEl) {
       countEl.textContent =

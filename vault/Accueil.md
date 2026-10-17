@@ -23,6 +23,7 @@ Les notes dans `Journal/` ne sont pas écrasées.
 - [[Journal/Modeles IA|Modèles IA disponibles ici]]
 - [[Journal/Provenance leads|Provenance des leads]]
 - [[Journal/Cluster pro et transport|Cluster pro et transport]]
+- [[Journal/Sections blog|Sections du blog]]
 - [[Journal/Appels Free|Appels Free]]
 
 ## Graphe

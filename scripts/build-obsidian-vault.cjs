@@ -714,6 +714,7 @@ function writeMocs(pageCount) {
       "- " + wikilink("Journal/Modeles IA", "Modèles IA disponibles ici"),
       "- " + wikilink("Journal/Provenance leads", "Provenance des leads"),
       "- " + wikilink("Journal/Cluster pro et transport", "Cluster pro et transport"),
+      "- " + wikilink("Journal/Sections blog", "Sections du blog"),
       "- " + wikilink("Journal/Appels Free", "Appels Free"),
       "",
       "## Graphe",

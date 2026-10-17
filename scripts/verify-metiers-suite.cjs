@@ -66,6 +66,10 @@ var hub = JSON.parse(read("data/assurances-hub-meta.json"));
 var shelf = read("blog/index.html");
 assert(shelf.indexOf('id="articles-metiers"') >= 0, "rayon métiers sur le blog");
 assert((shelf.match(/class="metier-blog-card"/g) || []).length >= 24, "au moins 24 cartes métiers");
+assert(shelf.indexOf('id="blog-sections"') >= 0, "mosaïque des sections");
+["pro", "collective", "partenariat", "vtc", "sante", "finance"].forEach(function (id) {
+  assert(shelf.indexOf('id="blog-section-' + id + '"') >= 0, "section blog " + id);
+});
 var hubPage = read("assurances/index.html");
 assert(hubPage.indexOf('<section class="metier-blog-shelf" id="articles-metiers">') >= 0, "rayon métiers sur le catalogue");
 assert(hubPage.indexOf("METIERS-BLOG-<section") < 0, "rayon catalogue hors commentaire");

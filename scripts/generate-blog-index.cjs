@@ -121,29 +121,147 @@ var sorted = manifest.articles.slice().sort(function (a, b) {
   return parseArticleDate(b.meta) - parseArticleDate(a.meta);
 });
 
+var SECTION_ORDER = [
+  "pro",
+  "partenariat",
+  "collective",
+  "vtc",
+  "sante",
+  "auto",
+  "vsp",
+  "habitat",
+  "prevoyance",
+  "finance",
+  "animaux",
+  "chasse",
+  "equitation",
+  "patrimoine",
+  "actu",
+];
+
+var SECTION_FACE = {
+  pro: { label: "Professionnel et RC Pro", tag: "tag-pro", lead: "Garage, MRP, décennale, bâtiment, transport, dirigeant." },
+  partenariat: { label: "Métiers et niches pro", tag: "tag-pro", lead: "Ramonage, esthétique, loisirs, padel, immeuble, convoyage." },
+  collective: { label: "Santé collective", tag: "tag-sante", lead: "Mutuelle entreprise, ANI, DUE, panier de soins." },
+  vtc: { label: "VTC et chauffeurs", tag: "tag-vtc", lead: "RC chauffeur, plateformes, première course." },
+  sante: { label: "Santé et mutuelle", tag: "tag-sante", lead: "Garanties, seniors, optique, dentaire." },
+  auto: { label: "Auto et mobilité", tag: "tag-auto", lead: "Bonus-malus, temporaire, flotte, collection." },
+  vsp: { label: "Voiture sans permis", tag: "tag-auto", lead: "Tarif, résiliation, jeunes conducteurs." },
+  habitat: { label: "Habitation", tag: "tag-habitation", lead: "Locataire, propriétaire, PNO, piscine." },
+  prevoyance: { label: "Prévoyance", tag: "tag-prevoyance", lead: "TNS, arrêt de travail, famille." },
+  finance: { label: "Crédit et immobilier", tag: "tag-immo", lead: "Prêt, emprunteur, refus, Nancy." },
+  animaux: { label: "Animaux", tag: "tag-animaux", lead: "Chien, chat, devis et garanties." },
+  chasse: { label: "Chasse", tag: "tag-animaux", lead: "RC chasseur et fédération." },
+  equitation: { label: "Équitation", tag: "tag-animaux", lead: "RC équestre et centres." },
+  patrimoine: { label: "Patrimoine", tag: "tag-patrimoine", lead: "Épargne, retraite, assurance-vie." },
+  actu: { label: "Actu et tendances", tag: "tag-actu", lead: "Sujets du moment, angle assurance France." },
+};
+
+function sectionMeta(id) {
+  var face = SECTION_FACE[id] || { label: id, tag: "tag-all", lead: "" };
+  var fromManifest = manifest.sections.find(function (sec) {
+    return sec.id === id;
+  });
+  return {
+    id: id,
+    label: face.label,
+    tag: face.tag,
+    lead: face.lead,
+    cta: fromManifest && fromManifest.cta,
+  };
+}
+
+function groupedSections(articles) {
+  var buckets = {};
+  articles.forEach(function (article) {
+    var id = article.section || "actu";
+    if (!buckets[id]) buckets[id] = [];
+    buckets[id].push(article);
+  });
+  var ids = SECTION_ORDER.filter(function (id) {
+    return buckets[id] && buckets[id].length;
+  });
+  Object.keys(buckets).forEach(function (id) {
+    if (ids.indexOf(id) === -1) ids.push(id);
+  });
+  return ids.map(function (id) {
+    var list = buckets[id].slice().sort(function (a, b) {
+      return parseArticleDate(b.meta) - parseArticleDate(a.meta);
+    });
+    return { meta: sectionMeta(id), articles: list };
+  });
+}
+
+var sections = groupedSections(sorted);
+
+function sectionNavHtml(list) {
+  var cards = list
+    .map(function (block) {
+      return (
+        '        <a class="blog-section-nav-card ' +
+        block.meta.tag +
+        '" href="#blog-section-' +
+        block.meta.id +
+        '"><strong>' +
+        block.meta.label +
+        '</strong><span>' +
+        block.articles.length +
+        " article" +
+        (block.articles.length > 1 ? "s" : "") +
+        "</span></a>\n"
+      );
+    })
+    .join("");
+  return (
+    '    <nav class="blog-section-nav" aria-label="Sections du blog">\n' +
+    "      <h2>Sections du blog</h2>\n" +
+    '      <p class="blog-section-nav-lead">Chaque métier et chaque produit a son bloc. Le rayon du haut rassemble les guides pro cités.</p>\n' +
+    '      <div class="blog-section-nav-grid">\n' +
+    cards +
+    "      </div>\n" +
+    "    </nav>\n"
+  );
+}
+
+function sectionBlockHtml(block) {
+  var cta = block.meta.cta
+    ? '<a class="btn btn-primary" href="' + block.meta.cta.href + '">' + block.meta.cta.label + "</a>"
+    : "";
+  return (
+    '    <section class="blog-theme-section" id="blog-section-' +
+    block.meta.id +
+    '" data-section="' +
+    block.meta.id +
+    '">\n' +
+    '      <header class="blog-theme-section-head">\n' +
+    "        <div>\n" +
+    "          <h2>" +
+    block.meta.label +
+    "</h2>\n" +
+    (block.meta.lead ? "          <p>" + block.meta.lead + "</p>\n" : "") +
+    "        </div>\n" +
+    '        <div class="blog-theme-section-actions">\n' +
+    '          <span class="blog-theme-section-count ' +
+    block.meta.tag +
+    '">' +
+    block.articles.length +
+    "</span>\n" +
+    cta +
+    "\n        </div>\n" +
+    "      </header>\n" +
+    '      <div class="blog-grid blog-grid--filtered">\n' +
+    block.articles.map(card).join("") +
+    "      </div>\n" +
+    "    </section>\n"
+  );
+}
+
 var filtersHtml = buildFiltersHtml(manifest.articles);
 var gridHtml =
-  '    <div class="blog-grid blog-grid--filtered" id="blog-grid">\n' +
-  sorted.map(card).join("") +
+  '    <div id="blog-grid">\n' +
+  sections.map(sectionBlockHtml).join("") +
   "    </div>\n" +
   '    <p class="blog-filter-empty" id="blog-filter-empty" hidden>Aucun article pour cette sélection. <button type="button" class="blog-filter-reset" data-theme="all">Voir tous les articles</button></p>\n';
-
-var ctaBlocks = manifest.sections
-  .filter(function (sec) {
-    return sec.cta;
-  })
-  .map(function (sec) {
-    return (
-      '    <div class="blog-section-cta">\n      <span class="blog-section-cta-label">' +
-      sec.title +
-      '</span>\n      <a class="btn btn-primary" href="' +
-      sec.cta.href +
-      '">' +
-      sec.cta.label +
-      "</a>\n    </div>"
-    );
-  })
-  .join("\n");
 
 var html =
   '<!doctype html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n  ' +
@@ -160,14 +278,14 @@ var html =
   metierShelf.CSS +
   '</style>\n</head>\n<body data-blog-page="index" data-market-intent="FR">\n  <header class="blog-topbar">\n    <div class="blog-topbar-inner">\n      <a class="blog-back" href="../index.html">Accueil</a>\n      ' +
   blogLogoBlock() +
-  '\n    </div>\n  </header>\n  <main class="blog-container blog-container--index">\n    <div class="blog-hero">\n      <h1>Blog &amp; conseils assurance</h1>\n      <p>Guides mutuelle, habitation, emprunteur et credit en <strong>France</strong> — filtrez par <strong>produit</strong> ou par <strong>sujet</strong> (canicule, seniors, voyage…).</p>\n      <p class="blog-hero-link"><a href="../assurances/">Voir toutes nos assurances</a></p>\n    </div>\n\n' +
+  '\n    </div>\n  </header>\n  <main class="blog-container blog-container--index">\n    <div class="blog-hero">\n      <h1>Blog &amp; conseils assurance</h1>\n      <p>Guides en <strong>France</strong>, rangés par section : professionnel, santé collective, VTC, habitation, crédit. Le premier bloc liste les métiers cités.</p>\n      <p class="blog-hero-link"><a href="../assurances/">Voir toutes nos assurances</a> · <a href="#blog-sections">Voir les sections</a></p>\n    </div>\n\n' +
   metierShelf.html("./") +
+  "\n" +
+  sectionNavHtml(sections).replace('class="blog-section-nav"', 'class="blog-section-nav" id="blog-sections"') +
   "\n" +
   filtersHtml +
   "\n" +
   gridHtml +
-  "\n" +
-  ctaBlocks +
   '\n  </main>\n  <footer class="blog-footer">\n    <a href="../assurances/">Catalogue assurances</a>\n    <a href="../assurance-vtc/">VTC</a>\n    <a href="../assurance-animaux/">Animaux</a>\n    <a href="../index.html#contact">Contact</a>\n  </footer>\n  <script src="../js/attribution.js" defer></script>\n  <script src="../js/blog-reading-analytics.js" defer></script>\n  <script src="../js/blog-index-filters.js" defer></script>\n</body>\n</html>\n';
 
 fs.writeFileSync(indexPath, html);
