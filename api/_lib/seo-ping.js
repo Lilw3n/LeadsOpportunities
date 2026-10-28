@@ -54,7 +54,7 @@ async function runSeoPing() {
     sitemapPings,
     indexNow,
     priorityUrls: PRIORITY_URLS.length,
-    indexNowKeyFile: INDEXNOW_KEY_LOCATION,
+    indexNowKeyFile: "https://www.leadsopportunities.fr/7c4e9f2a1b8d6035leadsop.txt",
     note:
       "Google indexe surtout via Search Console (demande d'indexation + sitemap). IndexNow aide Bing.",
   };

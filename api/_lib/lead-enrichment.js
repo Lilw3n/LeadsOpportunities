@@ -75,8 +75,18 @@ async function findDuplicateLead(sql, email, phone) {
   return null;
 }
 
+// Ajoute une fois les colonnes manquantes (table créée avec un ancien schéma).
+var touchpointSchemaReady = null;
+
 async function recordTouchpoint(sql, payload) {
   if (!sql || !payload) return;
+  if (!touchpointSchemaReady) {
+    touchpointSchemaReady = require("./ensure-schema").ensureLeadWorkflowSchema(sql).catch(function (e) {
+      touchpointSchemaReady = null;
+      throw e;
+    });
+  }
+  await touchpointSchemaReady;
   var id = "tp_" + randomUUID();
   await sql`
     INSERT INTO lead_touchpoints (
