@@ -68,17 +68,54 @@
     var email = String((lead && (lead.email || lead.Email)) || "").trim();
     var phone = String((lead && (lead.phone || lead.Phone)) || "").trim();
     if (email && !TEST_EMAIL.test(email)) return true;
-    if (phone && phone.replace(/\D/g, "").length >= 8) return true;
+    if (phone && phone.replace(/\D/g, "").length >= 8 && !isFakePhone(phone)) return true;
+    return false;
+  }
+
+  /** Lead de test Meta (outil « Lead Ads Testing ») : « <test lead: dummy data for …> » */
+  var META_TEST_TEXT = /test lead|dummy data|donn[ée]es fictives/i;
+  var TEST_EMAIL_EXTRA = /^test@(fb|meta|facebook)\.com$/i;
+
+  function payloadOf(lead) {
+    var p = lead && lead.payload;
+    if (!p) return {};
+    if (typeof p === "string") {
+      try {
+        return JSON.parse(p) || {};
+      } catch (e) {
+        return {};
+      }
+    }
+    return p;
+  }
+
+  /** Numéros fictifs : 0600000000, 0123456789, +1 555… */
+  function isFakePhone(phone) {
+    var d = String(phone || "").replace(/\D/g, "");
+    if (d.length < 8) return false;
+    // 06 00 00 00 00, 07 11 11 11 11… : les 8 derniers chiffres identiques
+    if (/^(\d)\1+$/.test(d.slice(-8))) return true;
+    if (/123456789$/.test(d) || /^1?555\d{7}$/.test(d)) return true;
     return false;
   }
 
   function isTestLead(lead) {
+    var p = payloadOf(lead);
+    var names = [
+      p.fullName, p.full_name, p.name, p.firstName, p.first_name, p.lastName, p.last_name,
+      lead && lead.source, p.source, p.ad_name, p.form_name,
+    ].join(" ");
+    if (META_TEST_TEXT.test(names)) return true;
+    if (p.is_test || p.isTest || p.test_lead) return true;
     var email = String((lead && lead.email) || "").trim().toLowerCase();
-    if (!email) return false;
-    if (TEST_EMAIL.test(email)) return true;
-    var local = email.split("@")[0] || "";
-    if (TEST_LOCAL.test(local)) return true;
-    if (/test-audit|flood@|xyz@example/i.test(email)) return true;
+    if (email) {
+      if (TEST_EMAIL.test(email) || TEST_EMAIL_EXTRA.test(email)) return true;
+      var local = email.split("@")[0] || "";
+      if (TEST_LOCAL.test(local)) return true;
+      if (/test-audit|flood@|xyz@example/i.test(email)) return true;
+    }
+    var phone = lead && lead.phone;
+    if (phone && isFakePhone(phone) && !email) return true;
     return false;
   }
 

@@ -386,6 +386,24 @@
     .badge-lost { background: var(--red-light); color: var(--red); }
     .lead-row-new td { background: linear-gradient(90deg, #fffbeb 0, #fff 40%); border-left: 3px solid var(--orange); }
     .lead-row-unopened td { border-left: 3px solid var(--blue); }
+    /* Onglets prospects / abandons / bruit + canal */
+    .lead-buckets { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 22px 0; }
+    .lead-bucket-btn { border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: 0.88rem; cursor: pointer; font-family: inherit; }
+    .lead-bucket-btn .n { display: inline-block; min-width: 22px; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: #eef2f7; font-size: 0.78rem; }
+    .lead-bucket-btn.is-active { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, #fff); }
+    .lead-bucket-btn[data-bucket="prospects"].is-active { border-color: var(--green); background: color-mix(in srgb, var(--green) 12%, #fff); }
+    .lead-bucket-btn[data-bucket="bruit"] { color: var(--muted); }
+    .lead-channel-summary { padding: 8px 22px 0; font-size: 0.85rem; color: var(--muted); }
+    .lead-channel-summary button { border: 0; background: none; padding: 0; color: inherit; font: inherit; cursor: pointer; }
+    .chan { display: inline-block; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+    .chan-pub { background: #fde7f3; color: #9d174d; }
+    .chan-seo { background: #dcfce7; color: #166534; }
+    .chan-social { background: #e0e7ff; color: #3730a3; }
+    .chan-email, .chan-partner { background: #fef3c7; color: #92400e; }
+    .chan-referral { background: #e0f2fe; color: #075985; }
+    .chan-manual, .chan-direct { background: #f1f5f9; color: #475569; }
+    .chan-detail { display: block; margin-top: 3px; font-size: 0.76rem; color: var(--muted); max-width: 260px; overflow-wrap: anywhere; }
+    .chan-detail a { color: var(--accent); }
     .lead-pill { display: inline-block; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; padding: 2px 7px; border-radius: 999px; margin-right: 4px; }
     .lead-pill-new { background: var(--orange-light); color: #92400e; }
     .lead-pill-unopened { background: var(--blue-light); color: #1e40af; }
@@ -2001,7 +2019,25 @@
         </div>
 
         <div class="dash-panel">
+          <div class="lead-buckets" id="leadBuckets" role="tablist" aria-label="Tri des leads">
+            <button type="button" class="lead-bucket-btn is-active" data-bucket="prospects" title="Contact réel laissé (mail ou téléphone valide) : à appeler">À traiter<span class="n" data-count="prospects">…</span></button>
+            <button type="button" class="lead-bucket-btn" data-bucket="abandons" title="A donné un contact puis quitté le questionnaire : à relancer">Abandons à relancer<span class="n" data-count="abandons">…</span></button>
+            <button type="button" class="lead-bucket-btn" data-bucket="bruit" title="Tests Meta, emails fictifs, bots, plage Meta, sans contact, doublons">Bruit &amp; tests<span class="n" data-count="bruit">…</span></button>
+            <button type="button" class="lead-bucket-btn" data-bucket="tous">Tout<span class="n" data-count="tous">…</span></button>
+          </div>
+          <div class="lead-channel-summary" id="leadChannelSummary"></div>
           <div class="filters-bar">
+            <select class="filter-select" id="filterChannel" title="D’où vient le lead (sur toute la liste, pas seulement la page)">
+              <option value="">Tous canaux</option>
+              <option value="pub">Pub (Meta, Google, TikTok…)</option>
+              <option value="seo">SEO (Google, Bing… sans pub)</option>
+              <option value="social">Réseaux sans pub</option>
+              <option value="referral">Lien depuis un autre site</option>
+              <option value="email">Mail / SMS</option>
+              <option value="partner">Partenaire (Withallo)</option>
+              <option value="direct">Accès direct</option>
+              <option value="manual">Saisie CRM</option>
+            </select>
             <select class="filter-select" id="filterView">
               <option value="">Tous (chrono)</option>
               <option value="new">Nouveaux uniquement</option>
@@ -2118,7 +2154,7 @@
                   <th>Téléphone</th>
                   <th>IP</th>
                   <th data-sort="status">Statut</th>
-                  <th>Origine</th>
+                  <th>Canal (d’où il vient)</th>
                   <th>Article</th>
                   <th>Pertinence</th>
                   <th>Actions</th>
@@ -3233,6 +3269,82 @@
     });
 
     // LOAD LEADS
+    /** Onglet actif : prospects (défaut) | abandons | bruit | tous */
+    var currentBucket = (function () {
+      try {
+        var b = new URLSearchParams(location.search).get("bucket") || localStorage.getItem("lo_leads_bucket");
+        return ["prospects", "abandons", "bruit", "tous"].indexOf(b) >= 0 ? b : "prospects";
+      } catch (e) {
+        return "prospects";
+      }
+    })();
+
+    var CHANNEL_NAMES = {
+      pub: "Pub",
+      seo: "SEO",
+      social: "Réseaux sans pub",
+      referral: "Lien externe",
+      email: "Mail / SMS",
+      partner: "Partenaire",
+      direct: "Direct",
+      manual: "Saisie CRM",
+    };
+
+    function renderLeadBuckets(counts, channels, capped) {
+      document.querySelectorAll("#leadBuckets .lead-bucket-btn").forEach(function (btn) {
+        btn.classList.toggle("is-active", btn.dataset.bucket === currentBucket);
+        btn.setAttribute("aria-selected", btn.dataset.bucket === currentBucket ? "true" : "false");
+      });
+      document.querySelectorAll("#leadBuckets [data-count]").forEach(function (el) {
+        var n = counts[el.dataset.count];
+        el.textContent = n == null ? "–" : String(n) + (capped && el.dataset.count === "tous" ? "+" : "");
+      });
+      var box = document.getElementById("leadChannelSummary");
+      if (!box) return;
+      var keys = Object.keys(channels || {}).sort(function (a, b) {
+        return channels[b] - channels[a];
+      });
+      if (!keys.length) {
+        box.textContent = "";
+        return;
+      }
+      var title =
+        currentBucket === "prospects" ? "Tes prospects viennent de" : currentBucket === "abandons" ? "Abandons venus de" : "Venus de";
+      box.innerHTML =
+        title +
+        " : " +
+        keys
+          .map(function (k) {
+            return (
+              '<button type="button" data-channel-pick="' + esc(k) + '" title="Ne montrer que ce canal">' +
+              '<span class="chan chan-' + esc(k) + '">' + esc(CHANNEL_NAMES[k] || k) + "</span> " + channels[k] +
+              "</button>"
+            );
+          })
+          .join(" · ") +
+        (capped ? " <em>(sur les 2 000 derniers leads)</em>" : "");
+    }
+
+    function leadChannelCell(l) {
+      var ch = l.channel || "direct";
+      var detail = [];
+      if (l.channel_campaign) detail.push("Campagne : " + esc(l.channel_campaign));
+      if (l.channel_ad && l.channel_ad !== l.channel_campaign && l.channel_ad !== l.article_slug) {
+        detail.push("Annonce : " + esc(l.channel_ad));
+      }
+      if (l.article_title && l.article_path) {
+        detail.push('Article : <a href="' + esc(l.article_path) + '" target="_blank" rel="noopener">' + esc(l.article_title) + "</a>");
+      } else if (l.channel_page) {
+        detail.push('Page : <a href="' + esc(l.channel_page) + '" target="_blank" rel="noopener">' + esc(l.channel_page) + "</a>");
+      }
+      if (l.channel_referrer && ch !== "seo" && ch !== "referral") detail.push("Venu de " + esc(l.channel_referrer));
+      if (l.bucket === "bruit" && l.bucket_reason) detail.push("Bruit : " + esc(l.bucket_reason));
+      return (
+        '<span class="chan chan-' + esc(ch) + '">' + esc(l.channel_label || CHANNEL_NAMES[ch] || ch) + "</span>" +
+        (detail.length ? '<span class="chan-detail">' + detail.join("<br>") + "</span>" : "")
+      );
+    }
+
     async function loadLeads() {
       var tbody = document.getElementById("leadsTableBody");
       tbody.innerHTML = '<tr><td colspan="12" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
@@ -3261,6 +3373,9 @@
       if (search) params += "&search=" + encodeURIComponent(search);
       if (ipFilter) params += "&ip=" + encodeURIComponent(ipFilter);
       if (scoreMin) params += "&scoreMin=" + encodeURIComponent(scoreMin);
+      params += "&bucket=" + encodeURIComponent(currentBucket);
+      var channelEl = document.getElementById("filterChannel");
+      if (channelEl && channelEl.value) params += "&channel=" + encodeURIComponent(channelEl.value);
 
       var data = await D.api("/api/dashboard/leads" + params);
       if (!data.ok) {
@@ -3281,6 +3396,7 @@
           articles: data.lead_articles || [],
         };
         renderLeadArticles(leadArticleSummary.articles);
+        renderLeadBuckets(data.bucket_counts || {}, data.channel_counts || {}, !!data.window_capped);
         renderCallQueue(data.call_queue || []);
         tbody.innerHTML = "";
         var leadsList = data.leads || [];
@@ -3357,8 +3473,8 @@
               '<td>' + esc(l.phone) + '</td>' +
               '<td>' + ipHtml + '</td>' +
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
-              '<td title="' + esc([l.source, l.utm_source, l.utm_campaign].filter(Boolean).join(" · ")) + '">' +
-              esc(l.origin_label || l.platform || l.utm_source || l.source) + '</td>' +
+              '<td title="' + esc([l.source, l.utm_source, l.utm_campaign, l.channel_referrer].filter(Boolean).join(" · ")) + '">' +
+              leadChannelCell(l) + '</td>' +
               '<td>' + leadArticleCell(l) + '</td>' +
               '<td>' + relevanceLabel(rel) + '</td>' +
               '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> ' +
@@ -3510,6 +3626,33 @@
     document.getElementById("filterVertical").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterPlatform").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterScore").addEventListener("change", function() { currentPage = 1; loadLeads(); });
+    document.querySelectorAll("#leadBuckets .lead-bucket-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        currentBucket = btn.dataset.bucket || "prospects";
+        try {
+          localStorage.setItem("lo_leads_bucket", currentBucket);
+        } catch (e) {}
+        currentPage = 1;
+        loadLeads();
+      });
+    });
+    var filterChannel = document.getElementById("filterChannel");
+    if (filterChannel) {
+      filterChannel.addEventListener("change", function () {
+        currentPage = 1;
+        loadLeads();
+      });
+    }
+    var channelSummaryBox = document.getElementById("leadChannelSummary");
+    if (channelSummaryBox) {
+      channelSummaryBox.addEventListener("click", function (e) {
+        var pick = e.target.closest("[data-channel-pick]");
+        if (!pick || !filterChannel) return;
+        filterChannel.value = pick.getAttribute("data-channel-pick") || "";
+        currentPage = 1;
+        loadLeads();
+      });
+    }
     var filterOrigin = document.getElementById("filterOrigin");
     if (filterOrigin) {
       filterOrigin.addEventListener("change", function () {

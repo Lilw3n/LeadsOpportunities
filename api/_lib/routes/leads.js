@@ -1,6 +1,11 @@
 const { getAuthUser } = require("../auth");
 const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
-const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
+const { parseLeadListFilters, enrichLeadRow, decorateLeadChannel } = require("../leads-filters");
+
+/** Fenêtre classée côté application (onglets prospects / abandons / bruit, canal) */
+const BUCKET_WINDOW = 2000;
+const VALID_BUCKETS = ["prospects", "abandons", "bruit", "tous"];
+const VALID_CHANNELS = ["pub", "seo", "social", "email", "referral", "partner", "manual", "direct"];
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
 const { decorateLeadArticle, summarizeQuestionnaireLeads, buildCallQueue, loadArticleClickMap } = require("../lead-article");
 
@@ -391,13 +396,21 @@ module.exports = async (req, res) => {
     platformVal,
   };
 
+  var bucketRaw = String(url.searchParams.get("bucket") || "").toLowerCase();
+  const bucketVal = VALID_BUCKETS.indexOf(bucketRaw) >= 0 ? bucketRaw : "";
+  var channelRaw = String(url.searchParams.get("channel") || "").toLowerCase();
+  const channelVal = VALID_CHANNELS.indexOf(channelRaw) >= 0 ? channelRaw : "";
+  const windowMode = Boolean(bucketVal || channelVal);
+
   try {
     const { neon } = require("@neondatabase/serverless");
     const sql = neon(dbUrl);
 
     await ensureSiteLeadsSchema(sql);
 
-    const result = await loadLeadsList(sql, queryOpts);
+    const result = windowMode
+      ? await loadLeadsList(sql, Object.assign({}, queryOpts, { limit: BUCKET_WINDOW, offset: 0 }))
+      : await loadLeadsList(sql, queryOpts);
     var clickMap = {};
     try {
       clickMap = await loadArticleClickMap(sql);
@@ -415,10 +428,28 @@ module.exports = async (req, res) => {
     }
     const summary = summarizeQuestionnaireLeads(qSource, clickMap);
     const callQueue = buildCallQueue(qSource, clickMap);
-    const leads = result.rows.map(function (row) {
-      return decorateLeadArticle(enrichLeadRow(row), clickMap);
+    var allRows = result.rows.map(function (row) {
+      return decorateLeadChannel(decorateLeadArticle(enrichLeadRow(row), clickMap));
     });
-    const total = result.total;
+    var bucketCounts = { prospects: 0, abandons: 0, bruit: 0, tous: allRows.length };
+    var channelCounts = {};
+    allRows.forEach(function (r) {
+      bucketCounts[r.bucket] = (bucketCounts[r.bucket] || 0) + 1;
+      if (!bucketVal || bucketVal === "tous" || r.bucket === bucketVal) {
+        channelCounts[r.channel] = (channelCounts[r.channel] || 0) + 1;
+      }
+    });
+    var leads = allRows;
+    var total = result.total;
+    if (windowMode) {
+      var kept = allRows.filter(function (r) {
+        if (bucketVal && bucketVal !== "tous" && r.bucket !== bucketVal) return false;
+        if (channelVal && r.channel !== channelVal) return false;
+        return true;
+      });
+      total = kept.length;
+      leads = kept.slice(offset, offset + limit);
+    }
 
     return res.status(200).json({
       ok: true,
@@ -427,6 +458,10 @@ module.exports = async (req, res) => {
       questionnaire_capped: questionnaireCapped,
       lead_articles: summary.articles,
       call_queue: callQueue,
+      bucket: bucketVal || null,
+      bucket_counts: bucketCounts,
+      channel_counts: channelCounts,
+      window_capped: windowMode && result.total > BUCKET_WINDOW,
       pagination: {
         page,
         limit,
