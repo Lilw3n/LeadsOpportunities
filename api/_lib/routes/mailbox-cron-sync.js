@@ -1,11 +1,13 @@
 /**
  * GET/POST /api/mailbox/cron-sync — cron Vercel unique (CRON_SECRET)
- * Enchaîne : sync mailbox → ping SEO → alerte trafic Slack
+ * Enchaîne : sync mailbox → ping SEO → alerte trafic Slack → sécurité pubs Meta
  * (évite un 2e cron /api/cron/* qui faisait échouer "Deploying outputs")
  */
 const { runMailboxSync } = require("../mailbox-sync-service");
 const { runSeoPing } = require("../seo-ping");
 const { runTrafficAlertCheck } = require("../traffic-alert");
+const { runAdsGuardCheck } = require("../ads-guard");
+const { getSql } = require("../db");
 
 module.exports = async (req, res) => {
   if (req.method !== "GET" && req.method !== "POST") {
@@ -37,12 +39,20 @@ module.exports = async (req, res) => {
       console.error("[mailbox/cron-sync] traffic alert", alertErr);
       trafficAlert = { ok: false, error: alertErr.message || "Erreur alerte trafic" };
     }
+    let adsGuard = null;
+    try {
+      adsGuard = await runAdsGuardCheck(getSql());
+    } catch (guardErr) {
+      console.error("[mailbox/cron-sync] ads guard", guardErr);
+      adsGuard = { ok: false, error: guardErr.message || "Erreur sécurité pubs" };
+    }
     const status = sync.ok ? 200 : sync.skipped ? 200 : 502;
     return res.status(status).json({
       ok: sync.ok || !!sync.skipped,
       sync,
       seo,
       trafficAlert,
+      adsGuard,
     });
   } catch (e) {
     console.error("[mailbox/cron-sync]", e);
