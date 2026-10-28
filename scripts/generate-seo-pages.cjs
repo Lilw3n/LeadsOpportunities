@@ -41,6 +41,25 @@ const CITIES = JSON.parse(fs.readFileSync(path.join(ROOT, "seo/france-cities.jso
 const DEPARTMENTS = JSON.parse(fs.readFileSync(path.join(ROOT, "seo/france-departments.json"), "utf8"));
 const REGIONS = JSON.parse(fs.readFileSync(path.join(ROOT, "seo/france-regions.json"), "utf8"));
 
+// SEO local (décision 2026-10-26) : seules les pages géo du bassin nancéien (54) sont indexées.
+// Les autres villes / départements / régions restent en ligne mais en noindex,follow et hors sitemap.
+const LOCAL_GEO_KEEP = new Set(nancyBassin.allSlugs().concat(["meurthe-et-moselle", "grand-est"]));
+const VTC_GEO_KEEP = new Set(["paris", "ile-de-france"]); // priorité VTC Île-de-France
+const GEO_CITY = new Set(CITIES.map(function (c) { return c.slug; }));
+const GEO_DEPT = new Set(DEPARTMENTS.map(function (d) { return d.slug; }));
+const GEO_REGION = new Set(REGIONS.map(function (r) { return r.slug; }));
+function isIndexableGeoPath(p) {
+  const s = String(p || "").replace(/^https?:\/\/[^/]+/, "").replace(/index\.html$/, "").split("/").filter(Boolean);
+  if (!s.length || s[0] === "france") return true;
+  let slug = null;
+  if (s.length === 2 && GEO_CITY.has(s[1])) slug = s[1];
+  else if (s.length === 3 && s[1] === "departement" && GEO_DEPT.has(s[2])) slug = s[2];
+  else if (s.length === 3 && s[1] === "region" && GEO_REGION.has(s[2])) slug = s[2];
+  if (!slug) return true;
+  if (LOCAL_GEO_KEEP.has(slug)) return true;
+  return s[0] === "assurance-vtc" && VTC_GEO_KEEP.has(slug);
+}
+
 const TRUST = [
   "Courtier ORIAS",
   "Devis gratuit",
@@ -933,7 +952,7 @@ function renderPage(p) {
   <title>${esc(p.title)}</title>
   <meta name="description" content="${esc(p.description)}" />
   ${p.keywords ? '<meta name="keywords" content="' + esc(p.keywords) + '" />' : ""}
-  <meta name="robots" content="index,follow" />
+  <meta name="robots" content="${isIndexableGeoPath(p.file) ? "index,follow" : "noindex,follow"}" />
   ${geoMeta}
   <link rel="canonical" href="${esc(canonical)}" />
   <link rel="alternate" hreflang="fr-FR" href="${esc(canonical)}" />
@@ -1109,7 +1128,7 @@ ALL_PAGES.forEach(function (p) {
 });
 
 const allUrls = collectSitemapUrls(CITIES, DEPARTMENTS, REGIONS, BASE);
-const geoUrls = allUrls.filter(function (u) {
+const geoAllUrls = allUrls.filter(function (u) {
   return (
     u.loc.indexOf("/assurance-") > -1 ||
     u.loc.indexOf("/credit-immo/") > -1 ||
@@ -1119,12 +1138,15 @@ const geoUrls = allUrls.filter(function (u) {
     u.loc.indexOf("/banque/") > -1
   );
 });
+const geoUrls = geoAllUrls.filter(function (u) {
+  return isIndexableGeoPath(u.loc);
+});
 const franceUrls = allUrls.filter(function (u) {
   return u.loc.indexOf("/france/") > -1;
 });
 const mainUrls = allUrls
   .filter(function (u) {
-    return geoUrls.indexOf(u) < 0 && franceUrls.indexOf(u) < 0;
+    return geoAllUrls.indexOf(u) < 0 && franceUrls.indexOf(u) < 0;
   })
   .concat(getNicheSitemapEntries(BASE))
   .concat(getVtcLongtailSitemapEntries(BASE))
