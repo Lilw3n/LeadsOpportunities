@@ -199,6 +199,36 @@ async function ensureLeadWorkflowSchema(sql) {
   await runStatement(sql, function (s) {
     return s`ALTER TABLE crm_activities ADD COLUMN IF NOT EXISTS lead_id TEXT`;
   });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE lead_touchpoints ADD COLUMN IF NOT EXISTS visitor_id TEXT`;
+  });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE lead_touchpoints ADD COLUMN IF NOT EXISTS event_type TEXT`;
+  });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE lead_touchpoints ADD COLUMN IF NOT EXISTS page_path TEXT`;
+  });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE lead_touchpoints ADD COLUMN IF NOT EXISTS page_title TEXT`;
+  });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE lead_touchpoints ADD COLUMN IF NOT EXISTS seo_city TEXT`;
+  });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE lead_touchpoints ADD COLUMN IF NOT EXISTS seo_product TEXT`;
+  });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE lead_touchpoints ADD COLUMN IF NOT EXISTS utm_source TEXT`;
+  });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE lead_touchpoints ADD COLUMN IF NOT EXISTS utm_medium TEXT`;
+  });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE lead_touchpoints ADD COLUMN IF NOT EXISTS utm_campaign TEXT`;
+  });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE lead_touchpoints ADD COLUMN IF NOT EXISTS referrer TEXT`;
+  });
   return true;
 }
 
