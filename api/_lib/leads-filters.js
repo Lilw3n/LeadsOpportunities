@@ -1,5 +1,6 @@
 /** Filtres liste leads — enrichissement côté application. */
 const Cat = require("../../js/lead-visitor-category-lib");
+const Channel = require("../../js/lead-channel-lib");
 
 function isManualLead(row, payload) {
   var source = String((row && row.source) || (payload && payload.source) || "").toLowerCase();
@@ -20,6 +21,7 @@ function classifyLeadOrigin(row, payload) {
     source: row && row.source,
     platform: row && row.platform,
     utm_source: row && row.utm_source,
+    payload: payload,
   });
   if (cat.id === "bot_meta") {
     return { id: "meta_preview", label: "Test Meta (pas un prospect)" };
@@ -119,7 +121,62 @@ function enrichLeadRow(row) {
 
 
 
+/**
+ * Onglet du lead :
+ * - prospects : contact réel (ou saisie CRM), à travailler
+ * - abandons  : a laissé un contact puis quitté le parcours, à relancer
+ * - bruit     : tests (Meta, emails fictifs), bots, plage Meta, sans contact, doublons
+ */
+function leadBucket(row) {
+  var p = row && row.payload;
+  if (typeof p === "string") {
+    try {
+      p = JSON.parse(p);
+    } catch (e) {
+      p = {};
+    }
+  }
+  p = p || {};
+  if (row && row.is_duplicate) return { bucket: "bruit", reason: "Doublon" };
+  var cat = Cat.categorize({
+    client_ip: (row && row.client_ip) || p.clientIp || p.client_ip || "",
+    email: row && row.email,
+    phone: row && row.phone,
+    lead_score: row && row.lead_score,
+    source: row && row.source,
+    platform: row && row.platform,
+    utm_source: row && row.utm_source,
+    pipeline_stage: row && row.pipeline_stage,
+    status: row && row.status,
+    payload: p,
+  });
+  if (isManualLead(row, p) && cat.id !== "test") return { bucket: "prospects", reason: "Saisie CRM" };
+  if (cat.id === "prospect" || cat.id === "named") return { bucket: "prospects", reason: cat.label };
+  if (cat.id === "abandon") return { bucket: "abandons", reason: cat.label };
+  return { bucket: "bruit", reason: cat.label };
+}
+
+/** Canal précis (pub / SEO / réseaux / lien / direct) — après decorateLeadArticle */
+function decorateLeadChannel(row) {
+  if (!row) return row;
+  var c = Channel.classify(row);
+  row.channel = c.channel;
+  row.channel_label = c.label;
+  row.channel_network = c.network;
+  row.channel_detail = c.detail;
+  row.channel_campaign = c.campaign;
+  row.channel_ad = c.ad;
+  row.channel_page = c.page;
+  row.channel_referrer = c.referrer;
+  var b = leadBucket(row);
+  row.bucket = b.bucket;
+  row.bucket_reason = b.reason;
+  return row;
+}
+
 module.exports = {
+  leadBucket,
+  decorateLeadChannel,
 
   parseLeadListFilters,
 
