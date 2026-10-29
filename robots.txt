@@ -25,3 +25,4 @@ Disallow: /seo/niches.json
 Disallow: /data/niches-admin.json
 
 Sitemap: https://www.leadsopportunities.fr/sitemap.xml
+Sitemap: https://assurancevtcfrance.com/assurance-vtc-france/sitemap.xml

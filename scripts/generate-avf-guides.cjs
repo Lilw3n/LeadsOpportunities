@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 /**
  * Guides SEO de assurancevtcfrance.com (servis sous /guide/… par vercel.json).
- * Écrit assurance-vtc-france/guide/*.html, le sitemap et le robots.txt du domaine.
+ * Écrit assurance-vtc-france/guide/*.html et assurance-vtc-france/sitemap.xml.
+ * Ce sitemap est déclaré dans le robots.txt commun (un fichier existant à la racine,
+ * comme /robots.txt, passe avant les règles host de vercel.json).
  *   node scripts/generate-avf-guides.cjs
  */
 const fs = require("fs");
@@ -376,22 +378,10 @@ ${urls.map((u) => `  <url><loc>${u}</loc><lastmod>${TODAY}</lastmod></url>`).joi
 `;
 }
 
-function robots() {
-  return `User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /dashboard.html
-Disallow: /crm
-
-Sitemap: ${SITE}/sitemap.xml
-`;
-}
-
 fs.mkdirSync(OUT, { recursive: true });
 GUIDES.forEach((g) => fs.writeFileSync(path.join(OUT, g.slug + ".html"), guidePage(g)));
 fs.writeFileSync(path.join(OUT, "index.html"), hubPage());
 fs.writeFileSync(path.join(ROOT, "sitemap.xml"), sitemap());
-fs.writeFileSync(path.join(ROOT, "robots.txt"), robots());
-console.log("Guides AVF : " + GUIDES.length + " pages + sommaire, sitemap et robots.txt écrits.");
+console.log("Guides AVF : " + GUIDES.length + " pages + sommaire et sitemap écrits.");
 
 module.exports = { GUIDES };
