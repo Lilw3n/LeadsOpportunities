@@ -44,7 +44,21 @@ const REGIONS = JSON.parse(fs.readFileSync(path.join(ROOT, "seo/france-regions.j
 // SEO local (décision 2026-10-26) : seules les pages géo du bassin nancéien (54) sont indexées.
 // Les autres villes / départements / régions restent en ligne mais en noindex,follow et hors sitemap.
 const LOCAL_GEO_KEEP = new Set(nancyBassin.allSlugs().concat(["meurthe-et-moselle", "grand-est"]));
-const VTC_GEO_KEEP = new Set(["paris", "ile-de-france"]); // priorité VTC Île-de-France
+// VTC = marché national : on garde indexées les villes où roulent les chauffeurs
+// (le reste du site prêt / santé / auto reste centré sur le bassin nancéien).
+const VTC_GEO_KEEP = new Set([
+  // Île-de-France
+  "paris", "ile-de-france", "seine-saint-denis", "hauts-de-seine", "val-de-marne", "val-d-oise",
+  "essonne", "yvelines", "seine-et-marne", "boulogne-billancourt", "saint-denis", "argenteuil",
+  "montreuil", "nanterre", "creteil", "versailles", "vitry-sur-seine",
+  // Grandes métropoles VTC
+  "lyon", "rhone", "marseille", "bouches-du-rhone", "nice", "cannes", "alpes-maritimes",
+  "toulouse", "haute-garonne", "bordeaux", "gironde", "lille", "nord", "strasbourg", "bas-rhin",
+  "nantes", "loire-atlantique", "montpellier", "herault", "rennes", "grenoble",
+  // Régions correspondantes
+  "auvergne-rhone-alpes", "provence-alpes-cote-d-azur", "occitanie", "nouvelle-aquitaine",
+  "hauts-de-france", "pays-de-la-loire", "bretagne",
+]);
 const GEO_CITY = new Set(CITIES.map(function (c) { return c.slug; }));
 const GEO_DEPT = new Set(DEPARTMENTS.map(function (d) { return d.slug; }));
 const GEO_REGION = new Set(REGIONS.map(function (r) { return r.slug; }));

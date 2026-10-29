@@ -152,7 +152,15 @@ function leadBucket(row) {
   });
   if (isManualLead(row, p) && cat.id !== "test") return { bucket: "prospects", reason: "Saisie CRM" };
   if (cat.id === "prospect" || cat.id === "named") return { bucket: "prospects", reason: cat.label };
-  if (cat.id === "abandon") return { bucket: "abandons", reason: cat.label };
+  if (cat.id === "abandon") {
+    // Score bas mais parcours pas quitté (ex. rappel express « Me rappeler ») : c'est un prospect
+    var f = p.funnel || {};
+    var quit = !!(f.abandonedAt || (row && (row.pipeline_stage === "abandoned" || row.status === "abandoned")));
+    if (!quit || p.callbackRequested || p.journey === "callback") {
+      return { bucket: "prospects", reason: "Contact laissé" };
+    }
+    return { bucket: "abandons", reason: cat.label };
+  }
   return { bucket: "bruit", reason: cat.label };
 }
 

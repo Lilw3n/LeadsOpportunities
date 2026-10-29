@@ -43,7 +43,13 @@
   }
 
   function getNeedFromUrl() {
-    return new URLSearchParams(window.location.search).get("need") || "";
+    var fromUrl = new URLSearchParams(window.location.search).get("need") || "";
+    if (fromUrl) return fromUrl;
+    // Sinon le besoin de la page (landing VTC, santé…) : sans ça, un rappel
+    // demandé depuis /landings/vtc.html arrivait au CRM en « general ».
+    var hidden = document.querySelector('form input[type="hidden"][name="need"]');
+    if (hidden && hidden.value) return hidden.value;
+    return (document.body && document.body.getAttribute("data-need")) || "";
   }
 
   function getService(need) {

@@ -151,7 +151,7 @@
       "Bonne nouvelle : on peut deja vous rappeler avec ce que vous avez saisi.",
       "Optique / dentaire / hopital : 1 minute de plus = devis vraiment utile.",
       "Presque la : votre profil sante aide a eviter une mutuelle trop chere.",
-      "Etape facultative — vous pouvez passer si vous etes presse(e).",
+      "Étape facultative — vous pouvez passer si vous êtes pressé(e).",
       "Adresse complete facultative : prenom + nom suffisent pour le rappel.",
       "Derniere etape : envoyez pour recevoir votre comparatif personnalise.",
     ],
@@ -312,7 +312,7 @@
       btnEarly = document.createElement("button");
       btnEarly.type = "button";
       btnEarly.className = "btn btn-soft wizard-early-finish";
-      btnEarly.textContent = "Etre rappele maintenant";
+      btnEarly.textContent = "Être rappelé maintenant";
       btnEarly.title = "Envoyer telephone + e-mail sans finir toutes les etapes";
       btnEarly.hidden = true;
       if (btnNext && btnNext.parentNode === actions) {
@@ -396,7 +396,7 @@
       var currentTitle = qs(form, ".wizard-current-title");
       if (currentTitle) {
         currentTitle.textContent =
-          "Etape " +
+          "Étape " +
           (idx + 1) +
           " sur " +
           steps.length +
@@ -422,7 +422,7 @@
       });
       var pct = ((idx + 1) / steps.length) * 100;
       if (bar) bar.style.width = pct + "%";
-      if (stepLabel) stepLabel.textContent = "Etape " + (idx + 1) + " / " + steps.length;
+      if (stepLabel) stepLabel.textContent = "Étape " + (idx + 1) + " / " + steps.length;
       updateStepChrome();
 
       if (benefitEl) {
