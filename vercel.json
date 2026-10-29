@@ -130,6 +130,56 @@
       "destination": "/assurance-vtc-france/devis.html"
     },
     {
+      "source": "/guide",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/guide/index.html"
+    },
+    {
+      "source": "/guide/",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/guide/index.html"
+    },
+    {
+      "source": "/guide/:slug",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/guide/:slug.html"
+    },
+    {
+      "source": "/sitemap.xml",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/sitemap.xml"
+    },
+    {
+      "source": "/robots.txt",
+      "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/robots.txt"
+    },
+    {
+      "source": "/guide",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/guide/index.html"
+    },
+    {
+      "source": "/guide/",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/guide/index.html"
+    },
+    {
+      "source": "/guide/:slug",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/guide/:slug.html"
+    },
+    {
+      "source": "/sitemap.xml",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/sitemap.xml"
+    },
+    {
+      "source": "/robots.txt",
+      "has": [{ "type": "host", "value": "www.assurancevtcfrance.com" }],
+      "destination": "/assurance-vtc-france/robots.txt"
+    },
+    {
       "source": "/styles.css",
       "has": [{ "type": "host", "value": "assurancevtcfrance.com" }],
       "destination": "/assurance-vtc-france/styles.css"

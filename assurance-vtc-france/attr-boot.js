@@ -12,19 +12,9 @@
 
   if (!isAvf()) return;
 
-  try {
-    var u = new URL(location.href);
-    if (!u.searchParams.get("utm_source")) {
-      u.searchParams.set("utm_source", "assurancevtcfrance");
-    }
-    if (!u.searchParams.get("utm_medium") && !u.searchParams.get("utm_campaign")) {
-      u.searchParams.set("utm_medium", "site");
-      u.searchParams.set("utm_campaign", "avf_organic");
-    }
-    if (u.href !== location.href) {
-      history.replaceState(null, "", u.pathname + u.search + u.hash);
-    }
-  } catch (e) {}
+  // Plus de réécriture d'URL (utm_source=assurancevtcfrance…) : elle remplaçait la vraie
+  // provenance (Google, Facebook…) dans GA4. Le site est reconnu par son nom de domaine
+  // dans landings/tracking.js, qui marque déjà les leads « assurancevtcfrance ».
 
   try {
     if (window.clarity) {

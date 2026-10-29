@@ -17,14 +17,20 @@
   <meta property="og:url" content="https://assurancevtcfrance.com/" />
   <meta property="og:image" content="https://www.leadsopportunities.fr/og/og-vtc.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <!-- Google tag (gtag.js) — GA4 assurancevtcfrance.com -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-85H2R0KDEN"></script>
+  <!-- GA4 assurancevtcfrance.com — mode consentement : rien n'est stocké avant « Tout accepter » -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    (function(){
+      var c = null;
+      try { c = localStorage.getItem("lo_cookie_consent_v1"); } catch (e) {}
+      var g = c && c !== "essential" ? "granted" : "denied";
+      gtag("consent", "default", { analytics_storage: g, ad_storage: g, ad_user_data: g, ad_personalization: g });
+    })();
     gtag('js', new Date());
     gtag('config', 'G-85H2R0KDEN');
   </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-85H2R0KDEN"></script>
   <script src="/api/google-config-env"></script>
   <script src="/google-config.js"></script>
   <script type="text/javascript">
@@ -47,8 +53,10 @@
   <script src="/assurance-vtc-france/attr-boot.js"></script>
   <script>try { localStorage.setItem('lo_form_journey', 'quick'); } catch (e) {}</script>
   <link rel="stylesheet" href="/assurance-vtc-france/styles.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"InsuranceAgency","name":"Assurance VTC France","url":"https://assurancevtcfrance.com/","parentOrganization":{"@type":"Organization","name":"Leads Opportunities","url":"https://www.leadsopportunities.fr/"},"areaServed":"FR","email":"contact@leadsopportunities.fr","knowsAbout":["Assurance VTC","RC transport de personnes à titre onéreux","RC professionnelle chauffeur"]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Le devis assurance VTC est-il gratuit ?","acceptedAnswer":{"@type":"Answer","text":"Oui, gratuit et sans engagement. Un conseiller spécialisé VTC compare plusieurs assureurs pour vous."}},{"@type":"Question","name":"Quelle attestation fournir à Uber, Bolt ou Heetch ?","acceptedAnswer":{"@type":"Answer","text":"Une attestation qui mentionne le transport de personnes à titre onéreux pour le véhicule utilisé, valide à la date du jour, et selon la plateforme une attestation de RC professionnelle."}},{"@type":"Question","name":"Je suis résilié ou malussé, puis-je m'assurer en VTC ?","acceptedAnswer":{"@type":"Answer","text":"Oui, des assureurs spécialisés acceptent ces profils, à un tarif adapté. Il faut fournir le relevé d'information et déclarer les sinistres."}}]}</script>
 </head>
-<body class="avf avf-home-vtc" data-market-intent="FR" data-site-domain="assurancevtcfrance.com" data-vertical="vtc">
+<body class="avf avf-home-vtc" data-market-intent="FR" data-site-domain="assurancevtcfrance.com" data-vertical="vtc" data-need="vtc">
   <header class="avf-hero avf-hero--form" role="banner">
     <div class="avf-top">
       <div class="avf-brand-block">
@@ -69,9 +77,6 @@
           <input type="hidden" name="journey" value="quick" />
           <input type="hidden" name="site_domain" value="assurancevtcfrance.com" />
           <input type="hidden" name="source" value="assurancevtcfrance" />
-          <input type="hidden" name="utm_source" value="assurancevtcfrance" />
-          <input type="hidden" name="utm_medium" value="site" />
-          <input type="hidden" name="utm_campaign" value="avf_home_vtc" />
           <input type="hidden" name="platform" value="assurancevtcfrance" />
           <div class="avf-hp" aria-hidden="true">
             <label>Ne pas remplir<input type="text" name="_hp" tabindex="-1" autocomplete="off" /></label>
@@ -111,6 +116,20 @@
           &nbsp;
           <a href="/landings/vtc.html?utm_source=assurancevtcfrance&utm_campaign=avf_full">Parcours complet (6 étapes)</a>
         </p>
+      </div>
+    </section>
+    <section class="avf-band avf-home-guides">
+      <div class="avf-section">
+        <h2>Guides assurance VTC</h2>
+        <p class="sub">Les questions que les chauffeurs nous posent avant de demander un devis.</p>
+        <div class="avf-guides">
+          <article><h3><a href="/guide/prix-assurance-vtc">Prix d'une assurance VTC</a></h3><p>Ce qui fait varier le tarif, et comment payer moins sans perdre la couverture.</p></article>
+          <article><h3><a href="/guide/attestation-uber-bolt-heetch">Attestation Uber, Bolt, Heetch</a></h3><p>Ce que les plateformes vérifient, et comment éviter la coupure de compte.</p></article>
+          <article><h3><a href="/guide/garanties-assurance-vtc">Garanties VTC</a></h3><p>L'obligatoire, l'utile, et les franchises à lire avant de signer.</p></article>
+          <article><h3><a href="/guide/assurance-vtc-resilie-malus">Résilié ou malussé</a></h3><p>Les étapes pour retrouver vite une attestation.</p></article>
+          <article><h3><a href="/guide/assurance-vtc-creation-activite">Démarrer en VTC</a></h3><p>À quel moment s'assurer quand on lance son activité.</p></article>
+        </div>
+        <p><a href="/guide/">Tous les guides</a></p>
       </div>
     </section>
   </main>

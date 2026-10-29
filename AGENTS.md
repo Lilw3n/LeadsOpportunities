@@ -17,6 +17,8 @@
 - **API APRIL** : `/crm-april.html` · OAuth2 API Store · `docs/APRIL-API.md` · `npm run verify:april-api` · secrets Vercel `PARTNER_APRIL_CLIENT_ID` / `PARTNER_APRIL_CLIENT_SECRET`
 - **Signature électronique gratuite (SES)** : `/crm-e-signature.html` · lien client `/landings/signature-electronique.html` · `docs/E-SIGNATURE-GRATUITE.md` · `npm run verify:e-signature`
 - **Google Workspace** : MX + DKIM + mails CRM + Drive miroir contact@ · `docs/GOOGLE-WORKSPACE-DNS.md` · `npm run verify:workspace-mail-drive`
+- **Guides SEO assurancevtcfrance.com** : `npm run avf:guides` → `/guide/…`, sitemap et robots.txt propres au domaine (règles host dans `vercel.json`)
+- **Campagnes Meta dans le CRM** : `/crm-pubs.html` → panneau « Campagnes Meta » (dépense, clics, visites, leads, pause/relance) · nécessite `META_ADS_TOKEN`
 - **Domaine niche VTC** : `assurancevtcfrance.com` — microsite `/assurance-vtc-france/` · DNS o2switch→Vercel `docs/ASSURANCE-VTC-FRANCE-DNS.md` · pubs `ads/meta-assurancevtcfrance.csv` · `npm run verify:assurance-vtc-france`
 - **n8n réseaux (0 €)** : ordinateur `n8n/demarrer.sh` · sinon Oracle Always Free `n8n/serveur.sh` · o2switch = DNS + mail seulement (`vault/Journal/o2switch.md`) · `docs/N8N-RESEAUX-GRATUIT.md` · `npm run verify:n8n-social`
 

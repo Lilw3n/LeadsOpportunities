@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Leads Opportunities website with Stripe serverless integration",
   "scripts": {
+    "avf:guides": "node scripts/generate-avf-guides.cjs",
     "seo:build": "node scripts/build-france-cities-json.cjs && node scripts/generate-assurances-niches-page.cjs && node scripts/generate-forum.cjs && node scripts/generate-seo-pages.cjs",
     "communes:build": "node scripts/build-france-communes.cjs",
     "verify:france-communes": "node scripts/verify-france-communes.cjs",
