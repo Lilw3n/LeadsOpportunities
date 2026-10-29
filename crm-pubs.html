@@ -30,6 +30,20 @@
 
   <div class="acq-stats" id="pubPolicy"></div>
 
+  <section class="panel pub-hub-section" id="metaCampaigns">
+    <div style="display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between">
+      <h2 style="margin:0">Campagnes Meta</h2>
+      <select id="metaCampaignsPreset" class="filter-select" aria-label="Période">
+        <option value="today">Aujourd'hui</option>
+        <option value="last_7d">7 derniers jours</option>
+        <option value="last_30d" selected>30 derniers jours</option>
+        <option value="this_month">Ce mois-ci</option>
+        <option value="maximum">Depuis le début</option>
+      </select>
+    </div>
+    <div id="metaCampaignsBody" style="margin-top:.75rem">Chargement…</div>
+  </section>
+
   <section class="panel pub-hub-section" id="metaStatus"></section>
 
   <section class="panel pub-hub-section" id="slackStatus"></section>
@@ -78,6 +92,7 @@
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-pubs.js"></script>
   <script src="./js/crm-ads-guard.js"></script>
+  <script src="./js/crm-meta-campaigns.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>
 </html>

@@ -57,6 +57,7 @@ const ROUTES = {
   "private-offer-match": () => require("../_lib/routes/crm-private-offer-match"),
   "meta-rotation": () => require("../_lib/routes/crm-meta-rotation"),
   "ads-guard": () => require("../_lib/routes/crm-ads-guard"),
+  "meta-campaigns": () => require("../_lib/routes/crm-meta-campaigns"),
   "meta-readiness": () => require("../_lib/routes/crm-meta-readiness"),
   "tariff-rates": () => require("../_lib/routes/crm-tariff-rates"),
   "calendar-sync": () => require("../_lib/routes/crm-calendar-sync"),
