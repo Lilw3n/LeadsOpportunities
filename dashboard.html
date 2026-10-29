@@ -2115,6 +2115,7 @@
             <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:600;white-space:nowrap">
               <input type="checkbox" id="soundNewLead" checked /> Son nouveau lead
             </label>
+            <button type="button" class="btn-lead-delete" id="purgeNoiseLeads" title="Supprime tous les leads sans e-mail ni téléphone. Les fiches avec un contact ou un interlocuteur restent.">Supprimer le bruit</button>
           </div>
           <div class="blocked-ips-bar" id="blockedIpsBar">
             <strong>IP bloquées</strong>
@@ -3697,6 +3698,68 @@
         else delete selectedLeadIds[id];
       });
       updateBulkBar();
+    });
+
+    document.getElementById("purgeNoiseLeads").addEventListener("click", async function () {
+      var btn = document.getElementById("purgeNoiseLeads");
+      btn.disabled = true;
+      try {
+      var preview = await D.api("/api/dashboard/lead-delete", {
+        method: "POST",
+        body: JSON.stringify({ purge: "no-contact", dryRun: true }),
+      });
+      if (!preview.ok) {
+        toast(preview.error || "Impossible de compter le bruit", "error");
+        return;
+      }
+      var total = Number(preview.total) || 0;
+      if (!total) {
+        toast("Aucun lead sans e-mail ni téléphone");
+        return;
+      }
+      var word = window.prompt(
+        total +
+          " lead(s) sans e-mail ni téléphone seront supprimés.\n\nLes leads qui ont un e-mail, un téléphone, ou une fiche interlocuteur sont conservés.\n\nTapez SUPPRIMER pour confirmer."
+      );
+      if (word !== "SUPPRIMER") {
+        toast("Suppression annulée", "error");
+        return;
+      }
+      var removed = 0;
+      var left = total;
+      var guard = 0;
+      while (left > 0 && guard < 40) {
+        guard += 1;
+        var batch = await D.api("/api/dashboard/lead-delete", {
+          method: "POST",
+          body: JSON.stringify({ purge: "no-contact" }),
+        });
+        if (!batch.ok) {
+          toast(batch.error || "Suppression interrompue", "error");
+          break;
+        }
+        var n = batch.deleted && batch.deleted.length ? batch.deleted.length : 0;
+        removed += n;
+        left = Number(batch.remaining) || 0;
+        if (!n) break;
+      }
+      selectedLeadIds = {};
+      try {
+        await loadLeads();
+        await loadStats();
+      } catch (loadErr) {
+        console.warn("refresh apres bruit", loadErr);
+      }
+      toast(
+        removed +
+          " lead(s) bruit supprimé(s)" +
+          (left > 0 ? " · " + left + " restant(s), relancez le bouton" : "")
+      );
+      } catch (e) {
+        toast("Connexion impossible", "error");
+      } finally {
+        btn.disabled = false;
+      }
     });
 
     document.getElementById("bulkDeleteLeads").addEventListener("click", async function() {
