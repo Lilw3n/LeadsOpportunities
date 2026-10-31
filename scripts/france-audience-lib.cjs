@@ -4,6 +4,7 @@
 const INTL_TOPIC_PATTERNS = [
   /\bworld cup\b/i,
   /\bworld\s+cup\b/i,
+  /\bus open\b/i,
   /\busa\b/i,
   /\bétats-unis\b/i,
   /\betats-unis\b/i,
