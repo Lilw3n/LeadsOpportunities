@@ -94,6 +94,14 @@
     return true;
   }
 
+  function defaultAuthHeaders() {
+    try {
+      var t = typeof localStorage !== "undefined" ? localStorage.getItem("lo_token") : "";
+      if (t) return { Authorization: "Bearer " + t };
+    } catch (e) {}
+    return {};
+  }
+
   function authFetch(url, opts, authHeadersFn) {
     opts = opts || {};
     var headers = Object.assign({}, opts.headers || {});
@@ -101,6 +109,9 @@
       headers = Object.assign(headers, authHeadersFn() || {});
     } else if (authHeadersFn && typeof authHeadersFn === "object") {
       headers = Object.assign(headers, authHeadersFn);
+    }
+    if (!headers.Authorization && !headers.authorization) {
+      headers = Object.assign(headers, defaultAuthHeaders());
     }
     return fetch(url, Object.assign({}, opts, { headers: headers, credentials: "same-origin" })).then(function (r) {
       return r.json().then(function (data) {
@@ -183,8 +194,10 @@
           return data;
         }
         var msg =
-          data.error ||
-          "Impossible d'ouvrir le dossier Drive. Vérifiez la configuration Google Drive.";
+          res.status === 401 || data.error === "Non authentifie" || data.error === "Non authentifié"
+            ? "Session CRM requise pour ouvrir Drive — reconnectez-vous (auth.html) puis réessayez."
+            : data.error ||
+              "Impossible d'ouvrir le dossier Drive. Vérifiez la configuration Google Drive.";
         if (data.setupUrl && window.confirm(msg + "\n\nOuvrir la page de configuration Drive ?")) {
           openUrl(data.setupUrl);
         } else {

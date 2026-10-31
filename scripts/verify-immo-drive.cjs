@@ -96,6 +96,45 @@ assert(html.indexOf("data-deposit-vente-mount") >= 0, "mount dossier vente dép�
 assert(html.indexOf("acheteur-immo-deposit-vente.js") >= 0, "script fusion dépôt/vente");
 assert(html.indexOf("immo-photo-compress-lib.js") >= 0, "compress lib chargée");
 
+var ficheLib = require("../api/_lib/immo-property-fiche-text");
+assert(typeof ficheLib.buildFicheContent === "function", "buildFicheContent exporté");
+var ficheTxt = ficheLib.buildFicheContent({
+  firstName: "Michèle",
+  lastName: "Haffner",
+  city: "Dombasle-sur-Meurthe",
+  postal_code: "54110",
+  rooms: 4,
+  surface_m2: 85,
+  sellDossier: {
+    roomDetails: [{ level: "RDC", name: "Séjour", surface: "28", flooring: "Parquet", exposure: "S" }],
+    owners: [{ firstName: "Michèle", lastName: "Haffner", phone: "0612345678" }],
+  },
+});
+assert(/Séjour/.test(ficheTxt) && /28 m²/.test(ficheTxt), "fiche texte contient le détail pièces");
+assert(/Haffner/.test(ficheTxt), "fiche texte contient le client");
+assert(ficheLib.FICHE_NAME === "00_fiche_bien.txt", "nom fichier fiche Drive");
+
+var listingSubmit2 = read("api/_lib/routes/public-immo-listing-submit.js");
+assert(listingSubmit2.indexOf("immo-property-fiche-drive") >= 0, "listing-submit écrit la fiche bien sur Drive");
+
+var driveFolder = read("api/_lib/routes/crm-drive-folder.js");
+assert(driveFolder.indexOf("immo-property-fiche-drive") >= 0, "ouverture Drive CRM met à jour la fiche bien");
+assert(
+  read("api/_lib/immo-property-fiche-drive.js").indexOf("syncPropertyFicheToDrive") >= 0,
+  "syncPropertyFicheToDrive dans le module Drive"
+);
+
+var qTools = read("js/crm-questionnaire-tools.js");
+assert(qTools.indexOf("defaultAuthHeaders") >= 0, "Drive CRM : jeton lo_token par défaut");
+assert(qTools.indexOf('localStorage.getItem("lo_token")') >= 0, "fallback Authorization Bearer");
+
+var contactJs = read("crm-contact.js");
+assert(contactJs.indexOf("authHeaders: authHeaders") >= 0, "fiche interlocuteur passe le jeton au bouton Drive");
+
+var contactHtml = read("crm-contact.html");
+assert(contactHtml.indexOf("crm-questionnaire-tools.js?v=20260826driveauth1") >= 0, "cache-bust questionnaire-tools");
+assert(contactHtml.indexOf("crm-contact.js?v=20260826driveauth1") >= 0, "cache-bust crm-contact.js");
+
 var tracking = read("landings/tracking.js");
 assert(tracking.indexOf("SellPhotosState") >= 0, "tracking envoie photos après lead");
 
