@@ -158,15 +158,82 @@ function sanitizeNamePart(s, max) {
  * Dossier visible humain : Nom_Prenom (éventuellement + téléphone si homonyme).
  * L’identifiant technique ct_… va dans un SOUS-dossier.
  */
-function buildContactPersonFolderName(firstName, lastName, phone) {
-  var last = sanitizeNamePart(lastName, 28);
-  var first = sanitizeNamePart(firstName, 24);
+function isPlaceholderPersonNamePart(s) {
+  var v = String(s || "").trim().toLowerCase();
+  if (!v) return true;
+  return (
+    v === "dossier" ||
+    v === "provisoire" ||
+    v === "prospect" ||
+    v === "client" ||
+    v === "admin" ||
+    v === "controle" ||
+    v === "contrôle"
+  );
+}
+
+function buildContactPersonFolderName(firstName, lastName, phone, email) {
+  var last = isPlaceholderPersonNamePart(lastName) ? "" : sanitizeNamePart(lastName, 28);
+  var first = isPlaceholderPersonNamePart(firstName) ? "" : sanitizeNamePart(firstName, 24);
   var parts = [last, first].filter(Boolean);
   if (!parts.length) {
     var tel = String(phone || "").replace(/\D/g, "").slice(-10);
-    return tel ? "Client_" + tel : "Client";
+    if (tel) return "Dossier_" + tel;
+    var mailLocal = String(email || "")
+      .split("@")[0]
+      .replace(/[^\w\-]+/g, "_")
+      .slice(0, 24);
+    if (mailLocal) return "Dossier_" + mailLocal;
+    return "Dossier_provisoire";
   }
   return parts.join("_").slice(0, 64);
+}
+
+/**
+ * Renomme le dossier personne (parent de « Id contact : ct_xxx »)
+ * quand le nom / tél a été mis à jour (ex. Dossier_provisoire → Dupont_Marie).
+ */
+async function maybeRenamePersonFolder(contactId, opts) {
+  opts = opts || {};
+  const token = opts.token || (await getDriveToken());
+  const sql = getSql();
+  if (!token || !sql || !contactId) return { ok: false };
+  var c = opts.contact;
+  if (!c) {
+    const rows = await sql`
+      SELECT id, first_name, last_name, phone, email, drive_folder_id
+      FROM crm_contacts WHERE id = ${contactId} LIMIT 1
+    `;
+    if (!rows.length) return { ok: false, error: "not_found" };
+    c = rows[0];
+  }
+  if (!c.drive_folder_id) return { ok: false, error: "no_folder" };
+  const wanted = buildContactPersonFolderName(c.first_name, c.last_name, c.phone, c.email);
+  const idMeta = opts.idFolderMeta || (await driveGetFile(token, c.drive_folder_id));
+  if (!idMeta || idMeta.trashed) return { ok: false, error: "missing_id_folder" };
+  var parents = idMeta.parents || [];
+  if (!parents.length) return { ok: false, error: "no_parent" };
+  const personMeta = await driveGetFile(token, parents[0]);
+  if (!personMeta) return { ok: false, error: "missing_person_folder" };
+  if (/^\d{4}$/.test(String(personMeta.name || ""))) {
+    return { ok: false, error: "parent_is_year" };
+  }
+  if (personMeta.name === wanted) {
+    return { ok: true, renamed: false, name: wanted, personFolderId: personMeta.id };
+  }
+  try {
+    await driveRename(token, personMeta.id, wanted);
+    return {
+      ok: true,
+      renamed: true,
+      from: personMeta.name,
+      to: wanted,
+      personFolderId: personMeta.id,
+    };
+  } catch (e) {
+    console.warn("[drive-folders] rename person folder", e.message);
+    return { ok: false, error: e.message };
+  }
 }
 
 /** Identifiant brut crm_contacts.id (préfixe ct_ = contact, pas lead ni questionnaire). */
@@ -296,7 +363,7 @@ async function ensureYearFolder(token, rootId) {
  */
 async function createContactFolderTree(token, rootId, contact) {
   const yearFolder = await ensureYearFolder(token, rootId);
-  const personLabel = buildContactPersonFolderName(contact.first_name, contact.last_name, contact.phone);
+  const personLabel = buildContactPersonFolderName(contact.first_name, contact.last_name, contact.phone, contact.email);
   const personFolder = await findChildFolder(token, yearFolder.id, personLabel);
   const idFolder = await ensureContactIdFolder(token, personFolder.id, contact.id);
   const idLabel = idFolder.name || buildContactIdFolderName(contact.id);
@@ -391,11 +458,23 @@ async function ensureClientDriveFolders(contactId) {
           console.warn("[drive-folders] rename existing Id contact", renErr.message);
         }
       }
+      var renamedPerson = null;
+      try {
+        renamedPerson = await maybeRenamePersonFolder(contactId, {
+          token: token,
+          contact: c,
+          idFolderMeta: meta,
+        });
+      } catch (personRenErr) {
+        console.warn("[drive-folders] rename person folder", personRenErr.message);
+      }
       var existing = await resolveFolderWebLink(c.drive_folder_id, { share: true });
       return {
         ok: true,
         folderId: c.drive_folder_id,
         existing: true,
+        personFolderName: (renamedPerson && (renamedPerson.to || renamedPerson.name)) || null,
+        renamed: !!(renamedPerson && renamedPerson.renamed),
         webViewLink: existing.webViewLink || meta.webViewLink || null,
       };
     }
@@ -484,6 +563,7 @@ module.exports = {
   DOC_TYPE_SUBFOLDER,
   ensureContactsDriveSchema,
   ensureClientDriveFolders,
+  maybeRenamePersonFolder,
   resolveContactUploadFolderId,
   resolveContactSubfolderId,
   resolveContactDocTypeFolderId,

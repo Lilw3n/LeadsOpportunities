@@ -21,7 +21,7 @@
     var steps = form.querySelectorAll(".wizard-step");
     if (!steps.length) return null;
     var prefer = form.querySelector(
-      '[data-step-name="coordonnees"], [data-step-name="contact"], [data-step-name="finalize"], [data-step-name="validation"]'
+      '[data-step-name="contact"], [data-step-name="finalize"], [data-step-name="validation"]'
     );
     if (prefer) return prefer;
     return steps[steps.length - 1];
