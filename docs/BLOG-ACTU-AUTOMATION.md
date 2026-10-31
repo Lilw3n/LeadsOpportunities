@@ -56,15 +56,29 @@ Les candidats Google News restent en secours, mais ne remplacent plus les 3 plat
 # 1 article (rotation cafeyn/edge/firefox selon l'heure)
 npm run blog:actu:auto
 
+# Mode leads strict : score minimum + controle qualite
+npm run blog:leads:auto
+
 # Les 3 plateformes en une fois (recommandé pour test)
 npm run blog:actu:auto -- --count=3
 
 # Test sans écrire
-npm run blog:actu:auto -- --dry-run
+npm run blog:leads:dry-run -- --count=3
 
 # Sans clé IA (texte enrichi par niche)
 npm run blog:actu:auto -- --no-ai
 ```
+
+### Réglage fréquence / volume
+
+Le cron reste à 5 passages par jour, mais le volume peut être piloté sans modifier le YAML :
+
+| Réglage | Défaut | Rôle |
+|---------|--------|------|
+| `BLOG_ACTU_COUNT` | `1` | Nombre d'articles par passage, borné à 5 |
+| `BLOG_ACTU_MIN_LEAD_SCORE` | `35` | Score minimum pour publier un sujet automatiquement |
+
+Les articles ajoutés manuellement dans la file (`status: queued`) restent prioritaires, même sous le seuil, car ils ont déjà été sélectionnés.
 
 ### GitHub Actions — 5× par jour
 
@@ -73,6 +87,7 @@ Workflow : **`.github/workflows/blog-actu-auto.yml`**
 - Cron UTC : `6h, 9h, 12h, 15h, 18h` (≈ 5 publications/jour)
 - Déclenchement manuel : onglet **Actions** → *Blog actu auto* → *Run workflow*
 - Commit automatique sur `main` si nouveaux articles
+- Variables optionnelles : `BLOG_ACTU_COUNT` et `BLOG_ACTU_MIN_LEAD_SCORE`
 
 **Secrets à configurer** (Settings → Secrets → Actions) :
 

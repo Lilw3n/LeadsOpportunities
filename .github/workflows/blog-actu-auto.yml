@@ -10,6 +10,10 @@ on:
         description: "Nombre d'articles (1-5)"
         required: false
         default: "1"
+      min_lead_score:
+        description: "Score lead minimum (0-100, sauf file prioritaire)"
+        required: false
+        default: "35"
 
 concurrency:
   group: blog-actu-auto
@@ -55,8 +59,9 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           STRICT_ACTU_QUALITY: "1"
         run: |
-          COUNT="${{ github.event.inputs.count || '1' }}"
-          npm run blog:actu:auto -- --count="$COUNT" --strict-quality
+          COUNT="${{ github.event.inputs.count || vars.BLOG_ACTU_COUNT || '1' }}"
+          MIN_LEAD_SCORE="${{ github.event.inputs.min_lead_score || vars.BLOG_ACTU_MIN_LEAD_SCORE || '35' }}"
+          npm run blog:actu:auto -- --count="$COUNT" --min-lead-score="$MIN_LEAD_SCORE" --strict-quality
 
       - name: Commit and push if changed
         run: |
