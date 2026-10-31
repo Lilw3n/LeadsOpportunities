@@ -66,6 +66,35 @@ npm run blog:actu:auto -- --dry-run
 npm run blog:actu:auto -- --no-ai
 ```
 
+## Articles evergreen pour leads reguliers
+
+En complement des articles d'actualite, un pipeline evergreen publie des guides a forte intention commerciale (mutuelle senior, PNO, auto resilie, emprunteur avec risque de sante, RC Pro, VTC, animaux...).
+
+```bash
+# 1 article evergreen oriente lead
+npm run blog:leads:auto
+
+# Jusqu'a 3 articles en une execution
+npm run blog:leads:auto -- --count=3
+
+# Cibler une section
+npm run blog:leads:auto -- --section=sante
+
+# Tester sans ecrire
+npm run blog:leads:auto -- --dry-run
+```
+
+Fichiers :
+
+| Fichier | Role |
+|---------|------|
+| `data/blog-lead-topics.json` | Calendrier de sujets evergreen a forte intention lead |
+| `data/blog-lead-state.json` | Suivi rotation, sujets publies et fichiers generes |
+| `scripts/auto-lead-articles.cjs` | Orchestrateur evergreen |
+| `.github/workflows/blog-leads-auto.yml` | Cron lundi/mercredi/vendredi a 07:30 UTC |
+
+Chaque article utilise le meme rendu blog que l'actu, un bloc `{ type: "bridge" }`, des CTA questionnaire et `utm_medium=lead_evergreen` pour distinguer les conversions dans GA4/Clarity/CRM.
+
 ### GitHub Actions — 5× par jour
 
 Workflow : **`.github/workflows/blog-actu-auto.yml`**
