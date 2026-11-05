@@ -26,6 +26,7 @@
     var PAGE_META = {
       "crm-acquisition.html": { subtitle: "Leads Google, Meta, TikTok, Instagram, Allo — tri, assignation, archivage" },
       "crm-leads.html": { subtitle: "Lead → prospect / interlocuteur — fusion, liaison, spam IP, validation admin" },
+      "crm-leads-import.html": { subtitle: "Leads importés à traiter — anciens clients et devis non signés, relance avant échéance" },
       "crm-sources.html": { subtitle: "Attribution UTM — plateforme, campagne, gclid, fbclid, ttclid" },
       "crm-appels.html": { subtitle: "Journal Free (numéro, durée) + transcript informé — pas d’audio Free" },
       "crm-pubs.html": { subtitle: "Liens Ads Manager Meta, Google, TikTok — campagne active et formulaires" },

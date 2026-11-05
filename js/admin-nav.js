@@ -46,7 +46,7 @@
     if (path === "index.html" || path === "") return "home";
     if (path === "admin.html") return "admin";
     if (path === "auth.html") return "auth";
-    if (path === "crm-leads.html") return "leads";
+    if (path === "crm-leads.html" || path === "crm-leads-import.html") return "leads";
     if (path === "crm-acquisition.html") return "crm-acquisition";
     if (path === "crm-mobile.html") return "crm-mobile";
     if (path === "crm.html" || path.indexOf("crm") === 0) return "crm";
