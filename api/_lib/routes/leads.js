@@ -3,7 +3,7 @@ const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
 const { parseLeadListFilters, enrichLeadRow, decorateLeadChannel } = require("../leads-filters");
 
 /** Fenêtre classée côté application (onglets prospects / abandons / bruit, canal) */
-const BUCKET_WINDOW = 2000;
+const BUCKET_WINDOW = 1000;
 const VALID_BUCKETS = ["prospects", "abandons", "bruit", "tous"];
 const VALID_CHANNELS = ["pub", "seo", "social", "email", "referral", "partner", "manual", "direct"];
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
@@ -401,6 +401,8 @@ module.exports = async (req, res) => {
   var channelRaw = String(url.searchParams.get("channel") || "").toLowerCase();
   const channelVal = VALID_CHANNELS.indexOf(channelRaw) >= 0 ? channelRaw : "";
   const windowMode = Boolean(bucketVal || channelVal);
+  /** light=1 : la liste seule, sans relire les 1 500 leads des panneaux */
+  const light = url.searchParams.get("light") === "1";
 
   try {
     const { neon } = require("@neondatabase/serverless");
@@ -419,15 +421,19 @@ module.exports = async (req, res) => {
     }
     var qSource = result.rows;
     var questionnaireCapped = false;
-    try {
-      qSource = await fetchQuestionnaireCandidates(sql, queryOpts);
-      questionnaireCapped = qSource.length >= 1500;
-    } catch (qErr) {
-      console.warn("[dashboard/leads] questionnaire window", qErr.message);
-      qSource = result.rows;
+    var summary = null;
+    var callQueue = null;
+    if (!light) {
+      try {
+        qSource = await fetchQuestionnaireCandidates(sql, queryOpts);
+        questionnaireCapped = qSource.length >= 1500;
+      } catch (qErr) {
+        console.warn("[dashboard/leads] questionnaire window", qErr.message);
+        qSource = result.rows;
+      }
+      summary = summarizeQuestionnaireLeads(qSource, clickMap);
+      callQueue = buildCallQueue(qSource, clickMap);
     }
-    const summary = summarizeQuestionnaireLeads(qSource, clickMap);
-    const callQueue = buildCallQueue(qSource, clickMap);
     var allRows = result.rows.map(function (row) {
       return decorateLeadChannel(decorateLeadArticle(enrichLeadRow(row), clickMap));
     });
@@ -454,10 +460,11 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       ok: true,
       leads,
-      questionnaire_total: summary.questionnaire_total,
+      light: light,
+      questionnaire_total: summary ? summary.questionnaire_total : undefined,
       questionnaire_capped: questionnaireCapped,
-      lead_articles: summary.articles,
-      call_queue: callQueue,
+      lead_articles: summary ? summary.articles : undefined,
+      call_queue: callQueue || undefined,
       bucket: bucketVal || null,
       bucket_counts: bucketCounts,
       channel_counts: channelCounts,
