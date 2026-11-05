@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Leads importés à traiter | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./crm-leads.css" />
+  <style>
+    .li-drop { border: 2px dashed var(--line, #cbd5e1); border-radius: 14px; padding: 16px; background: #fff; }
+    .li-drop textarea { width: 100%; min-height: 90px; font-family: ui-monospace, monospace; font-size: .78rem; }
+    .li-row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .li-due--soon { color: #b45309; font-weight: 700; }
+    .li-due--late { color: #b91c1c; font-weight: 700; }
+    .li-warn { color: #b45309; font-size: .72rem; }
+    .li-notes { width: 100%; min-width: 160px; font-size: .78rem; }
+    .lh-badge--client { background: #dcfce7; color: #166534; }
+    .lh-badge--prospect { background: #e0e7ff; color: #3730a3; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Relance</p>
+      <h1 style="margin:0">Leads importés à traiter</h1>
+      <p>Anciens clients et devis non signés importés depuis vos fichiers (Google Sheets, Excel). Triés par <strong>prochaine échéance</strong> : relancez avant la date de résiliation, proposez un meilleur tarif et les autres produits (santé, prévoyance, RC Pro, habitation, crédit). Ces leads restent séparés des leads du site pour ne pas fausser les stats pubs.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-leads.html" class="btn btn-ghost">Leads du site</a>
+      <a href="./dashboard.html?section=leads" class="btn btn-ghost">Liste complète</a>
+    </div>
+  </section>
+
+  <section class="panel li-drop">
+    <h2>Importer un fichier</h2>
+    <p class="muted">Google Sheets → Fichier → Télécharger → <strong>CSV</strong>, puis choisissez le fichier. Ou copiez les cellules (Ctrl+A, Ctrl+C) et collez-les ici. Le format « export projets / contrats souscrits » est reconnu automatiquement ; les e-mails d'autres courtiers sont mis de côté.</p>
+    <input type="file" id="liFile" accept=".csv,.tsv,.txt" />
+    <textarea id="liPaste" class="crm-input" placeholder="…ou collez ici les cellules copiées"></textarea>
+    <div class="crm-action-row">
+      <input type="text" id="liBatch" class="crm-input" placeholder="Nom du lot (ex. Contrats février 2025)" style="max-width:320px" />
+      <button type="button" class="btn btn-ghost" id="liPreview">Analyser</button>
+      <button type="button" class="btn btn-primary" id="liImport" disabled>Importer</button>
+    </div>
+    <p id="liPreviewInfo" class="muted"></p>
+  </section>
+
+  <div class="acq-stats" id="liKpis"></div>
+
+  <div class="crm-toolbar acq-toolbar lh-toolbar">
+    <input type="search" id="liSearch" class="crm-input" placeholder="Nom, email, téléphone…" />
+    <select id="liSegment" class="crm-input">
+      <option value="">Tous</option>
+      <option value="client">Clients signés</option>
+      <option value="prospect">Devis non signés</option>
+    </select>
+    <select id="liStatus" class="crm-input"><option value="">Tous statuts</option></select>
+    <select id="liReach" class="crm-input">
+      <option value="">Tous</option>
+      <option value="email">Avec e-mail perso</option>
+      <option value="phone">Avec téléphone</option>
+      <option value="none">Injoignables</option>
+    </select>
+    <button type="button" class="btn btn-ghost" id="liCopyEmails">Copier les e-mails (Cci)</button>
+    <button type="button" class="btn btn-ghost" id="liExport">Export CSV</button>
+    <button type="button" class="btn btn-ghost" id="liRefresh">Actualiser</button>
+  </div>
+
+  <div id="liTable" class="lh-table-wrap"></div>
+
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-leads-import.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
