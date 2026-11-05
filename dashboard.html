@@ -3269,6 +3269,8 @@
     });
 
     // LOAD LEADS
+    var leadPanelsKey = null;
+
     /** Onglet actif : prospects (défaut) | abandons | bruit | tous */
     var currentBucket = (function () {
       try {
@@ -3322,7 +3324,7 @@
             );
           })
           .join(" · ") +
-        (capped ? " <em>(sur les 2 000 derniers leads)</em>" : "");
+        (capped ? " <em>(sur les 1 000 derniers leads)</em>" : "");
     }
 
     function leadChannelCell(l) {
@@ -3373,6 +3375,9 @@
       if (search) params += "&search=" + encodeURIComponent(search);
       if (ipFilter) params += "&ip=" + encodeURIComponent(ipFilter);
       if (scoreMin) params += "&scoreMin=" + encodeURIComponent(scoreMin);
+      // Les panneaux « à rappeler » et « articles » lisent 1 500 leads : pas à chaque onglet ou page
+      var panelsKey = [status, vertical, search, view, platform, ipFilter, scoreMin].join("|");
+      if (panelsKey === leadPanelsKey) params += "&light=1";
       params += "&bucket=" + encodeURIComponent(currentBucket);
       var channelEl = document.getElementById("filterChannel");
       if (channelEl && channelEl.value) params += "&channel=" + encodeURIComponent(channelEl.value);
@@ -3390,14 +3395,17 @@
       }
 
       try {
-        leadArticleSummary = {
-          total: data.questionnaire_total != null ? Number(data.questionnaire_total) : 0,
-          capped: !!data.questionnaire_capped,
-          articles: data.lead_articles || [],
-        };
-        renderLeadArticles(leadArticleSummary.articles);
+        if (!data.light) {
+          leadPanelsKey = panelsKey;
+          leadArticleSummary = {
+            total: data.questionnaire_total != null ? Number(data.questionnaire_total) : 0,
+            capped: !!data.questionnaire_capped,
+            articles: data.lead_articles || [],
+          };
+          renderLeadArticles(leadArticleSummary.articles);
+          renderCallQueue(data.call_queue || []);
+        }
         renderLeadBuckets(data.bucket_counts || {}, data.channel_counts || {}, !!data.window_capped);
-        renderCallQueue(data.call_queue || []);
         tbody.innerHTML = "";
         var leadsList = data.leads || [];
         if (visitorCatFilter) {
@@ -3551,6 +3559,7 @@
         if (data.newSince > 0) {
           playNewLeadSound();
           toast("Nouveau lead reçu (" + data.newSince + ")");
+          leadPanelsKey = null;
           loadLeads();
           loadStats();
         }
@@ -4413,7 +4422,13 @@
         return;
       }
       await loadStats();
-      setInterval(pollNewLeads, 5000);
+      // 60 s et onglet visible : à 5 s, un onglet oublié gardait la base réveillée jour et nuit
+      setInterval(function () {
+        if (!document.hidden) pollNewLeads();
+      }, 60000);
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden) pollNewLeads();
+      });
     }
 
     bootstrap();
