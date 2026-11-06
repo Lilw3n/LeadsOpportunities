@@ -24,6 +24,23 @@
 
 
 
+  /** Numéro bien visible + bouton d'appel, ou « pas de téléphone » */
+  function phoneHtml(phone) {
+    if (!phone) return '<div class="result-meta">pas de téléphone</div>';
+    return (
+      '<div><strong>' + esc(phone) + '</strong> <a class="btn btn-ghost btn-sm" href="tel:' +
+      esc(String(phone).replace(/[^\d+]/g, "")) + '">Appeler</a></div>'
+    );
+  }
+
+  function leadRow(name, href, phone, meta) {
+    return (
+      '<div class="result-row"><div><a href="' + esc(href) + '">' + esc(name) +
+      '</a><div class="result-meta">' + esc(meta.filter(Boolean).join(" · ")) + "</div></div>" +
+      phoneHtml(phone) + "</div>"
+    );
+  }
+
   function contactName(c) {
 
     return ((c.first_name || "") + " " + (c.last_name || "")).trim() || c.email || "Contact";
@@ -144,7 +161,11 @@
 
                   esc(c.email || "—") +
 
-                  "</div></div></div>"
+                  "</div></div>" +
+
+                  phoneHtml(c.phone) +
+
+                  "</div>"
 
                 );
 
@@ -302,6 +323,34 @@
 
 
 
+        if (r.imported && r.imported.length) {
+          html += section(
+            "Leads importés (" + r.imported.length + ")",
+            r.imported.map(function (l) {
+              return leadRow(
+                l.full_name || l.email || "Sans nom",
+                "./crm-leads-import.html?q=" + encodeURIComponent(l.full_name || l.email || l.phone || ""),
+                l.phone,
+                [l.segment === "client" ? "Client signé" : "Devis non signé", l.product, l.email, l.batch]
+              );
+            }).join("")
+          );
+        }
+
+        if (r.leads && r.leads.length) {
+          html += section(
+            "Leads du site (" + r.leads.length + ")",
+            r.leads.map(function (l) {
+              return leadRow(
+                l.name || l.email || l.phone || "Sans nom",
+                "./dashboard.html?section=leads&bucket=tous",
+                l.phone,
+                [l.vertical, l.email, l.source, l.created_at ? String(l.created_at).slice(0, 10) : ""]
+              );
+            }).join("")
+          );
+        }
+
         if (r.drivers && r.drivers.length) {
 
           html += section(
@@ -423,6 +472,13 @@
   }
 
   paintRecent();
+
+  // Lien « Chercher le numéro » depuis les leads importés : crm-search.html?q=…
+  var qFromUrl = new URLSearchParams(location.search).get("q");
+  if (qFromUrl) {
+    document.getElementById("searchQ").value = qFromUrl;
+    search();
+  }
 
   document.getElementById("searchEntity").onchange = function () {
 

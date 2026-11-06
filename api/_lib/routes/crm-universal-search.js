@@ -5,6 +5,37 @@ const { applyApiGuards, sanitizeSearch } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 
+const ACCENTS = "àâäáãéèêëîïíôöóõùûüúçñ";
+const PLAIN = "aaaaaeeeeiiioooouuuucn";
+
+/** « Sébastien LAUZIS » → ["sebastien", "lauzis"] : ordre et accents indifférents */
+function nameTokens(q) {
+  return String(q)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .split(/[\s,;]+/)
+    .filter(Boolean)
+    .slice(0, 5);
+}
+
+function payloadObject(raw) {
+  if (raw && typeof raw === "object") return raw;
+  try {
+    return JSON.parse(raw) || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function leadName(p) {
+  var name = [p.firstName || p.first_name || p.prenom, p.lastName || p.last_name || p.nom]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+  return String(name || p.fullName || p.full_name || p.name || "").slice(0, 120);
+}
+
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
@@ -27,9 +58,10 @@ module.exports = async (req, res) => {
   const digitPattern = digits.length >= 6 ? "%" + digits + "%" : null;
   const scope = contactScopeFilter(user);
   const limit = 15;
+  const tokens = nameTokens(q);
 
   try {
-    const results = { contacts: [], vehicles: [], contracts: [], claims: [], drivers: [] };
+    const results = { contacts: [], vehicles: [], contracts: [], claims: [], drivers: [], imported: [], leads: [] };
 
     if (entity === "all" || entity === "contacts") {
       results.contacts = await sql`
@@ -39,9 +71,14 @@ module.exports = async (req, res) => {
           AND (
             LOWER(COALESCE(email,'')) LIKE LOWER(${pattern})
             OR LOWER(COALESCE(phone,'')) LIKE LOWER(${pattern})
-            ${digitPattern ? sql`OR regexp_replace(COALESCE(phone,''), '[^0-9]', '', 'g') LIKE ${digitPattern}` : sql``}
+            OR (${digitPattern}::text IS NOT NULL AND regexp_replace(COALESCE(phone,''), '[^0-9]', '', 'g') LIKE ${digitPattern})
             OR LOWER(COALESCE(first_name,'') || ' ' || COALESCE(last_name,'')) LIKE LOWER(${pattern})
             OR LOWER(COALESCE(company,'')) LIKE LOWER(${pattern})
+            OR NOT EXISTS (
+              SELECT 1 FROM unnest(${tokens}::text[]) t
+              WHERE translate(LOWER(COALESCE(first_name,'') || ' ' || COALESCE(last_name,'') || ' ' || COALESCE(company,'')), ${ACCENTS}, ${PLAIN})
+                NOT LIKE '%' || t || '%'
+            )
           )
         ORDER BY updated_at DESC
         LIMIT ${limit}
@@ -110,7 +147,62 @@ module.exports = async (req, res) => {
       `;
     }
 
+    // Leads importés (fichiers de contrats / devis) : même accès que la page crm-leads-import
+    if (entity === "all" || entity === "leads") {
+      try {
+        results.imported = await sql`
+          SELECT id, full_name, email, phone, product, segment, batch, status
+          FROM imported_leads
+          WHERE (${digitPattern}::text IS NOT NULL AND regexp_replace(COALESCE(phone,''), '[^0-9]', '', 'g') LIKE ${digitPattern}) OR
+            NOT EXISTS (
+              SELECT 1 FROM unnest(${tokens}::text[]) t
+              WHERE translate(LOWER(COALESCE(full_name,'') || ' ' || COALESCE(email,'') || ' ' || COALESCE(phone,'')), ${ACCENTS}, ${PLAIN})
+                NOT LIKE '%' || t || '%'
+            )
+          ORDER BY full_name ASC
+          LIMIT ${limit}
+        `;
+      } catch (importErr) {
+        console.warn("[crm/universal-search] imported_leads", importErr.message);
+      }
+
+      // Leads du site : le nom est dans le formulaire (payload). Réservé à qui voit tout le CRM.
+      if (scope == null) {
+        try {
+          const rows = await sql`
+            SELECT id, created_at, email, phone, vertical, source, status, payload
+            FROM site_leads
+            WHERE (${digitPattern}::text IS NOT NULL AND regexp_replace(COALESCE(phone,''), '[^0-9]', '', 'g') LIKE ${digitPattern}) OR
+              NOT EXISTS (
+                SELECT 1 FROM unnest(${tokens}::text[]) t
+                WHERE translate(LOWER(COALESCE(email,'') || ' ' || COALESCE(phone,'') || ' ' || COALESCE(payload::text,'')), ${ACCENTS}, ${PLAIN})
+                  NOT LIKE '%' || t || '%'
+              )
+            ORDER BY created_at DESC
+            LIMIT ${limit}
+          `;
+          results.leads = rows.map(function (r) {
+            const p = payloadObject(r.payload);
+            return {
+              id: r.id,
+              created_at: r.created_at,
+              name: leadName(p),
+              email: r.email || p.email || "",
+              phone: r.phone || p.phone || p.telephone || "",
+              vertical: r.vertical,
+              source: r.source,
+              status: r.status,
+            };
+          });
+        } catch (leadErr) {
+          console.warn("[crm/universal-search] site_leads", leadErr.message);
+        }
+      }
+    }
+
     const total =
+      results.imported.length +
+      results.leads.length +
       results.contacts.length +
       results.vehicles.length +
       results.contracts.length +
