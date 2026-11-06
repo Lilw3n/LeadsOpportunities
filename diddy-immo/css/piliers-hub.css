@@ -1,0 +1,682 @@
+/* Hubs piliers publics — Assurance / Immo / Prêt / Banque / Finance */
+.pilier-page {
+  --pilier-accent: #0d9488;
+  --pilier-soft: #ccfbf1;
+  --pilier-ink: #0f172a;
+  --pilier-media: none;
+  margin: 0;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  color: var(--pilier-ink);
+  background: #f1f5f9;
+  line-height: 1.6;
+}
+.pilier-page--assurance {
+  --pilier-accent: #0d9488;
+  --pilier-soft: #ccfbf1;
+  --pilier-media: url("../assets/piliers/pilier-assurance.jpg");
+}
+.pilier-page--immobilier {
+  --pilier-accent: #0369a1;
+  --pilier-soft: #e0f2fe;
+  --pilier-media: url("../assets/piliers/pilier-immobilier.jpg");
+}
+.pilier-page--pret {
+  --pilier-accent: #4338ca;
+  --pilier-soft: #e0e7ff;
+  --pilier-media: url("../assets/piliers/pilier-credit.jpg");
+}
+.pilier-page--banque {
+  --pilier-accent: #0f766e;
+  --pilier-soft: #ccfbf1;
+  --pilier-media: url("../assets/piliers/pilier-banque.jpg");
+}
+.pilier-page--finance {
+  --pilier-accent: #b45309;
+  --pilier-soft: #fef3c7;
+  --pilier-media: url("../assets/piliers/pilier-finance.jpg");
+}
+
+.pilier-wrap {
+  width: min(1180px, 94vw);
+  margin: 0 auto;
+  padding: 28px 0 72px;
+}
+
+.pilier-section-title {
+  margin: 0 0 16px;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+
+.pilier-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0 0 32px;
+}
+@media (max-width: 720px) {
+  .pilier-grid { grid-template-columns: 1fr; }
+}
+
+.pilier-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  min-height: 280px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.pilier-card:hover {
+  border-color: color-mix(in srgb, var(--pilier-accent) 45%, #e2e8f0);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 44px rgba(15, 23, 42, 0.12);
+}
+.pilier-card-media {
+  display: block;
+  height: 148px;
+  background-color: #0f172a;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  transition: transform 0.45s ease;
+}
+.pilier-card:hover .pilier-card-media {
+  transform: scale(1.04);
+}
+.pilier-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px 20px;
+  flex: 1;
+}
+.pilier-card strong {
+  display: block;
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+.pilier-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.45;
+  flex: 1;
+}
+.pilier-card .go {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--pilier-accent);
+}
+
+/* Finance : première carte mise en avant (grille impaire) */
+.pilier-page--finance .pilier-grid .pilier-card:first-child,
+.pilier-page--immobilier .pilier-grid .pilier-card--featured {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  min-height: 220px;
+}
+.pilier-page--finance .pilier-grid .pilier-card:first-child .pilier-card-media,
+.pilier-page--immobilier .pilier-grid .pilier-card--featured .pilier-card-media {
+  width: min(42%, 360px);
+  height: auto;
+  align-self: stretch;
+  min-height: 220px;
+}
+.pilier-page--finance .pilier-grid .pilier-card:first-child .pilier-card-body,
+.pilier-page--immobilier .pilier-grid .pilier-card--featured .pilier-card-body {
+  justify-content: center;
+  padding: 24px 28px;
+}
+@media (max-width: 720px) {
+  .pilier-page--finance .pilier-grid .pilier-card:first-child,
+  .pilier-page--immobilier .pilier-grid .pilier-card--featured {
+    flex-direction: column;
+  }
+  .pilier-page--finance .pilier-grid .pilier-card:first-child .pilier-card-media,
+  .pilier-page--immobilier .pilier-grid .pilier-card--featured .pilier-card-media {
+    width: 100%;
+    height: 148px;
+    min-height: 148px;
+  }
+}
+
+/* Masquer les pills redondantes (nav topbar suffit) */
+.pilier-nav-pills { display: none; }
+
+.pilier-aside {
+  margin-top: 8px;
+  padding: 28px;
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--pilier-accent) 88%, #0f172a), #0f172a);
+  color: #fff;
+}
+.pilier-aside h2 { margin: 0 0 8px; font-size: 1.4rem; letter-spacing: -0.02em; }
+.pilier-aside p { margin: 0 0 14px; opacity: 0.92; font-size: 1.02rem; }
+
+/* Portrait fondateur — hub immobilier */
+.pilier-about {
+  display: grid;
+  grid-template-columns: minmax(180px, 280px) 1fr;
+  gap: clamp(20px, 4vw, 36px);
+  align-items: center;
+  margin: 8px 0 0;
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, #0f172a 0%, color-mix(in srgb, var(--pilier-accent) 55%, #0f172a) 100%);
+  color: #fff;
+  overflow: hidden;
+}
+.pilier-about--no-photo {
+  grid-template-columns: 1fr;
+  max-width: 720px;
+}
+.pilier-about-photo {
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+.pilier-about-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.pilier-about-body { min-width: 0; }
+.pilier-about-kicker {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+.pilier-about-body h2 {
+  margin: 0 0 6px;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.pilier-about-role {
+  margin: 0 0 14px;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--pilier-soft) 80%, #fff);
+}
+.pilier-about-body > p {
+  margin: 0 0 16px;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  opacity: 0.92;
+  max-width: 38rem;
+}
+.pilier-about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+.pilier-about-tags li {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.pilier-about .btn,
+.pilier-about .btn:visited {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 26px;
+  border-radius: 14px;
+  border: 2px solid #fff;
+  background: #fff;
+  color: #0f172a !important;
+  font-weight: 800;
+  text-decoration: none !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+.pilier-about .btn:hover,
+.pilier-about .btn:focus-visible {
+  background: var(--pilier-soft);
+  border-color: var(--pilier-soft);
+  color: #0f172a !important;
+  transform: translateY(-2px);
+}
+@media (max-width: 720px) {
+  .pilier-about {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .pilier-about-photo {
+    max-width: 240px;
+    margin: 0 auto;
+  }
+  .pilier-about-tags { justify-content: center; }
+  .pilier-about-body > p { margin-left: auto; margin-right: auto; }
+}
+
+.pilier-hero-media {
+  position: relative;
+  margin: 0 calc(50% - 50vw) 36px;
+  width: 100vw;
+  min-height: clamp(380px, 58vh, 580px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: #0f172a;
+  isolation: isolate;
+}
+.pilier-hero-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--pilier-media);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.04);
+  animation: pilier-media-drift 18s ease-in-out infinite alternate;
+  z-index: 0;
+}
+.pilier-hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(105deg, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.55) 48%, rgba(15, 23, 42, 0.25) 100%),
+    linear-gradient(0deg, rgba(15, 23, 42, 0.55), transparent 55%);
+  z-index: 1;
+}
+.pilier-hero-media .pilier-hero-inner {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, 92vw);
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) 0 clamp(36px, 5vw, 56px);
+  color: #fff;
+}
+.pilier-hero-media .section-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: color-mix(in srgb, var(--pilier-accent) 85%, #000);
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+.pilier-hero-media h1 {
+  margin: 0 0 14px;
+  max-width: 16ch;
+  font-size: clamp(2.15rem, 5.5vw, 3.55rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  text-wrap: balance;
+  animation: pilier-rise 0.7s ease both;
+}
+.pilier-hero-media .lead {
+  margin: 0;
+  max-width: 38rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.55;
+  animation: pilier-rise 0.75s ease 0.08s both;
+}
+.pilier-hero-media .pilier-actions {
+  animation: pilier-rise 0.8s ease 0.14s both;
+  gap: 12px;
+}
+/* Boutons autonomes (ex. credit-immo sans main.css) */
+.pilier-hero-media .btn,
+.pilier-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 30px;
+  border-radius: 16px;
+  border: 2px solid transparent;
+  font-weight: 800;
+  font-size: 1.08rem;
+  line-height: 1.2;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  box-sizing: border-box;
+}
+.pilier-hero-media .btn:hover,
+.pilier-hero-media .btn:focus-visible,
+.pilier-actions .btn:hover,
+.pilier-actions .btn:focus-visible {
+  transform: translateY(-2px);
+  text-decoration: none !important;
+}
+.pilier-hero-media .btn-primary,
+.pilier-hero-media .btn-primary:visited {
+  background: #fff;
+  color: var(--pilier-ink) !important;
+  border-color: #fff;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+}
+.pilier-hero-media .btn-primary:hover,
+.pilier-hero-media .btn-primary:focus-visible {
+  background: var(--pilier-soft);
+  border-color: var(--pilier-soft);
+  color: var(--pilier-ink) !important;
+}
+.pilier-hero-media .btn-outline,
+.pilier-hero-media .btn-ghost,
+.pilier-hero-media .btn-outline:visited,
+.pilier-hero-media .btn-ghost:visited {
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.75);
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(6px);
+  box-shadow: none;
+}
+.pilier-hero-media .btn-outline:hover,
+.pilier-hero-media .btn-outline:focus-visible,
+.pilier-hero-media .btn-ghost:hover,
+.pilier-hero-media .btn-ghost:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: #fff;
+  color: #fff !important;
+}
+
+.pilier-aside .btn,
+.pilier-aside .btn:visited {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border-radius: 14px;
+  border: 2px solid #fff;
+  background: #fff;
+  color: #0f172a !important;
+  font-weight: 800;
+  font-size: 1rem;
+  text-decoration: none !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.pilier-aside .btn:hover,
+.pilier-aside .btn:focus-visible {
+  transform: translateY(-2px);
+  background: var(--pilier-soft);
+  border-color: var(--pilier-soft);
+  color: #0f172a !important;
+  text-decoration: none !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+/* Legacy boxed hero (fallback) */
+.pilier-hero {
+  margin: 28px 0 32px;
+  padding: 28px 24px;
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, var(--pilier-soft), transparent 55%),
+    linear-gradient(180deg, #fff, #f8fafc);
+  border: 1px solid #e2e8f0;
+}
+.pilier-hero .section-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pilier-accent);
+  background: var(--pilier-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+.pilier-hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(1.6rem, 4vw, 2.35rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.pilier-hero .lead {
+  margin: 0;
+  max-width: 40rem;
+  color: #475569;
+  font-size: 1.05rem;
+}
+.pilier-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+@keyframes pilier-media-drift {
+  from { transform: scale(1.02) translate3d(0, 0, 0); }
+  to { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+}
+@keyframes pilier-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pilier-hero-media::before,
+  .pilier-hero-media h1,
+  .pilier-hero-media .lead,
+  .pilier-hero-media .pilier-actions,
+  .home-pillar-tile,
+  .home-pillar-tile .hp-media {
+    animation: none !important;
+  }
+}
+
+/* ========== Home pillars — large media tiles ========== */
+.home-pillars {
+  position: relative;
+  padding: clamp(56px, 8vw, 96px) 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 8% 0%, rgba(13, 148, 136, 0.12), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 92% 20%, rgba(2, 132, 199, 0.1), transparent 50%),
+    linear-gradient(180deg, #eef6f5 0%, #f8fafc 40%, #fff 100%);
+  overflow: hidden;
+}
+.home-pillars .section-header {
+  margin-bottom: 28px;
+}
+.home-pillars .section-header h2 {
+  font-size: clamp(1.85rem, 4.2vw, 2.75rem);
+  letter-spacing: -0.03em;
+  max-width: 18ch;
+}
+.home-pillars .section-sub {
+  font-size: 1.08rem;
+  max-width: 40rem;
+}
+
+.home-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+.home-pillar-tile {
+  position: relative;
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: clamp(300px, 36vw, 400px);
+  border-radius: 22px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  isolation: isolate;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: pilier-rise 0.65s ease both;
+}
+.home-pillar-tile:nth-child(1) { animation-delay: 0.02s; }
+.home-pillar-tile:nth-child(2) { animation-delay: 0.08s; }
+.home-pillar-tile:nth-child(3) { animation-delay: 0.14s; }
+.home-pillar-tile:nth-child(4) { animation-delay: 0.2s; }
+.home-pillar-tile:nth-child(5) { animation-delay: 0.26s; }
+.home-pillar-tile.hp-featured {
+  grid-column: span 3;
+  min-height: clamp(360px, 44vw, 480px);
+}
+.home-pillar-tile .hp-media {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  transform: scale(1.03);
+  transition: transform 0.55s ease;
+}
+.home-pillar-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.12) 0%, rgba(15, 23, 42, 0.45) 45%, rgba(15, 23, 42, 0.88) 100%);
+}
+.home-pillar-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+}
+.home-pillar-tile:hover .hp-media {
+  transform: scale(1.1);
+}
+.home-pillar-tile .hp-body {
+  position: relative;
+  z-index: 2;
+  padding: clamp(18px, 2.5vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.home-pillar-tile .hp-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.home-pillar-tile strong {
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  font-weight: 800;
+}
+.home-pillar-tile span {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(0.92rem, 1.4vw, 1.05rem);
+  line-height: 1.4;
+  max-width: 34ch;
+}
+.home-pillar-tile em {
+  font-style: normal;
+  margin-top: 6px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+}
+.home-pillar-tile.hp-assurance .hp-media { background-image: url("../assets/piliers/pilier-assurance.jpg"); }
+.home-pillar-tile.hp-immo .hp-media { background-image: url("../assets/piliers/pilier-immobilier.jpg"); }
+.home-pillar-tile.hp-pret .hp-media { background-image: url("../assets/piliers/pilier-credit.jpg"); }
+.home-pillar-tile.hp-banque .hp-media { background-image: url("../assets/piliers/pilier-banque.jpg"); }
+.home-pillar-tile.hp-finance .hp-media { background-image: url("../assets/piliers/pilier-finance.jpg"); }
+
+@media (max-width: 960px) {
+  .home-pillars-grid { grid-template-columns: repeat(2, 1fr); }
+  .home-pillar-tile,
+  .home-pillar-tile.hp-featured {
+    grid-column: span 1;
+    min-height: 280px;
+  }
+}
+@media (max-width: 560px) {
+  .home-pillars-grid { grid-template-columns: 1fr; }
+  .home-pillar-tile,
+  .home-pillar-tile.hp-featured {
+    min-height: 260px;
+  }
+}
+
+/* Assurances hub media banner */
+.assurances-hero-media {
+  position: relative;
+  margin: 18px 0 28px;
+  min-height: clamp(320px, 48vw, 460px);
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  background: #0f172a;
+  isolation: isolate;
+}
+.assurances-hero-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../assets/piliers/pilier-assurance.jpg") center / cover no-repeat;
+  z-index: 0;
+  animation: pilier-media-drift 18s ease-in-out infinite alternate;
+}
+.assurances-hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(100deg, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.5) 55%, rgba(15, 23, 42, 0.2) 100%);
+  z-index: 1;
+}
+.assurances-hero-media .assurances-hero {
+  position: relative;
+  z-index: 2;
+  text-align: left;
+  max-width: 40rem;
+  margin: 0;
+  padding: clamp(28px, 4vw, 48px);
+  color: #fff;
+}
+.assurances-hero-media .assurances-hero h1 {
+  font-size: clamp(2rem, 4.5vw, 3.1rem);
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+.assurances-hero-media .assurances-hero-lead {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.08rem;
+}
+.assurances-hero-media .text-gradient {
+  background: linear-gradient(90deg, #5eead4, #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.assurances-hero-media .section-badge-featured {
+  background: rgba(13, 148, 136, 0.95);
+  color: #fff;
+}

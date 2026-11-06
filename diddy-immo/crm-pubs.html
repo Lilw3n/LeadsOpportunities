@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestion pubs | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Publicité payante</p>
+      <h2>Gestion des pubs — liens directs</h2>
+      <p>Meta, Google, TikTok : ouvrez les interfaces officielles, copiez les textes de la campagne active (1 €/jour) et vérifiez les formulaires Lead Ads.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-sources.html" class="btn btn-primary">Origine des leads</a>
+      <a href="./crm-immo-pubs.html" class="btn btn-primary">Pubs mandats / démo vendeur</a>
+      <a href="./crm-trafic.html" class="btn btn-ghost">Trafic & visites</a>
+      <a href="./crm-acquisition.html" class="btn btn-ghost">Pipeline</a>
+      <button type="button" class="btn btn-ghost" id="btnPubRefresh">Actualiser</button>
+    </div>
+  </section>
+
+  <div class="acq-stats" id="pubPolicy"></div>
+
+  <section class="panel pub-hub-section" id="metaStatus"></section>
+
+  <section class="panel pub-hub-section" id="slackStatus"></section>
+
+  <section class="panel pub-active-campaign" id="activeCampaign">
+    <p style="color:var(--muted)">Chargement campagne active…</p>
+  </section>
+
+  <section class="panel pub-hub-section">
+    <h2>Campagnes prêtes (1 €/jour)</h2>
+    <p style="color:var(--muted);margin-top:0">Canicule (priorité actu) ou VSP discrète — une seule active à la fois.</p>
+    <div id="presetCampaigns"></div>
+  </section>
+
+  <section class="panel pub-hub-section">
+    <h2>Ouvrir les plateformes (gestion directe)</h2>
+    <p style="color:var(--muted);margin-top:0">Ces liens ouvrent Meta Ads Manager, Google Ads, TikTok Ads, Analytics, etc.</p>
+    <div class="pub-platform-grid" id="pubPlatforms"></div>
+  </section>
+
+  <section class="panel pub-hub-section">
+    <h2>Formulaires Meta Lead Ads (LO 2026)</h2>
+    <p style="color:var(--muted);margin-top:0">Sélectionnez le formulaire lors de la création d’annonce dans Ads Manager.</p>
+    <div id="metaFormsList"></div>
+  </section>
+
+  <section class="panel pub-hub-section">
+    <h2>Landings test UTM</h2>
+    <p style="color:var(--muted);margin-top:0">Vérifiez que le tracking remonte bien avant de payer.</p>
+    <div id="testLandings"></div>
+  </section>
+
+  <section class="panel pub-hub-section">
+    <h2>Documentation</h2>
+    <ul id="pubDocs" class="pub-doc-list"></ul>
+  </section>
+
+  <script src="./js/crm-lead-platform.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-pubs.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

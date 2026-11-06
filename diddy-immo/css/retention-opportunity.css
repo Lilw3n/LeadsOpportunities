@@ -1,0 +1,219 @@
+/* Rétention — opportunité manquée / exit-intent */
+
+html.lo-retention-open,
+html.lo-retention-open body {
+  overflow: hidden;
+}
+
+.lo-retention {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+}
+
+@media (min-width: 640px) {
+  .lo-retention {
+    align-items: center;
+  }
+}
+
+.lo-retention-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.lo-retention-card {
+  position: relative;
+  z-index: 1;
+  width: min(440px, 100%);
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px 20px 16px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+  border: 1px solid #e2e8f0;
+  animation: lo-retention-in 0.28s ease-out;
+}
+
+@keyframes lo-retention-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lo-retention-x {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: 0;
+  background: transparent;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.lo-retention-eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0d9488;
+}
+
+.lo-retention-title {
+  margin: 0 0 10px;
+  font-size: 1.28rem;
+  line-height: 1.25;
+  color: #0f172a;
+  font-weight: 800;
+  padding-right: 24px;
+}
+
+.lo-retention-body {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #475569;
+}
+
+.lo-retention-loss {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  color: #9a3412;
+  font-size: 0.88rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.lo-retention-bullets {
+  margin: 0 0 16px;
+  padding-left: 1.15rem;
+  color: #334155;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.lo-retention-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lo-retention-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 11px;
+  padding: 12px 14px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.lo-retention-btn--primary {
+  background: #0d9488;
+  color: #fff;
+  border-color: #0f766e;
+}
+
+.lo-retention-btn--primary:hover {
+  background: #0f766e;
+}
+
+.lo-retention-btn--secondary {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+.lo-retention-btn--secondary:hover {
+  background: #f1f5f9;
+}
+
+.lo-retention-skip {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  border: 0;
+  background: transparent;
+  color: #94a3b8;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.lo-retention-banner {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 99980;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.35);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  animation: lo-retention-in 0.25s ease-out;
+}
+
+.lo-retention-banner p {
+  margin: 0;
+  flex: 1;
+}
+
+.lo-retention-banner button[data-ret-open] {
+  border: 0;
+  background: transparent;
+  color: #5eead4;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.lo-retention-banner-x {
+  border: 0;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+@media (max-width: 720px) {
+  body {
+    /* leave room if mobile bar exists */
+  }
+  .lo-retention-banner {
+    bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+}

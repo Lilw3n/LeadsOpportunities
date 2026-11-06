@@ -1,0 +1,287 @@
+/**
+ * Affordance cliquable — liens, cartes et boutons reconnaissables au premier coup d'oeil
+ */
+
+/* Liens texte visibles (contournent a { color: inherit }) */
+.mini-links a,
+article.service-card a:not(.btn),
+.faq-item p a,
+.landing-footer a,
+.partners-trust-legal a,
+a.text-link {
+  color: var(--primary-dark, #0f766e);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(15, 118, 110, 0.35);
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.mini-links a:hover,
+article.service-card a:not(.btn):hover,
+.faq-item p a:hover,
+.landing-footer a:hover,
+a.text-link:hover {
+  color: var(--primary, #0d9488);
+  text-decoration-color: currentColor;
+}
+
+/* Navigation principale */
+.topbar nav a:not(.btn):not(.cta-link) {
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.topbar nav a:not(.btn):not(.cta-link):hover {
+  color: var(--primary, #0d9488);
+}
+
+/* Cartes hero — cliquables */
+a.hero-floating-card {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+a.hero-floating-card:hover,
+a.hero-floating-card:focus-visible {
+  border-color: var(--primary, #0d9488);
+  box-shadow: var(--shadow-lg, 0 20px 50px -12px rgba(15, 23, 42, 0.18));
+  transform: translateY(-3px);
+  outline: none;
+}
+
+a.hero-floating-card:focus-visible {
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.35), var(--shadow-lg, 0 20px 50px -12px rgba(15, 23, 42, 0.18));
+}
+
+.hero-floating-card-action {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--primary, #0d9488);
+  white-space: nowrap;
+}
+
+/* Pastilles services */
+a.services-pill {
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+a.services-pill:hover,
+a.services-pill:focus-visible {
+  border-color: var(--primary, #0d9488);
+  background: var(--primary-light, #ccfbf1);
+  color: var(--primary-dark, #0f766e);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+a.services-pill:focus-visible {
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.25);
+}
+
+/* Elements informatifs — pas de fausse affordance */
+.trust-item {
+  cursor: default;
+}
+
+.trust-item:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(15, 23, 42, 0.06));
+}
+
+/* Cartes partenaires cliquables */
+a.partner-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+a.partner-card-link:focus-visible {
+  outline: 3px solid rgba(13, 148, 136, 0.45);
+  outline-offset: 2px;
+}
+
+a.partner-card-link .partner-card {
+  height: 100%;
+  margin: 0;
+}
+
+a.partner-card-link:hover .partner-card,
+a.partner-card-link:focus-visible .partner-card {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.12);
+  border-color: #99f6e4;
+}
+
+.card-action-hint {
+  display: block;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(13, 148, 136, 0.25);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary, #0d9488);
+}
+
+.partner-card--compact .card-action-hint {
+  display: none;
+}
+
+/* Grilles produits landings */
+.product-item-link {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 12px;
+  margin: -10px -12px;
+  padding: 10px 12px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.product-item-link:hover,
+.product-item-link:focus-visible {
+  background: #f0fdfa;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.1);
+  outline: none;
+}
+
+.product-item-link:focus-visible {
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.3);
+}
+
+.product-item-text {
+  color: var(--muted, #64748b);
+}
+
+.product-item-cta {
+  display: block;
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--primary, #0d9488);
+}
+
+.product-item:has(.product-item-link:hover),
+.product-item:has(.product-item-link:focus-visible) {
+  border-color: #5eead4;
+}
+
+/* FAQ landings — repliables */
+.landing-faq .faq-item {
+  background: #fff;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.landing-faq .faq-item:hover {
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+.landing-faq .faq-item[open] {
+  border-color: var(--primary, #0d9488);
+  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.1);
+}
+
+.landing-faq .faq-item summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.98rem;
+  list-style: none;
+}
+
+.landing-faq .faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.landing-faq .faq-item summary::marker {
+  display: none;
+}
+
+.landing-faq .faq-chevron {
+  flex-shrink: 0;
+  color: var(--muted, #64748b);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.landing-faq .faq-item[open] .faq-chevron {
+  transform: rotate(180deg);
+  color: var(--primary, #0d9488);
+}
+
+.landing-faq .faq-item p {
+  padding: 0 16px 14px;
+  margin: 0;
+  color: var(--muted, #64748b);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+/* Toggle parcours express / complet */
+.journey-toggle a {
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.journey-toggle a:not(.is-active):hover {
+  border-color: var(--primary, #0d9488);
+  color: var(--primary-dark, #0f766e);
+  background: #f0fdfa;
+}
+
+.journey-toggle a:focus-visible {
+  outline: 3px solid rgba(13, 148, 136, 0.35);
+  outline-offset: 2px;
+}
+
+/* Cartes article avec navigation JS (data-card-href) */
+article.service-card.js-card-nav,
+article.service-card[data-card-href],
+.js-card-nav[data-card-href] {
+  cursor: pointer;
+}
+
+/* Boutons — curseur explicite */
+.btn,
+button:not(:disabled),
+[role="button"] {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* Bandeau cookies : texte non cliquable (seuls boutons / liens) */
+#cookie-banner-lo,
+#cookie-banner-lo .cookie-banner-inner {
+  cursor: default;
+}
+#cookie-banner-lo a,
+#cookie-banner-lo button {
+  cursor: pointer;
+}

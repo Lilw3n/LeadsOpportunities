@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Synthèse du bien — partage</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="stylesheet" href="./css/crm-theme.css" />
+  <style>
+    body { margin: 0; font-family: "Segoe UI", system-ui, sans-serif; background: #f1f5f9; color: #0f172a; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 20px 16px 48px; }
+    .hero { background: linear-gradient(160deg, #ecfdf5, #eff6ff); border: 1px solid #bfdbfe; border-radius: 16px; padding: 18px 18px 14px; margin-bottom: 16px; }
+    .hero h1 { margin: 0 0 6px; font-size: 1.35rem; }
+    .hero p { margin: 0; color: #334155; line-height: 1.45; }
+    .panel { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; }
+    .panel h2 { margin: 0 0 8px; font-size: 1.05rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .btn { border-radius: 10px; border: 1px solid #cbd5e1; background: #fff; padding: 8px 12px; font-weight: 700; cursor: pointer; }
+    .btn-primary { background: #0f766e; border-color: #0f766e; color: #fff; }
+    .btn-ghost { background: #f8fafc; }
+    .chip-agent, .chip-user { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+    .chip-agent { background: #ccfbf1; color: #115e59; }
+    .chip-user { background: #ffedd5; color: #9a3412; }
+    .chip-agent i, .chip-user i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .chip-agent i { background: #0f766e; }
+    .chip-user i { background: #c2410c; }
+    .unit-row { border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 12px; margin: 0 0 8px; border-left: 4px solid #94a3b8; }
+    .unit-row.author-agent { border-left-color: #0f766e; background: #f0fdfa; }
+    .unit-row.author-user { border-left-color: #c2410c; background: #fff7ed; }
+    .unit-row.author-mixed { border-left-color: #7c3aed; background: #faf5ff; }
+    .muted { color: #64748b; }
+    .warn { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 10px 12px; border-radius: 10px; }
+    .ok { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; padding: 10px 12px; border-radius: 10px; }
+    .totals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+    .total-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px; }
+    .total-card span { display: block; font-size: .68rem; font-weight: 800; text-transform: uppercase; color: #64748b; }
+    .comp-draw-wrap { overflow-x: auto; }
+    .comp-draw-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; font-size: .75rem; }
+    .comp-draw-legend .leg { padding: 2px 8px; border-radius: 999px; border: 1px solid #cbd5e1; }
+    .comp-draw-legend .leg.foncier { background: #dcfce7; color: #14532d; }
+    .comp-draw-legend .leg.bati { background: #e0f2fe; color: #0c4a6e; }
+    .comp-draw-legend .leg.niveau { background: #f3e8ff; color: #4c1d95; }
+    .comp-draw-legend .leg.lot { background: #ffedd5; color: #7c2d12; }
+    .comp-draw-legend .leg.annexe { background: #f1f5f9; color: #334155; }
+    .comp-draw-legend .leg.piece { background: #fff7ed; color: #9a3412; border-color: #fdba74; }
+    .comp-draw-hint { margin: 0 0 10px; font-size: .82rem; color: #475569; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1 id="pageTitle">Synthèse du bien</h1>
+      <p id="pageSub">Vue partagée par votre mandataire — lecture précise de la composition.</p>
+    </div>
+    <div id="root"><p class="muted">Chargement…</p></div>
+  </div>
+  <script src="./js/crm-immo-matcher.js"></script>
+  <script src="./js/crm-immo-dossier-lib.js"></script>
+  <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-property-schema.js"></script>
+  <script src="./js/crm-immo-composition-draw.js"></script>
+  <script src="./js/crm-immo-composition-share-lib.js"></script>
+  <script src="./js/immo-composition-share-page.js"></script>
+</body>
+</html>

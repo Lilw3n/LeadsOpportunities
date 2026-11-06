@@ -1,0 +1,78 @@
+.pret-risks-banner {
+  padding: 24px 26px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 50%, #fff 100%);
+  border: 1px solid #bfdbfe;
+  box-shadow: 0 6px 24px rgba(37, 99, 235, 0.06);
+  margin: 20px 0;
+}
+.pret-risks-banner--compact {
+  padding: 18px 20px;
+}
+.pret-risks-banner h2 {
+  margin: 8px 0 10px;
+  font-size: clamp(1.15rem, 2.4vw, 1.35rem);
+  line-height: 1.25;
+  color: #1e3a8a;
+}
+.pret-risks-lead {
+  margin: 0 0 16px;
+  color: #475569;
+  line-height: 1.55;
+  font-size: 0.93rem;
+  max-width: 68ch;
+}
+.pret-risks-points {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+@media (min-width: 640px) {
+  .pret-risks-points {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.pret-risks-point {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.pret-risks-point strong {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #1d4ed8;
+  margin-bottom: 5px;
+}
+.pret-risks-point p {
+  margin: 0;
+  font-size: 0.84rem;
+  color: #475569;
+  line-height: 1.45;
+}
+.pret-risks-reassure {
+  background: #fff;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.pret-risks-reassure strong {
+  display: block;
+  color: #1e40af;
+  margin-bottom: 6px;
+  font-size: 0.94rem;
+}
+.pret-risks-reassure p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.5;
+}
+.pret-risks-tagline {
+  margin: 12px 0 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1d4ed8;
+}

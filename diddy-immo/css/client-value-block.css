@@ -1,0 +1,83 @@
+.client-value-section {
+  padding-top: 0;
+  padding-bottom: 48px;
+}
+.client-value-banner {
+  padding: 28px 32px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 35%, #fff 100%);
+  border: 1px solid #fcd34d;
+  box-shadow: 0 8px 32px rgba(180, 83, 9, 0.06);
+}
+.client-value-banner--compact {
+  padding: 20px 22px;
+  margin: 24px 0;
+}
+.client-value-banner h2 {
+  margin: 8px 0 10px;
+  font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+  line-height: 1.25;
+  color: #78350f;
+}
+.client-value-banner .client-value-lead {
+  margin: 0 0 18px;
+  max-width: 62ch;
+  color: #57534e;
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+.client-value-pillars {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 18px;
+}
+@media (min-width: 640px) {
+  .client-value-pillars {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.client-value-pillar {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  padding: 14px;
+}
+.client-value-pillar strong {
+  display: block;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #b45309;
+  margin-bottom: 6px;
+}
+.client-value-pillar p {
+  margin: 0;
+  font-size: 0.86rem;
+  color: #57534e;
+  line-height: 1.45;
+}
+.client-value-honoraires {
+  background: #fff;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 0;
+}
+.client-value-honoraires strong {
+  display: block;
+  color: #92400e;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+.client-value-honoraires p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #57534e;
+  line-height: 1.5;
+}
+.client-value-tagline {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #b45309;
+}

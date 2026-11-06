@@ -1,0 +1,239 @@
+/* Formulaire rappel express — email + téléphone */
+.callback-panel {
+  background: linear-gradient(145deg, #f0fdfa 0%, #eff6ff 100%);
+  border: 1px solid rgba(13, 148, 136, 0.25);
+  border-radius: 16px;
+  padding: 20px 18px 18px;
+  margin-bottom: 20px;
+}
+
+.callback-panel--compact {
+  padding: 16px 14px;
+  margin-bottom: 16px;
+}
+
+.callback-panel-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.callback-panel-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px;
+  line-height: 1.3;
+}
+
+.callback-panel-lead {
+  font-size: 0.92rem;
+  color: #475569;
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.callback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.callback-form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 560px) {
+  .callback-form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.callback-form-row .field,
+.callback-form-row label.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.callback-form input[type="email"],
+.callback-form input[type="tel"],
+.callback-form select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.95rem;
+  background: #fff;
+}
+
+.callback-form input:focus,
+.callback-form select:focus {
+  outline: none;
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.callback-form .field-check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.45;
+  margin: 2px 0 0;
+}
+
+.callback-form .field-check input {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.callback-form .btn-callback {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.callback-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0f766e;
+}
+
+.callback-trust span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.callback-success {
+  padding: 14px 16px;
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  border-radius: 12px;
+  color: #065f46;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.callback-error {
+  font-size: 0.85rem;
+  color: #b91c1c;
+  font-weight: 600;
+  margin: 0;
+}
+
+.callback-or-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 20px;
+  color: #94a3b8;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.callback-or-divider::before,
+.callback-or-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+/* Bandeau au-dessus des longs formulaires */
+.callback-strip {
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.callback-strip-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+@media (max-width: 720px) {
+  .callback-strip-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.callback-strip-text strong {
+  display: block;
+  font-size: 0.98rem;
+  color: #92400e;
+  margin-bottom: 4px;
+}
+
+.callback-strip-text p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #78350f;
+  line-height: 1.45;
+}
+
+.callback-strip-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+}
+
+.callback-strip-toggle {
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0d9488;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  text-align: left;
+}
+
+.callback-strip--inline .callback-strip-form-wrap {
+  display: block;
+}
+
+.callback-strip-form-wrap {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed #fcd34d;
+}
+
+.callback-strip-form-wrap[hidden] {
+  display: none !important;
+}
+
+.proximity-contact-card .callback-panel {
+  margin-bottom: 12px;
+  padding: 14px 12px;
+}
+
+.proximity-contact-card .callback-panel-title {
+  font-size: 0.95rem;
+}
+
+.proximity-contact-card .callback-form-row {
+  grid-template-columns: 1fr;
+}

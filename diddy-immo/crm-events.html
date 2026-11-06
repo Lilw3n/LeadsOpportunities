@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Événements CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-events.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Agenda</p>
+      <h2>Événements & activité</h2>
+      <p>Appels, RDV, tâches et notes sur l'ensemble du portefeuille — filtres, export et vue calendrier.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-event-create.html" class="btn btn-primary">Nouvel événement</a>
+      <a href="./crm-event-manager.html" class="btn btn-ghost">Gestionnaire</a>
+      <a href="./crm-calendar.html" class="btn btn-ghost">Calendrier</a>
+    </div>
+  </section>
+
+  <div id="eventsApp" class="events-page crm-page-panel">
+    <header class="events-header">
+      <div class="events-view-toggle">
+        <button type="button" class="btn btn-ghost btn-sm" id="btnExportEvents">Exporter CSV</button>
+        <button type="button" class="btn btn-ghost active" data-view="list">Liste</button>
+        <button type="button" class="btn btn-ghost" data-view="calendar">Calendrier</button>
+      </div>
+    </header>
+
+    <div id="eventsStats" class="events-stats"></div>
+    <div class="events-bulk panel hidden" id="eventsBulkBar">
+      <span id="eventsBulkCount">0 selectionne</span>
+      <button type="button" class="btn btn-ghost btn-sm" id="eventsBulkDuplicate">Dupliquer (+7j)</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="eventsBulkDelete">Supprimer selection</button>
+    </div>
+    <div class="events-filters panel">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px" id="eventPeriodBtns">
+        <button type="button" class="btn btn-ghost btn-sm active" data-period="">Tous</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-period="today">Aujourd'hui</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-period="week">Cette semaine</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-period="month">Ce mois</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-period="past">Passés</button>
+      </div>
+      <input type="search" id="globalEventSearch" placeholder="Rechercher titre, description, contact… (IA synonymes)" />
+      <select id="globalEventType"><option value="">Type</option><option value="call">Appel</option><option value="email">Email</option><option value="meeting">RDV</option><option value="task">Tâche</option><option value="note">Note</option></select>
+      <select id="globalEventStatus"><option value="">Statut</option><option value="pending">En attente</option><option value="completed">Terminé</option><option value="cancelled">Annulé</option></select>
+      <select id="globalEventPriority"><option value="">Priorité</option><option value="low">Faible</option><option value="medium">Moyenne</option><option value="high">Haute</option><option value="urgent">Urgente</option></select>
+      <select id="globalEventSort"><option value="eventDate-desc">Date événement ↓</option><option value="eventDate-asc">Date événement ↑</option><option value="createdAt-desc">Création ↓</option></select>
+    </div>
+
+    <div id="eventsListView" class="panel"></div>
+    <div id="eventsCalendarView" class="panel hidden"></div>
+  </div>
+  <script src="./js/crm-constants.js"></script>
+  <script src="./js/crm-export.js"></script>
+  <script src="./js/crm-event-search.js"></script>
+  <script src="./js/crm-smart-timeline.js"></script>
+  <script src="./js/smart-events-service.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-events.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

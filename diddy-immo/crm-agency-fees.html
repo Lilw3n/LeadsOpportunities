@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barèmes & financement immo | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <style>
+    .af-layout { display:grid; grid-template-columns:minmax(220px,280px) 1fr; gap:16px; align-items:start; }
+    @media (max-width:900px) { .af-layout { grid-template-columns:1fr; } }
+    .af-list { border:1px solid var(--line); border-radius:12px; background:#fff; overflow:hidden; }
+    .af-list-hd { padding:12px 14px; border-bottom:1px solid var(--line); display:flex; gap:8px; align-items:center; justify-content:space-between; background:#f8fafc; }
+    .af-list-hd h3 { margin:0; font-size:.95rem; }
+    .af-agency-btn { display:block; width:100%; text-align:left; border:0; border-bottom:1px solid #f1f5f9; background:#fff; padding:12px 14px; cursor:pointer; }
+    .af-agency-btn:hover { background:#f8fafc; }
+    .af-agency-btn.active { background:#ecfdf5; border-left:3px solid #0d9488; }
+    .af-agency-btn strong { display:block; font-size:.92rem; }
+    .af-agency-btn span { font-size:.78rem; color:var(--muted); }
+    .af-panel { border:1px solid var(--line); border-radius:12px; background:#fff; padding:18px; margin-bottom:16px; }
+    .af-panel h3 { margin:0 0 12px; font-size:1rem; }
+    .af-form-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+    .af-form-grid label, .af-calc label { display:block; font-size:.82rem; font-weight:600; margin-bottom:4px; }
+    .af-form-grid input, .af-form-grid select, .af-form-grid textarea,
+    .af-calc input, .af-calc select, .af-table input, .af-table select {
+      width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; box-sizing:border-box;
+    }
+    .af-form-grid textarea { min-height:70px; resize:vertical; }
+    .af-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+    .af-table-wrap { overflow:auto; border:1px solid var(--line); border-radius:10px; }
+    .af-table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    .af-table th, .af-table td { padding:8px 10px; border-bottom:1px solid #f1f5f9; text-align:left; vertical-align:middle; }
+    .af-table th { background:#f8fafc; font-size:.75rem; text-transform:uppercase; letter-spacing:.03em; color:#64748b; }
+    .af-table .af-num { max-width:120px; }
+    .af-sched-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+    .af-sched-tab { border:1px solid var(--line); background:#fff; border-radius:999px; padding:6px 12px; font-size:.82rem; cursor:pointer; }
+    .af-sched-tab.active { background:#0f172a; color:#fff; border-color:#0f172a; }
+    .af-calc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; }
+    .af-result { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin-top:14px; }
+    .af-kpi { background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:12px 14px; }
+    .af-kpi span { display:block; font-size:.75rem; color:var(--muted); margin-bottom:4px; }
+    .af-kpi strong { font-size:1.15rem; }
+    .af-kpi.highlight { background:#ecfdf5; border-color:#99f6e4; }
+    .af-kpi.muted strong { color:#64748b; font-size:1rem; }
+    .af-kpi-hint { display:block; margin-top:6px; font-size:.68rem; font-style:normal; color:#94a3b8; line-height:1.3; }
+    .af-hint { font-size:.85rem; color:var(--muted); margin:8px 0 0; }
+    .af-intro { background:linear-gradient(135deg,#ecfdf5,#f8fafc); border:1px solid #99f6e4; border-radius:12px; padding:14px 16px; margin-bottom:16px; }
+    .af-intro p { margin:0; font-size:.9rem; color:var(--muted); }
+    .af-danger { color:#b91c1c; }
+    .af-compare { border:1px solid #99f6e4; border-radius:12px; background:linear-gradient(180deg,#f0fdfa,#fff 40%); padding:18px; margin-bottom:16px; }
+    .af-compare h3 { margin:0 0 4px; }
+    .af-compare .af-sub { margin:0 0 14px; color:var(--muted); font-size:.9rem; }
+    .af-compare-table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    .af-compare-table th, .af-compare-table td { padding:10px 12px; border-bottom:1px solid #e2e8f0; text-align:left; }
+    .af-compare-table th { background:#f8fafc; font-size:.75rem; text-transform:uppercase; letter-spacing:.03em; color:#64748b; }
+    .af-compare-table tr.best td { background:#ecfdf5; }
+    .af-compare-table .af-win { color:#047857; font-weight:700; font-size:.72rem; margin-left:6px; }
+    .af-badge { display:inline-block; font-size:.72rem; padding:2px 8px; border-radius:999px; background:#e2e8f0; color:#334155; }
+    .af-badge.warn { background:#fef3c7; color:#92400e; }
+    .af-badge.ok { background:#d1fae5; color:#065f46; }
+    .af-badge.block { background:#fee2e2; color:#991b1b; }
+    .af-buyer { border:1px solid #bae6fd; border-radius:12px; background:linear-gradient(180deg,#f0f9ff,#fff 42%); padding:18px; margin-bottom:16px; }
+    .af-buyer h3 { margin:0 0 4px; }
+    .af-buyer .af-sub { margin:0 0 14px; color:var(--muted); font-size:.9rem; }
+    .af-rules { margin:14px 0 0; padding:0; list-style:none; display:grid; gap:8px; }
+    .af-rules li { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px; font-size:.85rem; }
+    .af-rules strong { display:block; margin-bottom:2px; color:#0f172a; }
+    .af-rules span { color:var(--muted); }
+    .af-mode-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+    .af-mode-tab { border:1px solid var(--line); background:#fff; border-radius:999px; padding:6px 12px; font-size:.82rem; cursor:pointer; }
+    .af-mode-tab.active { background:#0369a1; color:#fff; border-color:#0369a1; }
+    .af-checks { display:flex; flex-wrap:wrap; gap:10px 18px; margin:0 0 14px; }
+    .af-check {
+      display:inline-flex; align-items:center; gap:8px; font-size:.88rem; font-weight:600;
+      color:#0f172a; cursor:pointer; user-select:none;
+      background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:8px 12px;
+    }
+    .af-check input { width:16px; height:16px; margin:0; accent-color:#0d9488; }
+    .af-check.is-on { background:#ecfdf5; border-color:#99f6e4; }
+    .af-deal { border:1px solid #fde68a; border-radius:12px; background:linear-gradient(180deg,#fffbeb,#fff 42%); padding:18px; margin-bottom:16px; }
+    .af-deal h3 { margin:0 0 4px; }
+    .af-deal .af-sub { margin:0 0 14px; color:var(--muted); font-size:.9rem; }
+    .af-free { border:1px solid #c4b5fd; border-radius:12px; background:linear-gradient(180deg,#f5f3ff,#fff 42%); padding:18px; margin-bottom:16px; }
+    .af-free h3 { margin:0 0 4px; }
+    .af-free .af-sub { margin:0 0 14px; color:var(--muted); font-size:.9rem; }
+    .af-free-row-inputs { display:grid; grid-template-columns:minmax(110px,1.2fr) minmax(100px,0.9fr) minmax(100px,0.9fr) auto; gap:8px; align-items:end; margin-bottom:8px; }
+    .af-free-presets { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 4px; }
+    .af-free-presets button { border:1px solid #ddd6fe; background:#fff; border-radius:8px; padding:6px 10px; font-size:.8rem; cursor:pointer; }
+    .af-free-presets button:hover { background:#ede9fe; }
+    .af-steps { margin:12px 0 0; padding:0; list-style:none; display:grid; gap:8px; }
+    .af-steps li { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px; font-size:.85rem; }
+    .af-steps li strong { color:#0f172a; }
+    .af-steps .af-step-amt { font-weight:700; white-space:nowrap; }
+    .af-steps .af-step-detail { display:block; color:var(--muted); font-weight:400; margin-top:2px; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-immo-finance-nav.css" />
+</head>
+<body class="crm-subpage">
+  <div id="immoFinanceNav" data-vertical="prets" data-active="baremes"></div>
+
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier</p>
+      <h2>Barèmes & financement</h2>
+      <p>Côté vendeur : honoraires multi-agences. Côté acheteur : capacité d'emprunt, prêt, rachat et règles de calcul.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./negociateur-immobilier/" class="btn btn-ghost">Landing négociateur</a>
+      <a href="./bareme-honoraires/" class="btn btn-primary" target="_blank" rel="noopener">Grille publique ↗</a>
+      <a id="afLinkCredit" class="btn btn-ghost" href="./landings/credit-immo.html#demande">Demande de prêt</a>
+      <a id="afLinkProjection" class="btn btn-ghost" href="./landings/projection-achat.html#simulateur">Projection coût réel</a>
+      <a id="afLinkAcheteur" class="btn btn-ghost" href="./landings/acheteur-immo.html#demande">Parcours acquéreur</a>
+      <button type="button" class="btn btn-ghost" id="btnNewAgency">+ Agence</button>
+    </div>
+  </section>
+
+  <div class="af-intro">
+    <p>
+      Barème officiel <strong>Portes Clés TG0422</strong> (PDF) : <strong>23 forfaits</strong> habitation
+      (0→1 M€ + 6&nbsp;% au-delà). À gauche, sélectionne <strong>Les Portes Clés</strong>
+      (pas Laforêt = 6 tranches %). Onglets : pro, bail, locations, avis.
+      Grille publiée sur le site :
+      <a href="./bareme-honoraires/"><strong>/bareme-honoraires/</strong></a>
+      (<code>data/bareme-honoraires-public.json</code>).
+      Comparateur <strong>taux libre</strong> (autres agences, hors barème) juste en dessous.
+    </p>
+  </div>
+
+  <section class="af-free" id="freeRatePanel">
+    <h3>Comparateur libre — % ou montant fixe</h3>
+    <p class="af-sub">
+      Indépendant des barèmes CRM. Choisis un prix, puis par agence un
+      <strong>taux %</strong> ou un <strong>forfait € fixe</strong> pour voir
+      <strong>combien l’agence prend</strong> et <strong>combien le vendeur garde</strong>.
+    </p>
+    <div class="af-calc-grid">
+      <div>
+        <label for="frPriceMode">Type de prix saisi</label>
+        <select id="frPriceMode">
+          <option value="fai">Prix FAI / annoncé</option>
+          <option value="net_vendeur">Net vendeur</option>
+        </select>
+      </div>
+      <div>
+        <label for="frPrice" id="frPriceLabel">Prix FAI (€)</label>
+        <input id="frPrice" type="number" min="0" step="1000" value="250000" />
+      </div>
+      <div>
+        <label for="frRateBase">Si % : le taux s’applique sur</label>
+        <select id="frRateBase">
+          <option value="of_fai">% du prix FAI</option>
+          <option value="of_net">% du net vendeur</option>
+        </select>
+      </div>
+    </div>
+    <div class="af-free-presets" id="frPresets" aria-label="Presets rapides">
+      <button type="button" data-rate="3">3 %</button>
+      <button type="button" data-rate="4">4 %</button>
+      <button type="button" data-rate="5">5 %</button>
+      <button type="button" data-rate="6">6 %</button>
+      <button type="button" data-rate="7">7 %</button>
+      <button type="button" data-rate="8">8 %</button>
+      <button type="button" data-fixed="8000">8 000 €</button>
+      <button type="button" data-fixed="10000">10 000 €</button>
+      <button type="button" data-fixed="12000">12 000 €</button>
+      <button type="button" data-fixed="15000">15 000 €</button>
+    </div>
+    <p class="af-hint" style="margin-top:4px">Clic rapide = ajoute une ligne %. Ou forfait €. Sur chaque ligne : bascule % / montant fixe.</p>
+    <div id="frRows" style="margin-top:12px"></div>
+    <div class="af-actions">
+      <button type="button" class="btn btn-ghost" id="frAddRow">+ Ligne %</button>
+      <button type="button" class="btn btn-ghost" id="frAddFixedRow">+ Ligne forfait €</button>
+      <button type="button" class="btn btn-ghost" id="frResetRows">Réinit. exemples</button>
+    </div>
+    <div class="af-table-wrap" style="margin-top:14px">
+      <table class="af-compare-table" id="frTable">
+        <thead>
+          <tr>
+            <th>Agence</th>
+            <th>Mode</th>
+            <th>Honoraires agence</th>
+            <th>Net vendeur</th>
+            <th>Prix FAI</th>
+            <th>Vendeur garde</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="af-result" id="frKpis" style="margin-top:12px"></div>
+    <p class="af-hint" id="frHint">Hors barème Portes Clés / Laforêt — pure comparaison concurrentielle.</p>
+  </section>
+
+  <section class="af-compare" id="comparePanel">
+    <h3>Comparer les agences (barèmes CRM)</h3>
+    <p class="af-sub">Même référence (net vendeur ou FAI) → honoraires agence, prix dérivé, ta part et net auto-entrepreneur. Lié aux grilles enregistrées.</p>
+    <div class="af-calc-grid">
+      <div id="cmpPriceModeWrap">
+        <label for="cmpPriceMode">Type de prix</label>
+        <select id="cmpPriceMode">
+          <option value="net_vendeur">Net vendeur</option>
+          <option value="fai">FAI (honoraires inclus)</option>
+        </select>
+      </div>
+      <div>
+        <label for="cmpPrice" id="cmpPriceLabel">Prix net vendeur (€)</label>
+        <input id="cmpPrice" type="number" min="0" step="1000" value="200000" />
+      </div>
+      <div>
+        <label for="cmpKind">Type de bien / barème</label>
+        <select id="cmpKind">
+          <option value="vente_habitation">Vente habitation</option>
+          <option value="vente_pro">Terrains / bureaux / commerces</option>
+          <option value="bail_commercial">Bail commercial</option>
+          <option value="location_habitation">Location habitation</option>
+          <option value="location_pro">Location pro / commercial</option>
+          <option value="avis_valeur">Avis de valeur</option>
+          <option value="garage">Garage / Parking</option>
+        </select>
+      </div>
+      <div id="cmpSurfaceWrap" hidden>
+        <label for="cmpSurface">Surface habitable (m²)</label>
+        <input id="cmpSurface" type="number" min="0" step="1" value="60" />
+      </div>
+      <div id="cmpZoneWrap" hidden>
+        <label for="cmpZone">Zone (dossier location)</label>
+        <select id="cmpZone">
+          <option value="tendue" selected>Zone tendue (10,09 €/m²)</option>
+          <option value="hors_zone">Hors zone (8,07 €/m²)</option>
+          <option value="tres_tendue">Zone très tendue (12,10 €/m²)</option>
+        </select>
+      </div>
+      <div id="cmpPartyWrap" hidden>
+        <label for="cmpParty">Partie facturée</label>
+        <select id="cmpParty">
+          <option value="total">Total agence (bailleur + locataire)</option>
+          <option value="bailleur">Charge bailleur</option>
+          <option value="locataire">Charge locataire</option>
+        </select>
+      </div>
+      <div>
+        <label for="taxPreset">Régime charges FR</label>
+        <select id="taxPreset"></select>
+      </div>
+      <div>
+        <label for="chargesPct">Charges URSSAF/impôts %</label>
+        <input id="chargesPct" type="number" min="0" max="50" step="0.1" value="22" />
+      </div>
+      <div>
+        <label for="cfePct">Réserve CFE %</label>
+        <input id="cfePct" type="number" min="0" max="10" step="0.1" value="0.5" />
+      </div>
+      <div>
+        <label for="accountingPct">Réserve compta %</label>
+        <input id="accountingPct" type="number" min="0" max="20" step="0.1" value="1" />
+      </div>
+    </div>
+    <div class="af-actions" style="margin-top:10px">
+      <button type="button" class="btn btn-primary" id="btnSyncStripePrefs">Lier à Stripe (sauver serveur)</button>
+      <span class="af-hint" id="stripePrefsStatus" style="margin:0"></span>
+    </div>
+    <details class="af-tax-adv" id="taxAdvanced" style="margin-top:12px">
+      <summary style="cursor:pointer;font-size:.88rem;font-weight:600">Détail avancé URSSAF / impôt (optionnel)</summary>
+      <div class="af-calc-grid" style="margin-top:10px">
+        <div>
+          <label for="calcUrssaf">URSSAF (%)</label>
+          <input id="calcUrssaf" type="number" min="0" max="40" step="0.1" />
+        </div>
+        <div>
+          <label for="calcIr">Impôt / versement libératoire (%)</label>
+          <input id="calcIr" type="number" min="0" max="20" step="0.1" />
+        </div>
+        <div style="display:flex;align-items:end">
+          <button type="button" class="btn btn-ghost" id="btnSyncChargesFromSplit">Utiliser URSSAF + IR comme total</button>
+        </div>
+      </div>
+      <p class="af-hint">Astuce : en micro-entreprise, tu peux mettre directement ton taux réel (ex. 22 %). Les presets sont des ordres de grandeur. Le <strong>revenu imposable estimé</strong> applique l’abattement micro (BIC 50&nbsp;% / BNC 34&nbsp;% / commerce 71&nbsp;%) sur ta part — indicatif, pas un avis d’imposition.</p>
+    </details>
+    <div class="af-table-wrap" style="margin-top:14px">
+      <table class="af-compare-table" id="compareTable">
+        <thead>
+          <tr>
+            <th>Agence</th>
+            <th>Barème utiliséé</th>
+            <th>Honoraires agence</th>
+            <th id="cmpColDerived">Prix FAI</th>
+            <th>Ma part</th>
+            <th>Net AE estimé</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="af-hint" id="cmpHint"></p>
+    <div id="stripeSplitPreview" class="af-result" style="margin-top:12px"></div>
+    <details style="margin-top:14px">
+      <summary style="cursor:pointer;font-weight:600;font-size:.9rem">Encaissements Stripe — poche vs réserves</summary>
+      <div class="af-table-wrap" style="margin-top:10px">
+        <table class="af-compare-table" id="stripeSplitsTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Brut Stripe</th>
+              <th>Ta part</th>
+              <th>URSSAF/impôts</th>
+              <th>CFE</th>
+              <th>Compta</th>
+              <th>Dans ta poche</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <section class="af-deal" id="dealSplitPanel">
+    <h3>Rémunération — qui touche quoi</h3>
+    <p class="af-sub">Coche uniquement ce qui existe sur le dossier. Le reste reste masqué.</p>
+    <div class="af-mode-tabs" id="dealRoleTabs"></div>
+    <div class="af-checks" id="dealOptionChecks">
+      <label class="af-check" id="chkApporteurLabel">
+        <input type="checkbox" id="dealApporteurEnabled" />
+        Apporteur d'affaires
+      </label>
+      <p class="af-hint" style="grid-column:1/-1;color:#9a3412;margin:0 0 8px">
+        Aucune rémunération n'est promise à l'avance aux apporteurs d'affaires.
+        Si le dossier va jusqu'à sa conclusion, une reconnaissance pourra éventuellement être étudiée — sans engagement préalable.
+        Un % n'est saisi que si un accord existe déjà sur le dossier — jamais par défaut, jamais promis au public.
+      </p>
+      <label class="af-check" id="chkCollabLabel">
+        <input type="checkbox" id="dealOtherCollabEnabled" />
+        Autre collaborateur (notaire, partenaire…)
+      </label>
+      <label class="af-check" id="chkAgencyLabel">
+        <input type="checkbox" id="dealShowAgencyKeep" checked />
+        Afficher part agence / réseau
+      </label>
+      <label class="af-check" id="chkStepsLabel">
+        <input type="checkbox" id="dealShowSteps" />
+        Afficher le détail des étapes
+      </label>
+    </div>
+    <div class="af-calc-grid">
+      <div id="dealShareWrap" hidden>
+        <label for="dealSortantPct">Part sortant (% masse négo)</label>
+        <input id="dealSortantPct" type="number" min="0" max="100" step="1" value="50" />
+      </div>
+      <div id="dealEntrantWrap" hidden>
+        <label for="dealEntrantPct">Part entrant (% masse négo)</label>
+        <input id="dealEntrantPct" type="number" min="0" max="100" step="1" value="50" />
+      </div>
+      <div id="dealOtherWrap" hidden>
+        <label for="dealOtherName">Autre négociateur (nom)</label>
+        <input id="dealOtherName" type="text" placeholder="Ex. collègue / autre agence" />
+      </div>
+    </div>
+    <div class="af-calc-grid" id="dealApporteurFields" hidden style="margin-top:12px">
+      <div>
+        <label for="dealApporteurName">Nom apporteur</label>
+        <input id="dealApporteurName" type="text" placeholder="Contact CRM type apporteur" />
+      </div>
+      <div>
+        <label for="dealApporteurSide">A apporté</label>
+        <select id="dealApporteurSide">
+          <option value="vendeur">Le vendeur / mandat</option>
+          <option value="acheteur">L'acquéreur</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div>
+        <label for="dealApporteurPct">Part saisie (si accord existant) %</label>
+        <input id="dealApporteurPct" type="number" min="0" max="100" step="0.1" value="0" />
+      </div>
+      <div>
+        <label for="dealApporteurBase">% calculé sur</label>
+        <select id="dealApporteurBase">
+          <option value="my_share">Ma part (après sortant/entrant)</option>
+          <option value="agent_mass">Masse négociateurs</option>
+          <option value="agency_fee">Honoraires agence totaux</option>
+        </select>
+      </div>
+      <div>
+        <label for="dealApporteurPaidFrom">Prélevé sur</label>
+        <select id="dealApporteurPaidFrom">
+          <option value="my_share">Ma rémunération</option>
+          <option value="agent_mass">Masse négo (prorata)</option>
+          <option value="agency">Part agence / réseau</option>
+        </select>
+      </div>
+    </div>
+    <div class="af-calc-grid" id="dealOtherCollabFields" hidden style="margin-top:12px">
+      <div>
+        <label for="dealOtherCollabName">Nom / rôle</label>
+        <input id="dealOtherCollabName" type="text" placeholder="Ex. notaire, partenaire, assistant…" />
+      </div>
+      <div>
+        <label for="dealOtherCollabPct">Commission %</label>
+        <input id="dealOtherCollabPct" type="number" min="0" max="100" step="0.1" value="0" />
+      </div>
+      <div>
+        <label for="dealOtherCollabBase">% calculé sur</label>
+        <select id="dealOtherCollabBase">
+          <option value="my_share">Ma part</option>
+          <option value="agent_mass">Masse négociateurs</option>
+          <option value="agency_fee">Honoraires agence</option>
+        </select>
+      </div>
+      <div>
+        <label for="dealOtherCollabPaidFrom">Prélevé sur</label>
+        <select id="dealOtherCollabPaidFrom">
+          <option value="my_share">Ma rémunération</option>
+          <option value="agent_mass">Masse négo (prorata)</option>
+          <option value="agency">Part agence / réseau</option>
+        </select>
+      </div>
+    </div>
+    <div class="af-result" id="dealKpis" style="margin-top:14px"></div>
+    <ul class="af-steps" id="dealSteps" hidden></ul>
+    <p class="af-hint" id="dealHint"></p>
+    <p class="af-hint" style="margin-top:8px">
+      Une fois le FAI / net vendeur et ta part calés,
+      <a id="dealCtaCredit" href="./landings/credit-immo.html#demande" target="_blank" rel="noopener">lance la demande de prêt</a>
+      avec les mêmes montants pour collecter les docs acquéreur.
+    </p>
+  </section>
+
+  <section class="af-buyer" id="buyerFinancePanel">
+    <h3>Côté acheteur — financement possible</h3>
+    <p class="af-sub">
+      Capacité d'emprunt, mensualité, LTV et endettement croisés avec le FAI de chaque agence.
+      Types : prêt amortissable, rachat / regroupement, renégociation, prêt relais.
+    </p>
+    <div class="af-mode-tabs" id="loanTypeTabs"></div>
+    <div class="af-checks" style="margin-bottom:12px">
+      <label class="af-check" id="chkCoBorrowerLabel">
+        <input type="checkbox" id="bfShowCoBorrower" />
+        Co-emprunteur
+      </label>
+      <label class="af-check" id="chkAdvFinanceLabel">
+        <input type="checkbox" id="bfShowAdvFinance" />
+        Options avancées (notaire / assurance)
+      </label>
+    </div>
+    <div class="af-calc-grid">
+      <div>
+        <label for="bfIncome">Revenus nets mensuels (€)</label>
+        <input id="bfIncome" type="number" min="0" step="50" value="3200" />
+      </div>
+      <div id="bfCoIncomeWrap" hidden>
+        <label for="bfCoIncome">Co-emprunteur (€/mois)</label>
+        <input id="bfCoIncome" type="number" min="0" step="50" value="0" />
+      </div>
+      <div>
+        <label for="bfExisting">Crédits en cours (€/mois)</label>
+        <input id="bfExisting" type="number" min="0" step="10" value="0" />
+      </div>
+      <div>
+        <label for="bfDown">Apport (€)</label>
+        <input id="bfDown" type="number" min="0" step="1000" value="30000" />
+      </div>
+      <div>
+        <label for="bfYears">Durée (années)</label>
+        <input id="bfYears" type="number" min="5" max="30" step="1" value="25" />
+      </div>
+      <div>
+        <label for="bfRate">Taux nominal % <span style="font-weight:400">(vide = auto)</span></label>
+        <input id="bfRate" type="number" min="0" max="12" step="0.05" placeholder="auto" />
+      </div>
+      <div>
+        <label for="bfDti">Plafond endettement %</label>
+        <input id="bfDti" type="number" min="20" max="40" step="0.5" value="35" />
+      </div>
+      <div>
+        <label for="bfFeePayer">Honoraires à la charge de</label>
+        <select id="bfFeePayer">
+          <option value="vendeur">Vendeur (prix FAI)</option>
+          <option value="acheteur">Acquéreur</option>
+        </select>
+      </div>
+      <div id="bfNotaryWrap" hidden>
+        <label for="bfNotary">Frais de notaire</label>
+        <select id="bfNotary">
+          <option value="ancien">Ancien (~7,5 %)</option>
+          <option value="neuf">Neuf / VEFA (~2,5 %)</option>
+          <option value="custom">Personnalisé</option>
+        </select>
+      </div>
+      <div id="bfNotaryPctWrap" hidden>
+        <label for="bfNotaryPct">Notaire %</label>
+        <input id="bfNotaryPct" type="number" min="0" max="15" step="0.1" value="7.5" />
+      </div>
+      <div id="bfFinanceNotaryWrap" hidden>
+        <label for="bfFinanceNotary">Financer le notaire ?</label>
+        <select id="bfFinanceNotary">
+          <option value="1">Oui (dans l'emprunt)</option>
+          <option value="0">Non (cash / apport)</option>
+        </select>
+      </div>
+      <div id="bfInsurWrap" hidden>
+        <label for="bfInsur">Assurance emprunteur % / an</label>
+        <input id="bfInsur" type="number" min="0" max="2" step="0.01" value="0.34" />
+      </div>
+    </div>
+
+    <div class="af-calc-grid" id="bfRachatFields" hidden style="margin-top:12px">
+      <div>
+        <label for="bfCurBalance">Capital restant dû regroupé (€)</label>
+        <input id="bfCurBalance" type="number" min="0" step="1000" value="0" />
+      </div>
+      <div>
+        <label for="bfCurMonthly">Mensualité actuelle rachetée (€)</label>
+        <input id="bfCurMonthly" type="number" min="0" step="10" value="0" />
+      </div>
+      <div>
+        <label for="bfCashOut">Trésorerie / cash-out (€)</label>
+        <input id="bfCashOut" type="number" min="0" step="1000" value="0" />
+      </div>
+      <div>
+        <label for="bfIncludeProject">Inclure le projet immo dans le rachat</label>
+        <select id="bfIncludeProject">
+          <option value="1">Oui (soldes + besoin achat)</option>
+          <option value="0">Non (soldes + trésorerie seule)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="af-calc-grid" id="bfRelaisFields" hidden style="margin-top:12px">
+      <div>
+        <label for="bfBridge">Montant prêt relais (€)</label>
+        <input id="bfBridge" type="number" min="0" step="1000" value="0" placeholder="sinon = besoin projet" />
+      </div>
+    </div>
+
+    <div class="af-result" id="bfCapacityKpis" style="margin-top:14px"></div>
+
+    <div class="af-loan-cta" id="bfLoanCta" style="margin-top:14px;padding:14px;border:1px solid #bfdbfe;background:#eff6ff;border-radius:12px">
+      <strong style="display:block;margin-bottom:6px;color:#1e3a8a">Demande de prêt intelligente</strong>
+      <p style="margin:0 0 10px;font-size:.88rem;color:#1e40af">
+        Envoie les chiffres (FAI / net, apport, durée, revenus) vers le questionnaire prêt pour monter le dossier et collecter les pièces (bulletins, avis d’impôt, RIB…).
+      </p>
+      <div class="af-actions" style="margin:0">
+        <a class="btn btn-primary" id="bfCtaCredit" href="./landings/credit-immo.html#demande" target="_blank" rel="noopener">Ouvrir demande de prêt</a>
+        <a class="btn btn-ghost" id="bfCtaProjection" href="./landings/projection-achat.html#simulateur" target="_blank" rel="noopener">Projection coût réel</a>
+        <a class="btn btn-ghost" id="bfCtaAcheteur" href="./landings/acheteur-immo.html#demande" target="_blank" rel="noopener">Parcours acquéreur (+ assurances)</a>
+        <a class="btn btn-ghost" id="bfCtaDossier" href="./crm-pret-immo-sim.html?type=immo">Créer dossier Prêt Immo</a>
+        <button type="button" class="btn btn-ghost" id="bfCtaCopy">Copier le lien</button>
+      </div>
+      <p class="af-hint" id="bfCtaHint" style="margin-top:8px"></p>
+    </div>
+
+    <div class="af-table-wrap" style="margin-top:14px">
+      <table class="af-compare-table" id="buyerFinanceTable">
+        <thead>
+          <tr>
+            <th>Agence (FAI)</th>
+            <th>Projet total</th>
+            <th>À emprunter</th>
+            <th>Mensualité + assur.</th>
+            <th>Endettement</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="af-hint" id="bfHint"></p>
+
+    <details style="margin-top:12px">
+      <summary style="cursor:pointer;font-weight:600;font-size:.9rem">Règles de calcul affichées</summary>
+      <ul class="af-rules" id="bfRules"></ul>
+    </details>
+  </section>
+
+  <div class="af-layout">
+    <aside class="af-list">
+      <div class="af-list-hd">
+        <h3>Agences</h3>
+        <button type="button" class="btn btn-ghost" id="btnResetDefaults" title="Réinitialiser les exemples">Reset</button>
+      </div>
+      <div id="agencyList"></div>
+    </aside>
+
+    <div>
+      <section class="af-panel" id="agencyEditor">
+        <h3>Agence sélectionnée</h3>
+        <div class="af-form-grid">
+          <div>
+            <label for="agencyName">Nom de l'agence</label>
+            <input id="agencyName" type="text" placeholder="Ex. Laforêt" />
+          </div>
+          <div>
+            <label for="agentSharePct">Ma part des honoraires (%)</label>
+            <input id="agentSharePct" type="number" min="0" max="100" step="0.1" />
+          </div>
+          <div>
+            <label for="agencyOperatingPct">Frais fonctionnement agence (%)</label>
+            <input id="agencyOperatingPct" type="number" min="0" max="100" step="0.1" />
+          </div>
+          <div>
+            <label for="agencyFranchisePct">Redevance franchise / pub (%)</label>
+            <input id="agencyFranchisePct" type="number" min="0" max="100" step="0.1" />
+          </div>
+          <div style="grid-column:1/-1">
+            <p class="af-hint" style="margin:0">
+              Ces deux frais sont déduits <strong>après ta part négociateur</strong>, avant URSSAF / CFE / compta.
+              Pour Laforêt, les sources publiques consultées pointent plutôt vers une redevance de fonctionnement
+              variable selon CA et une redevance pub réseau ; adapte les % à ton contrat réel.
+            </p>
+          </div>
+          <div style="grid-column:1/-1">
+            <label for="agencyNotes">Notes</label>
+            <textarea id="agencyNotes" placeholder="Référence barème, conditions…"></textarea>
+          </div>
+        </div>
+        <div class="af-actions">
+          <button type="button" class="btn btn-primary" id="btnSaveAgency">Enregistrer l'agence</button>
+          <button type="button" class="btn btn-primary" id="btnApplyPortesCles">⚠ Réinjecter les 23 forfaits TG0422</button>
+          <button type="button" class="btn btn-ghost af-danger" id="btnDeleteAgency">Supprimer</button>
+        </div>
+      </section>
+
+      <section class="af-panel">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <h3 style="margin:0">Barème d'honoraires</h3>
+          <div class="af-actions" style="margin:0">
+            <button type="button" class="btn btn-ghost" id="btnAddSchedule">+ Barème</button>
+            <button type="button" class="btn btn-ghost" id="btnRenameSchedule">Renommer</button>
+            <button type="button" class="btn btn-ghost af-danger" id="btnDeleteSchedule">Suppr. barème</button>
+          </div>
+        </div>
+        <div class="af-sched-tabs" id="scheduleTabs"></div>
+        <div class="af-table-wrap">
+          <table class="af-table" id="bracketsTable">
+            <thead>
+              <tr>
+                <th>Prix min €</th>
+                <th>Prix max € <span style="font-weight:400;text-transform:none">(vide = ∞)</span></th>
+                <th>Type</th>
+                <th>Valeur (% ou € fixe)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="af-actions">
+          <button type="button" class="btn btn-ghost" id="btnAddBracket">+ Tranche</button>
+          <button type="button" class="btn btn-primary" id="btnSaveBrackets">Enregistrer le barème</button>
+        </div>
+        <p class="af-hint" id="scheduleHint">
+          Portes Clés TG0422 : forfaits TTC sur net vendeur · &gt; 1 M€ → 6 % · Pro → 10 % TTC (sans minimum) ·
+          Bail com. 30 % HT (mini 7 000 € HT) · Loc. hab. 10 / 12,10 / 10,09 / 8,07 / 3,03 € TTC/m² · Loc. pro 18 % TTC · Avis 360 € TTC.
+        </p>
+        <div id="scheduleSpecialInfo" class="af-hint" style="display:none"></div>
+      </section>
+
+      <section class="af-panel af-calc">
+        <h3>Détail agence sélectionnée</h3>
+        <div class="af-calc-grid">
+          <div id="calcPriceModeWrap">
+            <label for="calcPriceMode">Type de prix</label>
+            <select id="calcPriceMode">
+              <option value="net_vendeur">Net vendeur</option>
+              <option value="fai">FAI (honoraires inclus)</option>
+            </select>
+          </div>
+          <div>
+            <label for="calcPrice" id="calcPriceLabel">Prix net vendeur / de référence (€)</label>
+            <input id="calcPrice" type="number" min="0" step="1000" value="200000" />
+          </div>
+          <div id="calcSurfaceWrap" hidden>
+            <label for="calcSurface">Surface habitable (m²)</label>
+            <input id="calcSurface" type="number" min="0" step="1" value="60" />
+          </div>
+          <div id="calcZoneWrap" hidden>
+            <label for="calcZone">Zone</label>
+            <select id="calcZone">
+              <option value="tendue" selected>Zone tendue (10,09 €/m²)</option>
+              <option value="hors_zone">Hors zone (8,07 €/m²)</option>
+              <option value="tres_tendue">Zone très tendue (12,10 €/m²)</option>
+            </select>
+          </div>
+          <div id="calcPartyWrap" hidden>
+            <label for="calcParty">Partie</label>
+            <select id="calcParty">
+              <option value="total">Total agence</option>
+              <option value="bailleur">Bailleur</option>
+              <option value="locataire">Locataire</option>
+            </select>
+          </div>
+        </div>
+        <div class="af-result" id="calcResult"></div>
+        <p class="af-hint" id="calcDetail"></p>
+        <div class="af-actions">
+          <button type="button" class="btn btn-ghost btn-sm" id="btnPrintFees">Imprimer / PDF l'estimation</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-immo-finance-nav.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/finance-deep-link.js"></script>
+  <script src="./js/crm-agency-fees-lib.js"></script>
+  <script src="./js/crm-buyer-finance-lib.js"></script>
+  <script src="./js/print-document-lib.js"></script>
+  <script src="./crm-agency-fees.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
