@@ -213,6 +213,90 @@
     });
   }
 
+  function shellHtml(title, hint) {
+    return (
+      '<div class="panel-head"><h2>' +
+      esc(title || "Demandes de visite") +
+      '</h2><span class="tour-req-badge" data-tour-req-badge>…</span></div>' +
+      '<p class="pub-hint">' +
+      esc(
+        hint ||
+          "Le visiteur n’obtient aucun code tout seul. Tu valides (le code part par e-mail) ou tu déclines — ultra important."
+      ) +
+      "</p>" +
+      '<p class="pub-hint" data-tour-req-msg></p>' +
+      '<div data-tour-req-list></div>' +
+      '<div class="panel-head" style="margin-top:28px"><h2>Estimations de prix visiteurs</h2></div>' +
+      '<p class="pub-hint">Montants proposés après visite / fiche bien (anti-abus IP + empreinte connexion). Commentaires +/− facultatifs.</p>' +
+      '<p class="pub-hint" data-price-offer-msg></p>' +
+      '<div data-price-offer-list></div>'
+    );
+  }
+
+  function renderOffers(root, offers) {
+    var list = root.querySelector("[data-price-offer-list]");
+    var msg = root.querySelector("[data-price-offer-msg]");
+    if (!list) return;
+    offers = offers || [];
+    if (!offers.length) {
+      list.innerHTML = '<p class="pub-hint" style="margin:8px 0 0">Aucune estimation pour l’instant.</p>';
+      return;
+    }
+    if (msg) msg.textContent = offers.length + " estimation(s)";
+    list.innerHTML = offers
+      .map(function (o) {
+        var who = [o.first_name, o.email, o.phone].filter(Boolean).join(" · ") || "Anonyme";
+        var ratio =
+          o.ratio != null && isFinite(o.ratio) ? Math.round(o.ratio * 100) + " %" : "—";
+        var ask = o.asking_price != null ? Number(o.asking_price).toLocaleString("fr-FR") + " €" : "—";
+        var amt = Number(o.amount || 0).toLocaleString("fr-FR") + " €";
+        return (
+          '<article class="tour-req-card">' +
+          '<div class="tour-req-head"><strong>' +
+          esc(amt) +
+          '</strong><span class="tour-req-st">' +
+          esc(o.level || o.source || "") +
+          "</span></div>" +
+          '<p class="tour-req-meta">' +
+          esc(o.property_title || o.property_id || "") +
+          " · affiché " +
+          esc(ask) +
+          " · ratio " +
+          esc(ratio) +
+          "</p>" +
+          '<p class="tour-req-meta">' +
+          esc(who) +
+          " · " +
+          esc(whenFr(o.created_at)) +
+          "</p>" +
+          (o.comment_plus
+            ? '<p class="tour-req-meta"><strong>+</strong> ' + esc(o.comment_plus) + "</p>"
+            : "") +
+          (o.comment_moins
+            ? '<p class="tour-req-meta"><strong>−</strong> ' + esc(o.comment_moins) + "</p>"
+            : "") +
+          "</article>"
+        );
+      })
+      .join("");
+  }
+
+  function loadOffers(root, opts) {
+    opts = opts || {};
+    return post({
+      action: "list_price_offers",
+      property_id: opts.propertyId || "",
+      token: opts.token || "",
+    }).then(function (res) {
+      if (res.d && res.d.ok) renderOffers(root, res.d.offers || []);
+      else {
+        var msg = root.querySelector("[data-price-offer-msg]");
+        if (msg) msg.textContent = (res.d && res.d.error) || "";
+      }
+      return res.d;
+    });
+  }
+
   function load(root, opts) {
     opts = opts || {};
     var msg = root.querySelector("[data-tour-req-msg]");
@@ -234,6 +318,7 @@
         if (msg && msg.textContent === "Chargement des demandes…") msg.textContent = "";
         renderList(root, res.d, opts);
         if (typeof opts.onCount === "function") opts.onCount(res.d.pending_count || 0);
+        loadOffers(root, opts);
         return res.d;
       })
       .catch(function () {
@@ -242,22 +327,6 @@
           msg.style.color = "#9a3412";
         }
       });
-  }
-
-  function shellHtml(title, hint) {
-    return (
-      '<div class="panel-head"><h2>' +
-      esc(title || "Demandes de visite") +
-      '</h2><span class="tour-req-badge" data-tour-req-badge>…</span></div>' +
-      '<p class="pub-hint">' +
-      esc(
-        hint ||
-          "Le visiteur n’obtient aucun code tout seul. Tu valides (le code part par e-mail) ou tu déclines — ultra important."
-      ) +
-      "</p>" +
-      '<p class="pub-hint" data-tour-req-msg></p>' +
-      '<div data-tour-req-list></div>'
-    );
   }
 
   function mount(root, opts) {
@@ -272,5 +341,5 @@
     return load(root, opts);
   }
 
-  window.CrmImmoTourRequests = { mount: mount, load: load, decide: decide };
+  window.CrmImmoTourRequests = { mount: mount, load: load, decide: decide, loadOffers: loadOffers };
 })();

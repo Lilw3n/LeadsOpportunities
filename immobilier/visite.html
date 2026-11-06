@@ -16,7 +16,7 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="../main.css" />
-  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260913wideTour" />
+  <link rel="stylesheet" href="../css/immo-ad-listings.css?v=20260915offer1" />
 </head>
 <body class="immo-ad-page immo-ad-page--listing immo-tour-page">
   <div class="immo-ad-private-banner">
@@ -86,6 +86,34 @@
       </aside>
       <div class="tour-stage-main">
         <div id="tourPlayer" class="tour-player" hidden></div>
+        <section id="tourPriceOffer" class="tour-price-offer" hidden aria-labelledby="tourPriceOfferTitle">
+          <p class="tour-price-offer-kicker">Votre avis compte</p>
+          <h2 id="tourPriceOfferTitle">Combien seriez-vous prêt(e) à donner pour ce bien ?</h2>
+          <p class="tour-price-offer-lead">
+            Estimation indicative, basée sur un <strong>prix correct</strong> affiché.
+            Une seule proposition par connexion (IP) — anti-abus.
+          </p>
+          <p class="tour-price-offer-ask" id="tourPriceAsk" hidden></p>
+          <form id="tourPriceOfferForm" class="tour-price-offer-form" novalidate>
+            <input type="text" name="_hp" id="tourPriceHp" tabindex="-1" autocomplete="off" aria-hidden="true" class="tour-contact-hp" />
+            <label>Montant (€) *
+              <input id="tourPriceAmount" name="amount" type="text" inputmode="numeric" required placeholder="Ex. 185000" autocomplete="off" />
+            </label>
+            <p class="tour-price-warn" id="tourPriceWarn" role="status" hidden></p>
+            <div class="tour-price-comments">
+              <label>Point positif <span class="muted">(facultatif)</span>
+                <textarea id="tourPricePlus" name="comment_plus" rows="2" placeholder="Ce que vous aimez…" maxlength="600"></textarea>
+              </label>
+              <label>Point négatif <span class="muted">(facultatif)</span>
+                <textarea id="tourPriceMoins" name="comment_moins" rows="2" placeholder="Ce qui freine…" maxlength="600"></textarea>
+              </label>
+            </div>
+            <div class="gate-actions">
+              <button type="submit" class="btn btn-primary" id="tourPriceSubmit">Envoyer mon estimation</button>
+            </div>
+            <p class="gate-msg" id="tourPriceMsg" role="status"></p>
+          </form>
+        </section>
       </div>
       <aside class="tour-stage-side" id="tourSide">
         <div id="tourImportant" class="tour-important" hidden>
@@ -165,7 +193,8 @@
     </div>
   </footer>
 
+  <script src="../js/immo-tour-price-offer-lib.js?v=20260915offer1"></script>
   <script src="../js/immo-ad-protect.js?v=20260913contact1"></script>
-  <script src="../js/immo-tour-access-page.js?v=20260913contact1"></script>
+  <script src="../js/immo-tour-access-page.js?v=20260915offer1"></script>
 </body>
 </html>
