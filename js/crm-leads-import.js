@@ -174,8 +174,24 @@
   }
 
   /* ---------- Liste ---------- */
+  function fold(s) {
+    return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  }
+
+  /** Tous les mots trouvés, dans n'importe quel ordre, sans accents ; les chiffres ignorent les espaces. */
+  function matchesSearch(it, q) {
+    var hay = fold([it.full_name, it.last_name, it.first_name, it.email, it.email_broker, it.phone, it.product, it.batch].join(" "));
+    var digits = q.replace(/\D/g, "");
+    if (digits.length >= 6 && String(it.phone || "").replace(/\D/g, "").indexOf(digits.replace(/^33/, "0")) >= 0) return true;
+    return fold(q).split(/\s+/).filter(Boolean).every(function (w) { return hay.indexOf(w) >= 0; });
+  }
+
+  function globalSearchLink(q, label) {
+    return '<a class="btn btn-ghost btn-sm" href="./crm-search.html?q=' + encodeURIComponent(q) + '">' + label + "</a>";
+  }
+
   function filtered() {
-    var q = $("liSearch").value.trim().toLowerCase();
+    var q = $("liSearch").value.trim();
     var seg = $("liSegment").value, st = $("liStatus").value, reach = $("liReach").value;
     return state.items.filter(function (it) {
       if (seg && it.segment !== seg) return false;
@@ -183,7 +199,7 @@
       if (reach === "email" && !it.email) return false;
       if (reach === "phone" && !it.phone) return false;
       if (reach === "none" && (it.email || it.phone)) return false;
-      if (q && [it.full_name, it.email, it.phone].join(" ").toLowerCase().indexOf(q) < 0) return false;
+      if (q && !matchesSearch(it, q)) return false;
       return true;
     }).sort(function (a, b) { return (nextDue(a.ref_date) || 9e15) - (nextDue(b.ref_date) || 9e15); });
   }
@@ -200,7 +216,12 @@
     ].map(function (k) { return '<div class="acq-stat"><strong>' + k[1] + "</strong><span>" + k[0] + "</span></div>"; }).join("");
 
     var rows = filtered();
-    if (!rows.length) { $("liTable").innerHTML = '<p class="muted">Aucun lead importé pour ces filtres.</p>'; return; }
+    if (!rows.length) {
+      var typed = $("liSearch").value.trim();
+      $("liTable").innerHTML = '<p class="muted">Aucun lead importé pour ces filtres.</p>' +
+        (typed ? "<p>" + globalSearchLink(typed, "Chercher « " + esc(typed) + " » dans tout le CRM") + "</p>" : "");
+      return;
+    }
     var opts = Object.keys(STATUS_LABELS);
     $("liTable").innerHTML = '<table class="lh-table"><thead><tr><th>Lead</th><th>Type</th><th>Contact</th><th>Prochaine échéance</th><th>Statut</th><th>Notes</th><th>Actions</th></tr></thead><tbody>' +
       rows.map(function (it) {
@@ -214,7 +235,9 @@
           '<td><textarea class="crm-input li-notes" rows="2">' + esc(it.notes || "") + "</textarea></td>" +
           '<td class="li-row-actions">' +
             (it.email ? '<a class="btn btn-ghost btn-sm li-mail" href="' + mailto(it) + '">Mail</a>' : "") +
-            (it.phone ? '<a class="btn btn-ghost btn-sm" href="tel:' + esc(it.phone) + '">Appeler</a>' : "") +
+            (it.phone
+              ? '<a class="btn btn-ghost btn-sm" href="tel:' + esc(it.phone) + '">Appeler</a>'
+              : globalSearchLink(it.full_name || it.email || "", "Chercher le numéro")) +
           "</td></tr>";
       }).join("") + "</tbody></table>";
   }
@@ -224,6 +247,8 @@
     api("GET").then(function (d) {
       if (!d.ok) { $("liTable").innerHTML = '<p class="muted">' + esc(d.error || "Erreur") + "</p>"; return; }
       state.items = d.items || [];
+      var fromUrl = new URLSearchParams(location.search).get("q");
+      if (fromUrl && !$("liSearch").value) $("liSearch").value = fromUrl;
       render();
     });
   }
