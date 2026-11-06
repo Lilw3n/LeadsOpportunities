@@ -461,6 +461,82 @@
     load();
   });
   document.getElementById("lhRefresh").onclick = load;
+  document.getElementById("lhPurgeNoise").addEventListener("click", function () {
+    var btn = document.getElementById("lhPurgeNoise");
+    btn.disabled = true;
+    api("/api/dashboard/lead-delete", {
+      method: "POST",
+      body: { purge: "no-contact", dryRun: true },
+    })
+      .catch(function () {
+        btn.disabled = false;
+        alert("Connexion impossible");
+        return null;
+      })
+      .then(function (preview) {
+      if (!preview) return;
+      if (!preview.ok) {
+        btn.disabled = false;
+        alert(preview.error || "Impossible de compter le bruit");
+        return;
+      }
+      var total = Number(preview.total) || 0;
+      if (!total) {
+        btn.disabled = false;
+        alert("Aucun lead sans e-mail ni téléphone.");
+        return;
+      }
+      var word = window.prompt(
+        total +
+          " lead(s) sans e-mail ni téléphone seront supprimés.\n\nLes leads qui ont un e-mail, un téléphone, ou une fiche interlocuteur sont conservés.\n\nTapez SUPPRIMER pour confirmer."
+      );
+      if (word !== "SUPPRIMER") {
+        btn.disabled = false;
+        return;
+      }
+      var removed = 0;
+      var left = total;
+      var guard = 0;
+      function nextBatch() {
+        if (left <= 0 || guard >= 40) {
+          btn.disabled = false;
+          alert(
+            removed +
+              " lead(s) bruit supprimé(s)" +
+              (left > 0 ? " · " + left + " restant(s), relancez le bouton." : ".")
+          );
+          state.selected = {};
+          load();
+          return;
+        }
+        guard += 1;
+        api("/api/dashboard/lead-delete", {
+          method: "POST",
+          body: { purge: "no-contact" },
+        })
+          .catch(function () {
+            btn.disabled = false;
+            alert("Connexion impossible");
+            return null;
+          })
+          .then(function (batch) {
+          if (!batch) return;
+          if (!batch.ok) {
+            btn.disabled = false;
+            alert(batch.error || "Suppression interrompue");
+            load();
+            return;
+          }
+          var n = batch.deleted && batch.deleted.length ? batch.deleted.length : 0;
+          removed += n;
+          left = Number(batch.remaining) || 0;
+          if (!n) left = 0;
+          nextBatch();
+        });
+      }
+      nextBatch();
+    });
+  });
   var t;
   document.getElementById("lhSearch").addEventListener("input", function () {
     var v = this.value;
