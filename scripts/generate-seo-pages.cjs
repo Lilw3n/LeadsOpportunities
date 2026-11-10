@@ -70,6 +70,8 @@ function isIndexableGeoPath(p) {
   else if (s.length === 3 && s[1] === "departement" && GEO_DEPT.has(s[2])) slug = s[2];
   else if (s.length === 3 && s[1] === "region" && GEO_REGION.has(s[2])) slug = s[2];
   if (!slug) return true;
+  // credit-immo/<ville> doublonne pret-immobilier/<ville> (même sujet, même titre) : une seule version indexée
+  if (s[0] === "credit-immo") return false;
   if (LOCAL_GEO_KEEP.has(slug)) return true;
   return s[0] === "assurance-vtc" && VTC_GEO_KEEP.has(slug);
 }
@@ -1168,7 +1170,11 @@ const mainUrls = allUrls
   .concat(getVtcIdfSitemapEntries(BASE))
   .concat(getImmoDestinationSitemapEntries(BASE))
   .concat(nancyBassin.sitemapEntries(BASE))
-  .concat(require("./generate-forum.cjs").getForumSitemapEntries(BASE));
+  .concat(require("./generate-forum.cjs").getForumSitemapEntries(BASE))
+  // Même règle que la balise robots : jamais une page noindex dans un sitemap
+  .filter(function (u) {
+    return isIndexableGeoPath(u.loc);
+  });
 
 writeSitemap(mainUrls, path.join(ROOT, "sitemap-main.xml"));
 writeSitemap(geoUrls, path.join(ROOT, "sitemap-geo.xml"));
