@@ -28,7 +28,24 @@ function relFrom(sitePath, depth) {
   return prefix + p;
 }
 
+/** Mots visibles d'une page (hors scripts et styles) */
+function visibleWords(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<[^>]+>/g, " ")
+    .split(/\s+/)
+    .filter(Boolean).length;
+}
+
+/** Leçons de moins de 300 mots : utiles aux apprenants, mais trop courtes pour Google
+ *  (elles tiraient la qualité du site vers le bas). Les sommaires restent indexés. */
+const MIN_INDEX_WORDS = 300;
+
 function write(rel, html) {
+  const isLesson = /\.html$/.test(rel) && !/index\.html$/.test(rel);
+  if (isLesson && visibleWords(html) < MIN_INDEX_WORDS) {
+    html = html.replace('<meta name="robots" content="index,follow" />', '<meta name="robots" content="noindex,follow" />');
+  }
   const out = path.join(ROOT, rel);
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, html, "utf8");
