@@ -30,6 +30,7 @@ const { buildTaxiHubPage, buildTaxiLongtailPages, getTaxiLongtailSitemapEntries 
 const { buildVtcIdfPages, getVtcIdfSitemapEntries } = require("./seo-vtc-idf-pages.cjs");
 const { buildImmoDestinationPages, getImmoDestinationSitemapEntries } = require("./seo-immo-destinations.cjs");
 const nancyBassin = require("./nancy-bassin-pret-lib.cjs");
+const { frenchifyHtml } = require("./french-typo-lib.cjs");
 const SeoImg = require("./seo-images-lib.cjs");
 const { providerBlock } = require("./seo-org-schema.cjs");
 const { resolvePageMeta } = require("./seo-keywords-lib.cjs");
@@ -1140,7 +1141,7 @@ const ALL_PAGES = PAGES.concat(
 ALL_PAGES.forEach(function (p) {
   const out = path.join(ROOT, p.file);
   fs.mkdirSync(path.dirname(out), { recursive: true });
-  fs.writeFileSync(out, renderPage(withSeoMeta(p)), "utf8");
+  fs.writeFileSync(out, frenchifyHtml(renderPage(withSeoMeta(p))), "utf8");
 });
 
 const allUrls = collectSitemapUrls(CITIES, DEPARTMENTS, REGIONS, BASE);

@@ -62,7 +62,7 @@ var islandCities = cities.filter(function (c) {
 assert(islandCities.length >= 30, "villes iles/outre-mer (" + islandCities.length + ")");
 
 var pretParis = read("pret-immobilier/paris/index.html");
-assert(pretParis.indexOf("Pret immobilier") >= 0, "Paris pret H1/title");
+assert(/Pr[eê]t immobilier/.test(pretParis), "Paris pret H1/title");
 assert(pretParis.indexOf("landings/credit-immo.html") >= 0, "CTA simulation");
 
 var pretFdf = read("pret-immobilier/fort-de-france/index.html");
