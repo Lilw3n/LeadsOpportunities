@@ -1,7 +1,13 @@
 const { getAuthUser } = require("../auth");
 const { applyApiGuards, parseJsonBody } = require("../security");
 const { getSql } = require("../db");
-const { deleteLeadById, LeadDeleteBlockedError, loadLeadForDelete } = require("../lead-delete-lib");
+const {
+  deleteLeadById,
+  deleteNoContactLeads,
+  countNoContactLeads,
+  LeadDeleteBlockedError,
+  loadLeadForDelete,
+} = require("../lead-delete-lib");
 
 function canDeleteLeads(user) {
   return !!(user && (user.role === "admin" || user.crmRole === "admin"));
@@ -49,12 +55,40 @@ module.exports = async (req, res) => {
     })
     .slice(0, 80);
 
+  const sql = getSql();
+  if (!sql) return res.status(500).json({ error: "Base de données non configurée" });
+
+  if (body.purge === "no-contact") {
+    try {
+      if (body.dryRun) {
+        var total = await countNoContactLeads(sql);
+        return res.status(200).json({
+          ok: true,
+          dryRun: true,
+          total: total,
+          message:
+            total +
+            " lead(s) sans e-mail ni téléphone. Les fiches avec un contact ou un interlocuteur sont conservées.",
+        });
+      }
+      var purged = await deleteNoContactLeads(sql, { limit: 200 });
+      return res.status(200).json({
+        ok: true,
+        message: purged.deleted.length
+          ? purged.deleted.length + " leads bruit supprimés"
+          : "Aucun lead bruit à supprimer",
+        deleted: purged.deleted,
+        remaining: purged.remaining,
+      });
+    } catch (purgeErr) {
+      console.error("[dashboard/lead-delete] purge", purgeErr);
+      return res.status(500).json({ error: "Erreur serveur", detail: purgeErr.message });
+    }
+  }
+
   if (!ids.length) {
     return res.status(400).json({ error: "leadId ou leadIds requis" });
   }
-
-  const sql = getSql();
-  if (!sql) return res.status(500).json({ error: "Base de données non configurée" });
 
   try {
     var deleted = [];
