@@ -187,6 +187,24 @@ function vtcCitySections(city) {
       figure: { file: "vtc/paris-nuit.jpg", alt: "Ile-de-France de nuit — courses VTC depuis " + city.name },
     });
   }
+  var facts = require("./vtc-city-facts.cjs").getVtcCityFacts(city.slug);
+  if (facts) {
+    sections.splice(1, 0, {
+      h2: "Rouler en VTC à " + city.name + " : aéroports, gares et courses types",
+      paragraphs: [
+        "À " + city.name + ", l’activité VTC s’organise autour de " + facts.airports + " et de " + facts.stations + ".",
+        facts.note,
+      ],
+      list: facts.rides,
+    });
+    sections.push({
+      h2: "Quelle assurance pour un chauffeur VTC à " + city.name + " ?",
+      paragraphs: [
+        "Le contrat doit mentionner le transport de personnes à titre onéreux et s’accompagner d’une responsabilité civile professionnelle : ce sont les deux attestations que les plateformes vérifient.",
+        "Pour un devis à " + city.name + ", préparez votre relevé d’information, la carte grise du véhicule et votre carte professionnelle VTC. Un conseiller compare ensuite plusieurs assureurs spécialisés et vous rappelle.",
+      ],
+    });
+  }
   sections.push({
     h2: "Guides et blog VTC",
     paragraphs: [
