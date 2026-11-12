@@ -1052,3 +1052,13 @@ input::placeholder { color: #94a3b8; }
   color: #64748b;
   font-size: 0.85em;
 }
+
+/* Contenu de fond des pages devis (scripts/enrich-landings-seo.cjs) */
+.seo-copy { margin-top: 18px; }
+.seo-copy p { margin: 10px 0 0; line-height: 1.65; }
+.seo-copy ul:not(.faq-list) { margin: 10px 0 0; padding-left: 20px; }
+.seo-copy ul:not(.faq-list) li { margin: 6px 0; line-height: 1.55; }
+.seo-copy a { text-decoration: underline; }
+.seo-copy .actions { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
+.seo-copy .actions a { text-decoration: none; }
+.seo-copy-links p { line-height: 2; }

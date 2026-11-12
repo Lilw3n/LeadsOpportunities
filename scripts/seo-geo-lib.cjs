@@ -1550,7 +1550,9 @@ function buildPillarPageConfigs(pageFn) {
       intro: "Mutuelle chat et assurance chaton : une page dediee par grande ville de France.",
     },
   ];
+  var pillarContent = require("./pillar-content.cjs");
   return pillars.map(function (p) {
+    p = Object.assign({}, p, pillarContent[p.file] || {});
     var villesHub = p.hubVillesUrl || p.siloUrl.replace(/\/$/, "") + "/villes/";
     var deptHub = p.hubDeptUrl || p.siloUrl.replace(/\/$/, "") + "/departements/";
     return pageFn({
@@ -1576,7 +1578,8 @@ function buildPillarPageConfigs(pageFn) {
         { href: deptHub, label: "Par departement" },
         { href: "/france/", label: "Couverture France" },
       ],
-      faq: [
+      sections: p.sections || [],
+      faq: p.faq || [
         {
           q: "Le devis est-il gratuit ?",
           a: "Oui, sans engagement.",
@@ -1796,6 +1799,15 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/chasse.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/equitation.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/vsp.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/decennale.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/immeuble-professionnel.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/esthetique-bien-etre.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/ramonage.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/padel.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/salles-loisirs.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/convoyage-vehicules.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/taxi.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/sante-collective.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/villes/", priority: "0.91", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/chien/", priority: "0.9", changefreq: "weekly" },

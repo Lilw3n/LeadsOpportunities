@@ -46,10 +46,10 @@
     },
     {
       "path": "/credit-immo",
-      "title": "Crédit immobilier 2026 | Simulation, taux, assurance emprunteur",
-      "description": "Crédit immobilier : simulation, capacité d'emprunt, assurance emprunteur, loi Lemoine. Courtier ORIAS France.",
-      "keywords": "crédit immobilier, simulation crédit immobilier, assurance emprunteur, loi Lemoine",
-      "h1": "Crédit immobilier : simulation et accompagnement dossier"
+      "title": "Courtier en crédit immobilier : un dossier, plusieurs banques",
+      "description": "Courtier en crédit immobilier : capacité d'emprunt, dossier présenté à plusieurs banques, assurance emprunteur négociée. Étude gratuite, courtier ORIAS.",
+      "keywords": "courtier crédit immobilier, courtier prêt immobilier, simulation crédit immobilier, assurance emprunteur",
+      "h1": "Courtier en crédit immobilier : un dossier, plusieurs banques"
     },
     {
       "path": "/credit-immo/paris",
@@ -89,8 +89,8 @@
     },
     {
       "path": "/landings/credit-immo.html",
-      "title": "Simulation crédit immobilier | Assurance emprunteur 2026",
-      "description": "Simulation crédit immo + assurance emprunteur. Faisabilité, taux, loi Lemoine. Courtier ORIAS France.",
+      "title": "Simulation crédit immobilier gratuite | Réponse d'un courtier",
+      "description": "Simulez votre crédit immobilier en ligne : capacité d'emprunt, mensualité, assurance de prêt. Prêt refusé ailleurs : 2e étude. Courtier ORIAS, gratuit.",
       "keywords": "simulation crédit immobilier, assurance emprunteur, crédit immo devis"
     },
     {
@@ -162,10 +162,10 @@
     },
     {
       "path": "/pret-immobilier",
-      "title": "Prêt immobilier France 2026 | Villes, îles, DOM-TOM | Courtier ORIAS",
-      "description": "Prêt immobilier partout en France : métropole, Corse, Antilles, Réunion. Simulation, refus bancaire 2e chance, assurance emprunteur.",
-      "keywords": "prêt immobilier, prêt immobilier ville, prêt immobilier refusé, simulation prêt, courtier crédit",
-      "h1": "Prêt immobilier : chaque ville, les îles et les destinations"
+      "title": "Prêt immobilier : simulation, capacité d'emprunt et courtier",
+      "description": "Prêt immobilier : calculez votre capacité d'emprunt, préparez votre dossier, comparez banques et assurance de prêt. Refus bancaire : 2e étude. Courtier ORIAS, gratuit.",
+      "keywords": "prêt immobilier, simulation prêt immobilier, capacité d'emprunt, courtier prêt immobilier, prêt immobilier refusé",
+      "h1": "Prêt immobilier : simulation, capacité d'emprunt et accompagnement"
     },
     {
       "path": "/recherche-bien",

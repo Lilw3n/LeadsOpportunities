@@ -538,6 +538,23 @@ const PAGES = [
     ],
     sections: [
       {
+        h2: "Ce que fait un courtier en crédit immobilier",
+        list: [
+          "Il calcule votre capacité d'emprunt avant que vous ne signiez un compromis",
+          "Il monte un seul dossier et le présente à plusieurs banques",
+          "Il négocie le taux, les frais de dossier, la garantie et les conditions de remboursement anticipé",
+          "Il met en concurrence l'assurance emprunteur de la banque avec des contrats extérieurs",
+          "Il vous accompagne jusqu'à la signature chez le notaire",
+        ],
+      },
+      {
+        h2: "Combien coûte un courtier",
+        paragraphs: [
+          "La loi interdit à un intermédiaire en crédit de percevoir la moindre somme avant le versement effectif des fonds. L'étude, la simulation et les démarches auprès des banques ne vous coûtent donc rien si le prêt ne se fait pas. Les honoraires éventuels sont annoncés par écrit avant tout engagement.",
+          "Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager.",
+        ],
+      },
+      {
         h2: "Pourquoi passer par un courtier",
         paragraphs: [
           "Les conditions varient fortement d une banque a l autre. Un courtier identifie les etablissements les plus favorables a votre profil et evite les refus inutiles.",
@@ -564,6 +581,14 @@ const PAGES = [
       LT.PRET_REFUSE
     ),
     faq: [
+      {
+        q: "Un courtier obtient-il un meilleur taux que moi ?",
+        a: "Pas toujours sur le taux seul. Le gain se fait sur l'ensemble : taux, assurance, frais de dossier, garantie, et surtout sur le choix de la banque qui accepte votre profil.",
+      },
+      {
+        q: "Dois-je changer de banque ?",
+        a: "Souvent la banque prêteuse demande la domiciliation des revenus, mais ce n'est pas systématique et cela se négocie.",
+      },
       {
         q: "Puis-je faire une simulation sans engagement ?",
         a: "Oui, la premiere analyse est gratuite et sans obligation de souscrire.",
