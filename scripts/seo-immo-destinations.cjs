@@ -72,6 +72,53 @@ function buildImmoDestinationPages(page, cities) {
       ],
       sections: [
         {
+          h2: "Combien pouvez-vous emprunter",
+          paragraphs: [
+            "Les banques appliquent deux règles fixées par le Haut Conseil de stabilité financière : vos mensualités de crédit, assurance comprise, ne doivent pas dépasser 35 % de vos revenus nets, et la durée du prêt est limitée à 25 ans, 27 ans pour un achat dans le neuf ou avec de gros travaux.",
+            "Chaque banque dispose d'une marge de dérogation pour une partie de ses dossiers. Elle la réserve en priorité aux primo-accédants et aux résidences principales, et regarde alors le reste à vivre du foyer une fois les charges payées.",
+          ],
+        },
+        {
+          h2: "L'apport personnel",
+          paragraphs: [
+            "La plupart des banques attendent que l'apport couvre au moins les frais de notaire et de garantie, qui ne se revendent pas avec le bien. Un apport plus élevé améliore le taux proposé. Épargne, donation familiale, participation salariale, prêt à taux zéro et prêt Action Logement entrent dans le calcul.",
+          ],
+        },
+        {
+          h2: "Les étapes d'un prêt immobilier",
+          list: [
+            "Simulation : capacité d'emprunt, mensualité cible, budget d'achat",
+            "Compromis de vente, avec une condition suspensive d'obtention du prêt",
+            "Dépôt du dossier dans plusieurs banques et accord de principe",
+            "Offre de prêt : vous disposez d'un délai de réflexion de dix jours avant de pouvoir l'accepter",
+            "Signature chez le notaire et déblocage des fonds",
+          ],
+        },
+        {
+          h2: "Les pièces à préparer",
+          list: [
+            "Pièce d'identité, livret de famille, justificatif de domicile",
+            "Trois derniers bulletins de salaire et contrat de travail, ou bilans pour un indépendant",
+            "Deux derniers avis d'imposition",
+            "Trois derniers relevés de tous vos comptes",
+            "Justificatifs d'apport et tableaux d'amortissement des crédits en cours",
+            "Compromis de vente, ou descriptif du projet",
+          ],
+        },
+        {
+          h2: "L'assurance emprunteur, deuxième coût du crédit",
+          paragraphs: [
+            "Après les intérêts, l'assurance est souvent le premier poste de dépense d'un prêt. Vous n'êtes pas tenu de prendre celle de la banque : un contrat extérieur aux garanties équivalentes doit être accepté, dès l'offre de prêt ou à tout moment ensuite. Nous comparons les deux en même temps que le crédit.",
+          ],
+        },
+        {
+          h2: "Ce que fait le courtier, et ce que cela vous coûte",
+          paragraphs: [
+            "Nous présentons votre dossier à plusieurs banques, dans la forme qu'elles attendent, et nous négocions le taux, les frais de dossier, la garantie et l'assurance. La loi interdit à un intermédiaire en crédit de percevoir la moindre somme avant le versement effectif des fonds : l'étude de votre projet ne vous coûte rien.",
+            "Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager.",
+          ],
+        },
+        {
           h2: "Pourquoi une page par ville",
           paragraphs: [
             "Les recherches « pret immobilier + ville » et « pret immobilier Reunion / Martinique / Corse » meritent une reponse locale : marche, usage du bien, particularites outre-mer.",
@@ -117,6 +164,22 @@ function buildImmoDestinationPages(page, cities) {
         LT.PRET_REFUSE
       ),
       faq: [
+        {
+          q: "Peut-on emprunter sans apport ?",
+          a: "C'est possible pour certains profils, surtout les jeunes actifs en contrat stable qui achètent leur résidence principale. Le dossier doit alors être irréprochable sur la tenue des comptes.",
+        },
+        {
+          q: "Quel est le taux d'endettement maximum ?",
+          a: "35 % des revenus nets, assurance emprunteur comprise. Les banques peuvent y déroger pour une part limitée de leurs dossiers.",
+        },
+        {
+          q: "Combien de temps faut-il pour obtenir un prêt ?",
+          a: "Comptez en général de quelques semaines à deux mois entre le dépôt d'un dossier complet et l'offre de prêt. C'est pourquoi le compromis prévoit un délai pour la condition suspensive.",
+        },
+        {
+          q: "Un indépendant ou un CDD peut-il emprunter ?",
+          a: "Oui. Les banques demandent en général plusieurs bilans pour un indépendant, et regardent la régularité des revenus pour un CDD ou un intérimaire. Toutes n'ont pas la même politique : c'est l'intérêt de consulter plusieurs établissements.",
+        },
         {
           q: "Intervenez-vous hors metropole ?",
           a: "Oui : Corse, Antilles, Reunion, Guyane, Mayotte, Saint-Martin, Saint-Barth, Polynesie, Nouvelle-Caledonie, Saint-Pierre-et-Miquelon, Wallis-et-Futuna — selon le circuit bancaire possible.",

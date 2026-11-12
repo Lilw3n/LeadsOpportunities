@@ -252,3 +252,8 @@ pages.forEach(function (p) {
   fs.writeFileSync(dest, html(p));
   console.log("written", dest);
 });
+
+// Contenu de fond, FAQ et données structurées
+require("./enrich-landings-seo.cjs").run(pages.map(function (p) {
+  return p.file;
+}));
