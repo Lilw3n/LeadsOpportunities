@@ -9,6 +9,7 @@ var fs = require("fs");
 var path = require("path");
 var CONTENT = require("./landing-seo-content.cjs");
 var CATALOG = require("./metiers-suite-catalog.cjs");
+var ORGLIB = require("./seo-org-schema.cjs");
 
 var root = path.join(__dirname, "..");
 var SITE = "https://www.leadsopportunities.fr";
@@ -54,6 +55,7 @@ function fromCatalog(file) {
       return { h2: s.h2, p: s.p ? [s.p] : [], list: s.items || [] };
     }),
     faq: c.faq || [],
+    brief: c.cardExcerpt || "",
   };
 }
 
@@ -72,8 +74,37 @@ function allFiles() {
   return Object.keys(seen);
 }
 
+/** Réponse en deux phrases : ce que les moteurs et les IA reprennent en premier. */
+function briefOf(entry) {
+  if (entry.brief) return entry.brief;
+  var firstP = "";
+  (entry.sections || []).some(function (s) {
+    if ((s.p || []).length) {
+      firstP = s.p[0];
+      return true;
+    }
+    return false;
+  });
+  var text = stripTags(firstP).replace(/\s+/g, " ").trim();
+  var sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+  return sentences
+    .slice(0, 2)
+    .map(function (x) {
+      return x.trim();
+    })
+    .join(" ");
+}
+
 function block(file, entry, need, campaign) {
   var out = [];
+  var brief = briefOf(entry);
+  out.push(
+    '        <div class="form-wrap seo-copy seo-brief">\n          <h2>En bref</h2>\n' +
+      (brief ? "          <p>" + esc(brief) + "</p>\n" : "") +
+      '          <p class="seo-brief-by">Par <a href="../agence-varangeville/">Wendy Buchet</a>, courtière en assurances depuis 2015 · ORIAS ' +
+      ORGLIB.ORG.orias +
+      " · Varangéville, près de Nancy. Étude gratuite, plusieurs assureurs comparés.</p>\n        </div>"
+  );
   entry.sections.forEach(function (s) {
     var h = '        <div class="form-wrap seo-copy">\n          <h2>' + esc(s.h2) + "</h2>\n";
     var paras = s.p || [];
@@ -141,7 +172,17 @@ function jsonLd(file, entry, title, description) {
       description: description,
       url: url,
       areaServed: { "@type": "Country", name: "France" },
-      provider: { "@type": "InsuranceAgency", name: "Leads Opportunities", url: SITE + "/" },
+      provider: ORGLIB.providerBlock(),
+    },
+    {
+      "@type": "WebPage",
+      url: url,
+      name: title,
+      description: description,
+      inLanguage: "fr-FR",
+      author: { "@type": "Person", "@id": ORGLIB.AUTHOR["@id"], name: ORGLIB.AUTHOR.name, jobTitle: ORGLIB.AUTHOR.jobTitle },
+      publisher: { "@id": SITE + "/#organization" },
+      abstract: briefOf(entry),
     },
     {
       "@type": "BreadcrumbList",

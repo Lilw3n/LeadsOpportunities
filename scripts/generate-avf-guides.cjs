@@ -223,7 +223,7 @@ function header() {
     <div class="avf-top">
       <div class="avf-brand-block">
         <a class="avf-brand" href="/">Assurance <span>VTC</span> France</a>
-        <p class="avf-byline">par <a href="https://www.leadsopportunities.fr/">leadsopportunities.fr</a> · courtier ORIAS</p>
+        <p class="avf-byline">par <a href="https://www.leadsopportunities.fr/">leadsopportunities.fr</a> · <a href="https://www.leadsopportunities.fr/agence-varangeville/">Wendy Buchet</a>, courtière ORIAS 15005935 depuis 2015</p>
       </div>
       <a class="avf-nav-cta" href="/#devis-vtc">Devis VTC</a>
     </div>

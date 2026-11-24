@@ -1062,3 +1062,7 @@ input::placeholder { color: #94a3b8; }
 .seo-copy .actions { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
 .seo-copy .actions a { text-decoration: none; }
 .seo-copy-links p { line-height: 2; }
+
+.seo-brief { border-left: 4px solid #0f766e; background: #f0fdfa; }
+.seo-brief p { font-size: 1.02rem; }
+.seo-brief .seo-brief-by { font-size: 0.9rem; color: #475569; }
