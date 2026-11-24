@@ -32,7 +32,7 @@ const { buildImmoDestinationPages, getImmoDestinationSitemapEntries } = require(
 const nancyBassin = require("./nancy-bassin-pret-lib.cjs");
 const { frenchifyHtml } = require("./french-typo-lib.cjs");
 const SeoImg = require("./seo-images-lib.cjs");
-const { providerBlock } = require("./seo-org-schema.cjs");
+const { providerBlock, bylineHtml } = require("./seo-org-schema.cjs");
 const { resolvePageMeta } = require("./seo-keywords-lib.cjs");
 const LT = require("./seo-long-term-related.cjs");
 
@@ -1054,6 +1054,7 @@ function renderPage(p) {
         }
       </div>
       <div class="seo-trust">${trustHtml}</div>
+      ${bylineHtml(prefix)}
       </div>
     </header>
     <div class="seo-layout">

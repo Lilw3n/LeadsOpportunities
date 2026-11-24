@@ -14,6 +14,7 @@ const ORG = {
   phone: "+33651366222",
   siren: "810571513",
   orias: "15005935",
+  foundingDate: "2015-04-01",
   address: {
     streetAddress: "15 & 17 rue Pierre Curie",
     postalCode: "54110",
@@ -23,13 +24,28 @@ const ORG = {
 };
 
 /** Auteur / courtier — signal E-E-A-T pour thématiques YMYL (assurance, crédit). */
+/** Registres publics qui confirment l'identité du cabinet (signal d'entité pour Google et les IA). */
+const REGISTRY_URLS = [
+  "https://annuaire-entreprises.data.gouv.fr/entreprise/" + ORG.siren,
+  "https://assurancevtcfrance.com/",
+];
+
 const AUTHOR = {
   "@type": "Person",
+  "@id": SITE + "/#wendy-buchet",
   name: "Wendy Buchet",
-  jobTitle: "Courtier en assurance",
+  jobTitle: "Courtière en assurances et en crédit",
+  image: SITE + "/assets/team/wendy-buchet.jpg",
+  hasCredential: {
+    "@type": "EducationalOccupationalCredential",
+    credentialCategory: "Immatriculation ORIAS (intermédiaire en assurance)",
+    identifier: ORG.orias,
+    recognizedBy: { "@type": "Organization", name: "ORIAS", url: "https://www.orias.fr/" },
+  },
+  sameAs: ["https://annuaire-entreprises.data.gouv.fr/entreprise/" + ORG.siren],
   email: ORG.email,
   telephone: ORG.phone,
-  url: SITE + "/nancy-54/",
+  url: SITE + "/agence-varangeville/",
   worksFor: {
     "@type": "InsuranceAgency",
     name: ORG.name,
@@ -43,11 +59,14 @@ const AUTHOR = {
     addressCountry: "FR",
   },
   knowsAbout: [
-    "Mutuelle santé",
+    "Assurance décennale",
+    "RC Pro",
     "Assurance VTC",
-    "Crédit immobilier",
+    "Multirisque professionnelle",
     "Assurance emprunteur",
-    "Assurance habitation",
+    "Prêt immobilier",
+    "Mutuelle santé",
+    "Prévoyance",
   ],
 };
 
@@ -56,7 +75,9 @@ function organizationJsonLd(options) {
   return {
     "@context": "https://schema.org",
     "@type": ["Organization", "InsuranceAgency"],
+    "@id": SITE + "/#organization",
     name: ORG.name,
+    foundingDate: ORG.foundingDate,
     legalName: ORG.legalName,
     url: ORG.url,
     logo: ORG.logo,
@@ -96,17 +117,39 @@ function organizationJsonLd(options) {
       "Assurance habitation",
       "Assurance emprunteur",
     ],
-    sameAs: extra.sameAs || sameAsUrls(),
+    sameAs: extra.sameAs || sameAsUrls().concat(REGISTRY_URLS),
   };
 }
 
 function providerBlock() {
   return {
     "@type": "InsuranceAgency",
+    "@id": SITE + "/#organization",
     name: ORG.name,
     url: ORG.url,
     identifier: ORG.orias,
+    foundingDate: ORG.foundingDate,
+    telephone: ORG.phone,
+    address: {
+      "@type": "PostalAddress",
+      postalCode: ORG.address.postalCode,
+      addressLocality: ORG.address.addressLocality,
+      addressCountry: "FR",
+    },
+    founder: { "@type": "Person", "@id": AUTHOR["@id"], name: AUTHOR.name, jobTitle: AUTHOR.jobTitle },
+    sameAs: sameAsUrls().concat(REGISTRY_URLS),
   };
+}
+
+/** Signature visible : qui conseille, depuis quand, sous quel numéro. */
+function bylineHtml(prefix) {
+  return (
+    '<p class="seo-byline">Par <a href="' +
+    (prefix || "/") +
+    'agence-varangeville/">Wendy Buchet</a>, courtière en assurances depuis 2015 · ORIAS ' +
+    ORG.orias +
+    " · Varangéville, près de Nancy</p>"
+  );
 }
 
 function authorPersonJsonLd() {
@@ -117,7 +160,7 @@ function authorBlockHtml() {
   return (
     '<aside class="seo-author-box" itemscope itemtype="https://schema.org/Person">\n' +
     '  <p class="seo-author-kicker">Expertise · E-E-A-T</p>\n' +
-    '  <p><strong itemprop="name">Wendy Buchet</strong> — <span itemprop="jobTitle">courtier en assurance</span> (ORIAS ' +
+    '  <p><strong itemprop="name">Wendy Buchet</strong> — <span itemprop="jobTitle">courtière en assurances depuis 2015</span> (ORIAS ' +
     ORG.orias +
     "), cabinet <span itemprop=\"worksFor\">Leads Opportunities</span> à Varangéville / Nancy Métropole.</p>\n" +
     "  <p>Réponse humaine, devis gratuit sans engagement · <a href=\"mailto:" +
@@ -149,6 +192,8 @@ function breadcrumbListJsonLd(items) {
 module.exports = {
   ORG: ORG,
   AUTHOR: AUTHOR,
+  REGISTRY_URLS: REGISTRY_URLS,
+  bylineHtml: bylineHtml,
   organizationJsonLd: organizationJsonLd,
   providerBlock: providerBlock,
   authorPersonJsonLd: authorPersonJsonLd,
