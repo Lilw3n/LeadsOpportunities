@@ -103,7 +103,7 @@ function block(file, entry, need, campaign) {
       (brief ? "          <p>" + esc(brief) + "</p>\n" : "") +
       '          <p class="seo-brief-by">Par <a href="../agence-varangeville/">Wendy Buchet</a>, courtière en assurances depuis 2015 · ORIAS ' +
       ORGLIB.ORG.orias +
-      " · Varangéville, près de Nancy. Étude gratuite, plusieurs assureurs comparés.</p>\n        </div>"
+      " · Varangéville, près de Nancy. Étude gratuite, plusieurs assureurs comparés. <a href=\"../comment-ca-se-passe/\">Comment ça se passe, étape par étape</a>.</p>\n        </div>"
   );
   entry.sections.forEach(function (s) {
     var h = '        <div class="form-wrap seo-copy">\n          <h2>' + esc(s.h2) + "</h2>\n";
